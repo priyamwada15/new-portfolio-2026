@@ -1,26 +1,200 @@
 @import "tailwindcss";
 
+/* ── Design Tokens (from Figma variables) ───────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-light:        #FDFDFD;
+  --text-dark-900:   #111111;
+  --text-dark-500:   #333333;
+  --text-dark-100:   #555555;
+  --text-light-100:  #ffffff;
+  --card-bg:         #FBFBFB;
+  --border-color:    #e8e8e8;
+
+  /* Legacy semantic tokens kept for case study pages */
+  --ds-surface-default: #FDFDFD;
+  --ds-text-primary:    #333333;
+  --ds-text-ink:        #111111;
+  --ds-text-secondary:  #555555;
+  --ds-border-default:  #e8e8e8;
+
+  /* Brand colors */
+  --color-rocket-dark:   #DE3341;
+  --color-rocket-light:  #F8D6D9;
+  --color-tars-dark:     #6D33AA;
+  --color-tars-light:    #E2D6EE;
+  --color-salesforce:    #032C5F;
+  --color-play-border:   #2D5A1B;
+  --color-play-bg:       rgba(110, 136, 96, 0.12);
+  --color-play-text:     #3B6D11;
 }
 
+/* ── Tailwind theme mapping ──────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans:       var(--font-hind), sans-serif;
+  --font-mono:       var(--font-hind), sans-serif;
+  --font-hind:       var(--font-hind), sans-serif;
+  --font-ovo:        var(--font-ovo), serif;
+
+  --color-surface:          #FDFDFD;
+  --color-ink:              #111111;
+  --color-primary:          #333333;
+  --color-secondary:        #555555;
+  --color-muted:            #888888;
+  --color-border:           #e8e8e8;
+  --color-card:             #FBFBFB;
+
+  --color-rocket-dark:      #DE3341;
+  --color-rocket-light:     #F8D6D9;
+  --color-tars-dark:        #6D33AA;
+  --color-tars-light:       #E2D6EE;
+  --color-salesforce:       #032C5F;
+  --color-play-border:      #2D5A1B;
+  --color-play-text:        #3B6D11;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base ────────────────────────────────────────────────── */
+:root {
+  --color-page-bg: #FDFDFD;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-page-bg);
+  color: #333333;
+  font-family: var(--font-hind), 'Hind', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /* Prevent 100vw full-bleed elements from creating a horizontal scrollbar.
+     overflow-x: clip (not hidden) so position:sticky still works correctly. */
+  overflow-x: clip;
 }
+
+/* Ensure Tailwind's font-sans utility always resolves to Hind */
+.font-sans {
+  font-family: var(--font-hind), sans-serif;
+}
+
+::selection {
+  background: #111111;
+  color: #FDFDFD;
+}
+
+
+
+/* ── Animation tokens ───────────────────────────────────── */
+:root {
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ── Badge fade-in (page load) ───────────────────────────── */
+/* @starting-style: element defaults to visible — no stuck opacity:0 risk */
+.badge-animate {
+  transition: opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 60ms;
+}
+
+@starting-style {
+  .badge-animate { opacity: 0; }
+}
+
+/* ── Hero word fade + rise (page load) ───────────────────── */
+/* transition-delay set per-word via inline style for stagger */
+.word-animate {
+  display: inline-block;
+  transition: opacity 700ms cubic-bezier(0.23, 1, 0.32, 1),
+              transform 700ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@starting-style {
+  .word-animate {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ── Card scroll reveal ──────────────────────────────────── */
+.card-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 700ms cubic-bezier(0.23, 1, 0.32, 1),
+              transform 700ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Card video scale on hover ───────────────────────────── */
+/* Tailwind v4 uses the `scale` CSS property, not `transform`,
+   so transition: "transform" never catches it. Using explicit
+   transform: scale() via CSS instead.                        */
+.card-video {
+  transition: transform 500ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card-link:hover .card-video {
+    transform: scale(1.03);
+  }
+}
+
+/* ── Card hover (pointer-capable devices only) ───────────── */
+/* Uses transform (not Tailwind's `translate` property) so the
+   transition actually catches the value change.              */
+@media (hover: hover) and (pointer: fine) {
+  .project-card-link {
+    transition: transform 500ms cubic-bezier(0.23, 1, 0.32, 1),
+                box-shadow 500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .project-card-link:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px -8px rgba(0, 0, 0, 0.10);
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .badge-animate {
+    transition-duration: 200ms;
+    transition-delay: 0ms;
+  }
+
+  .word-animate {
+    transition-duration: 200ms;
+    transition-delay: 0ms !important;
+  }
+
+  @starting-style {
+    .word-animate { transform: none; }
+  }
+
+  .card-reveal {
+    transform: none;
+    transition-duration: 400ms;
+  }
+
+  .project-card-link,
+  .project-card-link:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    transition: none;
+  }
+}
+
+/* ── Full-bleed quote block (Rocket Mortgage case study) ───── */
+/* On mobile: no TOC, so calc(50% - 50vw) reaches viewport edge. */
+/* On desktop (≥1080px): TOC+gap = 240px, pushing element 120px  */
+/* from viewport left — subtract 120px to snap back to edge.     */
+.rm-quote-block {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+@media (min-width: 1080px) {
+  .rm-quote-block {
+    margin-left: calc(50% - 50vw - 120px);
+  }
+  .rm-quote-inner {
+    padding-left: 240px;
+  }
+}
+

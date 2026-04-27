@@ -205,7 +205,6 @@ export default function RocketMortgagePage() {
           bgAlt="Kitchen interior"
           videoSrc="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1776035827/Inspector_Recommendations_cvyuma.mp4"
           videoAlt="Personalized recommendations of local inspectors"
-          videoClipPath="inset(0 12px)"
         />
         <div className="grid md:grid-cols-2 gap-10 md:gap-16 mt-10">
           <div className="space-y-5">
@@ -237,7 +236,6 @@ export default function RocketMortgagePage() {
           bgAlt="Person on telephone"
           videoSrc="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1776035827/Human_Handover_xbhbj3.mp4"
           videoAlt="Quick human handover and context preservation"
-          videoClipPath="inset(0 12px)"
         />
         <div className="grid md:grid-cols-2 gap-10 md:gap-16 mt-10">
           <div className="space-y-5">

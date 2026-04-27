@@ -61,7 +61,9 @@ export default function Home() {
       </div>
 
       {/* Play / Side Quests */}
-      <PlaySection />
+      <div style={{ marginTop: "40px" }}>
+        <PlaySection />
+      </div>
     </div>
   );
 }

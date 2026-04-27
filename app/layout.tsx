@@ -8,6 +8,7 @@ import Nav from "./components/Nav";
 import SiteFooter from "./components/SiteFooter";
 import SmoothScroll from "./components/SmoothScroll";
 import ScrollToTopOnRouteChange from "./components/ScrollToTopOnRouteChange";
+import { Analytics } from "@vercel/analytics/next";
 
 const hind = Hind({
   variable: "--font-hind",
@@ -48,6 +49,7 @@ export default function RootLayout({
         <Nav />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );

@@ -9,7 +9,8 @@ const PLACEHOLDER_BORDER = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.
 
 const NAV_H   = 80;
 const PLAY_SECTION_PAD_TOP_PX = 96;
-const PLAY_CONTENT_V_CENTER = `calc(${PLAY_SECTION_PAD_TOP_PX}px + (100dvh - ${PLAY_SECTION_PAD_TOP_PX}px) / 2)`;
+const PLAY_VIEWPORT_HEIGHT = "100svh";
+const PLAY_CONTENT_V_CENTER = `calc(${PLAY_SECTION_PAD_TOP_PX}px + (${PLAY_VIEWPORT_HEIGHT} - ${PLAY_SECTION_PAD_TOP_PX}px) / 2)`;
 const NAV_ROW_EDGE_INSET = "calc((100% - min(86%, 1238px)) / 2)";
 const GREEN   = "#7DB87A";
 const DIVIDER = "rgba(255,255,255,0.08)";
@@ -434,7 +435,7 @@ export default function PlaySection() {
     <section
       id="play"
       ref={sectionRef}
-      style={{ position: "relative", height: "100dvh", backgroundColor: PLAY_SURFACE_BG }}
+      style={{ position: "relative", height: PLAY_VIEWPORT_HEIGHT, backgroundColor: PLAY_SURFACE_BG }}
     >
       {/* Grain */}
       <div
@@ -583,7 +584,7 @@ export default function PlaySection() {
                       maxHeight:
                         isActiveProjectSlide && videoDetailCapPx != null
                           ? `${videoDetailCapPx}px`
-                          : "calc(100dvh - 96px)",
+                          : `calc(${PLAY_VIEWPORT_HEIGHT} - 96px)`,
                       borderRadius: "20px",
                       objectFit: "cover",
                       display: "block",
@@ -604,7 +605,7 @@ export default function PlaySection() {
                           }
                         : {
                             aspectRatio: "4 / 3",
-                            maxHeight: "calc(100dvh - 96px)",
+                            maxHeight: `calc(${PLAY_VIEWPORT_HEIGHT} - 96px)`,
                           }),
                       borderRadius: "20px",
                       overflow: "hidden",
@@ -773,7 +774,7 @@ export default function PlaySection() {
           zIndex: 2,
           scrollSnapType: "x mandatory",
           paddingTop: `${PLAY_SECTION_PAD_TOP_PX}px`,
-          height: `calc(100dvh - ${PLAY_SECTION_PAD_TOP_PX}px)`,
+          height: `calc(${PLAY_VIEWPORT_HEIGHT} - ${PLAY_SECTION_PAD_TOP_PX}px)`,
         } as React.CSSProperties}
       >
         <div

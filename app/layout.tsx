@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   title: "Priyamwada Pandey | Product Designer",
   description:
     "Product Designer turning complex AI systems and enterprise tools into experiences people actually understand.",
+  icons: {
+    icon: "/Darkbg logo.png",
+    shortcut: "/Darkbg logo.png",
+    apple: "/Darkbg logo.png",
+  },
 };
 
 export default function RootLayout({

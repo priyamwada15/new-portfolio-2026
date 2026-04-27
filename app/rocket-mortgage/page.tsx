@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const accent = "#851F27";
 
 const CARD_BORDER =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23E6E6E6' stroke-width='1.5' stroke-dasharray='8 8' stroke-linecap='round'/%3E%3C/svg%3E\")";
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23E6E6E6' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E\")";
 
 function ClientQuote({ quote, attribution }: { quote: string; attribution: string }) {
   return (
@@ -41,7 +41,7 @@ function ClientQuote({ quote, attribution }: { quote: string; attribution: strin
   );
 }
 
-// ── Journey timeline — problem space visual ───────────────────────────────
+// ── Journey timeline, problem space visual ───────────────────────────────
 function JourneyTimeline() {
   return (
     <div className="w-full mt-10">
@@ -181,7 +181,7 @@ export default function RocketMortgagePage() {
               Before anything else could work, clients needed to know where they were in the process and what required their attention. The most common question in the chat logs was some version of &lsquo;what do I do next?&rsquo; I started there.
             </p>
             <p>
-              I explored moving the answer into the conversation itself — building an onboarding flow that introduced clients to Rocket Assist in the context of their specific loan stage, so the first thing they saw was directly relevant to where they were in the process. The most relevant next steps surfaced as task-based carousels inside the chat.
+              I explored moving the answer into the conversation itself, building an onboarding flow that introduced clients to Rocket Assist in the context of their specific loan stage, so the first thing they saw was directly relevant to where they were in the process. The most relevant next steps surfaced as task-based carousels inside the chat.
             </p>
           </div>
           <div className="flex flex-col" style={{ padding: "40px 0" }}>
@@ -210,7 +210,7 @@ export default function RocketMortgagePage() {
         <div className="grid md:grid-cols-2 gap-10 md:gap-16 mt-10">
           <div className="space-y-5">
             <p>
-              Knowing what to do next and being able to act on it are different problems. Once clients had a task in front of them, the next gap was the information required to complete it. At the post-offer stage, that meant inspection reports, appraisal documents and multiple contacts — all outside the assistant. Text responses alone weren&apos;t enough.
+              Knowing what to do next and being able to act on it are different problems. Once clients had a task in front of them, the next gap was the information required to complete it. At the post-offer stage, that meant inspection reports, appraisal documents and multiple contacts, all outside the assistant. Text responses alone weren&apos;t enough.
             </p>
             <p>
               I introduced visual components that brought the information inside: inspector recommendation cards personalized to the client&apos;s home, document cards with highlighted insights and dynamic prompt buttons that surfaced the next logical action without requiring the client to ask.
@@ -245,7 +245,7 @@ export default function RocketMortgagePage() {
               Some decisions carry too much weight for an AI to hold. The conversation logs showed a consistent pattern: clients would reach a point where they needed reassurance that only a person could give. Rather than treating this as a failure state, I designed the handoff as a feature.
             </p>
             <p>
-              Clients could transfer directly to their Purchase Specialist, see the estimated wait time upfront and schedule a callback if needed. The conversation history carried over so the specialist could see exactly what the client had already been through — no starting over, no repeated context.
+              Clients could transfer directly to their Purchase Specialist, see the estimated wait time upfront and schedule a callback if needed. The conversation history carried over so the specialist could see exactly what the client had already been through, no starting over, no repeated context.
             </p>
           </div>
           <div className="flex flex-col" style={{ padding: "40px 0" }}>
@@ -379,13 +379,19 @@ export default function RocketMortgagePage() {
         <div className="grid md:grid-cols-2 gap-10 md:gap-16">
           {/* Left: reflection image + caption */}
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/rm-reflection.avif"
-              alt="Presenting the Rocket Mortgage project at the intern design showcase"
-              className="w-full rounded-2xl object-cover"
-              style={{ outline: "1px solid rgba(0,0,0,0.06)" }}
-            />
+            <div
+              className="w-full rounded-3xl"
+              style={{ backgroundImage: CARD_BORDER, padding: "2px" }}
+            >
+              <div className="w-full overflow-hidden rounded-[22px]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/rm-reflection.avif"
+                  alt="Presenting the Rocket Mortgage project at the intern design showcase"
+                  className="w-full object-cover block"
+                />
+              </div>
+            </div>
             <VisualCaption>Presenting the project in a showcase to the larger product management & design team at Rocket Mortgage</VisualCaption>
           </div>
           {/* Right: reflection text */}

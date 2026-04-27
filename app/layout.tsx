@@ -5,7 +5,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/Nav";
-import Footer from "./components/Footer";
+import SiteFooter from "./components/SiteFooter";
 import SmoothScroll from "./components/SmoothScroll";
 
 const hind = Hind({
@@ -40,7 +40,7 @@ export default function RootLayout({
         <SmoothScroll />
         <Nav />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteFooter />
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback } from "react";
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
 
@@ -13,9 +13,9 @@ const CUTTING_MAT: React.CSSProperties = {
   backgroundSize: "44px 44px",
 };
 
-const PLACEHOLDER_BORDER = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='rgba(255,255,255,0.18)' stroke-width='1.5' stroke-dasharray='8 8' stroke-linecap='round'/%3E%3C/svg%3E")`;
+const PLACEHOLDER_BORDER = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='rgba(255,255,255,0.18)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E")`;
 
-// Fixed footer height — used to shrink the content area so nothing hides behind it
+// Fixed footer height, used to shrink the content area so nothing hides behind it
 const FOOTER_H = 60;
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -30,23 +30,16 @@ const projects = [
   },
   {
     id: 2,
-    date: "Mar 18, 2026",
-    title: "I picked up chess. It started talking back about design.",
-    body: "Six pieces. Six design truths. The King is the user goal. The Queen is range — the ability to move across constraints. The Rook is foundational systems. The Bishop is specialization. The Knight is non-linear problem solving. The Pawn is learning.",
-    tags: ["Design Thinking", "Framer"],
-  },
-  {
-    id: 3,
     date: "Mar 12, 2026",
     title: "I wanted to read AI news without opening twelve tabs.",
-    body: "A newspaper-style AI widget that aggregates and surfaces what matters — built as a personal tool that got out of hand.",
+    body: "A newspaper-style AI widget that aggregates and surfaces what matters, built as a personal tool that got out of hand.",
     tags: ["AI", "Interface Design"],
   },
   {
-    id: 4,
+    id: 3,
     date: "Apr 16, 2025",
     title: "Two robot arms. One questionable tune.",
-    body: "An Arduino experiment in coordinated motion. The goal was a duet. The result was closer to jazz — unpredictable but interesting.",
+    body: "An Arduino experiment in coordinated motion. The goal was a duet. The result was closer to jazz, unpredictable but interesting.",
     tags: ["Arduino", "Physical Prototyping"],
   },
 ];
@@ -148,7 +141,7 @@ function IntroContent({ onExplore }: { onExplore?: () => void }) {
             (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.3)";
           }}
         >
-          → Explore
+          Explore
         </button>
       )}
     </>
@@ -161,7 +154,6 @@ export default function PlayPageClient() {
   const containerRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const currentRef = useRef(0);
-  const [current, setCurrent] = useState(0);
 
   const goToSlide = useCallback((index: number) => {
     const container = containerRef.current;
@@ -169,10 +161,9 @@ export default function PlayPageClient() {
     if (!container || !slide) return;
     container.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
     currentRef.current = index;
-    setCurrent(index);
   }, []);
 
-  // Keyboard navigation (no wheel hijacking — wheel is free on desktop)
+  // Keyboard navigation (no wheel hijacking, wheel is free on desktop)
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === "ArrowDown") {
@@ -206,7 +197,7 @@ export default function PlayPageClient() {
           className="hidden md:flex h-full overflow-x-scroll overflow-y-hidden"
           style={{ scrollbarWidth: "none" } as React.CSSProperties}
         >
-          {/* Slide 0 — Intro (80vw → first project peeks 20%) */}
+          {/* Slide 0, Intro (80vw → first project peeks 20%) */}
           <div
             ref={(el) => { slideRefs.current[0] = el; }}
             className="shrink-0 h-full flex flex-col items-center justify-center gap-6"
@@ -215,7 +206,7 @@ export default function PlayPageClient() {
             <IntroContent onExplore={() => goToSlide(1)} />
           </div>
 
-          {/* Slides 1–N — one per project */}
+          {/* Slides 1–N, one per project */}
           {projects.map((project, i) => (
             <div
               key={project.id}
@@ -300,7 +291,7 @@ export default function PlayPageClient() {
             </div>
           ))}
 
-          {/* Final slide — outro */}
+          {/* Final slide, outro */}
           <div
             ref={(el) => { slideRefs.current[TOTAL_SLIDES - 1] = el; }}
             className="shrink-0 h-full flex flex-col items-center justify-center gap-10"
@@ -338,7 +329,7 @@ export default function PlayPageClient() {
                 (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.3)";
               }}
             >
-              ← Start over
+              Start over
             </button>
           </div>
         </div>
@@ -486,7 +477,7 @@ export default function PlayPageClient() {
         html[data-play-page] nav button span {
           background-color: rgba(255,255,255,0.75) !important;
         }
-        /* Hide global footer — replaced by the fixed one above */
+        /* Hide global footer, replaced by the fixed one above */
         html[data-play-page] footer { display: none !important; }
         /* Scrollbars */
         html[data-play-page] ::-webkit-scrollbar { display: none; }

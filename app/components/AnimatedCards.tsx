@@ -37,7 +37,7 @@ const projects = [
 ];
 
 const CARD_BORDER =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23E6E6E6' stroke-width='1.5' stroke-dasharray='8 8' stroke-linecap='round'/%3E%3C/svg%3E\")";
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23E6E6E6' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E\")";
 
 export default function AnimatedCards() {
   const wrapperRefs = useRef<(HTMLDivElement | null)[]>([]);

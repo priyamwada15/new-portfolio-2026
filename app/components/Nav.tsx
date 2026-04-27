@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const navLinks = [
@@ -13,6 +14,7 @@ const navLinks = [
 const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
 export default function Nav() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   // dark = true when the play section is behind the nav
@@ -36,8 +38,11 @@ export default function Nav() {
   // ── Derived styles ─────────────────────────────────────────────────────────
 
   const frosted = scrolled || menuOpen;
+  const aboutMode = pathname === "/about";
 
-  const navBg = dark
+  const navBg = aboutMode
+    ? "transparent"
+    : dark
     ? frosted
       ? "rgba(17,17,17,0.88)"
       : "#111111"
@@ -45,7 +50,9 @@ export default function Nav() {
       ? "color-mix(in srgb, var(--color-page-bg) 65%, transparent)"
       : "var(--color-page-bg)";
 
-  const navShadow = dark
+  const navShadow = aboutMode
+    ? "none"
+    : dark
     ? frosted ? "0 1px 0 rgba(255,255,255,0.08)" : "none"
     : frosted ? "0 1px 0 #e8e8e8" : "none";
 
@@ -60,8 +67,8 @@ export default function Nav() {
       className="sticky top-0 z-50 w-full"
       style={{
         backgroundColor: navBg,
-        backdropFilter: frosted || dark ? "blur(16px)" : "none",
-        WebkitBackdropFilter: frosted || dark ? "blur(16px)" : "none",
+        backdropFilter: aboutMode ? "none" : frosted || dark ? "blur(16px)" : "none",
+        WebkitBackdropFilter: aboutMode ? "none" : frosted || dark ? "blur(16px)" : "none",
         boxShadow: navShadow,
         transition: [
           "box-shadow 300ms cubic-bezier(0.23, 1, 0.32, 1)",
@@ -116,7 +123,7 @@ export default function Nav() {
           )}
         </div>
 
-        {/* Hamburger — mobile only */}
+        {/* Hamburger, mobile only */}
         <button
           className="md:hidden flex flex-col items-center justify-center w-8 h-8 gap-[5px]"
           onClick={() => setMenuOpen((o) => !o)}

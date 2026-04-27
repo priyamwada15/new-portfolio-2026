@@ -10,7 +10,13 @@ interface Props {
   videoClipPath?: string;
 }
 
-export default function SolutionShowcase({ bgSrc, bgAlt, videoSrc, videoAlt = "", videoClipPath = "inset(0 4px)" }: Props) {
+export default function SolutionShowcase({
+  bgSrc,
+  bgAlt,
+  videoSrc,
+  videoAlt = "",
+  videoClipPath = "inset(0 4px)",
+}: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -37,7 +43,7 @@ export default function SolutionShowcase({ bgSrc, bgAlt, videoSrc, videoAlt = ""
       { threshold: 0.1 }
     );
 
-    // Fires after load() has buffered enough — catches the case where
+    // Fires after load() has buffered enough, catches the case where
     // play() was called before the video was ready
     video.addEventListener("canplay", tryPlay);
     observer.observe(video);
@@ -79,6 +85,7 @@ export default function SolutionShowcase({ bgSrc, bgAlt, videoSrc, videoAlt = ""
             style={{
               display: "block",
               boxShadow: "0 32px 80px rgba(0,0,0,0.5)",
+              clipPath: videoClipPath,
             }}
           />
         </div>

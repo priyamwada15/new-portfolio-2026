@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import VisualCaption from "../components/VisualCaption";
+import LightMediaFrame from "../components/LightMediaFrame";
 
 interface TabItem {
   label: string;
@@ -52,29 +53,30 @@ export default function TabbedSections({ tabs }: { tabs: TabItem[] }) {
         ))}
       </div>
 
-      {/* Description — body text only, no title or border */}
+      {/* Description, body text only, no title or border */}
       <p className="font-sans text-base text-secondary leading-relaxed mb-6">
         {tabs[active].desc}
       </p>
 
-      {/* Media — video or image, all in DOM so tab switches are instant */}
+      {/* Media, video or image, all in DOM so tab switches are instant */}
       {tabs.map((tab, i) => (
         <div key={tab.label} className={i === active ? "block" : "hidden"}>
           {tab.videoSrc ? (
-            <video
-              ref={(el) => {
-                videoRefs.current[i] = el;
-              }}
-              src={tab.videoSrc}
-              muted
-              playsInline
-              loop
-              preload="metadata"
-              className="w-full rounded-2xl"
-              style={{ display: "block" }}
-            />
+            <LightMediaFrame className="w-full">
+              <video
+                ref={(el) => {
+                  videoRefs.current[i] = el;
+                }}
+                src={tab.videoSrc}
+                muted
+                playsInline
+                loop
+                preload="metadata"
+                className="w-full max-w-full block"
+              />
+            </LightMediaFrame>
           ) : tab.imageSrc ? (
-            <div className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px]">
+            <LightMediaFrame className="w-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={tab.imageSrc}
@@ -82,7 +84,7 @@ export default function TabbedSections({ tabs }: { tabs: TabItem[] }) {
                 className="w-full"
                 style={{ display: "block" }}
               />
-            </div>
+            </LightMediaFrame>
           ) : null}
           <VisualCaption>{tab.caption}</VisualCaption>
         </div>

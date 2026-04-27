@@ -85,7 +85,6 @@ export default function CaseStudyLayout({
   toc,
   callout,
   meta,
-  nextProject,
   accentDark = "#333333",
   accentLight = "#E5E2DC",
   children,
@@ -119,7 +118,7 @@ export default function CaseStudyLayout({
     </h1>
   );
 
-  // H1 at top of right column (when TOC is present) — no margin top, mb for spacing to context
+  // H1 at top of right column (when TOC is present), no margin top, mb for spacing to context
   // Uses text-wrap: pretty (not balance) so the text fills the full column width.
   const h1InColumn = (
     <h1
@@ -193,11 +192,11 @@ export default function CaseStudyLayout({
     </div>
   );
 
-  // ── next project footer — removed ────────────────────────────────────
+  // ── next project footer, removed ────────────────────────────────────
   const nextProjectBlock = null;
 
   // ── header content ────────────────────────────────────────────────────
-  // When toc is provided, H1 moves to the right column — header only has logos + meta.
+  // When toc is provided, H1 moves to the right column, header only has logos + meta.
   // mb-14 = 56px gap between meta and H1.
   const headerContent = toc ? (
     reverseHeaderOrder ? (
@@ -287,7 +286,7 @@ export default function CaseStudyLayout({
         </span>
       </nav>
 
-      {/* Header — mb-14 (56px) creates the gap to H1 when toc is present */}
+      {/* Header, mb-14 (56px) creates the gap to H1 when toc is present */}
       <header className={`mt-12 ${toc ? "mb-14" : "mb-16"}`}>
         {headerContent}
       </header>
@@ -295,7 +294,7 @@ export default function CaseStudyLayout({
       {/* Body */}
       {toc ? (
         <div className="grid items-start grid-cols-1 min-[1080px]:grid-cols-[160px_1fr] gap-0 min-[1080px]:gap-[80px]">
-          {/* Left: sticky TOC — aligns with top of H1 */}
+          {/* Left: sticky TOC, aligns with top of H1 */}
           <TableOfContents items={tocItems} />
 
           {/* Right: H1 → contextVisual? → context → body → footer */}

@@ -85,7 +85,7 @@ body {
 }
 
 /* ── Badge fade-in (page load) ───────────────────────────── */
-/* @starting-style: element defaults to visible — no stuck opacity:0 risk */
+/* @starting-style: element defaults to visible, no stuck opacity:0 risk */
 .badge-animate {
   transition: opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 60ms;
 }
@@ -183,7 +183,7 @@ body {
 /* ── Full-bleed quote block (Rocket Mortgage case study) ───── */
 /* On mobile: no TOC, so calc(50% - 50vw) reaches viewport edge. */
 /* On desktop (≥1080px): TOC+gap = 240px, pushing element 120px  */
-/* from viewport left — subtract 120px to snap back to edge.     */
+/* from viewport left, subtract 120px to snap back to edge.     */
 .rm-quote-block {
   width: 100vw;
   margin-left: calc(50% - 50vw);

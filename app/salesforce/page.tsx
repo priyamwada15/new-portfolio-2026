@@ -27,7 +27,7 @@ export default function SalesforcePage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/Salesforce%20Hero%20Image.png"
-            alt="Galileo for Salesforce — hero overview"
+            alt="Galileo for Salesforce, hero overview"
             className="w-full"
             style={{ display: "block" }}
           />
@@ -45,7 +45,7 @@ export default function SalesforcePage() {
       projectName="Galileo for Salesforce"
       headline="I co-led the design of a 0→1 AI product that helps students plan their academic future."
       context="Galileo was a 0→1 concept built in collaboration with the Salesforce Experience Design team as part of a semester-long design studio at IU. This project explored how AI could support academic decision-making for undeclared undergraduates."
-      contribution="I co-led design end-to-end, leading the Overview and Academic Trajectory sections specifically. My work centered on interaction design, information architecture and AI interaction patterns — specifically how to make recommendations feel actionable."
+      contribution="I co-led design end-to-end, leading the Overview and Academic Trajectory sections specifically. My work centered on interaction design, information architecture and AI interaction patterns, specifically how to make recommendations feel actionable."
       meta={{
         timeline: "Sep 2025 – Dec 2025",
         industry: "EdTech / Higher Education",
@@ -56,12 +56,12 @@ export default function SalesforcePage() {
         href: "/tars-asimov",
         tags: "Product Design · 2024 · Tars Technologies",
         title:
-          "I designed the system that taught an AI what to know, who to trust and what to do — and 82% of pilot teams adopted it.",
+          "I designed the system that taught an AI what to know, who to trust and what to do, and 82% of pilot teams adopted it.",
       }}
       toc={[
+        { id: "interaction-patterns", label: "Interaction patterns" },
         { id: "understanding-problem", label: "Understanding the problem" },
         { id: "how-galileo-works", label: "How Galileo is structured" },
-        { id: "interaction-patterns", label: "Interaction patterns" },
         { id: "design-decision-01", label: "Overview Dashboard" },
         { id: "design-decision-02", label: "Academic Trajectory" },
         { id: "visual-language", label: "Visual language" },
@@ -85,7 +85,7 @@ export default function SalesforcePage() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/Designing%20the%20Details.png"
-          alt="Galileo interaction patterns — designing the details"
+          alt="Galileo interaction patterns, designing the details"
           className="w-full"
           style={{ display: "block" }}
         />
@@ -116,7 +116,7 @@ export default function SalesforcePage() {
             },
             {
               label: "Fragmented academic systems",
-              desc: "Students piece together their academic picture from degree audits, course catalogs, enrollment portals and peer advice — none of which talk to each other.",
+              desc: "Students piece together their academic picture from degree audits, course catalogs, enrollment portals and peer advice, none of which talk to each other.",
             },
             {
               label: "Decision fatigue and uncertainty",
@@ -207,14 +207,13 @@ export default function SalesforcePage() {
         <VisualCaption>The Overview section of Galileo.</VisualCaption>
 
         <p className="mt-5">
-          Our early iterations had a lot going on — an academic compass
+          Our early iterations had a lot going on, an academic compass
           visualizing study trajectory, quick links to university apps, advisor
           contact, course suggestions, an onboarding quiz snippet and multiple
           CTAs pulling the student in different directions. It looked thorough
           but it wasn&apos;t useful.
         </p>
 
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <div
           className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px] mt-5"
           style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}
@@ -254,7 +253,7 @@ export default function SalesforcePage() {
 
         <p className="font-sans text-base text-secondary leading-relaxed">
           Academic Trajectory is where Galileo steps back and asks a bigger
-          question — not just what courses a student has taken, but what those
+          question, not just what courses a student has taken, but what those
           choices might be pointing toward.
         </p>
 
@@ -268,7 +267,7 @@ export default function SalesforcePage() {
               What changes is the interpretive frame.
             </p>
             <p className="font-sans text-base text-secondary leading-relaxed">
-              This came directly from a research insight — students didn&apos;t
+              This came directly from a research insight, students didn&apos;t
               lack information, they lacked ways to connect it to their own goals.
               A student trying to figure out if they should pursue Education as a
               major sees something very different when their courses are grouped by
@@ -289,14 +288,14 @@ export default function SalesforcePage() {
             <p className="font-sans text-base text-secondary leading-relaxed min-[1100px]:flex-1">
               Because the entire Trajectory section is AI-generated, I had to be
               deliberate about how that was communicated. Students in our research
-              were clear — they wanted to know when AI was involved and they did
+              were clear, they wanted to know when AI was involved and they did
               not want to feel like the system was making decisions for them.
             </p>
             <div className="space-y-4 min-[1100px]:flex-1">
               {[
                 "The Summarize AI icon appears on every AI-generated element to identify it as such.",
                 "Disclosure copy beneath the major and career suggestions explains what data was used and how.",
-                "A contextual tooltip on the page header — 'How can this section help me?' — reframes the entire section as a thinking tool rather than a verdict.",
+                "A contextual tooltip on the page header, 'How can this section help me?', reframes the entire section as a thinking tool rather than a verdict.",
               ].map((item, i) => (
                 <div key={i} className="flex gap-4">
                   <span className="text-xs text-neutral-400 font-mono shrink-0 mt-0.5">
@@ -332,7 +331,7 @@ export default function SalesforcePage() {
             <p className="font-sans text-base text-secondary leading-relaxed">
               For a long time I was stuck on how to visually represent the
               AI&apos;s major and career suggestions. The first idea was a radar
-              chart — it felt like the right format for showing multiple dimensions
+              chart, it felt like the right format for showing multiple dimensions
               of a student&apos;s academic profile. But we couldn&apos;t fix the
               axes. Every student&apos;s journey is different, which meant the
               chart would look different for every student and there was no
@@ -425,7 +424,7 @@ export default function SalesforcePage() {
           tabs={[
             {
               label: "Browse Courses",
-              desc: "Students currently discover courses mostly through word of mouth. The Browse section gives that process structure, surfacing courses based on GenEd requirements, interests and peer popularity — with AI connecting student interests to relevant options without making the choice for them.",
+              desc: "Students currently discover courses mostly through word of mouth. The Browse section gives that process structure, surfacing courses based on GenEd requirements, interests and peer popularity, with AI connecting student interests to relevant options without making the choice for them.",
               videoSrc: "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1775952503/Curated_wl4dzz.mp4",
               caption: "The course discovery flow of Galileo.",
             },
@@ -437,7 +436,7 @@ export default function SalesforcePage() {
             },
             {
               label: "Semester Planner",
-              desc: "The Planner is where decisions become commitments. Students drag shortlisted courses into semester slots with GenEd requirements visible at the top — evaluations showed students consistently lose track of pending requirements at the point of finalizing schedules.",
+              desc: "The Planner is where decisions become commitments. Students drag shortlisted courses into semester slots with GenEd requirements visible at the top, evaluations showed students consistently lose track of pending requirements at the point of finalizing schedules.",
               imageSrc: "/7.%20Plan%20Your%20Semester.png",
               caption: "The Semester Planner section of Galileo.",
             },
@@ -454,8 +453,8 @@ export default function SalesforcePage() {
         <div className="flex flex-col md:flex-row gap-10 md:gap-12 items-start">
           <div className="md:flex-1 space-y-5">
             <p>
-              Both formal validation points — a heuristic evaluation and a
-              Salesforce Experience Design review — came late. By the time we
+              Both formal validation points, a heuristic evaluation and a
+              Salesforce Experience Design review, came late. By the time we
               were incorporating feedback, most structural decisions were already
               made. The sharpest insight came from peers at our final
               presentation: we had thought carefully about how AI should behave
@@ -464,7 +463,7 @@ export default function SalesforcePage() {
             </p>
             <p>
               In hindsight I wish we had used that question to pressure-test our
-              AI decisions earlier — not necessarily designed for it, but let it
+              AI decisions earlier, not necessarily designed for it, but let it
               challenge our assumptions along the way.
             </p>
           </div>
@@ -487,7 +486,7 @@ export default function SalesforcePage() {
             This was the first time I designed as part of a design team.
             Keeping visual and interaction language consistent across sections
             that different people were building in parallel is a different kind
-            of problem — less individual craft, more communication, shared
+            of problem, less individual craft, more communication, shared
             principles and knowing when to push back on a decision that works in
             isolation but breaks the system.
           </p>

@@ -15,18 +15,6 @@ export const metadata: Metadata = {
 const NOISE =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E\")";
 
-const DASHED_BORDER =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='28' ry='28' stroke='%23E6E6E6' stroke-width='1.5' stroke-dasharray='8 8' stroke-linecap='round'/%3E%3C/svg%3E\")";
-
-function Placeholder({ height = "400px", className = "" }: { height?: string; className?: string }) {
-  return (
-    <div
-      className={`w-full rounded-2xl min-[400px]:rounded-[28px] ${className}`}
-      style={{ backgroundImage: DASHED_BORDER, height }}
-    />
-  );
-}
-
 function DarkHeader({ tag, headline, bgImage }: { tag: string; headline: string; bgImage?: string }) {
   return (
     <div
@@ -91,7 +79,7 @@ export default function DebugModePage() {
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src="/Debug%20Hero%20Image.png"
-          alt="Debug Mode hero — Tars canvas with active gambit highlighted"
+          alt="Debug Mode hero, Tars canvas with active gambit highlighted"
           className="w-full rounded-2xl min-[400px]:rounded-[28px]"
           style={{ display: "block" }}
         />
@@ -133,7 +121,7 @@ export default function DebugModePage() {
         { id: "reflection", label: "Reflection" },
       ]}
     >
-      {/* Impact + visual placeholder + CEO quote — grouped to use 20px gaps instead of space-y-40 */}
+      {/* Impact + visual placeholder + CEO quote, grouped to use 20px gaps instead of space-y-40 */}
       <div className="flex flex-col" style={{ gap: "20px" }}>
         <div id="impact">
           <SectionLabel>Impact</SectionLabel>
@@ -143,7 +131,7 @@ export default function DebugModePage() {
         </div>
 
         <p className="font-sans text-base text-secondary leading-relaxed">
-          I designed and shipped Debug Mode in a month — an automated end-to-end
+          I designed and shipped Debug Mode in a month, an automated end-to-end
           test runner that highlights the active gambit, auto-scrolls the canvas,
           and stops the moment something breaks. I designed for two user types
           with fundamentally different technical backgrounds.
@@ -168,7 +156,7 @@ export default function DebugModePage() {
               the call. This was gambit number 273.&rdquo;
             </p>
             <p className="font-mono text-[14px] font-semibold tracking-wider uppercase text-secondary">
-              Ish — CEO, Tars
+              Ish, CEO, Tars
             </p>
           </blockquote>
         </section>
@@ -219,9 +207,9 @@ export default function DebugModePage() {
         />
 
         <div className="mt-10">
-          <IterationLabel>Iteration 1 — Color-coded states</IterationLabel>
+          <IterationLabel>Iteration 1, Color-coded states</IterationLabel>
           <p className="font-sans text-base text-secondary leading-relaxed">
-            The first version used colors — yellow for active, green for passed
+            The first version used colors, yellow for active, green for passed
             and red for error. This was logical on paper but the problem showed
             up on a real canvas. 500 gambits, some overlapping, now covered in
             green and yellow and red on top of the existing blue. The color
@@ -242,7 +230,7 @@ export default function DebugModePage() {
         </div>
 
         <div className="mt-10">
-          <IterationLabel>Iteration 2 — Single color, dashed lines and a glow</IterationLabel>
+          <IterationLabel>Iteration 2, Single color, dashed lines and a glow</IterationLabel>
           <p className="font-sans text-base text-secondary leading-relaxed mb-6">
             One signal. That&apos;s all users needed. I simplified to one. I
             stuck to the default blue and instead used opacity levels to denote
@@ -298,7 +286,7 @@ export default function DebugModePage() {
           <div className="space-y-5 md:flex-1">
             <p>
               With the canvas resolved, I turned to the control panel. I modeled
-              the first version on IDE debugger interfaces — the environment the
+              the first version on IDE debugger interfaces, the environment the
               CS team was most likely familiar with. Six controls: play/pause,
               stop, step into, step out, step over and see logs.
             </p>
@@ -311,7 +299,7 @@ export default function DebugModePage() {
               A roadmap conversation happening at the same time made the answer
               clear. An SMB client managing their own chatbot and an enterprise
               client with a dedicated engineering team needed different things from
-              this tool. The advanced controls weren&apos;t wrong — they were
+              this tool. The advanced controls weren&apos;t wrong, they were
               intended for a different release.
             </p>
           </div>
@@ -328,10 +316,10 @@ export default function DebugModePage() {
         </div>
 
         <div className="mt-10">
-          <IterationLabel>Iteration 2 — Shipping a simpler version was the right call</IterationLabel>
+          <IterationLabel>Iteration 2, Shipping a simpler version was the right call</IterationLabel>
           <p className="font-sans text-base text-secondary leading-relaxed">
             I stripped the design to three controls: play/pause, stop, restart.
-            Status messages — debugging in progress, paused, stopped — removed
+            Status messages, debugging in progress, paused, stopped, removed
             any ambiguity about what was happening without requiring the user to
             understand the canvas.
           </p>

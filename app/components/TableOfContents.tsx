@@ -30,48 +30,48 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
   useEffect(() => {
     if (!navRef.current) return;
 
-    // ── Pre-compute all static document-space values at mount ──────────
-    // Done once: no getBoundingClientRect in the scroll handler.
-    const sy0 = window.scrollY;
+    const measure = () => {
+      const sy0 = window.scrollY;
+      const darkBounds = Array.from(
+        document.querySelectorAll("[data-toc-dark]")
+      ).map((el) => {
+        const r = el.getBoundingClientRect();
+        return { top: r.top + sy0, bottom: r.bottom + sy0 };
+      });
+      const sectionTops = items.map(({ id }) => {
+        const el = document.getElementById(id);
+        if (!el) return 0;
+        return el.getBoundingClientRect().top + sy0;
+      });
+      const navNaturalDocTop = navRef.current!.getBoundingClientRect().top + sy0;
+      const navRect = navRef.current!.getBoundingClientRect();
+      const itemMidOffsets = items.map(({ id }) => {
+        const el = itemRefs.current[id];
+        if (!el) return 0;
+        const r = el.getBoundingClientRect();
+        return (r.top + r.bottom) / 2 - navRect.top;
+      });
+      return { darkBounds, sectionTops, navNaturalDocTop, itemMidOffsets };
+    };
 
-    // Dark section bounds in document coordinates (these never move)
-    const darkBounds = Array.from(
-      document.querySelectorAll("[data-toc-dark]")
-    ).map((el) => {
-      const r = el.getBoundingClientRect();
-      return { top: r.top + sy0, bottom: r.bottom + sy0 };
-    });
+    let layout = measure();
 
-    // Section tops in document coordinates (fixed)
-    const sectionTops = items.map(({ id }) => {
-      const el = document.getElementById(id);
-      if (!el) return 0;
-      return el.getBoundingClientRect().top + sy0;
-    });
-
-    // Nav natural top in document coordinates
-    const navNaturalDocTop =
-      navRef.current.getBoundingClientRect().top + sy0;
-
-    // Item midY offsets relative to the nav's top edge (measured at mount
-    // when paddingTop = 0, so offsets are purely from the nav's content edge)
-    const navRect = navRef.current.getBoundingClientRect();
-    const itemMidOffsets = items.map(({ id }) => {
-      const el = itemRefs.current[id];
-      if (!el) return 0;
-      const r = el.getBoundingClientRect();
-      return (r.top + r.bottom) / 2 - navRect.top;
-    });
-
-    // ── Scroll handler — pure arithmetic, zero DOM reads ───────────────
+    // ── Scroll handler, pure arithmetic, zero DOM reads ───────────────
     const compute = () => {
       const sy = window.scrollY;
+      const { darkBounds, sectionTops, navNaturalDocTop, itemMidOffsets } = layout;
 
-      // Active section: last section whose top ≤ scrollY + 160
+      const threshold = sy + 160;
       let activeIdx = 0;
+      let bestTop = -Infinity;
       for (let i = 0; i < sectionTops.length; i++) {
-        if (sectionTops[i] <= sy + 160) activeIdx = i;
+        const t = sectionTops[i];
+        if (t <= threshold && t > bestTop) {
+          bestTop = t;
+          activeIdx = i;
+        }
       }
+      if (bestTop === -Infinity) activeIdx = 0;
       const activeId = items[activeIdx]?.id ?? "";
 
       // Sticky state
@@ -94,7 +94,7 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
         itemDarkStates[id] = dark;
       }
 
-      // Single batched state update — one re-render per frame
+      // Single batched state update, one re-render per frame
       setState({ activeId, itemDarkStates, isStuck });
     };
 
@@ -106,12 +106,24 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
       });
     };
 
+    const onResize = () => {
+      layout = measure();
+      handleScroll();
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+    const fontsDone = document.fonts?.ready?.then(() => {
+      layout = measure();
+      handleScroll();
+    });
     compute(); // initial run
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", onResize);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      void fontsDone;
     };
   }, [items]);
 

@@ -18,15 +18,15 @@ export default function BeforeAfterSlider({
   afterAlt = "After",
   startPercent = 50,
 }: Props) {
-  const dashedBorder =
-    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='28' ry='28' stroke='%23E6E6E6' stroke-width='1.5' stroke-dasharray='8 8' stroke-linecap='round'/%3E%3C/svg%3E\")";
+  const cardFrameBorder =
+    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='28' ry='28' stroke='%23E6E6E6' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E\")";
 
   return (
     <div
       className="w-full mt-10 rounded-2xl min-[400px]:rounded-[28px]"
-      style={{ backgroundImage: dashedBorder, padding: "1px" }}
+      style={{ backgroundImage: cardFrameBorder, padding: "2px" }}
     >
-      <div className="w-full overflow-hidden rounded-[15px] min-[400px]:rounded-[27px]">
+      <div className="w-full overflow-hidden rounded-[14px] min-[400px]:rounded-[26px]">
         <ReactBeforeSliderComponent
           firstImage={{ imageUrl: beforeSrc, alt: beforeAlt }}
           secondImage={{ imageUrl: afterSrc, alt: afterAlt }}

@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import LightMediaFrame from "./LightMediaFrame";
 
 export default function DarkVideoFrame({
   src,
-  className = "w-full rounded-2xl min-[400px]:rounded-[28px]",
+  className = "w-full",
 }: {
   src: string;
   className?: string;
@@ -47,15 +48,16 @@ export default function DarkVideoFrame({
   }, []);
 
   return (
-    <video
-      ref={videoRef}
-      src={src}
-      muted
-      playsInline
-      loop
-      preload="metadata"
-      className={className}
-      style={{ display: "block" }}
-    />
+    <LightMediaFrame className={className}>
+      <video
+        ref={videoRef}
+        src={src}
+        muted
+        playsInline
+        loop
+        preload="metadata"
+        className="w-full max-w-full block"
+      />
+    </LightMediaFrame>
   );
 }

@@ -136,6 +136,8 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
       className="sticky top-24 self-start hidden min-[1080px]:block"
       style={{
         paddingTop: isStuck ? "32px" : "0px",
+        maxHeight: "calc(100vh - 96px)",
+        overflowY: "auto",
         transition: "padding-top 250ms cubic-bezier(0.2, 0, 0, 1)",
       }}
     >

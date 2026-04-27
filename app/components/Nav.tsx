@@ -61,6 +61,21 @@ export default function Nav() {
 
   const linkStyle = { ...hind, color: textColor };
 
+  const onPlayClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    if (pathname !== "/") {
+      window.location.href = "/#play";
+      return;
+    }
+
+    const playSection = document.getElementById("play");
+    if (playSection) {
+      playSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    setMenuOpen(false);
+  };
+
   return (
     <nav
       className="sticky top-0 z-50 w-full"
@@ -104,6 +119,16 @@ export default function Nav() {
                 href={link.href}
                 target={link.href !== "#" ? "_blank" : undefined}
                 rel="noopener noreferrer"
+                className="text-[14px] uppercase hover:opacity-60 transition-opacity"
+                style={{ ...linkStyle, transition: "opacity 200ms, color 300ms cubic-bezier(0.23, 1, 0.32, 1)" }}
+              >
+                {link.label}
+              </a>
+            ) : link.href === "/#play" ? (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={onPlayClick}
                 className="text-[14px] uppercase hover:opacity-60 transition-opacity"
                 style={{ ...linkStyle, transition: "opacity 200ms, color 300ms cubic-bezier(0.23, 1, 0.32, 1)" }}
               >
@@ -174,6 +199,16 @@ export default function Nav() {
                   className="text-[14px] uppercase hover:opacity-60 transition-opacity"
                   style={linkStyle}
                   onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ) : link.href === "/#play" ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-[14px] uppercase hover:opacity-60 transition-opacity"
+                  style={linkStyle}
+                  onClick={onPlayClick}
                 >
                   {link.label}
                 </a>

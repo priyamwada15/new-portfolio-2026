@@ -7,6 +7,7 @@ import "./globals.css";
 import Nav from "./components/Nav";
 import SiteFooter from "./components/SiteFooter";
 import SmoothScroll from "./components/SmoothScroll";
+import ScrollToTopOnRouteChange from "./components/ScrollToTopOnRouteChange";
 
 const hind = Hind({
   variable: "--font-hind",
@@ -38,6 +39,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-[#fafafa] text-[#333333] overflow-x-hidden">
         <SmoothScroll />
+        <ScrollToTopOnRouteChange />
         <Nav />
         <main className="flex-1">{children}</main>
         <SiteFooter />

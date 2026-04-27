@@ -297,11 +297,6 @@ function NavArrow({ direction, onClick }: { direction: "left" | "right"; onClick
   );
 }
 
-// ── Scroll lock helpers ───────────────────────────────────────────────────────
-
-function lockScroll()   { document.documentElement.style.overflowY = "hidden"; }
-function unlockScroll() { document.documentElement.style.overflowY = "";       }
-
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function PlaySection() {
@@ -318,15 +313,6 @@ export default function PlaySection() {
   const goToSlide = useCallback((index: number) => {
     currentRef.current = index;
     setCurrent(index);
-    if (index === TOTAL_SLIDES - 1) {
-      unlockScroll();
-    } else {
-      const section = sectionRef.current;
-      if (section) {
-        const { top, bottom } = section.getBoundingClientRect();
-        if (top < window.innerHeight && bottom > 0) lockScroll();
-      }
-    }
   }, []);
 
   // Nav theme + scroll lock (page scroll toward section)
@@ -338,14 +324,10 @@ export default function PlaySection() {
     const check = () => {
       const { top, bottom } = section.getBoundingClientRect();
       emit(top <= NAV_H && bottom > NAV_H ? "dark" : "light");
-      if (window.innerWidth >= 768) {
-        if (top <= 0 && bottom > 0 && currentRef.current !== TOTAL_SLIDES - 1) lockScroll();
-        else if (top > 0 || bottom <= 0) unlockScroll();
-      }
     };
     window.addEventListener("scroll", check, { passive: true });
     check();
-    return () => { window.removeEventListener("scroll", check); emit("light"); unlockScroll(); };
+    return () => { window.removeEventListener("scroll", check); emit("light"); };
   }, []);
 
   // Keyboard navigation

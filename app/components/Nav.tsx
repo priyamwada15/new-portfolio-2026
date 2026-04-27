@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const navLinks = [
-  { label: "About", href: "/about" },
   { label: "Play", href: "/#play" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/priyamwadapandey", external: true },
   { label: "Resume", href: "https://www.dropbox.com/scl/fi/q25sm46awt2hyr5dxbipp/Pri_Resume.pdf?rlkey=n42okjjek5vmanorbudpp0wrm&st=65336wi9&dl=0", external: true },

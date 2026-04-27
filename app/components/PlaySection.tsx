@@ -1,12 +1,11 @@
 "use client";
 
 import { useRef, useEffect, useCallback, useState } from "react";
+import { PLAY_SURFACE_BG, PLAY_SURFACE_GRAIN } from "../lib/playSurface";
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
 
 const PLACEHOLDER_BORDER = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='rgba(255,255,255,0.18)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E")`;
-
-const GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
 const NAV_H   = 80;
 const PLAY_SECTION_PAD_TOP_PX = 96;
@@ -186,11 +185,25 @@ function PlayOutroIconLinks({ iconSize }: { iconSize: number }) {
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", lineHeight: 0 }}>
       <a href={PLAY_OUTRO_LINKEDIN_HREF} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="play-outro-icon-link">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-linkedin.svg" alt="" width={iconSize} height={iconSize} style={{ display: "block" }} />
+        <img
+          src="/logo-linkedin.svg"
+          alt=""
+          width={iconSize}
+          height={iconSize}
+          className="play-outro-icon-img"
+          style={{ display: "block" }}
+        />
       </a>
       <a href={PLAY_OUTRO_EMAIL_HREF} aria-label="Email" className="play-outro-icon-link">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/email-mailbox-close.svg" alt="" width={iconSize} height={iconSize} style={{ display: "block" }} />
+        <img
+          src="/email-mailbox-close.svg"
+          alt=""
+          width={iconSize}
+          height={iconSize}
+          className="play-outro-icon-img"
+          style={{ display: "block" }}
+        />
       </a>
     </div>
   );
@@ -421,14 +434,14 @@ export default function PlaySection() {
     <section
       id="play"
       ref={sectionRef}
-      style={{ position: "relative", height: "100dvh", backgroundColor: "#111111" }}
+      style={{ position: "relative", height: "100dvh", backgroundColor: PLAY_SURFACE_BG }}
     >
       {/* Grain */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute", inset: 0,
-          backgroundImage: GRAIN, backgroundRepeat: "repeat", backgroundSize: "200px 200px",
+          backgroundImage: PLAY_SURFACE_GRAIN, backgroundRepeat: "repeat", backgroundSize: "200px 200px",
           opacity: 0.07, pointerEvents: "none", zIndex: 1,
         }}
       />
@@ -892,12 +905,20 @@ export default function PlaySection() {
         .play-outro-icon-link {
           display: flex;
           line-height: 0;
-          transition: opacity 180ms ease, transform 180ms ease;
+          transition: opacity 180ms ease, transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
           transform: translateZ(0);
         }
+        .play-outro-icon-img {
+          filter: brightness(0) invert(1);
+          opacity: 0.82;
+          transition: opacity 180ms ease, filter 180ms ease;
+        }
         .play-outro-icon-link:hover {
-          opacity: 0.7;
-          transform: scale(1.03);
+          opacity: 1;
+          transform: scale(0.96);
+        }
+        .play-outro-icon-link:hover .play-outro-icon-img {
+          opacity: 1;
         }
       `}</style>
     </section>

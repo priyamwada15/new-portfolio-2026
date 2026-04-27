@@ -9,7 +9,7 @@ const words = headline.split(" ");
 export default function Home() {
   return (
     <div>
-      {/* Hero — centered */}
+      {/* Hero, centered */}
       <section className="flex flex-col items-center text-center w-[86%] max-w-[1238px] mx-auto mt-14 mb-20">
         {/* Available badge */}
         <div
@@ -31,7 +31,7 @@ export default function Home() {
           </span>
         </div>
 
-        {/* Hero headline — word-by-word fade + rise */}
+        {/* Hero headline, word-by-word fade + rise */}
         <h1
           className="font-normal text-[#333333] w-full"
           style={{

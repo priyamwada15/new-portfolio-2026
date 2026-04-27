@@ -5,7 +5,7 @@ import SectionLabel from "../components/SectionLabel";
 export const metadata: Metadata = {
   title: "Asimov for Tars | Priyamwada Pandey",
   description:
-    "I designed the system that taught an AI what to know, who to trust and what to do — and 82% of pilot teams adopted it.",
+    "I designed the system that taught an AI what to know, who to trust and what to do, and 82% of pilot teams adopted it.",
 };
 
 export default function AsimovPage() {
@@ -17,9 +17,9 @@ export default function AsimovPage() {
         { src: "/logos/tars.svg", alt: "TARS" },
       ]}
       projectName="Asimov for Tars"
-      headline="I designed the system that taught an AI what to know, who to trust and what to do — and 82% of pilot teams adopted it."
+      headline="I designed the system that taught an AI what to know, who to trust and what to do, and 82% of pilot teams adopted it."
       context="Asimov is an AI assistant that lives inside team Slack workspaces. The core design challenge was what Asimov could access, who could use it and what it was allowed to do."
-      contribution="I led 0→1 design for Asimov's knowledge management system, permissions architecture and external integrations hub — shipping incrementally across a 4-month engagement. Components I designed became the foundation for Tars' product suite."
+      contribution="I led 0→1 design for Asimov's knowledge management system, permissions architecture and external integrations hub, shipping incrementally across a 4-month engagement. Components I designed became the foundation for Tars' product suite."
       meta={{
         timeline: "Dec 2023 – Mar 2024",
         industry: "B2B SaaS",
@@ -143,7 +143,7 @@ export default function AsimovPage() {
         <div className="space-y-5">
           <p>
             Once integrations were in place, teams started asking whether Asimov
-            could do things inside those tools — not just read from them.
+            could do things inside those tools, not just read from them.
           </p>
           <p>
             I looked at how GPT Builder was handling this in early 2024 and used

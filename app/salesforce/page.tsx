@@ -61,11 +61,11 @@ export default function SalesforcePage() {
       toc={[
         { id: "interaction-patterns", label: "Interaction patterns" },
         { id: "understanding-problem", label: "Understanding the problem" },
-        { id: "how-galileo-works", label: "How Galileo is structured" },
+        { id: "how-galileo-works", label: "Five sections, one through-line" },
         { id: "design-decision-01", label: "Overview Dashboard" },
         { id: "design-decision-02", label: "Academic Trajectory" },
         { id: "visual-language", label: "Visual language" },
-        { id: "other-sections", label: "The other three sections" },
+        { id: "other-sections", label: "The rest of the product" },
         { id: "reflection", label: "Reflection" },
       ]}
     >
@@ -95,7 +95,7 @@ export default function SalesforcePage() {
       <section id="understanding-problem">
         <SectionLabel>Understanding the problem</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
-          Why academic planning is difficult
+          Students didn&apos;t lack information. They lacked a way to make sense of it
         </h2>
         <p className="font-sans text-base text-secondary leading-relaxed mb-6">
           We conducted 16 student interviews, a literature review and a digital
@@ -167,7 +167,10 @@ export default function SalesforcePage() {
 
       {/* Product Structure */}
       <section id="how-galileo-works">
-        <SectionLabel>How Galileo is structured</SectionLabel>
+        <SectionLabel>Five sections, one through-line</SectionLabel>
+        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-6">
+          Five sections, one through-line: the student decides, AI informs
+        </h2>
         <p className="font-sans text-base text-secondary leading-relaxed mb-4">
           Galileo is built around five connected sections. Students start with an
           Overview that gives them a quick read on where they stand academically.
@@ -326,7 +329,7 @@ export default function SalesforcePage() {
         </div>
 
         <div className="mt-8">
-          <IterationLabel className="mb-4">The visualization problem</IterationLabel>
+          <IterationLabel className="mb-4">A radar chart. Then a donut chart. Then neither</IterationLabel>
           <div className="space-y-5 mb-6">
             <p className="font-sans text-base text-secondary leading-relaxed">
               For a long time I was stuck on how to visually represent the
@@ -415,7 +418,10 @@ export default function SalesforcePage() {
 
       {/* Rest of product */}
       <section id="other-sections">
-        <SectionLabel>The other three sections</SectionLabel>
+        <SectionLabel>The rest of the product</SectionLabel>
+        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-6">
+          The rest of the product, and where I handed off
+        </h2>
         <p className="font-sans text-base text-secondary leading-relaxed mb-6">
           I contributed to system cohesion across all five sections and the
           three below were led by other team members.

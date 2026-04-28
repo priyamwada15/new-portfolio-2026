@@ -167,7 +167,7 @@ export default function RocketMortgagePage() {
       <section id="orientation">
         <SectionLabel>Orientation</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
-          Give clients a starting point.
+          The most common question in chat logs became the first thing clients saw
         </h2>
         <SolutionShowcase
           bgSrc="/rm-bg-orientation.avif"
@@ -198,7 +198,7 @@ export default function RocketMortgagePage() {
       <section id="comprehension">
         <SectionLabel>Comprehension</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
-          Bring the information into the conversation.
+          Text responses weren&apos;t enough. The documents needed to come inside
         </h2>
         <SolutionShowcase
           bgSrc="/rm-bg-comprehension.avif"
@@ -260,7 +260,7 @@ export default function RocketMortgagePage() {
       <section id="impact">
         <SectionLabel>Impact</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-14">
-          Validating the experience with clients
+          9 in 10 clients found it helpful. Here&apos;s what they said
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
           {[
@@ -313,7 +313,7 @@ export default function RocketMortgagePage() {
       <section id="testimonials">
         <SectionLabel>Testimonials</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
-          From the people I worked with
+          What the people who saw the work up close had to say
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
           {[

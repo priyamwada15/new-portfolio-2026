@@ -166,7 +166,7 @@ export default function DebugModePage() {
       <section id="background">
         <SectionLabel>Background</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
-          This feature had to work for two completely different users.
+          500 gambits, one broken path, no way to find it. That was the problem
         </h2>
         <div className="space-y-5">
           <p>

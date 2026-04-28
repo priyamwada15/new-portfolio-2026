@@ -27,8 +27,11 @@ export const metadata: Metadata = {
   description:
     "Product Designer turning complex AI systems and enterprise tools into experiences people actually understand.",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48 32x32 16x16" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
     apple: "/favicon.png",
   },
 };

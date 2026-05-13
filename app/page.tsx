@@ -10,7 +10,7 @@ const words = headline.split(" ");
 export default function Home() {
   return (
     <div>
-      <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none hidden md:block z-[1]" />
+      <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />
       <div className="grain-overlay" aria-hidden="true" />
       <div className="relative z-[2]">
       {/* Hero, centered */}

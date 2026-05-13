@@ -7,8 +7,7 @@ import {
 } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import Nav from "./components/Nav";
-import SiteFooter from "./components/SiteFooter";
+import AppChrome from "./components/AppChrome";
 import SmoothScroll from "./components/SmoothScroll";
 import ScrollToTopOnRouteChange from "./components/ScrollToTopOnRouteChange";
 import { Analytics } from "@vercel/analytics/next";
@@ -73,9 +72,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-[#ECEAE6] text-[#333333] overflow-x-hidden">
         <SmoothScroll />
         <ScrollToTopOnRouteChange />
-        <Nav />
-        <main className="flex-1 pt-[84px]">{children}</main>
-        <SiteFooter />
+        <AppChrome>{children}</AppChrome>
         <Analytics />
       </body>
     </html>

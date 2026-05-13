@@ -34,6 +34,13 @@ export default function Nav() {
   const isCaseStudy = CASE_STUDY_PATHS.some(p => pathname.startsWith(p));
   const [pastBento, setPastBento] = useState(false);
   const [scrolledDown, setScrolledDown] = useState(false);
+  /** About is WIP: show hand-wave nav only on local dev hostnames, not on deployed URLs. */
+  const [showAboutNav, setShowAboutNav] = useState(false);
+
+  useEffect(() => {
+    const h = window.location.hostname;
+    setShowAboutNav(h === "localhost" || h === "127.0.0.1" || h === "[::1]");
+  }, []);
 
   useEffect(() => {
     if (!isBento) return;
@@ -67,6 +74,7 @@ export default function Nav() {
   };
 
   const play     = useTilt(8);
+  const about    = useTilt(-8);
   const linkedin = useTilt(8);
   const mail     = useTilt(-8);
   const resume   = useTilt(8);
@@ -92,29 +100,7 @@ export default function Nav() {
               boxShadow: "0 2px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.92)",
             }}
           >
-            {/* Left: in-page navigation */}
-            <div className="flex items-center gap-2">
-              <Tooltip side="bottom" sideOffset={8}>
-                <TooltipTrigger
-                  asChild
-                  onMouseEnter={play.onMouseEnter}
-                  onMouseLeave={play.onMouseLeave}
-                >
-                  <button
-                    onClick={onPlayClick}
-                    className="flex items-center justify-center w-8 h-8 cursor-pointer"
-                    aria-label="Go to Play section"
-                  >
-                    <span style={play.iconStyle}>
-                      <img src="/DiscoBall.svg" alt="" width={24} height={24} />
-                    </span>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>Play</TooltipContent>
-              </Tooltip>
-            </div>
-
-            {/* Center: name + logo */}
+            {/* Left: name + logo */}
             <Link
               href="/"
               className={`flex items-center gap-2 rounded-full transition-opacity ${pathname === "/" ? "" : "hover:opacity-75"}`}
@@ -129,8 +115,49 @@ export default function Nav() {
               </span>
             </Link>
 
-            {/* Right: external links */}
-            <div className="flex items-center gap-4">
+            {/* Nav Icons */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <Tooltip side="bottom" sideOffset={8}>
+                <TooltipTrigger
+                  asChild
+                  onMouseEnter={play.onMouseEnter}
+                  onMouseLeave={play.onMouseLeave}
+                >
+                  <button
+                    type="button"
+                    onClick={onPlayClick}
+                    className="flex items-center justify-center w-8 h-8 cursor-pointer"
+                    aria-label="Go to Play section"
+                  >
+                    <span style={play.iconStyle}>
+                      <img src="/DiscoBall.svg" alt="" width={24} height={24} />
+                    </span>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Play</TooltipContent>
+              </Tooltip>
+
+              {showAboutNav && (
+              <Tooltip side="bottom" sideOffset={8}>
+                <TooltipTrigger
+                  asChild
+                  onMouseEnter={about.onMouseEnter}
+                  onMouseLeave={about.onMouseLeave}
+                >
+                  <Link
+                    href="/about"
+                    className="flex items-center justify-center w-8 h-8"
+                    aria-label="About"
+                  >
+                    <span style={about.iconStyle}>
+                      <img src="/HandWaving.svg" alt="" width={24} height={24} />
+                    </span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>About</TooltipContent>
+              </Tooltip>
+              )}
+
               <Tooltip side="bottom" sideOffset={8}>
                 <TooltipTrigger
                   asChild
@@ -177,17 +204,15 @@ export default function Nav() {
                   onMouseEnter={resume.onMouseEnter}
                   onMouseLeave={resume.onMouseLeave}
                 >
-                  <a
-                    href="https://www.dropbox.com/scl/fi/q25sm46awt2hyr5dxbipp/Pri_Resume.pdf?rlkey=n42okjjek5vmanorbudpp0wrm&st=65336wi9&dl=0"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href="/resume"
                     className="flex items-center justify-center w-8 h-8"
                     aria-label="Resume"
                   >
                     <span style={resume.iconStyle}>
                       <img src="/FileText.svg" alt="" width={24} height={24} />
                     </span>
-                  </a>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent>Resume</TooltipContent>
               </Tooltip>

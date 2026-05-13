@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/pixelact-ui/dialog";
 import "@/components/ui/pixelact-ui/styles/styles.css";
 import { Toaster } from "@/components/ui/sonner";
-import AboutHoverYoutubeShell from "./AboutHoverYoutubeShell";
 import AboutMusicControl from "./AboutMusicControl";
 import AboutRaceStrip from "./AboutRaceStrip";
 
@@ -69,9 +68,7 @@ export default function AboutPageClient({ aboutCopy }: AboutPageClientProps) {
             </Button>
           </div>
           <div className="pointer-events-auto absolute right-4 bottom-[max(1.25rem,env(safe-area-inset-bottom))]">
-            <AboutHoverYoutubeShell>
-              <AboutMusicControl />
-            </AboutHoverYoutubeShell>
+            <AboutMusicControl />
           </div>
         </div>
       </div>

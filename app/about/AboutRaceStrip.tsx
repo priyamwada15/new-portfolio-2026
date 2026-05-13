@@ -4,7 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast as sonnerToast } from "sonner";
 import { toastRestartPrompt } from "@/components/ui/pixelact-ui/toast";
 
-const SCROLL_PX_PER_SEC = 165;
+const BASE_SCROLL_PX_PER_SEC = 165;
+const SCROLL_RAMP_INTERVAL_SEC = 5;
+const SCROLL_RAMP_DELTA_PX_PER_SEC = 28;
+const SCROLL_PX_PER_SEC_MAX = 380;
 const LATERAL_PX_PER_SEC = 300;
 const KERB_W = 14;
 const CAR_W = 86;
@@ -62,6 +65,8 @@ export default function AboutRaceStrip({
   const lastTRef = useRef<number | null>(null);
   const nextIdRef = useRef(1);
   const spawnAccRef = useRef(0);
+  const scrollPxPerSecRef = useRef(BASE_SCROLL_PX_PER_SEC);
+  const scrollRampAccRef = useRef(0);
   const pausedRef = useRef(false);
   const obstaclesRef = useRef<Obstacle[]>([]);
   /** Re-render after obstacle sim without storing the array in React state each frame */
@@ -70,6 +75,8 @@ export default function AboutRaceStrip({
   useEffect(() => {
     if (!gameRunning) return;
     lastTRef.current = null;
+    scrollPxPerSecRef.current = BASE_SCROLL_PX_PER_SEC;
+    scrollRampAccRef.current = 0;
     const el = rootRef.current;
     window.setTimeout(() => el?.focus(), 0);
   }, [gameRunning]);
@@ -80,6 +87,8 @@ export default function AboutRaceStrip({
     obstaclesRef.current = [];
     lateralRef.current = 0;
     spawnAccRef.current = 0;
+    scrollPxPerSecRef.current = BASE_SCROLL_PX_PER_SEC;
+    scrollRampAccRef.current = 0;
     nextIdRef.current = 1;
     lastTRef.current = null;
     const carEl = carWrapRef.current;
@@ -163,9 +172,18 @@ export default function AboutRaceStrip({
         return;
       }
 
+      scrollRampAccRef.current += dt;
+      while (scrollRampAccRef.current >= SCROLL_RAMP_INTERVAL_SEC) {
+        scrollRampAccRef.current -= SCROLL_RAMP_INTERVAL_SEC;
+        scrollPxPerSecRef.current = Math.min(
+          SCROLL_PX_PER_SEC_MAX,
+          scrollPxPerSecRef.current + SCROLL_RAMP_DELTA_PX_PER_SEC
+        );
+      }
+
       const w = play.clientWidth;
       const h = play.clientHeight;
-      const dy = SCROLL_PX_PER_SEC * scrollMul * dt;
+      const dy = scrollPxPerSecRef.current * scrollMul * dt;
 
       const k = keysRef.current;
       let latVel = 0;

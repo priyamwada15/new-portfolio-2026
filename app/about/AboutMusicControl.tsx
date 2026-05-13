@@ -1,181 +1,189 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/pixelact-ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./about-page-pixelact-tooltip";
 
-/**
- * Add an MP3 of the track to `public/` (licensed for your use).
- * Not fetched until the user presses Play (`preload="none"`).
- */
-const AUDIO_SRC = "/about-game-music.mp3";
-
-/** Start cue (2:05). Natural `ended` loops back here. */
+const VIDEO_ID = "6k8es2BNloE";
+/** Seek cue in seconds (2:05). */
 const MUSIC_START_SEC = 2 * 60 + 5;
 
-const FADE_IN_MS = 2_800;
-const FADE_OUT_MS = 2_200;
+type YtPlayer = {
+  seekTo: (seconds: number, allowSeekAhead: boolean) => void;
+  unMute: () => void;
+  playVideo: () => void;
+  pauseVideo: () => void;
+  destroy?: () => void;
+};
+
+type YtWindow = Window & {
+  YT?: {
+    Player: new (
+      hostId: string,
+      options: {
+        videoId: string;
+        width: string;
+        height: string;
+        playerVars: Record<string, number>;
+        events: {
+          onStateChange: (e: { data: number }) => void;
+          onReady: () => void;
+        };
+      }
+    ) => YtPlayer;
+    PlayerState: Record<string, number>;
+  };
+  onYouTubeIframeAPIReady?: () => void;
+};
 
 export default function AboutMusicControl() {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const volRef = useRef(0);
-  const hasStartedRef = useRef(false);
-  const [playing, setPlaying] = useState(false);
-  const fadeRafRef = useRef<number | null>(null);
+  const [overlayVisible, setOverlayVisible] = useState(false);
+  const [ytPlaying, setYtPlaying] = useState(false);
+  const playerRef = useRef<YtPlayer | null>(null);
+  const pendingPlayRef = useRef(false);
+  const globalInitRef = useRef(false);
 
-  const stopFade = useCallback(() => {
-    if (fadeRafRef.current != null) {
-      cancelAnimationFrame(fadeRafRef.current);
-      fadeRafRef.current = null;
-    }
+  const createPlayer = useCallback(() => {
+    if (typeof document === "undefined") return;
+    if (playerRef.current) return;
+    const host = document.getElementById("about-yt-host");
+    if (!host) return;
+
+    const w = window as YtWindow;
+    const YT = w.YT;
+    if (!YT?.Player) return;
+
+    playerRef.current = new YT.Player("about-yt-host", {
+      videoId: VIDEO_ID,
+      width: "100%",
+      height: "100%",
+      playerVars: {
+        rel: 0,
+        modestbranding: 1,
+        playsinline: 1,
+        enablejsapi: 1,
+      },
+      events: {
+        onStateChange: (e: { data: number }) => {
+          const g = (window as YtWindow).YT;
+          if (!g) return;
+          const PS = g.PlayerState;
+          if (e.data === PS.PLAYING) {
+            setYtPlaying(true);
+          } else if (
+            e.data === PS.PAUSED ||
+            e.data === PS.ENDED ||
+            e.data === PS.CUED
+          ) {
+            setYtPlaying(false);
+          }
+        },
+        onReady: () => {
+          const p = playerRef.current;
+          if (!p) return;
+          if (pendingPlayRef.current) {
+            pendingPlayRef.current = false;
+            p.seekTo(MUSIC_START_SEC, true);
+            try {
+              p.unMute();
+            } catch {
+              /* ignore */
+            }
+            p.playVideo();
+          }
+        },
+      },
+    });
   }, []);
 
-  const fadeVolume = useCallback(
-    (from: number, to: number, durationMs: number, done: () => void) => {
-      stopFade();
-      const a = audioRef.current;
-      if (!a) {
-        done();
-        return;
-      }
-      const t0 = performance.now();
-      const step = (now: number) => {
-        const t = Math.min(1, (now - t0) / durationMs);
-        const v = from + (to - from) * t;
-        volRef.current = v;
-        a.volume = v;
-        if (t < 1) {
-          fadeRafRef.current = requestAnimationFrame(step);
-        } else {
-          fadeRafRef.current = null;
-          done();
-        }
-      };
-      fadeRafRef.current = requestAnimationFrame(step);
-    },
-    [stopFade]
-  );
+  const ensureYoutubeApi = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const w = window as YtWindow;
 
-  const seekToCue = useCallback(() => {
-    const a = audioRef.current;
-    if (!a) return;
-    a.currentTime = MUSIC_START_SEC;
-  }, []);
-
-  const startFromCueWithFade = useCallback(() => {
-    const a = audioRef.current;
-    if (!a) return;
-
-    const run = () => {
-      seekToCue();
-      a.volume = 0;
-      volRef.current = 0;
-      void a.play().then(() => {
-        setPlaying(true);
-        fadeVolume(0, 1, FADE_IN_MS, () => {});
-      });
-    };
-
-    if (a.readyState >= HTMLMediaElement.HAVE_METADATA) {
-      run();
+    if (w.YT?.Player) {
+      createPlayer();
       return;
     }
 
-    const once = () => {
-      a.removeEventListener("loadedmetadata", once);
-      run();
-    };
-    a.addEventListener("loadedmetadata", once);
-    a.load();
-  }, [fadeVolume, seekToCue]);
+    if (!globalInitRef.current) {
+      globalInitRef.current = true;
+      const prev = w.onYouTubeIframeAPIReady;
+      w.onYouTubeIframeAPIReady = () => {
+        prev?.();
+        createPlayer();
+      };
+      if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        tag.async = true;
+        document.body.appendChild(tag);
+      }
+    }
+  }, [createPlayer]);
 
-  const resumeWithFade = useCallback(() => {
-    const a = audioRef.current;
-    if (!a) return;
-    a.volume = 0;
-    volRef.current = 0;
-    void a.play().then(() => {
-      setPlaying(true);
-      fadeVolume(0, 1, FADE_IN_MS, () => {});
-    });
-  }, [fadeVolume]);
+  const handleToggle = () => {
+    if (!ytPlaying) {
+      setOverlayVisible(true);
+      const p = playerRef.current;
+      if (p) {
+        pendingPlayRef.current = false;
+        p.seekTo(MUSIC_START_SEC, true);
+        try {
+          p.unMute();
+        } catch {
+          /* ignore */
+        }
+        p.playVideo();
+        return;
+      }
+      pendingPlayRef.current = true;
+      ensureYoutubeApi();
+      return;
+    }
 
-  useEffect(() => {
-    const a = audioRef.current;
-    if (!a) return;
-
-    const onEnded = () => {
-      seekToCue();
-      void a.play();
-      setPlaying(true);
-    };
-
-    a.addEventListener("ended", onEnded);
-    return () => {
-      a.removeEventListener("ended", onEnded);
-    };
-  }, [seekToCue]);
+    const p = playerRef.current;
+    if (p) {
+      p.pauseVideo();
+    }
+    setOverlayVisible(false);
+    setYtPlaying(false);
+  };
 
   useEffect(
     () => () => {
-      stopFade();
-      audioRef.current?.pause();
+      try {
+        playerRef.current?.destroy?.();
+      } catch {
+        /* ignore */
+      }
+      playerRef.current = null;
     },
-    [stopFade]
+    []
   );
 
-  const onToggle = () => {
-    const a = audioRef.current;
-    if (!a) return;
-
-    if (playing) {
-      fadeVolume(volRef.current, 0, FADE_OUT_MS, () => {
-        a.pause();
-        setPlaying(false);
-      });
-      return;
-    }
-
-    if (!hasStartedRef.current || a.ended) {
-      hasStartedRef.current = true;
-      startFromCueWithFade();
-    } else {
-      resumeWithFade();
-    }
-  };
-
   return (
-    <>
-      <audio
-        ref={audioRef}
-        src={AUDIO_SRC}
-        preload="none"
-        className="hidden"
-        aria-hidden
-      />
-      <TooltipProvider delayDuration={200}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant="default"
-              className="shrink-0"
-              onClick={onToggle}
-              aria-pressed={playing}
-            >
-              {playing ? "Pause Music" : "Play Music"}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="top" sideOffset={10}>
-            Little Black Submarines- The Black Keys
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </>
+    <div className="relative inline-block">
+      <div
+        className={cn(
+          "absolute right-0 bottom-full z-[45] mb-2 w-[min(92vw,360px)] shadow-[0_12px_40px_rgba(0,0,0,0.55)] transition-opacity duration-200",
+          overlayVisible
+            ? "visible opacity-100"
+            : "invisible pointer-events-none opacity-0"
+        )}
+      >
+        <div className="aspect-video w-full overflow-hidden rounded-sm border border-white/15 bg-black">
+          <div id="about-yt-host" className="h-full min-h-[200px] w-full" />
+        </div>
+      </div>
+      <Button
+        type="button"
+        variant="default"
+        className="shrink-0"
+        onClick={handleToggle}
+        aria-pressed={ytPlaying}
+      >
+        {ytPlaying ? "Pause Music" : "Play Music"}
+      </Button>
+    </div>
   );
 }

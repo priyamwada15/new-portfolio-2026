@@ -11,6 +11,7 @@ export default function Home() {
   return (
     <div>
       <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none hidden md:block z-[1]" />
+      <div className="grain-overlay" aria-hidden="true" />
       <div className="relative z-[2]">
       {/* Hero, centered */}
       <section className="flex flex-col items-center text-center w-[86%] max-w-[1238px] mx-auto mt-14 mb-20">

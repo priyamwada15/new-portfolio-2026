@@ -255,9 +255,8 @@ body {
   .sun-ray { animation: none !important; }
 }
 
-/* ── Film grain overlay ──────────────────────────────────── */
-body::before {
-  content: '';
+/* ── Film grain overlay (home page only — applied via .grain-overlay div) ── */
+.grain-overlay {
   position: fixed;
   inset: 0;
   z-index: 999;

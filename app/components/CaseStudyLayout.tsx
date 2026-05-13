@@ -1,5 +1,6 @@
 import Link from "next/link";
 import TableOfContents, { TocItem } from "./TableOfContents";
+import CaseStudyPageStyle from "./CaseStudyPageStyle";
 
 interface Meta {
   timeline: string;
@@ -257,6 +258,8 @@ export default function CaseStudyLayout({
   );
 
   return (
+    <>
+    <CaseStudyPageStyle />
     <article
       className="w-[86%] max-w-[1238px] mx-auto pb-16"
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
@@ -311,5 +314,6 @@ export default function CaseStudyLayout({
         </>
       )}
     </article>
+    </>
   );
 }

@@ -237,7 +237,7 @@ export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 isolate z-0 overflow-hidden bg-[#FFFFFF] outline-none"
+      className="fixed inset-0 isolate z-0 overflow-hidden bg-[#111111] outline-none"
       role="application"
       aria-label="Race game. Use arrow left and arrow right to steer and avoid blocks."
       tabIndex={0}
@@ -292,15 +292,15 @@ export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
 
       {showRestartToast ? (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#FFFFFF]/90 p-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#111111]/90 p-4"
           role="presentation"
         >
           <div
-            className="max-w-sm rounded-sm border border-neutral-900/10 bg-[#FFFFFF] p-5 shadow-lg"
+            className="max-w-sm rounded-sm border border-white/10 bg-[#1a1a1a] p-5 shadow-lg"
             role="status"
             aria-live="polite"
           >
-            <p className="pixel-font text-center text-sm leading-snug text-neutral-900">
+            <p className="pixel-font text-center text-sm leading-snug text-neutral-200">
               Oops! Let&apos;s restart the game.
             </p>
             <div className="mt-4 flex justify-center">

@@ -85,7 +85,7 @@ export default function AboutPageClient({ aboutCopy }: AboutPageClientProps) {
         </DialogContent>
       </Dialog>
 
-      <div className="relative min-h-dvh w-full bg-[#FFFFFF] text-neutral-900">
+      <div className="relative min-h-dvh w-full bg-[#111111] text-neutral-200">
         <AboutRaceStrip carSrc={ASCII_F1_CAR_SRC} />
 
         <div className="pointer-events-none fixed inset-0 z-30">

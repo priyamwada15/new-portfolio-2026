@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { Button } from "@/components/ui/pixelact-ui/button";
 import {
   Dialog,
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/pixelact-ui/dialog";
 import "@/components/ui/pixelact-ui/styles/styles.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 import AboutRaceStrip from "./AboutRaceStrip";
 
 /** Public asset: `public/ASCII F1 Car.svg` */
@@ -72,9 +74,18 @@ type AboutPageClientProps = {
 };
 
 export default function AboutPageClient({ aboutCopy }: AboutPageClientProps) {
+  const [introOpen, setIntroOpen] = useState(true);
+  const [gameRunning, setGameRunning] = useState(false);
+
   return (
     <>
-      <Dialog defaultOpen>
+      <Dialog
+        open={introOpen}
+        onOpenChange={(open) => {
+          setIntroOpen(open);
+          if (!open) setGameRunning(true);
+        }}
+      >
         <DialogContent className="max-h-[min(90vh,32rem)] overflow-y-auto sm:max-w-lg">
           <DialogTitle className="pr-10 text-xs leading-snug sm:text-sm">
             Before you play
@@ -86,7 +97,8 @@ export default function AboutPageClient({ aboutCopy }: AboutPageClientProps) {
       </Dialog>
 
       <div className="relative min-h-dvh w-full bg-[#111111] text-neutral-200">
-        <AboutRaceStrip carSrc={ASCII_F1_CAR_SRC} />
+        <Toaster theme="dark" position="top-center" className="z-[200]" />
+        <AboutRaceStrip carSrc={ASCII_F1_CAR_SRC} gameRunning={gameRunning} />
 
         <div className="pointer-events-none fixed inset-0 z-30">
           <div className="pointer-events-auto absolute left-4 top-[max(1rem,env(safe-area-inset-top))]">

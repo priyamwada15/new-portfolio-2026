@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/pixelact-ui/button";
+import { toast as sonnerToast } from "sonner";
+import { toastRestartPrompt } from "@/components/ui/pixelact-ui/toast";
 
 const SCROLL_PX_PER_SEC = 165;
 const LATERAL_PX_PER_SEC = 300;
@@ -28,6 +29,8 @@ type Obstacle = {
 
 type AboutRaceStripProps = {
   carSrc: string;
+  /** Simulation and controls run only after the intro dialog is closed. */
+  gameRunning: boolean;
 };
 
 function rectsOverlap(
@@ -43,10 +46,13 @@ function rectsOverlap(
 }
 
 /**
- * Full-viewport #FFFFFF void with a centered playable strip (kerb | asphalt | kerb).
- * Obstacles and car exist only in the asphalt band. ArrowLeft / ArrowRight steer.
+ * Full-viewport #111111 with a centered strip (white kerb | asphalt | white kerb).
+ * Obstacles are white. ArrowLeft / ArrowRight steer.
  */
-export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
+export default function AboutRaceStrip({
+  carSrc,
+  gameRunning,
+}: AboutRaceStripProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const playRef = useRef<HTMLDivElement>(null);
   const carWrapRef = useRef<HTMLDivElement>(null);
@@ -60,7 +66,13 @@ export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
   const obstaclesRef = useRef<Obstacle[]>([]);
   /** Re-render after obstacle sim without storing the array in React state each frame */
   const [, setMotionTick] = useState(0);
-  const [showRestartToast, setShowRestartToast] = useState(false);
+
+  useEffect(() => {
+    if (!gameRunning) return;
+    lastTRef.current = null;
+    const el = rootRef.current;
+    window.setTimeout(() => el?.focus(), 0);
+  }, [gameRunning]);
 
   const restartGame = useCallback(() => {
     pausedRef.current = false;
@@ -72,7 +84,6 @@ export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
     lastTRef.current = null;
     const carEl = carWrapRef.current;
     if (carEl) carEl.style.transform = "translateX(-50%)";
-    setShowRestartToast(false);
     setMotionTick((n) => n + 1);
   }, []);
 
@@ -94,6 +105,8 @@ export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
   }, []);
 
   useEffect(() => {
+    if (!gameRunning) return;
+
     const reduced =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -218,7 +231,8 @@ export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
 
       if (didHit) {
         pausedRef.current = true;
-        setShowRestartToast(true);
+        sonnerToast.dismiss();
+        toastRestartPrompt(restartGame);
       }
 
       raf = requestAnimationFrame(tick);
@@ -230,7 +244,7 @@ export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
     };
-  }, []);
+  }, [gameRunning, restartGame]);
 
   const obstacles = obstaclesRef.current;
 
@@ -289,28 +303,6 @@ export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
           aria-hidden
         />
       </div>
-
-      {showRestartToast ? (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#111111]/90 p-4"
-          role="presentation"
-        >
-          <div
-            className="max-w-sm rounded-sm border border-white/10 bg-[#1a1a1a] p-5 shadow-lg"
-            role="status"
-            aria-live="polite"
-          >
-            <p className="pixel-font text-center text-sm leading-snug text-neutral-200">
-              Oops! Let&apos;s restart the game.
-            </p>
-            <div className="mt-4 flex justify-center">
-              <Button type="button" variant="default" onClick={restartGame}>
-                Restart
-              </Button>
-            </div>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }

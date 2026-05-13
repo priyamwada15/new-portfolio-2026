@@ -34,27 +34,141 @@ const SPAWN_INTERVAL_SEC = 2.35;
 const CELL_PX = 9;
 const GRID_BLOCK_SPAWN_CHANCE = 0.48;
 
-const NOISE_LINE_H = 14;
-const NOISE_LINE_CHARS = 7;
-const NOISE_ROWS = 42;
-const NOISE_PARALLAX = 0.38;
+const MARGIN_CODE_LINE_H = 15;
+const MARGIN_CODE_ROWS = 42;
+const MARGIN_CODE_MAX_CHARS = 30;
+const MARGIN_CODE_PARALLAX = 0.38;
 
 /** Total track width (kerbs + asphalt); centered on viewport. */
 const TRACK_W_CLASS = "w-[min(392px,calc(100vw-32px))]";
 
-function noiseLine(seed: number, w: number) {
-  const chars = "#.:·";
-  let out = "";
-  for (let c = 0; c < w; c++) {
-    const t = Math.sin(seed * 0.31 + c * 1.73) * 10000;
-    const i = Math.floor((t - Math.floor(t)) * chars.length);
-    out += chars[i] ?? ".";
+function hash01(n: number) {
+  const x = Math.sin(n * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+function pickArr<T>(n: number, arr: readonly T[]): T {
+  return arr[Math.floor(hash01(n) * arr.length)] ?? arr[0]!;
+}
+
+/** Deterministic fake TS/React lines for margin columns (scroll-linked). */
+function marginCodeLine(row: number, side: 0 | 1, maxChars: number): string {
+  const s = row * 31 + side * 9973;
+  const n = s % 1000;
+  const id = pickArr(s + 1, [
+    "obs",
+    "raf",
+    "car",
+    "ctx",
+    "acc",
+    "dt",
+    "dy",
+    "play",
+  ]);
+  const templates = [
+    `export async function frame_${n % 37}(dt: number) {`,
+    `  const ${id} = obstaclesRef.current;`,
+    `  if (pausedRef.current) return;`,
+    `  if (document.visibilityState === "hidden") return;`,
+    `  lastTRef.current ??= performance.now();`,
+    `  marginNoiseOffsetRef.current += dy * ${(0.28 + (s % 19) / 100).toFixed(2)};`,
+    `  spawnAccRef.current += Math.min(0.064, Math.max(0, rawDt));`,
+    `  // track ${n % 9} obstacles`,
+    `  obstaclesRef.current = obs.filter((o) => o.y < h + 80);`,
+    `  return () => cancelAnimationFrame(raf);`,
+    `type Obstacle = { id: number; x: number; y: number };`,
+    `document.addEventListener("keydown", onKeyDown);`,
+    `  setMotionTick((k) => k + 1);`,
+    `});`,
+    `const span = innerRight - innerLeft - ow;`,
+    `if (rectsOverlap(o, carBox)) didHit = true;`,
+    `const gridBlock = Math.random() < 0.48;`,
+    `scrollPxPerSecRef.current = Math.min(${360 + (s % 40)}, 380);`,
+    `function snapXToGrid(x: number, cell: number) {`,
+    `  return minX + Math.floor((x - minX) / cell) * cell;`,
+    `}`,
+    `  carEl.style.transform = \`translateX(calc(-50% + ${n % 120}px))\`;`,
+    `useEffect(() => { void getCrashAudioCtx(ref)?.resume(); }, []);`,
+    `const dy = scrollPxPerSecRef.current * scrollMul * dt;`,
+    `window.addEventListener("keyup", onKeyUp);`,
+    `  lateralRef.current += latVel * dt;`,
+    `  keysRef.current = { left: false, right: false };`,
+  ];
+  let line = templates[s % templates.length]!;
+  line = line.replace(/\s+/g, " ").trim();
+  if (line.length > maxChars) {
+    return `${line.slice(0, Math.max(1, maxChars - 1))}…`;
   }
-  return out;
+  return line;
 }
 
 function snapXToGrid(x: number, cell: number, minX: number) {
   return minX + Math.floor((x - minX) / cell) * cell;
+}
+
+function getCrashAudioCtx(ref: {
+  current: AudioContext | null;
+}): AudioContext | null {
+  if (typeof window === "undefined") return null;
+  try {
+    if (!ref.current) {
+      const Ctor =
+        window.AudioContext ??
+        (
+          window as Window & {
+            webkitAudioContext?: typeof AudioContext;
+          }
+        ).webkitAudioContext;
+      if (!Ctor) return null;
+      ref.current = new Ctor();
+    }
+    if (ref.current.state === "suspended") void ref.current.resume();
+    return ref.current;
+  } catch {
+    return null;
+  }
+}
+
+/** Web Audio procedural hit; does not use YouTube or HTMLMediaElement. */
+function playObstacleHitSound(ctx: AudioContext) {
+  void ctx.resume();
+  const t = ctx.currentTime;
+  const dur = 0.18;
+  const sampleRate = ctx.sampleRate;
+  const n = Math.max(1, Math.floor(sampleRate * dur));
+  const buf = ctx.createBuffer(1, n, sampleRate);
+  const ch = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) {
+    const e = (1 - i / n) ** 2.4;
+    ch[i] = (Math.random() * 2 - 1) * e * 0.42;
+  }
+  const noise = ctx.createBufferSource();
+  noise.buffer = buf;
+  const lp = ctx.createBiquadFilter();
+  lp.type = "lowpass";
+  lp.frequency.setValueAtTime(2800, t);
+  lp.frequency.exponentialRampToValueAtTime(140, t + dur);
+  const gN = ctx.createGain();
+  gN.gain.setValueAtTime(0.55, t);
+  gN.gain.exponentialRampToValueAtTime(0.001, t + dur);
+  noise.connect(lp);
+  lp.connect(gN);
+  gN.connect(ctx.destination);
+  noise.start(t);
+  noise.stop(t + dur + 0.02);
+
+  const osc = ctx.createOscillator();
+  osc.type = "triangle";
+  osc.frequency.setValueAtTime(92, t);
+  osc.frequency.exponentialRampToValueAtTime(34, t + 0.11);
+  const gO = ctx.createGain();
+  gO.gain.setValueAtTime(0, t);
+  gO.gain.linearRampToValueAtTime(0.18, t + 0.004);
+  gO.gain.exponentialRampToValueAtTime(0.001, t + 0.13);
+  osc.connect(gO);
+  gO.connect(ctx.destination);
+  osc.start(t);
+  osc.stop(t + 0.14);
 }
 
 type Obstacle = {
@@ -87,7 +201,7 @@ function rectsOverlap(
 
 /**
  * Full-viewport #111111 with a centered strip (dashed white kerbs | asphalt | dashed white kerbs).
- * Terminal-style margin noise (# . : ·), scanlines + vignette, and grid “█” obstacles.
+ * Scroll-linked low-opacity fake code in side margins, scanlines + vignette, grid obstacles, Web Audio hit.
  */
 export default function AboutRaceStrip({
   carSrc,
@@ -107,19 +221,31 @@ export default function AboutRaceStrip({
   const pausedRef = useRef(false);
   const obstaclesRef = useRef<Obstacle[]>([]);
   const marginNoiseOffsetRef = useRef(0);
+  const crashAudioCtxRef = useRef<AudioContext | null>(null);
   /** Re-render after obstacle sim without storing the array in React state each frame */
   const [, setMotionTick] = useState(0);
 
-  const noiseColumns = useMemo(() => {
-    const baseLeft = Array.from({ length: NOISE_ROWS }, (_, i) =>
-      noiseLine(i * 13, NOISE_LINE_CHARS)
+  const marginCodeColumns = useMemo(() => {
+    const baseLeft = Array.from({ length: MARGIN_CODE_ROWS }, (_, i) =>
+      marginCodeLine(i, 0, MARGIN_CODE_MAX_CHARS)
     );
-    const baseRight = Array.from({ length: NOISE_ROWS }, (_, i) =>
-      noiseLine(i * 13 + 991, NOISE_LINE_CHARS)
+    const baseRight = Array.from({ length: MARGIN_CODE_ROWS }, (_, i) =>
+      marginCodeLine(i, 1, MARGIN_CODE_MAX_CHARS)
     );
     const left = [...baseLeft, ...baseLeft, ...baseLeft];
     const right = [...baseRight, ...baseRight, ...baseRight];
     return { left, right };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      try {
+        crashAudioCtxRef.current?.close();
+      } catch {
+        /* ignore */
+      }
+      crashAudioCtxRef.current = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -130,6 +256,7 @@ export default function AboutRaceStrip({
     marginNoiseOffsetRef.current = 0;
     const el = rootRef.current;
     window.setTimeout(() => el?.focus(), 0);
+    void getCrashAudioCtx(crashAudioCtxRef)?.resume();
   }, [gameRunning]);
 
   const restartGame = useCallback(() => {
@@ -238,7 +365,7 @@ export default function AboutRaceStrip({
       const dy = scrollPxPerSecRef.current * scrollMul * dt;
 
       if (!reduced) {
-        marginNoiseOffsetRef.current += dy * NOISE_PARALLAX;
+        marginNoiseOffsetRef.current += dy * MARGIN_CODE_PARALLAX;
       }
 
       const k = keysRef.current;
@@ -332,6 +459,8 @@ export default function AboutRaceStrip({
       setMotionTick((n) => n + 1);
 
       if (didHit) {
+        const ctx = getCrashAudioCtx(crashAudioCtxRef);
+        if (ctx) playObstacleHitSound(ctx);
         pausedRef.current = true;
         sonnerToast.dismiss();
         toastRestartPrompt(restartGame);
@@ -350,7 +479,7 @@ export default function AboutRaceStrip({
 
   const obstacles = obstaclesRef.current;
   const noiseScrollPx = marginNoiseOffsetRef.current;
-  const noisePatternH = NOISE_ROWS * NOISE_LINE_H;
+  const noisePatternH = MARGIN_CODE_ROWS * MARGIN_CODE_LINE_H;
   const noiseWrap = noisePatternH > 0 ? noiseScrollPx % noisePatternH : 0;
 
   return (
@@ -362,28 +491,32 @@ export default function AboutRaceStrip({
       tabIndex={0}
     >
       <div
-        className="pointer-events-none fixed inset-y-0 left-0 z-[1] flex w-[min(96px,13vw)] justify-center overflow-hidden select-none"
+        className="pointer-events-none fixed inset-y-0 left-0 z-[1] flex min-w-0 w-[min(132px,17vw)] justify-start overflow-hidden pl-1 select-none"
         aria-hidden
       >
         <div
-          className="font-mono text-[10px] leading-[14px] text-white/[0.085] whitespace-pre"
+          className="w-full min-w-0 font-mono text-[8.5px] leading-[15px] tracking-tight text-white/[0.034]"
           style={{ transform: `translateY(-${noiseWrap}px)` }}
         >
-          {noiseColumns.left.map((line, i) => (
-            <div key={i}>{line}</div>
+          {marginCodeColumns.left.map((line, i) => (
+            <div key={i} className="max-w-full truncate text-left">
+              {line}
+            </div>
           ))}
         </div>
       </div>
       <div
-        className="pointer-events-none fixed inset-y-0 right-0 z-[1] flex w-[min(96px,13vw)] justify-center overflow-hidden select-none"
+        className="pointer-events-none fixed inset-y-0 right-0 z-[1] flex min-w-0 w-[min(132px,17vw)] justify-end overflow-hidden pr-1 select-none"
         aria-hidden
       >
         <div
-          className="font-mono text-[10px] leading-[14px] text-white/[0.085] whitespace-pre"
+          className="w-full min-w-0 font-mono text-[8.5px] leading-[15px] tracking-tight text-white/[0.034]"
           style={{ transform: `translateY(-${(noiseScrollPx * 0.82) % noisePatternH}px)` }}
         >
-          {noiseColumns.right.map((line, i) => (
-            <div key={i}>{line}</div>
+          {marginCodeColumns.right.map((line, i) => (
+            <div key={i} className="max-w-full truncate text-right">
+              {line}
+            </div>
           ))}
         </div>
       </div>

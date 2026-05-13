@@ -71,7 +71,9 @@ function DarkHeader({ tag, headline, bgImage }: { tag: string; headline: string;
 export default function DebugModePage() {
   return (
     <>
-    <BentoHero />
+    <div className="-mt-[84px]">
+      <BentoHero />
+    </div>
     <CaseStudyLayout
       accentDark="#6D33AA"
       accentLight="#E2D6EE"

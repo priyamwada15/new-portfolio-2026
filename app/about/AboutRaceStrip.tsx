@@ -13,7 +13,7 @@ const CAR_BOTTOM_FRAC = 0.11;
 /** Collision: top band only, narrower than car width (excludes “sides” of silhouette). */
 const CAR_HITBOX_H = 28;
 const CAR_HITBOX_W = 38;
-const MAX_OBSTACLES = 4;
+const MAX_OBSTACLES = 8;
 const SPAWN_INTERVAL_SEC = 2.35;
 
 /** Total track width (kerbs + asphalt); centered on viewport. */

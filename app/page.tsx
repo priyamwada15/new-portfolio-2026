@@ -14,7 +14,7 @@ export default function Home() {
       <div className="grain-overlay" aria-hidden="true" />
       <div className="relative z-[2]">
       {/* Hero, centered */}
-      <section className="flex flex-col items-center text-center w-[86%] max-w-[1238px] mx-auto mt-14 mb-20">
+      <section className="flex flex-col items-center text-center w-[70%] max-w-[1238px] mx-auto mt-14 mb-20">
         {/* Available badge */}
         <div
           className="badge-animate flex items-center gap-2 mb-10 px-3 py-2 rounded-lg"

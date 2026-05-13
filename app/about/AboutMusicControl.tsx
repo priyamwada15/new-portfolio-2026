@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/pixelact-ui/button";
 
 const VIDEO_ID = "6k8es2BNloE";
-/** Seek cue in seconds (2:05). */
-const MUSIC_START_SEC = 2 * 60 + 5;
+/** Seek cue in seconds (0:58). */
+const MUSIC_START_SEC = 58;
 
 type YtPlayer = {
   seekTo: (seconds: number, allowSeekAhead: boolean) => void;

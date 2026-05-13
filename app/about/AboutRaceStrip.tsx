@@ -16,7 +16,8 @@ const CAR_BOTTOM_FRAC = 0.11;
 /** Collision: top band only, narrower than car width (excludes “sides” of silhouette). */
 const CAR_HITBOX_H = 28;
 const CAR_HITBOX_W = 38;
-const MAX_OBSTACLES = 8;
+const BASE_MAX_OBSTACLES = 8;
+const MAX_OBSTACLES_CEIL = 15;
 const SPAWN_INTERVAL_SEC = 2.35;
 
 /** Total track width (kerbs + asphalt); centered on viewport. */
@@ -50,7 +51,7 @@ function rectsOverlap(
 
 /**
  * Full-viewport #111111 with a centered strip (white kerb | asphalt | white kerb).
- * Obstacles are white. ArrowLeft / ArrowRight steer.
+ * Kerbs and obstacles are white at 60% opacity. ArrowLeft / ArrowRight steer.
  */
 export default function AboutRaceStrip({
   carSrc,
@@ -219,9 +220,17 @@ export default function AboutRaceStrip({
 
       if (!didHit) {
         spawnAccRef.current += dt;
+        const speedTier = Math.floor(
+          (scrollPxPerSecRef.current - BASE_SCROLL_PX_PER_SEC) /
+            SCROLL_RAMP_DELTA_PX_PER_SEC
+        );
+        const maxObstacles = Math.min(
+          MAX_OBSTACLES_CEIL,
+          BASE_MAX_OBSTACLES + Math.max(0, speedTier)
+        );
         if (
           spawnAccRef.current >= SPAWN_INTERVAL_SEC &&
-          obs.length < MAX_OBSTACLES
+          obs.length < maxObstacles
         ) {
           spawnAccRef.current = 0;
           const ow = 44 + Math.random() * 52;
@@ -278,7 +287,7 @@ export default function AboutRaceStrip({
         className={`absolute left-1/2 top-0 bottom-0 z-[1] flex -translate-x-1/2 ${TRACK_W_CLASS}`}
       >
         <div
-          className="pointer-events-none shrink-0 bg-[#FFFFFF]"
+          className="pointer-events-none shrink-0 bg-white/60"
           style={{ width: KERB_W }}
           aria-hidden
         />
@@ -290,7 +299,7 @@ export default function AboutRaceStrip({
             {obstacles.map((o) => (
               <div
                 key={o.id}
-                className="absolute rounded-sm bg-[#FFFFFF]"
+                className="absolute rounded-sm bg-white/60"
                 style={{
                   left: o.x,
                   top: o.y,
@@ -316,7 +325,7 @@ export default function AboutRaceStrip({
           </div>
         </div>
         <div
-          className="pointer-events-none shrink-0 bg-[#FFFFFF]"
+          className="pointer-events-none shrink-0 bg-white/60"
           style={{ width: KERB_W }}
           aria-hidden
         />

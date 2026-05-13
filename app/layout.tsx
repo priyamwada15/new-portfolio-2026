@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import {
-  Hind,
+  Figtree,
+  Inter,
   Ovo,
+  IBM_Plex_Sans_Devanagari,
 } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -11,8 +13,14 @@ import SmoothScroll from "./components/SmoothScroll";
 import ScrollToTopOnRouteChange from "./components/ScrollToTopOnRouteChange";
 import { Analytics } from "@vercel/analytics/next";
 
-const hind = Hind({
+const figtree = Figtree({
   variable: "--font-hind",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
@@ -21,6 +29,12 @@ const ovo = Ovo({
   variable: "--font-ovo",
   subsets: ["latin"],
   weight: "400",
+});
+
+const ibmPlexDevanagari = IBM_Plex_Sans_Devanagari({
+  variable: "--font-devanagari",
+  subsets: ["devanagari"],
+  weight: ["500"],
 });
 
 export const metadata: Metadata = {
@@ -45,7 +59,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${hind.variable} ${ovo.variable}`}
+      className={`${figtree.variable} ${ovo.variable} ${inter.variable} ${ibmPlexDevanagari.variable}`}
     >
       <head>
         <Script id="microsoft-clarity" strategy="beforeInteractive">
@@ -56,11 +70,11 @@ export default function RootLayout({
     })(window, document, "clarity", "script", "vamitov1fh");`}
         </Script>
       </head>
-      <body className="min-h-screen flex flex-col bg-[#fafafa] text-[#333333] overflow-x-hidden">
+      <body className="min-h-screen flex flex-col bg-[#ECEAE6] text-[#333333] overflow-x-hidden">
         <SmoothScroll />
         <ScrollToTopOnRouteChange />
         <Nav />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pt-[84px]">{children}</main>
         <SiteFooter />
         <Analytics />
       </body>

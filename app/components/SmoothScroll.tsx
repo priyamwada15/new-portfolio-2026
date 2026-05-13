@@ -8,7 +8,7 @@ export default function SmoothScroll() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname === "/about") return;
+    if (pathname === "/about" || pathname === "/tars-debug-mode") return;
 
     // Respect the OS-level reduced-motion preference
     const prefersReduced = window.matchMedia(

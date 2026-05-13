@@ -18,28 +18,23 @@ export default function BeforeAfterSlider({
   afterAlt = "After",
   startPercent = 50,
 }: Props) {
-  const cardFrameBorder =
-    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='28' ry='28' stroke='%23E6E6E6' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E\")";
-
   return (
     <div
-      className="w-full mt-10 rounded-2xl min-[400px]:rounded-[28px]"
-      style={{ backgroundImage: cardFrameBorder, padding: "2px" }}
+      className="w-full rounded-2xl overflow-hidden"
+      style={{ boxShadow: "inset 0 0 0 1.5px #E6E6E6" }}
     >
-      <div className="w-full overflow-hidden rounded-[14px] min-[400px]:rounded-[26px]">
-        <ReactBeforeSliderComponent
-          firstImage={{ imageUrl: beforeSrc, alt: beforeAlt }}
-          secondImage={{ imageUrl: afterSrc, alt: afterAlt }}
-          currentPercentPosition={startPercent}
-          delimiterColor="#E6E6E6"
-          delimiterIconStyles={{
-            width: "44px",
-            height: "44px",
-            backgroundSize: "cover",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.18)",
-          }}
-        />
-      </div>
+      <ReactBeforeSliderComponent
+        firstImage={{ imageUrl: beforeSrc, alt: beforeAlt }}
+        secondImage={{ imageUrl: afterSrc, alt: afterAlt }}
+        currentPercentPosition={startPercent}
+        delimiterColor="#E6E6E6"
+        delimiterIconStyles={{
+          width: "44px",
+          height: "44px",
+          backgroundSize: "cover",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.18)",
+        }}
+      />
     </div>
   );
 }

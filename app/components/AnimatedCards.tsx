@@ -20,7 +20,7 @@ const projects = [
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
     tags: "B2B SaaS · Workflow Tooling · Product Design",
     description:
-      "An internal tool that automatically runs enterprise chatbots end-to-end and stops the moment something breaks. I shipped it in a month and it cut the debugging time by 50%.",
+      "An internal tool that automatically runs enterprise chatbots end-to-end and stops the moment something breaks. I shipped it in a month and it cut the debugging time by ~70%.",
     image: "/Debug%20Hero%20Image.png",
   },
   {
@@ -85,7 +85,9 @@ export default function AnimatedCards() {
             <div
               className="overflow-hidden rounded-[24px]"
               style={{
-                backgroundColor: "#FBFBFB",
+                background: "rgba(251, 251, 251, 0.72)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
                 padding: "40px",
                 backgroundImage: CARD_BORDER,
               }}

@@ -23,7 +23,7 @@ function ClientQuote({ quote, attribution }: { quote: string; attribution: strin
       className="rm-quote-block"
       style={{ backgroundColor: "#111111" }}
     >
-      <div className="w-[70%] max-w-[1298px] mx-auto py-12 md:py-16">
+      <div className="w-[86%] max-w-[1238px] mx-auto py-12 md:py-16">
         {/* rm-quote-inner handles desktop padding to align text with the content column */}
         <div className="rm-quote-inner">
           <p
@@ -81,7 +81,7 @@ export default function RocketMortgagePage() {
         <img
           src="/rm-hero.avif"
           alt="Rocket Assist interface overview"
-          className="w-full rounded-2xl min-[400px]:rounded-[28px]"
+          className="w-full rounded-2xl"
           style={{ display: "block" }}
         />
       }
@@ -121,7 +121,7 @@ export default function RocketMortgagePage() {
         href: "/tars-debug-mode",
         tags: "Product Design · 2022 · Tars Technologies",
         title:
-          "I designed and shipped a debug tool that reduced testing time by 50%, for two distinct user groups.",
+          "I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups.",
       }}
       toc={[
         { id: "problem-space", label: "Problem Space" },
@@ -378,17 +378,15 @@ export default function RocketMortgagePage() {
           {/* Left: reflection image + caption */}
           <div>
             <div
-              className="w-full rounded-3xl"
-              style={{ backgroundImage: CARD_BORDER, padding: "2px" }}
+              className="w-full rounded-2xl overflow-hidden"
+              style={{ boxShadow: "inset 0 0 0 1.5px #E6E6E6" }}
             >
-              <div className="w-full overflow-hidden rounded-[22px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/rm-reflection.avif"
-                  alt="Presenting the Rocket Mortgage project at the intern design showcase"
-                  className="w-full object-cover block"
-                />
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/rm-reflection.avif"
+                alt="Presenting the Rocket Mortgage project at the intern design showcase"
+                className="w-full object-cover block"
+              />
             </div>
             <VisualCaption>Presenting the project in a showcase to the larger product management & design team at Rocket Mortgage</VisualCaption>
           </div>

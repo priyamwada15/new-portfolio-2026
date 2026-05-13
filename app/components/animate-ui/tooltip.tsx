@@ -1,0 +1,64 @@
+"use client";
+
+import * as React from "react";
+import { motion } from "motion/react";
+import {
+  TooltipProvider as TooltipProviderPrimitive,
+  Tooltip as TooltipPrimitive,
+  TooltipTrigger as TooltipTriggerPrimitive,
+  TooltipContent as TooltipContentPrimitive,
+  TooltipArrow as TooltipArrowPrimitive,
+  type TooltipProviderProps as TooltipProviderPrimitiveProps,
+  type TooltipProps as TooltipPrimitiveProps,
+  type TooltipTriggerProps as TooltipTriggerPrimitiveProps,
+  type TooltipContentProps as TooltipContentPrimitiveProps,
+} from "./primitives/tooltip";
+import { cn } from "./lib/utils";
+
+type TooltipProviderProps = TooltipProviderPrimitiveProps;
+function TooltipProvider({ openDelay = 0, ...props }: TooltipProviderProps) {
+  return <TooltipProviderPrimitive openDelay={openDelay} {...props} />;
+}
+
+type TooltipProps = TooltipPrimitiveProps;
+function Tooltip({ sideOffset = 10, ...props }: TooltipProps) {
+  return <TooltipPrimitive sideOffset={sideOffset} {...props} />;
+}
+
+type TooltipTriggerProps = TooltipTriggerPrimitiveProps;
+function TooltipTrigger({ ...props }: TooltipTriggerProps) {
+  return <TooltipTriggerPrimitive {...props} />;
+}
+
+type TooltipContentProps = Omit<TooltipContentPrimitiveProps, "asChild"> & {
+  children: React.ReactNode;
+  layout?: boolean | "position" | "size" | "preserve-aspect";
+};
+
+function TooltipContent({ className, children, layout = "preserve-aspect", ...props }: TooltipContentProps) {
+  return (
+    <TooltipContentPrimitive
+      className={cn("z-50 w-fit bg-[#111111] text-white rounded-md", className)}
+      {...props}
+    >
+      <motion.div className="overflow-hidden px-3 py-1.5 text-xs text-balance" style={{ fontFamily: "var(--font-hind), sans-serif", color: "#fafafa" }}>
+        <motion.div layout={layout}>{children}</motion.div>
+      </motion.div>
+      <TooltipArrowPrimitive
+        className="fill-[#111111] size-3 data-[side='bottom']:translate-y-[1px] data-[side='right']:translate-x-[1px] data-[side='left']:translate-x-[-1px] data-[side='top']:translate-y-[-1px]"
+        tipRadius={2}
+      />
+    </TooltipContentPrimitive>
+  );
+}
+
+export {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  type TooltipProviderProps,
+  type TooltipProps,
+  type TooltipTriggerProps,
+  type TooltipContentProps,
+};

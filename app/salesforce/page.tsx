@@ -23,7 +23,7 @@ export default function SalesforcePage() {
       ]}
       reverseHeaderOrder={true}
       heroVisual={
-        <div className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px]">
+        <div className="overflow-hidden rounded-2xl">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/Salesforce%20Hero%20Image.png"
@@ -179,7 +179,7 @@ export default function SalesforcePage() {
           section, Academic Trajectory, is where the system steps back and helps
           students reflect on where their academic choices are pointing them.
         </p>
-        <div className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px]">
+        <div className="overflow-hidden rounded-2xl">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/User%20Flow.png"
@@ -218,7 +218,7 @@ export default function SalesforcePage() {
         </p>
 
         <div
-          className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px] mt-5"
+          className="overflow-hidden rounded-2xl mt-5"
           style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -313,7 +313,7 @@ export default function SalesforcePage() {
           </div>
           <div className="mt-6">
             <div
-              className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px]"
+              className="overflow-hidden rounded-2xl"
               style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -350,7 +350,7 @@ export default function SalesforcePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <div className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px]">
+              <div className="overflow-hidden rounded-2xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/Radar%20Chart%20iterations.png"
@@ -362,7 +362,7 @@ export default function SalesforcePage() {
               <VisualCaption>Iteration Round 1: Sketching out how can radar charts help visualize the academic trajectory of the student.</VisualCaption>
             </div>
             <div>
-              <div className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px]">
+              <div className="overflow-hidden rounded-2xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/Iteration%20Round%202.png"
@@ -397,7 +397,7 @@ export default function SalesforcePage() {
             could feel like a system rather than a collection of screens.
           </p>
         </div>
-        <div className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px] mt-6">
+        <div className="overflow-hidden rounded-2xl mt-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/Card%202.png"
@@ -474,7 +474,7 @@ export default function SalesforcePage() {
             </p>
           </div>
           <div className="md:w-72 shrink-0">
-            <div className="overflow-hidden rounded-2xl min-[400px]:rounded-[28px]">
+            <div className="overflow-hidden rounded-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/SFimage.avif"

@@ -32,6 +32,9 @@ interface Props {
   heroVisual?: React.ReactNode;
   reverseHeaderOrder?: boolean;
   hideContextLabel?: boolean;
+  headlineInHeader?: boolean;
+  contextVisualBelow?: boolean;
+  tocStickyTop?: number;
   toc?: TocItem[];
   callout?: React.ReactNode;
   meta: Meta;
@@ -52,7 +55,7 @@ const h1Style: React.CSSProperties = {
 const MetaGrid = ({ meta, accentDark }: { meta: Meta; accentDark: string }) => (
   <div className="grid grid-cols-1 min-[400px]:grid-cols-2 min-[1080px]:grid-cols-4 gap-6">
     {[
-      { label: "Timeline", value: meta.timeline },
+      { label: "Shipped", value: meta.timeline },
       { label: "Industry", value: meta.industry },
       { label: "Role", value: meta.role },
       { label: "Team", value: meta.team },
@@ -82,6 +85,9 @@ export default function CaseStudyLayout({
   heroVisual,
   reverseHeaderOrder = false,
   hideContextLabel = false,
+  headlineInHeader = false,
+  contextVisualBelow = false,
+  tocStickyTop,
   toc,
   callout,
   meta,
@@ -112,7 +118,7 @@ export default function CaseStudyLayout({
   const h1InHeader = (extraClass = "mb-10") => (
     <h1
       className={`text-2xl md:text-[40px] font-normal leading-tight text-ink ${extraClass}`}
-      style={h1Style}
+      style={{ ...h1Style, textWrap: "pretty" as React.CSSProperties["textWrap"] }}
     >
       {headline}
     </h1>
@@ -130,8 +136,9 @@ export default function CaseStudyLayout({
   );
 
   // ── context + contribution block ──────────────────────────────────────
+  const hasTwoCols = sidePanel !== undefined || contribution !== undefined;
   const contextBlock = (
-    <div id="context" className="grid md:grid-cols-2 gap-10 md:gap-16 mb-40">
+    <div id="context" className={`${hasTwoCols ? "grid md:grid-cols-2 gap-10 md:gap-16" : ""} ${contextVisualBelow ? "mb-10" : "mb-40"}`.trim()}>
       {sidePanel !== undefined ? (
         <>
           <div className="flex flex-col gap-8">
@@ -200,11 +207,12 @@ export default function CaseStudyLayout({
   // mb-14 = 56px gap between meta and H1.
   const headerContent = toc ? (
     reverseHeaderOrder ? (
-      /* RM with TOC: logos → heroVisual → meta (H1 goes to right col) */
+      /* logos → heroVisual? → meta → H1? (H1 in header when headlineInHeader, else right col) */
       <>
         {logoRow("mb-8")}
         {heroVisual && <div className="mb-10">{heroVisual}</div>}
         <MetaGrid meta={meta} accentDark={accentDark} />
+        {headlineInHeader && h1InHeader("mt-10 mb-0")}
       </>
     ) : (
       /* Default with TOC: logos → tagline? → meta (H1 goes to right col) */
@@ -250,41 +258,9 @@ export default function CaseStudyLayout({
 
   return (
     <article
-      className="w-[70%] max-w-[1298px] mx-auto pb-16"
+      className="w-[86%] max-w-[1238px] mx-auto pb-16"
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
-      {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="mt-8 mb-0 flex items-center gap-2">
-        <Link
-          href="/"
-          className="flex items-center gap-1.5 hover:opacity-60 transition-opacity"
-          style={{ color: "#555555" }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logos/house-fill.svg"
-            alt=""
-            aria-hidden="true"
-            className="w-3.5 h-3.5"
-            style={{ filter: "invert(35%) sepia(0%) saturate(0%) brightness(60%)" }}
-          />
-          <span
-            className="text-[12px] uppercase"
-            style={{ ...hind, color: "#555555", lineHeight: 0.8, transform: "translateY(1px)" }}
-          >
-            Home
-          </span>
-        </Link>
-        <span className="text-[12px] text-[#555555] select-none" style={{ ...hind, lineHeight: 0.8 }}>
-          /
-        </span>
-        <span
-          className="text-[12px] uppercase text-[#333333]"
-          style={{ ...hind, lineHeight: 0.8, transform: "translateY(1px)" }}
-        >
-          {projectName}
-        </span>
-      </nav>
 
       {/* Header, mb-14 (56px) creates the gap to H1 when toc is present */}
       <header className={`mt-12 ${toc ? "mb-14" : "mb-16"}`}>
@@ -295,13 +271,22 @@ export default function CaseStudyLayout({
       {toc ? (
         <div className="grid items-start grid-cols-1 min-[1080px]:grid-cols-[160px_1fr] gap-0 min-[1080px]:gap-[80px]">
           {/* Left: sticky TOC, aligns with top of H1 */}
-          <TableOfContents items={tocItems} />
+          <TableOfContents items={tocItems} stickyTop={tocStickyTop} />
 
-          {/* Right: H1 → contextVisual? → context → body → footer */}
+          {/* Right: H1 (unless headlineInHeader) → context → body → footer */}
           <div>
-            {h1InColumn}
-            {contextVisual && <div className="mb-14">{contextVisual}</div>}
-            {contextBlock}
+            {!headlineInHeader && h1InColumn}
+            {contextVisualBelow ? (
+              <>
+                {contextBlock}
+                {contextVisual && <div className="mb-40">{contextVisual}</div>}
+              </>
+            ) : (
+              <>
+                {contextVisual && <div className="mb-14">{contextVisual}</div>}
+                {contextBlock}
+              </>
+            )}
             {callout && <div className="mb-40">{callout}</div>}
             <div className="space-y-40">{children}</div>
             {nextProjectBlock}
@@ -309,8 +294,17 @@ export default function CaseStudyLayout({
         </div>
       ) : (
         <>
-          {contextVisual && <div className="mb-14">{contextVisual}</div>}
-          {contextBlock}
+          {contextVisualBelow ? (
+            <>
+              {contextBlock}
+              {contextVisual && <div className="mb-40">{contextVisual}</div>}
+            </>
+          ) : (
+            <>
+              {contextVisual && <div className="mb-14">{contextVisual}</div>}
+              {contextBlock}
+            </>
+          )}
           {callout && <div className="mb-40">{callout}</div>}
           <div className="space-y-40">{children}</div>
           {nextProjectBlock}

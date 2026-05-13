@@ -3,14 +3,16 @@ import {
   Figtree,
   Inter,
   Ovo,
-  IBM_Plex_Sans_Devanagari,
-} from "next/font/google";
+  IBM_Plex_Sans_Devanagari, Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import AppChrome from "./components/AppChrome";
 import SmoothScroll from "./components/SmoothScroll";
 import ScrollToTopOnRouteChange from "./components/ScrollToTopOnRouteChange";
 import { Analytics } from "@vercel/analytics/next";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const figtree = Figtree({
   variable: "--font-hind",
@@ -58,10 +60,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${figtree.variable} ${ovo.variable} ${inter.variable} ${ibmPlexDevanagari.variable}`}
+      className={cn(figtree.variable, ovo.variable, inter.variable, ibmPlexDevanagari.variable, "font-sans", geist.variable)}
     >
       <head>
-        <Script id="microsoft-clarity" strategy="beforeInteractive">
+        <Script id="microsoft-clarity" strategy="afterInteractive">
           {`(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;

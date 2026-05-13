@@ -1,0 +1,30 @@
+/*
+  Radix Presence only waits for exit if animation-name changes from the idle
+  state. tw-animate "enter" finishes to animation-name: none, so close was
+  unmounting instantly. These closed-only keyframes keep a distinct exit name.
+*/
+@keyframes pixelact-dialog-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pixelact-dialog-content-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.pixel-dialog-overlay[data-state="closed"] {
+  animation: pixelact-dialog-overlay-out 200ms ease-out forwards;
+}
+
+.pixel-dialog-content[data-state="closed"] {
+  animation: pixelact-dialog-content-out 200ms ease-out forwards;
+}

@@ -122,7 +122,7 @@ export default function Nav() {
             >
               <img src="/logos/nav-logo.svg" alt="" width={24} height={24} className="shrink-0" />
               <span
-                className="text-[14px] leading-none"
+                className="hidden sm:inline text-[14px] leading-none"
                 style={{ ...hind, fontWeight: 500, color: "#111111" }}
               >
                 priyamwada pandey

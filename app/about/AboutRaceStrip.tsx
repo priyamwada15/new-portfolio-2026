@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast as sonnerToast } from "sonner";
 import { toastRestartPrompt } from "@/components/ui/pixelact-ui/toast";
 
@@ -10,6 +10,17 @@ const SCROLL_RAMP_DELTA_PX_PER_SEC = 28;
 const SCROLL_PX_PER_SEC_MAX = 380;
 const LATERAL_PX_PER_SEC = 300;
 const KERB_W = 14;
+/** Vertical dash + gap (terminal-style kerb segments). */
+const KERB_DASH_PX = 6;
+const KERB_GAP_PX = 8;
+const KERB_STRIP_STYLE = {
+  width: KERB_W,
+  backgroundImage: `repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.6) 0 ${KERB_DASH_PX}px,
+    transparent ${KERB_DASH_PX}px ${KERB_DASH_PX + KERB_GAP_PX}px
+  )`,
+} as const;
 const CAR_W = 86;
 const CAR_IMG_H = 150;
 const CAR_BOTTOM_FRAC = 0.11;
@@ -19,9 +30,32 @@ const CAR_HITBOX_W = 38;
 const BASE_MAX_OBSTACLES = 8;
 const MAX_OBSTACLES_CEIL = 15;
 const SPAWN_INTERVAL_SEC = 2.35;
+/** Terminal-style obstacle cells (█-like blocks). */
+const CELL_PX = 9;
+const GRID_BLOCK_SPAWN_CHANCE = 0.48;
+
+const NOISE_LINE_H = 14;
+const NOISE_LINE_CHARS = 7;
+const NOISE_ROWS = 42;
+const NOISE_PARALLAX = 0.38;
 
 /** Total track width (kerbs + asphalt); centered on viewport. */
 const TRACK_W_CLASS = "w-[min(392px,calc(100vw-32px))]";
+
+function noiseLine(seed: number, w: number) {
+  const chars = "#.:·";
+  let out = "";
+  for (let c = 0; c < w; c++) {
+    const t = Math.sin(seed * 0.31 + c * 1.73) * 10000;
+    const i = Math.floor((t - Math.floor(t)) * chars.length);
+    out += chars[i] ?? ".";
+  }
+  return out;
+}
+
+function snapXToGrid(x: number, cell: number, minX: number) {
+  return minX + Math.floor((x - minX) / cell) * cell;
+}
 
 type Obstacle = {
   id: number;
@@ -29,6 +63,8 @@ type Obstacle = {
   y: number;
   w: number;
   h: number;
+  /** Grid-sized “character cell” obstacle (█ strip). */
+  gridBlock: boolean;
 };
 
 type AboutRaceStripProps = {
@@ -50,8 +86,8 @@ function rectsOverlap(
 }
 
 /**
- * Full-viewport #111111 with a centered strip (white kerb | asphalt | white kerb).
- * Kerbs and obstacles are white at 60% opacity. ArrowLeft / ArrowRight steer.
+ * Full-viewport #111111 with a centered strip (dashed white kerbs | asphalt | dashed white kerbs).
+ * Terminal-style margin noise (# . : ·), scanlines + vignette, and grid “█” obstacles.
  */
 export default function AboutRaceStrip({
   carSrc,
@@ -70,14 +106,28 @@ export default function AboutRaceStrip({
   const scrollRampAccRef = useRef(0);
   const pausedRef = useRef(false);
   const obstaclesRef = useRef<Obstacle[]>([]);
+  const marginNoiseOffsetRef = useRef(0);
   /** Re-render after obstacle sim without storing the array in React state each frame */
   const [, setMotionTick] = useState(0);
+
+  const noiseColumns = useMemo(() => {
+    const baseLeft = Array.from({ length: NOISE_ROWS }, (_, i) =>
+      noiseLine(i * 13, NOISE_LINE_CHARS)
+    );
+    const baseRight = Array.from({ length: NOISE_ROWS }, (_, i) =>
+      noiseLine(i * 13 + 991, NOISE_LINE_CHARS)
+    );
+    const left = [...baseLeft, ...baseLeft, ...baseLeft];
+    const right = [...baseRight, ...baseRight, ...baseRight];
+    return { left, right };
+  }, []);
 
   useEffect(() => {
     if (!gameRunning) return;
     lastTRef.current = null;
     scrollPxPerSecRef.current = BASE_SCROLL_PX_PER_SEC;
     scrollRampAccRef.current = 0;
+    marginNoiseOffsetRef.current = 0;
     const el = rootRef.current;
     window.setTimeout(() => el?.focus(), 0);
   }, [gameRunning]);
@@ -90,6 +140,7 @@ export default function AboutRaceStrip({
     spawnAccRef.current = 0;
     scrollPxPerSecRef.current = BASE_SCROLL_PX_PER_SEC;
     scrollRampAccRef.current = 0;
+    marginNoiseOffsetRef.current = 0;
     nextIdRef.current = 1;
     lastTRef.current = null;
     const carEl = carWrapRef.current;
@@ -186,6 +237,10 @@ export default function AboutRaceStrip({
       const h = play.clientHeight;
       const dy = scrollPxPerSecRef.current * scrollMul * dt;
 
+      if (!reduced) {
+        marginNoiseOffsetRef.current += dy * NOISE_PARALLAX;
+      }
+
       const k = keysRef.current;
       let latVel = 0;
       if (k.left) latVel -= LATERAL_PX_PER_SEC;
@@ -233,22 +288,42 @@ export default function AboutRaceStrip({
           obs.length < maxObstacles
         ) {
           spawnAccRef.current = 0;
-          const ow = 44 + Math.random() * 52;
-          const oh = 14 + Math.random() * 18;
           const pad = 4;
           const innerLeft = pad;
           const innerRight = w - pad;
-          const span = innerRight - innerLeft - ow;
-          const x =
-            span >= 8
-              ? innerLeft + Math.random() * span
-              : Math.max(pad, (w - ow) / 2);
+          const gridBlock = Math.random() < GRID_BLOCK_SPAWN_CHANCE;
+          let ow: number;
+          let oh: number;
+          let x: number;
+          if (gridBlock) {
+            const cols = 4 + Math.floor(Math.random() * 5);
+            const rows = Math.random() < 0.14 ? 2 : 1;
+            ow = cols * CELL_PX;
+            oh = rows * CELL_PX;
+            const spanSnap = innerRight - innerLeft - ow;
+            const maxSteps = Math.max(0, Math.floor(spanSnap / CELL_PX));
+            const step =
+              maxSteps > 0 ? Math.floor(Math.random() * (maxSteps + 1)) : 0;
+            x = snapXToGrid(innerLeft, CELL_PX, innerLeft) + step * CELL_PX;
+            x = Math.max(innerLeft, Math.min(x, innerRight - ow));
+          } else {
+            ow = Math.round(44 + Math.random() * 52);
+            oh = Math.round(14 + Math.random() * 18);
+            const span = innerRight - innerLeft - ow;
+            const rawX =
+              span >= 8
+                ? innerLeft + Math.random() * span
+                : Math.max(pad, (w - ow) / 2);
+            x = snapXToGrid(rawX, CELL_PX, innerLeft);
+            x = Math.max(innerLeft, Math.min(x, innerRight - ow));
+          }
           obs.push({
             id: nextIdRef.current++,
             x,
             y: -oh - 4,
             w: ow,
             h: oh,
+            gridBlock,
           });
         }
       }
@@ -274,6 +349,9 @@ export default function AboutRaceStrip({
   }, [gameRunning, restartGame]);
 
   const obstacles = obstaclesRef.current;
+  const noiseScrollPx = marginNoiseOffsetRef.current;
+  const noisePatternH = NOISE_ROWS * NOISE_LINE_H;
+  const noiseWrap = noisePatternH > 0 ? noiseScrollPx % noisePatternH : 0;
 
   return (
     <div
@@ -284,11 +362,38 @@ export default function AboutRaceStrip({
       tabIndex={0}
     >
       <div
-        className={`absolute left-1/2 top-0 bottom-0 z-[1] flex -translate-x-1/2 ${TRACK_W_CLASS}`}
+        className="pointer-events-none fixed inset-y-0 left-0 z-[1] flex w-[min(96px,13vw)] justify-center overflow-hidden select-none"
+        aria-hidden
       >
         <div
-          className="pointer-events-none shrink-0 bg-white/60"
-          style={{ width: KERB_W }}
+          className="font-mono text-[10px] leading-[14px] text-white/[0.085] whitespace-pre"
+          style={{ transform: `translateY(-${noiseWrap}px)` }}
+        >
+          {noiseColumns.left.map((line, i) => (
+            <div key={i}>{line}</div>
+          ))}
+        </div>
+      </div>
+      <div
+        className="pointer-events-none fixed inset-y-0 right-0 z-[1] flex w-[min(96px,13vw)] justify-center overflow-hidden select-none"
+        aria-hidden
+      >
+        <div
+          className="font-mono text-[10px] leading-[14px] text-white/[0.085] whitespace-pre"
+          style={{ transform: `translateY(-${(noiseScrollPx * 0.82) % noisePatternH}px)` }}
+        >
+          {noiseColumns.right.map((line, i) => (
+            <div key={i}>{line}</div>
+          ))}
+        </div>
+      </div>
+
+      <div
+        className={`absolute left-1/2 top-0 bottom-0 z-[3] flex -translate-x-1/2 ${TRACK_W_CLASS}`}
+      >
+        <div
+          className="pointer-events-none shrink-0"
+          style={KERB_STRIP_STYLE}
           aria-hidden
         />
         <div
@@ -299,7 +404,11 @@ export default function AboutRaceStrip({
             {obstacles.map((o) => (
               <div
                 key={o.id}
-                className="absolute rounded-sm bg-white/60"
+                className={
+                  o.gridBlock
+                    ? "absolute rounded-[2px] bg-white/60 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                    : "absolute rounded-sm bg-white/60"
+                }
                 style={{
                   left: o.x,
                   top: o.y,
@@ -325,11 +434,22 @@ export default function AboutRaceStrip({
           </div>
         </div>
         <div
-          className="pointer-events-none shrink-0 bg-white/60"
-          style={{ width: KERB_W }}
+          className="pointer-events-none shrink-0"
+          style={KERB_STRIP_STYLE}
           aria-hidden
         />
       </div>
+
+      <div
+        className="pointer-events-none absolute inset-0 z-[4]"
+        style={{
+          backgroundImage: [
+            "radial-gradient(ellipse 90% 72% at 50% 48%, transparent 22%, rgba(0,0,0,0.38) 100%)",
+            "repeating-linear-gradient(180deg, transparent, transparent 2px, rgba(0,0,0,0.14) 2px, rgba(0,0,0,0.14) 3px)",
+          ].join(","),
+        }}
+        aria-hidden
+      />
     </div>
   );
 }

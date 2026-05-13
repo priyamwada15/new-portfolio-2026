@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: "Resume for Priyamwada Pandey — product designer focused on AI-native interfaces.",
 };
 
-const RM_ICON = "/icons/RM%20Logo%20Icon.svg";
-const TARS_ICON = "/icons/Tars%20Icon%20Logo.svg";
+const RM_ICON = "/Icons/RM%20Logo%20Icon.svg";
+const TARS_ICON = "/Icons/Tars%20Icon%20Logo.svg";
 
 const SUMMARY =
   "Product Designer with 3+ years of experience designing AI-powered products across startup and enterprise teams. Most of my work has been for AI-assisted interfaces- agent builders, assistants, developer and internal tooling. I am also a tinkerer at heart and I work where the design needs me, whether that is on paper (or Paper), in Figma, through an IDE, an Arduino or a Microbit.";

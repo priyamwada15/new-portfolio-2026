@@ -26,10 +26,14 @@ function useTilt(deg: number) {
   };
 }
 
+const CASE_STUDY_PATHS = ["/rocket-mortgage", "/salesforce", "/tars-debug-mode"];
+
 export default function Nav() {
   const pathname = usePathname();
   const isBento = pathname === "/tars-debug-mode";
+  const isCaseStudy = CASE_STUDY_PATHS.some(p => pathname.startsWith(p));
   const [pastBento, setPastBento] = useState(false);
+  const [scrolledDown, setScrolledDown] = useState(false);
 
   useEffect(() => {
     if (!isBento) return;
@@ -39,7 +43,23 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", check);
   }, [isBento]);
 
-  const navVisible = !isBento || pastBento;
+  useEffect(() => {
+    if (!isCaseStudy) { setScrolledDown(false); return; }
+    let lastY = window.scrollY;
+    const handleScroll = () => {
+      const y = window.scrollY;
+      // For TARS, only activate hide after fully past the bento fold
+      const minY = isBento ? window.innerHeight + 100 : 80;
+      if (y > lastY && y > minY) setScrolledDown(true);
+      else if (y < lastY) setScrolledDown(false);
+      lastY = y;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isCaseStudy, isBento]);
+
+  const navAvailable = !isBento || pastBento;
+  const navHiddenByScroll = navAvailable && isCaseStudy && scrolledDown;
 
   const onPlayClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (pathname !== "/") { window.location.href = "/#play"; return; }
@@ -56,8 +76,8 @@ export default function Nav() {
     <div
       className="fixed inset-x-0 top-0 z-50 pt-4 pb-2 pointer-events-none"
       style={{
-        opacity: navVisible ? 1 : 0,
-        transform: navVisible ? "translateY(0)" : "translateY(-8px)",
+        opacity: navAvailable ? 1 : 0,
+        transform: navHiddenByScroll ? "translateY(-100%)" : navAvailable ? "translateY(0)" : "translateY(-8px)",
         transition: "opacity 400ms cubic-bezier(0.23, 1, 0.32, 1), transform 400ms cubic-bezier(0.23, 1, 0.32, 1)",
       }}
     >

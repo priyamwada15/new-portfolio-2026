@@ -67,7 +67,6 @@ export default function Nav() {
   };
 
   const play     = useTilt(8);
-  const about    = useTilt(-8);
   const linkedin = useTilt(8);
   const mail     = useTilt(-8);
   const resume   = useTilt(8);
@@ -112,25 +111,6 @@ export default function Nav() {
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>Play</TooltipContent>
-              </Tooltip>
-
-              <Tooltip side="bottom" sideOffset={8}>
-                <TooltipTrigger
-                  asChild
-                  onMouseEnter={about.onMouseEnter}
-                  onMouseLeave={about.onMouseLeave}
-                >
-                  <Link
-                    href="/about"
-                    className="flex items-center justify-center w-8 h-8"
-                    aria-label="About"
-                  >
-                    <span style={about.iconStyle}>
-                      <img src="/HandWaving.svg" alt="" width={24} height={24} />
-                    </span>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>About</TooltipContent>
               </Tooltip>
             </div>
 

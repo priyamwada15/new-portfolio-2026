@@ -36,8 +36,10 @@ const GRID_BLOCK_SPAWN_CHANCE = 0.48;
 
 const MARGIN_CODE_LINE_H = 15;
 const MARGIN_CODE_ROWS = 42;
-const MARGIN_CODE_MAX_CHARS = 30;
+const MARGIN_CODE_MAX_CHARS = 96;
 const MARGIN_CODE_PARALLAX = 0.38;
+/** Half of `TRACK_W_CLASS` width: min(392px, 100vw - 32px) / 2 — fills space outside strip. */
+const MARGIN_GUTTER_WIDTH = "calc(50vw - min(196px, 50vw - 16px))";
 
 /** Total track width (kerbs + asphalt); centered on viewport. */
 const TRACK_W_CLASS = "w-[min(392px,calc(100vw-32px))]";
@@ -93,6 +95,16 @@ function marginCodeLine(row: number, side: 0 | 1, maxChars: number): string {
     `window.addEventListener("keyup", onKeyUp);`,
     `  lateralRef.current += latVel * dt;`,
     `  keysRef.current = { left: false, right: false };`,
+    `  let obs = obstaclesRef.current.map((o) => ({ ...o, y: o.y + dy })).filter((o) => o.y < h + 80);`,
+    `  lateralRef.current = Math.max(-max, Math.min(max, lateralRef.current + latVel * dt));`,
+    `  const hitLeft = carLeft + (CAR_W - CAR_HITBOX_W) / 2;`,
+    `  const carBox = { x: hitLeft, y: carTop, w: CAR_HITBOX_W, h: CAR_HITBOX_H };`,
+    `import { useCallback, useEffect, useMemo, useRef, useState } from "react";`,
+    `  if (!didHit && spawnAccRef.current >= SPAWN_INTERVAL_SEC && obs.length < maxObstacles) {`,
+    `  scrollRampAccRef.current += dt;`,
+    `  while (scrollRampAccRef.current >= SCROLL_RAMP_INTERVAL_SEC) {`,
+    `    scrollPxPerSecRef.current = Math.min(SCROLL_PX_PER_SEC_MAX, scrollPxPerSecRef.current + SCROLL_RAMP_DELTA_PX_PER_SEC);`,
+    `  }`,
   ];
   let line = templates[s % templates.length]!;
   line = line.replace(/\s+/g, " ").trim();
@@ -491,11 +503,12 @@ export default function AboutRaceStrip({
       tabIndex={0}
     >
       <div
-        className="pointer-events-none fixed inset-y-0 left-0 z-[1] flex min-w-0 w-[min(132px,17vw)] justify-start overflow-hidden pl-1 select-none"
+        className="pointer-events-none fixed inset-y-0 left-0 z-[1] box-border flex min-w-0 justify-start overflow-hidden select-none pl-[max(6px,env(safe-area-inset-left))]"
+        style={{ width: MARGIN_GUTTER_WIDTH }}
         aria-hidden
       >
         <div
-          className="w-full min-w-0 font-mono text-[8.5px] leading-[15px] tracking-tight text-white/[0.034]"
+          className="min-w-0 flex-1 font-mono text-[8.5px] leading-[15px] tracking-tight text-white/[0.034]"
           style={{ transform: `translateY(-${noiseWrap}px)` }}
         >
           {marginCodeColumns.left.map((line, i) => (
@@ -506,11 +519,12 @@ export default function AboutRaceStrip({
         </div>
       </div>
       <div
-        className="pointer-events-none fixed inset-y-0 right-0 z-[1] flex min-w-0 w-[min(132px,17vw)] justify-end overflow-hidden pr-1 select-none"
+        className="pointer-events-none fixed inset-y-0 right-0 z-[1] box-border flex min-w-0 justify-end overflow-hidden select-none pr-[max(6px,env(safe-area-inset-right))]"
+        style={{ width: MARGIN_GUTTER_WIDTH }}
         aria-hidden
       >
         <div
-          className="w-full min-w-0 font-mono text-[8.5px] leading-[15px] tracking-tight text-white/[0.034]"
+          className="min-w-0 flex-1 font-mono text-[8.5px] leading-[15px] tracking-tight text-white/[0.034]"
           style={{ transform: `translateY(-${(noiseScrollPx * 0.82) % noisePatternH}px)` }}
         >
           {marginCodeColumns.right.map((line, i) => (

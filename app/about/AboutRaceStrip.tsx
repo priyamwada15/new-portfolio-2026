@@ -252,7 +252,7 @@ export default function AboutRaceStrip({ carSrc }: AboutRaceStripProps) {
         />
         <div
           ref={playRef}
-          className="relative isolate min-h-0 min-w-0 flex-1 overflow-hidden bg-[#FFFFFF]"
+          className="relative isolate min-h-0 min-w-0 flex-1 overflow-hidden bg-[#111111]"
         >
           <div className="pointer-events-none absolute inset-0 z-[5]" aria-hidden>
             {obstacles.map((o) => (

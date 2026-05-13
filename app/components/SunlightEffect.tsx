@@ -47,7 +47,8 @@ export function SunlightEffect({ className }: { className?: string }) {
         }}
       />
 
-      {/* Shadow bands — darker stripes; gaps between them read as light rays */}
+      {/* Shadow bands — shifted left on mobile so they appear centered */}
+      <div className="-translate-x-[22%] md:translate-x-0">
       {RAYS.map((ray, i) => (
         <div
           key={i}
@@ -70,6 +71,7 @@ export function SunlightEffect({ className }: { className?: string }) {
           } as React.CSSProperties}
         />
       ))}
+      </div>
     </div>
   );
 }

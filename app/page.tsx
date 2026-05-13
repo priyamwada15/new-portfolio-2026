@@ -4,7 +4,7 @@ import PlaySection from "./components/PlaySection";
 import { SunlightEffect } from "./components/SunlightEffect";
 
 const headline =
-  "Product Designer turning complex AI systems and enterprise tools into experiences people actually understand.";
+  "Product Designer focused on AI-native interfaces. I work where the design needs me, on paper or in an IDE.";
 const words = headline.split(" ");
 
 export default function Home() {

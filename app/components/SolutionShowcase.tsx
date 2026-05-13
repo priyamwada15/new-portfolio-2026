@@ -8,6 +8,7 @@ interface Props {
   videoSrc: string;
   videoAlt?: string;
   videoClipPath?: string;
+  videoShadow?: string;
 }
 
 export default function SolutionShowcase({
@@ -15,7 +16,8 @@ export default function SolutionShowcase({
   bgAlt,
   videoSrc,
   videoAlt = "",
-  videoClipPath = "inset(0 4px)",
+  videoClipPath = "none",
+  videoShadow = "none",
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -84,7 +86,7 @@ export default function SolutionShowcase({
             className="rounded-[2rem] min-[400px]:rounded-[52px] md:h-[90%] md:w-auto h-auto w-[80%]"
             style={{
               display: "block",
-              boxShadow: "0 32px 80px rgba(0,0,0,0.5)",
+              boxShadow: videoShadow,
               clipPath: videoClipPath,
             }}
           />

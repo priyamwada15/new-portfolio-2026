@@ -1,22 +1,26 @@
 import { PLAY_SURFACE_BG, PLAY_SURFACE_GRAIN } from "../lib/playSurface";
 
 const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
-const footerMuted = "rgba(255,255,255,0.5)";
 
-export default function Footer() {
+export default function Footer({ dark = false }: { dark?: boolean }) {
+  const footerMuted = dark ? "rgba(255,255,255,0.5)" : "rgba(51,51,51,0.55)";
+  const footerBg = dark ? PLAY_SURFACE_BG : "var(--color-page-bg)";
+
   return (
-    <footer className="w-full relative" style={{ backgroundColor: PLAY_SURFACE_BG }}>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: PLAY_SURFACE_GRAIN,
-          backgroundRepeat: "repeat",
-          backgroundSize: "200px 200px",
-          opacity: 0.07,
-          zIndex: 0,
-        }}
-      />
+    <footer className="w-full relative" style={{ backgroundColor: footerBg }}>
+      {dark && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage: PLAY_SURFACE_GRAIN,
+            backgroundRepeat: "repeat",
+            backgroundSize: "200px 200px",
+            opacity: 0.07,
+            zIndex: 0,
+          }}
+        />
+      )}
       <div
         className="relative z-10 w-[86%] max-w-[1238px] mx-auto flex flex-wrap items-center justify-between gap-y-6"
         style={{ paddingTop: "96px", paddingBottom: "32px" }}

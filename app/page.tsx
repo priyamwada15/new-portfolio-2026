@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import AnimatedCards from "./components/AnimatedCards";
 import PlaySection from "./components/PlaySection";
+import { SunlightEffect } from "./components/SunlightEffect";
 
 const headline =
   "Product Designer turning complex AI systems and enterprise tools into experiences people actually understand.";
@@ -9,6 +10,8 @@ const words = headline.split(" ");
 export default function Home() {
   return (
     <div>
+      <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none hidden md:block z-[1]" />
+      <div className="relative z-[2]">
       {/* Hero, centered */}
       <section className="flex flex-col items-center text-center w-[86%] max-w-[1238px] mx-auto mt-14 mb-20">
         {/* Available badge */}
@@ -63,6 +66,7 @@ export default function Home() {
       {/* Play / Side Quests */}
       <div style={{ marginTop: "40px" }}>
         <PlaySection />
+      </div>
       </div>
     </div>
   );

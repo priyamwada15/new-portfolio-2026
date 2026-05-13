@@ -23,7 +23,7 @@ function ClientQuote({ quote, attribution }: { quote: string; attribution: strin
       className="rm-quote-block"
       style={{ backgroundColor: "#111111" }}
     >
-      <div className="w-[70%] max-w-[1298px] mx-auto py-12 md:py-16">
+      <div className="w-[86%] max-w-[1238px] mx-auto py-12 md:py-16">
         {/* rm-quote-inner handles desktop padding to align text with the content column */}
         <div className="rm-quote-inner">
           <p
@@ -81,7 +81,7 @@ export default function RocketMortgagePage() {
         <img
           src="/rm-hero.avif"
           alt="Rocket Assist interface overview"
-          className="w-full rounded-2xl min-[400px]:rounded-[28px]"
+          className="w-full rounded-2xl"
           style={{ display: "block" }}
         />
       }
@@ -121,7 +121,7 @@ export default function RocketMortgagePage() {
         href: "/tars-debug-mode",
         tags: "Product Design · 2022 · Tars Technologies",
         title:
-          "I designed and shipped a debug tool that reduced testing time by 50%, for two distinct user groups.",
+          "I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups.",
       }}
       toc={[
         { id: "problem-space", label: "Problem Space" },
@@ -167,7 +167,7 @@ export default function RocketMortgagePage() {
       <section id="orientation">
         <SectionLabel>Orientation</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
-          Give clients a starting point.
+          The most common question in chat logs became the first thing clients saw
         </h2>
         <SolutionShowcase
           bgSrc="/rm-bg-orientation.avif"
@@ -198,14 +198,13 @@ export default function RocketMortgagePage() {
       <section id="comprehension">
         <SectionLabel>Comprehension</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
-          Bring the information into the conversation.
+          Text responses weren&apos;t enough. The documents needed to come inside
         </h2>
         <SolutionShowcase
           bgSrc="/rm-bg-comprehension.avif"
           bgAlt="Kitchen interior"
           videoSrc="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1776035827/Inspector_Recommendations_cvyuma.mp4"
           videoAlt="Personalized recommendations of local inspectors"
-          videoClipPath="inset(0 12px)"
         />
         <div className="grid md:grid-cols-2 gap-10 md:gap-16 mt-10">
           <div className="space-y-5">
@@ -237,7 +236,6 @@ export default function RocketMortgagePage() {
           bgAlt="Person on telephone"
           videoSrc="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1776035827/Human_Handover_xbhbj3.mp4"
           videoAlt="Quick human handover and context preservation"
-          videoClipPath="inset(0 12px)"
         />
         <div className="grid md:grid-cols-2 gap-10 md:gap-16 mt-10">
           <div className="space-y-5">
@@ -262,7 +260,7 @@ export default function RocketMortgagePage() {
       <section id="impact">
         <SectionLabel>Impact</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-14">
-          Validating the experience with clients
+          9 in 10 clients found it helpful. Here&apos;s what they said
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
           {[
@@ -315,7 +313,7 @@ export default function RocketMortgagePage() {
       <section id="testimonials">
         <SectionLabel>Testimonials</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
-          From the people I worked with
+          What the people who saw the work up close had to say
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
           {[
@@ -380,17 +378,15 @@ export default function RocketMortgagePage() {
           {/* Left: reflection image + caption */}
           <div>
             <div
-              className="w-full rounded-3xl"
-              style={{ backgroundImage: CARD_BORDER, padding: "2px" }}
+              className="w-full rounded-2xl overflow-hidden"
+              style={{ boxShadow: "inset 0 0 0 1.5px #E6E6E6" }}
             >
-              <div className="w-full overflow-hidden rounded-[22px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/rm-reflection.avif"
-                  alt="Presenting the Rocket Mortgage project at the intern design showcase"
-                  className="w-full object-cover block"
-                />
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/rm-reflection.avif"
+                alt="Presenting the Rocket Mortgage project at the intern design showcase"
+                className="w-full object-cover block"
+              />
             </div>
             <VisualCaption>Presenting the project in a showcase to the larger product management & design team at Rocket Mortgage</VisualCaption>
           </div>

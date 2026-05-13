@@ -1,7 +1,9 @@
 import { Metadata } from "next";
+import { BentoHero } from "../components/BentoHero";
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import DarkVideoFrame from "../components/DarkVideoFrame";
 import BeforeAfterSlider from "../components/BeforeAfterSlider";
+import { DebugChatPreview } from "../components/DebugChatPreview";
 import VisualCaption from "../components/VisualCaption";
 import SectionLabel from "../components/SectionLabel";
 import IterationLabel from "../components/IterationLabel";
@@ -9,7 +11,7 @@ import IterationLabel from "../components/IterationLabel";
 export const metadata: Metadata = {
   title: "Debug Mode | Priyamwada Pandey",
   description:
-    "I designed and shipped a debug tool that reduced testing time by 50%, for two distinct user groups.",
+    "I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups.",
 };
 
 const NOISE =
@@ -68,105 +70,68 @@ function DarkHeader({ tag, headline, bgImage }: { tag: string; headline: string;
 
 export default function DebugModePage() {
   return (
+    <>
+    <BentoHero />
     <CaseStudyLayout
       accentDark="#6D33AA"
       accentLight="#E2D6EE"
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       projectName="Debug Mode for Tars"
-      headline="I designed and shipped a debug tool that reduced testing time by 50%, for two distinct user groups."
+      headline="I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups."
       reverseHeaderOrder={true}
-      heroVisual={
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src="/Debug%20Hero%20Image.png"
-          alt="Debug Mode hero, Tars canvas with active gambit highlighted"
-          className="w-full rounded-2xl min-[400px]:rounded-[28px]"
-          style={{ display: "block" }}
-        />
-      }
-      context="Tars is a B2B platform where enterprise AI agents are built as visual flowcharts. Each node is a single conversational turn called a gambit. An enterprise banking chatbot could have 500 of them, and when something breaks in a workflow that size, finding it manually means scrolling through hundreds of nodes and starting over."
-      hideContextLabel={true}
-      sidePanel={
+      headlineInHeader={true}
+      contextVisualBelow={true}
+      tocStickyTop={24}
+      context={
         <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/tars-gambit-example.avif"
-            alt="Example of a gambit node in the Tars canvas"
-            className="w-full"
-            style={{ display: "block" }}
-          />
-          <VisualCaption>A collection of gambits with nodes branching to other gambits.</VisualCaption>
+          <p className="mb-6">Tars is a B2B platform where enterprise AI agents are built as visual flowcharts. Each node is a single conversational turn called a gambit. An enterprise banking chatbot could have 500 of them, and when something breaks in a workflow that size, finding it manually means scrolling through hundreds of nodes and starting over.</p>
+          <p>I designed and shipped Debug Mode, an automated end-to-end test runner that highlights the active gambit, auto-scrolls the canvas, and stops the moment something breaks. I designed for two user types with fundamentally different technical backgrounds.</p>
+          <div className="flex flex-row items-center gap-2 mt-8">
+            <div className="flex flex-col gap-5 flex-1">
+              <p style={{ fontFamily: "var(--font-hind), sans-serif", fontWeight: 600, fontSize: 16, lineHeight: "19px", color: "#555555" }}>Shipped (full-release)</p>
+              <p style={{ fontFamily: "var(--font-ovo), serif", fontWeight: 400, fontSize: 48, lineHeight: "54px", color: "#6D33AA" }}>1 month</p>
+            </div>
+            <div className="flex flex-col gap-5 flex-1">
+              <p style={{ fontFamily: "var(--font-hind), sans-serif", fontWeight: 600, fontSize: 16, lineHeight: "19px", color: "#555555" }}>Troubleshooting time cut by</p>
+              <p style={{ fontFamily: "var(--font-ovo), serif", fontWeight: 400, fontSize: 48, lineHeight: "54px", color: "#6D33AA" }}>~70%</p>
+            </div>
+          </div>
         </>
       }
+      hideContextLabel={true}
       contextVisual={
-        <BeforeAfterSlider
-          beforeSrc="/Debug_Before.png"
-          afterSrc="/Debug_After.png"
-          beforeAlt="Tars canvas without Debug Mode"
-          afterAlt="Tars canvas with Debug Mode active"
-          startPercent={50}
-        />
+        <>
+          <BeforeAfterSlider
+            beforeSrc="/Debug_Before.png"
+            afterSrc="/Debug_After.png"
+            beforeAlt="Tars canvas without Debug Mode"
+            afterAlt="Tars canvas with Debug Mode active"
+            startPercent={50}
+          />
+          <div className="mt-8">
+            <DarkVideoFrame src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1775951109/Debug_Full_Design-1775951040368_vd2lrz.mp4" />
+            <VisualCaption>The shipped &lsquo;Debug Mode&rsquo; feature, introduced to reduce testing time by the internal team and clients.</VisualCaption>
+          </div>
+        </>
       }
       meta={{
         timeline: "Oct 2022",
         industry: "B2B SaaS",
         role: "Product Designer",
-        team: "CS Team (4), CTO, CEO, Developers",
+        team: "CS Team, CTO, CEO, Developers",
       }}
       toc={[
-        { id: "impact", label: "Impact" },
         { id: "background", label: "Background" },
         { id: "design-decision-01", label: "Design Decision 01" },
         { id: "design-decision-02", label: "Design Decision 02" },
         { id: "reflection", label: "Reflection" },
       ]}
     >
-      {/* Impact + visual placeholder + CEO quote, grouped to use 20px gaps instead of space-y-40 */}
-      <div className="flex flex-col" style={{ gap: "20px" }}>
-        <div id="impact">
-          <SectionLabel>Impact</SectionLabel>
-          <p className="font-sans text-2xl md:text-3xl font-bold text-ink leading-snug uppercase">
-            Adopted by the team the day it shipped. Testing time cut by ~50%.
-          </p>
-        </div>
-
-        <p className="font-sans text-base text-secondary leading-relaxed">
-          I designed and shipped Debug Mode in a month, an automated end-to-end
-          test runner that highlights the active gambit, auto-scrolls the canvas,
-          and stops the moment something breaks. I designed for two user types
-          with fundamentally different technical backgrounds.
-        </p>
-
-        <div>
-          <DarkVideoFrame src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1775951109/Debug_Full_Design-1775951040368_vd2lrz.mp4" />
-          <VisualCaption>The shipped &lsquo;Debug Mode&rsquo; feature, introduced to reduce testing time by the internal team and clients.</VisualCaption>
-        </div>
-
-        <section>
-          <blockquote className="border-l-2 pl-5" style={{ borderColor: "#6D33AA" }}>
-            <p
-              className="font-sans text-[20px] font-medium leading-relaxed italic mb-3"
-              style={{ color: "#111111" }}
-            >
-              &ldquo;I was sitting beside [CS team lead] this morning and he was
-              running the Debug Mode for [healthcare client]. To see the debugger
-              running, the canvas following the conversation flow, the gambits
-              changing states, was amazing. I saw the debugger stop and we found
-              that the gambit&apos;s API was broken and it wasn&apos;t returning
-              the call. This was gambit number 273.&rdquo;
-            </p>
-            <p className="font-mono text-[14px] font-semibold tracking-wider uppercase text-secondary">
-              Ish, CEO, Tars
-            </p>
-          </blockquote>
-        </section>
-      </div>
-
       {/* Background */}
       <section id="background">
         <SectionLabel>Background</SectionLabel>
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
-          This feature had to work for two completely different users.
+          500 gambits, one broken path, no way to find it.
         </h2>
         <div className="space-y-5">
           <p>
@@ -223,7 +188,7 @@ export default function DebugModePage() {
           <img
             src="/Color%20Coded%20States.png"
             alt="Color-coded states: yellow for active, green for passed, red for error"
-            className="w-full rounded-2xl min-[400px]:rounded-[28px]"
+            className="w-full rounded-2xl"
             style={{ display: "block" }}
           />
           <VisualCaption>My initial design of color-coding the gambits based on their debugging state.</VisualCaption>
@@ -309,7 +274,7 @@ export default function DebugModePage() {
             <img
               src="/Six%20Controls%20and%20a%20Log%20Panel.png"
               alt="Six debugger controls: play/pause, stop, step into, step out, step over, and see logs"
-              className="w-full rounded-2xl min-[400px]:rounded-[28px]"
+              className="w-full rounded-2xl"
               style={{ display: "block" }}
             />
           </div>
@@ -325,8 +290,8 @@ export default function DebugModePage() {
           </p>
         </div>
 
-        <div className="mt-10">
-          <DarkVideoFrame src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1775950168/Shipped_Controls_wko4rt.mp4" />
+        <div className="mt-10 flex justify-center">
+          <DebugChatPreview />
         </div>
       </section>
 
@@ -354,5 +319,6 @@ export default function DebugModePage() {
         </div>
       </section>
     </CaseStudyLayout>
+    </>
   );
 }

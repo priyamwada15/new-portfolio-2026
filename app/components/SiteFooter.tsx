@@ -10,5 +10,5 @@ export default function SiteFooter() {
     return null;
   }
 
-  return <Footer />;
+  return <Footer dark={pathname === "/"} />;
 }

@@ -54,7 +54,7 @@
 
 /* ── Base ────────────────────────────────────────────────── */
 :root {
-  --color-page-bg: #FDFDFD;
+  --color-page-bg: #ECEAE6;
 }
 
 body {
@@ -67,7 +67,7 @@ body {
   overflow-x: clip;
 }
 
-/* Ensure Tailwind's font-sans utility always resolves to Hind */
+/* Ensure Tailwind's font-sans utility always resolves to Figtree */
 .font-sans {
   font-family: var(--font-hind), sans-serif;
 }
@@ -180,6 +180,52 @@ body {
   }
 }
 
+/* ── BentoHero gallery ──────────────────────────────────────── */
+.bento-wrap {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #111111;
+}
+
+.bento-gallery {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1.6fr 1fr;
+  grid-template-rows: 1.5fr 1fr;
+  background: #111111;
+}
+
+.bento-item {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.bento-item img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  display: block;
+  will-change: transform;
+}
+
+.bento-item--a    { grid-row: 1;     grid-column: 1; }
+.bento-item--b    { grid-row: 2;     grid-column: 1; }
+.bento-item--hero {
+  grid-row: 1;
+  grid-column: 2;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+.bento-item--e    { grid-row: 2;     grid-column: 2; }
+.bento-item--c    { grid-row: 1;     grid-column: 3; }
+.bento-item--d    { grid-row: 2;     grid-column: 3; }
+
 /* ── Full-bleed quote block (Rocket Mortgage case study) ───── */
 /* On mobile: no TOC, so calc(50% - 50vw) reaches viewport edge. */
 /* On desktop (≥1080px): TOC+gap = 240px, pushing element 120px  */
@@ -196,5 +242,29 @@ body {
   .rm-quote-inner {
     padding-left: 240px;
   }
+}
+
+/* ── Sunlight ray animation ──────────────────────────────── */
+/* --ray-dist is set per-ray via inline style so one keyframe serves all */
+@keyframes sun-ray-sway {
+  from { transform: rotate(-35deg) translateX(0); }
+  to   { transform: rotate(-35deg) translateX(var(--ray-dist, 16px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun-ray { animation: none !important; }
+}
+
+/* ── Film grain overlay ──────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  background-repeat: repeat;
+  background-size: 200px 200px;
 }
 

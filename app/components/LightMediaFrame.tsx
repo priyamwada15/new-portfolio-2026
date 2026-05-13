@@ -12,13 +12,12 @@ export default function LightMediaFrame({
   return (
     <div
       className={[
-        "box-border overflow-hidden rounded-2xl min-[400px]:rounded-[28px]",
-        "border-[1.5px] border-solid border-[#E6E6E6]",
+        "overflow-hidden rounded-2xl",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
-      style={style}
+      style={{ boxShadow: "inset 0 0 0 1.5px #E6E6E6", ...style }}
     >
       {children}
     </div>

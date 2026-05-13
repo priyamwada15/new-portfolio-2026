@@ -7,16 +7,21 @@ export interface TocItem {
   label: string;
 }
 
-const STICKY_TOP     = 96; // top-24 = 6rem = 96px
-const STICKY_PADDING = 32; // padding-top added when stuck
-
 interface TocState {
   activeId:       string;
   itemDarkStates: Record<string, boolean>;
   isStuck:        boolean;
 }
 
-export default function TableOfContents({ items }: { items: TocItem[] }) {
+export default function TableOfContents({
+  items,
+  stickyTop = 96,
+  stickyPadding = 32,
+}: {
+  items: TocItem[];
+  stickyTop?: number;
+  stickyPadding?: number;
+}) {
   const [state, setState] = useState<TocState>({
     activeId:       items[0]?.id ?? "",
     itemDarkStates: {},
@@ -43,7 +48,6 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
         if (!el) return 0;
         return el.getBoundingClientRect().top + sy0;
       });
-      const navNaturalDocTop = navRef.current!.getBoundingClientRect().top + sy0;
       const navRect = navRef.current!.getBoundingClientRect();
       const itemMidOffsets = items.map(({ id }) => {
         const el = itemRefs.current[id];
@@ -51,15 +55,14 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
         const r = el.getBoundingClientRect();
         return (r.top + r.bottom) / 2 - navRect.top;
       });
-      return { darkBounds, sectionTops, navNaturalDocTop, itemMidOffsets };
+      return { darkBounds, sectionTops, itemMidOffsets };
     };
 
     let layout = measure();
 
-    // ── Scroll handler, pure arithmetic, zero DOM reads ───────────────
     const compute = () => {
       const sy = window.scrollY;
-      const { darkBounds, sectionTops, navNaturalDocTop, itemMidOffsets } = layout;
+      const { darkBounds, sectionTops, itemMidOffsets } = layout;
 
       const threshold = sy + 160;
       let activeIdx = 0;
@@ -74,32 +77,28 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
       if (bestTop === -Infinity) activeIdx = 0;
       const activeId = items[activeIdx]?.id ?? "";
 
-      // Sticky state
-      const isStuck = sy > navNaturalDocTop - STICKY_TOP;
+      // When in flow, nav viewport top is always > stickyTop.
+      // When stuck, it equals stickyTop exactly. One reliable DOM read per frame.
+      const navViewportTop = navRef.current?.getBoundingClientRect().top ?? stickyTop;
+      const isStuck        = navViewportTop <= stickyTop;
+      const paddingTop     = isStuck ? stickyPadding : 0;
 
-      // Nav top in viewport coordinates
-      const paddingTop      = isStuck ? STICKY_PADDING : 0;
-      const navViewportTop  = isStuck ? STICKY_TOP : navNaturalDocTop - sy;
-
-      // Per-item dark states: convert each item's midpoint to document
-      // coordinates, then test against pre-computed dark section bounds
       const itemDarkStates: Record<string, boolean> = {};
       for (let i = 0; i < items.length; i++) {
-        const id            = items[i].id;
-        const itemDocMidY   = sy + navViewportTop + paddingTop + itemMidOffsets[i];
-        let dark            = false;
+        const id          = items[i].id;
+        const itemDocMidY = sy + navViewportTop + paddingTop + itemMidOffsets[i];
+        let dark          = false;
         for (const { top, bottom } of darkBounds) {
           if (top <= itemDocMidY && bottom >= itemDocMidY) { dark = true; break; }
         }
         itemDarkStates[id] = dark;
       }
 
-      // Single batched state update, one re-render per frame
       setState({ activeId, itemDarkStates, isStuck });
     };
 
     const handleScroll = () => {
-      if (rafRef.current !== null) return; // skip if frame already queued
+      if (rafRef.current !== null) return;
       rafRef.current = requestAnimationFrame(() => {
         compute();
         rafRef.current = null;
@@ -125,7 +124,7 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       void fontsDone;
     };
-  }, [items]);
+  }, [items, stickyTop, stickyPadding]);
 
   const { activeId, itemDarkStates, isStuck } = state;
 
@@ -133,9 +132,12 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
     <nav
       ref={navRef}
       aria-label="On this page"
-      className="sticky top-24 self-start hidden min-[1080px]:block"
+      className="sticky self-start hidden min-[1080px]:block"
       style={{
-        paddingTop: isStuck ? "32px" : "0px",
+        top: `${stickyTop}px`,
+        paddingTop: isStuck ? `${stickyPadding}px` : "0px",
+        maxHeight: `calc(100vh - ${stickyTop}px)`,
+        overflowY: "auto",
         transition: "padding-top 250ms cubic-bezier(0.2, 0, 0, 1)",
       }}
     >
@@ -143,8 +145,8 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
         {items.map(({ id, label }) => {
           const isActive      = activeId === id;
           const isDark        = itemDarkStates[id] ?? false;
-          const activeColor   = isDark ? "#FFFFFF"                 : "#111111";
-          const inactiveColor = isDark ? "rgba(255,255,255,0.55)"  : "#767676";
+          const activeColor   = isDark ? "#FFFFFF"                : "#111111";
+          const inactiveColor = isDark ? "rgba(255,255,255,0.55)" : "#767676";
 
           return (
             <li key={id}>
@@ -160,13 +162,13 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
                 }}
                 className="block leading-snug"
                 style={{
-                  fontFamily:   "var(--font-ovo), serif",
-                  fontSize:     "16px",
-                  fontWeight:   isActive ? 500 : 400,
-                  color:        isActive ? activeColor : inactiveColor,
-                  paddingTop:   "4px",
-                  paddingBottom:"4px",
-                  transition:   "color 250ms cubic-bezier(0.2, 0, 0, 1), font-weight 250ms cubic-bezier(0.2, 0, 0, 1)",
+                  fontFamily:    "var(--font-ovo), serif",
+                  fontSize:      "16px",
+                  fontWeight:    isActive ? 500 : 400,
+                  color:         isActive ? activeColor : inactiveColor,
+                  paddingTop:    "4px",
+                  paddingBottom: "4px",
+                  transition:    "color 250ms cubic-bezier(0.2, 0, 0, 1), font-weight 250ms cubic-bezier(0.2, 0, 0, 1)",
                 }}
               >
                 {label}

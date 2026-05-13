@@ -34,13 +34,6 @@ export default function Nav() {
   const isCaseStudy = CASE_STUDY_PATHS.some(p => pathname.startsWith(p));
   const [pastBento, setPastBento] = useState(false);
   const [scrolledDown, setScrolledDown] = useState(false);
-  /** About is WIP: show hand-wave nav only on local dev hostnames, not on deployed URLs. */
-  const [showAboutNav, setShowAboutNav] = useState(false);
-
-  useEffect(() => {
-    const h = window.location.hostname;
-    setShowAboutNav(h === "localhost" || h === "127.0.0.1" || h === "[::1]");
-  }, []);
 
   useEffect(() => {
     if (!isBento) return;
@@ -137,7 +130,6 @@ export default function Nav() {
                 <TooltipContent>Play</TooltipContent>
               </Tooltip>
 
-              {showAboutNav && (
               <Tooltip side="bottom" sideOffset={8}>
                 <TooltipTrigger
                   asChild
@@ -156,7 +148,6 @@ export default function Nav() {
                 </TooltipTrigger>
                 <TooltipContent>About</TooltipContent>
               </Tooltip>
-              )}
 
               <Tooltip side="bottom" sideOffset={8}>
                 <TooltipTrigger

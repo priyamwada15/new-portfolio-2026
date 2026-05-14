@@ -23,7 +23,7 @@ function ClientQuote({ quote, attribution }: { quote: string; attribution: strin
       className="rm-quote-block"
       style={{ backgroundColor: "#111111" }}
     >
-      <div className="w-[86%] max-w-[1238px] mx-auto py-12 md:py-16">
+      <div className="w-[70vw] max-w-[1238px] mx-auto py-12 md:py-16">
         {/* rm-quote-inner handles desktop padding to align text with the content column */}
         <div className="rm-quote-inner">
           <p

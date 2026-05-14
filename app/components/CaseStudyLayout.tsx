@@ -261,7 +261,7 @@ export default function CaseStudyLayout({
     <>
     <CaseStudyPageStyle />
     <article
-      className="w-[86%] max-w-[1238px] mx-auto pb-16"
+      className="w-[70vw] max-w-[1238px] mx-auto pb-16"
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
 

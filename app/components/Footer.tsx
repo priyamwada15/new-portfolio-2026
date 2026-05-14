@@ -2,9 +2,16 @@ import { PLAY_SURFACE_BG, PLAY_SURFACE_GRAIN } from "../lib/playSurface";
 
 const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
-export default function Footer({ dark = false }: { dark?: boolean }) {
+export default function Footer({
+  dark = false,
+  backgroundColor,
+}: {
+  dark?: boolean;
+  /** When set, used as footer fill (no grain). Case studies use page surface color. */
+  backgroundColor?: string;
+}) {
   const footerMuted = dark ? "rgba(255,255,255,0.5)" : "rgba(51,51,51,0.55)";
-  const footerBg = dark ? PLAY_SURFACE_BG : "var(--color-page-bg)";
+  const footerBg = backgroundColor ?? (dark ? PLAY_SURFACE_BG : "var(--color-page-bg)");
 
   return (
     <footer className="w-full relative" style={{ backgroundColor: footerBg }}>

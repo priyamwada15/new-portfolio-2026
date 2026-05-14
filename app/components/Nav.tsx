@@ -9,6 +9,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "./animate-ui/tooltip";
+import { isCaseStudyPath } from "../lib/caseStudy";
 
 const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
 const tiltTransition = "transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1)" as const;
@@ -26,12 +27,10 @@ function useTilt(deg: number) {
   };
 }
 
-const CASE_STUDY_PATHS = ["/rocket-mortgage", "/salesforce", "/tars-debug-mode"];
-
 export default function Nav() {
   const pathname = usePathname();
   const isBento = pathname === "/tars-debug-mode";
-  const isCaseStudy = CASE_STUDY_PATHS.some(p => pathname.startsWith(p));
+  const isCaseStudy = isCaseStudyPath(pathname);
   const [pastBento, setPastBento] = useState(false);
   const [scrolledDown, setScrolledDown] = useState(false);
 
@@ -60,11 +59,6 @@ export default function Nav() {
 
   const navAvailable = !isBento || pastBento;
   const navHiddenByScroll = navAvailable && isCaseStudy && scrolledDown;
-
-  const onPlayClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (pathname !== "/") { window.location.href = "/#play"; return; }
-    document.getElementById("play")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   const play     = useTilt(8);
   const about    = useTilt(-8);
@@ -116,16 +110,15 @@ export default function Nav() {
                   onMouseEnter={play.onMouseEnter}
                   onMouseLeave={play.onMouseLeave}
                 >
-                  <button
-                    type="button"
-                    onClick={onPlayClick}
-                    className="flex items-center justify-center w-8 h-8 cursor-pointer"
-                    aria-label="Go to Play section"
+                  <Link
+                    href="/play"
+                    className="flex items-center justify-center w-8 h-8"
+                    aria-label="Play"
                   >
                     <span style={play.iconStyle}>
                       <img src="/DiscoBall.svg" alt="" width={24} height={24} />
                     </span>
-                  </button>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent>Play</TooltipContent>
               </Tooltip>

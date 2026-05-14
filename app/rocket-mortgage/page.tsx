@@ -4,6 +4,7 @@ import SolutionShowcase from "../components/SolutionShowcase";
 import BeforeAfterSlider from "../components/BeforeAfterSlider";
 import SectionLabel from "../components/SectionLabel";
 import VisualCaption from "../components/VisualCaption";
+import { SITE_DEFAULT_PAGE_BG } from "../lib/caseStudy";
 
 export const metadata: Metadata = {
   title: "Rocket Mortgage | Priyamwada Pandey",
@@ -23,12 +24,12 @@ function ClientQuote({ quote, attribution }: { quote: string; attribution: strin
       className="rm-quote-block"
       style={{ backgroundColor: "#111111" }}
     >
-      <div className="w-[70vw] max-w-[1238px] mx-auto py-12 md:py-16">
+      <div className="w-[70vw] max-w-[1008px] mx-auto py-12 md:py-16">
         {/* rm-quote-inner handles desktop padding to align text with the content column */}
         <div className="rm-quote-inner">
           <p
-            className="text-lg md:text-xl text-white leading-relaxed italic mb-4"
-            style={{ fontFamily: "var(--font-ovo), serif" }}
+            className="text-[18px] text-white leading-relaxed italic mb-4"
+            style={{ fontFamily: "var(--font-hind), sans-serif" }}
           >
             &ldquo;{quote}&rdquo;
           </p>
@@ -57,7 +58,7 @@ function JourneyTimeline() {
 
 function FeedbackBubble({ text }: { text: string }) {
   return (
-    <p className="font-sans text-[16px] leading-relaxed italic" style={{ color: "#111111" }}>
+    <p className="font-sans text-[14px] leading-relaxed italic" style={{ color: "#111111" }}>
       &ldquo;{text}&rdquo;
     </p>
   );
@@ -68,6 +69,12 @@ export default function RocketMortgagePage() {
     <CaseStudyLayout
       accentDark={accent}
       accentLight="#F8D6D9"
+      bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
+      headlineFont="figtree"
+      headlineColor="#333333"
+      contentBodyClassName="text-[14px] text-secondary leading-relaxed"
+      sectionBodyClassName="text-[14px]"
+      tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[
         { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
         { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
@@ -104,15 +111,16 @@ export default function RocketMortgagePage() {
       }
       contextVisual={
         <BeforeAfterSlider
-          beforeSrc="/rm-before.avif"
-          afterSrc="/rm-after.avif"
+          beforeSrc="/Before.png"
+          afterSrc="/After.png"
           beforeAlt="Rocket Assist chat before redesign"
           afterAlt="Rocket Assist chat after redesign"
           startPercent={40}
         />
       }
       meta={{
-        timeline: "May 2025 – Aug 2025",
+        timelineLabel: "HANDED OFF",
+        timeline: "Aug 2025",
         industry: "Fintech",
         role: "Product Design",
         team: "Conversational AI Designers, Product Designers",
@@ -284,7 +292,7 @@ export default function RocketMortgagePage() {
               <p className="font-sans text-4xl md:text-5xl font-bold text-ink leading-none">{item.stat}</p>
               <p className="font-mono text-[14px] font-semibold tracking-wider uppercase"
                 style={{ color: accent }}>{item.label}</p>
-              <p className="font-sans text-sm text-secondary leading-relaxed italic">&ldquo;{item.quote}&rdquo;</p>
+              <p className="font-sans text-[14px] text-secondary leading-relaxed italic">&ldquo;{item.quote}&rdquo;</p>
             </div>
           ))}
         </div>
@@ -296,14 +304,14 @@ export default function RocketMortgagePage() {
         <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
           The work moved beyond the internship into roadmap discussions.
         </h2>
-        <p className="font-sans text-base text-secondary leading-relaxed mb-8">
+        <p className="font-sans text-[14px] text-secondary leading-relaxed mb-8">
           Early and frequent conversations with the product team helped align the work around what was actually feasible and what could move fast. Several of the interaction patterns introduced are now part of ongoing roadmap discussions for the Rocket Mortgage mobile app experience.
         </p>
-        <blockquote className="border-l-2 pl-5" style={{ borderColor: accent }}>
-          <p className="font-sans text-[20px] leading-relaxed italic mb-3" style={{ color: accent }}>
+        <blockquote className="border-l-2 pl-5" style={{ borderColor: "#555555" }}>
+          <p className="font-sans text-[20px] leading-relaxed italic mb-3" style={{ color: "#555555" }}>
             &ldquo;I am really excited about the direct escalation feature; this solves a real problem that the clients face. The current experience leaves them hanging in the void with just contact details. The proposed experience would be incredible!&rdquo;
           </p>
-          <p className="font-mono text-[14px] font-semibold tracking-wider uppercase text-secondary">
+          <p className="font-mono text-[12px] font-semibold tracking-wider uppercase text-secondary">
             Digital Product Manager, RMO, Rocket Mortgage
           </p>
         </blockquote>
@@ -336,12 +344,12 @@ export default function RocketMortgagePage() {
               key={item.name}
               className="flex flex-col justify-between p-10"
               style={{
-                backgroundColor: "#FBFBFB",
+                backgroundColor: "rgb(251 251 251 / 29%)",
                 borderRadius: "24px",
                 backgroundImage: CARD_BORDER,
               }}
             >
-              <p className="font-sans text-base text-secondary leading-relaxed italic mb-10">
+              <p className="font-sans text-[14px] text-secondary leading-relaxed italic mb-10">
                 &ldquo;{item.quote}&rdquo;
               </p>
               <div>

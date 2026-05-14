@@ -17,10 +17,12 @@ export default function TableOfContents({
   items,
   stickyTop = 96,
   stickyPadding = 32,
+  linkFontFamily = "var(--font-ovo), serif",
 }: {
   items: TocItem[];
   stickyTop?: number;
   stickyPadding?: number;
+  linkFontFamily?: string;
 }) {
   const [state, setState] = useState<TocState>({
     activeId:       items[0]?.id ?? "",
@@ -162,8 +164,8 @@ export default function TableOfContents({
                 }}
                 className="block leading-snug"
                 style={{
-                  fontFamily:    "var(--font-ovo), serif",
-                  fontSize:      "16px",
+                  fontFamily:    linkFontFamily,
+                  fontSize:      "14px",
                   fontWeight:    isActive ? 500 : 400,
                   color:         isActive ? activeColor : inactiveColor,
                   paddingTop:    "4px",

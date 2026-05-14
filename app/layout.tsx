@@ -11,6 +11,7 @@ import SmoothScroll from "./components/SmoothScroll";
 import ScrollToTopOnRouteChange from "./components/ScrollToTopOnRouteChange";
 import { Analytics } from "@vercel/analytics/next";
 import { cn } from "@/lib/utils";
+import { SITE_DEFAULT_PAGE_BG } from "./lib/caseStudy";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -71,7 +72,10 @@ export default function RootLayout({
     })(window, document, "clarity", "script", "vamitov1fh");`}
         </Script>
       </head>
-      <body className="min-h-screen flex flex-col bg-[#ECEAE6] text-[#333333] overflow-x-hidden">
+      <body
+        className="min-h-screen flex flex-col text-[#333333] overflow-x-hidden"
+        style={{ backgroundColor: SITE_DEFAULT_PAGE_BG }}
+      >
         <SmoothScroll />
         <ScrollToTopOnRouteChange />
         <AppChrome>{children}</AppChrome>

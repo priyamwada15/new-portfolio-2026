@@ -4,6 +4,8 @@ import CaseStudyPageStyle from "./CaseStudyPageStyle";
 
 interface Meta {
   timeline: string;
+  /** When set, replaces the default "Shipped" label (e.g. "HANDED OFF"). */
+  timelineLabel?: string;
   industry: string;
   role: string;
   team: string;
@@ -42,21 +44,25 @@ interface Props {
   nextProject?: NextProject;
   accentDark?: string;
   accentLight?: string;
+  /** Overrides case-study body fill (e.g. match homepage `#ECEAE6`). */
+  bodyBackgroundColor?: string;
+  /** Case-study headline (H1) font; default matches other case studies. */
+  headlineFont?: "ovo" | "figtree";
+  /** Classes for context / contribution body copy (default `text-base …`). */
+  contentBodyClassName?: string;
+  /** TOC link font; default Ovo to match other case studies. */
+  tocLinkFontFamily?: string;
+  /** Applied to the main sections stack (e.g. `text-[14px]` for body copy). */
+  sectionBodyClassName?: string;
+  /** When set, overrides the case-study H1 text color (e.g. `#333333`). */
+  headlineColor?: string;
   children: React.ReactNode;
 }
-
-const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
-
-const h1Style: React.CSSProperties = {
-  fontFamily: "var(--font-ovo), serif",
-  letterSpacing: "-0.3px",
-  textWrap: "balance",
-};
 
 const MetaGrid = ({ meta, accentDark }: { meta: Meta; accentDark: string }) => (
   <div className="grid grid-cols-1 min-[400px]:grid-cols-2 min-[1080px]:grid-cols-4 gap-6">
     {[
-      { label: "Shipped", value: meta.timeline },
+      { label: meta.timelineLabel ?? "Shipped", value: meta.timeline },
       { label: "Industry", value: meta.industry },
       { label: "Role", value: meta.role },
       { label: "Team", value: meta.team },
@@ -94,8 +100,32 @@ export default function CaseStudyLayout({
   meta,
   accentDark = "#333333",
   accentLight = "#E5E2DC",
+  bodyBackgroundColor,
+  headlineFont = "ovo",
+  contentBodyClassName,
+  tocLinkFontFamily,
+  sectionBodyClassName,
+  headlineColor,
   children,
 }: Props) {
+  const bodyTextClass =
+    contentBodyClassName ?? "text-base text-secondary leading-relaxed";
+  const headlineFontStyle: React.CSSProperties =
+    headlineFont === "figtree"
+      ? {
+          fontFamily: "var(--font-hind), sans-serif",
+          letterSpacing: "-0.3px",
+          textWrap: "balance",
+        }
+      : {
+          fontFamily: "var(--font-ovo), serif",
+          letterSpacing: "-0.3px",
+          textWrap: "balance",
+        };
+  const headlineColorStyle: React.CSSProperties | undefined = headlineColor
+    ? { color: headlineColor }
+    : undefined;
+
   const tocItems: TocItem[] = toc
     ? [{ id: "context", label: "Context" }, ...toc]
     : [];
@@ -119,7 +149,11 @@ export default function CaseStudyLayout({
   const h1InHeader = (extraClass = "mb-10") => (
     <h1
       className={`text-2xl md:text-[40px] font-normal leading-tight text-ink ${extraClass}`}
-      style={{ ...h1Style, textWrap: "pretty" as React.CSSProperties["textWrap"] }}
+      style={{
+        ...headlineFontStyle,
+        ...headlineColorStyle,
+        textWrap: "pretty" as React.CSSProperties["textWrap"],
+      }}
     >
       {headline}
     </h1>
@@ -130,7 +164,11 @@ export default function CaseStudyLayout({
   const h1InColumn = (
     <h1
       className="text-2xl md:text-[40px] font-normal leading-tight text-ink mb-10"
-      style={{ ...h1Style, textWrap: "pretty" as React.CSSProperties["textWrap"] }}
+      style={{
+        ...headlineFontStyle,
+        ...headlineColorStyle,
+        textWrap: "pretty" as React.CSSProperties["textWrap"],
+      }}
     >
       {headline}
     </h1>
@@ -151,11 +189,11 @@ export default function CaseStudyLayout({
                 >
                   Context
                 </p>
-                <div className="text-base text-secondary leading-relaxed">{context}</div>
+                <div className={bodyTextClass}>{context}</div>
               </section>
             )}
             {hideContextLabel && (
-              <div className="text-base text-secondary leading-relaxed">{context}</div>
+              <div className={bodyTextClass}>{context}</div>
             )}
             {contribution && (
               <section>
@@ -165,7 +203,7 @@ export default function CaseStudyLayout({
                 >
                   Contribution
                 </p>
-                <div className="text-base text-secondary leading-relaxed">{contribution}</div>
+                <div className={bodyTextClass}>{contribution}</div>
               </section>
             )}
           </div>
@@ -182,7 +220,7 @@ export default function CaseStudyLayout({
                 Context
               </p>
             )}
-            <div className="text-base text-secondary leading-relaxed">{context}</div>
+            <div className={bodyTextClass}>{context}</div>
           </section>
           {contribution && (
             <section>
@@ -192,7 +230,7 @@ export default function CaseStudyLayout({
               >
                 Contribution
               </p>
-              <div className="text-base text-secondary leading-relaxed">{contribution}</div>
+              <div className={bodyTextClass}>{contribution}</div>
             </section>
           )}
         </>
@@ -259,9 +297,9 @@ export default function CaseStudyLayout({
 
   return (
     <>
-    <CaseStudyPageStyle />
+    <CaseStudyPageStyle backgroundColor={bodyBackgroundColor} />
     <article
-      className="w-[70vw] max-w-[1238px] mx-auto pb-16"
+      className="w-[70vw] max-w-[1008px] mx-auto pb-16"
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
 
@@ -274,7 +312,11 @@ export default function CaseStudyLayout({
       {toc ? (
         <div className="grid items-start grid-cols-1 min-[1080px]:grid-cols-[160px_1fr] gap-0 min-[1080px]:gap-[80px]">
           {/* Left: sticky TOC, aligns with top of H1 */}
-          <TableOfContents items={tocItems} stickyTop={tocStickyTop} />
+          <TableOfContents
+            items={tocItems}
+            stickyTop={tocStickyTop}
+            linkFontFamily={tocLinkFontFamily}
+          />
 
           {/* Right: H1 (unless headlineInHeader) → context → body → footer */}
           <div>
@@ -291,7 +333,7 @@ export default function CaseStudyLayout({
               </>
             )}
             {callout && <div className="mb-40">{callout}</div>}
-            <div className="space-y-40">{children}</div>
+            <div className={`space-y-40${sectionBodyClassName ? ` ${sectionBodyClassName}` : ""}`}>{children}</div>
             {nextProjectBlock}
           </div>
         </div>
@@ -309,7 +351,7 @@ export default function CaseStudyLayout({
             </>
           )}
           {callout && <div className="mb-40">{callout}</div>}
-          <div className="space-y-40">{children}</div>
+          <div className={`space-y-40${sectionBodyClassName ? ` ${sectionBodyClassName}` : ""}`}>{children}</div>
           {nextProjectBlock}
         </>
       )}

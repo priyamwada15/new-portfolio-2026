@@ -330,6 +330,13 @@ body {
   }
 }
 
+/* Case study body column: vertical rhythm between major blocks (matches former space-y-40). */
+.case-study-section-stack {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10rem;
+}
+
 /* ── Sunlight ray animation ──────────────────────────────── */
 /* --ray-dist is set per-ray via inline style so one keyframe serves all */
 @keyframes sun-ray-sway {

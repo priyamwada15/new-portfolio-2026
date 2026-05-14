@@ -111,8 +111,8 @@ export default function RocketMortgagePage() {
       }
       contextVisual={
         <BeforeAfterSlider
-          beforeSrc="/Before.png"
-          afterSrc="/After.png"
+          beforeSrc="/Before.avif"
+          afterSrc="/After.avif"
           beforeAlt="Rocket Assist chat before redesign"
           afterAlt="Rocket Assist chat after redesign"
           startPercent={40}

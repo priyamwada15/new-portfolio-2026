@@ -319,7 +319,7 @@ export default function CaseStudyLayout({
           />
 
           {/* Right: H1 (unless headlineInHeader) → context → body → footer */}
-          <div>
+          <div className="min-w-0">
             {!headlineInHeader && h1InColumn}
             {contextVisualBelow ? (
               <>
@@ -333,7 +333,11 @@ export default function CaseStudyLayout({
               </>
             )}
             {callout && <div className="mb-40">{callout}</div>}
-            <div className={`space-y-40${sectionBodyClassName ? ` ${sectionBodyClassName}` : ""}`}>{children}</div>
+            <div
+              className={["case-study-section-stack", sectionBodyClassName].filter(Boolean).join(" ")}
+            >
+              {children}
+            </div>
             {nextProjectBlock}
           </div>
         </div>
@@ -351,7 +355,11 @@ export default function CaseStudyLayout({
             </>
           )}
           {callout && <div className="mb-40">{callout}</div>}
-          <div className={`space-y-40${sectionBodyClassName ? ` ${sectionBodyClassName}` : ""}`}>{children}</div>
+          <div
+            className={["case-study-section-stack", sectionBodyClassName].filter(Boolean).join(" ")}
+          >
+            {children}
+          </div>
           {nextProjectBlock}
         </>
       )}

@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  FileText,
+  HandWaving,
+  LinkedinLogo,
+  Mailbox,
+} from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -60,7 +66,6 @@ export default function Nav() {
   const navAvailable = !isBento || pastBento;
   const navHiddenByScroll = navAvailable && isCaseStudy && scrolledDown;
 
-  const play     = useTilt(8);
   const about    = useTilt(-8);
   const linkedin = useTilt(8);
   const mail     = useTilt(-8);
@@ -108,25 +113,6 @@ export default function Nav() {
               <Tooltip side="bottom" sideOffset={8}>
                 <TooltipTrigger
                   asChild
-                  onMouseEnter={play.onMouseEnter}
-                  onMouseLeave={play.onMouseLeave}
-                >
-                  <Link
-                    href="/play"
-                    className="flex items-center justify-center w-8 h-8"
-                    aria-label="Play"
-                  >
-                    <span style={play.iconStyle}>
-                      <img src="/DiscoBall.svg" alt="" width={24} height={24} />
-                    </span>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>Play</TooltipContent>
-              </Tooltip>
-
-              <Tooltip side="bottom" sideOffset={8}>
-                <TooltipTrigger
-                  asChild
                   onMouseEnter={about.onMouseEnter}
                   onMouseLeave={about.onMouseLeave}
                 >
@@ -136,7 +122,7 @@ export default function Nav() {
                     aria-label="About"
                   >
                     <span style={about.iconStyle}>
-                      <img src="/HandWaving.svg" alt="" width={24} height={24} />
+                      <HandWaving size={24} color="#555555" weight="regular" aria-hidden />
                     </span>
                   </Link>
                 </TooltipTrigger>
@@ -157,7 +143,7 @@ export default function Nav() {
                     aria-label="LinkedIn"
                   >
                     <span style={linkedin.iconStyle}>
-                      <img src="/LinkedinLogo.svg" alt="" width={24} height={24} />
+                      <LinkedinLogo size={24} color="#555555" weight="regular" aria-hidden />
                     </span>
                   </a>
                 </TooltipTrigger>
@@ -173,14 +159,14 @@ export default function Nav() {
                   <a
                     href="mailto:priyamwadapandey15@gmail.com"
                     className="flex items-center justify-center w-8 h-8"
-                    aria-label="Contact"
+                    aria-label="Email"
                   >
                     <span style={mail.iconStyle}>
-                      <img src="/Mailbox.svg" alt="" width={24} height={24} />
+                      <Mailbox size={24} color="#555555" weight="regular" aria-hidden />
                     </span>
                   </a>
                 </TooltipTrigger>
-                <TooltipContent>Contact</TooltipContent>
+                <TooltipContent>Email</TooltipContent>
               </Tooltip>
 
               <Tooltip side="bottom" sideOffset={8}>
@@ -195,7 +181,7 @@ export default function Nav() {
                     aria-label="Resume"
                   >
                     <span style={resume.iconStyle}>
-                      <img src="/FileText.svg" alt="" width={24} height={24} />
+                      <FileText size={24} color="#555555" weight="regular" aria-hidden />
                     </span>
                   </Link>
                 </TooltipTrigger>

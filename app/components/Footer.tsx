@@ -1,49 +1,33 @@
-import { PLAY_SURFACE_BG, PLAY_SURFACE_GRAIN } from "../lib/playSurface";
-
 const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
 export default function Footer({
-  dark = false,
   backgroundColor,
 }: {
-  dark?: boolean;
-  /** When set, used as footer fill (no grain). Case studies use page surface color. */
+  /** When set, used as footer fill. Case studies use page surface color. */
   backgroundColor?: string;
 }) {
-  const footerMuted = dark ? "rgba(255,255,255,0.5)" : "rgba(51,51,51,0.55)";
-  const footerBg = backgroundColor ?? (dark ? PLAY_SURFACE_BG : "var(--color-page-bg)");
+  const footerMuted = "rgba(51,51,51,0.55)";
+  const footerBg = backgroundColor ?? "var(--color-page-bg)";
 
   return (
     <footer className="w-full relative" style={{ backgroundColor: footerBg }}>
-      {dark && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            backgroundImage: PLAY_SURFACE_GRAIN,
-            backgroundRepeat: "repeat",
-            backgroundSize: "200px 200px",
-            opacity: 0.07,
-            zIndex: 0,
-          }}
-        />
-      )}
       <div
-        className="relative z-10 w-[86%] max-w-[1238px] mx-auto flex flex-wrap items-center justify-between gap-y-6"
+        className="relative z-10 w-[86%] max-w-[1008px] mx-auto flex flex-wrap items-center justify-between gap-y-6"
         style={{ paddingTop: "96px", paddingBottom: "32px" }}
       >
         {/* Left — name + note */}
         <div className="flex flex-col" style={{ gap: "4px" }}>
           <p
-            className="text-[14px] uppercase font-medium tracking-wide"
+            className="text-[14px] font-medium tracking-wide"
             style={{ ...hind, color: footerMuted }}
           >
-            Priyamwada Pandey &nbsp;©&nbsp;2026
+            <span>priyamwada pandey </span>
+            <span className="text-[13px]">© 2026</span>
           </p>
           <p
             style={{ ...hind, fontSize: "10px", fontWeight: 400, color: footerMuted }}
           >
-            ♪ made while listening to the black keys ♪
+            coded by me, claude and cursor
           </p>
         </div>
 

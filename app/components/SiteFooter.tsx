@@ -15,7 +15,6 @@ export default function SiteFooter() {
 
   return (
     <Footer
-      dark={pathname === "/" || pathname === "/play"}
       backgroundColor={caseStudy ? CASE_STUDY_PAGE_BG : undefined}
     />
   );

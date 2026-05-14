@@ -41,7 +41,7 @@ const ibmPlexDevanagari = IBM_Plex_Sans_Devanagari({
 export const metadata: Metadata = {
   title: "Priyamwada Pandey | Product Designer",
   description:
-    "Product Designer focused on AI-native interfaces. I work where the design needs me, on paper or in an IDE.",
+    "Hi, I'm Priyamwada, a Product Designer specializing in AI-native interfaces. I work where the design needs me, on paper or an IDE.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "48x48 32x32 16x16" },

@@ -1,10 +1,9 @@
 import { Fragment } from "react";
 import AnimatedCards from "./components/AnimatedCards";
-import PlaySection from "./components/PlaySection";
 import { SunlightEffect } from "./components/SunlightEffect";
 
 const headline =
-  "Product Designer focused on AI-native interfaces. I work where the design needs me, on paper or in an IDE.";
+  "Hi, I'm Priyamwada, a Product Designer specializing in AI-native interfaces. I work where the design needs me, on paper or an IDE.";
 const words = headline.split(" ");
 
 export default function Home() {
@@ -13,60 +12,58 @@ export default function Home() {
       <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />
       <div className="grain-overlay" aria-hidden="true" />
       <div className="relative z-[2]">
-      {/* Hero, centered */}
-      <section className="flex flex-col items-center text-center w-[70%] max-w-[1238px] mx-auto mt-14 mb-20">
+      {/* Hero */}
+      <section className="flex flex-col items-start w-[86%] max-w-[1008px] mx-auto mt-14 mb-[120px]">
         {/* Available badge */}
         <div
-          className="badge-animate flex items-center gap-2 mb-10 px-3 py-2 rounded-lg"
-          style={{ backgroundColor: "rgba(218,251,225,0.6)" }}
+          className="badge-animate mb-10 box-border flex h-[30px] w-[176px] max-w-full shrink-0 flex-row items-center justify-center gap-2 whitespace-nowrap rounded-lg p-2"
+          style={{ backgroundColor: "rgba(218, 251, 225, 0.6)" }}
         >
           <span
-            className="inline-block w-2 h-2 rounded-full shrink-0"
-            style={{ backgroundColor: "#3B6D11" }}
+            className="size-2 shrink-0 rounded-full"
+            style={{ backgroundColor: "#4AC26B" }}
           />
           <span
-            className="text-[12px] font-semibold uppercase tracking-wide"
+            className="flex shrink-0 items-center text-center text-[12px] font-normal"
             style={{
               fontFamily: "var(--font-hind), sans-serif",
-              color: "#3B6D11",
+              color: "#333333",
+              lineHeight: "14px",
             }}
           >
-            Available for full time roles
+            Available for full-time roles
           </span>
         </div>
 
         {/* Hero headline, word-by-word fade + rise */}
-        <h1
-          className="font-normal text-[#333333] w-full"
-          style={{
-            fontFamily: "var(--font-ovo), serif",
-            fontSize: "clamp(36px, 4.5vw, 56px)",
-            lineHeight: 1.15,
-            letterSpacing: "-0.3px",
-          }}
-        >
-          {words.map((word, i) => (
-            <Fragment key={i}>
-              <span
-                className="word-animate"
-                style={{ transitionDelay: `${160 + i * 60}ms` }}
-              >
-                {word}
-              </span>
-              {" "}
-            </Fragment>
-          ))}
-        </h1>
+        <div className="flex min-h-[84px] w-full max-w-[1008px] items-center">
+          <h1
+            className="w-full font-normal"
+            style={{
+              fontFamily: "var(--font-hind), sans-serif",
+              fontSize: "32px",
+              lineHeight: "130%",
+              color: "#333333",
+            }}
+          >
+            {words.map((word, i) => (
+              <Fragment key={i}>
+                <span
+                  className="word-animate"
+                  style={{ transitionDelay: `${160 + i * 60}ms` }}
+                >
+                  {word}
+                </span>
+                {" "}
+              </Fragment>
+            ))}
+          </h1>
+        </div>
       </section>
 
       {/* Project cards */}
       <div style={{ paddingBottom: "96px" }}>
         <AnimatedCards />
-      </div>
-
-      {/* Play / Side Quests */}
-      <div style={{ marginTop: "40px" }}>
-        <PlaySection />
       </div>
       </div>
     </div>

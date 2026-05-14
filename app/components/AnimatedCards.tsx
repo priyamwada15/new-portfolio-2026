@@ -1,43 +1,96 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 
-const projects = [
+const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
+
+type Logo = { src: string; alt: string; cls?: string };
+
+type FeaturedProject = {
+  href: string;
+  logos: Logo[];
+  tagParts: readonly string[];
+  description: string;
+  image: string;
+  /** Gap (px) between logo row and hero image inside the grey panel */
+  innerPanelGapPx: 24 | 32;
+  /** Salesforce: round top corners of hero only (bottom corners square). */
+  heroImageCorners?: "top";
+  /** Padding (px) inside the hero clip (optional; e.g. other cards). */
+  heroImageInsetPx?: number;
+  /** Hover scale on the hero; default 1.03 in CSS (Tars / Debug uses 1.02 for comparison). */
+  heroHoverScale?: number;
+};
+
+const projects: FeaturedProject[] = [
   {
     href: "/rocket-mortgage",
     logos: [
       { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
       { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
     ],
-    tags: "AI Assistant · Fintech · Product Design",
+    tagParts: ["AI Assistant", "Fintech", "Product Design"],
     description:
       "An AI assistant that guides first-time homebuyers through one of the most stressful purchases of their life. I introduced interaction patterns that made it to the product roadmap.",
-    image: "/rm-hero.avif",
+    image: "/New%20Rocket%20Case%20Study%20Card.png",
+    innerPanelGapPx: 24,
   },
   {
     href: "/tars-debug-mode",
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
-    tags: "B2B SaaS · Workflow Tooling · Product Design",
+    tagParts: ["Developer-centric", "Internal tool", "Product Design"],
     description:
-      "An internal tool that automatically runs enterprise chatbots end-to-end and stops the moment something breaks. I shipped it in a month and it cut the debugging time by ~70%.",
-    image: "/Debug%20Hero%20Image.png",
+      "An internal tool that automatically runs enterprise chatbots end-to-end and stops the moment something breaks. I shipped it in a month and it cut the debugging time by 50%.",
+    image: "/Debug%20new%20case%20study%20image.png?v=2",
+    innerPanelGapPx: 32,
+    heroHoverScale: 1.02,
   },
   {
     href: "/salesforce",
-    logos: [
-      { src: "/logos/salesforce.svg", alt: "Salesforce", cls: "h-12" },
-      { src: "/logos/indiana-university.svg", alt: "Indiana University" },
-    ],
-    tags: "AI Planning · Systems Design · Product Design",
+    logos: [{ src: "/logos/salesforce.svg", alt: "Salesforce", cls: "h-12 w-[68px]" }],
+    tagParts: ["AI Planning", "Systems Design", "Product Design"],
     description:
       "A 0→1 AI planning system that helps students figure out what to study and why. I co-led the design and drove information architecture across the product.",
-    image: "/Salesforce%20Hero%20Image.png",
+    image: "/Salesforce%20new%20case%20study%20image.png?v=1",
+    innerPanelGapPx: 32,
+    heroImageCorners: "top",
   },
 ];
 
-const CARD_BORDER =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23E6E6E6' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E\")";
+/** Meta row: uppercase tags + * separators, Figtree 10/12, #555555 */
+function CaseStudyMetaTagsRow({ parts }: { parts: readonly string[] }) {
+  const metaStyle = {
+    ...figtree,
+    color: "#555555",
+    fontSize: "10px",
+    lineHeight: "12px",
+  } as const;
+
+  return (
+    <div className="flex flex-row flex-wrap items-center gap-2">
+      {parts.map((part, i) => (
+        <Fragment key={part}>
+          {i > 0 ? (
+            <span
+              className="flex shrink-0 items-center justify-center self-center"
+              style={metaStyle}
+              aria-hidden
+            >
+              *
+            </span>
+          ) : null}
+          <span
+            className="flex items-center text-center font-normal uppercase"
+            style={metaStyle}
+          >
+            {part}
+          </span>
+        </Fragment>
+      ))}
+    </div>
+  );
+}
 
 export default function AnimatedCards() {
   const wrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -67,12 +120,12 @@ export default function AnimatedCards() {
 
   return (
     <section
-      className="flex flex-col w-[86%] max-w-[1238px] mx-auto"
+      className="mx-auto flex w-[86%] max-w-[1008px] flex-col"
       style={{ gap: "96px" }}
     >
       {projects.map((project, i) => (
         <div
-          key={i}
+          key={project.href}
           className="card-reveal"
           ref={(el) => {
             wrapperRefs.current[i] = el;
@@ -80,74 +133,65 @@ export default function AnimatedCards() {
         >
           <Link
             href={project.href}
-            className="project-card-link group block rounded-[24px]"
+            className="flex w-full max-w-[1008px] cursor-default flex-col items-start gap-6"
           >
+            <div className="flex w-full cursor-default flex-col items-start gap-4">
+              <CaseStudyMetaTagsRow parts={project.tagParts} />
+              <p
+                className="w-full text-base font-normal"
+                style={{ ...figtree, color: "#333333", lineHeight: "150%" }}
+              >
+                {project.description}
+              </p>
+            </div>
+
             <div
-              className="overflow-hidden rounded-[24px]"
+              className="featured-grey-panel relative flex h-[500px] w-full min-w-0 cursor-pointer flex-col overflow-hidden rounded-2xl px-8 pt-8 pb-0"
               style={{
-                background: "rgba(251, 251, 251, 0.72)",
-                backdropFilter: "blur(8px)",
-                WebkitBackdropFilter: "blur(8px)",
-                padding: "40px",
-                backgroundImage: CARD_BORDER,
+                gap: project.innerPanelGapPx,
+                ...(project.heroHoverScale != null
+                  ? { "--featured-hero-hover-scale": String(project.heroHoverScale) }
+                  : {}),
               }}
             >
-              {/* Card header: logos left, tags right */}
-              <div className="flex flex-col gap-3 mb-16 md:flex-row md:items-start md:justify-between md:gap-y-0">
-                <div className="flex items-center gap-3">
-                  {project.logos.map((logo) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      key={logo.alt}
-                      src={logo.src}
-                      alt={logo.alt}
-                      className={`${logo.cls ?? "h-6"} w-auto max-w-[120px] object-contain`}
-                    />
-                  ))}
-                </div>
-                <span
-                  className="text-[12px] uppercase text-[#111111]"
-                  style={{ fontFamily: "var(--font-hind), sans-serif", opacity: 0.7 }}
-                >
-                  {project.tags}
-                </span>
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 z-0 rounded-2xl"
+                style={{
+                  background:
+                    "linear-gradient(to right, rgb(233, 233, 233) 0%, rgba(233, 233, 233, 0.2) 100%)",
+                }}
+              />
+              <div className="relative z-[2] flex shrink-0 flex-row items-center gap-3">
+                {project.logos.map((logo) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={logo.alt}
+                    src={logo.src}
+                    alt={logo.alt}
+                    className={`${logo.cls ?? "h-6 w-auto max-h-6"} object-contain`}
+                  />
+                ))}
               </div>
-
-              {/* Description */}
-              <div className="flex justify-center mb-10">
-                <p
-                  className="text-center text-[#555555] leading-relaxed"
-                  style={{
-                    fontFamily: "var(--font-hind), sans-serif",
-                    fontSize: "20px",
-                    maxWidth: "800px",
-                  }}
-                >
-                  {project.description}
-                </p>
-              </div>
-
-              {/* Visual */}
-              {project.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
+              <div
+                className="relative z-[1] min-h-0 w-full flex-1 overflow-visible"
+                style={
+                  project.heroImageInsetPx != null
+                    ? { padding: project.heroImageInsetPx }
+                    : undefined
+                }
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={project.image}
                   alt=""
-                  className="card-video w-full rounded-2xl"
-                  style={{
-                    display: "block",
-                    transition: "transform 500ms cubic-bezier(0.23, 1, 0.32, 1)",
-                  }}
+                  className={
+                    project.heroImageCorners === "top"
+                      ? "featured-case-hero-img h-full w-full rounded-t-2xl object-cover object-top"
+                      : "featured-case-hero-img h-full w-full object-cover object-top"
+                  }
                 />
-              ) : (
-                <div
-                  className="card-video w-full rounded-2xl"
-                  style={{
-                    height: "500px",
-                    transition: "transform 500ms cubic-bezier(0.23, 1, 0.32, 1)",
-                  }}
-                />
-              )}
+              </div>
             </div>
           </Link>
         </div>

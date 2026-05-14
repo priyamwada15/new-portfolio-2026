@@ -75,16 +75,17 @@ export default function Nav() {
         transition: "opacity 400ms cubic-bezier(0.23, 1, 0.32, 1), transform 400ms cubic-bezier(0.23, 1, 0.32, 1)",
       }}
     >
-      <div className="w-[86%] max-w-[1238px] mx-auto pointer-events-auto">
+      <div className="w-[86%] max-w-[1008px] mx-auto pointer-events-auto">
         <TooltipProvider openDelay={150} closeDelay={150}>
           <div
             className="flex items-center justify-between px-6 h-[60px] rounded-full"
             style={{
-              background: "rgba(255, 255, 255, 0.52)",
+              background: "rgba(255, 255, 255, 0.15)",
               backdropFilter: "blur(16px)",
               WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid rgba(255, 255, 255, 0.55)",
-              boxShadow: "0 2px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.92)",
+              border: "1px solid rgba(255, 255, 255, 0.37)",
+              boxShadow:
+                "0 2px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.46)",
             }}
           >
             {/* Left: name + logo */}

@@ -27,6 +27,8 @@ export function caseStudyUsesSiteDefaultSurface(pathname: string): boolean {
   return (
     isRocketMortgagePath(pathname) ||
     pathname === "/tars-debug-mode" ||
-    pathname.startsWith("/tars-debug-mode/")
+    pathname.startsWith("/tars-debug-mode/") ||
+    pathname === "/salesforce" ||
+    pathname.startsWith("/salesforce/")
   );
 }

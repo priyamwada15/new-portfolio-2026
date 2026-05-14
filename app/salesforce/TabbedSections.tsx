@@ -34,6 +34,7 @@ export default function TabbedSections({ tabs }: { tabs: TabItem[] }) {
         {tabs.map((tab, i) => (
           <button
             key={tab.label}
+            type="button"
             onClick={() => setActive(i)}
             className={[
               "font-mono text-[12px] font-semibold tracking-wider border cursor-pointer",
@@ -54,7 +55,7 @@ export default function TabbedSections({ tabs }: { tabs: TabItem[] }) {
       </div>
 
       {/* Description, body text only, no title or border */}
-      <p className="font-sans text-base text-secondary leading-relaxed mb-6">
+      <p className="font-sans text-[14px] text-secondary leading-relaxed mb-6">
         {tabs[active].desc}
       </p>
 

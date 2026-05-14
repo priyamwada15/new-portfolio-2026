@@ -80,7 +80,7 @@ function ChipGroup({ title, chips }: { title: string; chips: string[] }) {
 function BulletList({ items, dotClass }: { items: string[]; dotClass: string }) {
   return (
     <ul
-      className="mt-4 list-none space-y-2.5 text-base leading-relaxed text-primary"
+      className="mt-4 list-none space-y-2.5 text-[14px] leading-relaxed text-primary"
       style={{ fontFamily: "var(--font-hind), sans-serif" }}
     >
       {items.map((text) => (
@@ -103,7 +103,7 @@ export default function ResumePage() {
           <div className="min-w-0">
             <h1
               className="text-3xl font-normal tracking-tight text-ink sm:text-4xl"
-              style={{ fontFamily: "var(--font-ovo), serif" }}
+              style={{ fontFamily: "var(--font-hind), sans-serif" }}
             >
               Priyamwada Pandey
             </h1>
@@ -117,7 +117,7 @@ export default function ResumePage() {
           <section>
             <SectionLabel>Summary</SectionLabel>
             <p
-              className="text-base leading-relaxed text-primary sm:text-[17px] sm:leading-[1.65]"
+              className="text-[14px] leading-relaxed text-primary"
               style={{ fontFamily: "var(--font-hind), sans-serif" }}
             >
               {SUMMARY}
@@ -137,7 +137,7 @@ export default function ResumePage() {
                     <img src={RM_ICON} alt="" className="h-9 w-9 object-contain" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-lg text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
+                    <h3 className="text-[16px] text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
                       <span className="font-normal text-primary">Conversational AI Design Intern @ </span>
                       <span className="font-semibold">Rocket Mortgage</span>
                     </h3>
@@ -162,7 +162,7 @@ export default function ResumePage() {
                     <img src={TARS_ICON} alt="" className="h-6 w-6 object-contain" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-lg text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
+                    <h3 className="text-[16px] text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
                       <span className="font-normal text-primary">Product Designer @ </span>
                       <span className="font-semibold">Tars Technologies</span>
                     </h3>
@@ -192,13 +192,13 @@ export default function ResumePage() {
             <SectionLabel>Education</SectionLabel>
             <div className="space-y-8" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
               <div>
-                <p className="text-base font-semibold text-ink">M.S. in HCI/d</p>
-                <p className="mt-1 text-sm text-primary">Indiana University Bloomington</p>
+                <p className="text-[16px] font-semibold text-ink">M.S. in HCI/d</p>
+                <p className="mt-1 text-[16px] text-primary">Indiana University Bloomington</p>
                 <p className="mt-2 text-xs uppercase italic tracking-wide text-secondary">MAY 2026</p>
               </div>
               <div>
-                <p className="text-base font-semibold text-ink">Bachelor of Architecture</p>
-                <p className="mt-1 text-sm text-primary">Amity University, India</p>
+                <p className="text-[16px] font-semibold text-ink">Bachelor of Architecture</p>
+                <p className="mt-1 text-[16px] text-primary">Amity University, India</p>
                 <p className="mt-2 text-xs uppercase italic tracking-wide text-secondary">MAY 2019</p>
               </div>
             </div>

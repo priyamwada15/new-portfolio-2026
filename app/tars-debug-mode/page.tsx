@@ -7,6 +7,7 @@ import { DebugChatPreview } from "../components/DebugChatPreview";
 import VisualCaption from "../components/VisualCaption";
 import SectionLabel from "../components/SectionLabel";
 import IterationLabel from "../components/IterationLabel";
+import { SITE_DEFAULT_PAGE_BG } from "../lib/caseStudy";
 
 export const metadata: Metadata = {
   title: "Debug Mode | Priyamwada Pandey",
@@ -53,7 +54,7 @@ function DarkHeader({ tag, headline, bgImage }: { tag: string; headline: string;
         <h2
           className="text-2xl md:text-[36px] font-normal leading-tight"
           style={{
-            fontFamily: "var(--font-ovo), serif",
+            fontFamily: "var(--font-hind), sans-serif",
             color: "#FAFAFA",
             textWrap: "balance" as React.CSSProperties["textWrap"],
             maxWidth: "760px",
@@ -77,25 +78,29 @@ export default function DebugModePage() {
     <CaseStudyLayout
       accentDark="#6D33AA"
       accentLight="#E2D6EE"
+      bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
+      headlineFont="figtree"
+      headlineColor="#333333"
+      contentBodyClassName="text-[14px] text-secondary leading-relaxed"
+      sectionBodyClassName="text-[14px]"
+      tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       projectName="Debug Mode for Tars"
       headline="I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups."
       reverseHeaderOrder={true}
-      headlineInHeader={true}
       contextVisualBelow={true}
-      tocStickyTop={24}
       context={
         <>
           <p className="mb-6">Tars is a B2B platform where enterprise AI agents are built as visual flowcharts. Each node is a single conversational turn called a gambit. An enterprise banking chatbot could have 500 of them, and when something breaks in a workflow that size, finding it manually means scrolling through hundreds of nodes and starting over.</p>
           <p>I designed and shipped Debug Mode, an automated end-to-end test runner that highlights the active gambit, auto-scrolls the canvas, and stops the moment something breaks. I designed for two user types with fundamentally different technical backgrounds.</p>
           <div className="flex flex-row items-center gap-2 mt-8">
             <div className="flex flex-col gap-5 flex-1">
-              <p style={{ fontFamily: "var(--font-hind), sans-serif", fontWeight: 600, fontSize: 16, lineHeight: "19px", color: "#555555" }}>Shipped (full-release)</p>
-              <p style={{ fontFamily: "var(--font-ovo), serif", fontWeight: 400, fontSize: 48, lineHeight: "54px", color: "#6D33AA" }}>1 month</p>
+              <p style={{ fontFamily: "var(--font-hind), sans-serif", fontWeight: 600, fontSize: 14, lineHeight: "19px", color: "#555555" }}>Shipped (full-release)</p>
+              <p style={{ fontFamily: "var(--font-hind), sans-serif", fontWeight: 400, fontSize: 48, lineHeight: "54px", color: "#6D33AA" }}>1 month</p>
             </div>
             <div className="flex flex-col gap-5 flex-1">
-              <p style={{ fontFamily: "var(--font-hind), sans-serif", fontWeight: 600, fontSize: 16, lineHeight: "19px", color: "#555555" }}>Troubleshooting time cut by</p>
-              <p style={{ fontFamily: "var(--font-ovo), serif", fontWeight: 400, fontSize: 48, lineHeight: "54px", color: "#6D33AA" }}>~70%</p>
+              <p style={{ fontFamily: "var(--font-hind), sans-serif", fontWeight: 600, fontSize: 14, lineHeight: "19px", color: "#555555" }}>Troubleshooting time cut by</p>
+              <p style={{ fontFamily: "var(--font-hind), sans-serif", fontWeight: 400, fontSize: 48, lineHeight: "54px", color: "#6D33AA" }}>~70%</p>
             </div>
           </div>
         </>
@@ -175,7 +180,7 @@ export default function DebugModePage() {
 
         <div className="mt-10">
           <IterationLabel>Iteration 1, Color-coded states</IterationLabel>
-          <p className="font-sans text-base text-secondary leading-relaxed">
+          <p className="font-sans text-[14px] text-secondary leading-relaxed">
             The first version used colors, yellow for active, green for passed
             and red for error. This was logical on paper but the problem showed
             up on a real canvas. 500 gambits, some overlapping, now covered in
@@ -198,7 +203,7 @@ export default function DebugModePage() {
 
         <div className="mt-10">
           <IterationLabel>Iteration 2, Single color, dashed lines and a glow</IterationLabel>
-          <p className="font-sans text-base text-secondary leading-relaxed mb-6">
+          <p className="font-sans text-[14px] text-secondary leading-relaxed mb-6">
             One signal. That&apos;s all users needed. I simplified to one. I
             stuck to the default blue and instead used opacity levels to denote
             change. The active gambit got a subtle blue glow on top of the
@@ -213,7 +218,7 @@ export default function DebugModePage() {
               { label: "Path signal", value: "Dashed and moving connector lines" },
               { label: "Navigation", value: "Auto-zoom follows active gambit" },
             ].map((item) => (
-              <div key={item.label} className="border border-border p-4 rounded-sm">
+              <div key={item.label} className="border border-[#dcdcdc] p-4 rounded-sm">
                 <p className="font-mono text-[11px] font-semibold tracking-tight uppercase text-secondary mb-1">
                   {item.label}
                 </p>
@@ -230,7 +235,7 @@ export default function DebugModePage() {
         </div>
 
         <div className="mt-10">
-          <p className="font-sans text-base text-secondary leading-relaxed">
+          <p className="font-sans text-[14px] text-secondary leading-relaxed">
             The original design required users to pan through the flow to
             understand test health. I refined the design to surface this
             immediately. Pills at the top surfaced total gambits tested and error
@@ -284,7 +289,7 @@ export default function DebugModePage() {
 
         <div className="mt-10">
           <IterationLabel>Iteration 2, Shipping a simpler version was the right call</IterationLabel>
-          <p className="font-sans text-base text-secondary leading-relaxed">
+          <p className="font-sans text-[14px] text-secondary leading-relaxed">
             I stripped the design to three controls: play/pause, stop, restart.
             Status messages, debugging in progress, paused, stopped, removed
             any ambiguity about what was happening without requiring the user to

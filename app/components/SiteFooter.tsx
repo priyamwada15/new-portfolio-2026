@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   CASE_STUDY_PAGE_BG,
   isCaseStudyPath,
-  isRocketMortgagePath,
+  caseStudyUsesSiteDefaultSurface,
 } from "../lib/caseStudy";
 import Footer from "./Footer";
 
@@ -16,9 +16,9 @@ export default function SiteFooter() {
   }
 
   const caseStudy = pathname ? isCaseStudyPath(pathname) : false;
-  const rocketMortgage = pathname ? isRocketMortgagePath(pathname) : false;
+  const defaultSurface = pathname ? caseStudyUsesSiteDefaultSurface(pathname) : false;
   const footerFill =
-    caseStudy && !rocketMortgage ? CASE_STUDY_PAGE_BG : undefined;
+    caseStudy && !defaultSurface ? CASE_STUDY_PAGE_BG : undefined;
 
   return <Footer backgroundColor={footerFill} />;
 }

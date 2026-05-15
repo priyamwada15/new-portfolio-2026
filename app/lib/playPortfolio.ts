@@ -47,7 +47,7 @@ export type PlayPortfolioItem = {
   mediaAlt: string;
 };
 
-const PLAY_CONTACT_MAILTO_HREF = "mailto:priyamwada.dzn@gmail.com";
+const PROFILE_X_HREF = "https://x.com/PriymwadaPandey";
 
 const ASCII_GAME_GITHUB_HREF =
   "https://github.com/priyamwada15/ASCII-race-game-with-Pixelact-and-shadcn-UI";
@@ -117,8 +117,8 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
       "Two people each control one arm from a laptop touchpad, left, right, up, down. Built the entire system across three environments, Arduino handling the hardware, Python bridging the communication and audio output, Processing handling the touch input.",
     filledCta: {
       label: "Chat with me about it",
-      href: PLAY_CONTACT_MAILTO_HREF,
-      ariaLabel: "Email about Robot Arm Duet",
+      href: PROFILE_X_HREF,
+      ariaLabel: "Chat on X about Robot Arm Duet",
       icon: "x",
     },
     mediaPanelFixedHeightPx: 500,

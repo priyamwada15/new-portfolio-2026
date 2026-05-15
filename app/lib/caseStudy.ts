@@ -2,7 +2,7 @@
 export const CASE_STUDY_PAGE_BG = "#FDFDFD";
 
 /** Root marketing surface (matches `app/layout.tsx` body background). */
-export const SITE_DEFAULT_PAGE_BG = "#ECEAE6";
+export const SITE_DEFAULT_PAGE_BG = "#FAFAFA";
 
 const CASE_STUDY_PREFIXES = [
   "/rocket-mortgage",
@@ -22,7 +22,7 @@ export function isRocketMortgagePath(pathname: string): boolean {
   return pathname === "/rocket-mortgage" || pathname.startsWith("/rocket-mortgage/");
 }
 
-/** Case studies whose body + footer match the homepage (#ECEAE6). */
+/** Case studies whose body + footer match the homepage (#FAFAFA). */
 export function caseStudyUsesSiteDefaultSurface(pathname: string): boolean {
   return (
     isRocketMortgagePath(pathname) ||

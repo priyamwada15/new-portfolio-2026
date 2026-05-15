@@ -1,9 +1,11 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@source "../app/**/*.{ts,tsx}";
+@source not ".claude/**";
+@source "./**/*.{ts,tsx}";
 @source "../components/**/*.{ts,tsx}";
+@source "../lib/**/*.{ts,tsx}";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -127,7 +129,7 @@
 
 /* ── Base ────────────────────────────────────────────────── */
 :root {
-  --color-page-bg: #ECEAE6;
+  --color-page-bg: #FAFAFA;
 }
 
 body {

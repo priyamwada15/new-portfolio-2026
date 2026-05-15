@@ -39,6 +39,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Claude Code internal files (worktrees contain binary assets Tailwind would scan)
+.claude/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

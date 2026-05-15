@@ -31,7 +31,7 @@ export function LiquidButton({
       className={cn(
         "group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-[#111111] px-5 py-2.5 outline-none select-none",
         "text-[14px] font-semibold tracking-wide",
-        "focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ECEAE6]",
+        "focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAFA]",
         className
       )}
       style={{

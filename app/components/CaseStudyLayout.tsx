@@ -44,7 +44,7 @@ interface Props {
   nextProject?: NextProject;
   accentDark?: string;
   accentLight?: string;
-  /** Overrides case-study body fill (e.g. match homepage `#ECEAE6`). */
+  /** Overrides case-study body fill (e.g. match homepage `#FAFAFA`). */
   bodyBackgroundColor?: string;
   /** Case-study headline (H1) font; default matches other case studies. */
   headlineFont?: "ovo" | "figtree";

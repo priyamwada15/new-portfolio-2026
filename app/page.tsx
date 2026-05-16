@@ -16,13 +16,8 @@ export default function Home() {
         {/* Hero headline, word-by-word fade + rise */}
         <div className="flex min-h-[84px] w-full max-w-[1008px] items-center">
           <h1
-            className="w-full font-normal"
-            style={{
-              fontFamily: "var(--font-hind), sans-serif",
-              fontSize: "32px",
-              lineHeight: "130%",
-              color: "#333333",
-            }}
+            className="w-full text-[24px] font-normal leading-[130%] text-[#333333] md:text-[32px]"
+            style={{ fontFamily: "var(--font-hind), sans-serif" }}
           >
             {words.map((word, i) => (
               <Fragment key={i}>

@@ -20,8 +20,14 @@ const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
 const DEFAULT_PLAY_MEDIA_ASPECT = "16 / 9" as const;
 
+/** 12px on mobile, 16px (`rounded-2xl`) from `md` up. */
+const CARD_SHELL_RADIUS_CLASS = "rounded-xl md:rounded-2xl";
+
 const playCardButtonClass =
   "group box-border inline-flex shrink-0 cursor-pointer flex-col items-stretch gap-1 no-underline";
+
+const cardDescriptionClass =
+  "w-full cursor-default text-sm font-normal leading-[150%] text-[#333333] md:text-base";
 
 type Logo = { src: string; alt: string; cls?: string };
 
@@ -56,7 +62,7 @@ const projects: FeaturedProject[] = [
     tagParts: ["Developer-centric", "Internal tool", "Product Design"],
     description:
       "An internal tool that automatically runs enterprise chatbots end-to-end and stops the moment something breaks. I shipped it in a month and it cut the debugging time by 50%.",
-    image: "/Debug%20new%20case%20study%20image.png?v=2",
+    image: "/Debug%20new%20case%20study%20image.png",
     innerPanelGapPx: 32,
     heroHoverScale: 1.02,
   },
@@ -66,7 +72,7 @@ const projects: FeaturedProject[] = [
     tagParts: ["AI Planning", "Systems Design", "Product Design"],
     description:
       "A 0→1 AI planning system that helps students figure out what to study and why. I co-led the design and drove information architecture across the product.",
-    image: "/Salesforce%20new%20case%20study%20image.png?v=1",
+    image: "/Salesforce%20new%20case%20study%20image.png",
     innerPanelGapPx: 32,
     heroImageCorners: "top",
   },
@@ -178,22 +184,38 @@ function PlayProjectCardButton({
   label,
   href,
   ariaLabel,
+  className,
+  centered = false,
 }: {
   label: string;
   href: string;
   ariaLabel: string;
+  className?: string;
+  /** Mobile stacked row: center label + underline in flex-1 cell */
+  centered?: boolean;
 }) {
   const internal = href.startsWith("/");
+  const buttonClass = cn(
+    playCardButtonClass,
+    centered && "items-center text-center",
+    className,
+  );
   const inner = (
     <>
       <span
-        className="font-medium text-[14px] leading-[17px] text-[#333333]"
+        className={cn(
+          "font-medium text-[14px] leading-[17px] text-[#333333]",
+          centered && "w-full text-center",
+        )}
         style={figtree}
       >
         {label}
       </span>
       <span
-        className="h-px w-full origin-left scale-x-0 bg-[#333333] transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none motion-reduce:group-hover:scale-x-100"
+        className={cn(
+          "h-px w-full scale-x-0 bg-[#333333] transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none motion-reduce:group-hover:scale-x-100",
+          centered ? "origin-center" : "origin-left",
+        )}
         aria-hidden
       />
     </>
@@ -201,7 +223,7 @@ function PlayProjectCardButton({
 
   if (internal) {
     return (
-      <Link href={href} className={playCardButtonClass} aria-label={ariaLabel}>
+      <Link href={href} className={buttonClass} aria-label={ariaLabel}>
         {inner}
       </Link>
     );
@@ -213,7 +235,7 @@ function PlayProjectCardButton({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={ariaLabel}
-      className={playCardButtonClass}
+      className={buttonClass}
     >
       {inner}
     </a>
@@ -225,11 +247,13 @@ function PlayLiquidPillButton({
   ariaLabel,
   label,
   icon,
+  className,
 }: {
   href: string;
   ariaLabel: string;
   label: string;
   icon: "github" | "arrow" | "x";
+  className?: string;
 }) {
   const isExternalHttp = href.startsWith("http");
   const glyph =
@@ -257,6 +281,7 @@ function PlayLiquidPillButton({
   return (
     <LiquidButton
       href={href}
+      className={className}
       {...(isExternalHttp
         ? { target: "_blank" as const, rel: "noopener noreferrer" as const }
         : {})}
@@ -269,14 +294,100 @@ function PlayLiquidPillButton({
   );
 }
 
-function PlayGitHubLiquidButton({ href, ariaLabel }: { href: string; ariaLabel: string }) {
+function PlayGitHubLiquidButton({
+  href,
+  ariaLabel,
+  className,
+  label = "View on GitHub",
+}: {
+  href: string;
+  ariaLabel: string;
+  className?: string;
+  label?: string;
+}) {
   return (
     <PlayLiquidPillButton
       href={href}
       ariaLabel={ariaLabel}
-      label="View on GitHub"
+      label={label}
       icon="github"
+      className={className}
     />
+  );
+}
+
+function PlayCardActions({
+  item,
+  layout,
+  className,
+}: {
+  item: PlayPortfolioItem;
+  layout: "inline" | "stacked";
+  className?: string;
+}) {
+  const stacked = layout === "stacked";
+  const hasAny =
+    item.experienceCta != null ||
+    item.githubLiquidCta != null ||
+    item.filledCta != null;
+
+  if (!hasAny) return null;
+
+  const actionCount =
+    (item.githubLiquidCta ? 1 : 0) +
+    (item.filledCta ? 1 : 0) +
+    (item.experienceCta ? 1 : 0);
+  const mobileRow = stacked && actionCount >= 2;
+  const childWidthClass = stacked
+    ? mobileRow
+      ? "min-w-0 flex-1 flex justify-center"
+      : "w-full"
+    : undefined;
+  const textButtonWidthClass = stacked
+    ? mobileRow
+      ? "min-w-0 w-full flex-1"
+      : "w-full"
+    : undefined;
+
+  return (
+    <div
+      className={cn(
+        stacked
+          ? cn(
+              "flex w-full gap-3",
+              mobileRow ? "flex-row items-stretch" : "flex-col",
+            )
+          : "flex shrink-0 flex-row flex-wrap items-center justify-end gap-4",
+        className,
+      )}
+    >
+      {item.githubLiquidCta ? (
+        <PlayGitHubLiquidButton
+          href={item.githubLiquidCta.href}
+          ariaLabel={item.githubLiquidCta.ariaLabel}
+          label={stacked ? "GitHub" : "View on GitHub"}
+          className={childWidthClass}
+        />
+      ) : null}
+      {item.filledCta ? (
+        <PlayLiquidPillButton
+          href={item.filledCta.href}
+          ariaLabel={item.filledCta.ariaLabel}
+          label={item.filledCta.label}
+          icon={item.filledCta.icon}
+          className={childWidthClass}
+        />
+      ) : null}
+      {item.experienceCta ? (
+        <PlayProjectCardButton
+          label={item.experienceCta.label}
+          href={item.experienceCta.href}
+          ariaLabel={item.experienceCta.ariaLabel}
+          centered={stacked}
+          className={cn(textButtonWidthClass, stacked && "justify-center")}
+        />
+      ) : null}
+    </div>
   );
 }
 
@@ -342,13 +453,12 @@ function PlayTabAutoVideo({
   const flankColClass =
     "relative h-full w-[min(34vw,320px)] shrink-0 overflow-visible max-sm:w-[min(42vw,240px)]";
   const flankImageMotion = "object-contain motion-reduce:scale-100";
-  /** Pivot at inboard edge so scale grows toward the video and closes the gutter. */
   const flankLeftImageClass = cn(
     flankImageMotion,
-    "max-sm:scale-[1.2] scale-[1.26] object-right origin-right"
+    "max-sm:scale-[1.2] scale-[1.26] object-right origin-right",
   );
   const flankRightImageClass = cn(
-    "motion-reduce:scale-100 max-sm:scale-[1.2] scale-[1.28] object-cover object-left origin-left"
+    "motion-reduce:scale-100 max-sm:scale-[1.2] scale-[1.28] object-cover object-left origin-left",
   );
   const triptychVideoClass =
     "h-full w-auto max-h-full shrink-0 object-contain object-center self-center";
@@ -360,8 +470,11 @@ function PlayTabAutoVideo({
         "relative z-[1] w-full overflow-hidden",
         fillHeight &&
           (triptych
-            ? "flex h-full min-h-0 items-center justify-center overflow-hidden rounded-2xl [transform:translateZ(0)]"
-            : "flex h-full min-h-0 items-stretch justify-start")
+            ? cn(
+                "flex h-full min-h-0 items-center justify-center overflow-hidden [transform:translateZ(0)]",
+                CARD_SHELL_RADIUS_CLASS,
+              )
+            : "flex h-full min-h-0 items-stretch justify-start"),
       )}
       style={fillHeight ? undefined : { aspectRatio }}
     >
@@ -447,7 +560,7 @@ function PlayProjectCardMedia({ item }: { item: PlayPortfolioItem }) {
           alt={item.mediaAlt}
           fill
           sizes="(max-width: 1008px) 86vw, 1008px"
-          className="object-cover"
+          className="object-cover object-center"
         />
       </div>
     );
@@ -472,54 +585,28 @@ function PlayProjectCardMedia({ item }: { item: PlayPortfolioItem }) {
 
 function PlayProjectCard({ item }: { item: PlayPortfolioItem }) {
   const body = item.homeDescription ?? item.description;
-  const hasRight =
+  const hasActions =
     item.experienceCta != null ||
     item.githubLiquidCta != null ||
     item.filledCta != null;
   const hasMedia = Boolean(item.embedSrc || item.videoSrc || item.imageSrc);
-
   return (
     <div className="flex w-full max-w-[1008px] flex-col items-start gap-6">
       <div className="flex w-full min-w-0 flex-col items-start gap-4">
         <div
           className={cn(
             "flex w-full min-w-0 flex-row items-center gap-4",
-            hasRight ? "justify-between" : "justify-start"
+            hasActions ? "justify-between" : "justify-start",
           )}
         >
           <div className="min-w-0 flex-1">
             <CaseStudyMetaTagsRow parts={item.tagParts} />
           </div>
-          {hasRight ? (
-            <div className="flex shrink-0 flex-row flex-wrap items-center justify-end gap-4">
-              {item.githubLiquidCta ? (
-                <PlayGitHubLiquidButton
-                  href={item.githubLiquidCta.href}
-                  ariaLabel={item.githubLiquidCta.ariaLabel}
-                />
-              ) : null}
-              {item.filledCta ? (
-                <PlayLiquidPillButton
-                  href={item.filledCta.href}
-                  ariaLabel={item.filledCta.ariaLabel}
-                  label={item.filledCta.label}
-                  icon={item.filledCta.icon}
-                />
-              ) : null}
-              {item.experienceCta ? (
-                <PlayProjectCardButton
-                  label={item.experienceCta.label}
-                  href={item.experienceCta.href}
-                  ariaLabel={item.experienceCta.ariaLabel}
-                />
-              ) : null}
-            </div>
+          {hasActions ? (
+            <PlayCardActions item={item} layout="inline" className="hidden md:flex" />
           ) : null}
         </div>
-        <p
-          className="w-full cursor-default text-base font-normal"
-          style={{ ...figtree, color: "#333333", lineHeight: "150%" }}
-        >
+        <p className={cardDescriptionClass} style={figtree}>
           {body}
         </p>
       </div>
@@ -527,10 +614,11 @@ function PlayProjectCard({ item }: { item: PlayPortfolioItem }) {
       {hasMedia ? (
         <div
           className={cn(
-            "relative w-full min-w-0 overflow-hidden rounded-2xl p-0",
+            "relative w-full min-w-0 overflow-hidden p-0",
+            CARD_SHELL_RADIUS_CLASS,
             item.mediaPanelFixedHeightPx != null &&
               "featured-grey-panel min-h-0",
-            item.mediaPanelOmitGradient && "isolate [transform:translateZ(0)]"
+            item.mediaPanelOmitGradient && "isolate [transform:translateZ(0)]",
           )}
           style={
             item.mediaPanelFixedHeightPx != null
@@ -541,21 +629,30 @@ function PlayProjectCard({ item }: { item: PlayPortfolioItem }) {
           {item.mediaPanelOmitGradient ? null : (
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 z-0 rounded-2xl"
+              className={cn(
+                "pointer-events-none absolute inset-0 z-0",
+                CARD_SHELL_RADIUS_CLASS,
+              )}
               style={{
                 background:
                   "linear-gradient(to right, rgb(233, 233, 233) 0%, rgba(233, 233, 233, 0.2) 100%)",
               }}
             />
           )}
-          {item.mediaPanelOmitGradient ? (
-            <div className="relative z-[1] h-full min-h-0 w-full overflow-hidden rounded-2xl [transform:translateZ(0)]">
-              <PlayProjectCardMedia item={item} />
-            </div>
-          ) : (
+          <div
+            className={cn(
+              "relative z-[1] h-full min-h-0 w-full overflow-hidden",
+              CARD_SHELL_RADIUS_CLASS,
+              item.mediaPanelOmitGradient && "[transform:translateZ(0)]",
+            )}
+          >
             <PlayProjectCardMedia item={item} />
-          )}
+          </div>
         </div>
+      ) : null}
+
+      {hasActions ? (
+        <PlayCardActions item={item} layout="stacked" className="md:hidden" />
       ) : null}
     </div>
   );
@@ -679,16 +776,16 @@ export default function AnimatedCards() {
                 >
                   <div className="flex w-full cursor-default flex-col items-start gap-4">
                     <CaseStudyMetaTagsRow parts={project.tagParts} />
-                    <p
-                      className="w-full text-base font-normal"
-                      style={{ ...figtree, color: "#333333", lineHeight: "150%" }}
-                    >
+                    <p className={cardDescriptionClass} style={figtree}>
                       {project.description}
                     </p>
                   </div>
 
                   <div
-                    className="featured-grey-panel relative flex h-[500px] w-full min-w-0 cursor-pointer flex-col overflow-hidden rounded-2xl px-8 pt-8 pb-0"
+                    className={cn(
+                      "featured-grey-panel relative flex h-auto w-full min-w-0 cursor-pointer flex-col overflow-hidden px-4 pt-6 pb-0 sm:px-8 sm:pt-8 md:h-[500px]",
+                      CARD_SHELL_RADIUS_CLASS,
+                    )}
                     style={{
                       gap: project.innerPanelGapPx,
                       ...(project.heroHoverScale != null
@@ -698,13 +795,16 @@ export default function AnimatedCards() {
                   >
                     <div
                       aria-hidden
-                      className="pointer-events-none absolute inset-0 z-0 rounded-2xl"
+                      className={cn(
+                        "pointer-events-none absolute inset-0 z-0",
+                        CARD_SHELL_RADIUS_CLASS,
+                      )}
                       style={{
                         background:
                           "linear-gradient(to right, rgb(233, 233, 233) 0%, rgba(233, 233, 233, 0.2) 100%)",
                       }}
                     />
-                    <div className="relative z-[2] flex shrink-0 flex-row items-center gap-3">
+                    <div className="relative z-[2] flex shrink-0 flex-row flex-wrap items-center gap-3">
                       {project.logos.map((logo) => (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -716,22 +816,28 @@ export default function AnimatedCards() {
                       ))}
                     </div>
                     <div
-                      className="relative z-[1] min-h-0 w-full flex-1 overflow-visible"
+                      className={cn(
+                        "relative z-[1] w-full min-w-0",
+                        "aspect-[4/3] max-md:flex-none max-md:overflow-hidden sm:aspect-[16/10]",
+                        "md:min-h-0 md:flex-1 md:aspect-auto md:overflow-visible",
+                      )}
                       style={
                         project.heroImageInsetPx != null
                           ? { padding: project.heroImageInsetPx }
                           : undefined
                       }
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={project.image}
                         alt=""
-                        className={
-                          project.heroImageCorners === "top"
-                            ? "featured-case-hero-img h-full w-full rounded-t-2xl object-cover object-top"
-                            : "featured-case-hero-img h-full w-full object-cover object-top"
-                        }
+                        fill
+                        sizes="(max-width: 768px) 86vw, 1008px"
+                        className={cn(
+                          "featured-case-hero-img object-contain object-center",
+                          "md:object-cover md:object-top md:origin-top",
+                          project.heroImageCorners === "top" &&
+                            "rounded-t-xl md:rounded-t-2xl",
+                        )}
                       />
                     </div>
                   </div>

@@ -6,13 +6,12 @@ import Footer from "./Footer";
 
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const bareAbout = pathname === "/about" || pathname.startsWith("/about/");
   const bareAsciiGame =
     pathname === "/ascii-game" || pathname.startsWith("/ascii-game/");
   const bareSunlight =
     pathname === "/sunlight" || pathname.startsWith("/sunlight/");
 
-  if (bareAbout || bareAsciiGame || bareSunlight) {
+  if (bareAsciiGame || bareSunlight) {
     return <main className="flex-1 min-h-screen">{children}</main>;
   }
 

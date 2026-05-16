@@ -408,3 +408,27 @@ body {
     @apply font-sans;
   }
 }
+
+/* About page — desktop timeline chapter scroll snap */
+@media (min-width: 1024px) {
+  html.about-timeline-scroll-snap {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: calc(7.5rem + 120px);
+  }
+
+  html.about-timeline-scroll-snap .timeline-chapter-snap {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* First snapped chapter: allow scrolling up into chapter 0 / page top */
+  html.about-timeline-scroll-snap .timeline-chapter-snap-edge {
+    scroll-snap-stop: normal;
+    scroll-margin-top: 1.5rem;
+  }
+
+  /* Snippets + footer: no snap — release handled in JS by toggling the html class */
+  html.about-timeline-scroll-snap .timeline-snap-section {
+    scroll-snap-align: none;
+  }
+}

@@ -43,10 +43,6 @@ export default function Footer() {
   const github = useTilt(8);
   const mail = useTilt(-8);
 
-  if (pathname === "/about") {
-    return null;
-  }
-
   const footerMuted = "rgba(51,51,51,0.55)";
   const caseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const defaultSurface = pathname ? caseStudyUsesSiteDefaultSurface(pathname) : false;

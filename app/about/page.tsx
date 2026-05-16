@@ -1,14 +1,30 @@
 import type { Metadata } from "next";
-import AboutPageClient from "./AboutPageClient";
+import { SunlightEffect } from "../components/SunlightEffect";
+import { AboutBookHoverProvider } from "./AboutBookHoverContext";
+import AboutLeftSticky from "./AboutLeftSticky";
+import AboutSnippetsStrip from "./AboutSnippetsStrip";
+import AboutTimelinePanel from "./AboutTimelinePanel";
 
 export const metadata: Metadata = {
   title: "About | Priyamwada Pandey",
   description: "About Priyamwada Pandey, product designer.",
 };
 
-const ABOUT_COPY =
-  "Talking about my work comes easy, trying to fit everything I am into a single page is harder. While I work on this page, here is a small snippet of my world and what I'd yap about if I was working next to you. If you'd like to listen to me talk about tyre strategies, silly season theories and why the V8 engine sounds like opera to me, go ahead and send me a message!";
-
 export default function AboutPage() {
-  return <AboutPageClient aboutCopy={ABOUT_COPY} />;
+  return (
+    <AboutBookHoverProvider>
+      <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />
+      <div className="grain-overlay" aria-hidden="true" />
+      <div className="relative z-[2] mx-auto w-[86%] max-w-[1008px]">
+        <main
+          aria-label="About"
+          className="flex flex-col gap-12 pt-4 lg:flex-row lg:items-start lg:gap-16"
+        >
+          <AboutLeftSticky />
+          <AboutTimelinePanel />
+        </main>
+        <AboutSnippetsStrip />
+      </div>
+    </AboutBookHoverProvider>
+  );
 }

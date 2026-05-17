@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { cn } from "@/lib/utils";
 import { useAboutBookHover } from "./AboutBookHoverContext";
 import { SNIPPET_PHOTOS, SNIPPETS_HEADING, type SnippetPhoto } from "./aboutSnippetsContent";
@@ -53,9 +54,10 @@ export default function AboutSnippetsStrip() {
   const { bookHover } = useAboutBookHover();
 
   return (
+    <ScrollReveal className="timeline-snap-section relative z-[4] mt-20 w-full max-w-[1008px]">
     <section
       className={cn(
-        "timeline-snap-section relative mt-20 h-[577px] w-full max-w-[1008px] transition-[filter] duration-300 ease-out motion-reduce:transition-none",
+        "relative h-[577px] w-full transition-[filter] duration-300 ease-out motion-reduce:transition-none",
         bookHover !== null && "blur-md motion-reduce:blur-none"
       )}
       aria-labelledby="snippets-heading"
@@ -76,5 +78,6 @@ export default function AboutSnippetsStrip() {
         </div>
       </div>
     </section>
+    </ScrollReveal>
   );
 }

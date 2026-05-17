@@ -1,8 +1,9 @@
 import Image from "next/image";
+import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { cn } from "@/lib/utils";
+import { AboutAnimatedHeadline } from "./AboutAnimatedHeadline";
 import { ROCKET_MORTGAGE_ICON_SRC, TARS_ICON_SRC } from "./aboutAssets";
 import {
-  ABOUT_HEADLINE,
   TIMELINE_DATES,
   TIMELINE_ENTRIES,
   type TimelineEntry,
@@ -206,35 +207,30 @@ export default function AboutTimeline() {
 
   return (
     <section className="max-w-[644px]" aria-label="Career timeline">
-      <h2
-        className="max-w-[644px] text-[32px] font-semibold leading-[130%] text-[#333333] lg:hidden"
-        style={figtree}
-      >
-        {ABOUT_HEADLINE}
-      </h2>
+      <AboutAnimatedHeadline className="max-w-[644px] text-[32px] font-semibold leading-[130%] text-[#333333] lg:hidden" />
 
       <div className="mt-[73px] flex flex-col gap-10 lg:mt-0 lg:gap-0">
         <div className="flex flex-col gap-20 lg:hidden">
-          <div className="flex flex-col gap-4">
+          <ScrollReveal revealOnMount className="flex flex-col gap-4">
             <TimelineDateBadge label={TIMELINE_DATES[0]} />
             <TimelineEntryBlock {...entry1} />
-          </div>
-          <div className="flex flex-col gap-4">
+          </ScrollReveal>
+          <ScrollReveal className="flex flex-col gap-4">
             <TimelineDateBadge label={TIMELINE_DATES[1]} />
             <TimelineEntryBlock {...entry2} />
-          </div>
-          <div className="flex flex-col gap-4">
+          </ScrollReveal>
+          <ScrollReveal className="flex flex-col gap-4">
             <TimelineDateBadge label={TIMELINE_DATES[2]} />
             <TimelineEntryBlock {...entry3} />
             <div className="relative left-1/2 mt-2 w-[min(100%,643.57px)] -translate-x-1/2 overflow-x-auto">
               <TimelinePhotoStripIub />
             </div>
-          </div>
-          <div className="flex flex-col gap-4">
+          </ScrollReveal>
+          <ScrollReveal className="flex flex-col gap-4">
             <TimelineDateBadge label={TIMELINE_DATES[3]} />
             <TimelineEntryBlock {...entry4} />
             <RocketMortgagePhotoRow />
-          </div>
+          </ScrollReveal>
         </div>
 
         <div className="hidden lg:block">

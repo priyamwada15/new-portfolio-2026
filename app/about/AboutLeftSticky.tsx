@@ -9,13 +9,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/app/components/animate-ui/tooltip";
+import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { cn } from "@/lib/utils";
 import { aboutAssets, SPOTIFY_PEACHES_ALBUM_URL } from "./aboutAssets";
-import {
-  AboutBookHoverOverlay,
-  type BookHoverId,
-  useAboutBookHover,
-} from "./AboutBookHoverContext";
+import { type BookHoverId, useAboutBookHover } from "./AboutBookHoverContext";
 
 const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
@@ -156,11 +153,11 @@ export default function AboutLeftSticky() {
 
   return (
     <TooltipProvider openDelay={200} closeDelay={100}>
-      <AboutBookHoverOverlay />
-      <aside
+      <ScrollReveal
+        revealOnMount
         className="relative z-[4] mx-auto w-full max-w-[300px] shrink-0 self-start lg:sticky lg:top-[120px] lg:mx-0"
-        aria-label="About sidebar"
       >
+      <aside aria-label="About sidebar">
         <section className="flex w-[300px] max-w-full flex-col overflow-visible">
           <PortraitWithCursorTooltip />
 
@@ -269,6 +266,7 @@ export default function AboutLeftSticky() {
           </section>
         </section>
       </aside>
+      </ScrollReveal>
     </TooltipProvider>
   );
 }

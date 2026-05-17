@@ -10,7 +10,7 @@ export default function AboutTimelinePanel() {
   return (
     <div
       className={cn(
-        "min-w-0 flex-1 transition-[filter] duration-300 ease-out motion-reduce:transition-none",
+        "relative z-[4] min-w-0 flex-1 transition-[filter] duration-300 ease-out motion-reduce:transition-none",
         bookHover !== null && "blur-md motion-reduce:blur-none"
       )}
     >

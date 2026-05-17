@@ -9,8 +9,10 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { cn } from "@/lib/utils";
-import { ABOUT_HEADLINE, TIMELINE_DATES, TIMELINE_ENTRIES } from "./aboutTimelineContent";
+import { AboutAnimatedHeadline } from "./AboutAnimatedHeadline";
+import { TIMELINE_DATES, TIMELINE_ENTRIES } from "./aboutTimelineContent";
 import {
   RocketMortgagePhotoRow,
   TIMELINE_SECTION_GAP_CLASS,
@@ -19,8 +21,6 @@ import {
 } from "./AboutTimeline";
 import { TimelineDesktopRail } from "./TimelineDesktopRail";
 import TimelinePhotoStripIub from "./TimelinePhotoStripIub";
-
-const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
 const STICKY_TOP_PX = 120;
 const CHAPTER_BASE_CLASS = "timeline-chapter";
@@ -229,13 +229,10 @@ export default function TimelineScrollStage() {
     <div>
       <TimelineDesktopRail>
         <div className="relative">
-          <h2
+          <AboutAnimatedHeadline
             ref={headlineRef}
             className="sticky top-[120px] z-30 max-w-[644px] pb-6 text-[32px] font-semibold leading-[130%] text-[#333333]"
-            style={figtree}
-          >
-            {ABOUT_HEADLINE}
-          </h2>
+          />
 
           <div className="mt-[25px]">
             <TimelineChapter
@@ -244,10 +241,12 @@ export default function TimelineScrollStage() {
               activeIndex={activeIndex}
               reducedMotion={reducedMotion}
             >
-              <TimelineRow dateLabel={TIMELINE_DATES[0]} badgeMarker="first">
-              <TimelineEntryBlock {...entry1} />
-            </TimelineRow>
-          </TimelineChapter>
+              <ScrollReveal revealOnMount>
+                <TimelineRow dateLabel={TIMELINE_DATES[0]} badgeMarker="first">
+                  <TimelineEntryBlock {...entry1} />
+                </TimelineRow>
+              </ScrollReveal>
+            </TimelineChapter>
 
           <TimelineChapter
             ref={setChapterRef(1)}
@@ -255,11 +254,13 @@ export default function TimelineScrollStage() {
             activeIndex={activeIndex}
               reducedMotion={reducedMotion}
             >
-              <div className={TIMELINE_SECTION_GAP_CLASS} aria-hidden />
-              <TimelineRow dateLabel={TIMELINE_DATES[1]} snapPoint="always">
-              <TimelineEntryBlock {...entry2} />
-            </TimelineRow>
-          </TimelineChapter>
+              <ScrollReveal>
+                <div className={TIMELINE_SECTION_GAP_CLASS} aria-hidden />
+                <TimelineRow dateLabel={TIMELINE_DATES[1]} snapPoint="always">
+                  <TimelineEntryBlock {...entry2} />
+                </TimelineRow>
+              </ScrollReveal>
+            </TimelineChapter>
 
           <TimelineChapter
             ref={setChapterRef(2)}
@@ -267,13 +268,15 @@ export default function TimelineScrollStage() {
             activeIndex={activeIndex}
             reducedMotion={reducedMotion}
           >
-            <div className={TIMELINE_SECTION_GAP_CLASS} aria-hidden />
-            <TimelineRow dateLabel={TIMELINE_DATES[2]} snapPoint="always">
-              <TimelineEntryBlock {...entry3} />
-              <div className="relative mt-8 -ml-[187px] w-[643.57px] max-w-[calc(100%+187px)]">
-                <TimelinePhotoStripIub />
-              </div>
-            </TimelineRow>
+            <ScrollReveal>
+              <div className={TIMELINE_SECTION_GAP_CLASS} aria-hidden />
+              <TimelineRow dateLabel={TIMELINE_DATES[2]} snapPoint="always">
+                <TimelineEntryBlock {...entry3} />
+                <div className="relative mt-8 -ml-[187px] w-[643.57px] max-w-[calc(100%+187px)]">
+                  <TimelinePhotoStripIub />
+                </div>
+              </TimelineRow>
+            </ScrollReveal>
           </TimelineChapter>
           </div>
         </div>
@@ -284,13 +287,15 @@ export default function TimelineScrollStage() {
           activeIndex={activeIndex}
           reducedMotion={reducedMotion}
         >
-          <div className={TIMELINE_SECTION_GAP_CLASS} aria-hidden />
-          <TimelineRow dateLabel={TIMELINE_DATES[3]} badgeMarker="last">
-            <div className="flex flex-col gap-8">
-              <TimelineEntryBlock {...entry4} />
-              <RocketMortgagePhotoRow />
-            </div>
-          </TimelineRow>
+          <ScrollReveal>
+            <div className={TIMELINE_SECTION_GAP_CLASS} aria-hidden />
+            <TimelineRow dateLabel={TIMELINE_DATES[3]} badgeMarker="last">
+              <div className="flex flex-col gap-8">
+                <TimelineEntryBlock {...entry4} />
+                <RocketMortgagePhotoRow />
+              </div>
+            </TimelineRow>
+          </ScrollReveal>
         </TimelineChapter>
       </TimelineDesktopRail>
     </div>

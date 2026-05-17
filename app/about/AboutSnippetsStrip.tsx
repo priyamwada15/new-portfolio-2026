@@ -5,6 +5,7 @@ import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { cn } from "@/lib/utils";
 import { useAboutBookHover } from "./AboutBookHoverContext";
 import { SNIPPET_PHOTOS, SNIPPETS_HEADING, type SnippetPhoto } from "./aboutSnippetsContent";
+import AboutPhotoStripScroll from "./AboutPhotoStripScroll";
 import { CursorFollowTooltip } from "./CursorFollowTooltip";
 
 const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
@@ -57,7 +58,8 @@ export default function AboutSnippetsStrip() {
     <ScrollReveal className="timeline-snap-section relative z-[4] mt-20 w-full max-w-[1008px]">
     <section
       className={cn(
-        "relative h-[577px] w-full transition-[filter] duration-300 ease-out motion-reduce:transition-none",
+        "relative w-full transition-[filter] duration-300 ease-out motion-reduce:transition-none",
+        "max-lg:min-h-[577px] max-lg:overflow-visible lg:h-[577px]",
         bookHover !== null && "blur-md motion-reduce:blur-none"
       )}
       aria-labelledby="snippets-heading"
@@ -70,13 +72,15 @@ export default function AboutSnippetsStrip() {
         {SNIPPETS_HEADING}
       </h2>
 
-      <div className="absolute left-0 top-0 h-full w-full overflow-x-auto overflow-y-visible lg:overflow-visible">
-        <div className="relative -left-[13.92px] h-[577.39px] w-[1036.35px] max-w-none shrink-0">
-          {SNIPPET_PHOTOS.map((photo) => (
-            <SnippetPhotoCard key={photo.src} {...photo} />
-          ))}
-        </div>
-      </div>
+      <AboutPhotoStripScroll
+        className="absolute left-0 top-0 h-full w-full"
+        scrollClassName="h-full lg:overflow-visible"
+        trackClassName="relative -left-[13.92px] h-[577.39px] w-[1036.35px] max-w-none shrink-0"
+      >
+        {SNIPPET_PHOTOS.map((photo) => (
+          <SnippetPhotoCard key={photo.src} {...photo} />
+        ))}
+      </AboutPhotoStripScroll>
     </section>
     </ScrollReveal>
   );

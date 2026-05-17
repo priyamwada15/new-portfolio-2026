@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { cn } from "@/lib/utils";
-import { AboutAnimatedHeadline } from "./AboutAnimatedHeadline";
 import { ROCKET_MORTGAGE_ICON_SRC, TARS_ICON_SRC } from "./aboutAssets";
 import {
   TIMELINE_DATES,
@@ -10,6 +9,7 @@ import {
 } from "./aboutTimelineContent";
 import TimelineScrollStage from "./TimelineScrollStage";
 import { RocketMortgagePhoto } from "./RocketMortgagePhoto";
+import AboutPhotoStripScroll from "./AboutPhotoStripScroll";
 import TimelinePhotoStripIub from "./TimelinePhotoStripIub";
 
 const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
@@ -207,9 +207,7 @@ export default function AboutTimeline() {
 
   return (
     <section className="max-w-[644px]" aria-label="Career timeline">
-      <AboutAnimatedHeadline className="max-w-[644px] text-[32px] font-semibold leading-[130%] text-[#333333] lg:hidden" />
-
-      <div className="mt-[73px] flex flex-col gap-10 lg:mt-0 lg:gap-0">
+      <div className="flex flex-col gap-10 lg:gap-0">
         <div className="flex flex-col gap-20 lg:hidden">
           <ScrollReveal revealOnMount className="flex flex-col gap-4">
             <TimelineDateBadge label={TIMELINE_DATES[0]} />
@@ -222,9 +220,12 @@ export default function AboutTimeline() {
           <ScrollReveal className="flex flex-col gap-4">
             <TimelineDateBadge label={TIMELINE_DATES[2]} />
             <TimelineEntryBlock {...entry3} />
-            <div className="relative left-1/2 mt-2 w-[min(100%,643.57px)] -translate-x-1/2 overflow-x-auto">
+            <AboutPhotoStripScroll
+              className="mt-2 max-lg:w-full lg:relative lg:left-1/2 lg:w-[min(100%,643.57px)] lg:-translate-x-1/2"
+              scrollClassName="lg:overflow-x-auto"
+            >
               <TimelinePhotoStripIub />
-            </div>
+            </AboutPhotoStripScroll>
           </ScrollReveal>
           <ScrollReveal className="flex flex-col gap-4">
             <TimelineDateBadge label={TIMELINE_DATES[3]} />

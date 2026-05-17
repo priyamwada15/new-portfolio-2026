@@ -4,7 +4,6 @@ import {
   FileText,
   HandWaving,
   LinkedinLogo,
-  Mailbox,
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,6 +15,7 @@ import {
   TooltipContent,
 } from "./animate-ui/tooltip";
 import { isCaseStudyPath } from "../lib/caseStudy";
+import { CopyEmailIcon } from "./CopyEmailIcon";
 
 const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
 const tiltTransition = "transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1)" as const;
@@ -137,24 +137,12 @@ export default function Nav() {
                 <TooltipContent>LinkedIn</TooltipContent>
               </Tooltip>
 
-              <Tooltip side="bottom" sideOffset={8}>
-                <TooltipTrigger
-                  asChild
-                  onMouseEnter={mail.onMouseEnter}
-                  onMouseLeave={mail.onMouseLeave}
-                >
-                  <a
-                    href="mailto:priyamwadapandey15@gmail.com"
-                    className="flex items-center justify-center w-8 h-8"
-                    aria-label="Email"
-                  >
-                    <span style={mail.iconStyle}>
-                      <Mailbox size={24} color="#555555" weight="regular" aria-hidden />
-                    </span>
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent>Email</TooltipContent>
-              </Tooltip>
+              <CopyEmailIcon
+                tooltipSide="bottom"
+                onMouseEnter={mail.onMouseEnter}
+                onMouseLeave={mail.onMouseLeave}
+                iconStyle={mail.iconStyle}
+              />
 
               <Tooltip side="bottom" sideOffset={8}>
                 <TooltipTrigger

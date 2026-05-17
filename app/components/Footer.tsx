@@ -3,7 +3,6 @@
 import {
   GithubLogo,
   LinkedinLogo,
-  Mailbox,
   XLogo,
 } from "@phosphor-icons/react";
 import { usePathname } from "next/navigation";
@@ -19,6 +18,7 @@ import {
   caseStudyUsesSiteDefaultSurface,
   isCaseStudyPath,
 } from "../lib/caseStudy";
+import { CopyEmailIcon } from "./CopyEmailIcon";
 
 const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
 const tiltTransition = "transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1)" as const;
@@ -143,24 +143,15 @@ export default function Footer() {
               <TooltipContent>GitHub</TooltipContent>
             </Tooltip>
 
-            <Tooltip side="top" sideOffset={8}>
-              <TooltipTrigger
-                asChild
-                onMouseEnter={mail.onMouseEnter}
-                onMouseLeave={mail.onMouseLeave}
-              >
-                <a
-                  href="mailto:priyamwada.dzn@gmail.com"
-                  className="flex items-center justify-center w-8 h-8"
-                  aria-label="Email"
-                >
-                  <span style={mail.iconStyle}>
-                    <Mailbox {...iconProps} aria-hidden />
-                  </span>
-                </a>
-              </TooltipTrigger>
-              <TooltipContent>Email</TooltipContent>
-            </Tooltip>
+            <CopyEmailIcon
+              tooltipSide="top"
+              iconSize={iconProps.size}
+              iconColor={iconProps.color}
+              iconWeight={iconProps.weight}
+              onMouseEnter={mail.onMouseEnter}
+              onMouseLeave={mail.onMouseLeave}
+              iconStyle={mail.iconStyle}
+            />
           </div>
         </TooltipProvider>
       </div>

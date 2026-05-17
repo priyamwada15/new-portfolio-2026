@@ -35,36 +35,23 @@ function useTilt(deg: number) {
 
 export default function Nav() {
   const pathname = usePathname();
-  const isBento = pathname === "/tars-debug-mode";
   const isCaseStudy = isCaseStudyPath(pathname);
-  const [pastBento, setPastBento] = useState(false);
   const [scrolledDown, setScrolledDown] = useState(false);
-
-  useEffect(() => {
-    if (!isBento) return;
-    const check = () => setPastBento(window.scrollY >= window.innerHeight);
-    check();
-    window.addEventListener("scroll", check, { passive: true });
-    return () => window.removeEventListener("scroll", check);
-  }, [isBento]);
 
   useEffect(() => {
     if (!isCaseStudy) { setScrolledDown(false); return; }
     let lastY = window.scrollY;
     const handleScroll = () => {
       const y = window.scrollY;
-      // For TARS, only activate hide after fully past the bento fold
-      const minY = isBento ? window.innerHeight + 100 : 80;
-      if (y > lastY && y > minY) setScrolledDown(true);
+      if (y > lastY && y > 80) setScrolledDown(true);
       else if (y < lastY) setScrolledDown(false);
       lastY = y;
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isCaseStudy, isBento]);
+  }, [isCaseStudy]);
 
-  const navAvailable = !isBento || pastBento;
-  const navHiddenByScroll = navAvailable && isCaseStudy && scrolledDown;
+  const navHiddenByScroll = isCaseStudy && scrolledDown;
 
   const about    = useTilt(-8);
   const linkedin = useTilt(8);
@@ -75,8 +62,8 @@ export default function Nav() {
     <div
       className="fixed inset-x-0 top-0 z-50 pt-4 pb-2 pointer-events-none"
       style={{
-        opacity: navAvailable ? 1 : 0,
-        transform: navHiddenByScroll ? "translateY(-100%)" : navAvailable ? "translateY(0)" : "translateY(-8px)",
+        opacity: 1,
+        transform: navHiddenByScroll ? "translateY(-100%)" : "translateY(0)",
         transition: "opacity 400ms cubic-bezier(0.23, 1, 0.32, 1), transform 400ms cubic-bezier(0.23, 1, 0.32, 1)",
       }}
     >

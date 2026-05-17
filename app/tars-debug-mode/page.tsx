@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { BentoHero } from "../components/BentoHero";
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import DarkVideoFrame from "../components/DarkVideoFrame";
 import BeforeAfterSlider from "../components/BeforeAfterSlider";
@@ -71,10 +70,6 @@ function DarkHeader({ tag, headline, bgImage }: { tag: string; headline: string;
 
 export default function DebugModePage() {
   return (
-    <>
-    <div className="-mt-[84px]">
-      <BentoHero />
-    </div>
     <CaseStudyLayout
       accentDark="#6D33AA"
       accentLight="#E2D6EE"
@@ -88,6 +83,15 @@ export default function DebugModePage() {
       projectName="Debug Mode for Tars"
       headline="I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups."
       reverseHeaderOrder={true}
+      heroVisual={
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src="/Debug%20Hero%20Image.png"
+          alt="Debug Mode — Tars canvas with active gambit highlighted"
+          className="w-full rounded-2xl"
+          style={{ display: "block" }}
+        />
+      }
       contextVisualBelow={true}
       context={
         <>
@@ -326,6 +330,5 @@ export default function DebugModePage() {
         </div>
       </section>
     </CaseStudyLayout>
-    </>
   );
 }

@@ -269,52 +269,6 @@ body {
   }
 }
 
-/* ── BentoHero gallery ──────────────────────────────────────── */
-.bento-wrap {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: #111111;
-}
-
-.bento-gallery {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  gap: 16px;
-  grid-template-columns: 1fr 1.6fr 1fr;
-  grid-template-rows: 1.5fr 1fr;
-  background: #111111;
-}
-
-.bento-item {
-  overflow: hidden;
-  border-radius: 16px;
-}
-
-.bento-item img {
-  object-fit: cover;
-  object-position: center;
-  width: 100%;
-  height: 100%;
-  display: block;
-  will-change: transform;
-}
-
-.bento-item--a    { grid-row: 1;     grid-column: 1; }
-.bento-item--b    { grid-row: 2;     grid-column: 1; }
-.bento-item--hero {
-  grid-row: 1;
-  grid-column: 2;
-  overflow: hidden;
-  position: relative;
-  z-index: 10;
-}
-.bento-item--e    { grid-row: 2;     grid-column: 2; }
-.bento-item--c    { grid-row: 1;     grid-column: 3; }
-.bento-item--d    { grid-row: 2;     grid-column: 3; }
-
 /* ── Full-bleed quote block (Rocket Mortgage case study) ───── */
 /* On mobile: no TOC, so calc(50% - 50vw) reaches viewport edge. */
 /* On desktop (≥1080px): TOC+gap = 240px, pushing element 120px  */

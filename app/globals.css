@@ -305,6 +305,17 @@ body {
   .sun-ray { animation: none !important; }
 }
 
+/* About page — album art vinyl spin on hover */
+@keyframes about-album-vinyl-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .group:hover .about-album-art-vinyl {
+    animation: about-album-vinyl-spin 3.5s linear infinite;
+  }
+}
+
 /* ── Film grain overlay (home page only — applied via .grain-overlay div) ── */
 .grain-overlay {
   position: fixed;

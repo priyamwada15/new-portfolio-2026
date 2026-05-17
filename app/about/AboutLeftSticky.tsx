@@ -169,15 +169,18 @@ export default function AboutLeftSticky() {
                   href={SPOTIFY_PEACHES_ALBUM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 flex items-center gap-4 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-[#333333]/30"
+                  className="group mt-4 flex items-center gap-4 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[#333333]/30"
                 >
-                  <span className="relative block size-[50px] shrink-0 overflow-hidden rounded-[4px]">
+                  <span
+                    className="about-album-art-vinyl relative block size-[80px] shrink-0 origin-center overflow-hidden rounded-full border-2 border-white box-border"
+                    style={{ boxShadow: "0px 2px 16px rgba(0, 0, 0, 0.1)" }}
+                  >
                     <Image
                       src={aboutAssets.listeningAlbum}
                       alt="Peaches album art"
                       fill
                       className="object-cover"
-                      sizes="50px"
+                      sizes="80px"
                     />
                   </span>
                   <span

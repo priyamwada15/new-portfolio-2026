@@ -5,7 +5,7 @@ import IterationLabel from "../components/IterationLabel";
 import VisualCaption from "../components/VisualCaption";
 import DarkVideoFrame from "../components/DarkVideoFrame";
 import TabbedSections from "./TabbedSections";
-import { SITE_DEFAULT_PAGE_BG } from "../lib/caseStudy";
+import { SALESFORCE_HERO_VIDEO, SITE_DEFAULT_PAGE_BG } from "../lib/caseStudy";
 
 export const metadata: Metadata = {
   title: "Galileo for Salesforce | Priyamwada Pandey",
@@ -27,15 +27,16 @@ export default function SalesforcePage() {
       logos={[{ src: "/logos/salesforce.svg", alt: "Salesforce", cls: "h-8" }]}
       reverseHeaderOrder={true}
       heroVisual={
-        <div className="overflow-hidden rounded-2xl">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/Salesforce%20Hero%20Image.png"
-            alt="Galileo for Salesforce, hero overview"
-            className="w-full"
-            style={{ display: "block" }}
-          />
-        </div>
+        <video
+          src={SALESFORCE_HERO_VIDEO}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-label="Galileo for Salesforce, hero overview"
+          className="block w-full rounded-2xl"
+        />
       }
       contextVisual={
         <>

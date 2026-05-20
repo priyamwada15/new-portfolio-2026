@@ -97,7 +97,6 @@ export default function ResumePage() {
   return (
     <div className="min-h-screen">
       <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />
-      <div className="grain-overlay" aria-hidden="true" />
       <div className="relative z-[2] mx-auto w-[min(100%,86vw)] max-w-[720px] px-4 pb-24 pt-10 sm:px-6">
         <header className="mb-12 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">

@@ -15,6 +15,13 @@ import {
 import { LiquidButton } from "./animate-ui/liquid-button";
 import { cn } from "@/lib/utils";
 import { getHomePlayTabItems, type PlayPortfolioItem } from "@/app/lib/playPortfolio";
+import {
+  ROCKET_MORTGAGE_CARD_VIDEOS,
+  SALESFORCE_HERO_VIDEO,
+  TARS_DEBUG_MODE_HERO_VIDEO,
+} from "@/app/lib/caseStudy";
+import { CursorFollowTooltip } from "@/app/about/CursorFollowTooltip";
+import { RocketMortgageTripleVideos } from "@/app/components/RocketMortgageTripleVideos";
 
 const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
@@ -36,11 +43,11 @@ type FeaturedProject = {
   logos: Logo[];
   tagParts: readonly string[];
   description: string;
-  image: string;
   innerPanelGapPx: 24 | 32;
-  heroImageCorners?: "top";
-  heroImageInsetPx?: number;
-  heroHoverScale?: number;
+  /** Single full-width video below logos. */
+  video?: string;
+  /** Multiple videos in a horizontal row (e.g. Rocket Mortgage card). */
+  videos?: readonly string[];
 };
 
 const projects: FeaturedProject[] = [
@@ -53,18 +60,8 @@ const projects: FeaturedProject[] = [
     tagParts: ["AI Assistant", "Fintech", "Product Design"],
     description:
       "An AI assistant that guides first-time homebuyers through one of the most stressful purchases of their life. I introduced interaction patterns that made it to the product roadmap.",
-    image: "/New%20Rocket%20Case%20Study%20Card.png",
     innerPanelGapPx: 24,
-  },
-  {
-    href: "/tars-debug-mode",
-    logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
-    tagParts: ["Developer-centric", "Internal tool", "Product Design"],
-    description:
-      "An internal tool that automatically runs enterprise chatbots end-to-end and stops the moment something breaks. I shipped it in a month and it cut the debugging time by 50%.",
-    image: "/Debug%20new%20case%20study%20image.png",
-    innerPanelGapPx: 32,
-    heroHoverScale: 1.02,
+    videos: ROCKET_MORTGAGE_CARD_VIDEOS,
   },
   {
     href: "/salesforce",
@@ -72,9 +69,17 @@ const projects: FeaturedProject[] = [
     tagParts: ["AI Planning", "Systems Design", "Product Design"],
     description:
       "A 0→1 AI planning system that helps students figure out what to study and why. I co-led the design and drove information architecture across the product.",
-    image: "/Salesforce%20new%20case%20study%20image.png",
     innerPanelGapPx: 32,
-    heroImageCorners: "top",
+    video: SALESFORCE_HERO_VIDEO,
+  },
+  {
+    href: "/tars-debug-mode",
+    logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
+    tagParts: ["Developer-centric", "Internal tool", "Product Design"],
+    description:
+      "An internal tool that automatically runs enterprise chatbots end-to-end and stops the moment something breaks. I shipped it in a month and it cut the debugging time by 50%.",
+    innerPanelGapPx: 32,
+    video: TARS_DEBUG_MODE_HERO_VIDEO,
   },
 ];
 
@@ -781,17 +786,13 @@ export default function AnimatedCards() {
                     </p>
                   </div>
 
+                  <CursorFollowTooltip label="Read Case Study">
                   <div
                     className={cn(
-                      "featured-grey-panel relative flex h-auto w-full min-w-0 cursor-pointer flex-col overflow-hidden px-4 pt-6 pb-0 sm:px-8 sm:pt-8 md:h-[500px]",
+                      "featured-grey-panel relative flex h-auto w-full min-w-0 cursor-pointer flex-col overflow-hidden px-4 pt-6 pb-8 sm:px-8 sm:pt-8 md:min-h-[500px]",
                       CARD_SHELL_RADIUS_CLASS,
                     )}
-                    style={{
-                      gap: project.innerPanelGapPx,
-                      ...(project.heroHoverScale != null
-                        ? { "--featured-hero-hover-scale": String(project.heroHoverScale) }
-                        : {}),
-                    }}
+                    style={{ gap: project.innerPanelGapPx }}
                   >
                     <div
                       aria-hidden
@@ -799,10 +800,7 @@ export default function AnimatedCards() {
                         "pointer-events-none absolute inset-0 z-0",
                         CARD_SHELL_RADIUS_CLASS,
                       )}
-                      style={{
-                        background:
-                          "linear-gradient(to right, rgb(233, 233, 233) 0%, rgba(233, 233, 233, 0.2) 100%)",
-                      }}
+                      style={{ background: "#FAFAFA" }}
                     />
                     <div className="relative z-[2] flex shrink-0 flex-row flex-wrap items-center gap-3">
                       {project.logos.map((logo) => (
@@ -815,32 +813,22 @@ export default function AnimatedCards() {
                         />
                       ))}
                     </div>
-                    <div
-                      className={cn(
-                        "relative z-[1] w-full min-w-0",
-                        "aspect-[4/3] max-md:flex-none max-md:overflow-hidden sm:aspect-[16/10]",
-                        "md:min-h-0 md:flex-1 md:aspect-auto md:overflow-visible",
-                      )}
-                      style={
-                        project.heroImageInsetPx != null
-                          ? { padding: project.heroImageInsetPx }
-                          : undefined
-                      }
-                    >
-                      <Image
-                        src={project.image}
-                        alt=""
-                        fill
-                        sizes="(max-width: 768px) 86vw, 1008px"
-                        className={cn(
-                          "featured-case-hero-img object-contain object-center",
-                          "md:object-cover md:object-top md:origin-top",
-                          project.heroImageCorners === "top" &&
-                            "rounded-t-xl md:rounded-t-2xl",
-                        )}
+                    {project.videos ? (
+                      <RocketMortgageTripleVideos className="relative z-[1] mt-auto" />
+                    ) : project.video ? (
+                      <video
+                        src={project.video}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        aria-hidden
+                        className="relative z-[1] mt-auto block h-auto w-full"
                       />
-                    </div>
+                    ) : null}
                   </div>
+                  </CursorFollowTooltip>
                 </Link>
               </div>
             ))}

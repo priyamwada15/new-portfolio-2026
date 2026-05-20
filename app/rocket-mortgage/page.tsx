@@ -4,6 +4,7 @@ import SolutionShowcase from "../components/SolutionShowcase";
 import BeforeAfterSlider from "../components/BeforeAfterSlider";
 import SectionLabel from "../components/SectionLabel";
 import VisualCaption from "../components/VisualCaption";
+import { RocketMortgageTripleVideos } from "../components/RocketMortgageTripleVideos";
 import { SITE_DEFAULT_PAGE_BG } from "../lib/caseStudy";
 
 export const metadata: Metadata = {
@@ -83,15 +84,7 @@ export default function RocketMortgagePage() {
       headline="I introduced interaction patterns to Rocket's AI assistant that made it to the product roadmap."
       reverseHeaderOrder
       hideContextLabel
-      heroVisual={
-        /* eslint-disable-next-line @next/next/no-img-element */
-        <img
-          src="/rm-hero.avif"
-          alt="Rocket Assist interface overview"
-          className="w-full rounded-2xl"
-          style={{ display: "block" }}
-        />
-      }
+      heroVisual={<RocketMortgageTripleVideos className="rounded-2xl" />}
       context="Rocket Mortgage's AI assistant guides first-time homebuyers through the mortgage process. At the post-offer stage, guidance inside the assistant was largely generic and disconnected from each client's specific situation."
       contribution={
         <ul className="space-y-5">

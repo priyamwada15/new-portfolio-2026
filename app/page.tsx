@@ -10,7 +10,6 @@ export default function Home() {
   return (
     <div>
       <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />
-      <div className="grain-overlay" aria-hidden="true" />
       <div className="relative z-[2]">
       <section className="flex flex-col items-start w-[86%] max-w-[1008px] mx-auto mt-[76px] mb-[96px]">
         {/* Hero headline, word-by-word fade + rise */}

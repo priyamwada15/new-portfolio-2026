@@ -12,7 +12,6 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
-import { cn } from "@/lib/utils";
 
 const TOOLTIP_OFFSET = 14;
 const TOOLTIP_OPEN_MS = 200;
@@ -76,7 +75,6 @@ export function CursorFollowTooltip({ label, children }: CursorFollowTooltipProp
   }
 
   const trigger = cloneElement(children, {
-    className: cn(children.props.className, "cursor-default"),
     onMouseEnter: (event: React.MouseEvent<HTMLElement>) => {
       children.props.onMouseEnter?.(event);
       handleMouseEnter(event);

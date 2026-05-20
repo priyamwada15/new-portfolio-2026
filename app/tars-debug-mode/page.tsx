@@ -6,7 +6,7 @@ import { DebugChatPreview } from "../components/DebugChatPreview";
 import VisualCaption from "../components/VisualCaption";
 import SectionLabel from "../components/SectionLabel";
 import IterationLabel from "../components/IterationLabel";
-import { SITE_DEFAULT_PAGE_BG } from "../lib/caseStudy";
+import { SITE_DEFAULT_PAGE_BG, TARS_DEBUG_MODE_HERO_VIDEO } from "../lib/caseStudy";
 
 export const metadata: Metadata = {
   title: "Debug Mode | Priyamwada Pandey",
@@ -84,12 +84,15 @@ export default function DebugModePage() {
       headline="I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups."
       reverseHeaderOrder={true}
       heroVisual={
-        /* eslint-disable-next-line @next/next/no-img-element */
-        <img
-          src="/Debug%20Hero%20Image.png"
-          alt="Debug Mode — Tars canvas with active gambit highlighted"
-          className="w-full rounded-2xl"
-          style={{ display: "block" }}
+        <video
+          src={TARS_DEBUG_MODE_HERO_VIDEO}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-label="Debug Mode — Tars canvas with active gambit highlighted"
+          className="block w-full rounded-2xl"
         />
       }
       contextVisualBelow={true}

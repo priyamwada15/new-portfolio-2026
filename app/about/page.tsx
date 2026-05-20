@@ -15,7 +15,6 @@ export default function AboutPage() {
   return (
     <AboutBookHoverProvider>
       <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />
-      <div className="grain-overlay" aria-hidden="true" />
       <div className="relative z-[2] mx-auto w-[86%] max-w-[1008px]">
         <main
           aria-label="About"

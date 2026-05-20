@@ -7,17 +7,20 @@
 // @keyframes rule handles all of them without duplication.
 
 const RAYS = [
-  // Sharper shadow bands centered in the viewport
-  { left: 36, width: 42, blur: 4,  opacity: 0.07,  dur: 3,   delay: 0,    dist: 40 },
-  { left: 43, width: 36, blur: 3,  opacity: 0.085, dur: 2.5, delay: -0.5, dist: 52 },
-  { left: 49, width: 44, blur: 4,  opacity: 0.06,  dur: 3.5, delay: -1,   dist: 44 },
-  { left: 55, width: 38, blur: 3,  opacity: 0.08,  dur: 2.5, delay: -1.5, dist: 48 },
-  { left: 61, width: 42, blur: 4,  opacity: 0.065, dur: 4,   delay: -0.8, dist: 36 },
-  { left: 67, width: 36, blur: 3,  opacity: 0.07,  dur: 3,   delay: -2,   dist: 40 },
+  // Sharper shadow bands — kept low so #FAFAFA body bg does not read grey
+  { left: 36, width: 42, blur: 4,  opacity: 0.035, dur: 3,   delay: 0,    dist: 40 },
+  { left: 43, width: 36, blur: 3,  opacity: 0.04,  dur: 2.5, delay: -0.5, dist: 52 },
+  { left: 49, width: 44, blur: 4,  opacity: 0.03,  dur: 3.5, delay: -1,   dist: 44 },
+  { left: 55, width: 38, blur: 3,  opacity: 0.038, dur: 2.5, delay: -1.5, dist: 48 },
+  { left: 61, width: 42, blur: 4,  opacity: 0.032, dur: 4,   delay: -0.8, dist: 36 },
+  { left: 67, width: 36, blur: 3,  opacity: 0.035, dur: 3,   delay: -2,   dist: 40 },
   // Soft wide bands for atmospheric depth
-  { left: 40, width: 110, blur: 18, opacity: 0.038, dur: 8, delay: -2, dist: 28 },
-  { left: 60, width: 120, blur: 22, opacity: 0.030, dur: 9, delay: -3, dist: 22 },
+  { left: 40, width: 110, blur: 18, opacity: 0.018, dur: 8, delay: -2, dist: 28 },
+  { left: 60, width: 120, blur: 22, opacity: 0.014, dur: 9, delay: -3, dist: 22 },
 ] as const;
+
+/** Set true to restore the yellow/peach radial wash (top-right). */
+const WARM_GLOW_ENABLED = false;
 
 export function SunlightEffect({ className }: { className?: string }) {
   return (
@@ -25,27 +28,29 @@ export function SunlightEffect({ className }: { className?: string }) {
       className={className ?? "absolute inset-0 overflow-hidden pointer-events-none hidden md:block"}
       aria-hidden="true"
     >
-      {/* Warm radial glow from upper-right — the ambient light source */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          width: "65%",
-          height: "65%",
-          background:
-            "radial-gradient(ellipse at top right, rgba(255, 248, 200, 0.60) 0%, rgba(255, 240, 180, 0.22) 40%, transparent 70%)",
-        }}
-      />
-
-      {/* Subtle dark-left gradient — matches the light-source directionality */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "linear-gradient(100deg, rgba(0,0,0,0.04) 0%, transparent 55%)",
-        }}
-      />
+      {WARM_GLOW_ENABLED ? (
+        <>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              width: "75%",
+              height: "75%",
+              background:
+                "radial-gradient(ellipse at top right, rgba(255, 248, 200, 0.45) 0%, rgba(255, 245, 220, 0.18) 45%, transparent 72%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(ellipse 120% 80% at 85% 0%, rgba(255, 252, 245, 0.35) 0%, transparent 55%)",
+            }}
+          />
+        </>
+      ) : null}
 
       {/* Shadow bands — darker stripes; gaps between them read as light rays */}
       {RAYS.map((ray, i) => (

@@ -60,7 +60,7 @@ const projects: FeaturedProject[] = [
     tagParts: ["AI Assistant", "Fintech", "Product Design"],
     description:
       "An AI assistant that guides first-time homebuyers through one of the most stressful purchases of their life. I introduced interaction patterns that made it to the product roadmap.",
-    innerPanelGapPx: 24,
+    innerPanelGapPx: 32,
     videos: ROCKET_MORTGAGE_CARD_VIDEOS,
   },
   {
@@ -791,8 +791,8 @@ export default function AnimatedCards() {
                     className={cn(
                       "featured-grey-panel relative flex h-auto w-full min-w-0 cursor-pointer flex-col overflow-hidden px-4 pt-6 pb-8 sm:px-8 sm:pt-8 md:min-h-[500px]",
                       CARD_SHELL_RADIUS_CLASS,
+                      project.videos ? "gap-0" : project.innerPanelGapPx === 32 ? "gap-8" : "gap-6",
                     )}
-                    style={{ gap: project.innerPanelGapPx }}
                   >
                     <div
                       aria-hidden
@@ -802,7 +802,12 @@ export default function AnimatedCards() {
                       )}
                       style={{ background: "#FAFAFA" }}
                     />
-                    <div className="relative z-[2] flex shrink-0 flex-row flex-wrap items-center gap-3">
+                    <div
+                      className={cn(
+                        "relative z-[2] flex shrink-0 flex-row flex-wrap items-center gap-3",
+                        project.videos && "mb-[32px]",
+                      )}
+                    >
                       {project.logos.map((logo) => (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -814,7 +819,7 @@ export default function AnimatedCards() {
                       ))}
                     </div>
                     {project.videos ? (
-                      <RocketMortgageTripleVideos className="relative z-[1] mt-auto" />
+                      <RocketMortgageTripleVideos className="relative z-[1]" />
                     ) : project.video ? (
                       <video
                         src={project.video}

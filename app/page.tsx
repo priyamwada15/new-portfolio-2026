@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import AnimatedCards from "./components/AnimatedCards";
+import { HomepageUiStrip } from "./components/HomepageUiStrip";
 import { SunlightEffect } from "./components/SunlightEffect";
 
 const headline =
@@ -11,7 +12,7 @@ export default function Home() {
     <div>
       <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />
       <div className="relative z-[2]">
-      <section className="flex flex-col items-start w-[86%] max-w-[1008px] mx-auto mt-[76px] mb-[96px]">
+      <section className="flex flex-col items-start w-[86%] max-w-[1008px] mx-auto mt-[76px] mb-[56px]">
         {/* Hero headline, word-by-word fade + rise */}
         <div className="flex min-h-[84px] w-full max-w-[1008px] items-center">
           <h1
@@ -32,6 +33,8 @@ export default function Home() {
           </h1>
         </div>
       </section>
+
+      <HomepageUiStrip />
 
       {/* Project cards */}
       <div style={{ paddingBottom: "96px" }}>

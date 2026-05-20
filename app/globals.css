@@ -289,6 +289,39 @@ body {
   .sun-ray { animation: none !important; }
 }
 
+/* Homepage — manually scrollable UI strip (hero → Work/Play tabs); no auto-marquee */
+.homepage-ui-strip-wrap {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 5%,
+    #000 95%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 5%,
+    #000 95%,
+    transparent 100%
+  );
+}
+
+.homepage-ui-strip {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.homepage-ui-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.homepage-ui-strip-track {
+  touch-action: pan-x;
+}
+
 /* About page — album art vinyl spin on hover */
 @keyframes about-album-vinyl-spin {
   to { transform: rotate(360deg); }

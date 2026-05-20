@@ -59,7 +59,7 @@ export default function AsimovPage() {
       {/* Section 01 */}
       <section id="section-01">
         <SectionLabel>01</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           What the system needs to know
         </h2>
         <div className="space-y-5">
@@ -86,7 +86,7 @@ export default function AsimovPage() {
       {/* Section 02 */}
       <section id="section-02">
         <SectionLabel>02</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           How the admins stay in control
         </h2>
         <div className="space-y-5">
@@ -137,7 +137,7 @@ export default function AsimovPage() {
       {/* Section 03 */}
       <section id="section-03">
         <SectionLabel>03</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           From retrieval to execution
         </h2>
         <div className="space-y-5">
@@ -166,7 +166,7 @@ export default function AsimovPage() {
       {/* Constraint */}
       <section id="constraint">
         <SectionLabel>The constraint I didn&apos;t anticipate</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           Access control became urgent before the backend was ready for it.
         </h2>
         <div className="space-y-5">

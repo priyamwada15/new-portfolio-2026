@@ -5,7 +5,11 @@ import BeforeAfterSlider from "../components/BeforeAfterSlider";
 import SectionLabel from "../components/SectionLabel";
 import VisualCaption from "../components/VisualCaption";
 import { RocketMortgageTripleVideos } from "../components/RocketMortgageTripleVideos";
-import { SITE_DEFAULT_PAGE_BG } from "../lib/caseStudy";
+import {
+  CASE_STUDY_BODY_CLASS,
+  CASE_STUDY_SECTION_BODY_CLASS,
+  SITE_DEFAULT_PAGE_BG,
+} from "../lib/caseStudy";
 
 export const metadata: Metadata = {
   title: "Rocket Mortgage | Priyamwada Pandey",
@@ -59,7 +63,7 @@ function JourneyTimeline() {
 
 function FeedbackBubble({ text }: { text: string }) {
   return (
-    <p className="font-sans text-[14px] leading-relaxed italic" style={{ color: "#111111" }}>
+    <p className="font-sans text-[16px] leading-relaxed italic" style={{ color: "#111111" }}>
       &ldquo;{text}&rdquo;
     </p>
   );
@@ -73,8 +77,8 @@ export default function RocketMortgagePage() {
       bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
       headlineFont="figtree"
       headlineColor="#333333"
-      contentBodyClassName="text-[14px] text-secondary leading-relaxed"
-      sectionBodyClassName="text-[14px]"
+      contentBodyClassName={CASE_STUDY_BODY_CLASS}
+      sectionBodyClassName={CASE_STUDY_SECTION_BODY_CLASS}
       tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[
         { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
@@ -144,7 +148,7 @@ export default function RocketMortgagePage() {
       {/* Problem Space */}
       <section id="problem-space">
         <SectionLabel>Problem Space</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           Where homebuyers start to feel lost.
         </h2>
         <div className="space-y-5">
@@ -167,7 +171,7 @@ export default function RocketMortgagePage() {
       {/* Orientation */}
       <section id="orientation">
         <SectionLabel>Orientation</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           The most common question in chat logs became the first thing clients saw
         </h2>
         <SolutionShowcase
@@ -198,7 +202,7 @@ export default function RocketMortgagePage() {
       {/* Comprehension */}
       <section id="comprehension">
         <SectionLabel>Comprehension</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           Text responses weren&apos;t enough. The documents needed to come inside
         </h2>
         <SolutionShowcase
@@ -229,7 +233,7 @@ export default function RocketMortgagePage() {
       {/* Resolution */}
       <section id="resolution">
         <SectionLabel>Resolution</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           Design the exit.
         </h2>
         <SolutionShowcase
@@ -260,7 +264,7 @@ export default function RocketMortgagePage() {
       {/* Impact + client quotes merged */}
       <section id="impact">
         <SectionLabel>Impact</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-14">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-14">
           9 in 10 clients found it helpful. Here&apos;s what they said
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
@@ -285,7 +289,7 @@ export default function RocketMortgagePage() {
               <p className="font-sans text-4xl md:text-5xl font-bold text-ink leading-none">{item.stat}</p>
               <p className="font-mono text-[14px] font-semibold tracking-wider uppercase"
                 style={{ color: accent }}>{item.label}</p>
-              <p className="font-sans text-[14px] text-secondary leading-relaxed italic">&ldquo;{item.quote}&rdquo;</p>
+              <p className="font-sans text-[16px] text-secondary leading-relaxed italic">&ldquo;{item.quote}&rdquo;</p>
             </div>
           ))}
         </div>
@@ -294,10 +298,10 @@ export default function RocketMortgagePage() {
       {/* Business Impact */}
       <section id="business-impact">
         <SectionLabel>Business Impact</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           The work moved beyond the internship into roadmap discussions.
         </h2>
-        <p className="font-sans text-[14px] text-secondary leading-relaxed mb-8">
+        <p className="font-sans text-[16px] text-secondary leading-relaxed mb-8">
           Early and frequent conversations with the product team helped align the work around what was actually feasible and what could move fast. Several of the interaction patterns introduced are now part of ongoing roadmap discussions for the Rocket Mortgage mobile app experience.
         </p>
         <blockquote className="border-l-2 pl-5" style={{ borderColor: "#555555" }}>
@@ -313,7 +317,7 @@ export default function RocketMortgagePage() {
       {/* Testimonials */}
       <section id="testimonials">
         <SectionLabel>Testimonials</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           What the people who saw the work up close had to say
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
@@ -342,7 +346,7 @@ export default function RocketMortgagePage() {
                 backgroundImage: CARD_BORDER,
               }}
             >
-              <p className="font-sans text-[14px] text-secondary leading-relaxed italic mb-10">
+              <p className="font-sans text-[16px] text-secondary leading-relaxed italic mb-10">
                 &ldquo;{item.quote}&rdquo;
               </p>
               <div>
@@ -372,7 +376,7 @@ export default function RocketMortgagePage() {
       {/* Reflection */}
       <section id="reflection">
         <SectionLabel>Reflection</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           Not waiting to be pointed in the right direction is what opened the most useful conversations.
         </h2>
         <div className="grid md:grid-cols-2 gap-10 md:gap-16">

@@ -69,7 +69,7 @@ const MetaGrid = ({ meta, accentDark }: { meta: Meta; accentDark: string }) => (
     ].map((item) => (
       <div key={item.label}>
         <p
-          className="font-mono text-[14px] font-semibold tracking-wider uppercase mb-1"
+          className="font-mono text-[14px] font-semibold mb-1"
           style={{ color: accentDark }}
         >
           {item.label}
@@ -109,12 +109,12 @@ export default function CaseStudyLayout({
   children,
 }: Props) {
   const bodyTextClass =
-    contentBodyClassName ?? "text-base text-secondary leading-relaxed";
+    contentBodyClassName ?? "text-[16px] text-secondary leading-relaxed";
   const headlineFontStyle: React.CSSProperties =
     headlineFont === "figtree"
       ? {
           fontFamily: "var(--font-hind), sans-serif",
-          letterSpacing: "-0.3px",
+          letterSpacing: "-0.02px",
           textWrap: "balance",
         }
       : {
@@ -129,6 +129,9 @@ export default function CaseStudyLayout({
   const tocItems: TocItem[] = toc
     ? [{ id: "context", label: "Context" }, ...toc]
     : [];
+
+  /** H1 in header above hero (Rocket, Salesforce, Debug case studies). */
+  const h1InHeaderSection = headlineInHeader || (reverseHeaderOrder && heroVisual);
 
   // ── logo row ─────────────────────────────────────────────────────────
   const logoRow = (marginBottom: string) => (
@@ -184,7 +187,7 @@ export default function CaseStudyLayout({
             {!hideContextLabel && (
               <section>
                 <p
-                  className="font-mono text-[14px] font-semibold tracking-wider uppercase mb-4"
+                  className="font-mono text-[14px] font-semibold mb-4"
                   style={{ color: accentDark }}
                 >
                   Context
@@ -198,7 +201,7 @@ export default function CaseStudyLayout({
             {contribution && (
               <section>
                 <p
-                  className="font-mono text-[14px] font-semibold tracking-wider uppercase mb-4"
+                  className="font-mono text-[14px] font-semibold mb-4"
                   style={{ color: accentDark }}
                 >
                   Contribution
@@ -214,7 +217,7 @@ export default function CaseStudyLayout({
           <section>
             {!hideContextLabel && (
               <p
-                className="font-mono text-[14px] font-semibold tracking-wider uppercase mb-4"
+                className="font-mono text-[14px] font-semibold mb-4"
                 style={{ color: accentDark }}
               >
                 Context
@@ -225,7 +228,7 @@ export default function CaseStudyLayout({
           {contribution && (
             <section>
               <p
-                className="font-mono text-[14px] font-semibold tracking-wider uppercase mb-4"
+                className="font-mono text-[14px] font-semibold mb-4"
                 style={{ color: accentDark }}
               >
                 Contribution
@@ -246,12 +249,12 @@ export default function CaseStudyLayout({
   // mb-14 = 56px gap between meta and H1.
   const headerContent = toc ? (
     reverseHeaderOrder ? (
-      /* logos → heroVisual? → meta → H1? (H1 in header when headlineInHeader, else right col) */
+      /* logos → H1 → heroVisual → meta */
       <>
         {logoRow("mb-8")}
+        {h1InHeaderSection && h1InHeader("mb-8")}
         {heroVisual && <div className="mb-10">{heroVisual}</div>}
         <MetaGrid meta={meta} accentDark={accentDark} />
-        {headlineInHeader && h1InHeader("mt-10 mb-0")}
       </>
     ) : (
       /* Default with TOC: logos → tagline? → meta (H1 goes to right col) */
@@ -259,7 +262,7 @@ export default function CaseStudyLayout({
         {logoRow("mb-6")}
         {tagline && (
           <p
-            className="font-mono text-[14px] font-semibold tracking-wider uppercase mb-3"
+            className="font-mono text-[14px] font-semibold mb-3"
             style={{ color: accentDark }}
           >
             {tagline}
@@ -270,12 +273,12 @@ export default function CaseStudyLayout({
     )
   ) : (
     reverseHeaderOrder ? (
-      /* RM without TOC: logos → heroVisual → meta → H1 */
+      /* logos → H1 → heroVisual → meta */
       <>
         {logoRow("mb-8")}
+        {h1InHeaderSection && h1InHeader("mb-8")}
         {heroVisual && <div className="mb-10">{heroVisual}</div>}
         <MetaGrid meta={meta} accentDark={accentDark} />
-        {h1InHeader("mt-8 mb-0")}
       </>
     ) : (
       /* Default without TOC: logos → tagline? → H1 → meta */
@@ -283,7 +286,7 @@ export default function CaseStudyLayout({
         {logoRow("mb-6")}
         {tagline && (
           <p
-            className="font-mono text-[14px] font-semibold tracking-wider uppercase mb-3"
+            className="font-mono text-[14px] font-semibold mb-3"
             style={{ color: accentDark }}
           >
             {tagline}
@@ -318,9 +321,9 @@ export default function CaseStudyLayout({
             linkFontFamily={tocLinkFontFamily}
           />
 
-          {/* Right: H1 (unless headlineInHeader) → context → body → footer */}
+          {/* Right: H1 (when not in header) → context → body → footer */}
           <div className="min-w-0">
-            {!headlineInHeader && h1InColumn}
+            {!h1InHeaderSection && h1InColumn}
             {contextVisualBelow ? (
               <>
                 {contextBlock}

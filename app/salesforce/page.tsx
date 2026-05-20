@@ -5,7 +5,12 @@ import IterationLabel from "../components/IterationLabel";
 import VisualCaption from "../components/VisualCaption";
 import DarkVideoFrame from "../components/DarkVideoFrame";
 import TabbedSections from "./TabbedSections";
-import { SALESFORCE_HERO_VIDEO, SITE_DEFAULT_PAGE_BG } from "../lib/caseStudy";
+import {
+  CASE_STUDY_BODY_CLASS,
+  CASE_STUDY_SECTION_BODY_CLASS,
+  SALESFORCE_HERO_VIDEO,
+  SITE_DEFAULT_PAGE_BG,
+} from "../lib/caseStudy";
 
 export const metadata: Metadata = {
   title: "Galileo for Salesforce | Priyamwada Pandey",
@@ -21,8 +26,8 @@ export default function SalesforcePage() {
       bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
       headlineFont="figtree"
       headlineColor="#333333"
-      contentBodyClassName="text-[14px] text-secondary leading-relaxed"
-      sectionBodyClassName="text-[14px]"
+      contentBodyClassName={CASE_STUDY_BODY_CLASS}
+      sectionBodyClassName={CASE_STUDY_SECTION_BODY_CLASS}
       tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[{ src: "/logos/salesforce.svg", alt: "Salesforce", cls: "h-8" }]}
       reverseHeaderOrder={true}
@@ -48,7 +53,7 @@ export default function SalesforcePage() {
         </>
       }
       projectName="Galileo for Salesforce"
-      headline="I co-led the design of a 0→1 AI product that helps students plan their academic future."
+      headline="I led the design of a 0→1 AI product that helps students plan their academic future."
       context="Galileo was a 0→1 concept built in collaboration with the Salesforce Experience Design team as part of a semester-long design studio at IU. This project explored how AI could support academic decision-making for undeclared undergraduates."
       contribution="I co-led design end-to-end, leading the Overview and Academic Trajectory sections specifically. My work centered on interaction design, information architecture and AI interaction patterns, specifically how to make recommendations feel actionable."
       meta={{
@@ -78,10 +83,10 @@ export default function SalesforcePage() {
       {/* Interaction Patterns */}
       <section id="interaction-patterns">
         <SectionLabel>Interaction patterns</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           The decisions that shaped how Galileo thinks with students
         </h2>
-        <p className="font-sans text-[14px] text-secondary leading-relaxed mb-10">
+        <p className="font-sans text-[16px] text-secondary leading-relaxed mb-10">
           Galileo had a lot of moving parts. Course discovery, shortlisting,
           scheduling and trajectory planning all had to work as a connected
           system. The decisions that mattered most were about restraint: what to
@@ -100,10 +105,10 @@ export default function SalesforcePage() {
       {/* Problem */}
       <section id="understanding-problem">
         <SectionLabel>Understanding the problem</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           Students didn&apos;t lack information. They lacked a way to make sense of it
         </h2>
-        <p className="font-sans text-[14px] text-secondary leading-relaxed mb-6">
+        <p className="font-sans text-[16px] text-secondary leading-relaxed mb-6">
           We conducted 16 student interviews, a literature review and a digital
           ethnographic study across Reddit and RateMyProfessor. What kept coming
           up was not a lack of information. Students had degree audits, course
@@ -174,10 +179,10 @@ export default function SalesforcePage() {
       {/* Product Structure */}
       <section id="how-galileo-works">
         <SectionLabel>Five sections, one through-line</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-6">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-6">
           Five sections, one through-line: the student decides, AI informs
         </h2>
-        <p className="font-sans text-[14px] text-secondary leading-relaxed mb-4">
+        <p className="font-sans text-[16px] text-secondary leading-relaxed mb-4">
           Galileo is built around five connected sections. Students start with an
           Overview that gives them a quick read on where they stand academically.
           From there they can browse and discover courses, shortlist ones
@@ -195,7 +200,7 @@ export default function SalesforcePage() {
           />
         </div>
         <VisualCaption>Example of a student&apos;s user flow while interacting with Galileo.</VisualCaption>
-        <p className="font-sans text-[14px] text-secondary leading-relaxed mt-4">
+        <p className="font-sans text-[16px] text-secondary leading-relaxed mt-4">
           The sections are designed to work in sequence but don&apos;t have to
           be used that way. The flow follows the student, not the other way
           around.
@@ -205,7 +210,7 @@ export default function SalesforcePage() {
       {/* Overview Dashboard */}
       <section id="design-decision-01">
         <SectionLabel>Overview Dashboard</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           Designing a screen that knows when to stop
         </h2>
         <p className="mb-5">
@@ -256,11 +261,11 @@ export default function SalesforcePage() {
       {/* Academic Trajectory */}
       <section id="design-decision-02">
         <SectionLabel>Academic Trajectory</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           The section where AI had the most to say
         </h2>
 
-        <p className="font-sans text-[14px] text-secondary leading-relaxed">
+        <p className="font-sans text-[16px] text-secondary leading-relaxed">
           Academic Trajectory is where Galileo steps back and asks a bigger
           question, not just what courses a student has taken, but what those
           choices might be pointing toward.
@@ -269,13 +274,13 @@ export default function SalesforcePage() {
         <div className="mt-8">
           <IterationLabel className="mb-4">Four ways to read the same data</IterationLabel>
           <div className="space-y-5">
-            <p className="font-sans text-[14px] text-secondary leading-relaxed">
+            <p className="font-sans text-[16px] text-secondary leading-relaxed">
               The Academic Progress section gives students four lenses to view
               their course history: by year, by potential major, by course theme
               and by career pathway. The data is identical across all four views.
               What changes is the interpretive frame.
             </p>
-            <p className="font-sans text-[14px] text-secondary leading-relaxed">
+            <p className="font-sans text-[16px] text-secondary leading-relaxed">
               This came directly from a research insight, students didn&apos;t
               lack information, they lacked ways to connect it to their own goals.
               A student trying to figure out if they should pursue Education as a
@@ -294,7 +299,7 @@ export default function SalesforcePage() {
         <div className="mt-8">
           <IterationLabel className="mb-4">Designing for AI transparency</IterationLabel>
           <div className="flex flex-col min-[1100px]:flex-row gap-6">
-            <p className="font-sans text-[14px] text-secondary leading-relaxed min-[1100px]:flex-1">
+            <p className="font-sans text-[16px] text-secondary leading-relaxed min-[1100px]:flex-1">
               Because the entire Trajectory section is AI-generated, I had to be
               deliberate about how that was communicated. Students in our research
               were clear, they wanted to know when AI was involved and they did
@@ -310,7 +315,7 @@ export default function SalesforcePage() {
                   <span className="text-xs text-neutral-400 font-mono shrink-0 mt-0.5">
                     {i + 1}.
                   </span>
-                  <p className="font-sans text-[14px] text-secondary leading-relaxed">
+                  <p className="font-sans text-[16px] text-secondary leading-relaxed">
                     {item}
                   </p>
                 </div>
@@ -337,7 +342,7 @@ export default function SalesforcePage() {
         <div className="mt-8">
           <IterationLabel className="mb-4">A radar chart. Then a donut chart. Then neither</IterationLabel>
           <div className="space-y-5 mb-6">
-            <p className="font-sans text-[14px] text-secondary leading-relaxed">
+            <p className="font-sans text-[16px] text-secondary leading-relaxed">
               For a long time I was stuck on how to visually represent the
               AI&apos;s major and career suggestions. The first idea was a radar
               chart, it felt like the right format for showing multiple dimensions
@@ -346,7 +351,7 @@ export default function SalesforcePage() {
               chart would look different for every student and there was no
               consistent way to interpret it.
             </p>
-            <p className="font-sans text-[14px] text-secondary leading-relaxed">
+            <p className="font-sans text-[16px] text-secondary leading-relaxed">
               We moved to a donut chart. Simpler, more familiar. But the math
               wasn&apos;t adding up. During evaluations, students couldn&apos;t
               figure out how the percentages were being distributed across the
@@ -386,7 +391,7 @@ export default function SalesforcePage() {
       {/* Visual Language */}
       <section id="visual-language">
         <SectionLabel>Visual language and cohesion</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           Making the system feel like one product
         </h2>
         <div className="space-y-5">
@@ -425,10 +430,10 @@ export default function SalesforcePage() {
       {/* Rest of product */}
       <section id="other-sections">
         <SectionLabel>The rest of the product</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-6">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-6">
           The rest of the product, and where I handed off
         </h2>
-        <p className="font-sans text-[14px] text-secondary leading-relaxed mb-6">
+        <p className="font-sans text-[16px] text-secondary leading-relaxed mb-6">
           I contributed to system cohesion across all five sections and the
           three below were led by other team members.
         </p>
@@ -459,7 +464,7 @@ export default function SalesforcePage() {
       {/* Reflection */}
       <section id="reflection">
         <SectionLabel>Reflection</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           What I would do differently
         </h2>
         <div className="flex flex-col md:flex-row gap-10 md:gap-12 items-start">
@@ -494,7 +499,7 @@ export default function SalesforcePage() {
         </div>
         <div className="mt-8">
           <IterationLabel className="mb-3">What this project taught me</IterationLabel>
-          <p className="font-sans text-[14px] text-secondary leading-relaxed">
+          <p className="font-sans text-[16px] text-secondary leading-relaxed">
             This was the first time I designed as part of a design team.
             Keeping visual and interaction language consistent across sections
             that different people were building in parallel is a different kind

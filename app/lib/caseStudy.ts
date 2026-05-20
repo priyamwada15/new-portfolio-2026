@@ -4,6 +4,19 @@ export const CASE_STUDY_PAGE_BG = "#FDFDFD";
 /** Root marketing surface (matches `app/layout.tsx` body background). */
 export const SITE_DEFAULT_PAGE_BG = "#FAFAFA";
 
+/** Section H2 on case study pages — 32px, sentence case (do not use `uppercase` or tracking). */
+export const CASE_STUDY_H2_CLASS = "font-mono text-[32px] font-bold text-ink";
+
+/** Section tag above H2 (e.g. Problem space) — sentence case. */
+export const CASE_STUDY_SECTION_TAG_CLASS =
+  "font-mono text-[14px] font-semibold mb-4";
+
+/** Context, contribution, and section body copy on case study pages. */
+export const CASE_STUDY_BODY_CLASS = "text-[16px] text-secondary leading-relaxed";
+
+/** Inherited by paragraphs inside `.case-study-section-stack`. */
+export const CASE_STUDY_SECTION_BODY_CLASS = "text-[16px]";
+
 /** Hero/card videos shared between homepage Work cards and case study page heroes. */
 export const SALESFORCE_HERO_VIDEO =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295117/Salesforce_new_case_study_card_and_hero_fx5vpe.mp4";

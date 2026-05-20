@@ -55,7 +55,7 @@ export default function TabbedSections({ tabs }: { tabs: TabItem[] }) {
       </div>
 
       {/* Description, body text only, no title or border */}
-      <p className="font-sans text-[14px] text-secondary leading-relaxed mb-6">
+      <p className="font-sans text-[16px] text-secondary leading-relaxed mb-6">
         {tabs[active].desc}
       </p>
 

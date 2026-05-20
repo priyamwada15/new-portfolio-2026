@@ -6,7 +6,12 @@ import { DebugChatPreview } from "../components/DebugChatPreview";
 import VisualCaption from "../components/VisualCaption";
 import SectionLabel from "../components/SectionLabel";
 import IterationLabel from "../components/IterationLabel";
-import { SITE_DEFAULT_PAGE_BG, TARS_DEBUG_MODE_HERO_VIDEO } from "../lib/caseStudy";
+import {
+  CASE_STUDY_BODY_CLASS,
+  CASE_STUDY_SECTION_BODY_CLASS,
+  SITE_DEFAULT_PAGE_BG,
+  TARS_DEBUG_MODE_HERO_VIDEO,
+} from "../lib/caseStudy";
 
 export const metadata: Metadata = {
   title: "Debug Mode | Priyamwada Pandey",
@@ -45,7 +50,7 @@ function DarkHeader({ tag, headline, bgImage }: { tag: string; headline: string;
       {/* Text content */}
       <div className="relative">
         <p
-          className="font-mono text-[14px] font-semibold tracking-wider uppercase mb-4"
+          className="font-mono text-[14px] font-semibold mb-4"
           style={{ color: "#AEAEAE" }}
         >
           {tag}
@@ -76,8 +81,8 @@ export default function DebugModePage() {
       bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
       headlineFont="figtree"
       headlineColor="#333333"
-      contentBodyClassName="text-[14px] text-secondary leading-relaxed"
-      sectionBodyClassName="text-[14px]"
+      contentBodyClassName={CASE_STUDY_BODY_CLASS}
+      sectionBodyClassName={CASE_STUDY_SECTION_BODY_CLASS}
       tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       projectName="Debug Mode for Tars"
@@ -144,7 +149,7 @@ export default function DebugModePage() {
       {/* Background */}
       <section id="background">
         <SectionLabel>Background</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           500 gambits, one broken path, no way to find it.
         </h2>
         <div className="space-y-5">
@@ -187,7 +192,7 @@ export default function DebugModePage() {
 
         <div className="mt-10">
           <IterationLabel>Iteration 1, Color-coded states</IterationLabel>
-          <p className="font-sans text-[14px] text-secondary leading-relaxed">
+          <p className="font-sans text-[16px] text-secondary leading-relaxed">
             The first version used colors, yellow for active, green for passed
             and red for error. This was logical on paper but the problem showed
             up on a real canvas. 500 gambits, some overlapping, now covered in
@@ -210,7 +215,7 @@ export default function DebugModePage() {
 
         <div className="mt-10">
           <IterationLabel>Iteration 2, Single color, dashed lines and a glow</IterationLabel>
-          <p className="font-sans text-[14px] text-secondary leading-relaxed mb-6">
+          <p className="font-sans text-[16px] text-secondary leading-relaxed mb-6">
             One signal. That&apos;s all users needed. I simplified to one. I
             stuck to the default blue and instead used opacity levels to denote
             change. The active gambit got a subtle blue glow on top of the
@@ -242,7 +247,7 @@ export default function DebugModePage() {
         </div>
 
         <div className="mt-10">
-          <p className="font-sans text-[14px] text-secondary leading-relaxed">
+          <p className="font-sans text-[16px] text-secondary leading-relaxed">
             The original design required users to pan through the flow to
             understand test health. I refined the design to surface this
             immediately. Pills at the top surfaced total gambits tested and error
@@ -296,7 +301,7 @@ export default function DebugModePage() {
 
         <div className="mt-10">
           <IterationLabel>Iteration 2, Shipping a simpler version was the right call</IterationLabel>
-          <p className="font-sans text-[14px] text-secondary leading-relaxed">
+          <p className="font-sans text-[16px] text-secondary leading-relaxed">
             I stripped the design to three controls: play/pause, stop, restart.
             Status messages, debugging in progress, paused, stopped, removed
             any ambiguity about what was happening without requiring the user to
@@ -312,7 +317,7 @@ export default function DebugModePage() {
       {/* Reflection */}
       <section id="reflection">
         <SectionLabel>Reflection</SectionLabel>
-        <h2 className="font-mono text-2xl md:text-3xl font-bold uppercase tracking-wide text-ink mb-10">
+        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
           The right answer and the complete answer aren&apos;t always the same
           thing.
         </h2>

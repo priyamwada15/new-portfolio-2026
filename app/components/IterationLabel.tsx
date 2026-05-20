@@ -7,7 +7,7 @@ export default function IterationLabel({
 }) {
   return (
     <p
-      className={`text-[12px] font-semibold tracking-wider uppercase ${className}`}
+      className={`text-[12px] font-semibold ${className}`}
       style={{ fontFamily: "var(--font-hind), sans-serif", color: "var(--accent-dark)" }}
     >
       {children}

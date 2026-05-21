@@ -66,6 +66,9 @@ const STELLAR_SCAN_POSTER_SRC = `${PLAY_AVIF}/stellar-scan-poster.avif`;
 const AI_INTELLIGENCER_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1776089764/Screen_Recording_2026-04-13_101501_ls24dq.mp4";
 const AI_INTELLIGENCER_POSTER_SRC = `${PLAY_AVIF}/ai-intelligencer-poster.avif`;
+const ROCKET_LISA_VIDEO_SRC =
+  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779388469/Screen_Recording_2026-05-21_143314_cenlai.mp4";
+const ROCKET_LISA_POSTER_SRC = `${PLAY_AVIF}/rocket-lisa-poster.avif`;
 const ROBOT_DUET_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1775952719/20250416_201134_2_vimbv1.mp4";
 const ROBOT_DUET_POSTER_SRC = `${PLAY_AVIF}/robo-poster.avif`;
@@ -108,6 +111,16 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
       ariaLabel: "View Sunlight effect on GitHub",
     },
     mediaAlt: "Sunlight shader effect on the homepage background",
+  },
+  {
+    id: "rocket-lisa",
+    title: "Rocket LISA",
+    tagParts: ["Figma", "Claude Code", "Nano Banana 2", "April 2026"],
+    description:
+      "Dawn of Man. Dawn of personal finance. Redesigned Rocket Money's dashboard in the 1984 Apple Macintosh GUI style. The apes are reacting to my spending report.",
+    videoSrc: ROCKET_LISA_VIDEO_SRC,
+    posterSrc: ROCKET_LISA_POSTER_SRC,
+    mediaAlt: "Rocket LISA screen recording",
   },
   {
     id: "robot-duet",
@@ -171,6 +184,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
 export const HOME_PLAY_TAB_ITEM_IDS = [
   "ascii-run",
   "sunlight-effect",
+  "rocket-lisa",
   "robot-duet",
   "stellar-scan",
   "ai-intelligencer",

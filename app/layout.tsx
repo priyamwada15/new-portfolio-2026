@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import {
+  DM_Mono,
   Figtree,
   Inter,
+  Kalam,
   Ovo,
-  IBM_Plex_Sans_Devanagari, Geist } from "next/font/google";
+  IBM_Plex_Sans_Devanagari,
+  Geist,
+} from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import AppChrome from "./components/AppChrome";
@@ -39,10 +43,22 @@ const ibmPlexDevanagari = IBM_Plex_Sans_Devanagari({
   weight: ["500"],
 });
 
+const kalam = Kalam({
+  variable: "--font-kalam",
+  subsets: ["latin", "devanagari"],
+  weight: ["400", "700"],
+});
+
+const dmMono = DM_Mono({
+  variable: "--font-dm-mono",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
 export const metadata: Metadata = {
   title: "Priyamwada Pandey | Product Designer",
   description:
-    "Hi, I'm Priyamwada, a Product Designer specializing in AI-native interfaces. I work where the design needs me, on paper or an IDE.",
+    "Hi, I'm Priyamwada. I design interfaces that work with and for AI. I work where the design needs me, on a canvas or in a terminal.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "48x48 32x32 16x16" },
@@ -61,7 +77,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(figtree.variable, ovo.variable, inter.variable, ibmPlexDevanagari.variable, "font-sans", geist.variable)}
+      className={cn(
+        figtree.variable,
+        ovo.variable,
+        inter.variable,
+        ibmPlexDevanagari.variable,
+        kalam.variable,
+        dmMono.variable,
+        "font-sans",
+        geist.variable,
+      )}
     >
       <head>
         <Script id="microsoft-clarity" strategy="afterInteractive">

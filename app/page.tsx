@@ -1,11 +1,50 @@
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import AnimatedCards from "./components/AnimatedCards";
+import { HeroAiWord } from "./components/HeroAiWord";
+import { HeroPriyamwadaWord } from "./components/HeroPriyamwadaWord";
+import { HeroTerminalWord } from "./components/HeroTerminalWord";
 import { HomepageUiStrip } from "./components/HomepageUiStrip";
 import { SunlightEffect } from "./components/SunlightEffect";
 
-const headline =
-  "Hi, I'm Priyamwada, a Product Designer specializing in AI-native interfaces. I work where the design needs me, on paper or an IDE.";
-const words = headline.split(" ");
+const headlineFirstLine =
+  "Hi, I'm Priyamwada. I design interfaces that work with and";
+const headlineAiLine =
+  "for AI. I work where the design needs me, on a canvas or in a";
+const headlineTerminalLine = "terminal.";
+
+function renderHeadlineWords(text: string, keyPrefix: string): ReactNode[] {
+  return text.split(" ").map((word, i) => {
+    if (word === "Priyamwada.") {
+      return (
+        <Fragment key={`${keyPrefix}-${i}`}>
+          <span className="hero-name-slot">
+            <HeroPriyamwadaWord />
+          </span>
+          .{" "}
+        </Fragment>
+      );
+    }
+    if (word === "AI.") {
+      return (
+        <Fragment key={`${keyPrefix}-${i}`}>
+          <HeroAiWord />{" "}
+        </Fragment>
+      );
+    }
+    if (word === "terminal.") {
+      return (
+        <Fragment key={`${keyPrefix}-${i}`}>
+          <HeroTerminalWord />{" "}
+        </Fragment>
+      );
+    }
+    return (
+      <Fragment key={`${keyPrefix}-${i}`}>
+        <span>{word}</span>{" "}
+      </Fragment>
+    );
+  });
+}
 
 export default function Home() {
   return (
@@ -13,30 +52,28 @@ export default function Home() {
       <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />
       <div className="relative z-[2]">
       <section className="flex flex-col items-start w-[86%] max-w-[1008px] mx-auto mt-[76px] mb-[96px]">
-        {/* Hero headline, word-by-word fade + rise */}
-        <div className="flex min-h-[84px] w-full max-w-[1008px] items-center">
+        <div className="hero-headline-shell w-full max-w-[1008px]">
           <h1
-            className="w-full text-[24px] font-normal leading-[130%] text-[#333333] md:text-[32px]"
+            className="hero-headline flex w-full flex-col gap-[18px] text-[24px] font-normal leading-[130%] text-[#333333] md:text-[32px]"
             style={{ fontFamily: "var(--font-hind), sans-serif" }}
           >
-            {words.map((word, i) => (
-              <Fragment key={i}>
-                <span
-                  className="word-animate"
-                  style={{ transitionDelay: `${160 + i * 60}ms` }}
-                >
-                  {word}
-                </span>
-                {" "}
-              </Fragment>
-            ))}
+            <span className="block">
+              {renderHeadlineWords(headlineFirstLine, "l1")}
+            </span>
+            <span className="flex flex-col gap-[18px]">
+              <span className="block">
+                {renderHeadlineWords(headlineAiLine, "l2")}
+              </span>
+              <span className="block">
+                {renderHeadlineWords(headlineTerminalLine, "l3")}
+              </span>
+            </span>
           </h1>
         </div>
       </section>
 
       <HomepageUiStrip />
 
-      {/* Project cards */}
       <div style={{ paddingBottom: "96px" }}>
         <AnimatedCards />
       </div>

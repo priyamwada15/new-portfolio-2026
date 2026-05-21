@@ -258,7 +258,7 @@ export function HeroAiWord({ className }: HeroAiWordProps) {
     <span
       ref={chipRef}
       className={cn(
-        "hero-ai-chip",
+        "hero-ai-chip cursor-pointer",
         hovered && "hero-ai-chip--hover",
         className,
       )}

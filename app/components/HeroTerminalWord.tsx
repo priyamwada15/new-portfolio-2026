@@ -140,7 +140,7 @@ export function HeroTerminalWord({ className }: HeroTerminalWordProps) {
   return (
     <span
       className={cn(
-        "hero-terminal-chip",
+        "hero-terminal-chip cursor-pointer",
         hovered && "hero-terminal-chip--hover",
         className,
       )}

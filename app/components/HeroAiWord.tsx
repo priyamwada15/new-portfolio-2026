@@ -231,10 +231,10 @@ export function HeroAiWord({ className }: HeroAiWordProps) {
     if (!el) return;
 
     stopSparkle();
-    setHovered(false);
 
     if (reducedMotionRef.current) {
       el.textContent = DEFAULT_LABEL;
+      setHovered(false);
       return;
     }
 
@@ -242,6 +242,8 @@ export function HeroAiWord({ className }: HeroAiWordProps) {
     await backspace(el, current, id);
     if (isStale(id)) return;
     await type(el, DEFAULT_LABEL, id);
+    if (isStale(id)) return;
+    setHovered(false);
   }, [backspace, isStale, stopSparkle, type]);
 
   useGSAP(

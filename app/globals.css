@@ -169,22 +169,81 @@ body {
   .badge-animate { opacity: 0; }
 }
 
-/* Homepage hero — fixed block height so name hover (Kalam) does not shift UI strip */
-.hero-headline-shell {
-  height: calc(12.375rem + 36px); /* three rows + two 18px gaps, with metric buffer */
-}
-
-@media (min-width: 768px) {
-  .hero-headline-shell {
-    height: calc(8.625rem + 36px); /* three rows + two 18px gaps, with metric buffer */
-  }
-}
-
 .hero-name-slot {
   display: inline-block;
   height: 1.3em;
   vertical-align: baseline;
   line-height: 130%;
+}
+
+/* Grid ghost reserves width of "intuitive" so scramble does not reflow the headline */
+.hero-complex-word {
+  display: inline-grid;
+  vertical-align: baseline;
+  outline: none;
+}
+
+.hero-complex-word__ghost,
+.hero-complex-word__surface {
+  grid-area: 1 / 1;
+}
+
+.hero-complex-word__ghost {
+  display: inline-grid;
+  visibility: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-complex-word__ghost > * {
+  grid-area: 1 / 1;
+}
+
+.hero-complex-word__ghost-plain {
+  font-family: var(--font-hind), sans-serif;
+}
+
+.hero-complex-word__surface {
+  display: inline-grid;
+  white-space: nowrap;
+}
+
+.hero-complex-word__plain,
+.hero-complex-word__styled {
+  grid-area: 1 / 1;
+}
+
+.hero-complex-word__plain {
+  visibility: hidden;
+  font-family: var(--font-hind), sans-serif;
+}
+
+.hero-complex-word__styled {
+  visibility: visible;
+}
+
+.hero-complex-word--scrambling .hero-complex-word__plain {
+  visibility: visible;
+}
+
+.hero-complex-word--scrambling .hero-complex-word__styled {
+  visibility: hidden;
+}
+
+.hero-complex-word__mark {
+  display: inline;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.hero-complex-word__figtree {
+  font-family: var(--font-hind), sans-serif;
+}
+
+.hero-complex-word__festive {
+  font-family: var(--font-festive), cursive;
+  font-weight: 400;
 }
 
 /* Hero headline — terminal chip (default + hover) */
@@ -359,7 +418,7 @@ body {
   width: 52px;
   height: 19px;
   left: calc(50% - 52px / 2);
-  top: calc(50% - 19px / 2 + 6px);
+  top: calc(50% - 19px / 2);
   background: rgba(116, 69, 119, 0.3);
   filter: blur(7px);
   border-radius: 9.5px;
@@ -375,7 +434,7 @@ body {
 
 .hero-ai-chip--hover .hero-ai-chip__glow {
   width: 118px;
-  left: calc(50% - 118px / 2 + 0.25px);
+  left: calc(50% - 118px / 2);
 }
 
 .hero-ai-chip:focus-visible {
@@ -391,6 +450,173 @@ body {
   }
 
   .hero-ai-chip__glow {
+    transition: none;
+  }
+}
+
+/* Hero headline — canvas design-tool pill (horizontal resize) */
+.hero-canvas-chip {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  flex: none;
+  touch-action: none;
+  user-select: none;
+  transition: width 560ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero-canvas-chip--dragging {
+  transition: none;
+}
+
+.hero-canvas-chip__frame {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 22px;
+  gap: 8px;
+  position: absolute;
+  inset: 1px;
+  border: 2px solid #3fa3ec;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.hero-canvas-chip__frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, #ededed 1px, transparent 1px),
+    linear-gradient(to bottom, #ededed 1px, transparent 1px);
+  background-size: 10px 10px;
+  background-position: 0 0;
+}
+
+.hero-canvas-chip__edge {
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: ew-resize;
+  z-index: 1;
+}
+
+.hero-canvas-chip__edge--left {
+  left: 0;
+}
+
+.hero-canvas-chip__edge--right {
+  right: 0;
+}
+
+.hero-canvas-chip__label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-hind), sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 42px;
+  display: flex;
+  align-items: center;
+  color: #333333;
+  flex: none;
+  white-space: nowrap;
+  transform-origin: center center;
+  will-change: transform;
+  transition: transform 560ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero-canvas-chip--dragging .hero-canvas-chip__label {
+  transition: none;
+}
+
+.hero-canvas-chip__grip {
+  position: absolute;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: ew-resize;
+  z-index: 2;
+}
+
+.hero-canvas-chip__grip::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border: 2px solid #3fa3ec;
+  box-shadow: 0 0 0 1px rgba(63, 163, 236, 0.12);
+  box-sizing: border-box;
+}
+
+.hero-canvas-chip__grip--tl {
+  left: -12px;
+  top: -12px;
+}
+
+.hero-canvas-chip__grip--tl::after {
+  left: 7px;
+  top: 7px;
+}
+
+.hero-canvas-chip__grip--tr {
+  right: -12px;
+  top: -12px;
+}
+
+.hero-canvas-chip__grip--tr::after {
+  right: 7px;
+  top: 7px;
+}
+
+.hero-canvas-chip__grip--bl {
+  left: -12px;
+  bottom: -12px;
+}
+
+.hero-canvas-chip__grip--bl::after {
+  left: 7px;
+  bottom: 7px;
+}
+
+.hero-canvas-chip__grip--br {
+  right: -12px;
+  bottom: -12px;
+}
+
+.hero-canvas-chip__grip--br::after {
+  right: 7px;
+  bottom: 7px;
+}
+
+.hero-canvas-chip__grip:focus-visible {
+  outline: 2px solid rgba(63, 163, 236, 0.45);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-canvas-chip {
+    transition: none;
+  }
+
+  .hero-canvas-chip__label {
+    will-change: auto;
     transition: none;
   }
 }

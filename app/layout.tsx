@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   DM_Mono,
+  Festive,
   Figtree,
   Inter,
   Kalam,
@@ -55,6 +56,12 @@ const dmMono = DM_Mono({
   weight: ["400"],
 });
 
+const festive = Festive({
+  variable: "--font-festive",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "Priyamwada Pandey | Product Designer",
   description:
@@ -84,6 +91,7 @@ export default function RootLayout({
         ibmPlexDevanagari.variable,
         kalam.variable,
         dmMono.variable,
+        festive.variable,
         "font-sans",
         geist.variable,
       )}

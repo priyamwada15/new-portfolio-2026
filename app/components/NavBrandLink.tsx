@@ -257,7 +257,7 @@ export function NavBrandLink({ href, className, style }: NavBrandLinkProps) {
       >
         <span
           ref={orbRef}
-          className="absolute left-0 top-1/2 z-10 block shrink-0 will-change-transform"
+          className="absolute left-0 top-1/2 z-10 block shrink-0 -translate-y-1/2 will-change-transform"
           style={{ width: LOGO_HOME_PX, height: LOGO_HOME_PX }}
           aria-hidden
         >
@@ -273,11 +273,12 @@ export function NavBrandLink({ href, className, style }: NavBrandLinkProps) {
 
         <span
           ref={textRef}
-          className="hidden sm:inline text-[14px] leading-none"
+          className="hidden sm:inline text-[14px] leading-none self-center"
           style={{
             fontFamily: "var(--font-hind), sans-serif",
             fontWeight: 500,
             color: "#111111",
+            lineHeight: `${LOGO_HOME_PX}px`,
           }}
           aria-hidden
         >

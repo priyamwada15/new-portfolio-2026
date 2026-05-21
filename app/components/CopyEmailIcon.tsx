@@ -144,7 +144,7 @@ export function CopyEmailIcon({
           aria-label={isCopied ? "Email copied" : "Copy email address"}
         >
           <span style={iconStyle}>
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence mode="popLayout" initial={false}>
               <motion.span
                 key={isCopied ? "check" : "mailbox"}
                 data-slot="copy-email-icon"

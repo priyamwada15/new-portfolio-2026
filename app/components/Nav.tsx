@@ -16,6 +16,7 @@ import {
 } from "./animate-ui/tooltip";
 import { isCaseStudyPath } from "../lib/caseStudy";
 import { CopyEmailIcon } from "./CopyEmailIcon";
+import { NavBrandLink } from "./NavBrandLink";
 
 const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
 const tiltTransition = "transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1)" as const;
@@ -169,19 +170,11 @@ export default function Nav() {
               }}
             >
             {/* Left: name + logo */}
-            <Link
+            <NavBrandLink
               href="/"
-              className={`flex items-center gap-2 rounded-full transition-opacity ${pathname === "/" ? "" : "hover:opacity-75"}`}
-              style={{ padding: "6px 12px 6px 8px" }}
-            >
-              <img src="/logos/nav-logo.svg" alt="" width={24} height={24} className="shrink-0" />
-              <span
-                className="hidden sm:inline text-[14px] leading-none"
-                style={{ ...hind, fontWeight: 500, color: "#111111" }}
-              >
-                priyamwada pandey
-              </span>
-            </Link>
+              className={`rounded-full transition-opacity ${pathname === "/" ? "" : "hover:opacity-75"}`}
+              style={{ padding: "6px 12px 6px 8px", display: "flex", alignItems: "center" }}
+            />
 
             {/* Nav Icons */}
             <div className="flex items-center gap-3 sm:gap-4">

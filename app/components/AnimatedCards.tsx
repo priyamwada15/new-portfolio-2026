@@ -77,7 +77,7 @@ const projects: FeaturedProject[] = [
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
     tagParts: ["Developer-centric", "Internal tool", "Product Design"],
     description:
-      "An internal tool that automatically runs enterprise chatbots end-to-end and stops the moment something breaks. I shipped it in a month and it cut the debugging time by 50%.",
+      "Designed a debugging feature that tests enterprise AI assistants and stops the moment something breaks. Shipped in a month and it cut manual debugging efforts by 70%.",
     innerPanelGapPx: 32,
     video: TARS_DEBUG_MODE_HERO_VIDEO,
   },

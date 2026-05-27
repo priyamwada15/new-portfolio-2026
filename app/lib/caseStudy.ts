@@ -4,6 +4,9 @@ export const CASE_STUDY_PAGE_BG = "#FDFDFD";
 /** Root marketing surface (matches `app/layout.tsx` body background). */
 export const SITE_DEFAULT_PAGE_BG = "#FAFAFA";
 
+/** Homepage surface (matches page + body override in AppChrome). */
+export const HOME_V2_PAGE_BG = "#FEFEFE";
+
 /** Section H2 on case study pages — 32px, sentence case (do not use `uppercase` or tracking). */
 export const CASE_STUDY_H2_CLASS = "font-mono text-[32px] font-bold text-ink";
 

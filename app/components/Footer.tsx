@@ -15,6 +15,7 @@ import {
 } from "./animate-ui/tooltip";
 import {
   CASE_STUDY_PAGE_BG,
+  HOME_V2_PAGE_BG,
   caseStudyUsesSiteDefaultSurface,
   isCaseStudyPath,
 } from "../lib/caseStudy";
@@ -44,10 +45,14 @@ export default function Footer() {
   const mail = useTilt(-8);
 
   const footerMuted = "rgba(51,51,51,0.55)";
+  const isHomeV2 = pathname === "/";
   const caseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const defaultSurface = pathname ? caseStudyUsesSiteDefaultSurface(pathname) : false;
-  const footerBg =
-    caseStudy && !defaultSurface ? CASE_STUDY_PAGE_BG : "var(--color-page-bg)";
+  const footerBg = isHomeV2
+    ? HOME_V2_PAGE_BG
+    : caseStudy && !defaultSurface
+      ? CASE_STUDY_PAGE_BG
+      : "var(--color-page-bg)";
 
   const iconProps = {
     size: 24,
@@ -59,7 +64,11 @@ export default function Footer() {
     <footer className="w-full relative" style={{ backgroundColor: footerBg }}>
       <div
         className="relative z-10 w-[86%] max-w-[1008px] mx-auto flex flex-wrap items-center justify-between gap-y-6"
-        style={{ paddingTop: "96px", paddingBottom: "32px" }}
+        style={
+          isHomeV2
+            ? { paddingTop: "0px", paddingBottom: "56px" }
+            : { paddingTop: "96px", paddingBottom: "32px" }
+        }
       >
         {/* Left — name + note */}
         <div className="flex flex-col" style={{ gap: "4px" }}>

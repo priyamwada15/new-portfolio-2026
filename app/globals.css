@@ -332,6 +332,39 @@ body {
   }
 }
 
+/* ── Custom hover cursors (Home V2) ──────────────────────── */
+/* SVG cursors need explicit hotspot coords. */
+@media (hover: hover) and (pointer: fine) {
+  /* Hide OS cursor on Home V2; custom trail draws on top. */
+  body.ascii-cursor {
+    cursor: none;
+  }
+
+  body.ascii-cursor * {
+    cursor: none;
+  }
+
+  body.ascii-cursor .cursor-hover-light,
+  body.ascii-cursor .cursor-hover-light * {
+    cursor: url("/Cursors/Hover%20Cursor%20-%20Light.svg") 12 12, pointer;
+  }
+
+  body.ascii-cursor .cursor-hover-dark,
+  body.ascii-cursor .cursor-hover-dark * {
+    cursor: url("/Cursors/Hover%20Cursor%20-%20Dark.svg") 12 12, pointer;
+  }
+
+  body.ascii-cursor .cursor-hover-eye-dark,
+  body.ascii-cursor .cursor-hover-eye-dark * {
+    cursor: url("/Cursors/Hover%20Cursor%20-%20Eye%20Dark.svg") 12 12, pointer;
+  }
+
+  body.home-v2-lightbox-open.ascii-cursor,
+  body.home-v2-lightbox-open.ascii-cursor * {
+    cursor: auto;
+  }
+}
+
 /* Hero headline — AI pill (default + hover) */
 .hero-ai-chip {
   display: inline-flex;

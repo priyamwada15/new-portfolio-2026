@@ -332,6 +332,31 @@ body {
   }
 }
 
+/* Home V2 — main blocks: hover scale + subtle shadow */
+@media (hover: hover) and (pointer: fine) {
+  .home-v2-main-card {
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition:
+      transform 240ms var(--ease-out-strong),
+      box-shadow 240ms var(--ease-out-strong);
+  }
+
+  .home-v2-main-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 28px 70px -22px rgba(0, 0, 0, 0.18);
+    z-index: 10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-v2-main-card,
+  .home-v2-main-card:hover {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 /* ── Custom hover cursors (Home V2) ──────────────────────── */
 /* SVG cursors need explicit hotspot coords. */
 @media (hover: hover) and (pointer: fine) {
@@ -812,6 +837,50 @@ body {
 /* About page — album art vinyl spin on hover */
 @keyframes about-album-vinyl-spin {
   to { transform: rotate(360deg); }
+}
+
+/* Snippets strip — photo hover pop (raise + subtle bounce + bring-to-front) */
+@keyframes snippet-photo-pop {
+  0% {
+    transform: rotate(var(--snippet-rot, 0deg)) translateY(0) scale(1);
+  }
+  60% {
+    transform: rotate(var(--snippet-rot, 0deg)) translateY(-10px) scale(1.045);
+  }
+  100% {
+    transform: rotate(var(--snippet-rot, 0deg)) translateY(-6px) scale(1.03);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .snippet-photo-card {
+    z-index: 0;
+  }
+
+  .snippet-photo-card:hover {
+    z-index: 20;
+  }
+
+  .snippet-photo-card__frame {
+    transform: rotate(var(--snippet-rot, 0deg)) translateY(0) scale(1);
+    transform-origin: center center;
+    will-change: transform;
+    transition: transform 260ms var(--ease-out-strong);
+  }
+
+  .snippet-photo-card:hover .snippet-photo-card__frame {
+    animation: snippet-photo-pop 320ms var(--ease-out-strong) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snippet-photo-card__frame,
+  .snippet-photo-card:hover .snippet-photo-card__frame {
+    animation: none !important;
+    transition: none !important;
+    transform: rotate(var(--snippet-rot, 0deg)) !important;
+    will-change: auto;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {

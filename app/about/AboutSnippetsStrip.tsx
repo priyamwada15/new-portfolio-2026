@@ -28,25 +28,31 @@ function SnippetPhotoCard({
   rotateDeg,
   tooltip,
 }: SnippetPhoto) {
+  const cardStyle = {
+    left,
+    top,
+    width,
+    height,
+    "--snippet-rot": `${rotateDeg}deg`,
+  } satisfies React.CSSProperties & Record<"--snippet-rot", string>;
+
   const card = (
     <div
-      className="absolute box-border overflow-hidden rounded-[24px] border-8 border-white"
-      style={{
-        left,
-        top,
-        width,
-        height,
-        boxShadow: PHOTO_CARD_SHADOW,
-        transform: `rotate(${rotateDeg}deg)`,
-      }}
+      className="snippet-photo-card absolute box-border"
+      style={cardStyle}
     >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className="object-cover"
-        sizes={`${width}px`}
-      />
+      <div
+        className="snippet-photo-card__frame relative h-full w-full overflow-hidden rounded-[24px] border-8 border-white"
+        style={{ boxShadow: PHOTO_CARD_SHADOW }}
+      >
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className="object-cover"
+          sizes={`${width}px`}
+        />
+      </div>
     </div>
   );
 

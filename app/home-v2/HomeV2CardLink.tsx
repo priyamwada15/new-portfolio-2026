@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 type HomeV2CardLinkProps = {
   href: string;
@@ -24,6 +25,8 @@ export function HomeV2CardLink({
     ...style,
   };
 
+  const mergedClassName = cn("home-v2-main-card", className);
+
   if (href.startsWith("http")) {
     return (
       <a
@@ -32,7 +35,7 @@ export function HomeV2CardLink({
         rel="noopener noreferrer"
         aria-label={ariaLabel}
         style={linkStyle}
-        className={className}
+        className={mergedClassName}
       >
         {children}
       </a>
@@ -40,7 +43,7 @@ export function HomeV2CardLink({
   }
 
   return (
-    <Link href={href} aria-label={ariaLabel} style={linkStyle} className={className}>
+    <Link href={href} aria-label={ariaLabel} style={linkStyle} className={mergedClassName}>
       {children}
     </Link>
   );

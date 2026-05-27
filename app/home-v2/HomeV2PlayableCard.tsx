@@ -2,6 +2,7 @@
 
 import type { CSSProperties, ReactNode } from "react";
 import { useHomeV2Video } from "./HomeV2VideoProvider";
+import { cn } from "@/lib/utils";
 
 type HomeV2PlayableCardProps = {
   videoSrc: string;
@@ -24,7 +25,7 @@ export function HomeV2PlayableCard({
 
   return (
     <div
-      className={className}
+      className={cn("home-v2-main-card", className)}
       style={{
         ...style,
         position: style?.position ?? "relative",

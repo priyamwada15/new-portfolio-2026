@@ -143,7 +143,7 @@ export default function Nav() {
 
   return (
     <div
-      className="fixed inset-x-0 top-0 z-50 pt-4 pb-2 pointer-events-none"
+      className="fixed inset-x-0 top-0 z-50 pt-8 pb-2 pointer-events-none"
       style={{
         opacity: 1,
         transform: navHiddenByScroll ? "translateY(-100%)" : "translateY(0)",

@@ -68,7 +68,7 @@ export default function HomeV2Page() {
         <HomeV2VideoProvider>
         {/* Align page content to nav inner container edges */}
         <div
-          className="relative mx-auto w-[86%] max-w-[1008px]"
+          className="home-v2-layout relative mx-auto w-[86%] max-w-[1008px]"
           style={{
             minHeight: `${
               HOME_V2_TOP_PX +
@@ -87,6 +87,7 @@ export default function HomeV2Page() {
         >
           {/* Left: intro text (aligned with nav left edge) */}
           <div
+            className="home-v2-section home-v2-intro"
             style={{
               position: "absolute",
               left: 0,
@@ -97,6 +98,7 @@ export default function HomeV2Page() {
           >
           <ScrollReveal revealOnMount>
             <div
+              className="home-v2-intro-copy"
               style={{
                 fontFamily: "var(--font-hind), sans-serif",
                 fontStyle: "normal",
@@ -113,7 +115,10 @@ export default function HomeV2Page() {
               ))}
 
             {/* About snippets block (56px below text) */}
-            <div style={{ marginTop: "56px", display: "flex", gap: "64px" }}>
+            <div
+              className="home-v2-intro-snippets"
+              style={{ marginTop: "56px", display: "flex", gap: "64px" }}
+            >
               {/* Reading */}
               <div style={{ width: "300px" }}>
                 <div
@@ -365,7 +370,10 @@ export default function HomeV2Page() {
           </div>
 
           {/* Right: card (aligned with nav right edge) */}
-          <div style={{ position: "absolute", right: 0, top: `${HOME_V2_TOP_PX}px` }}>
+          <div
+            className="home-v2-section home-v2-section-rm"
+            style={{ position: "absolute", right: 0, top: `${HOME_V2_TOP_PX}px` }}
+          >
           <ScrollReveal revealOnMount>
             <HomeV2CardLink
               href="/rocket-mortgage"
@@ -381,6 +389,7 @@ export default function HomeV2Page() {
             >
             {/* Video region */}
             <div
+              className="home-v2-card-media"
               style={{
                 position: "absolute",
                 width: "350px",
@@ -391,6 +400,7 @@ export default function HomeV2Page() {
               }}
             >
               <div
+                className="home-v2-card-media-logos"
                 style={{
                   position: "absolute",
                   left: "24px",
@@ -416,6 +426,7 @@ export default function HomeV2Page() {
               </div>
 
               <LazyVideo
+                className="home-v2-rm-video"
                 src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295116/RM_Onboarding_new_case_study_and_hero_video_biuj2w.mp4"
                 poster="/Rocket Mortgage Poster.png"
                 ariaLabel="Rocket Mortgage onboarding video"
@@ -433,6 +444,7 @@ export default function HomeV2Page() {
 
             {/* Text */}
             <div
+              className="home-v2-card-footer"
               style={{
                 position: "absolute",
                 width: "302px",
@@ -486,9 +498,13 @@ export default function HomeV2Page() {
           </div>
 
           {/* Second row (56px below RM card) */}
-          <div style={{ position: "absolute", left: 0, top: `${HOME_V2_SECOND_ROW_TOP_PX}px`, width: "1008px", height: "450px" }}>
+          <div
+            className="home-v2-section home-v2-row-2"
+            style={{ position: "absolute", left: 0, top: `${HOME_V2_SECOND_ROW_TOP_PX}px`, width: "1008px", height: "450px" }}
+          >
           <ScrollReveal>
             <div
+              className="home-v2-row"
               style={{
                 width: "1008px",
                 height: "450px",
@@ -549,6 +565,7 @@ export default function HomeV2Page() {
 
               {/* Text */}
               <div
+                className="home-v2-card-footer"
                 style={{
                   position: "absolute",
                   left: "24px",
@@ -626,6 +643,7 @@ export default function HomeV2Page() {
 
               {/* Text */}
               <div
+                className="home-v2-card-footer"
                 style={{
                   position: "absolute",
                   left: "24px",
@@ -676,6 +694,7 @@ export default function HomeV2Page() {
 
           {/* Central block (56px below second row) */}
           <div
+            className="home-v2-section home-v2-central"
             style={{
               position: "absolute",
               left: 0,
@@ -687,6 +706,7 @@ export default function HomeV2Page() {
           >
           <ScrollReveal>
             <div
+              className="home-v2-row"
               style={{
                 width: "1008px",
                 height: `${HOME_V2_CENTRAL_BLOCK_H_PX}px`,
@@ -699,6 +719,7 @@ export default function HomeV2Page() {
             >
             {/* Block left */}
             <div
+              className="home-v2-col"
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -740,6 +761,7 @@ export default function HomeV2Page() {
                   }}
                 />
                 <div
+                  className="home-v2-card-footer"
                   style={{
                     position: "absolute",
                     left: "24px",
@@ -813,6 +835,7 @@ export default function HomeV2Page() {
                   }}
                 />
                 <div
+                  className="home-v2-card-footer"
                   style={{
                     position: "absolute",
                     left: "24px",
@@ -859,6 +882,7 @@ export default function HomeV2Page() {
 
             {/* Block right */}
             <div
+              className="home-v2-col"
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -915,6 +939,7 @@ export default function HomeV2Page() {
                   }}
                 />
                 <div
+                  className="home-v2-card-footer"
                   style={{
                     position: "absolute",
                     left: "24px",
@@ -988,6 +1013,7 @@ export default function HomeV2Page() {
                   }}
                 />
                 <div
+                  className="home-v2-card-footer"
                   style={{
                     position: "absolute",
                     left: "24px",
@@ -1036,9 +1062,13 @@ export default function HomeV2Page() {
           </div>
 
           {/* Row 2 (56px below central block) */}
-          <div style={{ position: "absolute", left: 0, top: `${HOME_V2_ROW2_TOP_PX}px`, width: "1008px", height: `${HOME_V2_ROW2_H_PX}px` }}>
+          <div
+            className="home-v2-section home-v2-row-bottom"
+            style={{ position: "absolute", left: 0, top: `${HOME_V2_ROW2_TOP_PX}px`, width: "1008px", height: `${HOME_V2_ROW2_H_PX}px` }}
+          >
           <ScrollReveal>
             <div
+              className="home-v2-row"
               style={{
                 width: "1008px",
                 height: `${HOME_V2_ROW2_H_PX}px`,
@@ -1079,6 +1109,7 @@ export default function HomeV2Page() {
                 }}
               />
               <div
+                className="home-v2-card-footer"
                 style={{
                   position: "absolute",
                   left: "24px",
@@ -1151,6 +1182,7 @@ export default function HomeV2Page() {
                 }}
               />
               <div
+                className="home-v2-card-footer"
                 style={{
                   position: "absolute",
                   left: "24px",
@@ -1197,7 +1229,10 @@ export default function HomeV2Page() {
           </div>
 
           {/* Snippets of my life (64px below row 2) */}
-          <div style={{ position: "absolute", left: 0, top: `${HOME_V2_SNIPPETS_TOP_PX}px`, width: "1008px", height: `${HOME_V2_SNIPPETS_H_PX}px` }}>
+          <div
+            className="home-v2-section home-v2-snippets"
+            style={{ position: "absolute", left: 0, top: `${HOME_V2_SNIPPETS_TOP_PX}px`, width: "1008px", height: `${HOME_V2_SNIPPETS_H_PX}px` }}
+          >
           <ScrollReveal>
             <HomeV2SnippetsSection />
           </ScrollReveal>

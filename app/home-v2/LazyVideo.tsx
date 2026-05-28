@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
+import { cn } from "@/lib/utils";
 
 export function LazyVideo({
   src,
@@ -9,12 +10,14 @@ export function LazyVideo({
   ariaLabel,
   loop = true,
   style,
+  className,
 }: {
   src: string;
   poster: string;
   ariaLabel: string;
   loop?: boolean;
   style?: CSSProperties;
+  className?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [shouldLoad, setShouldLoad] = useState(false);
@@ -59,6 +62,7 @@ export function LazyVideo({
   return (
     <video
       ref={videoRef}
+      className={className}
       muted
       playsInline
       loop={loop}

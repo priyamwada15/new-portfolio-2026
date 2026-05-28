@@ -54,8 +54,8 @@ const cardFooterFont = {
 };
 
 const INTRO_PARAGRAPHS = [
-  "Hi, I’m a Product Designer focusing on AI experiences for the moments where trust between a user and a system matters.",
-  "Whether that's a first-time homebuyer trusting an AI assistant during the biggest purchase of their life or a student trusting a recommendation that shapes their next four years, I design for the gap between what a system knows and what a user needs to feel.",
+  "Product Designer who has worked on products across fintech, edtech and enterprise tools.",
+  "Whether it's a first-time homebuyer navigating a mortgage or a student figuring out what to study, I design for moments where the product has to get it right.",
   "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a water shader, a LISA GUI fintech dashboard and an ASCII racing game.",
 ] as const;
 

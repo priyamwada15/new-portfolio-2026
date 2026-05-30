@@ -37,17 +37,17 @@ const RESEARCH_CHIPS = [
 ];
 
 const ROCKET_BULLETS = [
-  "Owned end-to-end redesign of an AI-powered assistant embedded within the Rocket Mortgage dashboard, uncovering opportunity areas that expanded the assistant beyond transactional Q&A into guided task completion.",
-  "Defined new interaction patterns, card-based components and system behaviors that supported richer, more reliable user interactions across the assistant experience.",
-  "Designed high-fidelity interactive prototypes and partnered with the research team to validate concepts with Rocket Mortgage clients (n=8), setting usability success criteria and leading evaluation sessions.",
-  "Presented findings and design recommendations to product stakeholders, earning strong PM buy-in and directly informing how concepts were scoped into roadmap-ready features.",
+  "Redesigned the post-offer onboarding experience inside Rocket Assist from a generic, text-based assistant into a personalized, context-driven system by researching available APIs to ground each interaction in the client's actual loan stage and home details..",
+  "Introduced three interaction patterns that entered roadmap discussions: a task carousel for guided next-step completion, an in-chat document component with download capability and a human handoff flow with specialist availability and callback scheduling.",
+  "Defined usability success criteria and wrote the discussion guide used by the research team to validate concepts with Rocket Mortgage clients. 92% of clients found the experience more helpful and trustworthy, directly attributing it to how personalized it felt.",
+  "Presented design proposals across ongoing stakeholder check-ins and a final handover, and defined each feature into its technical dependencies, APIs, cross-team knowledge requirements and engineering scope, resulting in roadmap-ready scoping.",
 ];
 
 const TARS_BULLETS = [
-  "Joined as one of the first design hires. Achieved 41% product adoption within the first quarter by owning research and interaction design for the Asimov dashboard and Slack app, enabling teams to access AI-driven assistance inside existing workflows.",
-  "Designed and shipped an internal Chatbot Debug Mode for Customer Success teams that surfaced conversation flow errors in real time, cutting troubleshooting time by roughly ~70% across large-scale deployments.",
-  "Built the design system from the ground up as one of the first design hires, establishing component libraries, documentation standards and handoff processes that scaled across the product.",
-  "Delivered end-to-end design execution across 10 dashboard sections and 15 website pages, producing detailed developer handoff artifacts to keep design and implementation in alignment.",
+  "Drove 41% product adoption within 3 months of beta launch by owning research and product design for the Asimov dashboard and Slack app, enabling teams to access AI-driven assistance inside existing workflows.",
+  "Designed and shipped an internal Debug Mode for Customer Success teams that surfaced conversation flow errors, reducing troubleshooting time by 70%, validated through direct customer success team feedback.",
+  "Built the design system from the ground up as one of the first design hires, shipping component libraries for the Asimov dashboard and website that scaled across the product as the team grew.",
+  "Led end-to-end design execution across 10 dashboard sections and 15 website pages as part of Tars' first major product rebrand, establishing component systems and developer handoff processes that kept design and implementation in sync at scale.",
 ];
 
 function SectionLabel({ children }: { children: ReactNode }) {

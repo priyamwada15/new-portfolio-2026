@@ -2,8 +2,8 @@
 
 import { LiquidButton } from "../components/animate-ui/liquid-button";
 
-const PDF_HREF = "/Files/Priyamwada-Pandey-Product-Designer-Resume.pdf";
-const PDF_NAME = "Priyamwada-Pandey-Product-Designer-Resume.pdf";
+const PDF_HREF = "/Files/Pandey_Priyamwada_Resume.pdf";
+const PDF_NAME = "Pandey_Priyamwada_Resume.pdf";
 
 function DownloadGlyph({ className }: { className?: string }) {
   return (

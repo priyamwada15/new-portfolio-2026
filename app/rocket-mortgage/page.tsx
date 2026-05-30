@@ -116,7 +116,7 @@ export default function RocketMortgagePage() {
         />
       }
       meta={{
-        timelineLabel: "HANDED OFF",
+        timelineLabel: "Handed off",
         timeline: "Aug 2025",
         industry: "Fintech",
         role: "Product Design",

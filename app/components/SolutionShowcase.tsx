@@ -58,7 +58,7 @@ export default function SolutionShowcase({
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-2xl min-[400px]:rounded-[28px]"
+      className="relative w-full overflow-hidden rounded-[24px]"
       style={{ height: "80vh" }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}

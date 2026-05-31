@@ -4,12 +4,13 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "./Nav";
 import Footer from "./Footer";
-import { HOME_V2_PAGE_BG, SITE_DEFAULT_PAGE_BG } from "../lib/caseStudy";
+import { HOME_V2_PAGE_BG, SITE_DEFAULT_PAGE_BG, isRocketMortgagePath } from "../lib/caseStudy";
 import { AsciiCursorTrail } from "./AsciiCursorTrail";
 
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHomeV2 = pathname === "/";
+  const isRocketMortgage = pathname ? isRocketMortgagePath(pathname) : false;
   const bareAsciiGame =
     pathname === "/ascii-game" || pathname.startsWith("/ascii-game/");
   const bareSunlight =
@@ -34,7 +35,12 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Nav />
-      <main className="flex-1 pt-[96px]">{children}</main>
+      <main
+        className="flex-1 pt-[96px]"
+        style={isRocketMortgage ? { backgroundColor: "#FAFAFA" } : undefined}
+      >
+        {children}
+      </main>
       <Footer />
       {isHomeV2 ? <AsciiCursorTrail /> : null}
     </>

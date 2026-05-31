@@ -56,6 +56,10 @@ interface Props {
   sectionBodyClassName?: string;
   /** When set, overrides the case-study H1 text color (e.g. `#333333`). */
   headlineColor?: string;
+  /** Optional classes merged onto the H1 (replaces default responsive size/weight). */
+  headlineClassName?: string;
+  /** Inline styles merged onto the H1 (e.g. DialKit-driven size/weight). */
+  headlineStyle?: React.CSSProperties;
   children: React.ReactNode;
 }
 
@@ -106,6 +110,8 @@ export default function CaseStudyLayout({
   tocLinkFontFamily,
   sectionBodyClassName,
   headlineColor,
+  headlineClassName,
+  headlineStyle,
   children,
 }: Props) {
   const bodyTextClass =
@@ -148,13 +154,18 @@ export default function CaseStudyLayout({
     </div>
   );
 
+  const h1ClassName =
+    headlineClassName ??
+    "text-2xl md:text-[40px] font-normal leading-tight text-ink";
+
   // ── H1 element ────────────────────────────────────────────────────────
   const h1InHeader = (extraClass = "mb-10") => (
     <h1
-      className={`text-2xl md:text-[40px] font-normal leading-tight text-ink ${extraClass}`}
+      className={`${h1ClassName} ${extraClass}`}
       style={{
         ...headlineFontStyle,
         ...headlineColorStyle,
+        ...headlineStyle,
         textWrap: "pretty" as React.CSSProperties["textWrap"],
       }}
     >
@@ -166,10 +177,11 @@ export default function CaseStudyLayout({
   // Uses text-wrap: pretty (not balance) so the text fills the full column width.
   const h1InColumn = (
     <h1
-      className="text-2xl md:text-[40px] font-normal leading-tight text-ink mb-10"
+      className={`${h1ClassName} mb-10`}
       style={{
         ...headlineFontStyle,
         ...headlineColorStyle,
+        ...headlineStyle,
         textWrap: "pretty" as React.CSSProperties["textWrap"],
       }}
     >
@@ -252,8 +264,8 @@ export default function CaseStudyLayout({
       /* logos → H1 → heroVisual → meta */
       <>
         {logoRow("mb-8")}
-        {h1InHeaderSection && h1InHeader("mb-8")}
-        {heroVisual && <div className="mb-10">{heroVisual}</div>}
+        {h1InHeaderSection && h1InHeader("rm-header-h1 mb-8")}
+        {heroVisual && <div className="rm-header-hero mb-10">{heroVisual}</div>}
         <MetaGrid meta={meta} accentDark={accentDark} />
       </>
     ) : (
@@ -276,8 +288,8 @@ export default function CaseStudyLayout({
       /* logos → H1 → heroVisual → meta */
       <>
         {logoRow("mb-8")}
-        {h1InHeaderSection && h1InHeader("mb-8")}
-        {heroVisual && <div className="mb-10">{heroVisual}</div>}
+        {h1InHeaderSection && h1InHeader("rm-header-h1 mb-8")}
+        {heroVisual && <div className="rm-header-hero mb-10">{heroVisual}</div>}
         <MetaGrid meta={meta} accentDark={accentDark} />
       </>
     ) : (

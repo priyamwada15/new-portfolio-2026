@@ -52,10 +52,9 @@ export function isRocketMortgagePath(pathname: string): boolean {
   return pathname === "/rocket-mortgage" || pathname.startsWith("/rocket-mortgage/");
 }
 
-/** Case studies whose body + footer match the homepage (#FAFAFA). */
+/** Case studies whose body + footer match the site default surface (#FAFAFA). */
 export function caseStudyUsesSiteDefaultSurface(pathname: string): boolean {
   return (
-    isRocketMortgagePath(pathname) ||
     pathname === "/tars-debug-mode" ||
     pathname.startsWith("/tars-debug-mode/") ||
     pathname === "/salesforce" ||

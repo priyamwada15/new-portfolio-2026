@@ -18,6 +18,7 @@ import {
   HOME_V2_PAGE_BG,
   caseStudyUsesSiteDefaultSurface,
   isCaseStudyPath,
+  isRocketMortgagePath,
 } from "../lib/caseStudy";
 import { CopyEmailIcon } from "./CopyEmailIcon";
 
@@ -46,9 +47,10 @@ export default function Footer() {
 
   const footerMuted = "rgba(51,51,51,0.55)";
   const isHomeV2 = pathname === "/";
+  const isRocketMortgage = pathname ? isRocketMortgagePath(pathname) : false;
   const caseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const defaultSurface = pathname ? caseStudyUsesSiteDefaultSurface(pathname) : false;
-  const footerBg = isHomeV2
+  const footerBg = isHomeV2 || isRocketMortgage
     ? HOME_V2_PAGE_BG
     : caseStudy && !defaultSurface
       ? CASE_STUDY_PAGE_BG

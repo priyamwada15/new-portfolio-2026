@@ -972,6 +972,112 @@ body {
   }
 }
 
+/* Rocket Mortgage — DialKit-driven spacing & typography (dev tuning). */
+.rm-dial-root .case-study-section-stack {
+  row-gap: var(--rm-section-stack-gap);
+}
+
+.rm-dial-root #context {
+  margin-bottom: var(--rm-context-bottom);
+}
+
+.rm-dial-root header .rm-header-h1 {
+  margin-bottom: var(--rm-h1-hero-gap);
+}
+
+.rm-dial-root header .rm-header-hero {
+  margin-bottom: var(--rm-hero-meta-gap);
+}
+
+.rm-dial-root .rm-tldr {
+  gap: var(--rm-element-gap);
+}
+
+.rm-dial-root .rm-tldr-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rm-element-gap);
+}
+
+.rm-dial-root .rm-tldr-title {
+  font-size: var(--rm-tldr-title-size);
+  font-weight: var(--rm-tldr-title-weight);
+}
+
+.rm-dial-root .rm-body-text {
+  font-size: var(--rm-body-size);
+  font-weight: var(--rm-body-weight);
+}
+
+.rm-dial-root .rm-metrics {
+  gap: var(--rm-metrics-gap);
+  padding-top: var(--rm-padding-metrics-top);
+}
+
+.rm-dial-root .rm-metric-value {
+  font-size: var(--rm-metric-value-size);
+  font-weight: var(--rm-metric-value-weight);
+}
+
+.rm-dial-root .rm-metric-caption {
+  font-size: var(--rm-metric-caption-size);
+  font-weight: var(--rm-metric-caption-weight);
+  padding-top: var(--rm-metric-caption-top, 16px);
+}
+
+.rm-dial-root .rm-body-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rm-body-stack-gap);
+}
+
+.rm-dial-root .rm-solution-grid {
+  gap: var(--rm-grid-gap);
+}
+
+@media (min-width: 768px) {
+  .rm-dial-root .rm-solution-grid {
+    gap: var(--rm-grid-gap-lg);
+  }
+}
+
+.rm-dial-root .rm-testimonial-grid {
+  gap: 32px;
+}
+
+.rm-dial-root .rm-reflection-grid {
+  gap: 32px;
+  padding: 16px 0;
+}
+
+.rm-dial-root .rm-testimonial-card {
+  padding: var(--rm-padding-card);
+}
+
+.rm-dial-root .rm-h2 {
+  font-size: var(--rm-h2-size);
+  font-weight: var(--rm-h2-weight);
+  margin-bottom: var(--rm-h2-below);
+}
+
+.rm-dial-root .rm-quote-block > div {
+  padding-top: var(--rm-padding-quote-y);
+  padding-bottom: var(--rm-padding-quote-y);
+}
+
+.rm-dial-root .rm-feedback-block {
+  padding-top: var(--rm-padding-feedback-y);
+  padding-bottom: var(--rm-padding-feedback-y);
+}
+
+.rm-dial-root .rm-feedback-stack {
+  gap: var(--rm-feedback-gap);
+}
+
+.rm-dial-root .rm-testimonial-card {
+  padding: var(--rm-padding-card);
+}
+
 /* Case study body column: vertical rhythm between major blocks (matches former space-y-40). */
 .case-study-section-stack {
   display: flex;

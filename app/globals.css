@@ -577,6 +577,90 @@ body {
   body.home-v2-lightbox-open.ascii-cursor * {
     cursor: auto;
   }
+
+  body.portfolio-asterisk-cursor {
+    cursor: none;
+  }
+
+  body.portfolio-asterisk-cursor * {
+    cursor: none;
+  }
+}
+
+.ascii-cursor-layer,
+.asterisk-cursor-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+.ascii-cursor__head-wrap,
+.asterisk-cursor__head-wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 10001;
+  will-change: transform;
+}
+
+.ascii-cursor__head,
+.asterisk-cursor__head {
+  display: block;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  font-size: 22px;
+  line-height: 1;
+  color: #111111;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ascii-cursor__trail-char {
+  position: fixed;
+  pointer-events: none;
+  user-select: none;
+  z-index: 9999;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1;
+  color: #333333;
+  animation: ascii-cursor-trail-fade 650ms ease-out forwards;
+}
+
+@keyframes ascii-cursor-trail-fade {
+  from {
+    opacity: 0.65;
+    transform: translate(-50%, -55%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -55%) scale(0.65);
+  }
+}
+
+.asterisk-cursor__head--spinning {
+  animation: asterisk-cursor-spin 0.25s ease-out forwards;
+}
+
+@keyframes asterisk-cursor-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asterisk-cursor__head--spinning {
+    animation: none;
+  }
+
+  .ascii-cursor__trail-char {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* Hero headline — AI pill (default + hover) */

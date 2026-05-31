@@ -6,6 +6,7 @@ import Nav from "./Nav";
 import Footer from "./Footer";
 import { HOME_V2_PAGE_BG, SITE_DEFAULT_PAGE_BG, isRocketMortgagePath } from "../lib/caseStudy";
 import { AsciiCursorTrail } from "./AsciiCursorTrail";
+import { AsteriskCursor } from "./AsteriskCursor";
 
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -17,18 +18,28 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     pathname === "/sunlight" || pathname.startsWith("/sunlight/");
   const bareWater =
     pathname === "/water" || pathname.startsWith("/water/");
+  const isBarePage = bareAsciiGame || bareSunlight || bareWater;
+  const usePortfolioAsteriskCursor = !isHomeV2 && !isBarePage;
 
   useEffect(() => {
-    if (!isHomeV2) return;
-    document.body.style.backgroundColor = HOME_V2_PAGE_BG;
-    document.body.classList.add("ascii-cursor");
+    if (isBarePage) return;
+
+    if (isHomeV2) {
+      document.body.style.backgroundColor = HOME_V2_PAGE_BG;
+      document.body.classList.add("ascii-cursor");
+      document.body.classList.remove("portfolio-asterisk-cursor");
+    } else {
+      document.body.classList.add("portfolio-asterisk-cursor");
+      document.body.classList.remove("ascii-cursor");
+    }
+
     return () => {
       document.body.style.backgroundColor = SITE_DEFAULT_PAGE_BG;
-      document.body.classList.remove("ascii-cursor");
+      document.body.classList.remove("ascii-cursor", "portfolio-asterisk-cursor");
     };
-  }, [isHomeV2]);
+  }, [isBarePage, isHomeV2]);
 
-  if (bareAsciiGame || bareSunlight || bareWater) {
+  if (isBarePage) {
     return <main className="flex-1 min-h-screen">{children}</main>;
   }
 
@@ -43,6 +54,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
       </main>
       <Footer />
       {isHomeV2 ? <AsciiCursorTrail /> : null}
+      {usePortfolioAsteriskCursor ? <AsteriskCursor /> : null}
     </>
   );
 }

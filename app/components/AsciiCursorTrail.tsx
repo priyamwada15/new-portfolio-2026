@@ -1,16 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import {
+  isClickableCursorTarget,
+  isFinePointerDevice,
+  prefersReducedMotion,
+  triggerAsteriskSpin,
+} from "../lib/cursorUtils";
 
-type TrailItem = {
-  id: number;
-  x: number;
-  y: number;
-  ch: string;
-  bornAt: number;
-};
+const TAIL_CHARS =
+  ".,:;+-=~^_`'\"\\/|()[]{}<>!?$#@%&0123456789abcdefghijklmnopqrstuvwxyz";
 
-const TAIL_CHARS = ".,:;+-=~^_`'\"\\/|()[]{}<>!?$#@%&0123456789abcdefghijklmnopqrstuvwxyz";
+const CUSTOM_HOVER_SELECTOR =
+  ".cursor-hover-light, .cursor-hover-dark, .cursor-hover-eye-dark";
+
+const TRAIL_CLASS = "ascii-cursor__trail-char";
 
 function pickChar(rand: () => number) {
   const i = Math.floor(rand() * TAIL_CHARS.length);
@@ -18,16 +22,20 @@ function pickChar(rand: () => number) {
 }
 
 export function AsciiCursorTrail() {
-  const [items, setItems] = useState<TrailItem[]>([]);
-  const [head, setHead] = useState<{ x: number; y: number } | null>(null);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const hoveringCustomCursorRef = useRef(false);
-  const idRef = useRef(0);
-  const rafRef = useRef<number | null>(null);
+  const layerRef = useRef<HTMLDivElement>(null);
+  const headWrapRef = useRef<HTMLDivElement>(null);
+  const headRef = useRef<HTMLSpanElement>(null);
+  const trailPoolRef = useRef<HTMLSpanElement[]>([]);
+  const activeTrailCountRef = useRef(0);
   const lastSpawnRef = useRef<{ x: number; y: number; t: number } | null>(null);
+  const lastTargetRef = useRef<EventTarget | null>(null);
+  const hoveringCustomCursorRef = useRef(false);
+  const wasClickableRef = useRef(false);
+  const lightboxOpenRef = useRef(false);
+  const pendingPosRef = useRef<{ x: number; y: number } | null>(null);
+  const moveRafRef = useRef<number | null>(null);
 
   const rand = useMemo(() => {
-    // Deterministic-ish per session; avoids pulling in crypto.
     let seed = (Date.now() % 2147483647) + 1;
     return () => {
       seed = (seed * 16807) % 2147483647;
@@ -36,9 +44,16 @@ export function AsciiCursorTrail() {
   }, []);
 
   useEffect(() => {
+    const layer = layerRef.current;
+    if (!layer) return;
+
     const syncLightbox = () => {
-      setLightboxOpen(document.body.classList.contains("home-v2-lightbox-open"));
+      lightboxOpenRef.current = document.body.classList.contains(
+        "home-v2-lightbox-open",
+      );
+      layer.style.display = lightboxOpenRef.current ? "none" : "";
     };
+
     syncLightbox();
     const observer = new MutationObserver(syncLightbox);
     observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
@@ -46,38 +61,110 @@ export function AsciiCursorTrail() {
   }, []);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
+    if (prefersReducedMotion() || !isFinePointerDevice()) return;
 
-    const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (!isFinePointer) return;
+    const layer = layerRef.current;
+    const headWrap = headWrapRef.current;
+    const head = headRef.current;
+    if (!layer || !headWrap || !head) return;
 
-    const maxItems = 18;
-    const ttlMs = 650;
-    const minDistPx = 10;
-    const minIntervalMs = 18;
+    const maxItems = 14;
+    const minDistPx = 12;
+    const minIntervalMs = 24;
 
-    const tick = () => {
-      const now = performance.now();
-      setItems((prev) => prev.filter((it) => now - it.bornAt < ttlMs));
-      rafRef.current = window.requestAnimationFrame(tick);
+    const acquireTrailEl = () => trailPoolRef.current.pop() ?? document.createElement("span");
+
+    const releaseTrailEl = (el: HTMLSpanElement) => {
+      el.remove();
+      trailPoolRef.current.push(el);
     };
 
-    rafRef.current = window.requestAnimationFrame(tick);
+    const clearTrail = () => {
+      for (const child of Array.from(layer.children)) {
+        if (child instanceof HTMLSpanElement && child.classList.contains(TRAIL_CLASS)) {
+          releaseTrailEl(child);
+        }
+      }
+      activeTrailCountRef.current = 0;
+    };
+
+    const flushHeadPosition = () => {
+      moveRafRef.current = null;
+      const pos = pendingPosRef.current;
+      if (!pos || lightboxOpenRef.current) return;
+      headWrap.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -55%)`;
+    };
+
+    const scheduleHeadPosition = (x: number, y: number) => {
+      pendingPosRef.current = { x, y };
+      if (moveRafRef.current !== null) return;
+      moveRafRef.current = window.requestAnimationFrame(flushHeadPosition);
+    };
+
+    const syncHoverState = (target: EventTarget | null) => {
+      if (target === lastTargetRef.current) return;
+      lastTargetRef.current = target;
+
+      hoveringCustomCursorRef.current = Boolean(
+        target instanceof Element && target.closest(CUSTOM_HOVER_SELECTOR),
+      );
+
+      const clickable =
+        !hoveringCustomCursorRef.current && isClickableCursorTarget(target);
+      if (clickable && !wasClickableRef.current) {
+        triggerAsteriskSpin(head);
+      } else if (!clickable) {
+        head.classList.remove("asterisk-cursor__head--spinning");
+      }
+      wasClickableRef.current = clickable;
+    };
+
+    const spawnTrail = (x: number, y: number) => {
+      if (activeTrailCountRef.current >= maxItems) {
+        const oldest = layer.querySelector(`.${TRAIL_CLASS}`);
+        if (oldest instanceof HTMLSpanElement) {
+          releaseTrailEl(oldest);
+          activeTrailCountRef.current -= 1;
+        }
+      }
+
+      const el = acquireTrailEl();
+      el.className = TRAIL_CLASS;
+      el.textContent = pickChar(rand);
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+      el.style.animation = "none";
+      layer.appendChild(el);
+      void el.offsetWidth;
+      el.style.animation = "";
+      activeTrailCountRef.current += 1;
+
+      el.addEventListener(
+        "animationend",
+        () => {
+          releaseTrailEl(el);
+          activeTrailCountRef.current = Math.max(0, activeTrailCountRef.current - 1);
+        },
+        { once: true },
+      );
+    };
+
+    const onAnimationEnd = () => {
+      head.classList.remove("asterisk-cursor__head--spinning");
+    };
+
+    head.addEventListener("animationend", onAnimationEnd);
 
     const onMove = (e: PointerEvent) => {
-      // Hide trail while hovering custom SVG cursor cards.
-      const target = e.target as Element | null;
-      hoveringCustomCursorRef.current = Boolean(
-        target?.closest?.(".cursor-hover-light, .cursor-hover-dark, .cursor-hover-eye-dark"),
-      );
+      if (lightboxOpenRef.current) return;
 
       const x = e.clientX;
       const y = e.clientY;
-      setHead({ x, y });
+      scheduleHeadPosition(x, y);
+      syncHoverState(e.target);
 
       if (hoveringCustomCursorRef.current) {
-        setItems([]);
+        if (activeTrailCountRef.current > 0) clearTrail();
         lastSpawnRef.current = { x, y, t: performance.now() };
         return;
       }
@@ -91,76 +178,33 @@ export function AsciiCursorTrail() {
 
       if (dist < minDistPx || dt < minIntervalMs) return;
       lastSpawnRef.current = { x, y, t: now };
+      spawnTrail(x, y);
+    };
 
-      const id = ++idRef.current;
-      const ch = pickChar(rand);
-      setItems((prev) => {
-        const next = [...prev, { id, x, y, ch, bornAt: now }];
-        return next.length > maxItems ? next.slice(next.length - maxItems) : next;
-      });
+    const onLeave = () => {
+      wasClickableRef.current = false;
+      lastTargetRef.current = null;
+      head.classList.remove("asterisk-cursor__head--spinning");
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerleave", onLeave);
     return () => {
+      head.removeEventListener("animationend", onAnimationEnd);
       window.removeEventListener("pointermove", onMove);
-      if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("pointerleave", onLeave);
+      if (moveRafRef.current !== null) window.cancelAnimationFrame(moveRafRef.current);
+      clearTrail();
     };
   }, [rand]);
 
-  if (!head || lightboxOpen) return null;
-
-  // Tail fades out towards the end: older items get lower opacity.
-  const now = performance.now();
-
   return (
-    <div className="ascii-cursor-layer" aria-hidden>
-      {items.map((it, idx) => {
-        const age = now - it.bornAt;
-        const t = Math.min(1, Math.max(0, age / 650));
-        const opacity = 0.65 * (1 - t);
-        const scale = 1 - t * 0.35;
-        return (
-          <span
-            key={it.id}
-            style={{
-              position: "fixed",
-              left: it.x,
-              top: it.y,
-              transform: `translate(-50%, -55%) scale(${scale})`,
-              opacity,
-              fontFamily: "var(--font-dm-mono), ui-monospace, monospace",
-              fontSize: "14px",
-              lineHeight: 1,
-              color: "#333333",
-              pointerEvents: "none",
-              userSelect: "none",
-              zIndex: 9999,
-              filter: idx < items.length - 8 ? "blur(0.2px)" : "none",
-            }}
-          >
-            {it.ch}
-          </span>
-        );
-      })}
-
-      <span
-        style={{
-          position: "fixed",
-          left: head.x,
-          top: head.y,
-          transform: "translate(-50%, -55%)",
-          fontFamily: "var(--font-dm-mono), ui-monospace, monospace",
-          fontSize: "22px",
-          lineHeight: 1,
-          color: "#111111",
-          pointerEvents: "none",
-          userSelect: "none",
-          zIndex: 10000,
-        }}
-      >
-        *
-      </span>
+    <div ref={layerRef} className="ascii-cursor-layer" aria-hidden>
+      <div ref={headWrapRef} className="ascii-cursor__head-wrap">
+        <span ref={headRef} className="ascii-cursor__head">
+          *
+        </span>
+      </div>
     </div>
   );
 }
-

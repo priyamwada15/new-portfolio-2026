@@ -26,6 +26,7 @@ export function SunlightEffect({ className }: { className?: string }) {
   return (
     <div
       className={className ?? "absolute inset-0 overflow-hidden pointer-events-none hidden md:block"}
+      style={{ contain: "strict", isolation: "isolate" }}
       aria-hidden="true"
     >
       {WARM_GLOW_ENABLED ? (
@@ -65,12 +66,12 @@ export function SunlightEffect({ className }: { className?: string }) {
             height: "240%",
             background:
               "linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 50%, transparent 100%)",
-            transform: "rotate(-35deg)",
+            transform: "rotate(-35deg) translateZ(0)",
             transformOrigin: "top center",
             opacity: ray.opacity,
-            filter: `blur(${ray.blur}px)`,
-            animation: `sun-ray-sway ${ray.dur}s ease-in-out infinite alternate`,
-            animationDelay: `${ray.delay}s`,
+            filter: i >= 6 ? `blur(${ray.blur}px)` : undefined,
+            animation: i < 6 ? `sun-ray-sway ${ray.dur}s ease-in-out infinite alternate` : undefined,
+            animationDelay: i < 6 ? `${ray.delay}s` : undefined,
             "--ray-dist": `${ray.dist}px`,
           } as React.CSSProperties}
         />

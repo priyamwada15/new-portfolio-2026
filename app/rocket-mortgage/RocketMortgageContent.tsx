@@ -1,6 +1,5 @@
 "use client";
 
-import { useDialKit } from "dialkit";
 import { CirclesThree, Eyes, Handshake } from "@phosphor-icons/react";
 import type { Icon } from "@phosphor-icons/react";
 import CaseStudyLayout from "../components/CaseStudyLayout";
@@ -15,8 +14,37 @@ import {
 const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
 const accent = "#851F27";
 
-const FONT_WEIGHT_OPTIONS = ["400", "500", "600", "700"] as const;
-const BODY_WEIGHT_OPTIONS = ["400", "500", "600"] as const;
+/** Spacing & type tokens (formerly tuned via DialKit). */
+const RM_LAYOUT_STYLE = {
+  "--rm-section-stack-gap": "160px",
+  "--rm-element-gap": "16px",
+  "--rm-body-stack-gap": "20px",
+  "--rm-grid-gap": "40px",
+  "--rm-grid-gap-lg": "64px",
+  "--rm-h2-below": "40px",
+  "--rm-metrics-gap": "48px",
+  "--rm-feedback-gap": "40px",
+  "--rm-context-bottom": "160px",
+  "--rm-h1-hero-gap": "32px",
+  "--rm-hero-meta-gap": "40px",
+  "--rm-padding-card": "40px",
+  "--rm-padding-quote-y": "48px",
+  "--rm-padding-feedback-y": "40px",
+  "--rm-padding-metrics-top": "24px",
+  "--rm-metric-caption-top": "16px",
+  "--rm-h1-size": "36px",
+  "--rm-h1-weight": "500",
+  "--rm-h2-size": "32px",
+  "--rm-h2-weight": "700",
+  "--rm-tldr-title-size": "32px",
+  "--rm-tldr-title-weight": "700",
+  "--rm-body-size": "16px",
+  "--rm-body-weight": "400",
+  "--rm-metric-value-size": "48px",
+  "--rm-metric-value-weight": "700",
+  "--rm-metric-caption-size": "14px",
+  "--rm-metric-caption-weight": "400",
+} as React.CSSProperties;
 
 function ContextTldr({ metricCaptionTop }: { metricCaptionTop: number }) {
   const metrics = [
@@ -249,90 +277,8 @@ function ReflectionCard({
 }
 
 export default function RocketMortgageContent() {
-  const d = useDialKit("Rocket Mortgage", {
-    spacing: {
-      sectionStack: [160, 40, 320, 8],
-      elementGap: [16, 0, 64, 4],
-      bodyStack: [20, 0, 80, 4],
-      gridGap: [40, 0, 120, 4],
-      gridGapLarge: [64, 0, 160, 4],
-      h2Below: [40, 0, 120, 4],
-      metricsGap: [48, 0, 120, 4],
-      feedbackGap: [40, 0, 120, 4],
-      contextBottom: [160, 40, 320, 8],
-      header: {
-        h1ToHero: [32, 0, 120, 4],
-        heroToMeta: [40, 0, 120, 4],
-      },
-    },
-    padding: {
-      card: [40, 0, 80, 4],
-      quoteY: [48, 0, 120, 4],
-      feedbackBlockY: [40, 0, 80, 4],
-      metricsTop: [24, 0, 80, 4],
-      metricCaptionTop: [16, 0, 48, 4],
-    },
-    typography: {
-      h1: {
-        size: [36, 24, 56, 1],
-        weight: { type: "select", options: [...FONT_WEIGHT_OPTIONS], default: "500" },
-      },
-      h2: {
-        size: [32, 20, 48, 1],
-        weight: { type: "select", options: [...FONT_WEIGHT_OPTIONS], default: "700" },
-      },
-      tldrTitle: {
-        size: [32, 20, 48, 1],
-        weight: { type: "select", options: [...FONT_WEIGHT_OPTIONS], default: "700" },
-      },
-      body: {
-        size: [16, 12, 24, 1],
-        weight: { type: "select", options: [...BODY_WEIGHT_OPTIONS], default: "400" },
-      },
-      metricValue: {
-        size: [48, 24, 72, 1],
-        weight: { type: "select", options: [...FONT_WEIGHT_OPTIONS], default: "700" },
-      },
-      metricCaption: {
-        size: [14, 10, 20, 1],
-        weight: { type: "select", options: [...BODY_WEIGHT_OPTIONS], default: "400" },
-      },
-    },
-  });
-
-  const dialStyle = {
-    "--rm-section-stack-gap": `${d.spacing.sectionStack}px`,
-    "--rm-element-gap": `${d.spacing.elementGap}px`,
-    "--rm-body-stack-gap": `${d.spacing.bodyStack}px`,
-    "--rm-grid-gap": `${d.spacing.gridGap}px`,
-    "--rm-grid-gap-lg": `${d.spacing.gridGapLarge}px`,
-    "--rm-h2-below": `${d.spacing.h2Below}px`,
-    "--rm-metrics-gap": `${d.spacing.metricsGap}px`,
-    "--rm-feedback-gap": `${d.spacing.feedbackGap}px`,
-    "--rm-context-bottom": `${d.spacing.contextBottom}px`,
-    "--rm-h1-hero-gap": `${d.spacing.header.h1ToHero}px`,
-    "--rm-hero-meta-gap": `${d.spacing.header.heroToMeta}px`,
-    "--rm-padding-card": `${d.padding.card}px`,
-    "--rm-padding-quote-y": `${d.padding.quoteY}px`,
-    "--rm-padding-feedback-y": `${d.padding.feedbackBlockY}px`,
-    "--rm-padding-metrics-top": `${d.padding.metricsTop}px`,
-    "--rm-metric-caption-top": `${d.padding.metricCaptionTop}px`,
-    "--rm-h1-size": `${d.typography.h1.size}px`,
-    "--rm-h1-weight": d.typography.h1.weight,
-    "--rm-h2-size": `${d.typography.h2.size}px`,
-    "--rm-h2-weight": d.typography.h2.weight,
-    "--rm-tldr-title-size": `${d.typography.tldrTitle.size}px`,
-    "--rm-tldr-title-weight": d.typography.tldrTitle.weight,
-    "--rm-body-size": `${d.typography.body.size}px`,
-    "--rm-body-weight": d.typography.body.weight,
-    "--rm-metric-value-size": `${d.typography.metricValue.size}px`,
-    "--rm-metric-value-weight": d.typography.metricValue.weight,
-    "--rm-metric-caption-size": `${d.typography.metricCaption.size}px`,
-    "--rm-metric-caption-weight": d.typography.metricCaption.weight,
-  } as React.CSSProperties;
-
   return (
-    <div className="rm-dial-root" style={dialStyle}>
+    <div className="rm-dial-root" style={RM_LAYOUT_STYLE}>
       <CaseStudyLayout
         accentDark={accent}
         accentLight="#F8D6D9"
@@ -341,8 +287,8 @@ export default function RocketMortgageContent() {
         headlineColor="#333333"
         headlineClassName="leading-[1.3]"
         headlineStyle={{
-          fontSize: d.typography.h1.size,
-          fontWeight: Number(d.typography.h1.weight),
+          fontSize: 36,
+          fontWeight: 500,
         }}
         contentBodyClassName={CASE_STUDY_BODY_CLASS}
         sectionBodyClassName={CASE_STUDY_SECTION_BODY_CLASS}
@@ -356,7 +302,7 @@ export default function RocketMortgageContent() {
         reverseHeaderOrder
         hideContextLabel
         heroVisual={<RocketMortgageTripleVideos className="rounded-2xl" />}
-        context={<ContextTldr metricCaptionTop={d.padding.metricCaptionTop} />}
+        context={<ContextTldr metricCaptionTop={16} />}
         meta={{
           timelineLabel: "Handed off",
           timeline: "Aug 2025",

@@ -1056,7 +1056,7 @@ body {
   }
 }
 
-/* Rocket Mortgage — DialKit-driven spacing & typography (dev tuning). */
+/* Rocket Mortgage — spacing & typography via CSS variables on .rm-dial-root */
 .rm-dial-root .case-study-section-stack {
   row-gap: var(--rm-section-stack-gap);
 }

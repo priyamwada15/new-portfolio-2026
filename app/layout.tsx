@@ -11,12 +11,9 @@ import {
 } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import "dialkit/styles.css";
-import { DialRoot } from "dialkit";
 import AppChrome from "./components/AppChrome";
 import SmoothScroll from "./components/SmoothScroll";
 import ScrollToTopOnRouteChange from "./components/ScrollToTopOnRouteChange";
-import DevAgentation from "./components/DevAgentation";
 import { Analytics } from "@vercel/analytics/next";
 import { cn } from "@/lib/utils";
 import { SITE_DEFAULT_PAGE_BG } from "./lib/caseStudy";
@@ -115,8 +112,6 @@ export default function RootLayout({
         <SmoothScroll />
         <ScrollToTopOnRouteChange />
         <AppChrome>{children}</AppChrome>
-        <DialRoot />
-        {process.env.NODE_ENV === "development" && <DevAgentation />}
         <Analytics />
       </body>
     </html>

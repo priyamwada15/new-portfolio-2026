@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 // Shadow-band ray effect — visible only on md+ (≥768px) screens.
 // Technique: semi-transparent dark bands; the gaps between them read as
 // light rays (venetian blind / leaf shadow effect). Works on any light bg.
@@ -8,23 +10,46 @@
 
 const RAYS = [
   // Sharper shadow bands — kept low so #FAFAFA body bg does not read grey
-  { left: 36, width: 42, blur: 4,  opacity: 0.035, dur: 3,   delay: 0,    dist: 40 },
-  { left: 43, width: 36, blur: 3,  opacity: 0.04,  dur: 2.5, delay: -0.5, dist: 52 },
-  { left: 49, width: 44, blur: 4,  opacity: 0.03,  dur: 3.5, delay: -1,   dist: 44 },
-  { left: 55, width: 38, blur: 3,  opacity: 0.038, dur: 2.5, delay: -1.5, dist: 48 },
-  { left: 61, width: 42, blur: 4,  opacity: 0.032, dur: 4,   delay: -0.8, dist: 36 },
-  { left: 67, width: 36, blur: 3,  opacity: 0.035, dur: 3,   delay: -2,   dist: 40 },
-  // Soft wide bands for atmospheric depth
-  { left: 40, width: 110, blur: 18, opacity: 0.018, dur: 8, delay: -2, dist: 28 },
-  { left: 60, width: 120, blur: 22, opacity: 0.014, dur: 9, delay: -3, dist: 22 },
+  { left: 36, width: 42, opacity: 0.035, dur: 3, delay: 0, dist: 40 },
+  { left: 43, width: 36, opacity: 0.04, dur: 2.5, delay: -0.5, dist: 52 },
+  { left: 49, width: 44, opacity: 0.03, dur: 3.5, delay: -1, dist: 44 },
+  { left: 55, width: 38, opacity: 0.038, dur: 2.5, delay: -1.5, dist: 48 },
+  { left: 61, width: 42, opacity: 0.032, dur: 4, delay: -0.8, dist: 36 },
+  { left: 67, width: 36, opacity: 0.035, dur: 3, delay: -2, dist: 40 },
+  // Soft wide bands — no blur filter (expensive during scroll)
+  { left: 40, width: 110, opacity: 0.012, dur: 8, delay: -2, dist: 28 },
+  { left: 60, width: 120, opacity: 0.01, dur: 9, delay: -3, dist: 22 },
 ] as const;
 
 /** Set true to restore the yellow/peach radial wash (top-right). */
 const WARM_GLOW_ENABLED = false;
 
 export function SunlightEffect({ className }: { className?: string }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    let timer = 0;
+    const onScroll = () => {
+      root.classList.add("sunlight-scrolling");
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        root.classList.remove("sunlight-scrolling");
+      }, 120);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(timer);
+    };
+  }, []);
+
   return (
     <div
+      ref={rootRef}
       className={className ?? "absolute inset-0 overflow-hidden pointer-events-none hidden md:block"}
       style={{ contain: "strict", isolation: "isolate" }}
       aria-hidden="true"
@@ -53,7 +78,6 @@ export function SunlightEffect({ className }: { className?: string }) {
         </>
       ) : null}
 
-      {/* Shadow bands — darker stripes; gaps between them read as light rays */}
       {RAYS.map((ray, i) => (
         <div
           key={i}
@@ -69,9 +93,8 @@ export function SunlightEffect({ className }: { className?: string }) {
             transform: "rotate(-35deg) translateZ(0)",
             transformOrigin: "top center",
             opacity: ray.opacity,
-            filter: i >= 6 ? `blur(${ray.blur}px)` : undefined,
-            animation: i < 6 ? `sun-ray-sway ${ray.dur}s ease-in-out infinite alternate` : undefined,
-            animationDelay: i < 6 ? `${ray.delay}s` : undefined,
+            animation: `sun-ray-sway ${ray.dur}s ease-in-out infinite alternate`,
+            animationDelay: `${ray.delay}s`,
             "--ray-dist": `${ray.dist}px`,
           } as React.CSSProperties}
         />

@@ -335,14 +335,13 @@ body {
 /* Home V2 — main blocks: hover scale + subtle shadow */
 @media (hover: hover) and (pointer: fine) {
   .home-v2-main-card {
-    will-change: transform, box-shadow;
-    transform: translateZ(0);
     transition:
       transform 240ms var(--ease-out-strong),
       box-shadow 240ms var(--ease-out-strong);
   }
 
   .home-v2-main-card:hover {
+    will-change: transform, box-shadow;
     transform: translateY(-4px) scale(1.02);
     box-shadow: 0 28px 70px -22px rgba(0, 0, 0, 0.18);
     z-index: 10;
@@ -1174,6 +1173,17 @@ body {
 @keyframes sun-ray-sway {
   from { transform: rotate(-35deg) translateX(0); }
   to   { transform: rotate(-35deg) translateX(var(--ray-dist, 16px)); }
+}
+
+.sunlight-scrolling .sun-ray {
+  animation-play-state: paused !important;
+}
+
+@media (min-width: 1024px) {
+  .home-v2-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 640px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

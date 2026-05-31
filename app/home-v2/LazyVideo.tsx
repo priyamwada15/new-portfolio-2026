@@ -20,20 +20,40 @@ export function LazyVideo({
   className?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const inViewRef = useRef(false);
+  const shouldLoadRef = useRef(false);
   const [shouldLoad, setShouldLoad] = useState(false);
-  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
 
+    const playIfInView = () => {
+      if (!inViewRef.current || !shouldLoadRef.current) return;
+      if (el.readyState >= 2) {
+        void el.play().catch(() => {});
+        return;
+      }
+      el.addEventListener(
+        "loadeddata",
+        () => {
+          if (inViewRef.current) void el.play().catch(() => {});
+        },
+        { once: true },
+      );
+    };
+
     const obs = new IntersectionObserver(
       ([entry]) => {
+        inViewRef.current = entry.isIntersecting;
         if (entry.isIntersecting) {
-          setShouldLoad(true);
-          setInView(true);
+          if (!shouldLoadRef.current) {
+            shouldLoadRef.current = true;
+            setShouldLoad(true);
+          }
+          playIfInView();
         } else {
-          setInView(false);
+          el.pause();
         }
       },
       {
@@ -47,32 +67,33 @@ export function LazyVideo({
   }, []);
 
   useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-
-    if (inView && shouldLoad) {
-      void v.play().catch(() => {
-        // Autoplay can still be blocked in some environments; poster will remain visible.
-      });
-    } else {
-      v.pause();
+    const el = videoRef.current;
+    if (!el || !shouldLoad || !inViewRef.current) return;
+    if (el.readyState >= 2) {
+      void el.play().catch(() => {});
+      return;
     }
-  }, [inView, shouldLoad]);
+    el.addEventListener(
+      "loadeddata",
+      () => {
+        if (inViewRef.current) void el.play().catch(() => {});
+      },
+      { once: true },
+    );
+  }, [shouldLoad]);
 
   return (
     <video
       ref={videoRef}
-      className={className}
+      className={cn(className)}
       muted
       playsInline
       loop={loop}
       preload="none"
       poster={poster}
       aria-label={ariaLabel}
-      // Avoid fetching video bytes until we've confirmed it's in view.
       src={shouldLoad ? src : undefined}
       style={style}
     />
   );
 }
-

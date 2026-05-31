@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useScrollActive } from "../lib/useScrollActive";
 import {
   isClickableCursorTarget,
   isFinePointerDevice,
@@ -34,14 +35,7 @@ export function AsciiCursorTrail() {
   const lightboxOpenRef = useRef(false);
   const pendingPosRef = useRef<{ x: number; y: number } | null>(null);
   const moveRafRef = useRef<number | null>(null);
-
-  const rand = useMemo(() => {
-    let seed = (Date.now() % 2147483647) + 1;
-    return () => {
-      seed = (seed * 16807) % 2147483647;
-      return (seed - 1) / 2147483646;
-    };
-  }, []);
+  const scrollingRef = useScrollActive();
 
   useEffect(() => {
     const layer = layerRef.current;
@@ -67,6 +61,12 @@ export function AsciiCursorTrail() {
     const headWrap = headWrapRef.current;
     const head = headRef.current;
     if (!layer || !headWrap || !head) return;
+
+    let seed = (Date.now() % 2147483647) + 1;
+    const rand = () => {
+      seed = (seed * 16807) % 2147483647;
+      return (seed - 1) / 2147483646;
+    };
 
     const maxItems = 14;
     const minDistPx = 12;
@@ -161,6 +161,9 @@ export function AsciiCursorTrail() {
       const x = e.clientX;
       const y = e.clientY;
       scheduleHeadPosition(x, y);
+
+      if (scrollingRef.current) return;
+
       syncHoverState(e.target);
 
       if (hoveringCustomCursorRef.current) {
@@ -196,7 +199,7 @@ export function AsciiCursorTrail() {
       if (moveRafRef.current !== null) window.cancelAnimationFrame(moveRafRef.current);
       clearTrail();
     };
-  }, [rand]);
+  }, [scrollingRef]);
 
   return (
     <div ref={layerRef} className="ascii-cursor-layer" aria-hidden>

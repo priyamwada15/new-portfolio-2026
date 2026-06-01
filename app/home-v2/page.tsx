@@ -1,3 +1,4 @@
+import { fontStyle, homeHeroHeadlineClass } from "@/design-system";
 import { Fragment, type ReactNode } from "react";
 import AnimatedCards from "../components/AnimatedCards";
 import { HeroCanvasWord } from "../components/HeroCanvasWord";
@@ -49,8 +50,8 @@ export default function HomeLegacy() {
       <div className="relative z-[2]">
       <section className="flex flex-col items-start w-[86%] max-w-[1008px] mx-auto mt-[76px] mb-[96px]">
         <h1
-          className="hero-headline flex w-full max-w-[1008px] flex-wrap items-center gap-x-[0.35em] gap-y-[18px] text-[24px] font-normal leading-[130%] text-[#333333] md:text-[32px]"
-          style={{ fontFamily: "var(--font-hind), sans-serif" }}
+          className={homeHeroHeadlineClass}
+          style={fontStyle.body}
         >
           {renderHeadlineWords(headlineFirstLine, "l1")}
           {renderHeadlineWords(headlineSecondLine, "l2")}

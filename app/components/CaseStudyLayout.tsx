@@ -1,6 +1,16 @@
-import Link from "next/link";
 import TableOfContents, { TocItem } from "./TableOfContents";
 import CaseStudyPageStyle from "./CaseStudyPageStyle";
+import SectionLabel from "./SectionLabel";
+import {
+  brands,
+  caseStudyBody,
+  caseStudyHeadline,
+  caseStudyMetaLabel,
+  CASE_STUDY_COLUMN_CLASS,
+  CASE_STUDY_SECTION_STACK_CLASS,
+  CASE_STUDY_TOC_GRID_CLASS,
+  fontStyle,
+} from "@/design-system";
 
 interface Meta {
   timeline: string;
@@ -72,10 +82,7 @@ const MetaGrid = ({ meta, accentDark }: { meta: Meta; accentDark: string }) => (
       { label: "Team", value: meta.team },
     ].map((item) => (
       <div key={item.label}>
-        <p
-          className="font-mono text-[14px] font-semibold mb-1"
-          style={{ color: accentDark }}
-        >
+        <p className={caseStudyMetaLabel} style={{ color: accentDark }}>
           {item.label}
         </p>
         <p className="text-sm text-ink">{item.value}</p>
@@ -102,8 +109,8 @@ export default function CaseStudyLayout({
   toc,
   callout,
   meta,
-  accentDark = "#333333",
-  accentLight = "#E5E2DC",
+  accentDark = brands.default.accentDark,
+  accentLight = brands.default.accentLight,
   bodyBackgroundColor,
   headlineFont = "ovo",
   contentBodyClassName,
@@ -114,17 +121,16 @@ export default function CaseStudyLayout({
   headlineStyle,
   children,
 }: Props) {
-  const bodyTextClass =
-    contentBodyClassName ?? "text-[16px] text-secondary leading-relaxed";
+  const bodyTextClass = contentBodyClassName ?? caseStudyBody;
   const headlineFontStyle: React.CSSProperties =
     headlineFont === "figtree"
       ? {
-          fontFamily: "var(--font-hind), sans-serif",
+          ...fontStyle.figtree,
           letterSpacing: "-0.02px",
           textWrap: "balance",
         }
       : {
-          fontFamily: "var(--font-ovo), serif",
+          ...fontStyle.display,
           letterSpacing: "-0.3px",
           textWrap: "balance",
         };
@@ -154,9 +160,7 @@ export default function CaseStudyLayout({
     </div>
   );
 
-  const h1ClassName =
-    headlineClassName ??
-    "text-2xl md:text-[40px] font-normal leading-tight text-ink";
+  const h1ClassName = headlineClassName ?? caseStudyHeadline;
 
   // ── H1 element ────────────────────────────────────────────────────────
   const h1InHeader = (extraClass = "mb-10") => (
@@ -198,12 +202,7 @@ export default function CaseStudyLayout({
           <div className="flex flex-col gap-8">
             {!hideContextLabel && (
               <section>
-                <p
-                  className="font-mono text-[14px] font-semibold mb-4"
-                  style={{ color: accentDark }}
-                >
-                  Context
-                </p>
+                <SectionLabel>Context</SectionLabel>
                 <div className={bodyTextClass}>{context}</div>
               </section>
             )}
@@ -212,12 +211,7 @@ export default function CaseStudyLayout({
             )}
             {contribution && (
               <section>
-                <p
-                  className="font-mono text-[14px] font-semibold mb-4"
-                  style={{ color: accentDark }}
-                >
-                  Contribution
-                </p>
+                <SectionLabel>Contribution</SectionLabel>
                 <div className={bodyTextClass}>{contribution}</div>
               </section>
             )}
@@ -227,24 +221,12 @@ export default function CaseStudyLayout({
       ) : (
         <>
           <section>
-            {!hideContextLabel && (
-              <p
-                className="font-mono text-[14px] font-semibold mb-4"
-                style={{ color: accentDark }}
-              >
-                Context
-              </p>
-            )}
+            {!hideContextLabel && <SectionLabel>Context</SectionLabel>}
             <div className={bodyTextClass}>{context}</div>
           </section>
           {contribution && (
             <section>
-              <p
-                className="font-mono text-[14px] font-semibold mb-4"
-                style={{ color: accentDark }}
-              >
-                Contribution
-              </p>
+              <SectionLabel>Contribution</SectionLabel>
               <div className={bodyTextClass}>{contribution}</div>
             </section>
           )}
@@ -274,7 +256,7 @@ export default function CaseStudyLayout({
         {logoRow("mb-6")}
         {tagline && (
           <p
-            className="font-mono text-[14px] font-semibold mb-3"
+            className="font-label text-[14px] font-semibold mb-3"
             style={{ color: accentDark }}
           >
             {tagline}
@@ -298,7 +280,7 @@ export default function CaseStudyLayout({
         {logoRow("mb-6")}
         {tagline && (
           <p
-            className="font-mono text-[14px] font-semibold mb-3"
+            className="font-label text-[14px] font-semibold mb-3"
             style={{ color: accentDark }}
           >
             {tagline}
@@ -314,7 +296,7 @@ export default function CaseStudyLayout({
     <>
     <CaseStudyPageStyle backgroundColor={bodyBackgroundColor} />
     <article
-      className="w-[70vw] max-w-[1008px] mx-auto pb-16"
+      className={CASE_STUDY_COLUMN_CLASS}
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
 
@@ -325,7 +307,7 @@ export default function CaseStudyLayout({
 
       {/* Body */}
       {toc ? (
-        <div className="grid items-start grid-cols-1 min-[1080px]:grid-cols-[160px_1fr] gap-0 min-[1080px]:gap-[80px]">
+        <div className={CASE_STUDY_TOC_GRID_CLASS}>
           {/* Left: sticky TOC, aligns with top of H1 */}
           <TableOfContents
             items={tocItems}
@@ -349,7 +331,9 @@ export default function CaseStudyLayout({
             )}
             {callout && <div className="mb-40">{callout}</div>}
             <div
-              className={["case-study-section-stack", sectionBodyClassName].filter(Boolean).join(" ")}
+              className={[CASE_STUDY_SECTION_STACK_CLASS, sectionBodyClassName]
+                .filter(Boolean)
+                .join(" ")}
             >
               {children}
             </div>
@@ -371,7 +355,9 @@ export default function CaseStudyLayout({
           )}
           {callout && <div className="mb-40">{callout}</div>}
           <div
-            className={["case-study-section-stack", sectionBodyClassName].filter(Boolean).join(" ")}
+            className={[CASE_STUDY_SECTION_STACK_CLASS, sectionBodyClassName]
+              .filter(Boolean)
+              .join(" ")}
           >
             {children}
           </div>

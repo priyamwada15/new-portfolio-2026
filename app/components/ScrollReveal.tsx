@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type ScrollRevealProps = {
@@ -19,23 +19,28 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (!revealOnMount) return;
     const el = ref.current;
     if (!el) return;
 
-    if (revealOnMount) {
-      let raf1 = 0;
-      let raf2 = 0;
-      raf1 = requestAnimationFrame(() => {
-        raf2 = requestAnimationFrame(() => {
-          el.classList.add("is-visible");
-        });
+    let raf1 = 0;
+    let raf2 = 0;
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        el.classList.add("is-visible");
       });
-      return () => {
-        cancelAnimationFrame(raf1);
-        cancelAnimationFrame(raf2);
-      };
-    }
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [revealOnMount]);
+
+  useEffect(() => {
+    if (revealOnMount) return;
+    const el = ref.current;
+    if (!el) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -54,7 +59,7 @@ export function ScrollReveal({
   return (
     <div
       ref={ref}
-      className={cn("card-reveal", className)}
+      className={cn("card-reveal overflow-visible", className)}
       style={delayMs !== undefined ? { transitionDelay: `${delayMs}ms` } : undefined}
     >
       {children}

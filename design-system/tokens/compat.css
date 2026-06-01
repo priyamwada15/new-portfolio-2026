@@ -1,0 +1,21 @@
+/* Legacy aliases — kept for gradual migration. Prefer --ds-* tokens in new code. */
+:root {
+  --bg-light: var(--ds-surface-default);
+  --text-dark-900: var(--ds-color-ink);
+  --text-dark-500: var(--ds-color-primary);
+  --text-dark-100: var(--ds-color-secondary);
+  --text-light-100: var(--ds-color-on-dark);
+  --card-bg: var(--ds-surface-card);
+  --border-color: var(--ds-border-default);
+
+  --color-rocket-dark: var(--ds-color-brand-rocket);
+  --color-rocket-light: var(--ds-color-brand-rocket-light);
+  --color-tars-dark: var(--ds-color-brand-tars);
+  --color-tars-light: var(--ds-color-brand-tars-light);
+  --color-salesforce: var(--ds-color-brand-salesforce);
+  --color-play-border: var(--ds-play-border);
+  --color-play-bg: var(--ds-play-bg);
+  --color-play-text: var(--ds-play-text);
+
+  --color-page-bg: var(--ds-surface-page);
+}

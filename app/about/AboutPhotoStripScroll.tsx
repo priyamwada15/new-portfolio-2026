@@ -26,7 +26,7 @@ export default function AboutPhotoStripScroll({
   return (
     <div
       className={cn(
-        "max-lg:overflow-visible max-lg:py-12 max-lg:-my-12",
+        "overflow-visible max-lg:py-12 max-lg:-my-12",
         className
       )}
     >

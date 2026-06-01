@@ -6,13 +6,12 @@ import CaseStudyLayout from "../components/CaseStudyLayout";
 import SolutionShowcase from "../components/SolutionShowcase";
 import { RocketMortgageTripleVideos } from "../components/RocketMortgageTripleVideos";
 import {
-  CASE_STUDY_BODY_CLASS,
-  CASE_STUDY_SECTION_BODY_CLASS,
+  brands,
+  caseStudyBody,
+  caseStudySectionBody,
+  fontStyle,
   HOME_V2_PAGE_BG,
-} from "../lib/caseStudy";
-
-const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
-const accent = "#851F27";
+} from "@/design-system";
 
 /** Spacing & type tokens (formerly tuned via DialKit). */
 const RM_LAYOUT_STYLE = {
@@ -55,29 +54,29 @@ function ContextTldr({ metricCaptionTop }: { metricCaptionTop: number }) {
 
   return (
     <div className="rm-tldr flex max-w-[768px] flex-col">
-      <h2 className="rm-tldr-title leading-[48px] text-[#333333]" style={figtree}>
+      <h2 className="rm-tldr-title leading-[48px] text-[#333333]" style={fontStyle.figtree}>
         TL;DR
       </h2>
       <div className="rm-tldr-body">
-        <p className="rm-body-text leading-[160%] text-[#333333]" style={figtree}>
+        <p className="rm-body-text leading-[160%] text-[#333333]" style={fontStyle.figtree}>
           Rocket Mortgage&apos;s AI assistant guides homebuyers through the mortgage process, but the guidance inside the assistant was largely generic and disconnected from each client&apos;s specific situation.
         </p>
-        <p className="rm-body-text leading-[160%] text-[#333333]" style={figtree}>
+        <p className="rm-body-text leading-[160%] text-[#333333]" style={fontStyle.figtree}>
           I redesigned the post-offer onboarding experience inside Rocket Assist and introduced new interaction patterns like task cards, document components and a transparent human handoff flow.
         </p>
-        <p className="rm-body-text leading-[160%] text-[#333333]" style={figtree}>
+        <p className="rm-body-text leading-[160%] text-[#333333]" style={fontStyle.figtree}>
           The redesign was tested with Rocket Mortgage clients and clients reported that the context-driven conversation and new experience was more helpful and reduced frustration.
         </p>
       </div>
       <div className="rm-metrics flex flex-row items-start">
         {metrics.map((metric) => (
           <div key={metric.value} className="flex flex-1 flex-col">
-            <p className="rm-metric-value leading-[48px] text-[#111111]" style={figtree}>
+            <p className="rm-metric-value leading-[48px] text-[#111111]" style={fontStyle.figtree}>
               {metric.value}
             </p>
             <p
               className="rm-metric-caption leading-[21px] text-[#555555]"
-              style={{ ...figtree, paddingTop: metricCaptionTop }}
+              style={{ ...fontStyle.figtree, paddingTop: metricCaptionTop }}
             >
               {metric.label}
             </p>
@@ -108,7 +107,7 @@ function ProblemVisualCard({
       />
       <p
         className="absolute left-1/2 top-[396px] w-max max-w-[calc(100%-2rem)] -translate-x-1/2 text-center text-[14px] font-medium leading-[160%] text-[#333333]"
-        style={figtree}
+        style={fontStyle.figtree}
       >
         {caption}
       </p>
@@ -121,7 +120,7 @@ function ProblemQuote({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-[120px] min-w-0 flex-1 items-center justify-center rounded-[24px] bg-[#F5F5F5] px-7 py-10">
       <p
         className="text-center text-[14px] font-light italic leading-[140%] text-[#333333]"
-        style={figtree}
+        style={fontStyle.figtree}
       >
         {children}
       </p>
@@ -149,7 +148,7 @@ function SolutionVisualCard({
       />
       <p
         className="absolute left-1/2 top-[396px] w-max max-w-[calc(100%-2rem)] -translate-x-1/2 text-center text-[14px] font-medium leading-[160%] text-[#FEFEFE]"
-        style={figtree}
+        style={fontStyle.figtree}
       >
         {caption}
       </p>
@@ -176,13 +175,13 @@ function SolutionTypeSection({
     <div className={`flex flex-col gap-4 ${topSpacing ? "pt-24" : "pt-10"}`}>
       <div className="flex items-center gap-2">
         <Icon size={32} weight="regular" color="#333333" className="shrink-0" aria-hidden />
-        <h3 className="text-[24px] font-bold leading-[140%] text-[#333333]" style={figtree}>
+        <h3 className="text-[24px] font-bold leading-[140%] text-[#333333]" style={fontStyle.figtree}>
           {title}
         </h3>
       </div>
       <div className="flex flex-col gap-4">
         {paragraphs.map((paragraph) => (
-          <p key={paragraph} className="text-[16px] font-normal leading-[160%] text-[#333333]" style={figtree}>
+          <p key={paragraph} className="text-[16px] font-normal leading-[160%] text-[#333333]" style={fontStyle.figtree}>
             {paragraph}
           </p>
         ))}
@@ -212,14 +211,14 @@ function TestimonialCard({
 }) {
   return (
     <div className="rm-testimonial-card flex min-w-0 flex-1 flex-col gap-6 rounded-[24px] bg-[#F5F5F5] p-10">
-      <p className="text-[14px] font-normal italic leading-[160%] text-[#555555]" style={figtree}>
+      <p className="text-[14px] font-normal italic leading-[160%] text-[#555555]" style={fontStyle.figtree}>
         &ldquo;{quote}&rdquo;
       </p>
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-4">
           <p
             className="text-[12px] font-bold uppercase leading-[21px]"
-            style={{ ...figtree, color: accent }}
+            style={{ ...fontStyle.figtree, color: brands.rocket.dark }}
           >
             {name}
           </p>
@@ -235,7 +234,7 @@ function TestimonialCard({
           </a>
         </div>
         <div className="flex flex-col gap-3">
-          <p className="text-[12px] font-normal leading-[140%] text-[#555555]" style={figtree}>
+          <p className="text-[12px] font-normal leading-[140%] text-[#555555]" style={fontStyle.figtree}>
             {title}
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -262,14 +261,14 @@ function ReflectionCard({
   return (
     <div className="rm-reflection-card flex min-w-0 flex-1 flex-col justify-center gap-6 rounded-[24px] bg-[#F5F5F5] px-7 py-10">
       <div className="flex flex-col gap-3">
-        <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={figtree}>
+        <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={fontStyle.figtree}>
           {number}
         </p>
-        <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={figtree}>
+        <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={fontStyle.figtree}>
           {title}
         </p>
       </div>
-      <p className="text-[14px] font-normal leading-[140%] text-[#555555]" style={figtree}>
+      <p className="text-[14px] font-normal leading-[140%] text-[#555555]" style={fontStyle.figtree}>
         {body}
       </p>
     </div>
@@ -280,8 +279,8 @@ export default function RocketMortgageContent() {
   return (
     <div className="rm-dial-root" style={RM_LAYOUT_STYLE}>
       <CaseStudyLayout
-        accentDark={accent}
-        accentLight="#F8D6D9"
+        accentDark={brands.rocket.dark}
+        accentLight={brands.rocket.light}
         bodyBackgroundColor={HOME_V2_PAGE_BG}
         headlineFont="figtree"
         headlineColor="#333333"
@@ -290,8 +289,8 @@ export default function RocketMortgageContent() {
           fontSize: 36,
           fontWeight: 500,
         }}
-        contentBodyClassName={CASE_STUDY_BODY_CLASS}
-        sectionBodyClassName={CASE_STUDY_SECTION_BODY_CLASS}
+        contentBodyClassName={caseStudyBody}
+        sectionBodyClassName={caseStudySectionBody}
         tocLinkFontFamily="var(--font-hind), sans-serif"
         logos={[
           { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
@@ -324,7 +323,7 @@ export default function RocketMortgageContent() {
         ]}
       >
         <section id="problem-space" className="flex max-w-[768px] flex-col gap-8">
-          <h2 className="rm-h2 !mb-0 leading-[48px] text-[#333333]" style={figtree}>
+          <h2 className="rm-h2 !mb-0 leading-[48px] text-[#333333]" style={fontStyle.figtree}>
             Generic chat experience at a crucial stage was causing client frustration
           </h2>
           <div className="flex flex-col gap-4">
@@ -340,13 +339,13 @@ export default function RocketMortgageContent() {
                 caption="Broken human handoff flow"
               />
             </div>
-            <p className="rm-body-text leading-[160%] text-[#333333]" style={figtree}>
+            <p className="rm-body-text leading-[160%] text-[#333333]" style={fontStyle.figtree}>
               The post-offer stage is one of the most emotional and delicate part of the home-buying journey. The clients have just had their offer accepted after many hurdles and what they require is a clear guide on what comes next. This was missing in the current chat experience which was not personalized and gave the same common and generic advice to every home-buyer, irrespective of what stage they were in.
             </p>
-            <p className="rm-body-text leading-[160%] text-[#333333]" style={figtree}>
+            <p className="rm-body-text leading-[160%] text-[#333333]" style={fontStyle.figtree}>
               In delicate situations where the client needed a human intervention, the handoff flow was also broken. Actionable next steps that could be taken from the chat were misising.
             </p>
-            <p className="rm-body-text leading-[160%] text-[#333333]" style={figtree}>
+            <p className="rm-body-text leading-[160%] text-[#333333]" style={fontStyle.figtree}>
               When I picked up this problem space, the common thread between all the client feedback was the same-
             </p>
             <div className="flex flex-col gap-12 py-4 md:flex-row md:items-center">
@@ -364,7 +363,7 @@ export default function RocketMortgageContent() {
         </section>
 
         <div id="solution-space" className="flex max-w-[768px] flex-col gap-4">
-          <h2 className="rm-h2 !mb-0 leading-[48px] text-[#333333]" style={figtree}>
+          <h2 className="rm-h2 !mb-0 leading-[48px] text-[#333333]" style={fontStyle.figtree}>
             So what was the missing layer? There were actually three.
           </h2>
 
@@ -458,7 +457,7 @@ export default function RocketMortgageContent() {
         </div>
 
         <section id="testimonials" className="flex max-w-[768px] flex-col gap-8">
-          <h2 className="rm-h2 !mb-0 leading-[48px] text-[#333333]" style={figtree}>
+          <h2 className="rm-h2 !mb-0 leading-[48px] text-[#333333]" style={fontStyle.figtree}>
             What the people who saw the work up close had to say
           </h2>
           <div className="rm-testimonial-grid flex flex-col md:flex-row">
@@ -478,7 +477,7 @@ export default function RocketMortgageContent() {
         </section>
 
         <section id="reflection" className="flex max-w-[768px] flex-col gap-8">
-          <h2 className="rm-h2 !mb-0 leading-[48px] text-[#333333]" style={figtree}>
+          <h2 className="rm-h2 !mb-0 leading-[48px] text-[#333333]" style={fontStyle.figtree}>
             Some things I learned during my internship
           </h2>
           <div className="rm-reflection-grid flex flex-col md:flex-row md:items-stretch">

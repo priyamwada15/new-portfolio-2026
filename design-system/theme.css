@@ -1,0 +1,79 @@
+/* Tailwind v4 @theme — maps design tokens to utilities. */
+@theme inline {
+  /* Font roles (--font-* variables are set by next/font in layout.tsx) */
+  --font-sans: var(--font-sans);
+  --font-body: var(--font-hind), sans-serif;
+  --font-label: var(--font-hind), sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
+  --font-hind: var(--font-hind), sans-serif;
+  --font-ovo: var(--font-ovo), serif;
+  --font-kalam: var(--font-kalam), cursive;
+  --font-dm-mono: var(--font-dm-mono), ui-monospace, monospace;
+  --font-heading: var(--font-sans);
+
+  /* Portfolio semantic colors → Tailwind utilities (text-ink, bg-surface, etc.) */
+  --color-surface: var(--ds-surface-default);
+  --color-surface-page: var(--ds-surface-page);
+  --color-surface-home: var(--ds-surface-home);
+  --color-surface-case-study: var(--ds-surface-case-study);
+  --color-surface-card: var(--ds-surface-card);
+  --color-surface-media: var(--ds-surface-media);
+  --color-ink: var(--ds-text-ink);
+  --color-primary: var(--ds-text-primary);
+  --color-secondary: var(--ds-text-secondary);
+  --color-muted: var(--ds-text-muted);
+  --color-faint: var(--ds-text-faint);
+  --color-border: var(--ds-border-default);
+  --color-border-media: var(--ds-border-media);
+  --color-surface-chip: var(--ds-surface-chip);
+  --color-card: var(--ds-surface-card);
+
+  /* Brand */
+  --color-rocket-dark: var(--ds-color-brand-rocket);
+  --color-rocket-light: var(--ds-color-brand-rocket-light);
+  --color-rocket-darker: var(--ds-color-brand-rocket-dark);
+  --color-tars-dark: var(--ds-color-brand-tars);
+  --color-tars-light: var(--ds-color-brand-tars-light);
+  --color-salesforce: var(--ds-color-brand-salesforce);
+  --color-play-border: var(--ds-play-border);
+  --color-play-bg: var(--ds-play-bg);
+  --color-play-text: var(--ds-play-text);
+  --color-nav-glow: var(--ds-color-brand-nav-glow);
+
+  /* shadcn mappings */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  /* Radii */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}

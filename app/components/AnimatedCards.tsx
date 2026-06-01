@@ -19,11 +19,15 @@ import {
   ROCKET_MORTGAGE_CARD_VIDEOS,
   SALESFORCE_HERO_VIDEO,
   TARS_DEBUG_MODE_HERO_VIDEO,
-} from "@/app/lib/caseStudy";
+  fontStyle,
+  homeCardMediaBgStyle,
+  homePlayLinkLabelClass,
+  homePlayLinkUnderlineClass,
+  homeWorkCardDescriptionClass,
+  homeWorkMetaTagStyle,
+} from "@/design-system";
 import { CursorFollowTooltip } from "@/app/about/CursorFollowTooltip";
 import { RocketMortgageTripleVideos } from "@/app/components/RocketMortgageTripleVideos";
-
-const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
 const DEFAULT_PLAY_MEDIA_ASPECT = "16 / 9" as const;
 
@@ -32,9 +36,6 @@ const CARD_SHELL_RADIUS_CLASS = "rounded-xl md:rounded-2xl";
 
 const playCardButtonClass =
   "group box-border inline-flex shrink-0 cursor-pointer flex-col items-stretch gap-1 no-underline";
-
-const cardDescriptionClass =
-  "w-full cursor-default text-sm font-normal leading-[150%] text-[#333333] md:text-base";
 
 type Logo = { src: string; alt: string; cls?: string };
 
@@ -99,12 +100,7 @@ function useTilt(deg: number) {
 }
 
 function CaseStudyMetaTagsRow({ parts }: { parts: readonly string[] }) {
-  const metaStyle = {
-    ...figtree,
-    color: "#555555",
-    fontSize: "10px",
-    lineHeight: "12px",
-  } as const;
+  const metaStyle = homeWorkMetaTagStyle;
 
   return (
     <div className="flex flex-row flex-wrap items-center gap-2">
@@ -208,19 +204,13 @@ function PlayProjectCardButton({
   const inner = (
     <>
       <span
-        className={cn(
-          "font-medium text-[14px] leading-[17px] text-[#333333]",
-          centered && "w-full text-center",
-        )}
-        style={figtree}
+        className={cn(homePlayLinkLabelClass, centered && "w-full text-center")}
+        style={fontStyle.body}
       >
         {label}
       </span>
       <span
-        className={cn(
-          "h-px w-full scale-x-0 bg-[#333333] transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none motion-reduce:group-hover:scale-x-100",
-          centered ? "origin-center" : "origin-left",
-        )}
+        className={cn(homePlayLinkUnderlineClass, centered ? "origin-center" : "origin-left")}
         aria-hidden
       />
     </>
@@ -611,7 +601,7 @@ function PlayProjectCard({ item }: { item: PlayPortfolioItem }) {
             <PlayCardActions item={item} layout="inline" className="hidden md:flex" />
           ) : null}
         </div>
-        <p className={cardDescriptionClass} style={figtree}>
+        <p className={homeWorkCardDescriptionClass} style={fontStyle.body}>
           {body}
         </p>
       </div>
@@ -781,7 +771,7 @@ export default function AnimatedCards() {
                 >
                   <div className="flex w-full cursor-default flex-col items-start gap-4">
                     <CaseStudyMetaTagsRow parts={project.tagParts} />
-                    <p className={cardDescriptionClass} style={figtree}>
+                    <p className={homeWorkCardDescriptionClass} style={fontStyle.body}>
                       {project.description}
                     </p>
                   </div>
@@ -800,7 +790,7 @@ export default function AnimatedCards() {
                         "pointer-events-none absolute inset-0 z-0",
                         CARD_SHELL_RADIUS_CLASS,
                       )}
-                      style={{ background: "#FAFAFA" }}
+                      style={homeCardMediaBgStyle}
                     />
                     <div
                       className={cn(

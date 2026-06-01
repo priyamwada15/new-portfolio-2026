@@ -1,0 +1,33 @@
+/* Semantic tokens — use these in components and Tailwind utilities. */
+:root {
+  /* Text */
+  --ds-text-ink: var(--ds-color-ink);
+  --ds-text-primary: var(--ds-color-primary);
+  --ds-text-secondary: var(--ds-color-secondary);
+  --ds-text-muted: var(--ds-color-muted);
+  --ds-text-faint: var(--ds-color-faint);
+  --ds-text-on-dark: var(--ds-color-on-dark);
+
+  /* Surfaces */
+  --ds-surface-default: var(--ds-color-surface-base);
+  --ds-surface-case-study: var(--ds-color-surface-base);
+  --ds-surface-page: var(--ds-color-surface-page);
+  --ds-surface-home: var(--ds-color-surface-home);
+  --ds-surface-card: var(--ds-color-surface-card);
+  --ds-surface-media: var(--ds-color-surface-media);
+  --ds-surface-chip: var(--ds-color-surface-chip);
+
+  /* Borders */
+  --ds-border-default: var(--ds-color-border);
+  --ds-border-media: var(--ds-color-border-media);
+  --ds-border-subtle: var(--ds-color-gray-subtle);
+
+  /* Play section */
+  --ds-play-border: var(--ds-color-play-border);
+  --ds-play-bg: var(--ds-color-play-bg);
+  --ds-play-text: var(--ds-color-play-text);
+
+  /* Case study accent defaults (overridable per page via --accent-dark) */
+  --ds-accent-default: var(--ds-color-primary);
+  --ds-accent-subtle: var(--ds-color-gray-subtle);
+}

@@ -3,17 +3,12 @@
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  homeFrostedControlShellStyle,
+  homeStripNavButtonClass,
+  homeStripNavButtonStateClass,
+} from "@/design-system";
 import { cn } from "@/lib/utils";
-
-/** Matches frosted nav shell (see Nav.tsx). */
-const STRIP_CONTROL_SHELL_STYLE: React.CSSProperties = {
-  background: "rgba(255, 255, 255, 0.62)",
-  backdropFilter: "blur(16px)",
-  WebkitBackdropFilter: "blur(16px)",
-  border: "1px solid rgba(255, 255, 255, 0.72)",
-  boxShadow:
-    "0 8px 28px -6px rgba(0, 0, 0, 0.1), 0 2px 8px -2px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.55)",
-};
 
 type StripImage = {
   src: string;
@@ -92,13 +87,11 @@ function StripNavArrow({
       aria-label={direction === "left" ? "Scroll strip left" : "Scroll strip right"}
       onClick={onClick}
       className={cn(
-        "pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full text-[#333333] transition-[transform,opacity] duration-300 ease-out motion-reduce:transition-none",
-        "scale-90 opacity-0 group-hover/strip:scale-100 group-hover/strip:opacity-100",
-        "motion-reduce:scale-100 motion-reduce:opacity-100",
-        "focus-visible:scale-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#744577]/40",
+        homeStripNavButtonClass,
+        homeStripNavButtonStateClass,
         disabled && "pointer-events-none! opacity-0!",
       )}
-      style={STRIP_CONTROL_SHELL_STYLE}
+      style={homeFrostedControlShellStyle}
     >
       <Icon size={22} weight="bold" aria-hidden />
     </button>

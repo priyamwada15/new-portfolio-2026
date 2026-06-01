@@ -1,0 +1,60 @@
+/* Primitive color values — do not use directly in components. */
+:root {
+  /* Neutrals */
+  --ds-color-ink: #111111;
+  --ds-color-primary: #333333;
+  --ds-color-secondary: #555555;
+  --ds-color-muted: #888888;
+  --ds-color-faint: #989898;
+  --ds-color-on-dark: #ffffff;
+  --ds-color-border: #e8e8e8;
+  --ds-color-border-media: #e6e6e6;
+  --ds-color-gray-subtle: #e5e2dc;
+  --ds-color-gray-100: #f0f0f0;
+  --ds-color-gray-200: #f1f1f1;
+  --ds-color-gray-300: #ededed;
+  --ds-color-gray-400: #f5f5f5;
+
+  /* Surfaces */
+  --ds-color-surface-base: #fdfdfd;
+  --ds-color-surface-card: #fbfbfb;
+  --ds-color-surface-page: #fafafa;
+  --ds-color-surface-home: #fefefe;
+  --ds-color-surface-media: #f5f5f5;
+  --ds-color-surface-chip: #f3f5f6;
+
+  /* Brand — Rocket Mortgage */
+  --ds-color-brand-rocket: #de3341;
+  --ds-color-brand-rocket-light: #f8d6d9;
+  --ds-color-brand-rocket-dark: #851f27;
+
+  /* Brand — TARS */
+  --ds-color-brand-tars: #6d33aa;
+  --ds-color-brand-tars-light: #e2d6ee;
+
+  /* Brand — Salesforce */
+  --ds-color-brand-salesforce: #032c5f;
+  --ds-color-brand-salesforce-light: #bad4eb;
+
+  /* Brand — Nav accent */
+  --ds-color-brand-nav-glow: #744577;
+
+  /* Play / side quests */
+  --ds-color-play-border: #2d5a1b;
+  --ds-color-play-bg: rgba(110, 136, 96, 0.12);
+  --ds-color-play-text: #3b6d11;
+
+  /* Hero / interactive accents */
+  --ds-color-accent-terminal: #d6336c;
+  --ds-color-accent-ai: #410c45;
+  --ds-color-accent-ai-muted: rgba(116, 69, 119, 0.3);
+  --ds-color-accent-canvas: #3fa3ec;
+  --ds-color-accent-canvas-grid: #ededed;
+
+  /* UI chrome */
+  --ds-color-tooltip-bg: #111111;
+  --ds-color-tooltip-fg: #fdfdfd;
+  --ds-color-icon-muted: rgba(51, 51, 51, 0.55);
+  --ds-color-selection-bg: #111111;
+  --ds-color-selection-fg: #fdfdfd;
+}

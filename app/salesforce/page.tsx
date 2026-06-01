@@ -3,19 +3,16 @@ import CaseStudyLayout from "../components/CaseStudyLayout";
 import VisualCaption from "../components/VisualCaption";
 import DarkVideoFrame from "../components/DarkVideoFrame";
 import {
-  CASE_STUDY_BODY_CLASS,
-  CASE_STUDY_SECTION_BODY_CLASS,
+  brands,
+  caseStudyBody,
+  caseStudySectionBody,
+  fontStyle,
+  salesforceBody,
+  salesforceH2,
+  salesforceH3,
   SALESFORCE_HERO_VIDEO,
   SITE_DEFAULT_PAGE_BG,
-} from "../lib/caseStudy";
-
-const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
-
-const SF_H2 =
-  "text-[32px] font-bold leading-[48px] text-[#333333]" as const;
-const SF_H3 =
-  "text-[24px] font-bold leading-[140%] text-[#333333]" as const;
-const SF_BODY = "text-[16px] font-normal leading-[160%] text-[#333333]" as const;
+} from "@/design-system";
 
 const TRAJECTORY_VIDEO = (
   <div>
@@ -47,7 +44,7 @@ function SalesforceScreenshotFrame({
 }) {
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative h-[501px] w-full overflow-hidden rounded-[24px] bg-[#F5F5F5]">
+      <div className="relative h-[501px] w-full overflow-hidden rounded-[24px] bg-surface-media">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={alt} className="absolute max-w-none rounded-[24px]" style={imgStyle} />
       </div>
@@ -88,15 +85,15 @@ function ProblemCard({
   desc: string;
 }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-8 rounded-[24px] bg-[#F5F5F5] px-4 py-10">
-      <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={figtree}>
+    <div className="flex min-w-0 flex-1 flex-col gap-8 rounded-[24px] bg-surface-media px-4 py-10">
+      <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={fontStyle.figtree}>
         {number}
       </p>
       <div className="flex flex-col gap-3">
-        <p className="text-[20px] font-semibold leading-[140%] text-[#032C5F]" style={figtree}>
+        <p className="text-[20px] font-semibold leading-[140%] text-[#032C5F]" style={fontStyle.figtree}>
           {title}
         </p>
-        <p className="text-[14px] font-normal leading-[140%] text-[#555555]" style={figtree}>
+        <p className="text-[14px] font-normal leading-[140%] text-[#555555]" style={fontStyle.figtree}>
           {desc}
         </p>
       </div>
@@ -114,16 +111,16 @@ function ReflectionQuoteCard({
   body: string;
 }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col justify-center gap-6 rounded-[24px] bg-[#F5F5F5] px-7 py-10">
+    <div className="flex min-w-0 flex-1 flex-col justify-center gap-6 rounded-[24px] bg-surface-media px-7 py-10">
       <div className="flex flex-col gap-3">
-        <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={figtree}>
+        <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={fontStyle.figtree}>
           {number}
         </p>
-        <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={figtree}>
+        <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={fontStyle.figtree}>
           {title}
         </p>
       </div>
-      <p className="text-[14px] font-normal leading-[140%] text-[#555555]" style={figtree}>
+      <p className="text-[14px] font-normal leading-[140%] text-[#555555]" style={fontStyle.figtree}>
         {body}
       </p>
     </div>
@@ -139,15 +136,15 @@ export const metadata: Metadata = {
 export default function SalesforcePage() {
   return (
     <CaseStudyLayout
-      accentDark="#032C5F"
-      accentLight="#BAD4EB"
+      accentDark={brands.salesforce.accentDark}
+      accentLight={brands.salesforce.accentLight}
       bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
       headlineFont="figtree"
       headlineColor="#333333"
       headlineClassName="text-[36px] font-medium leading-[130%] text-[#333333]"
       headlineStyle={{ fontWeight: 500 }}
-      contentBodyClassName={CASE_STUDY_BODY_CLASS}
-      sectionBodyClassName={CASE_STUDY_SECTION_BODY_CLASS}
+      contentBodyClassName={caseStudyBody}
+      sectionBodyClassName={caseStudySectionBody}
       tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[{ src: "/logos/salesforce.svg", alt: "Salesforce", cls: "h-8" }]}
       reverseHeaderOrder={true}
@@ -168,17 +165,17 @@ export default function SalesforcePage() {
       headline="I led the design of a 0→1 AI product that helps students plan their academic future."
       context={
         <div className="flex max-w-[768px] flex-col gap-4">
-          <h2 className={SF_H2} style={figtree}>
+          <h2 className={salesforceH2} style={fontStyle.figtree}>
             TL;DR
           </h2>
           <div className="flex flex-col gap-4">
-            <p className={SF_BODY} style={figtree}>
+            <p className={salesforceBody} style={fontStyle.figtree}>
               Galileo is a 0→1 concept product built in collaboration with the Salesforce
               Experience Design team as part of a semester-long design studio at IUB. This
               project explored how AI could support academic course selection for undeclared
               undergraduates.
             </p>
-            <p className={SF_BODY} style={figtree}>
+            <p className={salesforceBody} style={fontStyle.figtree}>
               I co-led design end-to-end, leading the Overview and Academic Trajectory sections
               specifically. My work centered on interaction design, information architecture,
               visual language and AI interaction patterns, specifically how to make
@@ -202,17 +199,17 @@ export default function SalesforcePage() {
       ]}
     >
       <section id="understanding-problem" className="flex max-w-[768px] flex-col gap-8">
-        <h2 className={SF_H2} style={figtree}>
+        <h2 className={salesforceH2} style={fontStyle.figtree}>
           Information overload with no way to connect the threads
         </h2>
         <div className="flex flex-col gap-4">
-          <p className={SF_BODY} style={figtree}>
+          <p className={salesforceBody} style={fontStyle.figtree}>
             Undeclared students piece together their academic picture from degree audits,
             enrollment portals, course catalogs and peer advice. None of these systems talk to
             each other and the result is a lot of information that doesn&apos;t add up to
             anything useful when you&apos;re trying to figure out what you actually want.
           </p>
-          <p className={SF_BODY} style={figtree}>
+          <p className={salesforceBody} style={fontStyle.figtree}>
             Talking to the students surfaced four consistent patterns:
           </p>
           <div className="flex flex-col gap-10 pt-2">
@@ -229,27 +226,27 @@ export default function SalesforcePage() {
       </section>
 
       <section id="solution-space" className="flex max-w-[768px] flex-col gap-4">
-        <h2 className={SF_H2} style={figtree}>
+        <h2 className={salesforceH2} style={fontStyle.figtree}>
           One system, four lenses and an AI that informs without deciding.
         </h2>
 
         <div className="flex flex-col gap-4 pt-10">
-          <h3 className={SF_H3} style={figtree}>
+          <h3 className={salesforceH3} style={fontStyle.figtree}>
             Academic Trajectory
           </h3>
           <div className="flex flex-col gap-4">
-            <p className={SF_BODY} style={figtree}>
+            <p className={salesforceBody} style={fontStyle.figtree}>
               This section is where Galileo gets reflective. It shows potential majors and
               careers surfaced from a student&apos;s course history and interests and lets them
               view their academic progress through four lenses: by year, by potential major, by
               course themes and by career pathways.
             </p>
-            <p className={SF_BODY} style={figtree}>
+            <p className={salesforceBody} style={fontStyle.figtree}>
               The same data with four different ways to connect it to something that actually
               matters to them. The research kept surfacing the same problem: students had too
               much information and lacked ways to interpret them.
             </p>
-            <p className={SF_BODY} style={figtree}>
+            <p className={salesforceBody} style={fontStyle.figtree}>
               The AI transparency patterns I used were drawn from Shape of AI by Emily Campbell.
             </p>
           </div>
@@ -279,17 +276,17 @@ export default function SalesforcePage() {
         </div>
 
         <div className="flex flex-col gap-4 pt-24">
-          <h3 className={SF_H3} style={figtree}>
+          <h3 className={salesforceH3} style={fontStyle.figtree}>
             Overview Dashboard
           </h3>
           <div className="flex flex-col gap-4">
-            <p className={SF_BODY} style={figtree}>
+            <p className={salesforceBody} style={fontStyle.figtree}>
               This is the first screen a student lands on. The goal was simple: you open
               Galileo and immediately know where you stand and what needs your attention. GPA,
               GenEd progress, enrollment deadlines and a single path forward into the rest of
               the product.
             </p>
-            <p className={SF_BODY} style={figtree}>
+            <p className={salesforceBody} style={fontStyle.figtree}>
               Getting here required cutting almost everything. The first feedback from
               Salesforce was that there was no clear action a student could take. Early
               iterations had an academic compass visualization, quick links, an advisor panel
@@ -314,7 +311,7 @@ export default function SalesforcePage() {
       </section>
 
       <section id="reflection" className="flex max-w-[768px] flex-col gap-4">
-        <h2 className={SF_H2} style={figtree}>
+        <h2 className={salesforceH2} style={fontStyle.figtree}>
           The messy parts
         </h2>
         <div className="flex flex-col gap-8 py-4 md:flex-row">

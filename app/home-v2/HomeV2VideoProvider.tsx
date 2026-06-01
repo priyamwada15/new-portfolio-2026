@@ -97,7 +97,7 @@ export function HomeV2VideoProvider({ children }: { children: ReactNode }) {
         >
           <button
             type="button"
-            className="absolute inset-0 bg-[#FEFEFE]/55 backdrop-blur-md"
+            className="absolute inset-0 bg-surface-home/55 backdrop-blur-md"
             aria-label="Close video"
             onClick={close}
           />
@@ -105,7 +105,7 @@ export function HomeV2VideoProvider({ children }: { children: ReactNode }) {
             className="relative z-10 flex items-start gap-3 pointer-events-none"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="pointer-events-auto rounded-lg bg-[#111111] shadow-lg">
+            <div className="pointer-events-auto rounded-lg bg-ink shadow-lg">
               <video
                 ref={videoRef}
                 key={video.src}
@@ -125,7 +125,7 @@ export function HomeV2VideoProvider({ children }: { children: ReactNode }) {
             <button
               type="button"
               onClick={close}
-              className="pointer-events-auto mt-0 flex shrink-0 items-center justify-center rounded-full p-2 text-[#555555] transition-colors hover:text-[#111111]"
+              className="pointer-events-auto mt-0 flex shrink-0 items-center justify-center rounded-full p-2 text-secondary transition-colors hover:text-ink"
               aria-label="Close video"
             >
               <X size={24} weight="regular" aria-hidden />

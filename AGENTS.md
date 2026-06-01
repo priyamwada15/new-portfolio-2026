@@ -38,10 +38,18 @@ This file pins `@tailwindcss/postcss` to the project root as its `base`. Without
 
 ### This is Tailwind v4, not v3
 
-- No `tailwind.config.js` — configuration lives in `app/globals.css` inside `@theme inline { ... }`.
+- No `tailwind.config.js` — Tailwind theme lives in `design-system/theme.css` (imported by `app/globals.css`).
 - No `@tailwind base/components/utilities` directives — replaced by `@import "tailwindcss"`.
 - Important modifier syntax changed: use `h-[60px!]` not `!h-[60px]` for arbitrary values.
 - `@custom-variant` and `@source` are v4-only directives.
+
+## Design system
+
+Visual tokens and typography live in `design-system/`. Import from `@/design-system` in TypeScript; CSS tokens are in `design-system/tokens/` and wired through `app/globals.css`.
+
+- Use semantic utilities: `text-ink`, `text-primary`, `bg-surface-media`, `font-label` (Figtree labels), `font-mono` (DM Mono only).
+- Do not hard-code hex colors in new components — add tokens to `design-system/tokens/primitives.css` and expose via `semantic.css` + `theme.css`.
+- See `design-system/README.md` for structure and migration notes.
 
 ## Next.js
 

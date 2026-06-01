@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "./Nav";
 import Footer from "./Footer";
-import { HOME_V2_PAGE_BG, SITE_DEFAULT_PAGE_BG, isRocketMortgagePath } from "../lib/caseStudy";
+import { HOME_V2_PAGE_BG, SITE_DEFAULT_PAGE_BG, isRocketMortgagePath, surfaces } from "@/design-system";
 import { AsciiCursorTrail } from "./AsciiCursorTrail";
 import { AsteriskCursor } from "./AsteriskCursor";
 
@@ -47,8 +47,8 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     <>
       <Nav />
       <main
-        className="flex-1 pt-[96px]"
-        style={isRocketMortgage ? { backgroundColor: "#FAFAFA" } : undefined}
+        className="flex-1 overflow-visible pt-[96px]"
+        style={isRocketMortgage ? { backgroundColor: surfaces.page } : undefined}
       >
         {children}
       </main>

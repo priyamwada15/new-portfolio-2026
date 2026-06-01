@@ -16,7 +16,7 @@ import SmoothScroll from "./components/SmoothScroll";
 import ScrollToTopOnRouteChange from "./components/ScrollToTopOnRouteChange";
 import { Analytics } from "@vercel/analytics/next";
 import { cn } from "@/lib/utils";
-import { SITE_DEFAULT_PAGE_BG } from "./lib/caseStudy";
+import { SITE_DEFAULT_PAGE_BG } from "@/design-system";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -84,6 +84,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(
         figtree.variable,
         ovo.variable,
@@ -106,7 +107,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className="min-h-screen flex flex-col text-[#333333] overflow-x-hidden"
+        className="min-h-screen flex flex-col text-primary"
         style={{ backgroundColor: SITE_DEFAULT_PAGE_BG }}
       >
         <SmoothScroll />

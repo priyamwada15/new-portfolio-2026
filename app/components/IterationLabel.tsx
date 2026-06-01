@@ -1,3 +1,5 @@
+import { fontStyle, iterationLabel } from "@/design-system";
+
 export default function IterationLabel({
   children,
   className = "mb-2",
@@ -7,8 +9,8 @@ export default function IterationLabel({
 }) {
   return (
     <p
-      className={`text-[12px] font-semibold ${className}`}
-      style={{ fontFamily: "var(--font-hind), sans-serif", color: "var(--accent-dark)" }}
+      className={`${iterationLabel} ${className}`}
+      style={{ ...fontStyle.label, color: "var(--accent-dark)" }}
     >
       {children}
     </p>

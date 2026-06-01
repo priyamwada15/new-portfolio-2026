@@ -10,8 +10,6 @@ import { CursorFollowTooltip } from "./CursorFollowTooltip";
 
 const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
-const PHOTO_CARD_SHADOW = "0px 4px 24px rgba(0, 0, 0, 0.12)";
-
 type AboutSnippetsStripProps = {
   className?: string;
   headingClassName?: string;
@@ -38,21 +36,19 @@ function SnippetPhotoCard({
 
   const card = (
     <div
-      className="snippet-photo-card absolute box-border"
-      style={cardStyle}
+      className="snippet-photo-card absolute box-border overflow-hidden rounded-[24px] border-8 border-white"
+      style={{
+        ...cardStyle,
+        filter: "drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.12))",
+      }}
     >
-      <div
-        className="snippet-photo-card__frame relative h-full w-full overflow-hidden rounded-[24px] border-8 border-white"
-        style={{ boxShadow: PHOTO_CARD_SHADOW }}
-      >
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          className="object-cover"
-          sizes={`${width}px`}
-        />
-      </div>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover"
+        sizes={`${width}px`}
+      />
     </div>
   );
 
@@ -71,11 +67,11 @@ export default function AboutSnippetsStrip({
   const { bookHover } = useAboutBookHover();
 
   return (
-    <ScrollReveal className={cn("timeline-snap-section relative z-[4] mt-20 w-full max-w-[1008px]", className)}>
+    <ScrollReveal className={cn("relative z-[4] mt-20 w-full max-w-[1008px] overflow-visible", className)}>
     <section
       className={cn(
         "relative w-full transition-[filter] duration-300 ease-out motion-reduce:transition-none",
-        "max-lg:min-h-[577px] max-lg:overflow-visible lg:h-[577px]",
+        "overflow-visible max-lg:min-h-[577px] lg:h-[577px]",
         bookHover !== null && "blur-md motion-reduce:blur-none"
       )}
       aria-labelledby="snippets-heading"

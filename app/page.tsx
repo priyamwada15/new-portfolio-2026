@@ -1,4 +1,27 @@
-import { HOME_V2_PAGE_BG } from "./lib/caseStudy";
+import {
+  HOME_V2_PAGE_BG,
+  HOME_V2_TOP_PX,
+  HOME_V2_RM_CARD_H_PX,
+  HOME_V2_ROW_GAP_PX,
+  HOME_V2_ROW_H_PX,
+  HOME_V2_CENTRAL_BLOCK_H_PX,
+  HOME_V2_ROW2_H_PX,
+  HOME_V2_FOOTER_SAFE_SPACE_PX,
+  HOME_V2_SECOND_ROW_TOP_PX,
+  HOME_V2_CENTRAL_BLOCK_TOP_PX,
+  HOME_V2_ROW2_TOP_PX,
+  HOME_V2_SNIPPETS_GAP_PX,
+  HOME_V2_SNIPPETS_H_PX,
+  HOME_V2_SNIPPETS_TOP_PX,
+  homeCardFooterFont,
+  homeCardFooterTagsStyle,
+  homeCardFooterTitleStyle,
+  homeIntroCopyStyle,
+  homeSnippetChipStyle,
+  homeSnippetEmphasisStyle,
+  homeSnippetLabelStyle,
+  homeSnippetToolLabelStyle,
+} from "@/design-system";
 import { SunlightEffect } from "./components/SunlightEffect";
 import Image from "next/image";
 import { aboutAssets } from "./about/aboutAssets";
@@ -8,25 +31,6 @@ import { HomeV2PlayableCard } from "./home-v2/HomeV2PlayableCard";
 import { HomeV2VideoProvider } from "./home-v2/HomeV2VideoProvider";
 import { LazyVideo } from "./home-v2/LazyVideo";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
-
-const HOME_V2_TOP_PX = 92;
-const HOME_V2_RM_CARD_H_PX = 637;
-const HOME_V2_ROW_GAP_PX = 56;
-const HOME_V2_ROW_H_PX = 450;
-const HOME_V2_CENTRAL_BLOCK_H_PX = 956;
-const HOME_V2_ROW2_H_PX = 450;
-const HOME_V2_FOOTER_SAFE_SPACE_PX = 96;
-
-const HOME_V2_SECOND_ROW_TOP_PX =
-  HOME_V2_TOP_PX + HOME_V2_RM_CARD_H_PX + HOME_V2_ROW_GAP_PX;
-const HOME_V2_CENTRAL_BLOCK_TOP_PX =
-  HOME_V2_SECOND_ROW_TOP_PX + HOME_V2_ROW_H_PX + HOME_V2_ROW_GAP_PX;
-const HOME_V2_ROW2_TOP_PX =
-  HOME_V2_CENTRAL_BLOCK_TOP_PX + HOME_V2_CENTRAL_BLOCK_H_PX + HOME_V2_ROW_GAP_PX;
-const HOME_V2_SNIPPETS_GAP_PX = 64;
-const HOME_V2_SNIPPETS_H_PX = 577;
-const HOME_V2_SNIPPETS_TOP_PX =
-  HOME_V2_ROW2_TOP_PX + HOME_V2_ROW2_H_PX + HOME_V2_SNIPPETS_GAP_PX;
 
 const ARDUINO_ROBOT_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1775952719/20250416_201134_2_vimbv1.mp4";
@@ -47,12 +51,6 @@ const ASCII_GAME_GITHUB_HREF =
   "https://github.com/priyamwada15/ASCII-race-game-with-Pixelact-and-shadcn-UI";
 const WATER_SHADER_GITHUB_HREF = "https://github.com/priyamwada15/water-glint-shader";
 
-const cardFooterFont = {
-  fontFamily: "var(--font-hind), sans-serif",
-  fontStyle: "normal" as const,
-  fontWeight: 400,
-};
-
 const INTRO_PARAGRAPHS = [
   "Product Designer who has worked on products across fintech, edtech and enterprise tools.",
   "Whether it's a first-time homebuyer navigating a mortgage or a student figuring out what to study, I design for moments where the product has to get it right.",
@@ -68,7 +66,7 @@ export default function HomeV2Page() {
         <HomeV2VideoProvider>
         {/* Align page content to nav inner container edges */}
         <div
-          className="home-v2-layout relative mx-auto w-[86%] max-w-[1008px]"
+          className="home-v2-layout relative mx-auto w-[86%] max-w-[1008px] overflow-visible"
           style={{
             minHeight: `${
               HOME_V2_TOP_PX +
@@ -99,14 +97,7 @@ export default function HomeV2Page() {
           <ScrollReveal revealOnMount>
             <div
               className="home-v2-intro-copy"
-              style={{
-                fontFamily: "var(--font-hind), sans-serif",
-                fontStyle: "normal",
-                fontWeight: 400,
-                fontSize: "18px",
-                lineHeight: "160%",
-                color: "#555555",
-              }}
+              style={homeIntroCopyStyle}
             >
               {INTRO_PARAGRAPHS.map((paragraph) => (
                 <p key={paragraph} style={{ margin: 0, marginBottom: "24px" }}>
@@ -122,18 +113,7 @@ export default function HomeV2Page() {
               {/* Reading */}
               <div style={{ width: "300px" }}>
                 <div
-                  style={{
-                    fontFamily: "var(--font-hind), sans-serif",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    fontSize: "14px",
-                    lineHeight: "130%",
-                    color: "#555555",
-                    display: "flex",
-                    alignItems: "flex-end",
-                    gap: "8px",
-                    marginBottom: "16px",
-                  }}
+                  style={homeSnippetLabelStyle}
                 >
                   <span aria-hidden>📚</span>
                   <span>Reading</span>
@@ -203,20 +183,7 @@ export default function HomeV2Page() {
               <div style={{ width: "300px", display: "flex", flexDirection: "column", gap: "40px" }}>
                 {/* Listening */}
                 <div>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-hind), sans-serif",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      fontSize: "14px",
-                      lineHeight: "130%",
-                      color: "#555555",
-                      display: "flex",
-                      alignItems: "flex-end",
-                      gap: "8px",
-                      marginBottom: "16px",
-                    }}
-                  >
+                  <div style={homeSnippetLabelStyle}>
                     <span aria-hidden>🎵</span>
                     <span>Listening</span>
                   </div>
@@ -229,7 +196,7 @@ export default function HomeV2Page() {
                         height: "50px",
                         borderRadius: "4px",
                         overflow: "hidden",
-                        border: "2px solid #FFFFFF",
+                        border: "2px solid var(--ds-color-on-dark)",
                         boxShadow: "0px 2px 16px rgba(0, 0, 0, 0.1)",
                       }}
                     >
@@ -243,36 +210,16 @@ export default function HomeV2Page() {
                     </div>
 
                     <div
-                      style={{
-                        fontFamily: "var(--font-hind), sans-serif",
-                        fontStyle: "normal",
-                        fontWeight: 500,
-                        fontSize: "14px",
-                        lineHeight: "130%",
-                        color: "#333333",
-                      }}
+                      style={homeSnippetEmphasisStyle}
                     >
-                      Peaches <span style={{ fontWeight: 400, color: "#555555" }}>by The Black Keys</span>
+                      Peaches <span style={{ fontWeight: 400, color: "var(--ds-text-secondary)" }}>by The Black Keys</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Learning */}
                 <div>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-hind), sans-serif",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      fontSize: "14px",
-                      lineHeight: "130%",
-                      color: "#555555",
-                      display: "flex",
-                      alignItems: "flex-end",
-                      gap: "8px",
-                      marginBottom: "16px",
-                    }}
-                  >
+                  <div style={homeSnippetLabelStyle}>
                     <span aria-hidden>✏️</span>
                     <span>Learning</span>
                   </div>
@@ -288,15 +235,7 @@ export default function HomeV2Page() {
                       }}
                     >
                       <div
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          background: "#F3F5F6",
-                          borderRadius: "4px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
+                        style={homeSnippetChipStyle}
                         aria-hidden
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -306,16 +245,7 @@ export default function HomeV2Page() {
                           style={{ width: "16px", height: "16px", objectFit: "contain" }}
                         />
                       </div>
-                      <div
-                        style={{
-                          fontFamily: "var(--font-hind), sans-serif",
-                          fontStyle: "normal",
-                          fontWeight: 400,
-                          fontSize: "14px",
-                          lineHeight: "130%",
-                          color: "#555555",
-                        }}
-                      >
+                      <div style={homeSnippetToolLabelStyle}>
                         Rive
                       </div>
                     </div>
@@ -330,15 +260,7 @@ export default function HomeV2Page() {
                       }}
                     >
                       <div
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          background: "#F3F5F6",
-                          borderRadius: "4px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
+                        style={homeSnippetChipStyle}
                         aria-hidden
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -348,16 +270,7 @@ export default function HomeV2Page() {
                           style={{ width: "16px", height: "16px", objectFit: "contain" }}
                         />
                       </div>
-                      <div
-                        style={{
-                          fontFamily: "var(--font-hind), sans-serif",
-                          fontStyle: "normal",
-                          fontWeight: 400,
-                          fontSize: "14px",
-                          lineHeight: "130%",
-                          color: "#555555",
-                        }}
-                      >
+                      <div style={homeSnippetToolLabelStyle}>
                         Unicorn Studio
                       </div>
                     </div>
@@ -382,9 +295,8 @@ export default function HomeV2Page() {
               style={{
                 width: "350px",
                 height: "637px",
-                background: "#FAFAFA",
+                background: "var(--ds-surface-page)",
                 borderRadius: "24px",
-                overflow: "hidden",
               }}
             >
             {/* Video region */}
@@ -396,7 +308,6 @@ export default function HomeV2Page() {
                 height: "524px",
                 left: 0,
                 top: 0,
-                overflow: "hidden",
               }}
             >
               <div
@@ -456,37 +367,15 @@ export default function HomeV2Page() {
                 alignItems: "flex-start",
                 padding: 0,
                 gap: "8px",
-                fontFamily: "var(--font-hind), sans-serif",
-                fontStyle: "normal",
-                fontWeight: 400,
+                ...homeCardFooterFont,
               }}
             >
-              <div
-                style={{
-                  width: "302px",
-                  height: "40px",
-                  fontSize: "14px",
-                  lineHeight: "140%",
-                  display: "flex",
-                  alignItems: "flex-end",
-                  color: "#555555",
-                }}
-              >
+              <div style={homeCardFooterTitleStyle}>
                 Redesigned an AI assistant that knows where you are in your homebuying journey.
               </div>
 
               <div
-                style={{
-                  width: "302px",
-                  height: "17px",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: "8px",
-                  color: "#989898",
-                  fontSize: "12px",
-                  lineHeight: "140%",
-                }}
+                  style={{ ...homeCardFooterTagsStyle, width: "302px", height: "17px" }}
               >
                 <span>#ai-assistant</span>
                 <span>#fintech</span>
@@ -524,9 +413,8 @@ export default function HomeV2Page() {
                 position: "relative",
                 width: "594px",
                 height: "450px",
-                background: "#FAFAFA",
+                background: "var(--ds-surface-page)",
                 borderRadius: "24px",
-                overflow: "hidden",
                 flex: "none",
               }}
             >
@@ -558,7 +446,7 @@ export default function HomeV2Page() {
                   left: "24px",
                   top: "72px",
                   objectFit: "contain",
-                  backgroundColor: "#FAFAFA",
+                  backgroundColor: "var(--ds-surface-page)",
                   borderRadius: "16px",
                 }}
               />
@@ -577,33 +465,13 @@ export default function HomeV2Page() {
                   alignItems: "flex-start",
                   padding: 0,
                   gap: "8px",
-                  fontFamily: "var(--font-hind), sans-serif",
-                  fontStyle: "normal",
-                  fontWeight: 400,
+                  ...homeCardFooterFont,
                 }}
               >
-                <div
-                  style={{
-                    fontSize: "14px",
-                    lineHeight: "140%",
-                    display: "flex",
-                    alignItems: "flex-end",
-                    color: "#555555",
-                  }}
-                >
+                <div style={homeCardFooterTitleStyle}>
                   Designing an AI planning tool that helps students figure out what to study and why.
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: "8px",
-                    fontSize: "12px",
-                    lineHeight: "140%",
-                    color: "#989898",
-                  }}
-                >
+                <div style={homeCardFooterTagsStyle}>
                   <span>#ai-planning</span>
                   <span>#systems design</span>
                   <span>#product design</span>
@@ -620,9 +488,8 @@ export default function HomeV2Page() {
                 position: "relative",
                 width: "350px",
                 height: "450px",
-                background: "#FAFAFA",
+                background: "var(--ds-surface-page)",
                 borderRadius: "24px",
-                overflow: "hidden",
                 flex: "none",
               }}
             >
@@ -655,33 +522,13 @@ export default function HomeV2Page() {
                   alignItems: "flex-start",
                   padding: 0,
                   gap: "8px",
-                  fontFamily: "var(--font-hind), sans-serif",
-                  fontStyle: "normal",
-                  fontWeight: 400,
+                  ...homeCardFooterFont,
                 }}
               >
-                <div
-                  style={{
-                    fontSize: "14px",
-                    lineHeight: "140%",
-                    display: "flex",
-                    alignItems: "flex-end",
-                    color: "#555555",
-                  }}
-                >
+                <div style={homeCardFooterTitleStyle}>
                   Redesigned Rocket Money&apos;s dashboard in the 1984 Apple Macintosh GUI style.
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: "8px",
-                    fontSize: "12px",
-                    lineHeight: "140%",
-                    color: "#989898",
-                  }}
-                >
+                <div style={homeCardFooterTagsStyle}>
                   <span>#figma</span>
                   <span>#claude-code</span>
                   <span>#nano-banana-2</span>
@@ -740,9 +587,8 @@ export default function HomeV2Page() {
                   position: "relative",
                   width: "350px",
                   height: "532px",
-                  background: "#FAFAFA",
+                  background: "var(--ds-surface-page)",
                   borderRadius: "24px",
-                  overflow: "hidden",
                   flex: "none",
                 }}
               >
@@ -757,7 +603,7 @@ export default function HomeV2Page() {
                     left: 0,
                     top: 0,
                     objectFit: "cover",
-                    backgroundColor: "#FAFAFA",
+                    backgroundColor: "var(--ds-surface-page)",
                   }}
                 />
                 <div
@@ -773,30 +619,16 @@ export default function HomeV2Page() {
                     alignItems: "flex-start",
                     padding: 0,
                     gap: "8px",
-                    ...cardFooterFont,
+                    ...homeCardFooterFont,
                   }}
                 >
                   <div
-                    style={{
-                      fontSize: "14px",
-                      lineHeight: "140%",
-                      display: "flex",
-                      alignItems: "flex-end",
-                      color: "#555555",
-                    }}
+                    style={homeCardFooterTitleStyle}
                   >
                     A two-player game where each person controls one arm of the same body.
                   </div>
                   <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: "8px",
-                      fontSize: "12px",
-                      lineHeight: "140%",
-                      color: "#989898",
-                    }}
+                    style={homeCardFooterTagsStyle}
                   >
                     <span>#arduino</span>
                     <span>#python</span>
@@ -814,9 +646,8 @@ export default function HomeV2Page() {
                   position: "relative",
                   width: "350px",
                   height: "368px",
-                  background: "#FAFAFA",
+                  background: "var(--ds-surface-page)",
                   borderRadius: "24px",
-                  overflow: "hidden",
                   flex: "none",
                 }}
               >
@@ -831,7 +662,7 @@ export default function HomeV2Page() {
                     left: 0,
                     top: 0,
                     objectFit: "cover",
-                    backgroundColor: "#FAFAFA",
+                    backgroundColor: "var(--ds-surface-page)",
                   }}
                 />
                 <div
@@ -847,30 +678,16 @@ export default function HomeV2Page() {
                     alignItems: "flex-start",
                     padding: 0,
                     gap: "8px",
-                    ...cardFooterFont,
+                    ...homeCardFooterFont,
                   }}
                 >
                   <div
-                    style={{
-                      fontSize: "14px",
-                      lineHeight: "140%",
-                      display: "flex",
-                      alignItems: "flex-end",
-                      color: "#555555",
-                    }}
+                    style={homeCardFooterTitleStyle}
                   >
                     A React component with CSS-driven shadow bands and a glow that read as sunlight.
                   </div>
                   <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: "8px",
-                      fontSize: "12px",
-                      lineHeight: "140%",
-                      color: "#989898",
-                    }}
+                    style={homeCardFooterTagsStyle}
                   >
                     <span>#cursor</span>
                     <span>#react component</span>
@@ -903,9 +720,8 @@ export default function HomeV2Page() {
                   position: "relative",
                   width: "594px",
                   height: "450px",
-                  background: "#FAFAFA",
+                  background: "var(--ds-surface-page)",
                   borderRadius: "24px",
-                  overflow: "hidden",
                   flex: "none",
                 }}
               >
@@ -934,7 +750,7 @@ export default function HomeV2Page() {
                     left: "24px",
                     top: "72px",
                     objectFit: "contain",
-                    backgroundColor: "#FAFAFA",
+                    backgroundColor: "var(--ds-surface-page)",
                     borderRadius: "16px",
                   }}
                 />
@@ -951,30 +767,16 @@ export default function HomeV2Page() {
                     alignItems: "flex-start",
                     padding: 0,
                     gap: "8px",
-                    ...cardFooterFont,
+                    ...homeCardFooterFont,
                   }}
                 >
                   <div
-                    style={{
-                      fontSize: "14px",
-                      lineHeight: "140%",
-                      display: "flex",
-                      alignItems: "flex-end",
-                      color: "#555555",
-                    }}
+                    style={homeCardFooterTitleStyle}
                   >
                     Designed a debugging tool that catches where enterprise AI agents break.
                   </div>
                   <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: "8px",
-                      fontSize: "12px",
-                      lineHeight: "140%",
-                      color: "#989898",
-                    }}
+                    style={homeCardFooterTagsStyle}
                   >
                     <span>#for developers</span>
                     <span>#internal tool</span>
@@ -992,9 +794,8 @@ export default function HomeV2Page() {
                   position: "relative",
                   width: "594px",
                   height: "450px",
-                  background: "#FAFAFA",
+                  background: "var(--ds-surface-page)",
                   borderRadius: "24px",
-                  overflow: "hidden",
                   flex: "none",
                 }}
               >
@@ -1009,7 +810,7 @@ export default function HomeV2Page() {
                     left: 0,
                     top: 0,
                     objectFit: "cover",
-                    backgroundColor: "#FAFAFA",
+                    backgroundColor: "var(--ds-surface-page)",
                   }}
                 />
                 <div
@@ -1025,31 +826,17 @@ export default function HomeV2Page() {
                     alignItems: "flex-start",
                     padding: 0,
                     gap: "8px",
-                    ...cardFooterFont,
+                    ...homeCardFooterFont,
                   }}
                 >
                   <div
-                    style={{
-                      fontSize: "14px",
-                      lineHeight: "140%",
-                      display: "flex",
-                      alignItems: "flex-end",
-                      color: "#555555",
-                    }}
+                    style={homeCardFooterTitleStyle}
                   >
                     A retro-futuristic star mapping tool. Enter a date, get the dominant
                     constellation, download a playing card.
                   </div>
                   <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: "8px",
-                      fontSize: "12px",
-                      lineHeight: "140%",
-                      color: "#989898",
-                    }}
+                    style={homeCardFooterTagsStyle}
                   >
                     <span>#Google Stitch</span>
                     <span>#Google AI Studio</span>
@@ -1088,9 +875,8 @@ export default function HomeV2Page() {
                 position: "relative",
                 width: "594px",
                 height: "450px",
-                background: "#FAFAFA",
+                background: "var(--ds-surface-page)",
                 borderRadius: "24px",
-                overflow: "hidden",
                 flex: "none",
               }}
             >
@@ -1105,7 +891,7 @@ export default function HomeV2Page() {
                   left: 0,
                   top: 0,
                   objectFit: "cover",
-                  backgroundColor: "#FAFAFA",
+                  backgroundColor: "var(--ds-surface-page)",
                 }}
               />
               <div
@@ -1121,32 +907,14 @@ export default function HomeV2Page() {
                   alignItems: "flex-start",
                   padding: 0,
                   gap: "8px",
-                  ...cardFooterFont,
+                  ...homeCardFooterFont,
                 }}
               >
-                <div
-                  style={{
-                    fontSize: "14px",
-                    lineHeight: "140%",
-                    display: "flex",
-                    alignItems: "flex-end",
-                    color: "#555555",
-                  }}
-                >
+                <div style={homeCardFooterTitleStyle}>
                   A fast scroll-linked lane dodge game, navigate using arrow keys, ramping speed every
                   5s and a chance to listen to my favorite song.
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: "8px",
-                    fontSize: "12px",
-                    lineHeight: "140%",
-                    color: "#989898",
-                  }}
-                >
+                <div style={homeCardFooterTagsStyle}>
                   <span>#cursor</span>
                 </div>
               </div>
@@ -1161,9 +929,8 @@ export default function HomeV2Page() {
                 position: "relative",
                 width: "350px",
                 height: "450px",
-                background: "#FAFAFA",
+                background: "var(--ds-surface-page)",
                 borderRadius: "24px",
-                overflow: "hidden",
                 flex: "none",
               }}
             >
@@ -1178,7 +945,7 @@ export default function HomeV2Page() {
                   left: 0,
                   top: 0,
                   objectFit: "cover",
-                  backgroundColor: "#FAFAFA",
+                  backgroundColor: "var(--ds-surface-page)",
                 }}
               />
               <div
@@ -1194,31 +961,13 @@ export default function HomeV2Page() {
                   alignItems: "flex-start",
                   padding: 0,
                   gap: "8px",
-                  ...cardFooterFont,
+                  ...homeCardFooterFont,
                 }}
               >
-                <div
-                  style={{
-                    fontSize: "14px",
-                    lineHeight: "140%",
-                    display: "flex",
-                    alignItems: "flex-end",
-                    color: "#555555",
-                  }}
-                >
+                <div style={homeCardFooterTitleStyle}>
                   A tiny demo that renders sunlight on rippling water using a WebGL2 fragment shader.
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: "8px",
-                    fontSize: "12px",
-                    lineHeight: "140%",
-                    color: "#989898",
-                  }}
-                >
+                <div style={homeCardFooterTagsStyle}>
                   <span>#cursor</span>
                   <span>#webGL2</span>
                 </div>
@@ -1230,7 +979,7 @@ export default function HomeV2Page() {
 
           {/* Snippets of my life (64px below row 2) */}
           <div
-            className="home-v2-section home-v2-snippets"
+            className="home-v2-section home-v2-snippets overflow-visible"
             style={{ position: "absolute", left: 0, top: `${HOME_V2_SNIPPETS_TOP_PX}px`, width: "1008px", height: `${HOME_V2_SNIPPETS_H_PX}px` }}
           >
           <ScrollReveal>

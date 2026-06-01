@@ -7,11 +7,14 @@ import VisualCaption from "../components/VisualCaption";
 import SectionLabel from "../components/SectionLabel";
 import IterationLabel from "../components/IterationLabel";
 import {
-  CASE_STUDY_BODY_CLASS,
-  CASE_STUDY_SECTION_BODY_CLASS,
+  brands,
+  caseStudyBody,
+  caseStudyH2,
+  caseStudySectionBody,
+  caseStudySectionTag,
   SITE_DEFAULT_PAGE_BG,
   TARS_DEBUG_MODE_HERO_VIDEO,
-} from "../lib/caseStudy";
+} from "@/design-system";
 
 export const metadata: Metadata = {
   title: "Debug Mode | Priyamwada Pandey",
@@ -50,7 +53,7 @@ function DarkHeader({ tag, headline, bgImage }: { tag: string; headline: string;
       {/* Text content */}
       <div className="relative">
         <p
-          className="font-mono text-[14px] font-semibold mb-4"
+          className={caseStudySectionTag}
           style={{ color: "#AEAEAE" }}
         >
           {tag}
@@ -81,8 +84,8 @@ export default function DebugModePage() {
       bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
       headlineFont="figtree"
       headlineColor="#333333"
-      contentBodyClassName={CASE_STUDY_BODY_CLASS}
-      sectionBodyClassName={CASE_STUDY_SECTION_BODY_CLASS}
+      contentBodyClassName={caseStudyBody}
+      sectionBodyClassName={caseStudySectionBody}
       tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       projectName="Debug Mode for Tars"
@@ -149,7 +152,7 @@ export default function DebugModePage() {
       {/* Background */}
       <section id="background">
         <SectionLabel>Background</SectionLabel>
-        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
+        <h2 className={`${caseStudyH2} mb-10`}>
           500 gambits, one broken path, no way to find it.
         </h2>
         <div className="space-y-5">
@@ -317,7 +320,7 @@ export default function DebugModePage() {
       {/* Reflection */}
       <section id="reflection">
         <SectionLabel>Reflection</SectionLabel>
-        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
+        <h2 className={`${caseStudyH2} mb-10`}>
           The right answer and the complete answer aren&apos;t always the same
           thing.
         </h2>

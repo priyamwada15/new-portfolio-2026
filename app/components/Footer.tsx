@@ -13,13 +13,8 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "./animate-ui/tooltip";
-import {
-  CASE_STUDY_PAGE_BG,
-  HOME_V2_PAGE_BG,
-  caseStudyUsesSiteDefaultSurface,
-  isCaseStudyPath,
-  isRocketMortgagePath,
-} from "../lib/caseStudy";
+import { CASE_STUDY_CHROME_BG, HOME_V2_PAGE_BG } from "@/design-system";
+import { isCaseStudyPath } from "../lib/caseStudy";
 import { CopyEmailIcon } from "./CopyEmailIcon";
 
 const hind = { fontFamily: "var(--font-hind), sans-serif" } as const;
@@ -47,13 +42,11 @@ export default function Footer() {
 
   const footerMuted = "rgba(51,51,51,0.55)";
   const isHomeV2 = pathname === "/";
-  const isRocketMortgage = pathname ? isRocketMortgagePath(pathname) : false;
   const caseStudy = pathname ? isCaseStudyPath(pathname) : false;
-  const defaultSurface = pathname ? caseStudyUsesSiteDefaultSurface(pathname) : false;
-  const footerBg = isHomeV2 || isRocketMortgage
+  const footerBg = isHomeV2
     ? HOME_V2_PAGE_BG
-    : caseStudy && !defaultSurface
-      ? CASE_STUDY_PAGE_BG
+    : caseStudy
+      ? CASE_STUDY_CHROME_BG
       : "var(--color-page-bg)";
 
   const iconProps = {

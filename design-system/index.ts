@@ -50,6 +50,7 @@ export {
 } from "./home";
 export {
   CASE_STUDY_PAGE_BG,
+  CASE_STUDY_CHROME_BG,
   SITE_DEFAULT_PAGE_BG,
   HOME_V2_PAGE_BG,
   CASE_STUDY_COLUMN_CLASS,

@@ -3,6 +3,9 @@
 /** Body / surface fill for all case study routes. */
 export const CASE_STUDY_PAGE_BG = "var(--ds-surface-case-study)";
 
+/** Nav shell + footer on case study routes (#FAFAFA). */
+export const CASE_STUDY_CHROME_BG = "var(--ds-color-surface-page)";
+
 /** Root marketing surface (matches layout body background). */
 export const SITE_DEFAULT_PAGE_BG = "var(--ds-surface-page)";
 

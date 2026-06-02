@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  FileText,
-  HandWaving,
-  LinkedinLogo,
-} from "@phosphor-icons/react";
+import { FileText, LinkedinLogo } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -14,9 +10,10 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "./animate-ui/tooltip";
+import { CASE_STUDY_CHROME_BG } from "@/design-system";
+import { isCaseStudyPath } from "../lib/caseStudy";
 import { CopyEmailIcon } from "./CopyEmailIcon";
 import { NavBrandLink } from "./NavBrandLink";
-import { NAV_SHELL_BORDER, NAV_SHELL_SHADOW } from "./navShellStyle";
 
 const tiltTransition = "transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1)" as const;
 
@@ -35,23 +32,29 @@ function useTilt(deg: number) {
 
 export default function Nav() {
   const pathname = usePathname();
+  const isHomeV2 = pathname === "/";
+  const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
 
-  const about = useTilt(-8);
   const linkedin = useTilt(8);
   const mail = useTilt(-8);
   const resume = useTilt(8);
 
   return (
-    <div className="relative z-50 w-full pt-8 pb-2">
+    <div
+      className="relative z-50 w-full pt-8 pb-2"
+      style={isCaseStudy ? { backgroundColor: CASE_STUDY_CHROME_BG } : undefined}
+    >
       <div className="w-[86%] max-w-[1008px] mx-auto pointer-events-auto">
         <TooltipProvider openDelay={150} closeDelay={150}>
           <div className="relative rounded-full">
             <div
               className="relative flex items-center justify-between h-[60px] rounded-full"
               style={{
-                background: "rgba(255, 255, 255, 0.15)",
-                border: NAV_SHELL_BORDER,
-                boxShadow: NAV_SHELL_SHADOW,
+                background: isCaseStudy
+                  ? CASE_STUDY_CHROME_BG
+                  : isHomeV2
+                    ? "rgba(255, 255, 255, 0.15)"
+                    : "transparent",
               }}
             >
               <NavBrandLink
@@ -61,25 +64,6 @@ export default function Nav() {
               />
 
               <div className="flex items-center gap-3 sm:gap-4">
-                <Tooltip side="bottom" sideOffset={8}>
-                  <TooltipTrigger
-                    asChild
-                    onMouseEnter={about.onMouseEnter}
-                    onMouseLeave={about.onMouseLeave}
-                  >
-                    <Link
-                      href="/about"
-                      className="flex items-center justify-center w-8 h-8"
-                      aria-label="About"
-                    >
-                      <span style={about.iconStyle}>
-                        <HandWaving size={24} color="#555555" weight="regular" aria-hidden />
-                      </span>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>About</TooltipContent>
-                </Tooltip>
-
                 <Tooltip side="bottom" sideOffset={8}>
                   <TooltipTrigger
                     asChild

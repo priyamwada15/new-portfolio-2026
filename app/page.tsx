@@ -24,6 +24,7 @@ import {
 } from "@/design-system";
 import Image from "next/image";
 import { aboutAssets } from "./about/aboutAssets";
+import { HomeAnimationDial } from "./home-v2/HomeAnimationDial";
 import { HomeV2SnippetsSection } from "./home-v2/HomeV2SnippetsSection";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { HomeV2PlayableCard } from "./home-v2/HomeV2PlayableCard";
@@ -62,6 +63,7 @@ export default function HomeV2Page() {
       <div className="relative z-[2] min-h-screen">
         <HomeV2VideoProvider>
         {/* Align page content to nav inner container edges */}
+        <HomeAnimationDial />
         <div
           className="home-v2-layout relative mx-auto w-[86%] max-w-[1008px] overflow-visible"
           style={{
@@ -120,8 +122,7 @@ export default function HomeV2Page() {
                   {/* Devil's Advocate with hover reveal */}
                   <div className="group relative h-[150px] w-[92.92px] shrink-0 cursor-default">
                     <div
-                      className="relative h-full w-full overflow-hidden rounded-2xl border-4 border-white box-border transition-opacity duration-300 group-hover:opacity-0"
-                      style={{ boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.12)" }}
+                      className="home-v2-book-shadow home-v2-book-cover relative h-full w-full overflow-hidden rounded-2xl border-4 border-white box-border"
                     >
                       <Image
                         src={aboutAssets.bookDevilsAdvocate}
@@ -132,8 +133,7 @@ export default function HomeV2Page() {
                       />
                     </div>
                     <div
-                      className="pointer-events-none absolute left-0 top-1/2 z-40 h-[250px] w-[250px] -translate-y-1/2 scale-[0.96] opacity-0 overflow-hidden rounded-2xl border-4 border-white box-border transition-[opacity,transform] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100"
-                      style={{ boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.12)" }}
+                      className="home-v2-book-shadow home-v2-book-reveal pointer-events-none absolute left-0 top-1/2 z-40 h-[250px] w-[250px] overflow-hidden rounded-2xl border-4 border-white box-border"
                       aria-hidden
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -148,8 +148,7 @@ export default function HomeV2Page() {
                   {/* Culture Map with hover reveal */}
                   <div className="group relative h-[150px] w-[98.63px] shrink-0 cursor-default">
                     <div
-                      className="relative h-full w-full overflow-hidden rounded-2xl border-4 border-white box-border transition-opacity duration-300 group-hover:opacity-0"
-                      style={{ boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.12)" }}
+                      className="home-v2-book-shadow home-v2-book-cover relative h-full w-full overflow-hidden rounded-2xl border-4 border-white box-border"
                     >
                       <Image
                         src={aboutAssets.bookCultureMap}
@@ -160,8 +159,7 @@ export default function HomeV2Page() {
                       />
                     </div>
                     <div
-                      className="pointer-events-none absolute right-0 top-1/2 z-40 h-[250px] w-[250px] -translate-y-1/2 scale-[0.96] opacity-0 overflow-hidden rounded-2xl border-4 border-white box-border transition-[opacity,transform] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100"
-                      style={{ boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.12)" }}
+                      className="home-v2-book-shadow home-v2-book-reveal pointer-events-none absolute right-0 top-1/2 z-40 h-[250px] w-[250px] overflow-hidden rounded-2xl border-4 border-white box-border"
                       aria-hidden
                     >
                       <Image
@@ -187,6 +185,7 @@ export default function HomeV2Page() {
 
                   <div style={{ display: "flex", alignItems: "center", gap: "16px", height: "50px" }}>
                     <div
+                      className="home-v2-album-shadow"
                       style={{
                         position: "relative",
                         width: "50px",
@@ -194,7 +193,6 @@ export default function HomeV2Page() {
                         borderRadius: "4px",
                         overflow: "hidden",
                         border: "2px solid var(--ds-color-on-dark)",
-                        boxShadow: "0px 2px 16px rgba(0, 0, 0, 0.1)",
                       }}
                     >
                       <Image

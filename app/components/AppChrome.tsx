@@ -12,7 +12,10 @@ import {
 } from "../lib/caseStudy";
 import { AsciiCursorTrail } from "./AsciiCursorTrail";
 import { AsteriskCursor } from "./AsteriskCursor";
+import dynamic from "next/dynamic";
 import DevAgentation from "./DevAgentation";
+
+const DevDialKit = dynamic(() => import("./DevDialKit"), { ssr: false });
 
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -78,6 +81,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
         </div>
       </div>
       <DevAgentation />
+      <DevDialKit />
       {isHomeV2 ? <AsciiCursorTrail /> : null}
       {usePortfolioAsteriskCursor ? <AsteriskCursor /> : null}
     </>

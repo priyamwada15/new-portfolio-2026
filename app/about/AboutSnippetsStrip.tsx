@@ -37,10 +37,7 @@ function SnippetPhotoCard({
   const card = (
     <div
       className="snippet-photo-card absolute box-border overflow-hidden rounded-[24px] border-8 border-white"
-      style={{
-        ...cardStyle,
-        filter: "drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.12))",
-      }}
+      style={cardStyle}
     >
       <Image
         src={src}

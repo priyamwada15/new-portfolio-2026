@@ -5,8 +5,14 @@ import { usePathname } from "next/navigation";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import { HOME_V2_PAGE_BG, SITE_DEFAULT_PAGE_BG, isRocketMortgagePath, surfaces } from "@/design-system";
+import {
+  CASE_STUDY_PAGE_BG,
+  caseStudyUsesSiteDefaultSurface,
+  isCaseStudyPath,
+} from "../lib/caseStudy";
 import { AsciiCursorTrail } from "./AsciiCursorTrail";
 import { AsteriskCursor } from "./AsteriskCursor";
+import DevAgentation from "./DevAgentation";
 
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -43,16 +49,35 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     return <main className="flex-1 min-h-screen">{children}</main>;
   }
 
+  const caseStudy =
+    pathname ? isCaseStudyPath(pathname) : false;
+  const caseStudyCustomBg =
+    caseStudy && pathname && !caseStudyUsesSiteDefaultSurface(pathname);
+
+  const scrollLayerBg = isHomeV2 || isRocketMortgage
+    ? HOME_V2_PAGE_BG
+    : caseStudyCustomBg
+      ? CASE_STUDY_PAGE_BG
+      : SITE_DEFAULT_PAGE_BG;
+
   return (
     <>
-      <Nav />
-      <main
-        className="flex-1 overflow-visible pt-[96px]"
-        style={isRocketMortgage ? { backgroundColor: surfaces.page } : undefined}
-      >
-        {children}
-      </main>
-      <Footer />
+      <div className="site-scroll-layer relative z-10 flex min-h-screen flex-1 flex-col">
+        <div
+          className="flex min-h-screen flex-1 flex-col"
+          style={{ backgroundColor: scrollLayerBg }}
+        >
+          <Nav />
+          <main
+            className="flex-1 overflow-visible"
+            style={isRocketMortgage ? { backgroundColor: surfaces.page } : undefined}
+          >
+            {children}
+          </main>
+          <Footer />
+        </div>
+      </div>
+      <DevAgentation />
       {isHomeV2 ? <AsciiCursorTrail /> : null}
       {usePortfolioAsteriskCursor ? <AsteriskCursor /> : null}
     </>

@@ -22,7 +22,6 @@ import {
   homeSnippetLabelStyle,
   homeSnippetToolLabelStyle,
 } from "@/design-system";
-import { SunlightEffect } from "./components/SunlightEffect";
 import Image from "next/image";
 import { aboutAssets } from "./about/aboutAssets";
 import { HomeV2SnippetsSection } from "./home-v2/HomeV2SnippetsSection";
@@ -60,8 +59,6 @@ const INTRO_PARAGRAPHS = [
 export default function HomeV2Page() {
   return (
     <div className="relative min-h-screen" style={{ backgroundColor: HOME_V2_PAGE_BG }}>
-      <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />
-
       <div className="relative z-[2] min-h-screen">
         <HomeV2VideoProvider>
         {/* Align page content to nav inner container edges */}

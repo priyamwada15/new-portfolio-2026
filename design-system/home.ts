@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { fontStyle } from "./fonts";
 
 /** Desktop homepage (/) absolute-layout spacing — see app/page.tsx. */
-export const HOME_V2_TOP_PX = 92;
+export const HOME_V2_TOP_PX = 72;
 export const HOME_V2_RM_CARD_H_PX = 637;
 export const HOME_V2_ROW_GAP_PX = 56;
 export const HOME_V2_ROW_H_PX = 450;

@@ -26,8 +26,8 @@ export function AsciiCursorTrail() {
   const layerRef = useRef<HTMLDivElement>(null);
   const headWrapRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLSpanElement>(null);
-  const trailPoolRef = useRef<HTMLSpanElement[]>([]);
-  const activeTrailCountRef = useRef(0);
+  const trailElsRef = useRef<HTMLSpanElement[]>([]);
+  const trailIndexRef = useRef(0);
   const lastSpawnRef = useRef<{ x: number; y: number; t: number } | null>(null);
   const lastTargetRef = useRef<EventTarget | null>(null);
   const hoveringCustomCursorRef = useRef(false);
@@ -72,20 +72,29 @@ export function AsciiCursorTrail() {
     const minDistPx = 12;
     const minIntervalMs = 24;
 
-    const acquireTrailEl = () => trailPoolRef.current.pop() ?? document.createElement("span");
-
-    const releaseTrailEl = (el: HTMLSpanElement) => {
-      el.remove();
-      trailPoolRef.current.push(el);
-    };
+    // Pre-create the trail elements once and recycle them (no DOM allocations during pointer moves).
+    if (trailElsRef.current.length === 0) {
+      const els: HTMLSpanElement[] = [];
+      for (let i = 0; i < maxItems; i += 1) {
+        const el = document.createElement("span");
+        el.className = TRAIL_CLASS;
+        el.style.opacity = "0";
+        el.style.animation = "none";
+        el.addEventListener("animationend", () => {
+          el.style.opacity = "0";
+          el.style.animation = "none";
+        });
+        layer.appendChild(el);
+        els.push(el);
+      }
+      trailElsRef.current = els;
+    }
 
     const clearTrail = () => {
-      for (const child of Array.from(layer.children)) {
-        if (child instanceof HTMLSpanElement && child.classList.contains(TRAIL_CLASS)) {
-          releaseTrailEl(child);
-        }
+      for (const el of trailElsRef.current) {
+        el.style.opacity = "0";
+        el.style.animation = "none";
       }
-      activeTrailCountRef.current = 0;
     };
 
     const flushHeadPosition = () => {
@@ -120,33 +129,20 @@ export function AsciiCursorTrail() {
     };
 
     const spawnTrail = (x: number, y: number) => {
-      if (activeTrailCountRef.current >= maxItems) {
-        const oldest = layer.querySelector(`.${TRAIL_CLASS}`);
-        if (oldest instanceof HTMLSpanElement) {
-          releaseTrailEl(oldest);
-          activeTrailCountRef.current -= 1;
-        }
-      }
+      const pool = trailElsRef.current;
+      if (pool.length === 0) return;
 
-      const el = acquireTrailEl();
-      el.className = TRAIL_CLASS;
+      const idx = trailIndexRef.current;
+      trailIndexRef.current = (idx + 1) % pool.length;
+      const el = pool[idx]!;
       el.textContent = pickChar(rand);
       el.style.left = `${x}px`;
       el.style.top = `${y}px`;
       el.style.animation = "none";
-      layer.appendChild(el);
-      void el.offsetWidth;
+      el.style.opacity = "";
+      // Restart the CSS animation with a minimal reflow.
+      void el.getBoundingClientRect();
       el.style.animation = "";
-      activeTrailCountRef.current += 1;
-
-      el.addEventListener(
-        "animationend",
-        () => {
-          releaseTrailEl(el);
-          activeTrailCountRef.current = Math.max(0, activeTrailCountRef.current - 1);
-        },
-        { once: true },
-      );
     };
 
     const onAnimationEnd = () => {
@@ -167,7 +163,7 @@ export function AsciiCursorTrail() {
       syncHoverState(e.target);
 
       if (hoveringCustomCursorRef.current) {
-        if (activeTrailCountRef.current > 0) clearTrail();
+        clearTrail();
         lastSpawnRef.current = { x, y, t: performance.now() };
         return;
       }

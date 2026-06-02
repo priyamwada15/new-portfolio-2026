@@ -2,7 +2,7 @@
 
 import { useDialKit } from "dialkit";
 import { useEffect } from "react";
-import { HOME_ANIMATION_DIAL_CONFIG, homeAnimationCssVars } from "./homeAnimationDial";
+import { HOME_ANIMATION_DIAL_CONFIG, homeAnimationCssVars } from "./homeAnimationDial.config";
 
 const LAYOUT_SELECTOR = ".home-v2-layout";
 

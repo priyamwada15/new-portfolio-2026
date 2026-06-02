@@ -1,35 +1,54 @@
+/** DialKit slider tuple (default, min, max). */
+function dialRange(
+  defaultValue: number,
+  min: number,
+  max: number
+): [number, number, number] {
+  return [defaultValue, min, max];
+}
+
+/** DialKit slider tuple with step (default, min, max, step). */
+function dialRangeStep(
+  defaultValue: number,
+  min: number,
+  max: number,
+  step: number
+): [number, number, number, number] {
+  return [defaultValue, min, max, step];
+}
+
 function easeSliders(defaults: { x1: number; y1: number; x2: number; y2: number }) {
   return {
-    x1: [defaults.x1, 0, 1, 0.01],
-    y1: [defaults.y1, -0.5, 1.5, 0.01],
-    x2: [defaults.x2, 0, 1, 0.01],
-    y2: [defaults.y2, -0.5, 1.5, 0.01],
-  } as const;
+    x1: dialRangeStep(defaults.x1, 0, 1, 0.01),
+    y1: dialRangeStep(defaults.y1, -0.5, 1.5, 0.01),
+    x2: dialRangeStep(defaults.x2, 0, 1, 0.01),
+    y2: dialRangeStep(defaults.y2, -0.5, 1.5, 0.01),
+  };
 }
 
 export const HOME_ANIMATION_DIAL_CONFIG = {
   cards: {
-    hoverY: [-8, -24, 0],
-    hoverScale: [1, 1, 1.08, 0.001],
-    durationMs: [250, 80, 800],
+    hoverY: dialRange(-8, -24, 0),
+    hoverScale: dialRangeStep(1, 1, 1.08, 0.001),
+    durationMs: dialRange(250, 80, 800),
     easing: easeSliders({ x1: 0.3, y1: 0.6, x2: 0.32, y2: 1 }),
   },
   snippets: {
-    durationMs: [500, 100, 800],
-    restTransitionMs: [260, 80, 800],
-    popYMid: [-14, -40, 0],
-    popYEnd: [-10, -40, 0],
-    popScaleMid: [1.045, 1, 1.15, 0.001],
-    popScaleEnd: [1.015, 1, 1.15, 0.001],
+    durationMs: dialRange(500, 100, 800),
+    restTransitionMs: dialRange(260, 80, 800),
+    popYMid: dialRange(-14, -40, 0),
+    popYEnd: dialRange(-10, -40, 0),
+    popScaleMid: dialRangeStep(1.045, 1, 1.15, 0.001),
+    popScaleEnd: dialRangeStep(1.015, 1, 1.15, 0.001),
     easing: easeSliders({ x1: 0.1, y1: 0.02, x2: 0.32, y2: 0.32 }),
   },
   books: {
-    durationMs: [300, 100, 800],
-    revealScaleRest: [0.96, 0.8, 1, 0.001],
-    revealScaleHover: [1, 0.8, 1.2, 0.001],
+    durationMs: dialRange(300, 100, 800),
+    revealScaleRest: dialRangeStep(0.96, 0.8, 1, 0.001),
+    revealScaleHover: dialRangeStep(1, 0.8, 1.2, 0.001),
     easing: easeSliders({ x1: 0.23, y1: 1, x2: 0.32, y2: 1 }),
   },
-} as const;
+};
 
 export type HomeAnimationEasing = {
   x1: number;

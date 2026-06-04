@@ -6,7 +6,6 @@ import {
   HOME_V2_ROW_H_PX,
   HOME_V2_CENTRAL_BLOCK_H_PX,
   HOME_V2_ROW2_H_PX,
-  HOME_V2_FOOTER_SAFE_SPACE_PX,
   HOME_V2_SECOND_ROW_TOP_PX,
   HOME_V2_CENTRAL_BLOCK_TOP_PX,
   HOME_V2_ROW2_TOP_PX,
@@ -24,7 +23,6 @@ import {
 } from "@/design-system";
 import Image from "next/image";
 import { aboutAssets } from "./about/aboutAssets";
-import { HomeAnimationDial } from "./home-v2/HomeAnimationDial";
 import { HomeV2SnippetsSection } from "./home-v2/HomeV2SnippetsSection";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { HomeV2PlayableCard } from "./home-v2/HomeV2PlayableCard";
@@ -63,7 +61,6 @@ export default function HomeV2Page() {
       <div className="relative z-[2] min-h-screen">
         <HomeV2VideoProvider>
         {/* Align page content to nav inner container edges */}
-        <HomeAnimationDial />
         <div
           className="home-v2-layout relative mx-auto w-[86%] max-w-[1008px] overflow-visible"
           style={{
@@ -77,8 +74,7 @@ export default function HomeV2Page() {
               HOME_V2_ROW_GAP_PX +
               HOME_V2_ROW2_H_PX +
               HOME_V2_SNIPPETS_GAP_PX +
-              HOME_V2_SNIPPETS_H_PX +
-              HOME_V2_FOOTER_SAFE_SPACE_PX
+              HOME_V2_SNIPPETS_H_PX
             }px`,
           }}
         >
@@ -138,7 +134,7 @@ export default function HomeV2Page() {
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={aboutAssets.bookHoverCat}
+                        src={aboutAssets.bookHoverDevilsAdvocate}
                         alt=""
                         className="size-full object-cover"
                       />
@@ -163,7 +159,7 @@ export default function HomeV2Page() {
                       aria-hidden
                     >
                       <Image
-                        src={aboutAssets.bookHoverOffice}
+                        src={aboutAssets.bookHoverCultureMap}
                         alt=""
                         fill
                         sizes="250px"

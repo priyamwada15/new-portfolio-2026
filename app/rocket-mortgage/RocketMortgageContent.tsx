@@ -10,7 +10,7 @@ import {
   caseStudyBody,
   caseStudySectionBody,
   fontStyle,
-  HOME_V2_PAGE_BG,
+  SITE_DEFAULT_PAGE_BG,
 } from "@/design-system";
 
 /** Spacing & type tokens (formerly tuned via DialKit). */
@@ -281,7 +281,7 @@ export default function RocketMortgageContent() {
       <CaseStudyLayout
         accentDark={brands.rocket.dark}
         accentLight={brands.rocket.light}
-        bodyBackgroundColor={HOME_V2_PAGE_BG}
+        bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
         headlineFont="figtree"
         headlineColor="#333333"
         headlineClassName="leading-[1.3]"

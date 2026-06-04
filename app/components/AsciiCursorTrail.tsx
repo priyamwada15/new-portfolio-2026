@@ -15,6 +15,8 @@ const TAIL_CHARS =
 const CUSTOM_HOVER_SELECTOR =
   ".cursor-hover-light, .cursor-hover-dark, .cursor-hover-eye-dark";
 
+const FOOTER_SELECTOR = ".flip-board-footer";
+
 const TRAIL_CLASS = "ascii-cursor__trail-char";
 
 function pickChar(rand: () => number) {
@@ -31,6 +33,7 @@ export function AsciiCursorTrail() {
   const lastSpawnRef = useRef<{ x: number; y: number; t: number } | null>(null);
   const lastTargetRef = useRef<EventTarget | null>(null);
   const hoveringCustomCursorRef = useRef(false);
+  const hoveringFooterRef = useRef(false);
   const wasClickableRef = useRef(false);
   const lightboxOpenRef = useRef(false);
   const pendingPosRef = useRef<{ x: number; y: number } | null>(null);
@@ -110,22 +113,49 @@ export function AsciiCursorTrail() {
       moveRafRef.current = window.requestAnimationFrame(flushHeadPosition);
     };
 
-    const syncHoverState = (target: EventTarget | null) => {
-      if (target === lastTargetRef.current) return;
-      lastTargetRef.current = target;
-
-      hoveringCustomCursorRef.current = Boolean(
-        target instanceof Element && target.closest(CUSTOM_HOVER_SELECTOR),
-      );
-
-      const clickable =
-        !hoveringCustomCursorRef.current && isClickableCursorTarget(target);
-      if (clickable && !wasClickableRef.current) {
-        triggerAsteriskSpin(head);
-      } else if (!clickable) {
-        head.classList.remove("asterisk-cursor__head--spinning");
+    const isPointerOverFooter = (x: number, y: number, target: EventTarget | null) => {
+      if (target instanceof Element && target.closest(FOOTER_SELECTOR)) {
+        return true;
       }
-      wasClickableRef.current = clickable;
+      // Hit-test topmost element only — avoids white asterisk when snippets (or
+      // other sheet content) visually overlap the fixed footer underneath.
+      const hit = document.elementFromPoint(x, y);
+      return hit instanceof Element && Boolean(hit.closest(FOOTER_SELECTOR));
+    };
+
+    const syncFooterAtTarget = (
+      x: number,
+      y: number,
+      target: EventTarget | null,
+    ) => {
+      const overFooter = isPointerOverFooter(x, y, target);
+      if (overFooter === hoveringFooterRef.current) return;
+      hoveringFooterRef.current = overFooter;
+      head.classList.toggle("ascii-cursor__head--on-footer", overFooter);
+    };
+
+    const syncHoverState = (target: EventTarget | null) => {
+      const el = target instanceof Element ? target : null;
+
+      const customHover = Boolean(el?.closest(CUSTOM_HOVER_SELECTOR));
+      if (customHover !== hoveringCustomCursorRef.current) {
+        hoveringCustomCursorRef.current = customHover;
+      }
+
+      if (target !== lastTargetRef.current) {
+        lastTargetRef.current = target;
+
+        const clickable =
+          !hoveringCustomCursorRef.current &&
+          !hoveringFooterRef.current &&
+          isClickableCursorTarget(target);
+        if (clickable && !wasClickableRef.current) {
+          triggerAsteriskSpin(head);
+        } else if (!clickable) {
+          head.classList.remove("asterisk-cursor__head--spinning");
+        }
+        wasClickableRef.current = clickable;
+      }
     };
 
     const spawnTrail = (x: number, y: number) => {
@@ -160,9 +190,10 @@ export function AsciiCursorTrail() {
 
       if (scrollingRef.current) return;
 
+      syncFooterAtTarget(x, y, e.target);
       syncHoverState(e.target);
 
-      if (hoveringCustomCursorRef.current) {
+      if (hoveringCustomCursorRef.current || hoveringFooterRef.current) {
         clearTrail();
         lastSpawnRef.current = { x, y, t: performance.now() };
         return;
@@ -183,7 +214,11 @@ export function AsciiCursorTrail() {
     const onLeave = () => {
       wasClickableRef.current = false;
       lastTargetRef.current = null;
-      head.classList.remove("asterisk-cursor__head--spinning");
+      hoveringFooterRef.current = false;
+      head.classList.remove(
+        "asterisk-cursor__head--spinning",
+        "ascii-cursor__head--on-footer",
+      );
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });

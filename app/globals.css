@@ -555,6 +555,10 @@ body {
   user-select: none;
 }
 
+.ascii-cursor__head.ascii-cursor__head--on-footer {
+  color: #ffffff !important;
+}
+
 .ascii-cursor__trail-char {
   position: fixed;
   pointer-events: none;
@@ -1262,4 +1266,66 @@ body {
 /* DialKit (dev) */
 .dialkit-panel {
   z-index: 10003;
+}
+
+/*
+ * Flip-footer layout: scroll layer (z-10) sits above fixed footer (z-0).
+ * - sheet-body: interactive (cards, books, snippets)
+ * - sheet-foot + reveal-spacer: pass through to footer links / cursor
+ */
+/* Two classes beat the old bundled `.site-scroll-layer--flip-footer { auto }` rule */
+.site-scroll-layer.site-scroll-layer--flip-footer {
+  --home-scroll-sheet-radius-bl: 48px;
+  --home-scroll-sheet-radius-br: 48px;
+  --home-scroll-sheet-shadow: 0 48px 54px 1px rgb(0 0 0 / 0.45);
+  pointer-events: none;
+}
+
+.site-scroll-layer--flip-footer .site-scroll-layer__sheet {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.site-scroll-layer--flip-footer .site-scroll-layer__sheet-surface {
+  overflow: hidden;
+  border-bottom-left-radius: var(--home-scroll-sheet-radius-bl);
+  border-bottom-right-radius: var(--home-scroll-sheet-radius-br);
+  box-shadow: var(--home-scroll-sheet-shadow);
+}
+
+.site-scroll-layer--flip-footer .site-scroll-layer__sheet-body,
+.site-scroll-layer--flip-footer .site-scroll-layer__sheet-body * {
+  pointer-events: auto;
+}
+
+.site-scroll-layer--flip-footer .site-scroll-layer__sheet-foot,
+.site-scroll-layer--flip-footer .site-scroll-layer__sheet-foot * {
+  pointer-events: none;
+}
+
+/* Legacy class: same pass-through model (cached builds) */
+.site-scroll-layer--pass-through-reveal {
+  pointer-events: none;
+}
+
+.site-scroll-layer--pass-through-reveal .site-scroll-layer__sheet-body,
+.site-scroll-layer--pass-through-reveal .site-scroll-layer__sheet-body * {
+  pointer-events: auto;
+}
+
+.site-scroll-layer__reveal-spacer {
+  --flip-footer-reveal-image-overlap: 44px;
+  position: relative;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Reveal gap lives inside the sheet surface; tall enough for bottom radius arc */
+.site-scroll-layer__sheet-foot {
+  min-height: max(
+    56px,
+    var(--home-scroll-sheet-radius-bl),
+    var(--home-scroll-sheet-radius-br)
+  );
 }

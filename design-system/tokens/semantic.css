@@ -10,7 +10,7 @@
 
   /* Surfaces */
   --ds-surface-default: var(--ds-color-surface-base);
-  --ds-surface-case-study: var(--ds-color-surface-base);
+  --ds-surface-case-study: var(--ds-color-surface-page);
   --ds-surface-page: var(--ds-color-surface-page);
   --ds-surface-home: var(--ds-color-surface-home);
   --ds-surface-card: var(--ds-color-surface-card);

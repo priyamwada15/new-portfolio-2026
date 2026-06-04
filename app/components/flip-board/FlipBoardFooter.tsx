@@ -17,7 +17,11 @@ import {
   LINE_1_ROWS,
   SOCIAL_SEGMENTS,
 } from "./constants";
-import { playFlipBoardSpin, stopFlipBoardSpin } from "./flipBoardSound";
+import {
+  armFlipBoardFooterSoundUnlock,
+  playFlipBoardSpin,
+  stopFlipBoardSpin,
+} from "./flipBoardSound";
 import {
   FLIP_BOARD_THEME_DEFAULTS,
   flipBoardCssVars,
@@ -306,6 +310,8 @@ export default function FlipBoardFooter({
         if (!ready) return;
 
         scrollRevealFiredRef.current = true;
+        const footerEl = footerRef.current;
+        if (footerEl) armFlipBoardFooterSoundUnlock(footerEl);
         runFlipAnimation();
       },
       { threshold: 0 },

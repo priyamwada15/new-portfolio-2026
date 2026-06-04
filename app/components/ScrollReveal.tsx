@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 type ScrollRevealProps = {
   children: ReactNode;
   className?: string;
-  /** Reveal after mount (double rAF), like homepage tabs — for above-the-fold blocks */
+  /** Above-the-fold: visible in SSR/first paint (no wait for hydration + rAF) */
   revealOnMount?: boolean;
   delayMs?: number;
 };
@@ -20,27 +20,24 @@ export function ScrollReveal({
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (!revealOnMount) return;
+    if (revealOnMount) return;
     const el = ref.current;
-    if (!el) return;
+    if (!el || el.classList.contains("is-visible")) return;
 
-    let raf1 = 0;
-    let raf2 = 0;
-    raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => {
-        el.classList.add("is-visible");
-      });
-    });
-    return () => {
-      cancelAnimationFrame(raf1);
-      cancelAnimationFrame(raf2);
-    };
+    const rect = el.getBoundingClientRect();
+    const inView =
+      rect.top < window.innerHeight - 40 &&
+      rect.bottom > 40 &&
+      rect.width > 0;
+    if (inView) {
+      el.classList.add("is-visible");
+    }
   }, [revealOnMount]);
 
   useEffect(() => {
     if (revealOnMount) return;
     const el = ref.current;
-    if (!el) return;
+    if (!el || el.classList.contains("is-visible")) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -59,7 +56,11 @@ export function ScrollReveal({
   return (
     <div
       ref={ref}
-      className={cn("card-reveal overflow-visible", className)}
+      className={cn(
+        "card-reveal overflow-visible",
+        revealOnMount && "is-visible",
+        className,
+      )}
       style={delayMs !== undefined ? { transitionDelay: `${delayMs}ms` } : undefined}
     >
       {children}

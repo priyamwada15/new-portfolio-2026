@@ -224,7 +224,7 @@ export default function AboutLeftSticky() {
                 <BookHoverReveal visible={bookHover === "devils"} align="left">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={aboutAssets.bookHoverCat}
+                    src={aboutAssets.bookHoverDevilsAdvocate}
                     alt=""
                     className="size-full object-cover"
                   />
@@ -256,7 +256,7 @@ export default function AboutLeftSticky() {
                 </div>
                 <BookHoverReveal visible={bookHover === "culture"} align="right">
                   <Image
-                    src={aboutAssets.bookHoverOffice}
+                    src={aboutAssets.bookHoverCultureMap}
                     alt=""
                     fill
                     className="object-cover"

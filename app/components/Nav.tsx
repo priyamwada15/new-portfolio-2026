@@ -34,6 +34,7 @@ export default function Nav() {
   const pathname = usePathname();
   const isHomeV2 = pathname === "/";
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
+  const caseStudyBg = isCaseStudy ? CASE_STUDY_CHROME_BG : null;
 
   const linkedin = useTilt(8);
   const mail = useTilt(-8);
@@ -42,7 +43,7 @@ export default function Nav() {
   return (
     <div
       className="relative z-50 w-full pt-8 pb-2"
-      style={isCaseStudy ? { backgroundColor: CASE_STUDY_CHROME_BG } : undefined}
+      style={caseStudyBg ? { backgroundColor: caseStudyBg } : undefined}
     >
       <div className="w-[86%] max-w-[1008px] mx-auto pointer-events-auto">
         <TooltipProvider openDelay={150} closeDelay={150}>
@@ -50,8 +51,8 @@ export default function Nav() {
             <div
               className="relative flex items-center justify-between h-[60px] rounded-full"
               style={{
-                background: isCaseStudy
-                  ? CASE_STUDY_CHROME_BG
+                background: caseStudyBg
+                  ? caseStudyBg
                   : isHomeV2
                     ? "rgba(255, 255, 255, 0.15)"
                     : "transparent",

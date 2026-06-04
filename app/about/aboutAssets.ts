@@ -6,8 +6,8 @@ export const aboutAssets = {
   listeningAlbum: `${BASE}/the_black_keys_album_art_1.avif`,
   bookDevilsAdvocate: `${BASE}/the-devils-advocate-9781451682557_hr.avif`,
   bookCultureMap: `${BASE}/9781610392761.avif`,
-  bookHoverCat: `${BASE}/elmowg-elmo-cat.gif`,
-  bookHoverOffice: `${BASE}/the-office-handshake-meme-template-regular-f1d1d45c.webp`,
+  bookHoverDevilsAdvocate: `${BASE}/elmowg-elmo-cat.gif`,
+  bookHoverCultureMap: `${BASE}/the-office-handshake-meme-template-regular-f1d1d45c.webp`,
 } as const;
 
 export const SPOTIFY_PEACHES_ALBUM_URL =

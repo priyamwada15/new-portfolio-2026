@@ -18,7 +18,7 @@ import {
   SOCIAL_SEGMENTS,
 } from "./constants";
 import {
-  initFlipBoardAudioUnlock,
+  armFlipBoardFooterSoundUnlock,
   playFlipBoardSpin,
   stopFlipBoardSpin,
 } from "./flipBoardSound";
@@ -129,10 +129,6 @@ export default function FlipBoardFooter({
   const cellHandles = useRef<Map<string, SplitFlapCellHandle>>(new Map());
   const flipTweenRef = useRef<gsap.core.Timeline | null>(null);
   const scrollRevealFiredRef = useRef(false);
-
-  useEffect(() => {
-    initFlipBoardAudioUnlock();
-  }, []);
 
   const specs = useMemo(() => buildFlipBoardGrid(), []);
   const interactiveSpecs = useMemo(
@@ -314,6 +310,8 @@ export default function FlipBoardFooter({
         if (!ready) return;
 
         scrollRevealFiredRef.current = true;
+        const footerEl = footerRef.current;
+        if (footerEl) armFlipBoardFooterSoundUnlock(footerEl);
         runFlipAnimation();
       },
       { threshold: 0 },

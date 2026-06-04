@@ -11,6 +11,7 @@ import { AsteriskCursor } from "./AsteriskCursor";
 import dynamic from "next/dynamic";
 import { FLIP_BOARD_REVEAL_IMAGE_OVERLAP_PX } from "./flip-board/constants";
 import { HOME_SCROLL_REVEAL_CSS_DEFAULTS } from "../home-v2/homeScrollRevealDial.config";
+import { initFlipBoardAudioUnlock } from "./flip-board/flipBoardSound";
 import DevAgentation from "./DevAgentation";
 
 const FlipBoardFooter = dynamic(
@@ -58,6 +59,11 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
       );
     };
   }, [isBarePage, isCaseStudy, isHomeV2]);
+
+  useEffect(() => {
+    if (!useFlipBoardFooter) return;
+    initFlipBoardAudioUnlock();
+  }, [useFlipBoardFooter]);
 
   if (isBarePage) {
     return <main className="flex-1 min-h-screen">{children}</main>;

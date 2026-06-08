@@ -6,6 +6,7 @@
   --ds-text-secondary: var(--ds-color-secondary);
   --ds-text-muted: var(--ds-color-muted);
   --ds-text-faint: var(--ds-color-faint);
+  --ds-text-quiet: var(--ds-color-quiet);
   --ds-text-on-dark: var(--ds-color-on-dark);
 
   /* Surfaces */

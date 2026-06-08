@@ -13,7 +13,12 @@ const TAIL_CHARS =
   ".,:;+-=~^_`'\"\\/|()[]{}<>!?$#@%&0123456789abcdefghijklmnopqrstuvwxyz";
 
 const CUSTOM_HOVER_SELECTOR =
-  ".cursor-hover-light, .cursor-hover-dark, .cursor-hover-eye-dark";
+  ".cursor-hover-light, .cursor-hover-dark, .cursor-hover-eye-dark, .cursor-hover-pointer";
+
+// Elements where the ascii `*` glyph itself should hide, leaving only the
+// native pointer cursor (e.g. listening widget links) — distinct from
+// CUSTOM_HOVER_SELECTOR, which keeps the glyph visible alongside custom SVG cursors.
+const HIDE_HEAD_SELECTOR = ".cursor-hover-pointer";
 
 const FOOTER_SELECTOR = ".flip-board-footer";
 
@@ -33,6 +38,7 @@ export function AsciiCursorTrail() {
   const lastSpawnRef = useRef<{ x: number; y: number; t: number } | null>(null);
   const lastTargetRef = useRef<EventTarget | null>(null);
   const hoveringCustomCursorRef = useRef(false);
+  const hidingHeadRef = useRef(false);
   const hoveringFooterRef = useRef(false);
   const wasClickableRef = useRef(false);
   const lightboxOpenRef = useRef(false);
@@ -142,6 +148,12 @@ export function AsciiCursorTrail() {
         hoveringCustomCursorRef.current = customHover;
       }
 
+      const hideHead = Boolean(el?.closest(HIDE_HEAD_SELECTOR));
+      if (hideHead !== hidingHeadRef.current) {
+        hidingHeadRef.current = hideHead;
+        head.classList.toggle("ascii-cursor__head--hidden", hideHead);
+      }
+
       if (target !== lastTargetRef.current) {
         lastTargetRef.current = target;
 
@@ -215,9 +227,11 @@ export function AsciiCursorTrail() {
       wasClickableRef.current = false;
       lastTargetRef.current = null;
       hoveringFooterRef.current = false;
+      hidingHeadRef.current = false;
       head.classList.remove(
         "asterisk-cursor__head--spinning",
         "ascii-cursor__head--on-footer",
+        "ascii-cursor__head--hidden",
       );
     };
 

@@ -512,6 +512,11 @@ body {
     cursor: url("/Cursors/Hover%20Cursor%20-%20Eye%20Dark.svg") 12 12, pointer;
   }
 
+  body.ascii-cursor .cursor-hover-pointer,
+  body.ascii-cursor .cursor-hover-pointer * {
+    cursor: pointer;
+  }
+
   body.home-v2-lightbox-open.ascii-cursor,
   body.home-v2-lightbox-open.ascii-cursor * {
     cursor: auto;
@@ -557,6 +562,10 @@ body {
 
 .ascii-cursor__head.ascii-cursor__head--on-footer {
   color: #ffffff !important;
+}
+
+.ascii-cursor__head.ascii-cursor__head--hidden {
+  opacity: 0;
 }
 
 .ascii-cursor__trail-char {

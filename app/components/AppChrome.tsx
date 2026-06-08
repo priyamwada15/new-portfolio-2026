@@ -18,7 +18,6 @@ const FlipBoardFooter = dynamic(
   () => import("./flip-board/FlipBoardFooter"),
   { ssr: false },
 );
-
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHomeV2 = pathname === "/";

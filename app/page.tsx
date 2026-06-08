@@ -16,15 +16,11 @@ import {
   homeCardFooterTagsStyle,
   homeCardFooterTitleStyle,
   homeIntroCopyStyle,
-  homeSnippetChipStyle,
-  homeSnippetEmphasisStyle,
-  homeSnippetLabelStyle,
-  homeSnippetToolLabelStyle,
 } from "@/design-system";
-import Image from "next/image";
-import { aboutAssets } from "./about/aboutAssets";
 import { HomeV2SnippetsSection } from "./home-v2/HomeV2SnippetsSection";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
+import { HomeV2ListeningWidget } from "./home-v2/HomeV2ListeningWidget";
+import { getListeningWidgetData } from "@/app/lib/spotify";
 import { HomeV2PlayableCard } from "./home-v2/HomeV2PlayableCard";
 import { HomeV2VideoProvider } from "./home-v2/HomeV2VideoProvider";
 import { LazyVideo } from "./home-v2/LazyVideo";
@@ -55,7 +51,9 @@ const INTRO_PARAGRAPHS = [
   "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a water shader, a LISA GUI fintech dashboard and an ASCII racing game.",
 ] as const;
 
-export default function HomeV2Page() {
+export default async function HomeV2Page() {
+  const listeningData = await getListeningWidgetData().catch(() => null);
+
   return (
     <div className="relative min-h-screen" style={{ backgroundColor: HOME_V2_PAGE_BG }}>
       <div className="relative z-[2] min-h-screen">
@@ -105,169 +103,7 @@ export default function HomeV2Page() {
               className="home-v2-intro-snippets"
               style={{ marginTop: "56px", display: "flex", gap: "64px" }}
             >
-              {/* Reading */}
-              <div style={{ width: "300px" }}>
-                <div
-                  style={homeSnippetLabelStyle}
-                >
-                  <span aria-hidden>📚</span>
-                  <span>Reading</span>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
-                  {/* Devil's Advocate with hover reveal */}
-                  <div className="group relative h-[150px] w-[92.92px] shrink-0 cursor-default">
-                    <div
-                      className="home-v2-book-shadow home-v2-book-cover relative h-full w-full overflow-hidden rounded-2xl border-4 border-white box-border"
-                    >
-                      <Image
-                        src={aboutAssets.bookDevilsAdvocate}
-                        alt="The Devil's Advocate book cover"
-                        fill
-                        sizes="93px"
-                        className="object-cover"
-                      />
-                    </div>
-                    <div
-                      className="home-v2-book-shadow home-v2-book-reveal pointer-events-none absolute left-0 top-1/2 z-40 h-[250px] w-[250px] overflow-hidden rounded-2xl border-4 border-white box-border"
-                      aria-hidden
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={aboutAssets.bookHoverDevilsAdvocate}
-                        alt=""
-                        className="size-full object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Culture Map with hover reveal */}
-                  <div className="group relative h-[150px] w-[98.63px] shrink-0 cursor-default">
-                    <div
-                      className="home-v2-book-shadow home-v2-book-cover relative h-full w-full overflow-hidden rounded-2xl border-4 border-white box-border"
-                    >
-                      <Image
-                        src={aboutAssets.bookCultureMap}
-                        alt="The Culture Map book cover"
-                        fill
-                        sizes="99px"
-                        className="object-cover"
-                      />
-                    </div>
-                    <div
-                      className="home-v2-book-shadow home-v2-book-reveal pointer-events-none absolute right-0 top-1/2 z-40 h-[250px] w-[250px] overflow-hidden rounded-2xl border-4 border-white box-border"
-                      aria-hidden
-                    >
-                      <Image
-                        src={aboutAssets.bookHoverCultureMap}
-                        alt=""
-                        fill
-                        sizes="250px"
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Listening + Learning */}
-              <div style={{ width: "300px", display: "flex", flexDirection: "column", gap: "40px" }}>
-                {/* Listening */}
-                <div>
-                  <div style={homeSnippetLabelStyle}>
-                    <span aria-hidden>🎵</span>
-                    <span>Listening</span>
-                  </div>
-
-                  <div style={{ display: "flex", alignItems: "center", gap: "16px", height: "50px" }}>
-                    <div
-                      className="home-v2-album-shadow"
-                      style={{
-                        position: "relative",
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "4px",
-                        overflow: "hidden",
-                        border: "2px solid var(--ds-color-on-dark)",
-                      }}
-                    >
-                      <Image
-                        src={aboutAssets.listeningAlbum}
-                        alt="Peaches album art"
-                        fill
-                        sizes="50px"
-                        className="object-cover"
-                      />
-                    </div>
-
-                    <div
-                      style={homeSnippetEmphasisStyle}
-                    >
-                      Peaches <span style={{ fontWeight: 400, color: "var(--ds-text-secondary)" }}>by The Black Keys</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Learning */}
-                <div>
-                  <div style={homeSnippetLabelStyle}>
-                    <span aria-hidden>✏️</span>
-                    <span>Learning</span>
-                  </div>
-
-                  <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "8px",
-                        gap: "8px",
-                        height: "40px",
-                      }}
-                    >
-                      <div
-                        style={homeSnippetChipStyle}
-                        aria-hidden
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src="/jMyKrhKKXqpc15qYqC3A0pZELw%201.png"
-                          alt="Rive logo"
-                          style={{ width: "16px", height: "16px", objectFit: "contain" }}
-                        />
-                      </div>
-                      <div style={homeSnippetToolLabelStyle}>
-                        Rive
-                      </div>
-                    </div>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "8px",
-                        gap: "8px",
-                        height: "40px",
-                      }}
-                    >
-                      <div
-                        style={homeSnippetChipStyle}
-                        aria-hidden
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src="/Vector.svg"
-                          alt="Unicorn Studio logo"
-                          style={{ width: "16px", height: "16px", objectFit: "contain" }}
-                        />
-                      </div>
-                      <div style={homeSnippetToolLabelStyle}>
-                        Unicorn Studio
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <HomeV2ListeningWidget data={listeningData} />
             </div>
             </div>
           </ScrollReveal>

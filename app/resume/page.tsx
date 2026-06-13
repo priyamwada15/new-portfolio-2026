@@ -49,6 +49,11 @@ const TARS_BULLETS = [
   "Joined as one of the first two designers, establishing the design process, component foundations and cross-functional workflows from scratch as the product scaled to enterprise.",
 ];
 
+const TARS_INTERN_BULLETS = [
+  "Built Tars' analytics feature from scratch, giving ~85 active clients their first native view of chatbot performance across 10 visualization types. Adopted across the entire active client base.",
+  "Redesigned chatbot customization into a WYSIWYG interface, moving advanced controls out of the codebase and into the product, reducing the client's technical dependency for every active account.",
+];
+
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
     <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-secondary mb-4">{children}</h2>
@@ -171,6 +176,31 @@ export default function ResumePage() {
                       BENGALURU, INDIA <span className="mx-1.5 text-secondary/80">*</span> MAR 2022 – JUL 2024
                     </p>
                     <BulletList items={TARS_BULLETS} dotClass="bg-ink" />
+                  </div>
+                </div>
+              </article>
+
+              <article>
+                <div className="flex flex-wrap items-start gap-3">
+                  <div
+                    className="relative mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-[#6D33AA]"
+                    aria-hidden
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={TARS_ICON} alt="" className="h-6 w-6 object-contain" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-[16px] text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
+                      <span className="font-normal text-primary">Product Design Intern @ </span>
+                      <span className="font-semibold">Tars Technologies</span>
+                    </h3>
+                    <p
+                      className="mt-1 text-xs uppercase tracking-wide text-secondary"
+                      style={{ fontFamily: "var(--font-hind), sans-serif" }}
+                    >
+                      BENGALURU, INDIA <span className="mx-1.5 text-secondary/80">*</span> SEP 2021 – FEB 2022
+                    </p>
+                    <BulletList items={TARS_INTERN_BULLETS} dotClass="bg-ink" />
                   </div>
                 </div>
               </article>

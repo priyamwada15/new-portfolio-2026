@@ -63,6 +63,7 @@ const festive = Festive({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.priyamwada.me"),
   title: "Priyamwada Pandey | Product Designer",
   description:
     "Hi, I'm Priyamwada. I design interfaces that work with and for AI. I work where the design needs me, on a canvas or in a terminal.",

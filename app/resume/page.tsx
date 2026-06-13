@@ -5,14 +5,14 @@ import { ResumeDownloadButton } from "./ResumeDownloadButton";
 
 export const metadata: Metadata = {
   title: "Resume | Priyamwada Pandey",
-  description: "Resume for Priyamwada Pandey — product designer focused on AI-native interfaces.",
+  description: "Resume for Priyamwada Pandey. Product Designer focused on AI-native interfaces.",
 };
 
 const RM_ICON = "/Icons/RM%20Logo%20Icon.svg";
 const TARS_ICON = "/Icons/Tars%20Icon%20Logo.svg";
 
 const SUMMARY =
-  "Product Designer with 3+ years of experience designing AI-powered products across startup and enterprise teams. Most of my work has been for AI-assisted interfaces- agent builders, assistants, developer and internal tooling. I am also a tinkerer at heart and I work where the design needs me, whether that is on paper (or Paper), in Figma, through an IDE, an Arduino or a Microbit.";
+  "Product Designer with 3+ years of experience designing AI-powered interfaces across early-stage startups and enterprise teams, agent builders, conversational assistants and developer tooling. I've been an early design hire where I owned design end-to-end and built core product workflows from scratch. I work where the design needs me, whether that is on a canvas or in a CLI.";
 
 /** Skills — copy matches resume / Figma spec (not inferred). */
 const PD_CHIPS = [
@@ -37,17 +37,21 @@ const RESEARCH_CHIPS = [
 ];
 
 const ROCKET_BULLETS = [
-  "Redesigned the post-offer onboarding experience inside Rocket Assist from a generic, text-based assistant into a personalized, context-driven system by researching available APIs to ground each interaction in the client's actual loan stage and home details..",
-  "Introduced three interaction patterns that entered roadmap discussions: a task carousel for guided next-step completion, an in-chat document component with download capability and a human handoff flow with specialist availability and callback scheduling.",
-  "Defined usability success criteria and wrote the discussion guide used by the research team to validate concepts with Rocket Mortgage clients. 92% of clients found the experience more helpful and trustworthy, directly attributing it to how personalized it felt.",
-  "Presented design proposals across ongoing stakeholder check-ins and a final handover, and defined each feature into its technical dependencies, APIs, cross-team knowledge requirements and engineering scope, resulting in roadmap-ready scoping.",
+  "Redesigned the post-offer onboarding experience inside Rocket Assist from a text-based assistant into a personalized and context-driven system grounded in each client's actual loan stage and home details.",
+  "Designed three interaction patterns, task carousel, in-chat document component and human handoff flow, that were added to the product roadmap.",
+  "Defined usability success criteria and wrote the research discussion guide. 92% of clients found the redesigned experience more helpful and trustworthy.",
+  "Mapped design features to technical dependencies, APIs and engineering scope across three teams, enabling roadmap-ready scoping.",
 ];
 
 const TARS_BULLETS = [
-  "Drove 41% product adoption within 3 months of beta launch by owning research and product design for the Asimov dashboard and Slack app, enabling teams to access AI-driven assistance inside existing workflows.",
-  "Designed and shipped an internal Debug Mode for Customer Success teams that surfaced conversation flow errors, reducing troubleshooting time by 70%, validated through direct customer success team feedback.",
-  "Built the design system from the ground up as one of the first design hires, shipping component libraries for the Asimov dashboard and website that scaled across the product as the team grew.",
-  "Led end-to-end design execution across 10 dashboard sections and 15 website pages as part of Tars' first major product rebrand, establishing component systems and developer handoff processes that kept design and implementation in sync at scale.",
+  "Drove 41% product adoption within 3 months of beta launch by owning research and design for the Asimov dashboard and Slack app.",
+  "Designed and shipped Chatbot Debug Mode for Customer Success teams, cutting troubleshooting time by 70% for large-scale enterprise deployments.",
+  "Joined as one of the first two designers, establishing the design process, component foundations and cross-functional workflows from scratch as the product scaled to enterprise.",
+];
+
+const TARS_INTERN_BULLETS = [
+  "Built Tars' analytics feature from scratch, giving ~85 active clients their first native view of chatbot performance across 10 visualization types. Adopted across the entire active client base.",
+  "Redesigned chatbot customization into a WYSIWYG interface, moving advanced controls out of the codebase and into the product, reducing the client's technical dependency for every active account.",
 ];
 
 function SectionLabel({ children }: { children: ReactNode }) {
@@ -169,9 +173,34 @@ export default function ResumePage() {
                       className="mt-1 text-xs uppercase tracking-wide text-secondary"
                       style={{ fontFamily: "var(--font-hind), sans-serif" }}
                     >
-                      BENGALURU, INDIA <span className="mx-1.5 text-secondary/80">*</span> SEP 2021 – JUL 2024
+                      BENGALURU, INDIA <span className="mx-1.5 text-secondary/80">*</span> MAR 2022 – JUL 2024
                     </p>
                     <BulletList items={TARS_BULLETS} dotClass="bg-ink" />
+                  </div>
+                </div>
+              </article>
+
+              <article>
+                <div className="flex flex-wrap items-start gap-3">
+                  <div
+                    className="relative mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-[#6D33AA]"
+                    aria-hidden
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={TARS_ICON} alt="" className="h-6 w-6 object-contain" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-[16px] text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
+                      <span className="font-normal text-primary">Product Design Intern @ </span>
+                      <span className="font-semibold">Tars Technologies</span>
+                    </h3>
+                    <p
+                      className="mt-1 text-xs uppercase tracking-wide text-secondary"
+                      style={{ fontFamily: "var(--font-hind), sans-serif" }}
+                    >
+                      BENGALURU, INDIA <span className="mx-1.5 text-secondary/80">*</span> SEP 2021 – FEB 2022
+                    </p>
+                    <BulletList items={TARS_INTERN_BULLETS} dotClass="bg-ink" />
                   </div>
                 </div>
               </article>

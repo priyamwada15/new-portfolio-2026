@@ -27,7 +27,9 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     pathname === "/sunlight" || pathname.startsWith("/sunlight/");
   const bareWater =
     pathname === "/water" || pathname.startsWith("/water/");
-  const isBarePage = bareAsciiGame || bareSunlight || bareWater;
+  const bareFloorPlanVersion =
+    pathname === "/floor-plan-version" || pathname.startsWith("/floor-plan-version/");
+  const isBarePage = bareAsciiGame || bareSunlight || bareWater || bareFloorPlanVersion;
   const isFlipBoardTest =
     pathname === "/flip-board-test" ||
     (pathname?.startsWith("/flip-board-test/") ?? false);

@@ -1,25 +1,14 @@
 import {
   HOME_V2_PAGE_BG,
   HOME_V2_TOP_PX,
-  HOME_V2_RM_CARD_H_PX,
-  HOME_V2_ROW_GAP_PX,
-  HOME_V2_ROW_H_PX,
-  HOME_V2_CENTRAL_BLOCK_H_PX,
-  HOME_V2_ROW2_H_PX,
-  HOME_V2_SECOND_ROW_TOP_PX,
-  HOME_V2_CENTRAL_BLOCK_TOP_PX,
-  HOME_V2_ROW2_TOP_PX,
-  HOME_V2_SNIPPETS_GAP_PX,
-  HOME_V2_SNIPPETS_H_PX,
-  HOME_V2_SNIPPETS_TOP_PX,
+  HOME_V2_SECTION_GAP_PX,
   homeCardFooterFont,
   homeCardFooterTagsStyle,
   homeCardFooterTitleStyle,
   homeIntroCopyStyle,
 } from "@/design-system";
-import { HomeV2SnippetsSection } from "./home-v2/HomeV2SnippetsSection";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
-import { HomeV2ListeningWidget } from "./home-v2/HomeV2ListeningWidget";
+import { HomeV2WidgetBento } from "./home-v2/HomeV2WidgetBento";
 import { getListeningWidgetData } from "@/app/lib/spotify";
 import { HomeV2PlayableCard } from "./home-v2/HomeV2PlayableCard";
 import { HomeV2VideoProvider } from "./home-v2/HomeV2VideoProvider";
@@ -32,24 +21,60 @@ const ROCKET_LISA_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779388469/Screen_Recording_2026-05-21_143314_cenlai.mp4";
 const SUNLIGHT_SHADER_CARD_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779835178/Sunlight_q0djya.mp4";
-/** Same as homepage Play tab ASCII Run card (`playPortfolio.ts`). */
 const ASCII_LANE_GAME_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1778784207/Screen_Recording_2026-05-13_235432_gyusng.mp4";
 const WATER_SHADER_CARD_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779834787/Water_shader_mzsc0k.mp4";
+const STELLAR_SCAN_HREF    = "https://stellar-scan-eta.vercel.app/";
+const SUNLIGHT_SHADER_HREF = "https://github.com/priyamwada15/sunlight-effect";
+const WATER_SHADER_HREF    = "https://github.com/priyamwada15/water-glint-shader";
+const ASCII_GAME_HREF      = "https://www.priyamwada.me/ascii-game";
+const NEWS_WIDGET_HREF     = "https://github.com/priyamwada15/ai-intelligencer";
 
-const SUNLIGHT_SHADER_GITHUB_HREF =
-  "https://github.com/priyamwada15/sunlight-effect";
-const STELLAR_SCAN_HREF = "https://stellar-scan-eta.vercel.app/";
-const ASCII_GAME_GITHUB_HREF =
-  "https://github.com/priyamwada15/ASCII-race-game-with-Pixelact-and-shadcn-UI";
-const WATER_SHADER_GITHUB_HREF = "https://github.com/priyamwada15/water-glint-shader";
+const introProjLinkStyle = {
+  color: "#858585",
+  textDecoration: "underline",
+  textDecorationStyle: "dotted" as const,
+  textUnderlineOffset: "3px",
+};
 
+/** Desktop (>=1280px) intro copy — 3 separate paragraphs. */
 const INTRO_PARAGRAPHS = [
-  "Product Designer who has worked on products across fintech, edtech and enterprise tools.",
-  "Whether it's a first-time homebuyer navigating a mortgage or a student figuring out what to study, I design for moments where the product has to get it right.",
-  "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a water shader, a LISA GUI fintech dashboard and an ASCII racing game.",
+  "Hi, I'm Priyamwada. An Architect turned Product Designer.",
+  "I design for enterprise systems, AI and SaaS products from 0→1.",
+  "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a water shader, a news widget and a time-of-the-day constellation app.",
 ] as const;
+
+/** <1280px intro copy — first two sentences flow into one paragraph. */
+const INTRO_PARAGRAPHS_COMPACT = [
+  `${INTRO_PARAGRAPHS[0]} ${INTRO_PARAGRAPHS[1]}`,
+  INTRO_PARAGRAPHS[2],
+] as const;
+
+function IntroPara3() {
+  return (
+    <>
+      Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a{" "}
+      <a href={WATER_SHADER_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>water shader</a>
+      , a{" "}
+      <a href={NEWS_WIDGET_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>news widget</a>
+      {" "}and a time-of-the-day{" "}
+      <a href={STELLAR_SCAN_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>constellation app</a>
+      .
+    </>
+  );
+}
+
+/** Small "category" badge used on Creative Coding / prototyping cards (icon + label). */
+function CardCategoryBadge({ label }: { label: string }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px 0", flex: "none" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/icons/creative-coding-badge.svg" alt="" style={{ width: "24px", height: "24px" }} />
+      <span style={{ ...homeCardFooterFont, fontSize: "14px", color: "var(--ds-text-ink)" }}>{label}</span>
+    </div>
+  );
+}
 
 export default async function HomeV2Page() {
   const listeningData = await getListeningWidgetData().catch(() => null);
@@ -60,95 +85,64 @@ export default async function HomeV2Page() {
         <HomeV2VideoProvider>
         {/* Align page content to nav inner container edges */}
         <div
-          className="home-v2-layout relative mx-auto w-[86%] max-w-[1008px] overflow-visible"
+          className="home-v2-layout relative mx-auto flex w-[86%] max-w-[1008px] flex-col overflow-visible"
           style={{
-            minHeight: `${
-              HOME_V2_TOP_PX +
-              HOME_V2_RM_CARD_H_PX +
-              HOME_V2_ROW_GAP_PX +
-              HOME_V2_ROW_H_PX +
-              HOME_V2_ROW_GAP_PX +
-              HOME_V2_CENTRAL_BLOCK_H_PX +
-              HOME_V2_ROW_GAP_PX +
-              HOME_V2_ROW2_H_PX +
-              HOME_V2_SNIPPETS_GAP_PX +
-              HOME_V2_SNIPPETS_H_PX
-            }px`,
+            paddingTop: `${HOME_V2_TOP_PX}px`,
+            gap: `${HOME_V2_SECTION_GAP_PX}px`,
           }}
         >
-          {/* Left: intro text (aligned with nav left edge) */}
+          {/* Hero: intro text + widget bento (left) / Rocket Mortgage card (right) */}
           <div
-            className="home-v2-section home-v2-intro"
-            style={{
-              position: "absolute",
-              left: 0,
-              top: `${HOME_V2_TOP_PX}px`,
-              width: "594px",
-              zIndex: 1,
-            }}
+            className="home-v2-section home-v2-hero home-v2-row"
+            style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: "64px" }}
           >
           <ScrollReveal revealOnMount>
-            <div
-              className="home-v2-intro-copy"
-              style={homeIntroCopyStyle}
-            >
-              {INTRO_PARAGRAPHS.map((paragraph) => (
-                <p key={paragraph} style={{ margin: 0, marginBottom: "24px" }}>
-                  {paragraph}
-                </p>
-              ))}
+            <div className="home-v2-intro-copy" style={{ ...homeIntroCopyStyle }}>
+              {/* >=1280px: 3 separate paragraphs */}
+              <div className="hidden xl:flex xl:w-[594px] xl:flex-col xl:items-start">
+                {INTRO_PARAGRAPHS.map((paragraph, index) => (
+                  <p key={index} style={{ margin: 0, marginTop: index === 0 ? 0 : "24px" }}>
+                    {index === 2 ? <IntroPara3 /> : paragraph}
+                  </p>
+                ))}
+              </div>
 
-            {/* About snippets block (56px below text) */}
+              {/* <1280px: first two sentences flow into one paragraph */}
+              <div className="flex w-[784px] flex-col items-start xl:hidden">
+                {INTRO_PARAGRAPHS_COMPACT.map((paragraph, index) => (
+                  <p key={index} style={{ margin: 0, marginTop: index === 0 ? 0 : "24px" }}>
+                    {index === 1 ? <IntroPara3 /> : paragraph}
+                  </p>
+                ))}
+              </div>
+
+            {/* Widget bento (56px below text) */}
             <div
               className="home-v2-intro-snippets"
               style={{ marginTop: "56px", display: "flex", gap: "64px" }}
             >
-              <HomeV2ListeningWidget data={listeningData} />
+              <HomeV2WidgetBento data={listeningData} />
             </div>
             </div>
           </ScrollReveal>
-          </div>
-
-          {/* Right: card (aligned with nav right edge) */}
-          <div
-            className="home-v2-section home-v2-section-rm"
-            style={{ position: "absolute", right: 0, top: `${HOME_V2_TOP_PX}px` }}
-          >
           <ScrollReveal revealOnMount>
             <HomeV2CardLink
               href="/rocket-mortgage"
               ariaLabel="Read Rocket Mortgage case study"
               className="cursor-hover-dark"
               style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                padding: "24px",
+                gap: "24px",
                 width: "350px",
-                height: "637px",
                 background: "var(--ds-surface-page)",
                 borderRadius: "24px",
               }}
             >
-            {/* Video region */}
-            <div
-              className="home-v2-card-media"
-              style={{
-                position: "absolute",
-                width: "350px",
-                height: "524px",
-                left: 0,
-                top: 0,
-              }}
-            >
-              <div
-                className="home-v2-card-media-logos"
-                style={{
-                  position: "absolute",
-                  left: "24px",
-                  top: "24px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  zIndex: 2,
-                }}
-              >
+              {/* Logos */}
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: "none" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logos/rocket-mortgage.svg"
@@ -163,117 +157,20 @@ export default async function HomeV2Page() {
                 />
               </div>
 
+              {/* Video region */}
               <LazyVideo
                 className="home-v2-rm-video"
                 src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295116/RM_Onboarding_new_case_study_and_hero_video_biuj2w.mp4"
                 poster="/Rocket Mortgage Poster.png"
                 ariaLabel="Rocket Mortgage onboarding video"
                 style={{
-                  position: "absolute",
-                  height: "452px",
-                  width: "auto",
-                  left: "50%",
-                  top: "72px",
-                  transform: "translateX(-50%)",
+                  width: "100%",
+                  aspectRatio: "302 / 452",
+                  flex: "none",
+                  alignSelf: "stretch",
                   objectFit: "cover",
-                }}
-              />
-            </div>
-
-            {/* Text */}
-            <div
-              className="home-v2-card-footer"
-              style={{
-                position: "absolute",
-                width: "302px",
-                height: "65px",
-                left: "24px",
-                top: "548px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                padding: 0,
-                gap: "8px",
-                ...homeCardFooterFont,
-              }}
-            >
-              <div style={homeCardFooterTitleStyle}>
-                Redesigned an AI assistant that knows where you are in your homebuying journey.
-              </div>
-
-              <div
-                  style={{ ...homeCardFooterTagsStyle, width: "302px", height: "17px" }}
-              >
-                <span>#ai-assistant</span>
-                <span>#fintech</span>
-                <span>#product design</span>
-              </div>
-            </div>
-            </HomeV2CardLink>
-          </ScrollReveal>
-          </div>
-
-          {/* Second row (56px below RM card) */}
-          <div
-            className="home-v2-section home-v2-row-2"
-            style={{ position: "absolute", left: 0, top: `${HOME_V2_SECOND_ROW_TOP_PX}px`, width: "1008px", height: "450px" }}
-          >
-          <ScrollReveal>
-            <div
-              className="home-v2-row"
-              style={{
-                width: "1008px",
-                height: "450px",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                padding: 0,
-                gap: "64px",
-              }}
-            >
-            {/* Salesforce */}
-            <HomeV2CardLink
-              href="/salesforce"
-              ariaLabel="Read Salesforce case study"
-              className="cursor-hover-dark"
-              style={{
-                position: "relative",
-                width: "594px",
-                height: "450px",
-                background: "var(--ds-surface-page)",
-                borderRadius: "24px",
-                flex: "none",
-              }}
-            >
-              {/* Logo */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/logos/salesforce.svg"
-                alt="Salesforce"
-                style={{
-                  position: "absolute",
-                  width: "auto",
-                  height: "32px",
-                  left: "24px",
-                  top: "24px",
-                  zIndex: 2,
-                  objectFit: "contain",
-                }}
-              />
-
-              {/* Video */}
-              <LazyVideo
-                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295117/Salesforce_new_case_study_card_and_hero_fx5vpe.mp4"
-                poster="/Salesforce Poster.png"
-                ariaLabel="Salesforce case study preview video"
-                style={{
-                  position: "absolute",
-                  width: "546px",
-                  height: "285px",
-                  left: "24px",
-                  top: "72px",
-                  objectFit: "contain",
                   backgroundColor: "var(--ds-surface-page)",
+                  border: "1px solid var(--ds-border-faint)",
                   borderRadius: "16px",
                 }}
               />
@@ -282,56 +179,68 @@ export default async function HomeV2Page() {
               <div
                 className="home-v2-card-footer"
                 style={{
-                  position: "absolute",
-                  left: "24px",
-                  right: "24px",
-                  bottom: "24px",
-                  height: "45px",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  padding: 0,
                   gap: "8px",
+                  width: "100%",
+                  flex: "none",
                   ...homeCardFooterFont,
                 }}
               >
                 <div style={homeCardFooterTitleStyle}>
-                  Designing an AI planning tool that helps students figure out what to study and why.
+                  Redesigned an AI assistant guiding homebuyers on what to do next after mortgage approval
                 </div>
                 <div style={homeCardFooterTagsStyle}>
-                  <span>#ai-planning</span>
-                  <span>#systems design</span>
+                  <span>#ai-assistant</span>
+                  <span>#fintech</span>
                   <span>#product design</span>
                 </div>
               </div>
             </HomeV2CardLink>
+          </ScrollReveal>
+          </div>
 
-            {/* Rocket Money LISA */}
-            <HomeV2PlayableCard
-              videoSrc={ROCKET_LISA_VIDEO_SRC}
-              videoLabel="Rocket Money LISA"
-              className="cursor-hover-eye-dark"
+          {/* Salesforce */}
+          <div className="home-v2-section home-v2-salesforce">
+          <ScrollReveal>
+            <HomeV2CardLink
+              href="/salesforce"
+              ariaLabel="Read Salesforce case study"
+              className="cursor-hover-dark"
               style={{
-                position: "relative",
-                width: "350px",
-                height: "450px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                padding: "24px",
+                gap: "24px",
+                width: "1008px",
                 background: "var(--ds-surface-page)",
                 borderRadius: "24px",
-                flex: "none",
               }}
             >
-              {/* Video */}
+              {/* Logo */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logos/salesforce.svg"
+                alt="Salesforce"
+                style={{ height: "32px", width: "auto", flex: "none", objectFit: "contain" }}
+              />
+
+              {/* Video region */}
               <LazyVideo
-                src={ROCKET_LISA_VIDEO_SRC}
-                poster="/play/Rocket LISA Poster Image.png"
-                ariaLabel="Rocket Money LISA preview video"
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295117/Salesforce_new_case_study_card_and_hero_fx5vpe.mp4"
+                poster="/Salesforce Poster.png"
+                ariaLabel="Salesforce case study preview video"
                 style={{
-                  position: "absolute",
-                  width: "350px",
-                  height: "337px",
-                  left: 0,
-                  top: 0,
-                  objectFit: "cover",
+                  width: "100%",
+                  aspectRatio: "960 / 419",
+                  flex: "none",
+                  alignSelf: "stretch",
+                  objectFit: "contain",
+                  backgroundColor: "var(--ds-surface-page)",
+                  border: "1px solid var(--ds-border-faint)",
+                  borderRadius: "16px",
                 }}
               />
 
@@ -339,26 +248,227 @@ export default async function HomeV2Page() {
               <div
                 className="home-v2-card-footer"
                 style={{
-                  position: "absolute",
-                  left: "24px",
-                  right: "24px",
-                  bottom: "24px",
-                  height: "65px",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "56px",
+                  width: "100%",
+                  alignSelf: "stretch",
+                  flex: "none",
+                  ...homeCardFooterFont,
+                }}
+              >
+                <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
+                  Reducing decision fatigue in students by connecting today&apos;s course choices to
+                  future career options
+                </div>
+                <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
+                  <span>#ai-planning</span>
+                  <span>#systems design</span>
+                  <span>#product design</span>
+                </div>
+              </div>
+            </HomeV2CardLink>
+          </ScrollReveal>
+          </div>
+
+          {/* Tars Debug */}
+          <div className="home-v2-section home-v2-tars">
+          <ScrollReveal>
+            <HomeV2CardLink
+              href="/tars-debug-mode"
+              ariaLabel="Read TARS debug mode case study"
+              className="cursor-hover-dark"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                padding: "24px",
+                gap: "24px",
+                width: "1008px",
+                background: "var(--ds-surface-page)",
+                borderRadius: "24px",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logos/tars.svg"
+                alt="TARS"
+                style={{ height: "24px", width: "auto", flex: "none", objectFit: "contain" }}
+              />
+
+              <LazyVideo
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295525/Debug_Mode_new_case_study_and_hero_video_kuliwm.mp4"
+                poster="/Debug Video Poster.png"
+                ariaLabel="TARS debug mode preview video"
+                style={{
+                  width: "100%",
+                  aspectRatio: "960 / 435",
+                  flex: "none",
+                  alignSelf: "stretch",
+                  objectFit: "contain",
+                  backgroundColor: "var(--ds-surface-page)",
+                  border: "1px solid var(--ds-border-faint)",
+                  borderRadius: "16px",
+                }}
+              />
+
+              <div
+                className="home-v2-card-footer"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "56px",
+                  width: "100%",
+                  alignSelf: "stretch",
+                  flex: "none",
+                  ...homeCardFooterFont,
+                }}
+              >
+                <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
+                  Helping internal teams find where enterprise agents break and cutting down manual
+                  work by 70%
+                </div>
+                <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
+                  <span>#for developers</span>
+                  <span>#internal tool</span>
+                  <span>#product design</span>
+                </div>
+              </div>
+            </HomeV2CardLink>
+          </ScrollReveal>
+          </div>
+
+          {/* Stellar Scan + Arduino robot arm duet */}
+          <div id="creative-projects" className="home-v2-section home-v2-frame-9">
+          <ScrollReveal>
+            <div
+              className="home-v2-row"
+              style={{
+                width: "1008px",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: 0,
+                gap: "64px",
+              }}
+            >
+            {/* Stellar Scan */}
+            <HomeV2CardLink
+              href={STELLAR_SCAN_HREF}
+              ariaLabel="Open Stellar Scan website"
+              className="cursor-hover-light"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                padding: "24px",
+                gap: "24px",
+                width: "594px",
+                height: "550px",
+                background: "var(--ds-surface-page)",
+                borderRadius: "24px",
+                flex: "none",
+              }}
+            >
+              <CardCategoryBadge label="Creative Coding" />
+
+              <LazyVideo
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1778784179/Stellar_Scan_Video_wghj5o.mp4"
+                poster="/Stellar scan poster image.png"
+                ariaLabel="Stellar Scan preview video"
+                style={{
+                  width: "100%",
+                  aspectRatio: "546 / 349",
+                  flex: "none",
+                  alignSelf: "stretch",
+                  objectFit: "cover",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                }}
+              />
+
+              <div
+                className="home-v2-card-footer"
+                style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  padding: 0,
                   gap: "8px",
+                  width: "100%",
+                  height: "65px",
+                  flex: "none",
                   ...homeCardFooterFont,
                 }}
               >
                 <div style={homeCardFooterTitleStyle}>
-                  Redesigned Rocket Money&apos;s dashboard in the 1984 Apple Macintosh GUI style.
+                  A retro-futuristic star mapping tool. Enter a date, get the dominant
+                  constellation, download a playing card.
                 </div>
                 <div style={homeCardFooterTagsStyle}>
-                  <span>#figma</span>
-                  <span>#claude-code</span>
-                  <span>#nano-banana-2</span>
+                  <span>#Google Stitch</span>
+                  <span>#Google AI Studio</span>
+                </div>
+              </div>
+            </HomeV2CardLink>
+
+            {/* Arduino robot arm duet */}
+            <HomeV2PlayableCard
+              videoSrc={ARDUINO_ROBOT_VIDEO_SRC}
+              videoLabel="Arduino robot arm duet"
+              className="cursor-hover-eye-dark"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                padding: "24px",
+                gap: "24px",
+                width: "350px",
+                height: "550px",
+                background: "var(--ds-surface-page)",
+                borderRadius: "24px",
+                flex: "none",
+              }}
+            >
+              <CardCategoryBadge label="Tangible Prototyping" />
+
+              <LazyVideo
+                src={ARDUINO_ROBOT_VIDEO_SRC}
+                poster="/Robo Poster Image.png"
+                ariaLabel="Arduino robot arm duet prototype"
+                style={{
+                  width: "100%",
+                  aspectRatio: "302 / 349",
+                  flex: "none",
+                  alignSelf: "stretch",
+                  objectFit: "cover",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                }}
+              />
+
+              <div
+                className="home-v2-card-footer"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "8px",
+                  width: "100%",
+                  height: "65px",
+                  flex: "none",
+                  ...homeCardFooterFont,
+                }}
+              >
+                <div style={homeCardFooterTitleStyle}>
+                  A two-player game where each person controls one arm of the same body.
+                </div>
+                <div style={homeCardFooterTagsStyle}>
+                  <span>#arduino</span>
+                  <span>#python</span>
+                  <span>#processing</span>
                 </div>
               </div>
             </HomeV2PlayableCard>
@@ -366,451 +476,184 @@ export default async function HomeV2Page() {
           </ScrollReveal>
           </div>
 
-          {/* Central block (56px below second row) */}
-          <div
-            className="home-v2-section home-v2-central"
-            style={{
-              position: "absolute",
-              left: 0,
-              top: `${HOME_V2_CENTRAL_BLOCK_TOP_PX}px`,
-              width: "1008px",
-              height: `${HOME_V2_CENTRAL_BLOCK_H_PX}px`,
-              zIndex: 3,
-            }}
-          >
+          {/* Frame 10: Sunlight + Water shaders / ASCII Lane Dodge / Rocket Money LISA (GUI Reimagining) — no links yet */}
+          <div className="home-v2-section home-v2-frame-10">
           <ScrollReveal>
             <div
               className="home-v2-row"
               style={{
                 width: "1008px",
-                height: `${HOME_V2_CENTRAL_BLOCK_H_PX}px`,
                 display: "flex",
                 flexDirection: "row",
-                alignItems: "center",
+                alignItems: "flex-start",
                 padding: 0,
                 gap: "64px",
               }}
             >
-            {/* Block left */}
+            {/* Sunlight + Water shaders */}
             <div
-              className="home-v2-col"
+              className="home-v2-main-card"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                padding: 0,
-                gap: "56px",
+                padding: "24px",
+                gap: "24px",
                 width: "350px",
-                height: `${HOME_V2_CENTRAL_BLOCK_H_PX}px`,
+                background: "var(--ds-surface-page)",
+                borderRadius: "24px",
                 flex: "none",
               }}
             >
-              {/* Arduino Robot */}
-              <HomeV2PlayableCard
-                videoSrc={ARDUINO_ROBOT_VIDEO_SRC}
-                videoLabel="Arduino robot arm duet"
-                className="cursor-hover-eye-dark"
-                style={{
-                  position: "relative",
-                  width: "350px",
-                  height: "532px",
-                  background: "var(--ds-surface-page)",
-                  borderRadius: "24px",
-                  flex: "none",
-                }}
-              >
-                <LazyVideo
-                  src={ARDUINO_ROBOT_VIDEO_SRC}
-                  poster="/Robo Poster Image.png"
-                  ariaLabel="Arduino robot arm duet prototype"
-                  style={{
-                    position: "absolute",
-                    width: "350px",
-                    height: "419px",
-                    left: 0,
-                    top: 0,
-                    objectFit: "cover",
-                    backgroundColor: "var(--ds-surface-page)",
-                  }}
-                />
-                <div
-                  className="home-v2-card-footer"
-                  style={{
-                    position: "absolute",
-                    left: "24px",
-                    right: "24px",
-                    bottom: "24px",
-                    height: "65px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    padding: 0,
-                    gap: "8px",
-                    ...homeCardFooterFont,
-                  }}
-                >
-                  <div
-                    style={homeCardFooterTitleStyle}
-                  >
-                    A two-player game where each person controls one arm of the same body.
-                  </div>
-                  <div
-                    style={homeCardFooterTagsStyle}
-                  >
-                    <span>#arduino</span>
-                    <span>#python</span>
-                    <span>#processing</span>
-                  </div>
-                </div>
-              </HomeV2PlayableCard>
-
-              {/* Sunlight Shader */}
-              <HomeV2CardLink
-                href={SUNLIGHT_SHADER_GITHUB_HREF}
-                ariaLabel="View Sunlight shader on GitHub"
-                className="cursor-hover-dark"
-                style={{
-                  position: "relative",
-                  width: "350px",
-                  height: "368px",
-                  background: "var(--ds-surface-page)",
-                  borderRadius: "24px",
-                  flex: "none",
-                }}
-              >
+              <CardCategoryBadge label="Creative Coding" />
+              <a href={SUNLIGHT_SHADER_HREF} target="_blank" rel="noopener noreferrer" className="cursor-hover-pointer" style={{ display: "block" }}>
                 <LazyVideo
                   src={SUNLIGHT_SHADER_CARD_VIDEO_SRC}
                   poster="/sunlight poster.png"
-                  ariaLabel="Sunlight shader effect preview"
-                  style={{
-                    position: "absolute",
-                    width: "350px",
-                    height: "255px",
-                    left: 0,
-                    top: 0,
-                    objectFit: "cover",
-                    backgroundColor: "var(--ds-surface-page)",
-                  }}
+                  ariaLabel="Sunlight shader effect — view on GitHub"
+                  style={{ width: "100%", aspectRatio: "1 / 1", flex: "none", objectFit: "cover", backgroundColor: "#ffffff", borderRadius: "12px" }}
                 />
-                <div
-                  className="home-v2-card-footer"
-                  style={{
-                    position: "absolute",
-                    left: "24px",
-                    right: "24px",
-                    bottom: "24px",
-                    height: "65px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    padding: 0,
-                    gap: "8px",
-                    ...homeCardFooterFont,
-                  }}
-                >
-                  <div
-                    style={homeCardFooterTitleStyle}
-                  >
-                    A React component with CSS-driven shadow bands and a glow that read as sunlight.
-                  </div>
-                  <div
-                    style={homeCardFooterTagsStyle}
-                  >
-                    <span>#cursor</span>
-                    <span>#react component</span>
-                    <span>#CSS</span>
-                  </div>
+              </a>
+              <a href={WATER_SHADER_HREF} target="_blank" rel="noopener noreferrer" className="cursor-hover-pointer" style={{ display: "block" }}>
+                <LazyVideo
+                  src={WATER_SHADER_CARD_VIDEO_SRC}
+                  poster="/water shader poster.png"
+                  ariaLabel="Water shader WebGL2 demo — view on GitHub"
+                  style={{ width: "100%", aspectRatio: "1 / 1", flex: "none", objectFit: "cover", backgroundColor: "#ffffff", borderRadius: "12px" }}
+                />
+              </a>
+              <div
+                className="home-v2-card-footer"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "8px",
+                  width: "100%",
+                  height: "65px",
+                  flex: "none",
+                  ...homeCardFooterFont,
+                }}
+              >
+                <div style={homeCardFooterTitleStyle}>
+                  A pair of WebGL2 shader experiments simulating the way light behaves on natural surfaces.
                 </div>
-              </HomeV2CardLink>
+                <div style={homeCardFooterTagsStyle}>
+                  <span>#webgl2</span>
+                  <span>#glsl</span>
+                  <span>#cursor</span>
+                </div>
+              </div>
             </div>
 
-            {/* Block right */}
+            {/* ASCII Lane Dodge + Rocket Money LISA (GUI Reimagining) */}
             <div
               className="home-v2-col"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                padding: 0,
-                gap: "56px",
+                gap: "64px",
                 width: "594px",
-                height: `${HOME_V2_CENTRAL_BLOCK_H_PX}px`,
                 flex: "none",
               }}
             >
-              {/* Debug Tars */}
+              {/* ASCII Lane Dodge */}
               <HomeV2CardLink
-                href="/tars-debug-mode"
-                ariaLabel="Read TARS debug mode case study"
-                className="cursor-hover-dark"
-                style={{
-                  position: "relative",
-                  width: "594px",
-                  height: "450px",
-                  background: "var(--ds-surface-page)",
-                  borderRadius: "24px",
-                  flex: "none",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logos/tars.svg"
-                  alt="TARS"
-                  style={{
-                    position: "absolute",
-                    width: "auto",
-                    height: "24px",
-                    left: "24px",
-                    top: "24px",
-                    zIndex: 2,
-                    objectFit: "contain",
-                  }}
-                />
-                <LazyVideo
-                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295525/Debug_Mode_new_case_study_and_hero_video_kuliwm.mp4"
-                  poster="/Debug Video Poster.png"
-                  ariaLabel="TARS debug mode preview video"
-                  style={{
-                    position: "absolute",
-                    width: "546px",
-                    height: "285px",
-                    left: "24px",
-                    top: "72px",
-                    objectFit: "contain",
-                    backgroundColor: "var(--ds-surface-page)",
-                    borderRadius: "16px",
-                  }}
-                />
-                <div
-                  className="home-v2-card-footer"
-                  style={{
-                    position: "absolute",
-                    left: "24px",
-                    right: "24px",
-                    bottom: "24px",
-                    height: "45px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    padding: 0,
-                    gap: "8px",
-                    ...homeCardFooterFont,
-                  }}
-                >
-                  <div
-                    style={homeCardFooterTitleStyle}
-                  >
-                    Designed a debugging tool that catches where enterprise AI agents break.
-                  </div>
-                  <div
-                    style={homeCardFooterTagsStyle}
-                  >
-                    <span>#for developers</span>
-                    <span>#internal tool</span>
-                    <span>#product design</span>
-                  </div>
-                </div>
-              </HomeV2CardLink>
-
-              {/* Stellar Scan */}
-              <HomeV2CardLink
-                href={STELLAR_SCAN_HREF}
-                ariaLabel="Open Stellar Scan website"
+                href={ASCII_GAME_HREF}
+                ariaLabel="Open ASCII Lane Dodge game"
                 className="cursor-hover-light"
                 style={{
-                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  padding: "24px",
+                  gap: "24px",
                   width: "594px",
-                  height: "450px",
                   background: "var(--ds-surface-page)",
                   borderRadius: "24px",
                   flex: "none",
                 }}
               >
+                <CardCategoryBadge label="Creative Coding" />
                 <LazyVideo
-                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1778784179/Stellar_Scan_Video_wghj5o.mp4"
-                  poster="/Stellar scan poster image.png"
-                  ariaLabel="Stellar Scan preview video"
-                  style={{
-                    position: "absolute",
-                    width: "594px",
-                    height: "337px",
-                    left: 0,
-                    top: 0,
-                    objectFit: "cover",
-                    backgroundColor: "var(--ds-surface-page)",
-                  }}
+                  src={ASCII_LANE_GAME_VIDEO_SRC}
+                  poster="/ASCII game poster.png"
+                  ariaLabel="ASCII lane dodge game preview"
+                  style={{ width: "100%", aspectRatio: "546 / 349", flex: "none", objectFit: "cover", backgroundColor: "#ffffff", borderRadius: "12px" }}
                 />
                 <div
                   className="home-v2-card-footer"
                   style={{
-                    position: "absolute",
-                    left: "24px",
-                    right: "24px",
-                    bottom: "24px",
-                    height: "65px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "flex-start",
-                    padding: 0,
                     gap: "8px",
+                    width: "100%",
+                    height: "65px",
+                    flex: "none",
                     ...homeCardFooterFont,
                   }}
                 >
-                  <div
-                    style={homeCardFooterTitleStyle}
-                  >
-                    A retro-futuristic star mapping tool. Enter a date, get the dominant
-                    constellation, download a playing card.
+                  <div style={homeCardFooterTitleStyle}>
+                    A fast scroll-linked lane dodge game, navigate using arrow keys, ramping speed every
+                    5s and a chance to listen to my favorite song.
                   </div>
-                  <div
-                    style={homeCardFooterTagsStyle}
-                  >
-                    <span>#Google Stitch</span>
-                    <span>#Google AI Studio</span>
+                  <div style={homeCardFooterTagsStyle}>
+                    <span>#cursor</span>
                   </div>
                 </div>
               </HomeV2CardLink>
-            </div>
-            </div>
-          </ScrollReveal>
-          </div>
 
-          {/* Row 2 (56px below central block) */}
-          <div
-            className="home-v2-section home-v2-row-bottom"
-            style={{ position: "absolute", left: 0, top: `${HOME_V2_ROW2_TOP_PX}px`, width: "1008px", height: `${HOME_V2_ROW2_H_PX}px` }}
-          >
-          <ScrollReveal>
-            <div
-              className="home-v2-row"
-              style={{
-                width: "1008px",
-                height: `${HOME_V2_ROW2_H_PX}px`,
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                padding: 0,
-                gap: "64px",
-              }}
-            >
-            {/* ASCII */}
-            <HomeV2CardLink
-              href={ASCII_GAME_GITHUB_HREF}
-              ariaLabel="View ASCII Run on GitHub"
-              className="cursor-hover-light"
-              style={{
-                position: "relative",
-                width: "594px",
-                height: "450px",
-                background: "var(--ds-surface-page)",
-                borderRadius: "24px",
-                flex: "none",
-              }}
-            >
-              <LazyVideo
-                src={ASCII_LANE_GAME_VIDEO_SRC}
-                poster="/ASCII game poster.png"
-                ariaLabel="ASCII lane dodge game preview"
+              {/* Rocket Money LISA — GUI Reimagining */}
+              <HomeV2PlayableCard
+                videoSrc={ROCKET_LISA_VIDEO_SRC}
+                videoLabel="Rocket Money LISA GUI Reimagining"
+                className="cursor-hover-eye-dark"
                 style={{
-                  position: "absolute",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  padding: "24px",
+                  gap: "24px",
                   width: "594px",
-                  height: "337px",
-                  left: 0,
-                  top: 0,
-                  objectFit: "cover",
-                  backgroundColor: "var(--ds-surface-page)",
-                }}
-              />
-              <div
-                className="home-v2-card-footer"
-                style={{
-                  position: "absolute",
-                  left: "24px",
-                  right: "24px",
-                  bottom: "24px",
-                  height: "65px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  padding: 0,
-                  gap: "8px",
-                  ...homeCardFooterFont,
+                  background: "var(--ds-surface-page)",
+                  borderRadius: "24px",
+                  flex: "none",
                 }}
               >
-                <div style={homeCardFooterTitleStyle}>
-                  A fast scroll-linked lane dodge game, navigate using arrow keys, ramping speed every
-                  5s and a chance to listen to my favorite song.
+                <CardCategoryBadge label="GUI Reimagining" />
+                <LazyVideo
+                  src={ROCKET_LISA_VIDEO_SRC}
+                  poster="/play/Rocket LISA Poster Image.png"
+                  ariaLabel="Rocket Money LISA preview video"
+                  style={{ width: "100%", aspectRatio: "546 / 349", flex: "none", objectFit: "cover", backgroundColor: "#ffffff", borderRadius: "12px" }}
+                />
+                <div
+                  className="home-v2-card-footer"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: "8px",
+                    width: "100%",
+                    height: "45px",
+                    flex: "none",
+                    ...homeCardFooterFont,
+                  }}
+                >
+                  <div style={homeCardFooterTitleStyle}>
+                    Redesigned Rocket Money&apos;s dashboard in the 1984 Apple Macintosh GUI style.
+                  </div>
+                  <div style={homeCardFooterTagsStyle}>
+                    <span>#figma</span>
+                    <span>#claude-code</span>
+                    <span>#nano-banana-2</span>
+                  </div>
                 </div>
-                <div style={homeCardFooterTagsStyle}>
-                  <span>#cursor</span>
-                </div>
-              </div>
-            </HomeV2CardLink>
-
-            {/* Water Shader */}
-            <HomeV2CardLink
-              href={WATER_SHADER_GITHUB_HREF}
-              ariaLabel="View Water shader on GitHub"
-              className="cursor-hover-light"
-              style={{
-                position: "relative",
-                width: "350px",
-                height: "450px",
-                background: "var(--ds-surface-page)",
-                borderRadius: "24px",
-                flex: "none",
-              }}
-            >
-              <LazyVideo
-                src={WATER_SHADER_CARD_VIDEO_SRC}
-                poster="/water shader poster.png"
-                ariaLabel="Water shader WebGL2 demo preview"
-                style={{
-                  position: "absolute",
-                  width: "350px",
-                  height: "337px",
-                  left: 0,
-                  top: 0,
-                  objectFit: "cover",
-                  backgroundColor: "var(--ds-surface-page)",
-                }}
-              />
-              <div
-                className="home-v2-card-footer"
-                style={{
-                  position: "absolute",
-                  left: "24px",
-                  right: "24px",
-                  bottom: "24px",
-                  height: "65px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  padding: 0,
-                  gap: "8px",
-                  ...homeCardFooterFont,
-                }}
-              >
-                <div style={homeCardFooterTitleStyle}>
-                  A tiny demo that renders sunlight on rippling water using a WebGL2 fragment shader.
-                </div>
-                <div style={homeCardFooterTagsStyle}>
-                  <span>#cursor</span>
-                  <span>#webGL2</span>
-                </div>
-              </div>
-            </HomeV2CardLink>
+              </HomeV2PlayableCard>
             </div>
-          </ScrollReveal>
-          </div>
-
-          {/* Snippets of my life (64px below row 2) */}
-          <div
-            className="home-v2-section home-v2-snippets overflow-visible"
-            style={{ position: "absolute", left: 0, top: `${HOME_V2_SNIPPETS_TOP_PX}px`, width: "1008px", height: `${HOME_V2_SNIPPETS_H_PX}px` }}
-          >
-          <ScrollReveal>
-            <HomeV2SnippetsSection />
+            </div>
           </ScrollReveal>
           </div>
         </div>

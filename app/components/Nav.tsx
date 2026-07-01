@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, LinkedinLogo } from "@phosphor-icons/react";
+import { DiscoBall, FileText, LinkedinLogo } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -39,6 +39,19 @@ export default function Nav() {
   const linkedin = useTilt(8);
   const mail = useTilt(-8);
   const resume = useTilt(8);
+  const disco = useTilt(-8);
+
+  const handleDiscoClick = () => {
+    if (isHomeV2) {
+      const el = document.getElementById("creative-projects");
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 64;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    } else {
+      window.location.href = "/#creative-projects";
+    }
+  };
 
   return (
     <div
@@ -60,11 +73,30 @@ export default function Nav() {
             >
               <NavBrandLink
                 href="/"
-                className={`rounded-full transition-opacity ${pathname === "/" ? "" : "hover:opacity-75"}`}
-                style={{ padding: "6px 12px 6px 8px", display: "flex", alignItems: "center" }}
+                className={`cursor-hover-pointer rounded-full transition-opacity ${pathname === "/" ? "" : "hover:opacity-75"}`}
+                style={{ padding: "6px 12px 6px 0", display: "flex", alignItems: "center" }}
               />
 
               <div className="flex items-center gap-3 sm:gap-4">
+                <Tooltip side="bottom" sideOffset={8}>
+                  <TooltipTrigger
+                    asChild
+                    onMouseEnter={disco.onMouseEnter}
+                    onMouseLeave={disco.onMouseLeave}
+                  >
+                    <button
+                      onClick={handleDiscoClick}
+                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
+                      aria-label="Play"
+                    >
+                      <span style={disco.iconStyle}>
+                        <DiscoBall size={24} color="#555555" weight="regular" aria-hidden />
+                      </span>
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Play</TooltipContent>
+                </Tooltip>
+
                 <Tooltip side="bottom" sideOffset={8}>
                   <TooltipTrigger
                     asChild
@@ -75,7 +107,7 @@ export default function Nav() {
                       href="https://www.linkedin.com/in/priyamwadapandey"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center w-8 h-8"
+                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
                       aria-label="LinkedIn"
                     >
                       <span style={linkedin.iconStyle}>
@@ -91,6 +123,7 @@ export default function Nav() {
                   onMouseEnter={mail.onMouseEnter}
                   onMouseLeave={mail.onMouseLeave}
                   iconStyle={mail.iconStyle}
+                  className="cursor-hover-pointer"
                 />
 
                 <Tooltip side="bottom" sideOffset={8}>
@@ -101,7 +134,7 @@ export default function Nav() {
                   >
                     <Link
                       href="/resume"
-                      className="flex items-center justify-center w-8 h-8"
+                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
                       aria-label="Resume"
                     >
                       <span style={resume.iconStyle}>

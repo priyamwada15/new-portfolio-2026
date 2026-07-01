@@ -1,25 +1,13 @@
 import type { CSSProperties } from "react";
 import { fontStyle } from "./fonts";
 
-/** Desktop homepage (/) absolute-layout spacing — see app/page.tsx. */
+/** Desktop homepage (/) layout spacing — see app/page.tsx. */
 export const HOME_V2_TOP_PX = 72;
-export const HOME_V2_RM_CARD_H_PX = 637;
 export const HOME_V2_ROW_GAP_PX = 56;
-export const HOME_V2_ROW_H_PX = 450;
-export const HOME_V2_CENTRAL_BLOCK_H_PX = 956;
-export const HOME_V2_ROW2_H_PX = 450;
 export const HOME_V2_FOOTER_SAFE_SPACE_PX = 96;
-export const HOME_V2_SNIPPETS_GAP_PX = 64;
-export const HOME_V2_SNIPPETS_H_PX = 577;
 
-export const HOME_V2_SECOND_ROW_TOP_PX =
-  HOME_V2_TOP_PX + HOME_V2_RM_CARD_H_PX + HOME_V2_ROW_GAP_PX;
-export const HOME_V2_CENTRAL_BLOCK_TOP_PX =
-  HOME_V2_SECOND_ROW_TOP_PX + HOME_V2_ROW_H_PX + HOME_V2_ROW_GAP_PX;
-export const HOME_V2_ROW2_TOP_PX =
-  HOME_V2_CENTRAL_BLOCK_TOP_PX + HOME_V2_CENTRAL_BLOCK_H_PX + HOME_V2_ROW_GAP_PX;
-export const HOME_V2_SNIPPETS_TOP_PX =
-  HOME_V2_ROW2_TOP_PX + HOME_V2_ROW2_H_PX + HOME_V2_SNIPPETS_GAP_PX;
+/** Vertical gap between stacked homepage sections (Hero, Salesforce, Tars, rows). */
+export const HOME_V2_SECTION_GAP_PX = 64;
 
 /** Work / play card shell on the homepage. */
 export const homeCardShellStyle = {
@@ -42,45 +30,13 @@ export const homeIntroCopyStyle = {
   color: "var(--ds-text-secondary)",
 } satisfies CSSProperties;
 
-/** Snippet column labels (Reading, Listening, …). */
-export const homeSnippetLabelStyle = {
+/** Widget bento tile eyebrow label (Floor Plan Version, Listening, Reading, Creative License). */
+export const homeBentoTileLabelStyle = {
   ...fontStyle.body,
   fontWeight: 400,
   fontSize: "14px",
-  lineHeight: "130%",
-  color: "var(--ds-text-secondary)",
-  display: "flex",
-  alignItems: "flex-end",
-  gap: "8px",
-  marginBottom: "16px",
-} satisfies CSSProperties;
-
-/** Snippet emphasis line (e.g. track title). */
-export const homeSnippetEmphasisStyle = {
-  ...fontStyle.body,
-  fontWeight: 500,
-  fontSize: "14px",
-  lineHeight: "130%",
-  color: "var(--ds-text-primary)",
-} satisfies CSSProperties;
-
-/** Learning tool chip background. */
-export const homeSnippetChipStyle = {
-  width: "24px",
-  height: "24px",
-  background: "var(--ds-surface-chip)",
-  borderRadius: "4px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-} satisfies CSSProperties;
-
-export const homeSnippetToolLabelStyle = {
-  ...fontStyle.body,
-  fontWeight: 400,
-  fontSize: "14px",
-  lineHeight: "130%",
-  color: "var(--ds-text-secondary)",
+  lineHeight: "17px",
+  color: "var(--ds-text-faint)",
 } satisfies CSSProperties;
 
 /** Card footer base font. */

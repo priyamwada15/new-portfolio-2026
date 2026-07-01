@@ -1,0 +1,37 @@
+/* Hover-only 2D rotate tilt for floor-plan image/SVG assets (no trees). Values tuned via DialKit, now locked in as literals. */
+.fp-tilt[data-fp-key="tars"] { transition: transform 300ms cubic-bezier(0.4, 0.8, 0.5, 1); }
+.fp-tilt[data-fp-key="tars"]:hover { transform: rotate(4deg); }
+
+.fp-tilt[data-fp-key="rocket-mortgage"] { transition: transform 350ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="rocket-mortgage"]:hover { transform: rotate(-4deg); }
+
+.fp-tilt[data-fp-key="salesforce"] { transition: transform 300ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="salesforce"]:hover { transform: rotate(4deg); }
+
+.fp-tilt[data-fp-key="furniture"] { transition: transform 300ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="furniture"]:hover { transform: rotate(12deg); }
+
+.fp-tilt[data-fp-key="self-image"] { transition: transform 500ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="self-image"]:hover { transform: rotate(-20deg); }
+
+.fp-tilt[data-fp-key="mailbox"] { transition: transform 300ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="mailbox"]:hover { transform: rotate(4deg); }
+
+/* Resume's rest-state rotation is a fixed design constant; the two rotate() calls just compose. */
+.fp-tilt[data-fp-key="resume"] { transform: rotate(9.59deg); transition: transform 400ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="resume"]:hover { transform: rotate(9.59deg) rotate(-20deg); }
+
+.fp-tilt[data-fp-key="linkedin"] { transition: transform 350ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="linkedin"]:hover { transform: rotate(12deg); }
+
+.fp-tilt[data-fp-key="twitter"] { transition: transform 350ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="twitter"]:hover { transform: rotate(-20deg); }
+
+.fp-tilt[data-fp-key="github"] { transition: transform 350ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="github"]:hover { transform: rotate(12deg); }
+
+.fp-tilt[data-fp-key="boombox"] { transition: transform 350ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="boombox"]:hover { transform: rotate(12deg); }
+
+.fp-tilt[data-fp-key="creative-license"] { transition: transform 450ms cubic-bezier(0.3, 0.6, 0.32, 1); }
+.fp-tilt[data-fp-key="creative-license"]:hover { transform: rotate(10deg); }

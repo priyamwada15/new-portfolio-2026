@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Playground Section — Technical Spec</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #f5f0e8;
+      color: #1a1a1a;
+      padding: 48px 32px;
+      max-width: 860px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    header {
+      border-bottom: 2px solid #c0392b;
+      padding-bottom: 24px;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #c0392b;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: #666;
+      font-family: 'Courier New', monospace;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #c0392b;
+      margin: 40px 0 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-family: 'Courier New', monospace;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 24px 0 8px;
+      color: #1a1a1a;
+    }
+
+    p {
+      margin-bottom: 14px;
+      font-size: 0.97rem;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      font-size: 0.97rem;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+      background: #e8e0d0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.88rem;
+      color: #333;
+    }
+
+    pre {
+      background: #1a1a1a;
+      color: #e8e0d0;
+      padding: 20px 24px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      margin: 16px 0 24px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .callout {
+      background: #fff8ee;
+      border-left: 4px solid #e67e22;
+      padding: 14px 18px;
+      margin: 20px 0;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.93rem;
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #c0392b;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #c0392b;
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px dashed #c0b89a;
+      margin: 40px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #1a1a1a;
+      color: #f5f0e8;
+      padding: 10px 14px;
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #ddd5c0;
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:nth-child(even) td {
+      background: #eee8d8;
+    }
+
+    .flow-step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .flow-number {
+      background: #c0392b;
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .flow-content strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .flow-content p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Playground Section — Technical Spec</h1>
+    <p>priyamwada.me · Gallery of Experiments · Last updated June 2026</p>
+  </header>
+
+  <!-- CONCEPT -->
+  <h2>Concept</h2>
+  <p>The Playground section is a 3D world the user can freely pan through — up, down, left, right, in every direction. It lives inside the "Gallery of Experiments" room on the homepage floor plan. When the user clicks into that room, they transition into this 3D space.</p>
+
+  <p>Each experiment/project in the playground floats in this 3D space as an object. The user navigates around, discovers projects, clicks on one and gets a lightweight card overlay with just enough information to understand what it is. No heavy case study structure, no long reads. Just a quick glance and a link out if there's something live to see.</p>
+
+  <div class="callout">
+    <strong>Important scope boundary</strong>
+    Full case study pages are separate pages entirely. The 3D world is only for playground/experiment projects, not the main portfolio case studies (Tars, Rocket Mortgage, Salesforce Galileo). Keep this page scoped tightly.
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- TECH STACK -->
+  <h2>Tech Stack</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>Tool</th>
+        <th>Why</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>3D Rendering</td>
+        <td><code>Three.js</code></td>
+        <td>Standard WebGL abstraction. Well documented, large community, handles everything needed here.</td>
+      </tr>
+      <tr>
+        <td>Camera controls</td>
+        <td>Custom mouse-follow camera OR <code>OrbitControls</code> from Three.js</td>
+        <td>OrbitControls is quick to set up. Custom gives the cinematic feel where camera follows cursor direction instead of click-drag. Start with OrbitControls, upgrade if it feels clunky.</td>
+      </tr>
+      <tr>
+        <td>Click detection</td>
+        <td><code>THREE.Raycaster</code></td>
+        <td>Built into Three.js. Shoots a ray from camera through mouse position, detects which object was hit.</td>
+      </tr>
+      <tr>
+        <td>Post-processing</td>
+        <td><code>EffectComposer</code> + <code>UnrealBloomPass</code></td>
+        <td>Adds the glow/bloom on light points. Makes the scene feel cinematic rather than flat.</td>
+      </tr>
+      <tr>
+        <td>Overlay card</td>
+        <td>HTML/CSS div positioned over the canvas</td>
+        <td>Easier than 3D billboarded UI for readable text. Canvas blurs behind it via CSS backdrop-filter.</td>
+      </tr>
+      <tr>
+        <td>Smooth transitions</td>
+        <td><code>gsap</code> or manual lerping</td>
+        <td>For camera movement toward a clicked object. Lerp is fine for simple cases; GSAP gives more control.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="section-divider" />
+
+  <!-- SCENE SETUP -->
+  <h2>Scene Setup</h2>
+
+  <h3>Camera</h3>
+  <p>Use a <code>PerspectiveCamera</code>. FOV around 60–75. The camera should feel like it's floating in space, not sitting on a ground plane.</p>
+
+  <h3>Background</h3>
+  <p>Deep black or very dark navy. <code>#050508</code> or similar. The floor plan homepage is warm beige so this transition into darkness should feel like stepping into a different world.</p>
+
+  <h3>Lighting</h3>
+  <p>Minimal ambient light. Let project objects be self-lit (emissive materials) or use point lights anchored near each object. The background particle system handles the "light streaks" visual.</p>
+
+  <h3>Background particle system</h3>
+  <p>A <code>BufferGeometry</code> particle field with thin lines or points to create the grid/light-streak aesthetic seen on the Shopify reference. This is purely decorative, cheap to render and high visual impact. Make it slowly drift or rotate to give the world a sense of being alive.</p>
+
+  <hr class="section-divider" />
+
+  <!-- PROJECT OBJECTS -->
+  <h2>Project Objects in 3D Space</h2>
+
+  <p>Each playground project is represented as a floating object in the scene. The object can be a plane with a screenshot/preview texture on it, a custom shape, or an abstract form. Position them at varied depths (z-axis) and spread on x/y so the user has a reason to navigate around.</p>
+
+  <h3>Object materials</h3>
+  <ul>
+    <li>Use <code>MeshBasicMaterial</code> or <code>MeshStandardMaterial</code> depending on whether lighting is needed.</li>
+    <li>For the wireframe aesthetic (like the Shopify reference), use <code>wireframe: true</code> on the material or a custom edge shader.</li>
+    <li>Objects should gently float/bob using a sine wave on the y-position in the animation loop.</li>
+  </ul>
+
+  <h3>Hover state</h3>
+  <ul>
+    <li>On hover (raycaster intersects object), scale the object up slightly: <code>scale.set(1.08, 1.08, 1.08)</code> with lerping so it eases in.</li>
+    <li>Change cursor to <code>pointer</code>.</li>
+    <li>Optionally add a subtle glow by increasing emissive intensity.</li>
+  </ul>
+
+  <hr class="section-divider" />
+
+  <!-- CLICK INTERACTION -->
+  <h2>Click Interaction Flow</h2>
+
+  <div class="flow-step">
+    <div class="flow-number">1</div>
+    <div class="flow-content">
+      <strong>User clicks a project object</strong>
+      <p>Raycaster detects the intersection. Grab the project data from the object's <code>userData</code> property.</p>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-number">2</div>
+    <div class="flow-content">
+      <strong>Camera lerps toward the object</strong>
+      <p>Move the camera closer and center the object in view. Use GSAP or manual lerp over ~600ms. This gives the user a moment of orientation before the card appears.</p>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-number">3</div>
+    <div class="flow-content">
+      <strong>World softly blurs</strong>
+      <p>Apply a CSS <code>filter: blur(4px)</code> or <code>backdrop-filter</code> to a transparent overlay div that sits on top of the canvas. This signals mode change to the user.</p>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-number">4</div>
+    <div class="flow-content">
+      <strong>Card fades in</strong>
+      <p>The project card HTML element fades up from opacity 0. It's centered on screen or anchored near the object's projected 2D position.</p>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-number">5</div>
+    <div class="flow-content">
+      <strong>User dismisses</strong>
+      <p>Click outside the card, click a close button, or press Escape. Card fades out, blur lifts, camera lerps back to its previous position. Resume panning.</p>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- CARD CONTENT -->
+  <h2>Project Card Content</h2>
+
+  <p>Keep this light. These are playground experiments, not case studies. The card should be readable in under 10 seconds.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Project name</td>
+        <td>Large, clear. The only thing that needs to be bold.</td>
+      </tr>
+      <tr>
+        <td>One-line description</td>
+        <td>What it is in plain language. No jargon.</td>
+      </tr>
+      <tr>
+        <td>Stack tags</td>
+        <td>3 to 4 chips max. e.g. Three.js, GLSL, React.</td>
+      </tr>
+      <tr>
+        <td>"Why I built this"</td>
+        <td>2 sentences max. Honest, not performative.</td>
+      </tr>
+      <tr>
+        <td>Link / preview</td>
+        <td>Live link if available. Inline GIF or short looping video otherwise.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Store project data as a JSON array. Attach it to each Three.js object via <code>mesh.userData = projectData[i]</code> at scene setup. The card reads from <code>userData</code> on click.</p>
+
+<pre>
+const projects = [
+  {
+    name: "Rocket Money CRT Redesign",
+    description: "A 1984 Macintosh GUI redesign of the Rocket Money app.",
+    stack: ["HTML", "CSS", "JavaScript"],
+    why: "I wanted to see how far a nostalgic visual language could go on a modern financial product. Also I just really wanted CRT scan lines.",
+    link: "https://..."
+  },
+  {
+    name: "AI Intelligencer",
+    description: "A newspaper-styled widget pulling live AI headlines.",
+    stack: ["React", "CSS"],
+    why: "...",
+    link: null
+  }
+  // add more projects here
+];
+</pre>
+
+  <hr class="section-divider" />
+
+  <!-- ENTRY TRANSITION -->
+  <h2>Entry Transition (from Homepage)</h2>
+
+  <p>The user is on the homepage floor plan and clicks the "Gallery of Experiments" room. The transition into the 3D world should feel like stepping through a doorway, not a hard page load.</p>
+
+  <p>Options in order of complexity:</p>
+  <ul>
+    <li><strong>Simple:</strong> Fade to black, then fade into the 3D scene. Low effort, still works.</li>
+    <li><strong>Better:</strong> The room on the floor plan zooms in (CSS transform scale) until it fills the viewport, then the 3D scene fades in over it.</li>
+    <li><strong>Best:</strong> A brief fly-through animation plays on scene load, as if the camera is entering the space. The world starts dark and objects emerge as the camera moves forward.</li>
+  </ul>
+
+  <div class="callout">
+    <strong>Build order recommendation</strong>
+    Get the 3D scene working with static object placement and the card overlay first. Add the entry transition last. It's the most delicate part and easiest to break if the scene isn't stable yet.
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- PERFORMANCE NOTES -->
+  <h2>Performance Notes</h2>
+
+  <ul>
+    <li>Keep polygon count low on project objects. Planes and simple geometries only unless an object has a specific visual reason to be complex.</li>
+    <li>Limit post-processing passes. Bloom is expensive. One pass is fine, two starts hurting mobile.</li>
+    <li>If using video previews inside cards, lazy load them. Don't autoplay until the card opens.</li>
+    <li>Test on a mid-range laptop, not just a dev machine. The ocean shader on the homepage already uses GPU resources. This page adds more.</li>
+    <li>Add a fallback message if WebGL is not available: <code>renderer.domElement</code> creation will fail gracefully if you wrap it in a try/catch.</li>
+  </ul>
+
+  <hr class="section-divider" />
+
+  <!-- FILES -->
+  <h2>Suggested File Structure</h2>
+
+<pre>
+/playground
+  index.html
+  playground.js       ← main Three.js scene setup
+  projects.js         ← project data array (JSON)
+  card.js             ← card show/hide logic
+  card.css            ← card overlay styles
+  shaders/
+    particle.vert
+    particle.frag
+</pre>
+
+</body>
+</html>

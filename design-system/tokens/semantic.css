@@ -22,6 +22,7 @@
   --ds-border-default: var(--ds-color-border);
   --ds-border-media: var(--ds-color-border-media);
   --ds-border-subtle: var(--ds-color-gray-subtle);
+  --ds-border-faint: var(--ds-color-border-faint);
 
   /* Play section */
   --ds-play-border: var(--ds-color-play-border);

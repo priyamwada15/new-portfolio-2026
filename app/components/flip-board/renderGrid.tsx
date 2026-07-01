@@ -61,7 +61,7 @@ export function mapGridSegments(
             ? undefined
             : "noopener noreferrer"
         }
-        className="flip-board-footer__link"
+        className="cursor-hover-pointer flip-board-footer__link"
         onPointerEnter={linkHover?.onPointerEnter}
         onPointerLeave={linkHover?.onPointerLeave}
       >

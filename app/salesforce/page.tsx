@@ -162,7 +162,7 @@ export default function SalesforcePage() {
         />
       }
       projectName="Galileo for Salesforce"
-      headline="I led the design of a 0→1 AI product that helps students plan their academic future."
+      headline="Reducing decision fatigue in students by connecting today's course choices to future career options."
       context={
         <div className="flex max-w-[768px] flex-col gap-4">
           <h2 className={salesforceH2} style={fontStyle.figtree}>

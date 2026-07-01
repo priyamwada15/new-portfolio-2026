@@ -297,7 +297,7 @@ export default function RocketMortgageContent() {
           { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
         ]}
         projectName="Rocket Mortgage"
-        headline="I redesigned the interaction model for Rocket's AI assistant and the patterns I proposed made it to the product roadmap."
+        headline="Redesigned an AI assistant guiding homebuyers on what to do next after mortgage approval."
         reverseHeaderOrder
         hideContextLabel
         heroVisual={<RocketMortgageTripleVideos className="rounded-2xl" />}

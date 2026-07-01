@@ -70,7 +70,7 @@ function CardCategoryBadge({ label }: { label: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px 0", flex: "none" }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/icons/creative-coding-badge.svg" alt="" style={{ width: "24px", height: "24px" }} />
+      <img src="/Icons/creative-coding-badge.svg" alt="" style={{ width: "24px", height: "24px" }} />
       <span style={{ ...homeCardFooterFont, fontSize: "14px", color: "var(--ds-text-ink)" }}>{label}</span>
     </div>
   );

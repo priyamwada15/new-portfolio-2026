@@ -89,7 +89,7 @@ export default function DebugModePage() {
       tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       projectName="Debug Mode for Tars"
-      headline="Designed a debugging feature that tests enterprise AI assistants and stops the moment something breaks. Shipped in a month and it cut manual debugging efforts by 70%."
+      headline="Helping internal teams find where enterprise agents break and cutting down manual work by 70%."
       reverseHeaderOrder={true}
       heroVisual={
         <video

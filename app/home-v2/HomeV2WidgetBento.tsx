@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import type { CSSProperties } from "react";
 import { homeBentoTileLabelStyle } from "@/design-system";
@@ -35,8 +34,10 @@ const tickerTextStyle = {
 
 function FloorPlanTile({ style }: { style: CSSProperties }) {
   return (
-    <Link
+    <a
       href="/floor-plan-version"
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label="Open the floor-plan homepage concept"
       className="cursor-hover-pointer bento-fp-tile"
       style={{ ...tileShellStyle, ...style, display: "block" }}
@@ -61,7 +62,7 @@ function FloorPlanTile({ style }: { style: CSSProperties }) {
           />
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
 

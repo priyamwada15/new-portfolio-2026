@@ -20,7 +20,7 @@ import {
   type UseFloatingReturn,
 } from "@floating-ui/react";
 
-import { getStrictContext } from "../lib/get-strict-context";
+import { getStrictContext } from "@/lib/get-strict-context";
 import { Slot, type WithAsChild } from "./slot";
 
 type Side = "top" | "bottom" | "left" | "right";

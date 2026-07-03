@@ -54,7 +54,7 @@ function FloorPlanTile({ style }: { style: CSSProperties }) {
           }}
         >
           <Image
-            src="/26june-homepage-assets/floor plan.png"
+            src="/26june-homepage-assets/floor-plan.avif"
             alt="Floor-plan homepage concept"
             fill
             sizes="502px"
@@ -83,7 +83,7 @@ function ReadingTile({ style }: { style: CSSProperties }) {
           transform: "rotate(6.74deg)",
         }}
       >
-        <Image src="/26june-homepage-assets/book.png" alt="Currently reading" fill sizes="150px" className="object-cover" />
+        <Image src="/26june-homepage-assets/book.avif" alt="Currently reading" fill sizes="150px" className="object-cover" />
       </div>
     </div>
   );

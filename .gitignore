@@ -42,6 +42,11 @@ yarn-error.log*
 # Claude Code internal files (worktrees contain binary assets Tailwind would scan)
 .claude/
 
+# Cursor IDE (local editor config/scratch — not project source)
+.cursor/
+*.code-workspace
+__cursor_check*.js
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

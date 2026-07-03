@@ -13,7 +13,7 @@ import {
   type TooltipTriggerProps as TooltipTriggerPrimitiveProps,
   type TooltipContentProps as TooltipContentPrimitiveProps,
 } from "./primitives/tooltip";
-import { cn } from "./lib/utils";
+import { cn } from "@/lib/utils";
 
 type TooltipProviderProps = TooltipProviderPrimitiveProps;
 function TooltipProvider({ openDelay = 0, ...props }: TooltipProviderProps) {

@@ -24,11 +24,6 @@
   --ds-border-subtle: var(--ds-color-gray-subtle);
   --ds-border-faint: var(--ds-color-border-faint);
 
-  /* Play section */
-  --ds-play-border: var(--ds-color-play-border);
-  --ds-play-bg: var(--ds-color-play-bg);
-  --ds-play-text: var(--ds-color-play-text);
-
   /* Case study accent defaults (overridable per page via --accent-dark) */
   --ds-accent-default: var(--ds-color-primary);
   --ds-accent-subtle: var(--ds-color-gray-subtle);

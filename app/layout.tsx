@@ -5,7 +5,6 @@ import {
   Figtree,
   Inter,
   Kalam,
-  Ovo,
   IBM_Plex_Sans_Devanagari,
   Geist,
 } from "next/font/google";
@@ -30,12 +29,6 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-});
-
-const ovo = Ovo({
-  variable: "--font-ovo",
-  subsets: ["latin"],
-  weight: "400",
 });
 
 const ibmPlexDevanagari = IBM_Plex_Sans_Devanagari({
@@ -88,7 +81,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(
         figtree.variable,
-        ovo.variable,
         inter.variable,
         ibmPlexDevanagari.variable,
         kalam.variable,

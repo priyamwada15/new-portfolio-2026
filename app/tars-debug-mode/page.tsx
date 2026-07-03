@@ -82,11 +82,9 @@ export default function DebugModePage() {
       accentDark="#6D33AA"
       accentLight="#E2D6EE"
       bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
-      headlineFont="figtree"
       headlineColor="#333333"
       contentBodyClassName={caseStudyBody}
       sectionBodyClassName={caseStudySectionBody}
-      tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       projectName="Debug Mode for Tars"
       headline="Helping internal teams find where enterprise agents break and cutting down manual work by 70%."

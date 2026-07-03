@@ -56,12 +56,8 @@ interface Props {
   accentLight?: string;
   /** Overrides case-study body fill (e.g. match homepage `#FAFAFA`). */
   bodyBackgroundColor?: string;
-  /** Case-study headline (H1) font; default matches other case studies. */
-  headlineFont?: "ovo" | "figtree";
   /** Classes for context / contribution body copy (default `text-base …`). */
   contentBodyClassName?: string;
-  /** TOC link font; default Ovo to match other case studies. */
-  tocLinkFontFamily?: string;
   /** Applied to the main sections stack (e.g. `text-[14px]` for body copy). */
   sectionBodyClassName?: string;
   /** When set, overrides the case-study H1 text color (e.g. `#333333`). */
@@ -112,9 +108,7 @@ export default function CaseStudyLayout({
   accentDark = brands.default.accentDark,
   accentLight = brands.default.accentLight,
   bodyBackgroundColor,
-  headlineFont = "ovo",
   contentBodyClassName,
-  tocLinkFontFamily,
   sectionBodyClassName,
   headlineColor,
   headlineClassName,
@@ -122,18 +116,11 @@ export default function CaseStudyLayout({
   children,
 }: Props) {
   const bodyTextClass = contentBodyClassName ?? caseStudyBody;
-  const headlineFontStyle: React.CSSProperties =
-    headlineFont === "figtree"
-      ? {
-          ...fontStyle.figtree,
-          letterSpacing: "-0.02px",
-          textWrap: "balance",
-        }
-      : {
-          ...fontStyle.display,
-          letterSpacing: "-0.3px",
-          textWrap: "balance",
-        };
+  const headlineFontStyle: React.CSSProperties = {
+    ...fontStyle.figtree,
+    letterSpacing: "-0.02px",
+    textWrap: "balance",
+  };
   const headlineColorStyle: React.CSSProperties | undefined = headlineColor
     ? { color: headlineColor }
     : undefined;
@@ -312,7 +299,6 @@ export default function CaseStudyLayout({
           <TableOfContents
             items={tocItems}
             stickyTop={tocStickyTop}
-            linkFontFamily={tocLinkFontFamily}
           />
 
           {/* Right: H1 (when not in header) → context → body → footer */}

@@ -41,17 +41,8 @@
   /* Brand — Nav accent */
   --ds-color-brand-nav-glow: #744577;
 
-  /* Play / side quests */
-  --ds-color-play-border: #2d5a1b;
-  --ds-color-play-bg: rgba(110, 136, 96, 0.12);
-  --ds-color-play-text: #3b6d11;
-
-  /* Hero / interactive accents */
+  /* Spotify "currently playing" widget hover ring */
   --ds-color-accent-terminal: #d6336c;
-  --ds-color-accent-ai: #410c45;
-  --ds-color-accent-ai-muted: rgba(116, 69, 119, 0.3);
-  --ds-color-accent-canvas: #3fa3ec;
-  --ds-color-accent-canvas-grid: #ededed;
 
   /* UI chrome */
   --ds-color-tooltip-bg: #111111;

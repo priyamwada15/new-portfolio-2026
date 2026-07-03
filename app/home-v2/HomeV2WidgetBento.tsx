@@ -164,7 +164,7 @@ function ListeningTile({
               borderRadius: "8px",
               overflow: "hidden",
               boxShadow: hovered
-                ? "0px 8px 22px rgba(0,0,0,0.14), 0 0 0 1.5px #fff, 0 0 0 3px #d6336c"
+                ? "0px 8px 22px rgba(0,0,0,0.14), 0 0 0 1.5px #fff, 0 0 0 3px var(--ds-color-accent-terminal)"
                 : "0px 8px 22px rgba(0,0,0,0.14)",
               transition: "box-shadow 0.2s ease",
             }}

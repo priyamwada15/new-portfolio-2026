@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-03T00:00:00.000Z",
+  "title": "Design System: Priyamwada Pandey Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "primary", "displayName": "Ink", "canonical": "#111111", "tonalRamp": ["#0a0a0a", "#111111", "#1c1c1c", "#333333", "#555555", "#888888", "#c4c4c4", "#fafafa"] },
+      "text-primary": { "role": "neutral", "displayName": "Charcoal Text", "canonical": "#333333" },
+      "text-secondary": { "role": "neutral", "displayName": "Slate Text", "canonical": "#555555" },
+      "text-muted": { "role": "neutral", "displayName": "Muted Text", "canonical": "#888888" },
+      "surface-page": { "role": "neutral", "displayName": "Surface Page", "canonical": "#fafafa" },
+      "surface-base": { "role": "neutral", "displayName": "Surface Base", "canonical": "#fdfdfd" },
+      "surface-card": { "role": "neutral", "displayName": "Surface Card", "canonical": "#fbfbfb" },
+      "surface-media": { "role": "neutral", "displayName": "Surface Media", "canonical": "#f5f5f5" },
+      "surface-chip": { "role": "neutral", "displayName": "Surface Chip", "canonical": "#f3f5f6" },
+      "border-default": { "role": "neutral", "displayName": "Border Default", "canonical": "#e8e8e8" },
+      "rocket-red": { "role": "tertiary", "displayName": "Rocket Red", "canonical": "#de3341", "tonalRamp": ["#3d0b0f", "#5c111a", "#851f27", "#b12a35", "#de3341", "#e9636f", "#f4a3aa", "#f8d6d9"] },
+      "tars-purple": { "role": "tertiary", "displayName": "TARS Purple", "canonical": "#6d33aa", "tonalRamp": ["#241130", "#3a1c50", "#502870", "#5e2d8f", "#6d33aa", "#9463c2", "#c1a2dd", "#e2d6ee"] },
+      "salesforce-navy": { "role": "tertiary", "displayName": "Salesforce Navy", "canonical": "#032c5f", "tonalRamp": ["#01111f", "#021b33", "#032646", "#032c5f", "#0d4a8f", "#3d76b8", "#84aad9", "#bad4eb"] },
+      "terminal-pink": { "role": "tertiary", "displayName": "Terminal Pink", "canonical": "#d6336c" }
+    },
+    "typographyMeta": {
+      "h1": { "displayName": "H1 (Figtree, Regular)", "purpose": "Case study headline only. Distinguished from body text by scale, not typeface." },
+      "headline": { "displayName": "Headline (Figtree Bold)", "purpose": "Section headers within a case study." },
+      "body": { "displayName": "Body (Figtree)", "purpose": "Case study prose, capped 65-75ch." },
+      "label": { "displayName": "Label (Figtree Semibold)", "purpose": "Buttons, chips, nav labels, section tags." },
+      "mono": { "displayName": "Mono (DM Mono)", "purpose": "Code, terminal UI, custom cursor labels only." }
+    },
+    "shadows": [
+      { "name": "card-rest", "value": "0px 4px 12px 0px rgba(0,0,0,0.05)", "purpose": "Default ambient lift under homepage cards and media panels." },
+      { "name": "card-hover", "value": "0px 15px 30px -22px rgba(0,0,0,0.05)", "purpose": "Slightly deeper lift on card hover, still under 5% opacity." },
+      { "name": "chip-ambient", "value": "0 2px 2px rgba(0,0,0,0.015), -1px -2px 6px rgba(0,0,0,0.012)", "purpose": "Near-invisible depth under pill-shaped interactive chips." },
+      { "name": "focus-ring", "value": "0 0 0 2px rgba(116,69,119,0.35)", "purpose": "The one visible shadow in the system, reserved for accessibility focus states." },
+      { "name": "spotify-hover-ring", "value": "0px 8px 22px rgba(0,0,0,0.14), 0 0 0 1.5px #fff, 0 0 0 3px #d6336c", "purpose": "Hover ring on the homepage 'currently playing' widget's album art — the system's only interaction-accent color." }
+    ],
+    "motion": [
+      { "name": "ease-out-strong", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Default easing for width/opacity/fill transitions." },
+      { "name": "ease-spring", "value": "cubic-bezier(0.34, 1.56, 0.64, 1)", "purpose": "Icon tilt and playful micro-interactions." },
+      { "name": "duration-fast", "value": "240ms", "purpose": "Chip width/glow transitions." },
+      { "name": "duration-normal", "value": "500ms", "purpose": "Card and shadow transitions." },
+      { "name": "spring-button", "value": "type: spring, stiffness: 520, damping: 28", "purpose": "LiquidButton hover/tap scale response." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "toc-desktop", "value": "1080px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (Liquid Fill)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Pill-shaped CTA with an ink fill that rises from the bottom on hover via spring physics, label flips to off-white.",
+      "html": "<a class=\"ds-liquid-btn\" href=\"#\"><span class=\"ds-liquid-btn__fill\"></span><span class=\"ds-liquid-btn__label\">View case study</span></a>",
+      "css": ".ds-liquid-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 9999px; border: 1px solid #111111; padding: 10px 20px; background: rgba(253,253,253,0.35); font-family: Figtree, sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.01em; color: #111111; text-decoration: none; transition: transform 0.2s cubic-bezier(0.23,1,0.32,1); } .ds-liquid-btn:hover { transform: scale(1.05); } .ds-liquid-btn:active { transform: scale(0.95); } .ds-liquid-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px #111111, 0 0 0 4px #FAFAFA; } .ds-liquid-btn__fill { position: absolute; inset: 0; background: #111111; transform: scaleY(0); transform-origin: bottom; transition: transform 0.42s cubic-bezier(0.23,1,0.32,1); z-index: 0; } .ds-liquid-btn:hover .ds-liquid-btn__fill { transform: scaleY(1); } .ds-liquid-btn__label { position: relative; z-index: 1; transition: color 0.3s; } .ds-liquid-btn:hover .ds-liquid-btn__label { color: #FDFDFD; }"
+    },
+    {
+      "name": "Spotify Hover Ring",
+      "kind": "custom",
+      "refersTo": "card-media",
+      "description": "Currently-playing widget's album art. A hairline white border at rest; on hover, a terminal-pink ring appears around it — the system's only interaction-accent color, used nowhere else.",
+      "html": "<div class=\"ds-spotify-art\"><img alt=\"\" /></div>",
+      "css": ".ds-spotify-art { width: 88px; height: 88px; border: 1.6px solid #fff; border-radius: 8px; overflow: hidden; box-shadow: 0px 8px 22px rgba(0,0,0,0.14); transition: box-shadow 0.2s ease; } .ds-spotify-art:hover { box-shadow: 0px 8px 22px rgba(0,0,0,0.14), 0 0 0 1.5px #fff, 0 0 0 3px #d6336c; }"
+    },
+    {
+      "name": "Media Panel",
+      "kind": "card",
+      "refersTo": "card-media",
+      "description": "Large rounded fill used to frame case study screenshots and hero videos.",
+      "html": "<figure class=\"ds-media-panel\"><img alt=\"\" /></figure>",
+      "css": ".ds-media-panel { background: #f5f5f5; border-radius: 24px; overflow: hidden; box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.05); transition: box-shadow 250ms cubic-bezier(0.3,0.6,0.32,1), transform 250ms cubic-bezier(0.3,0.6,0.32,1); } .ds-media-panel:hover { box-shadow: 0px 15px 30px -22px rgba(0,0,0,0.05); }"
+    },
+    {
+      "name": "Nav Shell",
+      "kind": "nav",
+      "refersTo": "nav-shell",
+      "description": "Floating full-width pill nav, glass-tinted on the homepage, transparent elsewhere, with tilt-on-hover icon links.",
+      "html": "<nav class=\"ds-nav-shell\"><div class=\"ds-nav-shell__brand\">P</div><div class=\"ds-nav-shell__links\"><a class=\"ds-nav-shell__icon\" href=\"#\">in</a></div></nav>",
+      "css": ".ds-nav-shell { display: flex; align-items: center; justify-content: space-between; height: 60px; border-radius: 9999px; background: rgba(255,255,255,0.15); padding: 6px 12px; } .ds-nav-shell__icon { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; color: #555555; transition: transform 400ms cubic-bezier(0.34,1.56,0.64,1), opacity 200ms; } .ds-nav-shell__icon:hover { transform: rotate(8deg); opacity: 0.75; }"
+    },
+    {
+      "name": "Tag Chip",
+      "kind": "chip",
+      "refersTo": "chip-default",
+      "description": "Small rounded label used for case study hashtags and metadata pills.",
+      "html": "<span class=\"ds-tag-chip\">#agentdesign</span>",
+      "css": ".ds-tag-chip { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 14px; background: #f3f5f6; color: #555555; font-family: Figtree, sans-serif; font-size: 14px; font-weight: 600; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Workbench",
+    "overview": "The base surface is a workbench, not a showroom: quiet grayscale ink (#111111) on off-white (#fafafa), with no color of its own. Color shows up only when a specific piece of work is on the table — Rocket Mortgage's red, TARS's purple, Salesforce's navy — and when it shows up, it commits to that one context fully rather than bleeding into the chrome around it. This mirrors the portfolio's own thesis: the site is a work sample, not a brand exercise, so the visual system stays out of the way until a specific project earns its color. The system explicitly rejects the generic template look (interchangeable SaaS-landing gradients and stock card grids), the slow, effects-heavy feel of the site's previous Framer build, and any visual cue that reads as filler rather than considered craft. Motion and color are earned, not decorative.",
+    "keyCharacteristics": [
+      "Grayscale-first: text and chrome live entirely in ink/charcoal/off-white; color is contextual, not ambient.",
+      "One committed accent per surface: each case study or interactive moment picks a single color and uses it with intent.",
+      "Paper-thin depth: shadows are felt, not seen.",
+      "One type voice: Figtree carries headlines, body, and labels; DM Mono steps in only for code and terminal contexts.",
+      "Motion favors physical fill and spring response over fades and gradients."
+    ],
+    "rules": [
+      { "name": "The Borrowed Color Rule", "body": "The base UI (nav, footer, global chrome) never carries a project's brand color. A color only appears inside the boundary of the case study, section, or component it belongs to, and it commits there rather than being used sparingly — one accent per context, not several diluted ones.", "section": "colors" },
+      { "name": "The One Ink Rule", "body": "There is exactly one near-black across the whole system (#111111). Don't introduce a second 'almost black' for a new component; reuse ink.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "Figtree is the only load-bearing typeface across the system — the case study H1 is Figtree at scale, not a different face. DM Mono is a second voice reserved strictly for literal code/terminal/cursor contexts — never decorative.", "section": "typography" },
+      { "name": "The Paper-Thin Rule", "body": "If a shadow reads as 'a shadow' rather than 'a piece of paper barely lifted,' it's too strong. Opacity stays at or below 5% except for focus rings, which exist to be seen.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep the base chrome (nav, footer, global page background) strictly grayscale — ink, charcoal, off-white only.",
+      "Do let exactly one borrowed color own each case study or section, applied with commitment rather than a single timid swatch.",
+      "Do keep Figtree as the one load-bearing voice across headlines, body, and labels; reserve DM Mono strictly for code and terminal contexts.",
+      "Do keep shadows at or below 5% opacity at rest; let motion carry interactivity instead of heavier shadows or color swaps.",
+      "Do cap body copy at 65-75ch and get to the point fast — assume a reader with under two minutes per case study.",
+      "Do show problem complexity (a framework visual, decision matrix, or system diagram) before showing UI screens in a case study.",
+      "Do hold the creative-coding/side-quest components to the same craft bar as case study components — they are proof of range, not filler."
+    ],
+    "donts": [
+      "Don't use border-left/border-right stripes greater than 1px as a colored accent on cards or callouts.",
+      "Don't use gradient text for emphasis — use ink weight or size instead.",
+      "Don't default to glassmorphism; the homepage nav's 15% white tint is deliberate and singular, not a pattern to repeat elsewhere.",
+      "Don't build a generic hero-metric block (big number, small label, gradient accent) — it reads as SaaS template, not portfolio craft.",
+      "Don't repeat identical icon-plus-heading card grids; vary card treatment by what the content actually needs.",
+      "Don't reach for a modal as the first solution — favor inline and progressive disclosure.",
+      "Don't mix two borrowed project colors on the same screen.",
+      "Don't let a case study run long and text-heavy.",
+      "Don't visually frame AI/conversational work with cute chat-bubble or chatbot iconography.",
+      "Don't add a shadow, gradient, or decorative flourish to compensate for thin content."
+    ]
+  }
+}

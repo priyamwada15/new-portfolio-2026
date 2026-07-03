@@ -41,7 +41,6 @@ Prefer semantic utilities: `text-ink`, `text-primary`, `text-secondary`, `bg-sur
 |---|---|---|
 | `font-body` / `font-label` | UI body + section labels | Figtree (`--font-hind`) |
 | `font-mono` | Code, terminal, cursors | DM Mono |
-| `font-display` / Ovo inline | Case study headlines | Ovo |
 
 **Do not** use `font-mono` for section labels — use `font-label`.
 

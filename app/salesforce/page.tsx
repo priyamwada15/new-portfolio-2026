@@ -139,13 +139,11 @@ export default function SalesforcePage() {
       accentDark={brands.salesforce.accentDark}
       accentLight={brands.salesforce.accentLight}
       bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
-      headlineFont="figtree"
       headlineColor="#333333"
       headlineClassName="text-[36px] font-medium leading-[130%] text-[#333333]"
       headlineStyle={{ fontWeight: 500 }}
       contentBodyClassName={caseStudyBody}
       sectionBodyClassName={caseStudySectionBody}
-      tocLinkFontFamily="var(--font-hind), sans-serif"
       logos={[{ src: "/logos/salesforce.svg", alt: "Salesforce", cls: "h-8" }]}
       reverseHeaderOrder={true}
       hideContextLabel={true}

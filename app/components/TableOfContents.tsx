@@ -17,7 +17,7 @@ export default function TableOfContents({
   items,
   stickyTop = 96,
   stickyPadding = 32,
-  linkFontFamily = "var(--font-ovo), serif",
+  linkFontFamily = "var(--font-hind), sans-serif",
 }: {
   items: TocItem[];
   stickyTop?: number;

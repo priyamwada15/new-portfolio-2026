@@ -282,7 +282,6 @@ export default function RocketMortgageContent() {
         accentDark={brands.rocket.dark}
         accentLight={brands.rocket.light}
         bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
-        headlineFont="figtree"
         headlineColor="#333333"
         headlineClassName="leading-[1.3]"
         headlineStyle={{
@@ -291,7 +290,6 @@ export default function RocketMortgageContent() {
         }}
         contentBodyClassName={caseStudyBody}
         sectionBodyClassName={caseStudySectionBody}
-        tocLinkFontFamily="var(--font-hind), sans-serif"
         logos={[
           { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
           { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },

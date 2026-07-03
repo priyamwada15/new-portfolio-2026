@@ -19,7 +19,7 @@ export const caseStudyBody =
 /** Inherited by paragraphs inside `.case-study-section-stack`. */
 export const caseStudySectionBody = "text-[16px]" as const;
 
-/** Case study H1 default (Ovo display). */
+/** Case study H1 default (Figtree). */
 export const caseStudyHeadline =
   "text-2xl md:text-[40px] font-normal leading-tight text-ink" as const;
 

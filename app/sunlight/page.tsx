@@ -3,7 +3,7 @@ import { SunlightEffect } from "../components/SunlightEffect";
 
 const figtree = { fontFamily: "var(--font-hind), sans-serif" } as const;
 
-/** Matches play-card secondary CTA (`PlayProjectCardButton` in AnimatedCards). */
+/** Matches play-card secondary CTA. */
 const secondaryLinkClass =
   "group box-border inline-flex shrink-0 cursor-pointer flex-col items-stretch gap-1 no-underline";
 

@@ -13,9 +13,6 @@
   --color-tars-dark: var(--ds-color-brand-tars);
   --color-tars-light: var(--ds-color-brand-tars-light);
   --color-salesforce: var(--ds-color-brand-salesforce);
-  --color-play-border: var(--ds-play-border);
-  --color-play-bg: var(--ds-play-bg);
-  --color-play-text: var(--ds-play-text);
 
   --color-page-bg: var(--ds-surface-page);
 }

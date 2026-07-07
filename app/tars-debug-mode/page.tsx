@@ -87,6 +87,7 @@ export default function DebugModePage() {
       sectionBodyClassName={caseStudySectionBody}
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       projectName="Debug Mode for Tars"
+      breadcrumbLabel="Tars"
       headline="Helping internal teams find where enterprise agents break and cutting down manual work by 70%."
       reverseHeaderOrder={true}
       heroVisual={

@@ -9,6 +9,8 @@ interface Props {
   videoAlt?: string;
   videoClipPath?: string;
   videoShadow?: string;
+  /** Overrides the default `w-full h-[80vh]` sizing. */
+  className?: string;
 }
 
 export default function SolutionShowcase({
@@ -18,6 +20,7 @@ export default function SolutionShowcase({
   videoAlt = "",
   videoClipPath = "none",
   videoShadow = "none",
+  className,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -58,8 +61,7 @@ export default function SolutionShowcase({
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-[24px]"
-      style={{ height: "80vh" }}
+      className={`relative overflow-hidden rounded-[24px] ${className ?? "w-full h-[80vh]"}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

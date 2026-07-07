@@ -17,6 +17,7 @@ export default function AsimovPage() {
         { src: "/logos/tars.svg", alt: "TARS" },
       ]}
       projectName="Asimov for Tars"
+      breadcrumbLabel="Tars"
       headline="I designed the system that taught an AI what to know, who to trust and what to do, and 82% of pilot teams adopted it."
       context="Asimov is an AI assistant that lives inside team Slack workspaces. The core design challenge was what Asimov could access, who could use it and what it was allowed to do."
       contribution="I led 0→1 design for Asimov's knowledge management system, permissions architecture and external integrations hub, shipping incrementally across a 4-month engagement. Components I designed became the foundation for Tars' product suite."

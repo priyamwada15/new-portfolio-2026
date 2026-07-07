@@ -143,8 +143,8 @@ export default function TableOfContents({
         transition: "padding-top 250ms cubic-bezier(0.2, 0, 0, 1)",
       }}
     >
-      <ul className="space-y-[14px]">
-        {items.map(({ id, label }) => {
+      <ul>
+        {items.map(({ id, label }, index) => {
           const isActive      = activeId === id;
           const isDark        = itemDarkStates[id] ?? false;
           const activeColor   = isDark ? "#FFFFFF"                : "#111111";
@@ -162,13 +162,14 @@ export default function TableOfContents({
                     block: "start",
                   });
                 }}
-                className="block leading-snug"
+                className="block cursor-hover-pointer"
                 style={{
                   fontFamily:    linkFontFamily,
                   fontSize:      "14px",
+                  lineHeight:    "19px",
                   fontWeight:    isActive ? 500 : 400,
                   color:         isActive ? activeColor : inactiveColor,
-                  paddingTop:    "4px",
+                  paddingTop:    index === 0 ? "4px" : "18px",
                   paddingBottom: "4px",
                   transition:    "color 250ms cubic-bezier(0.2, 0, 0, 1), font-weight 250ms cubic-bezier(0.2, 0, 0, 1)",
                 }}

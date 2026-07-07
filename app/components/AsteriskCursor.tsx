@@ -8,10 +8,15 @@ import {
   triggerAsteriskSpin,
 } from "../lib/cursorUtils";
 
+// Elements where the asterisk glyph itself should hide, leaving only the
+// native pointer cursor (nav, footer, TOC, breadcrumb) — mirrors AsciiCursorTrail.
+const HIDE_HEAD_SELECTOR = ".cursor-hover-pointer";
+
 export function AsteriskCursor() {
   const headWrapRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLSpanElement>(null);
   const wasClickableRef = useRef(false);
+  const hidingHeadRef = useRef(false);
   const lastTargetRef = useRef<EventTarget | null>(null);
   const pendingPosRef = useRef<{ x: number; y: number } | null>(null);
   const moveRafRef = useRef<number | null>(null);
@@ -45,10 +50,17 @@ export function AsteriskCursor() {
     const onMove = (e: PointerEvent) => {
       scheduleHeadPosition(e.clientX, e.clientY);
 
+      const el = e.target instanceof Element ? e.target : null;
+      const hideHead = Boolean(el?.closest(HIDE_HEAD_SELECTOR));
+      if (hideHead !== hidingHeadRef.current) {
+        hidingHeadRef.current = hideHead;
+        head.classList.toggle("asterisk-cursor__head--hidden", hideHead);
+      }
+
       if (e.target === lastTargetRef.current) return;
       lastTargetRef.current = e.target;
 
-      const clickable = isClickableCursorTarget(e.target);
+      const clickable = !hideHead && isClickableCursorTarget(e.target);
       if (clickable && !wasClickableRef.current) {
         triggerAsteriskSpin(head);
       } else if (!clickable) {
@@ -59,8 +71,9 @@ export function AsteriskCursor() {
 
     const onLeave = () => {
       wasClickableRef.current = false;
+      hidingHeadRef.current = false;
       lastTargetRef.current = null;
-      head.classList.remove("asterisk-cursor__head--spinning");
+      head.classList.remove("asterisk-cursor__head--spinning", "asterisk-cursor__head--hidden");
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });

@@ -160,6 +160,7 @@ export default function SalesforcePage() {
         />
       }
       projectName="Galileo for Salesforce"
+      breadcrumbLabel="Salesforce"
       headline="Reducing decision fatigue in students by connecting today's course choices to future career options."
       context={
         <div className="flex max-w-[768px] flex-col gap-4">

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import TableOfContents, { TocItem } from "./TableOfContents";
 import CaseStudyPageStyle from "./CaseStudyPageStyle";
 import SectionLabel from "./SectionLabel";
@@ -38,6 +39,10 @@ interface Props {
   tagline?: string;
   headline: string;
   projectName: string;
+  /** Short label for the breadcrumb (e.g. "Salesforce", "Tars"). Defaults to `projectName`. */
+  breadcrumbLabel?: string;
+  /** TOC label for the auto-prepended context section (defaults to "Context"). */
+  contextLabel?: string;
   context: React.ReactNode;
   contribution?: React.ReactNode;
   sidePanel?: React.ReactNode;
@@ -92,6 +97,8 @@ export default function CaseStudyLayout({
   tagline,
   headline,
   projectName,
+  breadcrumbLabel,
+  contextLabel,
   context,
   contribution,
   sidePanel,
@@ -126,7 +133,7 @@ export default function CaseStudyLayout({
     : undefined;
 
   const tocItems: TocItem[] = toc
-    ? [{ id: "context", label: "Context" }, ...toc]
+    ? [{ id: "context", label: contextLabel ?? "Context" }, ...toc]
     : [];
 
   /** H1 in header above hero (Rocket, Salesforce, Debug case studies). */
@@ -279,6 +286,14 @@ export default function CaseStudyLayout({
     )
   );
 
+  const breadcrumbFontStyle: React.CSSProperties = {
+    ...fontStyle.figtree,
+    fontWeight: 500,
+    fontSize: "14px",
+    lineHeight: "17px",
+    letterSpacing: "-0.02px",
+  };
+
   return (
     <>
     <CaseStudyPageStyle backgroundColor={bodyBackgroundColor} />
@@ -287,8 +302,21 @@ export default function CaseStudyLayout({
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
 
+      {/* Breadcrumb, mt-12/mb-12 (48px) gap above and below */}
+      <div className="mt-12 mb-12 flex flex-row items-center gap-2 py-2 pr-2">
+        <Link href="/" className="text-secondary cursor-hover-pointer" style={breadcrumbFontStyle}>
+          Home
+        </Link>
+        <span className="text-secondary" style={breadcrumbFontStyle}>
+          /
+        </span>
+        <span className="text-primary" style={breadcrumbFontStyle}>
+          {breadcrumbLabel ?? projectName}
+        </span>
+      </div>
+
       {/* Header, mb-14 (56px) creates the gap to H1 when toc is present */}
-      <header className={`mt-12 ${toc ? "mb-14" : "mb-16"}`}>
+      <header className={toc ? "mb-14" : "mb-16"}>
         {headerContent}
       </header>
 

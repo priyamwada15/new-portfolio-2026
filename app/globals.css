@@ -337,6 +337,11 @@ body {
   body.portfolio-asterisk-cursor * {
     cursor: none;
   }
+
+  body.portfolio-asterisk-cursor .cursor-hover-pointer,
+  body.portfolio-asterisk-cursor .cursor-hover-pointer * {
+    cursor: pointer;
+  }
 }
 
 .ascii-cursor-layer,
@@ -372,7 +377,8 @@ body {
   color: #ffffff !important;
 }
 
-.ascii-cursor__head.ascii-cursor__head--hidden {
+.ascii-cursor__head.ascii-cursor__head--hidden,
+.asterisk-cursor__head.asterisk-cursor__head--hidden {
   opacity: 0;
 }
 
@@ -544,40 +550,9 @@ body {
   margin-bottom: var(--rm-hero-meta-gap);
 }
 
-.rm-dial-root .rm-tldr {
-  gap: var(--rm-element-gap);
-}
-
-.rm-dial-root .rm-tldr-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--rm-element-gap);
-}
-
-.rm-dial-root .rm-tldr-title {
-  font-size: var(--rm-tldr-title-size);
-  font-weight: var(--rm-tldr-title-weight);
-}
-
 .rm-dial-root .rm-body-text {
   font-size: var(--rm-body-size);
   font-weight: var(--rm-body-weight);
-}
-
-.rm-dial-root .rm-metrics {
-  gap: var(--rm-metrics-gap);
-  padding-top: var(--rm-padding-metrics-top);
-}
-
-.rm-dial-root .rm-metric-value {
-  font-size: var(--rm-metric-value-size);
-  font-weight: var(--rm-metric-value-weight);
-}
-
-.rm-dial-root .rm-metric-caption {
-  font-size: var(--rm-metric-caption-size);
-  font-weight: var(--rm-metric-caption-weight);
-  padding-top: var(--rm-metric-caption-top, 16px);
 }
 
 .rm-dial-root .rm-body-stack {
@@ -600,19 +575,8 @@ body {
   gap: 32px;
 }
 
-.rm-dial-root .rm-reflection-grid {
-  gap: 32px;
-  padding: 16px 0;
-}
-
 .rm-dial-root .rm-testimonial-card {
   padding: var(--rm-padding-card);
-}
-
-.rm-dial-root .rm-h2 {
-  font-size: var(--rm-h2-size);
-  font-weight: var(--rm-h2-weight);
-  margin-bottom: var(--rm-h2-below);
 }
 
 .rm-dial-root .rm-quote-block > div {
@@ -638,6 +602,12 @@ body {
   display: flex;
   flex-direction: column;
   row-gap: 10rem;
+}
+
+/* TOC-anchored sections: 64px gap above when scrolled to via TableOfContents. */
+.case-study-section-stack > *,
+#context {
+  scroll-margin-top: 64px;
 }
 
 /* ── Sunlight ray animation ──────────────────────────────── */
@@ -816,7 +786,8 @@ body {
 }
 
 .site-scroll-layer--flip-footer .site-scroll-layer__sheet-surface {
-  overflow: hidden;
+  /* clip (not hidden) so position:sticky still works for descendants (e.g. case study TOC) */
+  overflow: clip;
   border-bottom-left-radius: var(--home-scroll-sheet-radius-bl);
   border-bottom-right-radius: var(--home-scroll-sheet-radius-br);
   box-shadow: var(--home-scroll-sheet-shadow);

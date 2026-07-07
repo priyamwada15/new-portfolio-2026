@@ -334,7 +334,7 @@ function DesignApproachImages() {
   const images = [
     {
       key: "feature-mapping",
-      src: "/new-rocket-mortgage-case-page/feature%20mapping.png",
+      src: "/new-rocket-mortgage-case-page/feature%20mapping%204x.avif",
       alt: "Feature mapping notes weighing personalized onboarding considerations",
       tooltip: "Feature mapping",
       style: { width: "70.71%", height: "29.25%", right: "1.45%", top: "0%" },
@@ -342,7 +342,7 @@ function DesignApproachImages() {
     },
     {
       key: "unhappy-path",
-      src: "/new-rocket-mortgage-case-page/unhappy%20path%20sneak%20peek%201.png",
+      src: "/new-rocket-mortgage-case-page/unhappy%20path%20sneak%20peek%201%204x.avif",
       alt: "Flowchart mapping the unhappy path of the human handoff decision logic",
       tooltip: "Sample flow layout",
       style: { width: "58.98%", height: "39.8%", left: "0%", top: "9.23%" },
@@ -350,7 +350,7 @@ function DesignApproachImages() {
     },
     {
       key: "carousel-2",
-      src: "/new-rocket-mortgage-case-page/carousel%20card%20iteration%202.png",
+      src: "/new-rocket-mortgage-case-page/carousel%20card%20iteration%202%204x.avif",
       alt: "Second iteration of the onboarding task carousel card",
       tooltip: "Carousel card iteration",
       style: { width: "41.28%", height: "52.9%", right: "7.42%", bottom: "7.63%" },
@@ -358,7 +358,7 @@ function DesignApproachImages() {
     },
     {
       key: "carousel-1",
-      src: "/new-rocket-mortgage-case-page/carousel%20card%20iteration%201.png",
+      src: "/new-rocket-mortgage-case-page/carousel%20card%20iteration%201%204x.avif",
       alt: "First iteration of the onboarding task carousel card",
       tooltip: "Carousel card iteration",
       style: { width: "45.05%", height: "42.51%", left: "7.8%", top: "51.56%" },
@@ -484,14 +484,14 @@ function FinalSolution() {
         title="Move 1: Reading the loan stage to know what's next"
         items={[
           {
-            src: "/new-rocket-mortgage-case-page/Solution%20Type%201-%202.png",
+            src: "/new-rocket-mortgage-case-page/Solution%20Type%201-%202.avif",
             alt: "Rocket Assist showing next steps in a visual interactive form",
             caption: "Next steps in a visual and interactive form",
             cardTitle: "Task lists scoped to real progress",
             body: "Rocket Mortgage already tracked each client against a milestone map: pre-approval letter, signed application.. The assistant read that state and showed only what was left, specific to their loan stage.",
           },
           {
-            src: "/new-rocket-mortgage-case-page/Solution%20Type%201-%201.png",
+            src: "/new-rocket-mortgage-case-page/Solution%20Type%201-%201.avif",
             alt: "Rocket Assist showing a personalized greeting with pictures of the client's home",
             caption: "Personalized greeting with pictures of their home",
             cardTitle: "Reflects the dashboard's data",
@@ -504,14 +504,14 @@ function FinalSolution() {
         title="Move 2: Naming the source behind every recommendation"
         items={[
           {
-            src: "/new-rocket-mortgage-case-page/Solution%20Type%202-%201.png",
+            src: "/new-rocket-mortgage-case-page/Solution%20Type%202-%201.avif",
             alt: "In-chat inspector contact cards in Rocket Assist",
             caption: "In-chat inspector contact cards",
             cardTitle: "All recommendations name the source",
             body: "Inspector suggestions came labeled as from the realtor, appraisal insights were tied to the report and insurance tips pointed back to the home's own Redfin listing.",
           },
           {
-            src: "/new-rocket-mortgage-case-page/Solution%20Type%202-%202.png",
+            src: "/new-rocket-mortgage-case-page/Solution%20Type%202-%202.avif",
             alt: "Important documents accessible within Rocket Assist chat",
             caption: "Important documents accessible within chat",
             cardTitle: "Relevant files are one tap away",
@@ -524,14 +524,14 @@ function FinalSolution() {
         title="Move 3: Transparent & smooth AI-Human handoff flow"
         items={[
           {
-            src: "/new-rocket-mortgage-case-page/Solution%20Type%203-%201.png",
+            src: "/new-rocket-mortgage-case-page/Solution%20Type%203-%201.avif",
             alt: "Rocket Assist showing clear communication on agent availability",
             caption: "Clear communication on agent availability",
             cardTitle: "Handoff as its own flow",
             body: "Specific signals triggered it automatically: a client asking if anyone could help, or clear frustration in their messages, routed straight to their purchase specialist.",
           },
           {
-            src: "/new-rocket-mortgage-case-page/Solution%20Type%203-%202.png",
+            src: "/new-rocket-mortgage-case-page/Solution%20Type%203-%202.avif",
             alt: "Rocket Assist preserving context during human handover",
             caption: "Context retention with human handover",
             cardTitle: "Context retention",
@@ -564,7 +564,7 @@ function Blockers() {
         <div className="flex flex-col items-center gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/new-rocket-mortgage-case-page/General%20inspector-front.png"
+            src="/new-rocket-mortgage-case-page/General%20inspector-front.avif"
             alt="Front of the inspector recommendation card showing Sarah Millerson's profile and call-to-action"
             className="w-[310px]"
           />
@@ -575,7 +575,7 @@ function Blockers() {
         <div className="flex flex-col items-center gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/new-rocket-mortgage-case-page/General%20inspector-back.png"
+            src="/new-rocket-mortgage-case-page/General%20inspector-back.avif"
             alt="Back of the inspector recommendation card showing an AI-generated summary of client reviews"
             className="w-[310px]"
           />
@@ -699,7 +699,7 @@ export default function RocketMortgageContent() {
                 </p>
               </div>
               <ProblemVisualCard
-                src="/new-rocket-mortgage-case-page/Problem%201.png"
+                src="/new-rocket-mortgage-case-page/Problem%201.avif"
                 alt="Rocket Assist showing a generic chat response about buying a home"
                 caption="Generic chat experience"
               />
@@ -715,7 +715,7 @@ export default function RocketMortgageContent() {
                 </p>
               </div>
               <ProblemVisualCard
-                src="/new-rocket-mortgage-case-page/Problem%202.png"
+                src="/new-rocket-mortgage-case-page/Problem%202.avif"
                 alt="Rocket Assist showing a broken human handoff with contact details only"
                 caption="Broken human handoff flow"
               />
@@ -793,7 +793,7 @@ export default function RocketMortgageContent() {
       </CaseStudyLayout>
       <NextProjectCard
         href="/salesforce"
-        imageSrc="/new-rocket-mortgage-case-page/Academic%20Trajectory-%20By%20Year.png"
+        imageSrc="/new-rocket-mortgage-case-page/Academic%20Trajectory-%20By%20Year.avif"
         imageAlt="Galileo for Salesforce academic trajectory dashboard"
         logoSrc="/logos/salesforce.svg"
         logoAlt="Salesforce"

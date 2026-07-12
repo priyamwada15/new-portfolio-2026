@@ -171,7 +171,7 @@ export default function TableOfContents({
                   color:         isActive ? activeColor : inactiveColor,
                   paddingTop:    index === 0 ? "4px" : "18px",
                   paddingBottom: "4px",
-                  transition:    "color 250ms cubic-bezier(0.2, 0, 0, 1), font-weight 250ms cubic-bezier(0.2, 0, 0, 1)",
+                  transition:    "color 120ms cubic-bezier(0.2, 0, 0, 1), font-weight 120ms cubic-bezier(0.2, 0, 0, 1)",
                 }}
               >
                 {label}

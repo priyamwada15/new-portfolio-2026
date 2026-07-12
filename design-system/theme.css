@@ -1,5 +1,16 @@
 /* Tailwind v4 @theme — maps design tokens to utilities. */
 @theme inline {
+  /*
+   * Shared responsive breakpoints (min-width). Tailwind v4 auto-derives
+   * matching `max-*` variants from these, so this single pair gives us:
+   *   tablet: / max-tablet:   (744px boundary — "mobile" = max-tablet:)
+   *   desktop: / max-desktop: (1024px boundary)
+   * Mirrored as plain numbers in design-system/breakpoints.ts for JS use.
+   * Tailwind's default sm/md/lg/xl/2xl breakpoints are untouched.
+   */
+  --breakpoint-tablet: 744px;
+  --breakpoint-desktop: 1024px;
+
   /* Font roles (--font-* variables are set by next/font in layout.tsx) */
   --font-sans: var(--font-sans);
   --font-body: var(--font-hind), sans-serif;

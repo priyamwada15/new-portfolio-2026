@@ -55,7 +55,13 @@
       "mcp__plugin_paper-desktop_paper__get_screenshot",
       "mcp__plugin_paper-desktop_paper__update_styles",
       "mcp__plugin_paper-desktop_paper__finish_working_on_nodes",
-      "Bash(awk '{print $NF}')"
+      "Bash(awk '{print $NF}')",
+      "Bash(python3 -c ' *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(cd \"C:\\\\Users\\\\mukta\\\\OneDrive\\\\Desktop\\\\New Portfolio\\\\public\\\\new-rocket-mortgage-case-page\" && rm -f *.png && ls -la)",
+      "Bash(cd \"C:\\\\Users\\\\mukta\\\\OneDrive\\\\Desktop\\\\New Portfolio\\\\public\\\\new-rocket-mortgage-case-page\" && rm -f *.webp && ls -la)"
     ]
   }
 }

@@ -2,13 +2,13 @@
 
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import SolutionShowcase from "../components/SolutionShowcase";
-import NextProjectCard from "../components/NextProjectCard";
 import { RocketMortgageTripleVideos } from "../components/RocketMortgageTripleVideos";
 import { CursorFollowTooltip } from "../about/CursorFollowTooltip";
 import {
   brands,
   caseStudyBody,
   caseStudySectionBody,
+  caseStudySectionH2,
   fontStyle,
   SITE_DEFAULT_PAGE_BG,
 } from "@/design-system";
@@ -53,20 +53,20 @@ function ContextTldr() {
 
   return (
     <div className="flex max-w-[768px] flex-col gap-14">
-      <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+      <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
         TL;DR
       </h2>
       <div className="flex flex-col gap-14">
         {items.map((item) => (
-          <div key={item.label} className="flex items-start justify-between">
+          <div key={item.label} className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <p className="shrink-0 text-[20px] font-medium leading-[140%] text-[#555555]" style={fontStyle.figtree}>
               {item.label}
             </p>
-            <div className="flex w-[392px] flex-col gap-2">
+            <div className="flex flex-col gap-2 md:w-[392px]">
               <p className="text-[20px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
                 {item.title}
               </p>
-              <p className="text-[14px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+              <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
                 {item.body}
               </p>
             </div>
@@ -146,7 +146,7 @@ function TestimonialCard({
 }) {
   return (
     <div className="rm-testimonial-card flex min-w-0 flex-1 flex-col gap-6 rounded-[24px] bg-[#F5F5F5] p-10">
-      <p className="text-[14px] font-normal italic leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+      <p className="text-[16px] font-normal italic leading-[160%] text-[#555555]" style={fontStyle.figtree}>
         &ldquo;{quote}&rdquo;
       </p>
       <div className="flex flex-col gap-2">
@@ -221,7 +221,7 @@ function CoreFlows() {
         >
           Core Flows
         </p>
-        <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+        <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
           Turning a generic chat into a guided mortgage journey.
         </h2>
       </div>
@@ -239,7 +239,7 @@ function CoreFlows() {
               <p className="text-[20px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
                 {flow.title}
               </p>
-              <p className="text-[14px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+              <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
                 {flow.body}
               </p>
             </div>
@@ -278,7 +278,7 @@ function Impact() {
         >
           Impact
         </p>
-        <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+        <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
           Trust, control and explainability, validated with the clients.
         </h2>
       </div>
@@ -294,7 +294,7 @@ function Impact() {
             <p className="text-[48px] font-bold leading-[48px] text-[#111111]" style={fontStyle.figtree}>
               {metric.value}
             </p>
-            <p className="pt-4 text-[14px] font-normal leading-[150%] text-[#555555]" style={fontStyle.figtree}>
+            <p className="pt-4 text-[16px] font-normal leading-[150%] text-[#555555]" style={fontStyle.figtree}>
               {metric.caption}
             </p>
           </div>
@@ -323,7 +323,7 @@ function ApproachCard({
           {title}
         </p>
       </div>
-      <p className="text-[14px] font-normal leading-[150%] text-[#555555]" style={fontStyle.figtree}>
+      <p className="text-[16px] font-normal leading-[150%] text-[#555555]" style={fontStyle.figtree}>
         {body}
       </p>
     </div>
@@ -398,7 +398,7 @@ function DesignApproach() {
         >
           Design Approach
         </p>
-        <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+        <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
           From research insights to identifying three design bets
         </h2>
       </div>
@@ -453,7 +453,7 @@ function FinalSolutionMove({
             Final Solution
           </p>
         )}
-        <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+        <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
           {title}
         </h2>
       </div>
@@ -465,7 +465,7 @@ function FinalSolutionMove({
               <p className="text-[20px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
                 {item.cardTitle}
               </p>
-              <p className="text-[14px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+              <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
                 {item.body}
               </p>
             </div>
@@ -553,10 +553,10 @@ function Blockers() {
         >
           Blockers
         </p>
-        <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+        <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
           The inspector card feature tested well but got cut
         </h2>
-        <p className="text-[14px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+        <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
           It scored high in usability testing, but the backend architecture needed to support it wasn&apos;t within the team&apos;s bandwidth that cycle. Building it would require multiple API integrations, not just within the Rocket Mortgage system but also Redfin&apos;s which has been acquired by Rocket Companies. It was an essential lesson between the simplicity of a feature design and the many pieces that had to fall into place in order to push it out the door.
         </p>
       </div>
@@ -598,7 +598,7 @@ function InHindsight() {
         >
           In Hindsight
         </p>
-        <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+        <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
           What I&apos;d design differently
         </h2>
       </div>
@@ -626,11 +626,7 @@ export default function RocketMortgageContent() {
         accentLight={brands.rocket.light}
         bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
         headlineColor="#333333"
-        headlineClassName="leading-[1.3]"
-        headlineStyle={{
-          fontSize: 36,
-          fontWeight: 500,
-        }}
+        headlineClassName="text-[36px] font-medium leading-[1.3] max-tablet:text-[24px]"
         contentBodyClassName={caseStudyBody}
         sectionBodyClassName={caseStudySectionBody}
         logos={[
@@ -681,7 +677,7 @@ export default function RocketMortgageContent() {
             >
               Problem
             </p>
-            <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+            <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
               The assistant gave every client the same advice
             </h2>
           </div>
@@ -694,7 +690,7 @@ export default function RocketMortgageContent() {
                   <span className="font-semibold text-[#851F27]">chat history</span>{" "}
                   tells me otherwise.&rdquo;
                 </p>
-                <p className="text-[14px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+                <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
                   The post-offer stage is one of the most delicate parts of the home-buying journey and the chat treated it like any other. Clients who had just gotten their offer accepted after months of hurdles needed a clear guide on what came next. What they got instead was the same generic advice every buyer saw, regardless of loan stage.
                 </p>
               </div>
@@ -710,7 +706,7 @@ export default function RocketMortgageContent() {
                   &ldquo;I&apos;m buying a house; it&apos;s a lot of money - it should really be{" "}
                   <span className="font-semibold text-[#851F27]">a guided journey.</span>&rdquo;
                 </p>
-                <p className="text-[14px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+                <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
                   When a client needed a human, the handoff flow was broken. No actionable next step came from the chat itself, just contact details to figure out on their own. This left a majority of clients frustrated which impacted Rocket Assist&apos;s credibility as a product the clients could depend on.
                 </p>
               </div>
@@ -737,7 +733,7 @@ export default function RocketMortgageContent() {
             >
               Testimonials
             </p>
-            <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+            <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
               What the people who saw the work up close had to say
             </h2>
           </div>
@@ -767,7 +763,7 @@ export default function RocketMortgageContent() {
             >
               Reflections
             </p>
-            <h2 className="text-[32px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
+            <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
               What I&apos;d take into the next project
             </h2>
           </div>
@@ -776,7 +772,7 @@ export default function RocketMortgageContent() {
               <p className="text-[20px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
                 Every feature is ten decisions that have to align first.
               </p>
-              <p className="text-[14px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+              <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
                 Watching a PM break the work down into APIs, infrastructure constraints and engineering dependencies changed what &ldquo;design&rdquo; meant to me in a mature org.
               </p>
             </div>
@@ -784,21 +780,13 @@ export default function RocketMortgageContent() {
               <p className="text-[20px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
                 Collaboration as a design tool
               </p>
-              <p className="text-[14px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+              <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
                 Seeking out engineers, researchers and SMEs before being asked is what got me into the conversations that shaped the work most and helped me identify edge cases.
               </p>
             </div>
           </div>
         </section>
       </CaseStudyLayout>
-      <NextProjectCard
-        href="/salesforce"
-        imageSrc="/new-rocket-mortgage-case-page/Academic%20Trajectory-%20By%20Year.avif"
-        imageAlt="Galileo for Salesforce academic trajectory dashboard"
-        logoSrc="/logos/salesforce.svg"
-        logoAlt="Salesforce"
-        headline="Reducing decision fatigue in students by connecting today's course choices to future career options."
-      />
     </div>
   );
 }

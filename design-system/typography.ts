@@ -23,6 +23,13 @@ export const caseStudySectionBody = "text-[16px]" as const;
 export const caseStudyHeadline =
   "text-2xl md:text-[40px] font-normal leading-tight text-ink" as const;
 
+/**
+ * Section H2 used on Salesforce & Rocket Mortgage (Figtree medium, not the
+ * bold/font-label caseStudyH2 above) — 32px desktop, 24px below 744px.
+ */
+export const caseStudySectionH2 =
+  "text-[32px] font-medium leading-[140%] text-[#333333] max-tablet:text-[24px]" as const;
+
 /** Visual caption under media. */
 export const visualCaption =
   "font-label text-[12px] font-normal tracking-wider text-muted mt-3 text-center" as const;

@@ -12,9 +12,14 @@ export const SITE_DEFAULT_PAGE_BG = "var(--ds-surface-page)";
 /** Homepage surface. */
 export const HOME_V2_PAGE_BG = "var(--ds-surface-home)";
 
-/** Case study article column width. */
+/**
+ * Case study article column width. 1008px is a max-width ceiling, not a fixed
+ * width — page margin is 24px below 744px, 48px from 744-1024px, and 120px
+ * from 1024px up (the 1024px+ tier also caps content at 1008px, so margin
+ * grows beyond 120px once the viewport is wide enough to hit that ceiling).
+ */
 export const CASE_STUDY_COLUMN_CLASS =
-  "w-[70vw] max-w-[1008px] mx-auto pb-16" as const;
+  "w-[calc(100%-48px)] min-[744px]:w-[calc(100%-96px)] min-[1024px]:w-[min(calc(100%_-_240px),1008px)] mx-auto pb-16" as const;
 
 /** TOC grid at desktop breakpoint. */
 export const CASE_STUDY_TOC_GRID_CLASS =

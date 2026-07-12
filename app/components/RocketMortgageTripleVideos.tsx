@@ -14,9 +14,15 @@ export function RocketMortgageTripleVideos({ className }: RocketMortgageTripleVi
         className,
       )}
     >
-      <div className="absolute inset-0 grid grid-cols-3 gap-2 sm:gap-3 md:gap-4">
-        {ROCKET_MORTGAGE_CARD_VIDEOS.map((src) => (
-          <div key={src} className="relative min-h-0 min-w-0 overflow-hidden">
+      <div className="absolute inset-0 grid grid-cols-2 gap-2 tablet:grid-cols-3 sm:gap-3 md:gap-4">
+        {ROCKET_MORTGAGE_CARD_VIDEOS.map((src, index) => (
+          <div
+            key={src}
+            className={cn(
+              "relative min-h-0 min-w-0 overflow-hidden",
+              index === 2 && "hidden tablet:block",
+            )}
+          >
             <video
               src={src}
               autoPlay

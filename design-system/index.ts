@@ -3,6 +3,7 @@ export { brands, type BrandKey } from "./brands";
 export { fontFamily, fontStyle } from "./fonts";
 export {
   caseStudyH2,
+  caseStudySectionH2,
   caseStudySectionTag,
   caseStudyMetaLabel,
   caseStudyBody,
@@ -15,6 +16,7 @@ export {
   salesforceBody,
   mediaPanel,
 } from "./typography";
+export { BREAKPOINTS } from "./breakpoints";
 export {
   HOME_V2_TOP_PX,
   HOME_V2_ROW_GAP_PX,

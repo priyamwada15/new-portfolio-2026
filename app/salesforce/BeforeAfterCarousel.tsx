@@ -4,6 +4,9 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { fontStyle } from "@/design-system";
 
+/** Reference width the Figma frame was designed at — image width/top are expressed as % of this. */
+const CAROUSEL_CANVAS_WIDTH = 768;
+
 export type ImageRedaction = {
   left: string;
   top?: string;
@@ -19,8 +22,8 @@ export type BeforeAfterImage = {
   /** Natural design width/height in px (768px-frame reference) — scaled down responsively, never exceeding it. */
   width: number;
   height: number;
-  /** CSS top offset (px or calc()), relative to the card. */
-  top: string;
+  /** Vertical offset from the top of the image group, in px on the 768px canvas. Omit (0) for single-image slides. */
+  top?: number;
   redactions?: ImageRedaction[];
 };
 
@@ -91,36 +94,72 @@ function ArrowButton({
   );
 }
 
-export default function BeforeAfterCarousel({
-  slides,
-  heightClass,
-}: {
-  slides: BeforeAfterSlide[];
-  heightClass: string;
-}) {
+function ImageGroup({ images }: { images: BeforeAfterImage[] }) {
+  if (images.length === 1) {
+    const image = images[0];
+    return (
+      <div
+        className="relative mx-auto w-full overflow-hidden rounded-lg border border-border shadow-[0px_0px_28px_4px_rgba(0,0,0,0.04)]"
+        style={{ width: `min(${image.width}px, 100%)`, aspectRatio: `${image.width} / ${image.height}` }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
+        {image.redactions?.map((r) => (
+          <div
+            key={`${r.left}-${r.top ?? r.bottom}`}
+            className="absolute bg-white/20 backdrop-blur-[7.5px]"
+            style={{
+              left: r.left,
+              top: r.top,
+              bottom: r.bottom,
+              width: r.width,
+              height: r.height,
+              borderRadius: r.borderRadius,
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // Multiple overlapping images (e.g. two stacked screenshots) — sized as one
+  // group whose height matches their combined bounding box on the canvas.
+  const groupTop = Math.min(...images.map((i) => i.top ?? 0));
+  const groupBottom = Math.max(...images.map((i) => (i.top ?? 0) + i.height));
+  const groupHeight = groupBottom - groupTop;
+
+  return (
+    <div className="relative w-full" style={{ aspectRatio: `${CAROUSEL_CANVAS_WIDTH} / ${groupHeight}` }}>
+      {images.map((image) => (
+        <div
+          key={image.src}
+          className="absolute left-1/2 -translate-x-1/2 overflow-hidden rounded-lg border border-border shadow-[0px_0px_28px_4px_rgba(0,0,0,0.04)]"
+          style={{
+            top: `${(((image.top ?? 0) - groupTop) / groupHeight) * 100}%`,
+            width: `min(${image.width}px, 100%)`,
+            aspectRatio: `${image.width} / ${image.height}`,
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function BeforeAfterCarousel({ slides }: { slides: BeforeAfterSlide[] }) {
   const [[index, direction], setSlide] = useState<[number, number]>([0, 0]);
   const slide = slides[index];
 
   const goTo = (nextIndex: number) => setSlide([nextIndex, nextIndex > index ? 1 : -1]);
 
   return (
-    <div className={`relative w-full overflow-hidden rounded-[24px] bg-surface-media ${heightClass}`}>
-      <div className="absolute left-6 right-6 top-6 z-10 flex items-center gap-4">
-        <span
-          className="shrink-0 rounded-[4px] border px-3 py-[6px] font-mono text-[12px] font-medium uppercase leading-4"
-          style={{
-            backgroundColor: slide.badgeBg,
-            color: slide.badgeColor,
-            borderColor: slide.badgeBorder,
-          }}
-        >
-          {slide.badgeLabel}
-        </span>
-        <p className="min-w-0 text-[14px] font-medium leading-[160%] text-[#333333]" style={fontStyle.figtree}>
-          {slide.title}
-        </p>
-      </div>
-      <AnimatePresence initial={false} custom={direction}>
+    <motion.div
+      layout
+      className="relative w-full overflow-hidden rounded-[24px] bg-surface-media"
+    >
+      <AnimatePresence initial={false} custom={direction} mode="popLayout">
         <motion.div
           key={index}
           custom={direction}
@@ -129,50 +168,41 @@ export default function BeforeAfterCarousel({
           animate="center"
           exit="exit"
           transition={{ duration: 0.4, ease: EASE_OUT }}
-          className="absolute inset-0"
+          layout
+          className="flex flex-col pb-6"
         >
-          {slide.images.map((image) => (
-            <div
-              key={image.src}
-              className="absolute left-1/2 -translate-x-1/2 overflow-hidden rounded-lg border border-border shadow-[0px_0px_28px_4px_rgba(0,0,0,0.04)]"
+          <div className="flex items-center gap-4 px-6 pb-4 pt-6">
+            <span
+              className="shrink-0 rounded-[4px] border px-3 py-[6px] font-mono text-[12px] font-medium uppercase leading-4"
               style={{
-                top: image.top,
-                width: `min(${image.width}px, calc(100% - 48px))`,
-                aspectRatio: `${image.width} / ${image.height}`,
+                backgroundColor: slide.badgeBg,
+                color: slide.badgeColor,
+                borderColor: slide.badgeBorder,
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
-              {image.redactions?.map((r) => (
-                <div
-                  key={`${r.left}-${r.top ?? r.bottom}`}
-                  className="absolute bg-white/20 backdrop-blur-[7.5px]"
-                  style={{
-                    left: r.left,
-                    top: r.top,
-                    bottom: r.bottom,
-                    width: r.width,
-                    height: r.height,
-                    borderRadius: r.borderRadius,
-                  }}
-                />
-              ))}
-            </div>
-          ))}
+              {slide.badgeLabel}
+            </span>
+            <p className="min-w-0 text-[14px] font-medium leading-[160%] text-[#333333]" style={fontStyle.figtree}>
+              {slide.title}
+            </p>
+          </div>
+          <div className="px-6">
+            <ImageGroup images={slide.images} />
+          </div>
+          {slide.caption && (
+            <p
+              className="px-6 pt-6 text-center text-[12px] font-normal leading-[187%] text-[#555555]"
+              style={fontStyle.figtree}
+            >
+              {slide.caption}
+            </p>
+          )}
         </motion.div>
       </AnimatePresence>
-      {slide.caption && (
-        <p
-          className="absolute left-0 right-0 text-center text-[12px] font-normal leading-[187%] text-[#555555]"
-          style={{ ...fontStyle.figtree, top: "488px" }}
-        >
-          {slide.caption}
-        </p>
-      )}
       {index > 0 && <ArrowButton direction="left" onClick={() => goTo(index - 1)} />}
       {index < slides.length - 1 && (
         <ArrowButton direction="right" onClick={() => goTo(index + 1)} />
       )}
-    </div>
+    </motion.div>
   );
 }

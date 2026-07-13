@@ -90,39 +90,37 @@ function DesignApproachImages() {
 const IMAGE_FRAME_CANVAS_WIDTH = 768;
 
 function ImageFrame({
-  heightClass,
   src,
   alt,
   width,
   height,
-  top,
   left,
 }: {
-  heightClass: string;
   src: string;
   alt: string;
   /** Natural design width/height in px, on the 768px reference canvas — scales down responsively. */
   width: number;
   height: number;
-  /** Literal CSS top offset. Ignored (image is centered vertically) when `left` is omitted. */
-  top?: string;
   /** Natural design left offset in px, on the 768px canvas. Omit to center the image instead. */
   left?: number;
 }) {
   const widthPercent = `${(width / IMAGE_FRAME_CANVAS_WIDTH) * 100}%`;
-  const positionStyle: React.CSSProperties =
+  const leftStyle: React.CSSProperties =
     left === undefined
-      ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
-      : { top, left: `${(left / IMAGE_FRAME_CANVAS_WIDTH) * 100}%` };
+      ? { left: "50%", transform: "translateX(-50%)" }
+      : { left: `${(left / IMAGE_FRAME_CANVAS_WIDTH) * 100}%` };
 
   return (
-    <div className={`relative w-full overflow-hidden rounded-[24px] bg-[#F5F5F5] ${heightClass}`}>
+    <div
+      className="relative w-full overflow-hidden rounded-[24px] bg-[#F5F5F5]"
+      style={{ aspectRatio: `${IMAGE_FRAME_CANVAS_WIDTH} / ${height}` }}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
         alt={alt}
-        className="absolute max-w-none rounded-lg"
-        style={{ width: widthPercent, aspectRatio: `${width} / ${height}`, ...positionStyle }}
+        className="absolute top-0 max-w-none rounded-lg"
+        style={{ width: widthPercent, aspectRatio: `${width} / ${height}`, ...leftStyle }}
       />
     </div>
   );
@@ -178,7 +176,6 @@ const BEFORE_SLIDES: BeforeAfterSlide[] = [
         alt: "iGPS class search portal in the Indiana University enrollment system",
         width: 656,
         height: 372,
-        top: "92px",
       },
     ],
     caption: "Limited and scattered information",
@@ -195,7 +192,6 @@ const BEFORE_SLIDES: BeforeAfterSlide[] = [
         alt: "Indiana University degree requirements page showing major and degree tabs",
         width: 654,
         height: 372,
-        top: "92px",
       },
     ],
     caption: "Students had to have multiple tabs open for processing information.",
@@ -213,14 +209,14 @@ const BEFORE_SLIDES: BeforeAfterSlide[] = [
         alt: "Reddit thread discussing course difficulty",
         width: 550,
         height: 184,
-        top: "92px",
+        top: 92,
       },
       {
         src: "/new-salesforce/Reddit%202.png",
         alt: "Reddit thread with replies debating a course recommendation",
         width: 654,
         height: 258,
-        top: "206px",
+        top: 206,
       },
     ],
     caption:
@@ -238,7 +234,6 @@ const BEFORE_SLIDES: BeforeAfterSlide[] = [
         alt: "RateMyProfessor page showing a professor's overall rating and rating distribution",
         width: 654,
         height: 372,
-        top: "92px",
         redactions: [
           { left: "1.07%", top: "24.73%", width: "36.39%", height: "23.66%" },
           { left: "0.15%", bottom: "0.27%", width: "37.31%", height: "9.68%", borderRadius: "0 0 0 7px" },
@@ -263,7 +258,6 @@ const AFTER_SLIDES: BeforeAfterSlide[] = [
         alt: "Galileo course details page showing overview, outcomes, majors and careers",
         width: 503,
         height: 372,
-        top: "92px",
       },
     ],
   },
@@ -280,7 +274,6 @@ const AFTER_SLIDES: BeforeAfterSlide[] = [
         alt: "Galileo peer insights panel showing course ratings and professor ratings",
         width: 654,
         height: 283,
-        top: "calc(50% - 283px / 2 + 28.5px)",
       },
     ],
   },
@@ -296,7 +289,6 @@ const AFTER_SLIDES: BeforeAfterSlide[] = [
         alt: "Galileo academic trajectory overview showing emerging academic interests and where paths could lead",
         width: 654,
         height: 289,
-        top: "calc(50% - 289px / 2 + 28.5px)",
       },
     ],
   },
@@ -312,7 +304,6 @@ const AFTER_SLIDES: BeforeAfterSlide[] = [
         alt: "Galileo academic progress shown across four lenses, by course themes",
         width: 654,
         height: 290,
-        top: "calc(50% - 290px / 2 + 28.5px)",
       },
     ],
   },
@@ -442,7 +433,7 @@ export default function SalesforcePage() {
         </div>
         <div className="flex flex-col gap-16">
           <div className="flex flex-col gap-6">
-            <BeforeAfterCarousel slides={BEFORE_SLIDES} heightClass="h-[535px]" />
+            <BeforeAfterCarousel slides={BEFORE_SLIDES} />
             <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
               {BEFORE_INSIGHTS.map((item) => (
                 <InsightItem key={item.label} {...item} />
@@ -450,7 +441,7 @@ export default function SalesforcePage() {
             </div>
           </div>
           <div className="flex flex-col gap-6">
-            <BeforeAfterCarousel slides={AFTER_SLIDES} heightClass="h-[504px]" />
+            <BeforeAfterCarousel slides={AFTER_SLIDES} />
             <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
               {AFTER_INSIGHTS.map((item) => (
                 <InsightItem key={item.label} {...item} />
@@ -518,13 +509,11 @@ export default function SalesforcePage() {
               body="I showed what data informed each suggestion and refined the recommendation logic to balance both completed coursework and student interest."
             >
               <ImageFrame
-                heightClass="h-[501px]"
                 src="/new-salesforce/Academic%20Trajectory.png"
                 alt="Galileo Academic Trajectory dashboard"
                 width={867}
                 height={561}
                 left={-115}
-                top="16px"
               />
             </FinalSolutionBlock>
             <FinalSolutionBlock
@@ -538,13 +527,11 @@ export default function SalesforcePage() {
               }
             >
               <ImageFrame
-                heightClass="h-[501px]"
                 src="/new-salesforce/Academic%20Trajectory-%20By%20Course%20Themes.png"
                 alt="Galileo Academic Progress by course themes"
                 width={854}
                 height={552}
                 left={-102}
-                top="16px"
               />
             </FinalSolutionBlock>
           </div>
@@ -590,7 +577,6 @@ export default function SalesforcePage() {
               body="Connecting Galileo to iGPS turned planning and registration into a single continuous experience."
             >
               <ImageFrame
-                heightClass="h-[446px]"
                 src="/new-salesforce/Plugin%20View%201.png"
                 alt="Galileo plugin embedded in the iGPS class search page"
                 width={736}
@@ -602,7 +588,6 @@ export default function SalesforcePage() {
               body="A live progress indicator eliminated uncertainty while schedules were added to the enrollment system."
             >
               <ImageFrame
-                heightClass="h-[430px]"
                 src="/new-salesforce/Plugin-%20add%20to%20cart.png"
                 alt="Galileo plugin showing a progress indicator while adding courses to the schedule"
                 width={736}
@@ -658,47 +643,50 @@ export default function SalesforcePage() {
             recommendation and explore different interaction patterns for this use case.
           </p>
         </div>
-        <div className="relative h-[665px] w-full overflow-hidden rounded-[24px] bg-[#F5F5F5]">
-          <p
-            className="absolute font-mono text-[14px] font-medium leading-[160%] text-[#333333]"
-            style={{ left: "40px", top: "40px" }}
-          >
-            Prescriptive
-          </p>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/new-salesforce/Majors.png"
-            alt="Your Emerging Academic Interests panel showing Early Childhood Education at 50% match and Occupational Therapy at 24% match"
-            className="absolute max-w-none"
-            style={{ width: "94.79%", aspectRatio: "728 / 179", left: "5.21%", top: "87px" }}
-          />
-          <p
-            className="absolute left-1/2 -translate-x-1/2 text-center text-[12px] font-normal leading-[187%] text-[#555555]"
-            style={{ ...fontStyle.figtree, width: "min(637px, calc(100% - 48px))", top: "282px" }}
-          >
-            A percentage next to a major reads like an answer, even with a tooltip sitting right
-            next to it explaining how it got there.
-          </p>
-          <p
-            className="absolute font-mono text-[14px] font-medium leading-[160%] text-[#333333]"
-            style={{ left: "40px", top: "353px" }}
-          >
-            Assistive
-          </p>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/new-salesforce/Careers.png"
-            alt="Where these paths could lead panel showing Early Education Instructor linked to Education and Occupational Therapist linked to Occupational Therapy"
-            className="absolute max-w-none"
-            style={{ width: "94.79%", aspectRatio: "728 / 179", left: "5.21%", top: "400px" }}
-          />
-          <p
-            className="absolute left-1/2 -translate-x-1/2 text-center text-[12px] font-normal leading-[140%] text-[#555555]"
-            style={{ ...fontStyle.figtree, width: "min(501px, calc(100% - 48px))", top: "591px" }}
-          >
-            This pattern already existed a few screens over. Four options with equal weight given
-            to each and tracing back to a specific interest instead of ranked against the others.
-          </p>
+        <div className="flex w-full flex-col gap-10 rounded-[24px] bg-[#F5F5F5] p-10">
+          <div className="flex flex-col gap-6">
+            <p className="font-mono text-[14px] font-medium leading-[160%] text-[#333333]">
+              Prescriptive
+            </p>
+            <div className="flex flex-col gap-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/new-salesforce/Majors.png"
+                alt="Your Emerging Academic Interests panel showing Early Childhood Education at 50% match and Occupational Therapy at 24% match"
+                className="w-full rounded-lg"
+                style={{ aspectRatio: "728 / 179" }}
+              />
+              <p
+                className="text-center text-[12px] font-normal leading-[187%] text-[#555555]"
+                style={fontStyle.figtree}
+              >
+                A percentage next to a major reads like an answer, even with a tooltip sitting
+                right next to it explaining how it got there.
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-6">
+            <p className="font-mono text-[14px] font-medium leading-[160%] text-[#333333]">
+              Assistive
+            </p>
+            <div className="flex flex-col gap-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/new-salesforce/Careers.png"
+                alt="Where these paths could lead panel showing Early Education Instructor linked to Education and Occupational Therapist linked to Occupational Therapy"
+                className="w-full rounded-lg"
+                style={{ aspectRatio: "728 / 179" }}
+              />
+              <p
+                className="text-center text-[12px] font-normal leading-[140%] text-[#555555]"
+                style={fontStyle.figtree}
+              >
+                This pattern already existed a few screens over. Four options with equal weight
+                given to each and tracing back to a specific interest instead of ranked against
+                the others.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </CaseStudyLayout>

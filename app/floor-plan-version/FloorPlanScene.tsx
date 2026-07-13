@@ -1,5 +1,9 @@
+import Link from "next/link";
 import "./floor-plan-tilt.css";
 import { CreativeLicenseCard } from "./CreativeLicenseCard";
+import { FloorPlanMailbox } from "./FloorPlanMailbox";
+import { FloorPlanTooltipContent } from "./FloorPlanTooltipContent";
+import { Tooltip, TooltipProvider, TooltipTrigger } from "@/app/components/animate-ui/tooltip";
 
 const ASSET = (name: string) => `/new-homepage-plan/${encodeURIComponent(name)}`;
 const WALL_ASSET = (name: string) => `/new-homepage-plan/Walls/${encodeURIComponent(name)}`;
@@ -12,7 +16,7 @@ export { ROOT_W, ROOT_H };
 
 const HOUSE_W = 1059;
 const HOUSE_H = 1090;
-const HOUSE_LEFT = ROOT_W / 2 - 28.5 - HOUSE_W / 2;
+const HOUSE_LEFT = (ROOT_W - HOUSE_W) / 2;
 const HOUSE_TOP = 27;
 
 type Rect = {
@@ -96,6 +100,7 @@ const FRAMES: Rect[] = [
 
 export function FloorPlanScene() {
   return (
+    <TooltipProvider openDelay={150} closeDelay={150}>
     <div className="relative" style={{ width: ROOT_W, height: ROOT_H }}>
       <div className="absolute left-0 top-0 h-[1117px] w-[1728px] bg-[#bfb74c]" />
 
@@ -104,34 +109,70 @@ export function FloorPlanScene() {
         style={{ left: HOUSE_LEFT, top: HOUSE_TOP, width: HOUSE_W, height: HOUSE_H }}
       >
         {/* Tars room */}
-        <div className="absolute left-[65px] top-[65px] h-[246px] w-[234px] bg-[rgba(129,78,168,0.3)]" />
-        <img
-          src={ASSET("Tars Image Asset.png")}
-          alt="Tars"
-          data-fp-key="tars"
-          className="fp-tilt absolute object-contain"
-          style={{ left: 76.5, top: 70.72, width: 214.5, height: 217.775 }}
-        />
+        <Tooltip side="top" sideOffset={8}>
+          <TooltipTrigger asChild>
+            <Link
+              href="/tars-debug-mode"
+              aria-label="View Tars case study"
+              className="absolute block cursor-hover-pointer"
+              style={{ left: 65, top: 65, width: 234, height: 246 }}
+            >
+              <div className="absolute inset-0 bg-[rgba(129,78,168,0.3)]" />
+              <img
+                src={ASSET("Tars Image Asset.png")}
+                alt="Tars"
+                data-fp-key="tars"
+                className="fp-tilt absolute object-contain"
+                style={{ left: 11.5, top: 5.72, width: 214.5, height: 217.775 }}
+              />
+            </Link>
+          </TooltipTrigger>
+          <FloorPlanTooltipContent>Tars case study</FloorPlanTooltipContent>
+        </Tooltip>
 
         {/* Rocket Mortgage room */}
-        <div className="absolute left-[760px] top-[65px] h-[356px] w-[232px] bg-[rgba(223,76,80,0.3)]" />
-        <img
-          src={ASSET("Rocket Mortgage Image Asset.png")}
-          alt="Rocket Mortgage"
-          data-fp-key="rocket-mortgage"
-          className="fp-tilt absolute object-contain"
-          style={{ left: 753, top: 66.3, width: 241.125, height: 351.922 }}
-        />
+        <Tooltip side="top" sideOffset={8}>
+          <TooltipTrigger asChild>
+            <Link
+              href="/rocket-mortgage"
+              aria-label="View Rocket Mortgage case study"
+              className="absolute block cursor-hover-pointer"
+              style={{ left: 760, top: 65, width: 232, height: 356 }}
+            >
+              <div className="absolute inset-0 bg-[rgba(223,76,80,0.3)]" />
+              <img
+                src={ASSET("Rocket Mortgage Image Asset.png")}
+                alt="Rocket Mortgage"
+                data-fp-key="rocket-mortgage"
+                className="fp-tilt absolute object-contain"
+                style={{ left: -7, top: 1.3, width: 241.125, height: 351.922 }}
+              />
+            </Link>
+          </TooltipTrigger>
+          <FloorPlanTooltipContent>Rocket Mortgage case study</FloorPlanTooltipContent>
+        </Tooltip>
 
         {/* Salesforce room */}
-        <div className="absolute left-[65px] top-[748px] h-[243px] w-[234px] bg-[rgba(39,169,213,0.3)]" />
-        <img
-          src={ASSET("Salesforce Image Asset.png")}
-          alt="Salesforce"
-          data-fp-key="salesforce"
-          className="fp-tilt absolute object-contain"
-          style={{ left: 78, top: 761, width: 228.503, height: 218.249 }}
-        />
+        <Tooltip side="top" sideOffset={8}>
+          <TooltipTrigger asChild>
+            <Link
+              href="/salesforce"
+              aria-label="View Salesforce case study"
+              className="absolute block cursor-hover-pointer"
+              style={{ left: 65, top: 748, width: 234, height: 243 }}
+            >
+              <div className="absolute inset-0 bg-[rgba(39,169,213,0.3)]" />
+              <img
+                src={ASSET("Salesforce Image Asset.png")}
+                alt="Salesforce"
+                data-fp-key="salesforce"
+                className="fp-tilt absolute object-contain"
+                style={{ left: 13, top: 13, width: 228.503, height: 218.249 }}
+              />
+            </Link>
+          </TooltipTrigger>
+          <FloorPlanTooltipContent>Salesforce case study</FloorPlanTooltipContent>
+        </Tooltip>
 
         {/* Playground / Gallery of Experiments */}
         <div className="absolute left-[313px] top-[139px] h-[159px] w-[433px] bg-[rgba(158,151,63,0.2)]" />
@@ -179,12 +220,23 @@ export function FloorPlanScene() {
         ))}
 
         {/* Under construction room */}
-        <img
-          src={ASSET("Under Construction Tape.png")}
-          alt="Under construction"
-          className="absolute size-[232px] opacity-50"
-          style={{ left: 760, top: 762 }}
-        />
+        <Tooltip side="top" sideOffset={8}>
+          <TooltipTrigger asChild>
+            <div
+              tabIndex={0}
+              aria-label="Project under construction"
+              className="absolute size-[232px]"
+              style={{ left: 760, top: 762 }}
+            >
+              <img
+                src={ASSET("Under Construction Tape.png")}
+                alt=""
+                className="absolute inset-0 size-full opacity-50"
+              />
+            </div>
+          </TooltipTrigger>
+          <FloorPlanTooltipContent>Project under construction</FloorPlanTooltipContent>
+        </Tooltip>
 
         {/* Windows */}
         {WINDOWS.map((w) => (
@@ -212,13 +264,7 @@ export function FloorPlanScene() {
         />
 
         {/* Foyer */}
-        <img
-          src={ASSET("Mailbox.png")}
-          alt=""
-          data-fp-key="mailbox"
-          className="fp-tilt absolute object-contain"
-          style={{ left: 671, top: 797, width: 62.733, height: 173 }}
-        />
+        <FloorPlanMailbox style={{ left: 671, top: 797, width: 62.733, height: 173 }} />
         {/* Resume's white card + shadow are baked into the PNG — no extra border/clip needed. */}
         <img
           src={ASSET("Pandey_Priyamwada_Resume-1 1.png")}
@@ -234,27 +280,69 @@ export function FloorPlanScene() {
           }}
         />
         {/* LinkedIn icon's white border and tilt are already baked into the SVG — render at native size, no added transform. */}
-        <img
-          src={ASSET("LinkedIn Logo.svg")}
-          alt="LinkedIn"
-          data-fp-key="linkedin"
-          className="fp-tilt absolute"
-          style={{ left: 402.025, top: 797.025, width: 41, height: 41 }}
-        />
-        <img
-          src={ASSET("Twitter.svg")}
-          alt="X / Twitter"
-          data-fp-key="twitter"
-          className="fp-tilt absolute"
-          style={{ left: 336, top: 792, width: 36, height: 35.5 }}
-        />
-        <img
-          src={ASSET("GitHub.svg")}
-          alt="GitHub"
-          data-fp-key="github"
-          className="fp-tilt absolute"
-          style={{ left: 461, top: 748, width: 49.135, height: 49.135 }}
-        />
+        <Tooltip side="top" sideOffset={8}>
+          <TooltipTrigger asChild>
+            <a
+              href="https://www.linkedin.com/in/priyamwadapandey"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="absolute block cursor-hover-pointer"
+              style={{ left: 402.025, top: 797.025, width: 41, height: 41 }}
+            >
+              <img
+                src={ASSET("LinkedIn Logo.svg")}
+                alt="LinkedIn"
+                data-fp-key="linkedin"
+                className="fp-tilt absolute"
+                style={{ left: 0, top: 0, width: 41, height: 41 }}
+              />
+            </a>
+          </TooltipTrigger>
+          <FloorPlanTooltipContent>LinkedIn</FloorPlanTooltipContent>
+        </Tooltip>
+        <Tooltip side="top" sideOffset={8}>
+          <TooltipTrigger asChild>
+            <a
+              href="https://x.com/PriymwadaPandey"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X (Twitter)"
+              className="absolute block cursor-hover-pointer"
+              style={{ left: 336, top: 792, width: 36, height: 35.5 }}
+            >
+              <img
+                src={ASSET("Twitter.svg")}
+                alt="X / Twitter"
+                data-fp-key="twitter"
+                className="fp-tilt absolute"
+                style={{ left: 0, top: 0, width: 36, height: 35.5 }}
+              />
+            </a>
+          </TooltipTrigger>
+          <FloorPlanTooltipContent>X</FloorPlanTooltipContent>
+        </Tooltip>
+        <Tooltip side="top" sideOffset={8}>
+          <TooltipTrigger asChild>
+            <a
+              href="https://github.com/priyamwada15"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="absolute block cursor-hover-pointer"
+              style={{ left: 461, top: 748, width: 49.135, height: 49.135 }}
+            >
+              <img
+                src={ASSET("GitHub.svg")}
+                alt="GitHub"
+                data-fp-key="github"
+                className="fp-tilt absolute"
+                style={{ left: 0, top: 0, width: 49.135, height: 49.135 }}
+              />
+            </a>
+          </TooltipTrigger>
+          <FloorPlanTooltipContent>GitHub</FloorPlanTooltipContent>
+        </Tooltip>
         <img
           src={ASSET("Boombox.png")}
           alt=""
@@ -311,5 +399,6 @@ export function FloorPlanScene() {
         style={{ left: -44, top: 0, width: 311, height: 437 }}
       />
     </div>
+    </TooltipProvider>
   );
 }

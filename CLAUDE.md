@@ -65,3 +65,13 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+
+## Project-specific: worktree setup
+
+When creating a new git worktree for this repo, symlink `node_modules` from the main working tree instead of running `npm install`:
+
+```
+New-Item -ItemType SymbolicLink -Path "<worktree>\node_modules" -Target "C:\Users\mukta\OneDrive\Desktop\New Portfolio\node_modules"
+```
+
+(PowerShell; or `mklink /D` in cmd — needs admin or Developer Mode enabled). Do not symlink `.next` — each worktree needs its own build output, since it reflects whatever code is currently checked out on that branch.

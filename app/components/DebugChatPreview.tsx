@@ -111,7 +111,7 @@ const chipBase: React.CSSProperties = {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export function DebugChatPreview() {
+export function DebugChatPreview({ autoPlay = false }: { autoPlay?: boolean } = {}) {
   const [state, setState]                     = useState<DebugState>("idle");
   const [visibleCount, setVisibleCount]       = useState(0);
   const [sessionId, setSessionId]             = useState(0);
@@ -119,6 +119,11 @@ export function DebugChatPreview() {
   const [rewardsSelected, setRewardsSelected] = useState(false);
   const [hoveredControl, setHoveredControl]   = useState<"play" | "restart" | "stop" | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const hasAutoPlayedRef = useRef(false);
+  const wasPausedForVisibilityRef = useRef(false);
+  const stateRef = useRef(state);
+  stateRef.current = state;
 
   function getAudioCtx(): AudioContext | null {
     if (typeof window === "undefined") return null;
@@ -240,6 +245,38 @@ export function DebugChatPreview() {
   }
   function handleStop() { playTap(); setState("stopped"); }
 
+  const handlePlayRef = useRef(handlePlay);
+  handlePlayRef.current = handlePlay;
+  const handlePauseRef = useRef(handlePause);
+  handlePauseRef.current = handlePause;
+
+  // ── Autoplay on first view, then pause/resume as it scrolls off/on screen ──
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!autoPlay || !el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!hasAutoPlayedRef.current) {
+            hasAutoPlayedRef.current = true;
+            handlePlayRef.current();
+          } else if (wasPausedForVisibilityRef.current) {
+            wasPausedForVisibilityRef.current = false;
+            handlePlayRef.current();
+          }
+        } else if (stateRef.current === "playing") {
+          wasPausedForVisibilityRef.current = true;
+          handlePauseRef.current();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const isPlaying    = state === "playing";
   const showDot      = state !== "idle";
   const dotColor     = state === "error" ? "#EF4444" : state === "stopped" ? "#9CA3AF" : "#3B82F6";
@@ -261,6 +298,7 @@ export function DebugChatPreview() {
 
   return (
     <div
+      ref={rootRef}
       style={{
         width: 368, height: 760,
         background: "#FFFFFF", borderRadius: 12,
@@ -353,6 +391,7 @@ export function DebugChatPreview() {
 
         {/* DebugModeControls — 122×28 grouped pill */}
         <div
+          className="cursor-hover-pointer"
           style={{
             boxSizing: "border-box", display: "flex", flexDirection: "row",
             alignItems: "center", width: 122, height: 28,

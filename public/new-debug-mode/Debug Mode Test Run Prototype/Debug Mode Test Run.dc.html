@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #F1F1EF; }
+  a { color: #0068D6; }
+  a:hover { color: #004E9E; }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+  @keyframes dashflow { from { stroke-dashoffset: 28; } to { stroke-dashoffset: 0; } }
+</style>
+</helmet>
+<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;width:100%;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <div style="position:relative;width:980px;height:720px;border-radius:12px;overflow:hidden;background:#F8F8F6;box-shadow:inset 0 0 0 1px #E9EAEB, 0 30px 80px rgba(0,0,0,0.10);">
+    {{ canvasStage }}
+    {{ pillsRow }}
+    <div style="position:absolute;left:16px;bottom:16px;width:30px;display:flex;flex-direction:column;filter:drop-shadow(0px 0px 28px rgba(0,0,0,0.05));">
+      <div style="box-sizing:border-box;width:30px;height:30px;background:#fff;border:1px solid #D5D7DA;border-radius:8px 8px 0 0;margin-bottom:-1px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:relative;width:10px;height:10px;">
+          <div style="position:absolute;left:0;top:4.5px;width:10px;height:1px;background:#555;"></div>
+          <div style="position:absolute;left:4.5px;top:0;width:1px;height:10px;background:#555;"></div>
+        </div>
+      </div>
+      <div style="box-sizing:border-box;width:30px;height:30px;background:#fff;border:1px solid #D5D7DA;margin-bottom:-1px;display:flex;align-items:center;justify-content:center;">
+        <div style="width:10px;height:1px;background:#555;"></div>
+      </div>
+      <div style="box-sizing:border-box;width:30px;height:30px;background:#fff;border:1px solid #D5D7DA;margin-bottom:-1px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:relative;width:10px;height:10px;">
+          <div style="position:absolute;left:0;top:0;width:3px;height:3px;border-top:1px solid #555;border-left:1px solid #555;"></div>
+          <div style="position:absolute;right:0;top:0;width:3px;height:3px;border-top:1px solid #555;border-right:1px solid #555;"></div>
+          <div style="position:absolute;left:0;bottom:0;width:3px;height:3px;border-bottom:1px solid #555;border-left:1px solid #555;"></div>
+          <div style="position:absolute;right:0;bottom:0;width:3px;height:3px;border-bottom:1px solid #555;border-right:1px solid #555;"></div>
+        </div>
+      </div>
+      <div style="box-sizing:border-box;width:30px;height:30px;background:#fff;border:1px solid #D5D7DA;border-radius:0 0 8px 8px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:relative;width:10px;height:10px;">
+          <div style="position:absolute;left:3px;top:4px;width:6px;height:5px;border:1px solid #555;border-radius:1px;box-sizing:border-box;"></div>
+          <div style="position:absolute;left:3.5px;top:0.5px;width:5px;height:4.5px;border:1px solid #555;border-bottom:none;border-radius:3px 3px 0 0;box-sizing:border-box;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const NODE_W = 132, NODE_H = 92;
+const CANVAS_W = 2150, CANVAS_H = 1120;
+const VIEW_W = 980, VIEW_H = 720;
+const FOCUS_SCALE = 2.7;
+const OVERVIEW_SCALE = Math.min(VIEW_W / CANVAS_W, VIEW_H / CANVAS_H) * 0.94;
+
+const NODES = [
+  { id: '113', label: 'Greeting Node', x: 860, y: 40, kind: 'pass' },
+  { id: '114', label: 'Preferences', x: 820, y: 200, kind: 'pass' },
+  { id: '115', label: 'Credit Limit Increase', x: 560, y: 260, kind: 'pass' },
+  { id: '122', label: 'Add-ons', x: 1060, y: 200, kind: 'pass' },
+  { id: '124', label: 'Extensions', x: 1020, y: 400, kind: 'error' },
+  { id: '117', label: 'Rewards Card', x: 500, y: 440, kind: 'error' },
+  { id: '112', label: 'Options', x: 1080, y: 560, kind: 'pass' },
+  { id: '116', label: 'Parameters', x: 1320, y: 520, kind: 'pass' },
+  { id: '118', label: 'Features', x: 200, y: 600, kind: 'pass' },
+  { id: '119', label: 'Controls', x: 500, y: 600, kind: 'pass' },
+  { id: '120', label: 'Tools', x: 340, y: 760, kind: 'pass' },
+  { id: '128', label: 'Dashboards', x: 1300, y: 300, kind: 'pass' },
+  { id: '126', label: 'APIs', x: 1280, y: 460, kind: 'error' },
+  { id: '127', label: 'Widgets', x: 1560, y: 400, kind: 'pass' },
+  { id: '129', label: 'Reports', x: 1580, y: 200, kind: 'pass' },
+  { id: '130', label: 'Analytics', x: 1820, y: 200, kind: 'error' },
+  { id: '131', label: 'Insights', x: 1820, y: 440, kind: 'pass' },
+  { id: '132', label: 'Records', x: 1900, y: 580, kind: 'pass' },
+  { id: '133', label: 'Logs', x: 1800, y: 700, kind: 'error' },
+  { id: '134', label: 'History', x: 1580, y: 760, kind: 'pass' },
+  { id: '152', label: 'Meetings', x: 1560, y: 900, kind: 'pass' },
+  { id: '153', label: 'Feedback', x: 1900, y: 840, kind: 'pass' },
+  { id: '154', label: 'Reviews', x: 1300, y: 600, kind: 'pass' },
+  { id: '135', label: 'Statements', x: 40, y: 200, kind: 'pass' },
+  { id: '136', label: 'Alerts', x: 40, y: 340, kind: 'pass' },
+  { id: '137', label: 'Autopay', x: 40, y: 480, kind: 'pass' },
+  { id: '138', label: 'Disputes', x: 60, y: 900, kind: 'pass' },
+  { id: '139', label: 'Travel Notice', x: 260, y: 40, kind: 'pass' },
+  { id: '140', label: 'Fraud Check', x: 480, y: 40, kind: 'pass' },
+  { id: '141', label: 'Card Design', x: 620, y: 900, kind: 'pass' },
+  { id: '142', label: 'PIN Reset', x: 820, y: 900, kind: 'pass' },
+  { id: '143', label: 'Referrals', x: 1040, y: 40, kind: 'pass' },
+  { id: '144', label: 'Promotions', x: 1300, y: 40, kind: 'pass' },
+  { id: '145', label: 'Upgrade Tier', x: 1560, y: 40, kind: 'pass' },
+  { id: '146', label: 'Billing FAQ', x: 1300, y: 780, kind: 'pass' },
+  { id: '147', label: 'Contact Us', x: 1040, y: 780, kind: 'pass' },
+  { id: '148', label: 'Live Agent', x: 1040, y: 940, kind: 'pass' },
+  { id: '149', label: 'Feedback Loop', x: 1780, y: 400, kind: 'pass' },
+  { id: '150', label: 'Escalation', x: 1780, y: 540, kind: 'pass' },
+  { id: '151', label: 'Session End', x: 1560, y: 900, kind: 'pass' },
+  { id: '155', label: 'Language', x: 260, y: 200, kind: 'pass' },
+  { id: '156', label: 'Notifications', x: 260, y: 900, kind: 'pass' },
+  { id: '157', label: 'Security', x: 1560, y: 700, kind: 'pass' },
+];
+
+const EDGES = [
+  ['113','114'], ['113','115'], ['114','115'], ['114','122'],
+  ['115','117'], ['115','112'],
+  ['117','118'], ['117','119'],
+  ['119','120'],
+  ['122','124'], ['122','128'],
+  ['128','126'], ['128','127'], ['128','154'],
+  ['127','129'], ['129','130'], ['130','131'], ['131','132'], ['132','133'],
+  ['133','134'], ['133','153'], ['134','152'],
+  ['112','116'],
+  ['139','113'], ['140','115'], ['135','139'], ['136','135'], ['137','136'],
+  ['118','138'], ['120','141'], ['119','142'], ['142','148'],
+  ['143','122'], ['144','143'], ['145','144'], ['128','149'], ['149','150'],
+  ['154','146'], ['146','147'], ['147','148'], ['150','157'], ['157','151'],
+  ['113','155'], ['138','156'], ['133','150'],
+];
+
+const STEPS = [
+  { key: 'overview0', duration: 2200 },
+  { key: 'focus113', duration: 2200 },
+  { key: 'focus115', duration: 2000 },
+  { key: 'focus117', duration: 1800 },
+  { key: 'focus118', duration: 1600 },
+  { key: 'focus119', duration: 1600 },
+  { key: 'montage', duration: 2600 },
+  { key: 'completeHold', duration: 3000 },
+  { key: 'reset', duration: 1300 },
+];
+
+const TAB_W = 8.5, TAB_GAP = 3.5;
+
+function outX(nodeId, edge) {
+  const node = byId[nodeId];
+  const siblings = EDGES.filter(([a]) => a === nodeId);
+  const i = siblings.findIndex(([sa, sb]) => sa === edge[0] && sb === edge[1]);
+  const count = Math.max(1, siblings.length);
+  const totalW = TAB_W * count + TAB_GAP * (count - 1);
+  const left = (NODE_W - totalW) / 2;
+  return node.x + left + i * (TAB_W + TAB_GAP) + TAB_W / 2;
+}
+
+function elbowPath(edge) {
+  const [aId, bId] = edge;
+  const a = byId[aId], b = byId[bId];
+  const x1 = outX(aId, edge), y1 = a.y + NODE_H;
+  const x2 = b.x + NODE_W / 2, y2 = b.y;
+  const midY = (y1 + y2) / 2;
+  return `M ${x1} ${y1} L ${x1} ${midY} L ${x2} ${midY} L ${x2} ${y2}`;
+}
+
+const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
+
+class Component extends DCLogic {
+  getInitialState() {
+    return {
+      nodeStatus: Object.fromEntries(NODES.map(n => [n.id, 'untested'])),
+      testedCount: 0,
+      errorCount: 0,
+      focusNodeId: null,
+      pillPhase: 'inactive',
+      pillErrorVisible: false,
+      flowEdge: null,
+      cameraDuration: 900,
+      fading: false,
+      errorPop: false,
+    };
+  }
+
+  state = this.getInitialState();
+
+  componentDidMount() {
+    this.timeouts = [];
+    this.scheduleNext(0);
+  }
+
+  componentWillUnmount() {
+    (this.timeouts || []).forEach(clearTimeout);
+    if (this.montageInterval) clearInterval(this.montageInterval);
+  }
+
+  componentDidUpdate() {
+    if (!this._prevPillErrorVisible && this.state.pillErrorVisible) {
+      this.setState({ errorPop: true });
+      this.timeouts.push(setTimeout(() => this.setState({ errorPop: false }), 460));
+    }
+    this._prevPillErrorVisible = this.state.pillErrorVisible;
+  }
+
+  runMontage(duration) {
+    const startTested = this.state.testedCount, startErr = this.state.errorCount;
+    const endTested = 233, endErr = 5;
+    const t0 = Date.now();
+    this.montageInterval = setInterval(() => {
+      const p = Math.min(1, (Date.now() - t0) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      this.setState({
+        testedCount: Math.round(startTested + (endTested - startTested) * eased),
+        errorCount: Math.round(startErr + (endErr - startErr) * eased),
+      });
+      if (p >= 1) clearInterval(this.montageInterval);
+    }, 60);
+  }
+
+  applyStep(key) {
+    this.setState(prev => {
+      const ns = { ...prev.nodeStatus };
+      const settle = id => { if (ns[id] === 'active') ns[id] = 'passed'; };
+      switch (key) {
+        case 'overview0':
+          return { focusNodeId: null, cameraDuration: 900 };
+        case 'focus113':
+          ns['113'] = 'active';
+          return { nodeStatus: ns, focusNodeId: '113', testedCount: 1, pillPhase: 'running', cameraDuration: 1500, flowEdge: null };
+        case 'focus115':
+          settle('113'); ns['115'] = 'active';
+          return { nodeStatus: ns, focusNodeId: '115', testedCount: 2, cameraDuration: 1300, flowEdge: '113-115' };
+        case 'focus117':
+          settle('115'); ns['117'] = 'error';
+          return { nodeStatus: ns, focusNodeId: '117', testedCount: 3, errorCount: 1, pillErrorVisible: true, cameraDuration: 1100, flowEdge: '115-117' };
+        case 'focus118':
+          ns['118'] = 'active';
+          return { nodeStatus: ns, focusNodeId: '118', testedCount: 4, cameraDuration: 1000, flowEdge: '117-118' };
+        case 'focus119':
+          settle('118'); ns['119'] = 'active';
+          return { nodeStatus: ns, focusNodeId: '119', testedCount: 5, cameraDuration: 1000, flowEdge: '117-119' };
+        case 'montage': {
+          settle('119');
+          return { nodeStatus: ns, focusNodeId: null, cameraDuration: 2400, flowEdge: null };
+        }
+        case 'completeHold':
+          return { pillPhase: 'complete', testedCount: 233, errorCount: 5 };
+        default:
+          return null;
+      }
+    });
+  }
+
+  scheduleNext(i) {
+    const step = STEPS[i];
+    if (step.key === 'reset') {
+      this.setState({ fading: true });
+      this.timeouts.push(setTimeout(() => {
+        this.setState(this.getInitialState());
+        this.timeouts.push(setTimeout(() => {
+          this.timeouts.push(setTimeout(() => this.scheduleNext((i + 1) % STEPS.length), step.duration - 450));
+        }, 50));
+      }, 450));
+      return;
+    }
+    try {
+      this.applyStep(step.key);
+      if (step.key === 'montage') this.runMontage(step.duration - 300);
+    } catch (e) { console.error(e); }
+    this.timeouts.push(setTimeout(() => this.scheduleNext((i + 1) % STEPS.length), step.duration));
+  }
+
+  getCamera() {
+    const { focusNodeId } = this.state;
+    if (!focusNodeId) {
+      const scale = OVERVIEW_SCALE;
+      return { x: (VIEW_W - CANVAS_W * scale) / 2, y: (VIEW_H - CANVAS_H * scale) / 2, scale };
+    }
+    const node = byId[focusNodeId];
+    const scale = FOCUS_SCALE;
+    return { x: VIEW_W / 2 - (node.x + NODE_W / 2) * scale, y: VIEW_H / 2 - (node.y + NODE_H / 2) * scale, scale };
+  }
+
+  renderNode(n, idx) {
+    const status = this.state.nodeStatus[n.id];
+    const tested = status !== 'untested';
+    let accent = '#DADADA', ring = 'none', opacity = 0.42, filter = 'grayscale(1)';
+    if (status === 'active') { accent = '#65BAFF'; ring = '0 0 18px 3px rgba(101,186,255,0.55)'; opacity = 1; filter = 'none'; }
+    else if (status === 'passed') { accent = '#65BAFF'; opacity = 1; filter = 'none'; }
+    else if (status === 'error') { accent = '#CB2A2F'; opacity = 1; filter = 'none'; }
+    const notchColor = tested ? accent : '#E7E7E7';
+    const branchCount = Math.max(1, EDGES.filter(([a]) => a === n.id).length);
+    const tabH = 9.4;
+    const tabsTotalW = TAB_W * branchCount + TAB_GAP * (branchCount - 1);
+    const tabsLeft = (NODE_W - tabsTotalW) / 2;
+    const tabs = Array.from({ length: branchCount }, (_, i) => i).map(i => React.createElement('div', {
+      key: i,
+      style: {
+        position: 'absolute', left: tabsLeft + i * (TAB_W + TAB_GAP), top: NODE_H - 1, width: TAB_W, height: tabH,
+        background: notchColor, borderRadius: '0 0 2px 2px', transition: 'background .5s ease',
+      },
+    }));
+    return React.createElement('div', {
+      key: n.id,
+      style: {
+        position: 'absolute', left: n.x, top: n.y, width: NODE_W, height: NODE_H,
+        opacity, filter, transition: 'opacity .5s ease, filter .5s ease',
+        transitionDelay: `${(idx % 9) * 0.045}s`,
+      },
+    },
+      React.createElement('div', { style: { position: 'absolute', left: (NODE_W - 9.4) / 2, top: -2, width: 9.4, height: 5.6, background: '#E7E7E7', borderRadius: '2px 2px 0 0' } }),
+      React.createElement('div', {
+        style: {
+          position: 'absolute', left: 0, top: 6.6, width: NODE_W, height: NODE_H - 6.6,
+          background: '#fff', borderRadius: 8, boxSizing: 'border-box',
+          border: `0.9px solid ${tested ? accent : '#EFEFEF'}`,
+          boxShadow: ring, transition: 'border-color .5s ease, box-shadow .45s ease',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6,
+        },
+      },
+        React.createElement('div', { style: { padding: '2px 11px', borderRadius: 4, background: '#F8F8F8' } },
+          React.createElement('span', { style: { fontSize: 10, fontWeight: 500, color: '#333333' } }, n.id)),
+        React.createElement('span', { style: { fontSize: 12.5, fontWeight: 400, color: '#373E43', textAlign: 'center', padding: '0 10px' } }, n.label)
+      ),
+      tabs
+    );
+  }
+
+  renderVals() {
+    const cam = this.getCamera();
+    const { fading, flowEdge, nodeStatus, pillPhase, pillErrorVisible, testedCount, errorCount, errorPop, cameraDuration } = this.state;
+
+    const edgesEl = React.createElement('svg', {
+      style: { position: 'absolute', left: 0, top: 0, width: CANVAS_W, height: CANVAS_H, overflow: 'visible' },
+    }, EDGES.map(([a, b], i) => {
+      const isFlow = flowEdge === `${a}-${b}`;
+      const active = nodeStatus[a] !== 'untested';
+      return React.createElement('path', {
+        key: i,
+        d: elbowPath([a, b]),
+        fill: 'none',
+        stroke: active ? '#7CC4FF' : '#DADADA',
+        strokeWidth: 2,
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+        strokeDasharray: isFlow ? '8 6' : undefined,
+        style: { transition: 'stroke .5s ease', animation: isFlow ? 'dashflow .5s linear infinite' : 'none' },
+      });
+    }));
+
+    const contentEl = React.createElement('div', {
+      style: {
+        position: 'absolute', left: 0, top: 0, width: CANVAS_W, height: CANVAS_H,
+        transform: `translate(${cam.x}px, ${cam.y}px) scale(${cam.scale})`,
+        transformOrigin: '0 0',
+        transition: `transform ${cameraDuration}ms cubic-bezier(0.22,0.9,0.28,1)`,
+      },
+    }, edgesEl, NODES.map((n, idx) => this.renderNode(n, idx)));
+
+    const canvasStage = React.createElement('div', { style: { position: 'absolute', inset: 0, overflow: 'hidden', opacity: fading ? 0 : 1, transition: 'opacity .4s ease' } },
+      React.createElement('div', { style: { position: 'absolute', inset: 0, backgroundColor: '#F8F8F6', backgroundImage: 'radial-gradient(circle, #DCDCDC 1px, transparent 1.6px)', backgroundSize: '22px 22px' } }),
+      contentEl
+    );
+
+    const pillStyle = (bg, border, extra) => ({ height: 30, borderRadius: 80, background: bg, boxShadow: `inset 0 0 0 1px ${border}`, display: 'flex', flexDirection: 'row', gap: 8, padding: '6px 12px', alignItems: 'center', whiteSpace: 'nowrap', boxSizing: 'border-box', transition: 'background-color .5s ease, box-shadow .5s ease', fontFamily: 'Inter, sans-serif', fontWeight: 500, fontSize: 12, ...extra });
+    const dotEl = (color, glow) => React.createElement('div', { style: { width: 8, height: 8, borderRadius: '50%', background: color, filter: `drop-shadow(0 0 8px ${glow})`, flexShrink: 0 } });
+
+    let mainPill;
+    if (pillPhase === 'inactive') {
+      mainPill = React.createElement('div', { style: pillStyle('#EBEBEB', 'rgba(23,23,23,0.1)') },
+        React.createElement('span', { style: { color: '#626262' } }, '0/253 Nodes Tested'));
+    } else if (pillPhase === 'running') {
+      mainPill = React.createElement('div', { style: pillStyle('#EBFAEB', 'rgba(101,182,118,0.2)') },
+        dotEl('#65B676', '#8FFF8A'),
+        React.createElement('span', { style: { color: '#297A3A' } }, `${testedCount}/253 Nodes Tested`));
+    } else {
+      mainPill = React.createElement('div', { style: pillStyle('#EBF5FF', 'rgba(101,182,118,0.2)') },
+        React.createElement('span', { style: { color: '#0068D6' } }, '233/253 Nodes Tested'));
+    }
+
+    let errorPill = null;
+    if (pillErrorVisible) {
+      if (pillPhase !== 'complete') {
+        errorPill = React.createElement('div', { style: pillStyle('#FFEBEB', 'rgba(203,42,47,0.2)', { animation: errorPop ? 'popIn .45s cubic-bezier(.34,1.56,.64,1)' : 'none' }) },
+          dotEl('#CB2A2F', '#EF7A7E'),
+          React.createElement('span', { style: { color: '#CB2A2F' } }, `${errorCount} ${errorCount === 1 ? 'Node' : 'Nodes'} with Error`));
+      } else {
+        errorPill = React.createElement('div', { style: pillStyle('#FFEBEB', 'rgba(203,42,47,0.2)') },
+          React.createElement('span', { style: { color: '#CB2A2F' } }, '5 Nodes with Error'));
+      }
+    }
+
+    const pillsRow = React.createElement('div', { style: { position: 'absolute', left: 16, top: 16, display: 'flex', flexDirection: 'row', gap: 8, alignItems: 'center', opacity: fading ? 0 : 1, transition: 'opacity .4s ease' } },
+      mainPill, errorPill);
+
+    return { canvasStage, pillsRow };
+  }
+}
+
+</script>
+</body>
+</html>

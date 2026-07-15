@@ -189,8 +189,11 @@ export default function CaseStudyLayout({
 
   // ── context + contribution block ──────────────────────────────────────
   const hasTwoCols = sidePanel !== undefined || contribution !== undefined;
+  const contextMarginClass = contextVisualBelow
+    ? (contextVisual ? "mb-10" : "mb-[9.5rem]")
+    : "mb-40";
   const contextBlock = (
-    <div id="context" className={`${hasTwoCols ? "grid md:grid-cols-2 gap-10 md:gap-16" : ""} ${contextVisualBelow ? "mb-10" : "mb-40"}`.trim()}>
+    <div id="context" className={`${hasTwoCols ? "grid md:grid-cols-2 gap-10 md:gap-16" : ""} ${contextMarginClass}`.trim()}>
       {sidePanel !== undefined ? (
         <>
           <div className="flex flex-col gap-8">

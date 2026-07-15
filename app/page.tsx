@@ -327,8 +327,8 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Helping internal teams find where enterprise agents break and cutting down manual
-                  work by 70%
+                  Designed an internal debugger for Tars&apos; CS team, cutting troubleshooting
+                  time by ~70%.
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
                   <span>#for developers</span>

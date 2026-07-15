@@ -61,7 +61,8 @@
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
       "Bash(cd \"C:\\\\Users\\\\mukta\\\\OneDrive\\\\Desktop\\\\New Portfolio\\\\public\\\\new-rocket-mortgage-case-page\" && rm -f *.png && ls -la)",
-      "Bash(cd \"C:\\\\Users\\\\mukta\\\\OneDrive\\\\Desktop\\\\New Portfolio\\\\public\\\\new-rocket-mortgage-case-page\" && rm -f *.webp && ls -la)"
+      "Bash(cd \"C:\\\\Users\\\\mukta\\\\OneDrive\\\\Desktop\\\\New Portfolio\\\\public\\\\new-rocket-mortgage-case-page\" && rm -f *.webp && ls -la)",
+      "Bash(grep -n \"id=\\\\\"background\\\\\"\\\\|{/\\\\* Background \\\\*/}\\\\|{/\\\\* Core Features \\\\*/}\" \"app/tars-debug-mode/page.tsx\")"
     ]
   }
 }

@@ -118,78 +118,11 @@ export function DebugChatPreview({ autoPlay = false }: { autoPlay?: boolean } = 
   const [hasError, setHasError]               = useState(false);
   const [rewardsSelected, setRewardsSelected] = useState(false);
   const [hoveredControl, setHoveredControl]   = useState<"play" | "restart" | "stop" | null>(null);
-  const audioCtxRef = useRef<AudioContext | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const hasAutoPlayedRef = useRef(false);
   const wasPausedForVisibilityRef = useRef(false);
   const stateRef = useRef(state);
   stateRef.current = state;
-
-  function getAudioCtx(): AudioContext | null {
-    if (typeof window === "undefined") return null;
-    if (!audioCtxRef.current) {
-      try {
-        const Ctor = window.AudioContext ?? (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-        if (!Ctor) return null;
-        audioCtxRef.current = new Ctor();
-      } catch { return null; }
-    }
-    if (audioCtxRef.current.state === "suspended") audioCtxRef.current.resume();
-    return audioCtxRef.current;
-  }
-
-  function playPop() {
-    const ctx = getAudioCtx();
-    if (!ctx) return;
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(300, now);
-    osc.frequency.exponentialRampToValueAtTime(80, now + 0.07);
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.28, now + 0.005);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
-    osc.start(now);
-    osc.stop(now + 0.09);
-  }
-
-  function playError() {
-    const ctx = getAudioCtx();
-    if (!ctx) return;
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(350, now);
-    osc.frequency.exponentialRampToValueAtTime(90, now + 0.15);
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.28, now + 0.008);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-    osc.start(now);
-    osc.stop(now + 0.18);
-  }
-
-  function playTap() {
-    const ctx = getAudioCtx();
-    if (!ctx) return;
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(520, now);
-    osc.frequency.exponentialRampToValueAtTime(260, now + 0.04);
-    gain.gain.setValueAtTime(0.12, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-    osc.start(now);
-    osc.stop(now + 0.06);
-  }
 
   // ── Sequencing ────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -212,21 +145,13 @@ export function DebugChatPreview({ autoPlay = false }: { autoPlay?: boolean } = 
       return () => clearTimeout(id);
     }
     if (visibleCount === 5) {
-      const id = setTimeout(() => { playError(); setHasError(true); setState("error"); }, ERROR_AFTER_LAST);
+      const id = setTimeout(() => { setHasError(true); setState("error"); }, ERROR_AFTER_LAST);
       return () => clearTimeout(id);
     }
   }, [state, visibleCount, sessionId, rewardsSelected]);
 
-  // ── Pop sound on each bubble appearance ───────────────────────────────────
-  useEffect(() => {
-    if (visibleCount === 0) return;
-    playPop();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visibleCount]);
-
   // ── Handlers ──────────────────────────────────────────────────────────────
   function handlePlay() {
-    playTap();
     if (state === "paused") { setState("playing"); return; }
     setVisibleCount(0);
     setHasError(false);
@@ -234,16 +159,15 @@ export function DebugChatPreview({ autoPlay = false }: { autoPlay?: boolean } = 
     setSessionId((s) => s + 1);
     setState("playing");
   }
-  function handlePause()   { playTap(); if (state === "playing") setState("paused"); }
+  function handlePause()   { if (state === "playing") setState("paused"); }
   function handleRestart() {
-    playTap();
     setVisibleCount(0);
     setHasError(false);
     setRewardsSelected(false);
     setSessionId((s) => s + 1);
     setState("playing");
   }
-  function handleStop() { playTap(); setState("stopped"); }
+  function handleStop() { setState("stopped"); }
 
   const handlePlayRef = useRef(handlePlay);
   handlePlayRef.current = handlePlay;

@@ -32,7 +32,7 @@ const tickerTextStyle = {
   color: "#333",
 } satisfies CSSProperties;
 
-function FloorPlanTile({ style }: { style: CSSProperties }) {
+function FloorPlanTile({ style, centerImage = false }: { style: CSSProperties; centerImage?: boolean }) {
   return (
     <a
       href="/floor-plan-version"
@@ -43,7 +43,14 @@ function FloorPlanTile({ style }: { style: CSSProperties }) {
       style={{ ...tileShellStyle, ...style, display: "block" }}
     >
       <span style={{ ...homeBentoTileLabelStyle, ...tileLabelPositionStyle }}>Floor Plan Version</span>
-      <div className="bento-tilt-outer" style={{ position: "absolute", left: "52px", top: "59px" }}>
+      <div
+        className="bento-tilt-outer"
+        style={
+          centerImage
+            ? { position: "absolute", left: "50%", top: "59px", transform: "translateX(-50%)" }
+            : { position: "absolute", left: "52px", top: "59px" }
+        }
+      >
         <div
           style={{
             width: "250.54px",
@@ -233,7 +240,7 @@ export function HomeV2WidgetBento({ data }: HomeV2WidgetBentoProps) {
 
       {/* <1280px: Floor Plan + Creative License only */}
       <div className="flex xl:hidden" style={{ gap: "16px", width: "784px" }}>
-        <FloorPlanTile style={{ flex: "1 0 0", height: "186px" }} />
+        <FloorPlanTile style={{ flex: "1 0 0", height: "186px" }} centerImage />
         <CreativeLicenseTile style={{ flex: "1 0 0", height: "186px" }} />
       </div>
     </div>

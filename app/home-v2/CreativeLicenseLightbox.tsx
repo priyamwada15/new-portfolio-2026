@@ -55,6 +55,19 @@ export function CreativeLicenseLightbox({ onClose }: { onClose: () => void }) {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
+  const handleTouchStart = () => { pausedRef.current = true; };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    const dx = (touch.clientX - window.innerWidth  / 2) / (window.innerWidth  / 2);
+    const dy = (touch.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+    mouseYRef.current =  dx * MOUSE_Y_RANGE;
+    mouseXRef.current = -dy * MOUSE_X_RANGE;
+  };
+
+  const handleTouchEnd = () => { pausedRef.current = false; };
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") handleClose(); };
     window.addEventListener("keydown", onKey);
@@ -75,6 +88,10 @@ export function CreativeLicenseLightbox({ onClose }: { onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
         onMouseEnter={() => { pausedRef.current = true; }}
         onMouseLeave={() => { pausedRef.current = false; }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
       >
         <div style={{ perspective: "1200px" }}>
           <div ref={rotatorRef} className="cl-lightbox-rotator">

@@ -12,6 +12,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Shared container radius — 24px everywhere, 12px on mobile. */
+:root {
+  --ds-radius-container: 24px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --ds-radius-container: 12px;
+  }
+}
+
 /* ── Base ────────────────────────────────────────────────── */
 body {
   background-color: var(--ds-surface-page);
@@ -144,7 +155,7 @@ body {
     flex-direction: column;
     gap: 3.5rem;
     min-height: auto !important;
-    padding-top: 5.75rem;
+    padding-top: 32px;
     padding-bottom: 6rem;
   }
 
@@ -174,7 +185,7 @@ body {
 
   .home-v2-intro-copy {
     width: 100% !important;
-    font-size: 16px !important;
+    font-size: 18px !important;
   }
 
   .home-v2-intro-copy > div {

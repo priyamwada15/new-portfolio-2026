@@ -87,7 +87,7 @@ function ProblemVisualCard({
   caption: string;
 }) {
   return (
-    <div className="relative h-[450px] w-full overflow-hidden rounded-[24px] bg-[#F5F5F5] md:w-[368px] md:shrink-0">
+    <div className="relative h-[450px] w-full overflow-hidden rounded-[var(--ds-radius-container)] bg-[#F5F5F5] md:w-[368px] md:shrink-0">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
@@ -115,7 +115,7 @@ function SolutionVisualCard({
   caption: string;
 }) {
   return (
-    <div className="relative h-[450px] w-full shrink-0 overflow-hidden rounded-[24px] bg-[#111111]">
+    <div className="relative h-[450px] w-full shrink-0 overflow-hidden rounded-[var(--ds-radius-container)] bg-[#111111]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
@@ -145,7 +145,7 @@ function TestimonialCard({
   linkedin: string;
 }) {
   return (
-    <div className="rm-testimonial-card flex min-w-0 flex-1 flex-col gap-6 rounded-[24px] bg-[#F5F5F5] p-10">
+    <div className="rm-testimonial-card flex min-w-0 flex-1 flex-col gap-6 rounded-[var(--ds-radius-container)] bg-[#F5F5F5] p-10">
       <p className="text-[16px] font-normal italic leading-[160%] text-[#555555]" style={fontStyle.figtree}>
         &ldquo;{quote}&rdquo;
       </p>
@@ -314,7 +314,7 @@ function ApproachCard({
   body: string;
 }) {
   return (
-    <div className="flex w-full flex-col justify-center gap-6 rounded-[24px] bg-[#F5F5F5] px-7 py-10 md:w-[352px]">
+    <div className="flex w-full flex-col justify-center gap-6 rounded-[var(--ds-radius-container)] bg-[#F5F5F5] px-7 py-10 md:w-[352px]">
       <div className="flex flex-col gap-3">
         <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={fontStyle.figtree}>
           {number}
@@ -560,7 +560,7 @@ function Blockers() {
           It scored high in usability testing, but the backend architecture needed to support it wasn&apos;t within the team&apos;s bandwidth that cycle. Building it would require multiple API integrations, not just within the Rocket Mortgage system but also Redfin&apos;s which has been acquired by Rocket Companies. It was an essential lesson between the simplicity of a feature design and the many pieces that had to fall into place in order to push it out the door.
         </p>
       </div>
-      <div className="flex flex-col items-center justify-center gap-8 rounded-[24px] bg-[#F5F5F5] px-10 pb-8 pt-10 md:flex-row md:gap-[58px]">
+      <div className="flex flex-col items-center justify-center gap-8 rounded-[var(--ds-radius-container)] bg-[#F5F5F5] px-10 pb-8 pt-10 md:flex-row md:gap-[58px]">
         <div className="flex flex-col items-center gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

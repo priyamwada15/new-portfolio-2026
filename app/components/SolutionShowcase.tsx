@@ -61,7 +61,7 @@ export default function SolutionShowcase({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-[24px] ${className ?? "w-full h-[80vh]"}`}
+      className={`relative overflow-hidden rounded-[var(--ds-radius-container)] ${className ?? "w-full h-[80vh]"}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

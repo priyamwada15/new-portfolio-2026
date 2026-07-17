@@ -14,7 +14,7 @@ type HomeV2WidgetBentoProps = {
 const tileShellStyle = {
   position: "relative",
   background: "var(--ds-surface-page)",
-  borderRadius: "24px",
+  borderRadius: "var(--ds-radius-container)",
   overflow: "hidden",
   flex: "none",
 } satisfies CSSProperties;

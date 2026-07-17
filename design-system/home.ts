@@ -2,7 +2,6 @@ import type { CSSProperties } from "react";
 import { fontStyle } from "./fonts";
 
 /** Desktop homepage (/) layout spacing — see app/page.tsx. */
-export const HOME_V2_TOP_PX = 72;
 export const HOME_V2_ROW_GAP_PX = 56;
 export const HOME_V2_FOOTER_SAFE_SPACE_PX = 96;
 

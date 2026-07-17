@@ -84,7 +84,7 @@ function PortraitWithCursorTooltip() {
   return (
     <>
       <figure
-        className="relative m-0 box-border h-[350px] w-full cursor-default overflow-hidden rounded-[24px] border-8 border-white transition-transform duration-500 ease-out will-change-transform motion-reduce:transition-none hover:[transform:perspective(900px)_rotateY(-5deg)_rotateX(3deg)_scale(1.015)] motion-reduce:hover:transform-none"
+        className="relative m-0 box-border h-[350px] w-full cursor-default overflow-hidden rounded-[var(--ds-radius-container)] border-8 border-white transition-transform duration-500 ease-out will-change-transform motion-reduce:transition-none hover:[transform:perspective(900px)_rotateY(-5deg)_rotateX(3deg)_scale(1.015)] motion-reduce:hover:transform-none"
         style={{ boxShadow: CARD_SHADOW }}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}

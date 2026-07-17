@@ -1,6 +1,5 @@
 import {
   HOME_V2_PAGE_BG,
-  HOME_V2_TOP_PX,
   HOME_V2_SECTION_GAP_PX,
   homeCardFooterFont,
   homeCardFooterTagsStyle,
@@ -85,9 +84,8 @@ export default async function HomeV2Page() {
         <HomeV2VideoProvider>
         {/* Align page content to nav inner container edges */}
         <div
-          className="home-v2-layout relative mx-auto flex w-[86%] max-w-[1008px] flex-col overflow-visible"
+          className="home-v2-layout relative mx-auto flex w-[86%] max-w-[1008px] flex-col overflow-visible pt-[32px] xl:pt-[72px]"
           style={{
-            paddingTop: `${HOME_V2_TOP_PX}px`,
             gap: `${HOME_V2_SECTION_GAP_PX}px`,
           }}
         >
@@ -116,10 +114,10 @@ export default async function HomeV2Page() {
                 ))}
               </div>
 
-            {/* Widget bento (56px below text) */}
+            {/* Widget bento (32px below text on mobile, 56px at xl+) */}
             <div
-              className="home-v2-intro-snippets"
-              style={{ marginTop: "56px", display: "flex", gap: "64px" }}
+              className="home-v2-intro-snippets mt-[32px] xl:mt-[56px]"
+              style={{ display: "flex", gap: "64px" }}
             >
               <HomeV2WidgetBento data={listeningData} />
             </div>
@@ -138,7 +136,7 @@ export default async function HomeV2Page() {
                 gap: "24px",
                 width: "350px",
                 background: "var(--ds-surface-page)",
-                borderRadius: "24px",
+                borderRadius: "var(--ds-radius-container)",
               }}
             >
               {/* Logos */}
@@ -216,7 +214,7 @@ export default async function HomeV2Page() {
                 gap: "24px",
                 width: "1008px",
                 background: "var(--ds-surface-page)",
-                borderRadius: "24px",
+                borderRadius: "var(--ds-radius-container)",
               }}
             >
               {/* Logo */}
@@ -287,7 +285,7 @@ export default async function HomeV2Page() {
                 gap: "24px",
                 width: "1008px",
                 background: "var(--ds-surface-page)",
-                borderRadius: "24px",
+                borderRadius: "var(--ds-radius-container)",
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -369,7 +367,7 @@ export default async function HomeV2Page() {
                 width: "594px",
                 height: "550px",
                 background: "var(--ds-surface-page)",
-                borderRadius: "24px",
+                borderRadius: "var(--ds-radius-container)",
                 flex: "none",
               }}
             >
@@ -428,7 +426,7 @@ export default async function HomeV2Page() {
                 width: "350px",
                 height: "550px",
                 background: "var(--ds-surface-page)",
-                borderRadius: "24px",
+                borderRadius: "var(--ds-radius-container)",
                 flex: "none",
               }}
             >
@@ -501,7 +499,7 @@ export default async function HomeV2Page() {
                 gap: "24px",
                 width: "350px",
                 background: "var(--ds-surface-page)",
-                borderRadius: "24px",
+                borderRadius: "var(--ds-radius-container)",
                 flex: "none",
               }}
             >
@@ -571,7 +569,7 @@ export default async function HomeV2Page() {
                   gap: "24px",
                   width: "594px",
                   background: "var(--ds-surface-page)",
-                  borderRadius: "24px",
+                  borderRadius: "var(--ds-radius-container)",
                   flex: "none",
                 }}
               >
@@ -618,7 +616,7 @@ export default async function HomeV2Page() {
                   gap: "24px",
                   width: "594px",
                   background: "var(--ds-surface-page)",
-                  borderRadius: "24px",
+                  borderRadius: "var(--ds-radius-container)",
                   flex: "none",
                 }}
               >

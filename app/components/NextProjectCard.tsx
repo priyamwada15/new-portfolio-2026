@@ -24,7 +24,7 @@ export default function NextProjectCard({
     <div className={`${CASE_STUDY_COLUMN_CLASS} mt-[88px]`}>
       <Link
         href={href}
-        className="block rounded-[24px] bg-white pb-10 pt-8 transition-opacity hover:opacity-90"
+        className="block rounded-[var(--ds-radius-container)] bg-white pb-10 pt-8 transition-opacity hover:opacity-90"
       >
         <p
           className="text-center text-[14px] font-semibold leading-[150%] text-[#555555]"

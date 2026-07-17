@@ -10,7 +10,7 @@ export function RocketMortgagePhoto() {
   return (
     <CursorFollowTooltip label="First day @Rocket">
       <div
-        className="relative z-0 -mr-10 h-[250px] w-[250px] shrink-0 -rotate-8 overflow-hidden rounded-[24px] border-8 border-white box-border"
+        className="relative z-0 -mr-10 h-[250px] w-[250px] shrink-0 -rotate-8 overflow-hidden rounded-[var(--ds-radius-container)] border-8 border-white box-border"
         style={{ boxShadow: PHOTO_CARD_SHADOW }}
       >
         <Image

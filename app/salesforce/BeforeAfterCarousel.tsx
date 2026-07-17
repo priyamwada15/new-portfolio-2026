@@ -157,7 +157,7 @@ export default function BeforeAfterCarousel({ slides }: { slides: BeforeAfterSli
   return (
     <motion.div
       layout
-      className="relative w-full overflow-hidden rounded-[24px] bg-surface-media"
+      className="relative w-full overflow-hidden rounded-[var(--ds-radius-container)] bg-surface-media"
     >
       <AnimatePresence initial={false} custom={direction} mode="popLayout">
         <motion.div

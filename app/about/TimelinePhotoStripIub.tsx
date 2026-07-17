@@ -25,7 +25,7 @@ function TimelinePhotoCard({
   const card = (
     <div
       className={cn(
-        "absolute box-border h-[250px] w-[250px] overflow-hidden rounded-[24px] border-8 border-white",
+        "absolute box-border h-[250px] w-[250px] overflow-hidden rounded-[var(--ds-radius-container)] border-8 border-white",
         rotate,
         className
       )}

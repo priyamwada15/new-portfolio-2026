@@ -18,7 +18,6 @@ export {
 } from "./typography";
 export { BREAKPOINTS } from "./breakpoints";
 export {
-  HOME_V2_TOP_PX,
   HOME_V2_ROW_GAP_PX,
   HOME_V2_FOOTER_SAFE_SPACE_PX,
   HOME_V2_SECTION_GAP_PX,

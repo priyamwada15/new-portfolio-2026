@@ -22,7 +22,7 @@ function ApproachCard({
   body: string;
 }) {
   return (
-    <div className="flex w-full flex-col justify-center gap-6 rounded-[24px] bg-[#F5F5F5] px-7 py-10 md:w-[352px]">
+    <div className="flex w-full flex-col justify-center gap-6 rounded-[var(--ds-radius-container)] bg-[#F5F5F5] px-7 py-10 md:w-[352px]">
       <div className="flex flex-col gap-3">
         <p className="text-[20px] font-semibold leading-[140%] text-[#333333]" style={fontStyle.figtree}>
           {number}
@@ -112,7 +112,7 @@ function ImageFrame({
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-[24px] bg-[#F5F5F5]"
+      className="relative w-full overflow-hidden rounded-[var(--ds-radius-container)] bg-[#F5F5F5]"
       style={{ aspectRatio: `${IMAGE_FRAME_CANVAS_WIDTH} / ${height}` }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -625,7 +625,7 @@ export default function SalesforcePage() {
         <img
           src="/new-salesforce/Illustration.png"
           alt="Diagram showing how Galileo's AI layers integrate: base integration, AI clusters, and AI sourcing and trust signals connecting every cluster, with human intervention running through all layers"
-          className="w-full rounded-[24px]"
+          className="w-full rounded-[var(--ds-radius-container)]"
         />
       </section>
 
@@ -643,7 +643,7 @@ export default function SalesforcePage() {
             recommendation and explore different interaction patterns for this use case.
           </p>
         </div>
-        <div className="flex w-full flex-col gap-10 rounded-[24px] bg-[#F5F5F5] p-10">
+        <div className="flex w-full flex-col gap-10 rounded-[var(--ds-radius-container)] bg-[#F5F5F5] p-10">
           <div className="flex flex-col gap-6">
             <p className="font-mono text-[14px] font-medium leading-[160%] text-[#333333]">
               Prescriptive

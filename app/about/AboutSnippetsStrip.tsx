@@ -36,7 +36,7 @@ function SnippetPhotoCard({
 
   const card = (
     <div
-      className="snippet-photo-card absolute box-border overflow-hidden rounded-[24px] border-8 border-white"
+      className="snippet-photo-card absolute box-border overflow-hidden rounded-[var(--ds-radius-container)] border-8 border-white"
       style={cardStyle}
     >
       <Image

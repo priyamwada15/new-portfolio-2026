@@ -76,7 +76,7 @@ function EvolutionCard({
 }) {
   return (
     <div
-      className="w-full md:flex-1 overflow-hidden flex flex-col gap-6 bg-surface-media rounded-[24px]"
+      className="w-full md:flex-1 overflow-hidden flex flex-col gap-6 bg-surface-media rounded-[var(--ds-radius-container)]"
       style={{ aspectRatio: "364 / 450", padding: "24px 24px 0" }}
     >
       <div className="flex flex-col gap-3">
@@ -206,7 +206,7 @@ export default function DebugModePage() {
 
           <div className="flex flex-col md:flex-row md:items-end gap-8">
             <div
-              className="w-full md:flex-1 overflow-hidden bg-surface-media rounded-[24px]"
+              className="w-full md:flex-1 overflow-hidden bg-surface-media rounded-[var(--ds-radius-container)]"
               style={{ aspectRatio: "364 / 450", padding: "24px 24px 0" }}
             >
               <ScaleToFit width={368} height={760}>
@@ -296,7 +296,7 @@ export default function DebugModePage() {
           <img
             src="/new-debug-mode/Before%20Gambit%20Canvas.png"
             alt="Tars gambit canvas with 500+ nodes before Debug Mode"
-            className="w-full rounded-[24px] border border-[#E8E8E8]"
+            className="w-full rounded-[var(--ds-radius-container)] border border-[#E8E8E8]"
             style={{ display: "block" }}
           />
 
@@ -333,7 +333,7 @@ export default function DebugModePage() {
                 500+ blue nodes created more visual noise than clarity.
               </p>
             </div>
-            <div className="w-full flex flex-col gap-6 bg-surface-media rounded-[24px] p-6">
+            <div className="w-full flex flex-col gap-6 bg-surface-media rounded-[var(--ds-radius-container)] p-6">
               <IterationBadge tone="iteration" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -365,7 +365,7 @@ export default function DebugModePage() {
                 </p>
               </div>
             </div>
-            <div className="w-full flex flex-col gap-6 bg-surface-media rounded-[24px] p-6">
+            <div className="w-full flex flex-col gap-6 bg-surface-media rounded-[var(--ds-radius-container)] p-6">
               <IterationBadge tone="shipped" />
               <div
                 className="w-full overflow-hidden rounded-[18px]"
@@ -481,7 +481,7 @@ export default function DebugModePage() {
           </div>
         </div>
 
-        <div className="w-full md:w-[364px] md:flex-none flex flex-col items-center gap-6 bg-surface-media rounded-[24px] p-6">
+        <div className="w-full md:w-[364px] md:flex-none flex flex-col items-center gap-6 bg-surface-media rounded-[var(--ds-radius-container)] p-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/new-debug-mode/ChatbotPreview%20Console%20Window.png"
@@ -527,7 +527,7 @@ export default function DebugModePage() {
               </p>
             </div>
             <div
-              className="w-full overflow-hidden rounded-[24px] border border-[#E9EAEB]"
+              className="w-full overflow-hidden rounded-[var(--ds-radius-container)] border border-[#E9EAEB]"
               style={{ aspectRatio: "768 / 604.85" }}
             >
               <VisibilityMount>

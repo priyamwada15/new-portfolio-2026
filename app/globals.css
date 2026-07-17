@@ -352,6 +352,15 @@ body {
   z-index: 10000;
 }
 
+/* Touch devices never fire the pointermove that positions the glyph, so it
+   would otherwise sit stuck at its unpositioned (0,0) default. */
+@media (hover: none), (pointer: coarse) {
+  .ascii-cursor-layer,
+  .asterisk-cursor-layer {
+    display: none;
+  }
+}
+
 .ascii-cursor__head-wrap,
 .asterisk-cursor__head-wrap {
   position: fixed;

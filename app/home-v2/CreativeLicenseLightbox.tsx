@@ -7,6 +7,9 @@ const AUTO_SPEED    = 0.22;
 const MOUSE_Y_RANGE = 100;
 const MOUSE_X_RANGE = 12;
 const EXIT_DURATION = 280;
+const DRAG_Y_FULL_DEG = 320; // rotateY covered by a full-viewport-width drag
+const DRAG_X_FULL_DEG = 60;  // rotateX covered by a full-viewport-height drag
+const DRAG_X_MAX      = 40;  // clamp so the card never tips past edge-on
 
 export function CreativeLicenseLightbox({ onClose }: { onClose: () => void }) {
   const rotatorRef = useRef<HTMLDivElement>(null);
@@ -16,6 +19,16 @@ export function CreativeLicenseLightbox({ onClose }: { onClose: () => void }) {
   const rafRef     = useRef<number | null>(null);
   const pausedRef  = useRef(false);
   const closingRef = useRef(false);
+
+  // Touch drag: rotation follows the finger 1:1 instead of snapping to an
+  // absolute screen-position offset, so a full drag can reach the back face.
+  const isDraggingRef   = useRef(false);
+  const dragStartXRef   = useRef(0);
+  const dragStartYRef   = useRef(0);
+  const dragBaseYRotRef = useRef(0);
+  const dragBaseXRotRef = useRef(0);
+  const touchYRef       = useRef(0);
+  const touchXRef       = useRef(0);
 
   const [isClosing, setIsClosing] = useState(false);
 
@@ -35,9 +48,13 @@ export function CreativeLicenseLightbox({ onClose }: { onClose: () => void }) {
     const el = rotatorRef.current;
     if (!el) return;
     const tick = () => {
-      if (!pausedRef.current) autoYRef.current += AUTO_SPEED;
-      const rotY = autoYRef.current + mouseYRef.current;
-      el.style.transform = `rotateX(${mouseXRef.current}deg) rotateY(${rotY}deg)`;
+      if (isDraggingRef.current) {
+        el.style.transform = `rotateX(${touchXRef.current}deg) rotateY(${touchYRef.current}deg)`;
+      } else {
+        if (!pausedRef.current) autoYRef.current += AUTO_SPEED;
+        const rotY = autoYRef.current + mouseYRef.current;
+        el.style.transform = `rotateX(${mouseXRef.current}deg) rotateY(${rotY}deg)`;
+      }
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
@@ -55,18 +72,40 @@ export function CreativeLicenseLightbox({ onClose }: { onClose: () => void }) {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
-  const handleTouchStart = () => { pausedRef.current = true; };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
+  const handleTouchStart = (e: React.TouchEvent) => {
     const touch = e.touches[0];
     if (!touch) return;
-    const dx = (touch.clientX - window.innerWidth  / 2) / (window.innerWidth  / 2);
-    const dy = (touch.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-    mouseYRef.current =  dx * MOUSE_Y_RANGE;
-    mouseXRef.current = -dy * MOUSE_X_RANGE;
+    pausedRef.current = true;
+    isDraggingRef.current = true;
+    dragStartXRef.current = touch.clientX;
+    dragStartYRef.current = touch.clientY;
+    // Pick up rotation exactly where the auto-spin/mouse offset left it, so there's no jump.
+    dragBaseYRotRef.current = autoYRef.current + mouseYRef.current;
+    dragBaseXRotRef.current = mouseXRef.current;
+    touchYRef.current = dragBaseYRotRef.current;
+    touchXRef.current = dragBaseXRotRef.current;
   };
 
-  const handleTouchEnd = () => { pausedRef.current = false; };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDraggingRef.current) return;
+    const touch = e.touches[0];
+    if (!touch) return;
+    const dx = touch.clientX - dragStartXRef.current;
+    const dy = touch.clientY - dragStartYRef.current;
+    touchYRef.current = dragBaseYRotRef.current + (dx / window.innerWidth) * DRAG_Y_FULL_DEG;
+    const rawX = dragBaseXRotRef.current - (dy / window.innerHeight) * DRAG_X_FULL_DEG;
+    touchXRef.current = Math.max(-DRAG_X_MAX, Math.min(DRAG_X_MAX, rawX));
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    pausedRef.current = false;
+    // Hand rotation back to the auto-spin/mouse baseline so it continues from here, not from before the drag.
+    autoYRef.current = touchYRef.current;
+    mouseYRef.current = 0;
+    mouseXRef.current = touchXRef.current;
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") handleClose(); };

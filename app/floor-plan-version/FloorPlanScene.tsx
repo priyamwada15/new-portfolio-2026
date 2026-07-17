@@ -19,6 +19,17 @@ const HOUSE_H = 1090;
 const HOUSE_LEFT = (ROOT_W - HOUSE_W) / 2;
 const HOUSE_TOP = 27;
 
+/**
+ * Approximate center of the hero-text/entrance area, in root-canvas
+ * coordinates. Used by FloorPlanScaler to center the initial mobile
+ * scroll position on the hero copy instead of a random corner of the
+ * house. The hero paragraphs sit horizontally centered in the house
+ * and at roughly top:508-528 within it — HERO_FOCUS_Y picks a point
+ * a little below that top edge to sit between the two paragraph lines.
+ */
+export const HERO_FOCUS_X = HOUSE_LEFT + HOUSE_W / 2;
+export const HERO_FOCUS_Y = HOUSE_TOP + 550;
+
 type Rect = {
   left: number;
   top: number;

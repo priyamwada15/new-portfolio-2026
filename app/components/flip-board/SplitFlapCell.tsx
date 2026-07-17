@@ -84,7 +84,7 @@ export const SplitFlapCell = memo(
       const stripEl = stripRef.current;
       if (!windowEl || !stripEl) return 0;
 
-      return windowEl.clientHeight;
+      return windowEl.getBoundingClientRect().height;
     };
 
     useLayoutEffect(() => {

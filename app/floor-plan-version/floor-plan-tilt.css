@@ -35,3 +35,15 @@
 
 .fp-tilt[data-fp-key="creative-license"] { transition: transform 450ms cubic-bezier(0.3, 0.6, 0.32, 1); }
 .fp-tilt[data-fp-key="creative-license"]:hover { transform: rotate(10deg); }
+
+/* Hides the scrollbar on FloorPlanScaler's horizontally-scrollable mobile
+   wrapper. Scrolling itself remains fully functional via touch swipe, mouse
+   wheel, and keyboard — only the visual track/thumb is hidden. */
+.floor-plan-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge/IE */
+}
+
+.floor-plan-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/WebKit */
+}

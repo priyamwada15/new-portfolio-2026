@@ -12,46 +12,48 @@ const RM_ICON = "/Icons/RM%20Logo%20Icon.svg";
 const TARS_ICON = "/Icons/Tars%20Icon%20Logo.svg";
 
 const SUMMARY =
-  "Product Designer with 3+ years of experience designing AI-powered interfaces across early-stage startups and enterprise teams, agent builders, conversational assistants and developer tooling. I've been an early design hire where I owned design end-to-end and built core product workflows from scratch. I work where the design needs me, whether that is on a canvas or in a CLI.";
+  "Product Designer with 3+ years designing for enterprise and early-stage products. I have designed from zero as one of the first two designers at a conversational AI B2B SaaS startup and owned interaction design for an AI assistant embedded inside Rocket Mortgage's client-facing dashboard. I focus on high-stakes workflows where information is scattered: decision-support interfaces, agent configuration and multi-step process design.";
 
-/** Skills — copy matches resume / Figma spec (not inferred). */
+/** Skills — copy matches resume PDF. */
 const PD_CHIPS = [
-  "Interaction Design",
-  "Agent Interface Design",
+  "User-Centered Design",
   "Information Architecture",
-  "Conversational UI",
   "Design Systems",
   "Responsive Design",
   "Accessibility",
+  "Conversational UI",
+  "Agentic Interfaces",
+  "Agent Configuration Design",
+  "AI Assistant Design",
 ];
 
-const AI_PROTOTYPE_CHIPS = ["Cursor", "Claude Code", "Google AI Studio", "Replit", "Paper", "Framer"];
+const AI_PROTOTYPE_CHIPS = ["Cursor", "Claude Code", "Figma"];
 
 const RESEARCH_CHIPS = [
   "Usability Testing",
-  "User Interviews",
   "Qualitative Research",
-  "Heuristic Evaluation",
+  "Interviews",
+  "Heuristic Evaluations",
   "Competitive Analysis",
   "A/B Testing",
 ];
 
 const ROCKET_BULLETS = [
   "Redesigned the post-offer onboarding experience inside Rocket Assist from a text-based assistant into a personalized and context-driven system grounded in each client's actual loan stage and home details.",
-  "Designed three interaction patterns, task carousel, in-chat document component and human handoff flow, that were added to the product roadmap.",
-  "Defined usability success criteria and wrote the research discussion guide. 92% of clients found the redesigned experience more helpful and trustworthy.",
-  "Mapped design features to technical dependencies, APIs and engineering scope across three teams, enabling roadmap-ready scoping.",
+  "Defined three net-new interaction patterns for Rocket Assist that were taken into roadmap discussions with the product lead as candidate features for the next development cycle.",
+  "Led usability testing with 8 Rocket Mortgage clients against defined success criteria; 92% rated the redesigned experience as more helpful and trustworthy than the existing assistant.",
+  "Scoped design features against technical dependencies across product, engineering and research, producing handoff artifacts that were roadmap-ready at the end of a 3-month engagement.",
 ];
 
 const TARS_BULLETS = [
-  "Drove 41% product adoption within 3 months of beta launch by owning research and design for the Asimov dashboard and Slack app.",
-  "Designed and shipped Chatbot Debug Mode for Customer Success teams, cutting troubleshooting time by 70% for large-scale enterprise deployments.",
-  "Joined as one of the first two designers, establishing the design process, component foundations and cross-functional workflows from scratch as the product scaled to enterprise.",
+  "Joined as one of the first two designers at Tars, establishing the design system, component library and design-dev handoff process from scratch, which served as the foundation of subsequent product work.",
+  "Owned research and interaction design for the Asimov dashboard, enabling 15+ enterprise teams to configure and manage AI workflows; achieved 41% product adoption within the first quarter post-launch.",
+  "Designed and shipped Chatbot Debug Mode for internal team, surfacing conversation flow errors and system issues in one place, cutting manual troubleshooting time by 70% across large-scale deployments.",
 ];
 
 const TARS_INTERN_BULLETS = [
   "Built Tars' analytics feature from scratch, giving ~85 active clients their first native view of chatbot performance across 10 visualization types. Adopted across the entire active client base.",
-  "Redesigned chatbot customization into a WYSIWYG interface, moving advanced controls out of the codebase and into the product, reducing the client's technical dependency for every active account.",
+  "Redesigned chatbot customization into a WYSIWYG interface, moving advanced controls out of the codebase and into the product and eliminating technical dependency for every active account.",
 ];
 
 function SectionLabel({ children }: { children: ReactNode }) {
@@ -210,8 +212,8 @@ export default function ResumePage() {
           <section>
             <SectionLabel>Skills</SectionLabel>
             <div className="space-y-6">
-              <ChipGroup title="Product Design" chips={PD_CHIPS} />
-              <ChipGroup title="AI-Native Prototyping" chips={AI_PROTOTYPE_CHIPS} />
+              <ChipGroup title="Interaction Design" chips={PD_CHIPS} />
+              <ChipGroup title="Tools" chips={AI_PROTOTYPE_CHIPS} />
               <ChipGroup title="Research & Validation" chips={RESEARCH_CHIPS} />
             </div>
           </section>
@@ -220,13 +222,13 @@ export default function ResumePage() {
             <SectionLabel>Education</SectionLabel>
             <div className="space-y-8" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
               <div>
-                <p className="text-[16px] font-semibold text-ink">M.S. in HCI/d</p>
+                <p className="text-[16px] font-semibold text-ink">MS Human-Computer Interaction</p>
                 <p className="mt-1 text-[16px] text-primary">Indiana University Bloomington</p>
                 <p className="mt-2 text-xs uppercase italic tracking-wide text-secondary">MAY 2026</p>
               </div>
               <div>
                 <p className="text-[16px] font-semibold text-ink">Bachelor of Architecture</p>
-                <p className="mt-1 text-[16px] text-primary">Amity University, India</p>
+                <p className="mt-1 text-[16px] text-primary">Amity University</p>
                 <p className="mt-2 text-xs uppercase italic tracking-wide text-secondary">MAY 2019</p>
               </div>
             </div>

@@ -329,7 +329,7 @@ export default async function HomeV2Page() {
                   time by ~70%.
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span>#for developers</span>
+                  <span>#b2b-saas</span>
                   <span>#internal tool</span>
                   <span>#product design</span>
                 </div>

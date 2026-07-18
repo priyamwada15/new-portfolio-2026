@@ -26,6 +26,7 @@ import {
   FLIP_BOARD_THEME_DEFAULTS,
   flipBoardCssVars,
 } from "./flipBoardDial.config";
+import { TooltipProvider } from "@/app/components/animate-ui/tooltip";
 import {
   buildCounterStrip,
   randomGibberishChar,
@@ -431,52 +432,54 @@ export default function FlipBoardFooter({
   ) as React.CSSProperties;
 
   return (
-    <footer
-      ref={footerRef}
-      className={cn(
-        "flip-board-footer",
-        layout === "fixed"
-          ? "flip-board-footer--fixed"
-          : "flip-board-footer--scroll-reveal",
-      )}
-      style={footerStyle}
-      aria-label="Site footer"
-      onClick={onFooterClick}
-    >
-      <p className="flip-board-footer__sr-message">{SR_MESSAGE}</p>
+    <TooltipProvider>
+      <footer
+        ref={footerRef}
+        className={cn(
+          "flip-board-footer",
+          layout === "fixed"
+            ? "flip-board-footer--fixed"
+            : "flip-board-footer--scroll-reveal",
+        )}
+        style={footerStyle}
+        aria-label="Site footer"
+        onClick={onFooterClick}
+      >
+        <p className="flip-board-footer__sr-message">{SR_MESSAGE}</p>
 
-      <div className="flip-board-footer__shell">
-        <div ref={boardRef} className="flip-board-footer__display" aria-hidden>
-          {specsByRow.map((rowSpecs, row) => {
-            if (rowSpecs.length === 0) return null;
+        <div className="flip-board-footer__shell">
+          <div ref={boardRef} className="flip-board-footer__display" aria-hidden>
+            {specsByRow.map((rowSpecs, row) => {
+              if (rowSpecs.length === 0) return null;
 
-            if (row < 2) {
+              if (row < 2) {
+                return (
+                  <div key={`row-${row}`} className="flip-board-footer__row">
+                    {groupSpecsByWord(rowSpecs).map((wordSpecs, wordIndex) => (
+                      <div
+                        key={`row-${row}-word-${wordIndex}`}
+                        className="flip-board-footer__word"
+                      >
+                        {wordSpecs.map((spec) => renderCell(spec))}
+                      </div>
+                    ))}
+                  </div>
+                );
+              }
+
+              const rowSegments = segmentGridForRender(rowSpecs);
               return (
-                <div key={`row-${row}`} className="flip-board-footer__row">
-                  {groupSpecsByWord(rowSpecs).map((wordSpecs, wordIndex) => (
-                    <div
-                      key={`row-${row}-word-${wordIndex}`}
-                      className="flip-board-footer__word"
-                    >
-                      {wordSpecs.map((spec) => renderCell(spec))}
-                    </div>
-                  ))}
+                <div
+                  key={`row-${row}`}
+                  className="flip-board-footer__row flip-board-footer__row--social"
+                >
+                  {mapGridSegments(rowSegments, renderCell, socialLinkHover)}
                 </div>
               );
-            }
-
-            const rowSegments = segmentGridForRender(rowSpecs);
-            return (
-              <div
-                key={`row-${row}`}
-                className="flip-board-footer__row flip-board-footer__row--social"
-              >
-                {mapGridSegments(rowSegments, renderCell, socialLinkHover)}
-              </div>
-            );
-          })}
+            })}
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </TooltipProvider>
   );
 }

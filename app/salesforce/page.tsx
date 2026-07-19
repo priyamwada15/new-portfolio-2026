@@ -374,7 +374,7 @@ export default function SalesforcePage() {
       }
       projectName="Galileo for Salesforce"
       breadcrumbLabel="Salesforce"
-      headline="Reducing decision fatigue in students by connecting today's course choices to future career options."
+      headline="Designing a 0→1 AI product that turns fragmented academic data into one system"
       context={
         <div className="flex max-w-[768px] flex-col gap-14">
           <h2 className={caseStudySectionH2} style={fontStyle.figtree}>

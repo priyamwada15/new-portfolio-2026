@@ -257,13 +257,12 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Reducing decision fatigue in students by connecting today&apos;s course choices to
-                  future career options
+                  Designing a 0→1 AI product that turns fragmented academic data into one system
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span>#ai-planning</span>
-                  <span>#systems design</span>
-                  <span>#product design</span>
+                  <span>#0-to-1</span>
+                  <span>#ai-product-design</span>
+                  <span>#b2b2c</span>
                 </div>
               </div>
             </HomeV2CardLink>

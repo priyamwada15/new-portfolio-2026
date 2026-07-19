@@ -94,7 +94,7 @@ export default async function HomeV2Page() {
             className="home-v2-section home-v2-hero home-v2-row"
             style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: "64px" }}
           >
-          <ScrollReveal revealOnMount>
+          <ScrollReveal revealOnMount className="flex-1 min-w-0">
             <div className="home-v2-intro-copy" style={{ ...homeIntroCopyStyle }}>
               {/* >=1280px: 3 separate paragraphs */}
               <div className="hidden xl:flex xl:w-[594px] xl:flex-col xl:items-start">
@@ -106,7 +106,7 @@ export default async function HomeV2Page() {
               </div>
 
               {/* <1280px: first two sentences flow into one paragraph */}
-              <div className="flex w-[784px] flex-col items-start xl:hidden">
+              <div className="flex w-full flex-col items-start xl:hidden">
                 {INTRO_PARAGRAPHS_COMPACT.map((paragraph, index) => (
                   <p key={index} style={{ margin: 0, marginTop: index === 0 ? 0 : "24px" }}>
                     {index === 1 ? <IntroPara3 /> : paragraph}
@@ -123,7 +123,7 @@ export default async function HomeV2Page() {
             </div>
             </div>
           </ScrollReveal>
-          <ScrollReveal revealOnMount>
+          <ScrollReveal revealOnMount className="shrink-0">
             <HomeV2CardLink
               href="/rocket-mortgage"
               ariaLabel="Read Rocket Mortgage case study"
@@ -187,12 +187,12 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={homeCardFooterTitleStyle}>
-                  Redesigned the decision logic behind Rocket Mortgage's AI assistant around each client's mortgage stage
+                  Redesigned the decision logic behind Rocket Mortgage's AI assistant around each client's mortgage stage.
                 </div>
                 <div style={homeCardFooterTagsStyle}>
+                  <span>#b2c-fintech</span>
                   <span>#ai-assistant</span>
-                  <span>#fintech</span>
-                  <span>#product design</span>
+                  <span>#trust-design</span>
                 </div>
               </div>
             </HomeV2CardLink>
@@ -257,7 +257,7 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Designing a 0→1 AI product that turns fragmented academic data into one system
+                  Designing a 0→1 AI product that turns fragmented academic data into one system.
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
                   <span>#0-to-1</span>
@@ -329,8 +329,8 @@ export default async function HomeV2Page() {
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
                   <span>#b2b-saas</span>
-                  <span>#internal tool</span>
-                  <span>#product design</span>
+                  <span>#complex-workflows</span>
+                  <span>#internal-tools</span>
                 </div>
               </div>
             </HomeV2CardLink>

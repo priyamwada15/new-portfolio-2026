@@ -239,7 +239,7 @@ export function HomeV2WidgetBento({ data }: HomeV2WidgetBentoProps) {
       </div>
 
       {/* <1280px: Floor Plan + Creative License only */}
-      <div className="flex xl:hidden" style={{ gap: "16px", width: "784px" }}>
+      <div className="flex xl:hidden" style={{ gap: "16px", width: "100%" }}>
         <FloorPlanTile style={{ flex: "1 0 0", height: "186px" }} centerImage />
         <CreativeLicenseTile style={{ flex: "1 0 0", height: "186px" }} />
       </div>

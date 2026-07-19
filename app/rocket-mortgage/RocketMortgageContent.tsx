@@ -643,7 +643,7 @@ export default function RocketMortgageContent() {
         meta={{
           timelineLabel: "Handed off",
           timeline: "Aug 2025",
-          industry: "Fintech",
+          industry: "B2C Fintech",
           role: "Product Design",
           team: "Conversational AI Designers, Product Designers",
         }}

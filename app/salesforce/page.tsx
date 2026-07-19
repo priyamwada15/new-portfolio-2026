@@ -374,7 +374,7 @@ export default function SalesforcePage() {
       }
       projectName="Galileo for Salesforce"
       breadcrumbLabel="Salesforce"
-      headline="Designing a 0→1 AI product that turns fragmented academic data into one system"
+      headline="Designing a 0→1 AI product that turns fragmented academic data into one system."
       context={
         <div className="flex max-w-[768px] flex-col gap-14">
           <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
@@ -410,7 +410,7 @@ export default function SalesforcePage() {
       meta={{
         timelineLabel: "Handed Off",
         timeline: "Dec 2025",
-        industry: "EdTech / Higher Education",
+        industry: "EdTech / Higher Education, B2B2C",
         role: "Lead Product Designer",
         team: "8 Student Designers, Salesforce Experience Design Team",
       }}

@@ -63,24 +63,36 @@ function getRegistry(): VideoRegistry {
       // onscreen at all, rather than being re-judged against the strict
       // "fully visible" test every reconcile. Tall cards linger near that
       // boundary during scroll, so re-litigating it each tick caused
-      // visible play/pause thrashing. New candidates only take a slot once
-      // one is actually free.
+      // visible play/pause thrashing.
       const sticky = measured
         .filter((x) => !x.e.el.paused && x.onscreen)
         .sort((a, b) => a.distToCenter - b.distToCenter);
 
-      const allow = new Set(sticky.slice(0, MAX_PLAYING).map((x) => x.e.el));
+      const slots = sticky.slice(0, MAX_PLAYING);
 
-      if (allow.size < MAX_PLAYING) {
-        const candidates = measured
-          .filter((x) => x.fully && !allow.has(x.e.el))
-          .sort((a, b) => a.distToCenter - b.distToCenter);
+      // A fully-visible candidate can still displace the least-central sticky
+      // slot. Without this, two videos that merely stayed onscreen (e.g. a
+      // tall card lingering at the edge) permanently occupy both slots and a
+      // genuinely centered, fully-visible video can never get a turn again.
+      const candidates = measured
+        .filter((x) => x.fully && !slots.some((s) => s.e.el === x.e.el))
+        .sort((a, b) => a.distToCenter - b.distToCenter);
 
-        for (const c of candidates) {
-          if (allow.size >= MAX_PLAYING) break;
-          allow.add(c.e.el);
+      for (const c of candidates) {
+        if (slots.length < MAX_PLAYING) {
+          slots.push(c);
+          continue;
+        }
+        let worst = 0;
+        for (let i = 1; i < slots.length; i++) {
+          if (slots[i].distToCenter > slots[worst].distToCenter) worst = i;
+        }
+        if (c.distToCenter < slots[worst].distToCenter) {
+          slots[worst] = c;
         }
       }
+
+      const allow = new Set(slots.map((x) => x.e.el));
 
       for (const entry of list) {
         if (allow.has(entry.el)) {

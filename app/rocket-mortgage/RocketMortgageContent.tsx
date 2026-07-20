@@ -656,11 +656,11 @@ export default function RocketMortgageContent() {
         toc={[
           { id: "core-flows", label: "Core Flows" },
           { id: "impact", label: "Impact" },
+          { id: "testimonials", label: "Testimonials" },
           { id: "problem-space", label: "Problem" },
           { id: "design-approach", label: "Design Approach" },
           { id: "final-solution", label: "Final Solution" },
           { id: "blockers", label: "Blockers" },
-          { id: "testimonials", label: "Testimonials" },
           { id: "in-hindsight", label: "In Hindsight" },
           { id: "reflection", label: "Reflections" },
         ]}
@@ -668,6 +668,34 @@ export default function RocketMortgageContent() {
         <CoreFlows />
 
         <Impact />
+
+        <section id="testimonials" className="flex max-w-[768px] flex-col gap-8">
+          <div className="flex flex-col gap-3">
+            <p
+              className="text-[14px] font-semibold leading-[150%]"
+              style={{ ...fontStyle.figtree, color: brands.rocket.dark }}
+            >
+              Testimonials
+            </p>
+            <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
+              What the people who saw the work up close had to say
+            </h2>
+          </div>
+          <div className="rm-testimonial-grid flex flex-col md:flex-row">
+            <TestimonialCard
+              quote="This was perhaps her most complex assignment, and Pri quickly mapped key friction points while collaborating with engineers and researchers. Her work helped influence product roadmap priorities."
+              name="Dana Lee"
+              title="Director of Conversational AI Design & Digital Product Management"
+              linkedin="https://www.linkedin.com/in/danayoo/"
+            />
+            <TestimonialCard
+              quote="Pri routinely sought out and addressed challenging issues, independently identified critical opportunities for improvement, and delivered results on par with a full-time associate designer."
+              name="Amanda Matzenbach"
+              title="Conversational AI Design Manager & Mentor"
+              linkedin="https://www.linkedin.com/in/amanda-matzenbach/"
+            />
+          </div>
+        </section>
 
         <section id="problem-space" className="flex max-w-[768px] flex-col gap-[33px]">
           <div className="flex flex-col gap-3">
@@ -724,34 +752,6 @@ export default function RocketMortgageContent() {
         <FinalSolution />
 
         <Blockers />
-
-        <section id="testimonials" className="flex max-w-[768px] flex-col gap-8">
-          <div className="flex flex-col gap-3">
-            <p
-              className="text-[14px] font-semibold leading-[150%]"
-              style={{ ...fontStyle.figtree, color: brands.rocket.dark }}
-            >
-              Testimonials
-            </p>
-            <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
-              What the people who saw the work up close had to say
-            </h2>
-          </div>
-          <div className="rm-testimonial-grid flex flex-col md:flex-row">
-            <TestimonialCard
-              quote="This was perhaps her most complex assignment, and Pri quickly mapped key friction points while collaborating with engineers and researchers. Her work helped influence product roadmap priorities."
-              name="Dana Lee"
-              title="Director of Conversational AI Design & Digital Product Management"
-              linkedin="https://www.linkedin.com/in/danayoo/"
-            />
-            <TestimonialCard
-              quote="Pri routinely sought out and addressed challenging issues, independently identified critical opportunities for improvement, and delivered results on par with a full-time associate designer."
-              name="Amanda Matzenbach"
-              title="Conversational AI Design Manager & Mentor"
-              linkedin="https://www.linkedin.com/in/amanda-matzenbach/"
-            />
-          </div>
-        </section>
 
         <InHindsight />
 

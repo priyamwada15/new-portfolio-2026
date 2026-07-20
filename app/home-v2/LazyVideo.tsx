@@ -31,32 +31,56 @@ function getRegistry(): VideoRegistry {
       const list = Array.from(registry.entries.values());
       if (list.length === 0) return;
 
-      // Only allow videos that are fully within the viewport to play.
+      // A video may play once fully within the viewport (no clipping).
       // ("Fully" means no part of the video's bounding box is clipped by the viewport.)
       const vpW = window.innerWidth;
       const vpH = window.innerHeight;
       const vpCenterY = vpH / 2;
 
-      const fullyVisible = list
-        .map((e) => {
-          const rect = e.el.getBoundingClientRect();
-          const fully =
-            rect.width > 0 &&
-            rect.height > 0 &&
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= vpH &&
-            rect.right <= vpW;
-          const centerY = rect.top + rect.height / 2;
-          const distToCenter = Math.abs(centerY - vpCenterY);
-          return { e, fully, distToCenter };
-        })
-        .filter((x) => x.fully)
+      const measured = list.map((e) => {
+        const rect = e.el.getBoundingClientRect();
+        const fully =
+          rect.width > 0 &&
+          rect.height > 0 &&
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= vpH &&
+          rect.right <= vpW;
+        // Looser check than "fully" — any part of the box still on screen.
+        const onscreen =
+          rect.width > 0 &&
+          rect.height > 0 &&
+          rect.bottom > 0 &&
+          rect.top < vpH &&
+          rect.right > 0 &&
+          rect.left < vpW;
+        const centerY = rect.top + rect.height / 2;
+        const distToCenter = Math.abs(centerY - vpCenterY);
+        return { e, fully, onscreen, distToCenter };
+      });
+
+      // Sticky: a video already playing keeps its slot as long as it's still
+      // onscreen at all, rather than being re-judged against the strict
+      // "fully visible" test every reconcile. Tall cards linger near that
+      // boundary during scroll, so re-litigating it each tick caused
+      // visible play/pause thrashing. New candidates only take a slot once
+      // one is actually free.
+      const sticky = measured
+        .filter((x) => !x.e.el.paused && x.onscreen)
         .sort((a, b) => a.distToCenter - b.distToCenter);
 
-      const allow = new Set(
-        fullyVisible.slice(0, MAX_PLAYING).map((x) => x.e.el),
-      );
+      const allow = new Set(sticky.slice(0, MAX_PLAYING).map((x) => x.e.el));
+
+      if (allow.size < MAX_PLAYING) {
+        const candidates = measured
+          .filter((x) => x.fully && !allow.has(x.e.el))
+          .sort((a, b) => a.distToCenter - b.distToCenter);
+
+        for (const c of candidates) {
+          if (allow.size >= MAX_PLAYING) break;
+          allow.add(c.e.el);
+        }
+      }
 
       for (const entry of list) {
         if (allow.has(entry.el)) {

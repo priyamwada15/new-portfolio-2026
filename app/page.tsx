@@ -212,7 +212,7 @@ export default async function HomeV2Page() {
                 alignItems: "flex-start",
                 padding: "24px",
                 gap: "24px",
-                width: "1008px",
+                width: "100%",
                 background: "var(--ds-surface-page)",
                 borderRadius: "var(--ds-radius-container)",
               }}
@@ -282,7 +282,7 @@ export default async function HomeV2Page() {
                 alignItems: "flex-start",
                 padding: "24px",
                 gap: "24px",
-                width: "1008px",
+                width: "100%",
                 background: "var(--ds-surface-page)",
                 borderRadius: "var(--ds-radius-container)",
               }}

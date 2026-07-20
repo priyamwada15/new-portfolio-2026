@@ -411,11 +411,11 @@ export default function DebugModePage() {
                 Why didn&apos;t this work?
               </h3>
               <div className="space-y-3">
-                <p className="font-label text-[14px] font-normal leading-[160%] text-secondary">
+                <p className="font-label text-[16px] font-normal leading-[160%] text-secondary">
                   The first version featured traditional IDE conventions:
                   play/pause, stop, step into, step out, step over, logs.
                 </p>
-                <p className="font-label text-[14px] font-normal leading-[160%] text-secondary">
+                <p className="font-label text-[16px] font-normal leading-[160%] text-secondary">
                   The CS team could read it, but these advanced controls
                   were where non-technical clients would stall. This
                   wasn&apos;t a scalable design.
@@ -438,12 +438,12 @@ export default function DebugModePage() {
                 The shipped solution
               </h3>
               <div className="space-y-3">
-                <p className="font-label text-[14px] font-normal leading-[160%] text-secondary">
+                <p className="font-label text-[16px] font-normal leading-[160%] text-secondary">
                   I shipped three controls and status messages stated
                   clearly, so nothing about what the tool was doing had to
                   be inferred.
                 </p>
-                <p className="font-label text-[14px] font-normal leading-[160%] text-secondary">
+                <p className="font-label text-[16px] font-normal leading-[160%] text-secondary">
                   That cut held up against real usage. Within a couple
                   months, 90% of errors traced back to minor control
                   changes or API and custom code issues, the exact cases
@@ -465,13 +465,13 @@ export default function DebugModePage() {
             </h2>
           </div>
           <div className="flex flex-col gap-4">
-            <p className="font-label text-[14px] font-normal leading-[160%] text-secondary">
+            <p className="font-label text-[16px] font-normal leading-[160%] text-secondary">
               The first release focused on the CS team. As enterprise
               onboarding accelerated, reducing their debugging time mattered
               more than waiting for a version that served everyone.
               Shipping in phases let us solve the immediate problem first.
             </p>
-            <p className="font-label text-[14px] font-normal leading-[160%] text-secondary">
+            <p className="font-label text-[16px] font-normal leading-[160%] text-secondary">
               The debugging console never shipped. I had designed it as a
               way to surface deeper error reports, but once V1 launched,
               the CS team found the simpler interface handled nearly every

@@ -225,7 +225,7 @@ export function HomeV2WidgetBento({ data }: HomeV2WidgetBentoProps) {
   const lead = data?.lead ?? null;
 
   return (
-    <div className="home-v2-widget-bento">
+    <div className="home-v2-widget-bento" style={{ width: "100%" }}>
       {/* >=1280px: 2x2 bento (Floor Plan + Listening / Reading + Creative License) */}
       <div className="hidden xl:flex xl:flex-col" style={{ gap: "16px", width: "594px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px" }}>

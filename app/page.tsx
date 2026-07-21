@@ -97,7 +97,7 @@ export default async function HomeV2Page() {
           <ScrollReveal revealOnMount className="flex-1 min-w-0">
             <div className="home-v2-intro-copy" style={{ ...homeIntroCopyStyle }}>
               {/* >=1280px: 3 separate paragraphs */}
-              <div className="hidden xl:flex xl:w-[594px] xl:flex-col xl:items-start">
+              <div className="hidden xl:flex xl:w-[594px] xl:flex-col xl:items-start hero-intro hero-intro--text">
                 {INTRO_PARAGRAPHS.map((paragraph, index) => (
                   <p key={index} style={{ margin: 0, marginTop: index === 0 ? 0 : "24px" }}>
                     {index === 2 ? <IntroPara3 /> : paragraph}
@@ -106,7 +106,7 @@ export default async function HomeV2Page() {
               </div>
 
               {/* <1280px: first two sentences flow into one paragraph */}
-              <div className="flex w-full flex-col items-start xl:hidden">
+              <div className="flex w-full flex-col items-start xl:hidden hero-intro hero-intro--text">
                 {INTRO_PARAGRAPHS_COMPACT.map((paragraph, index) => (
                   <p key={index} style={{ margin: 0, marginTop: index === 0 ? 0 : "24px" }}>
                     {index === 1 ? <IntroPara3 /> : paragraph}
@@ -116,14 +116,14 @@ export default async function HomeV2Page() {
 
             {/* Widget bento (32px below text on mobile, 56px at xl+) */}
             <div
-              className="home-v2-intro-snippets mt-[32px] xl:mt-[56px]"
+              className="home-v2-intro-snippets mt-[32px] xl:mt-[56px] hero-intro hero-intro--bento"
               style={{ display: "flex", gap: "64px" }}
             >
               <HomeV2WidgetBento data={listeningData} />
             </div>
             </div>
           </ScrollReveal>
-          <ScrollReveal revealOnMount className="shrink-0">
+          <ScrollReveal revealOnMount className="shrink-0 hero-intro hero-intro--card">
             <HomeV2CardLink
               href="/rocket-mortgage"
               ariaLabel="Read Rocket Mortgage case study"

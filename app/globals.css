@@ -477,6 +477,53 @@ body {
   transform: translateY(0);
 }
 
+/* ── Hero-fold intro animation (plays once on page load) ────
+   transform + opacity only, so it runs on the compositor thread
+   and never touches layout or blocks the main thread. */
+@keyframes hero-intro-in {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--hero-intro-x, 0), var(--hero-intro-y, 0), 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.hero-intro {
+  animation: hero-intro-in 1000ms cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+.hero-intro--text {
+  --hero-intro-x: -24px;
+}
+
+.hero-intro--card {
+  --hero-intro-x: 24px;
+  animation-delay: 100ms;
+}
+
+.hero-intro--bento {
+  --hero-intro-y: 24px;
+  animation-delay: 200ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-intro {
+    animation: hero-intro-fade 300ms ease-out both;
+  }
+
+  @keyframes hero-intro-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
 /* ── Card video scale on hover ───────────────────────────── */
 /* Tailwind v4 uses the `scale` CSS property, not `transform`,
    so transition: "transform" never catches it. Using explicit

@@ -40,7 +40,7 @@ const introProjLinkStyle = {
 /** Desktop (>=1280px) intro copy — 3 separate paragraphs. */
 const INTRO_PARAGRAPHS = [
   "Hi, I'm Priyamwada. An Architect turned Product Designer.",
-  "I design for enterprise systems, AI and SaaS products from 0→1.",
+  "I design internal tools, agentic interfaces and explainable AI across B2B SaaS and B2C fintech.",
   "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a water shader, a news widget and a time-of-the-day constellation app.",
 ] as const;
 

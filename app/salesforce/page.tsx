@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import DarkVideoFrame from "../components/DarkVideoFrame";
 import BeforeAfterCarousel, { type BeforeAfterSlide } from "./BeforeAfterCarousel";
+import { DesignApproachImages } from "./DesignApproachImages";
 import {
   brands,
   caseStudyBody,
@@ -34,54 +35,6 @@ function ApproachCard({
       <p className="text-[16px] font-normal leading-[150%] text-[#555555]" style={fontStyle.figtree}>
         {body}
       </p>
-    </div>
-  );
-}
-
-const DESIGN_APPROACH_IMAGES = [
-  {
-    key: "info-arch",
-    src: "/new-salesforce/InfoArch.png",
-    alt: "Information architecture map of Galileo's dashboard, advisor and profile flows",
-    style: { width: "70.7%", height: "50.25%", right: "2.6%", top: "0%" },
-    rotate: "3.94deg",
-  },
-  {
-    key: "impxopp-matrix",
-    src: "/new-salesforce/ImpxOpp%20Matrix.png",
-    alt: "Importance x Opportunity matrix scoring academic challenges against other student needs",
-    style: { width: "58.98%", height: "42.01%", left: "0%", top: "18.42%" },
-    rotate: "-5.47deg",
-  },
-  {
-    key: "jen-needs",
-    src: "/new-salesforce/Jen%20needs.png",
-    alt: "Persona needs summary for Jen, an undeclared student",
-    style: { width: "59.77%", height: "42.5%", left: "0.05%", bottom: "5.93%" },
-    rotate: "4.58deg",
-  },
-  {
-    key: "interview-insights",
-    src: "/new-salesforce/Interview%20Insights%201.png",
-    alt: "Synthesized interview insights from student research sessions",
-    style: { width: "38.15%", height: "52.72%", right: "5.99%", bottom: "6.86%" },
-    rotate: "-8.96deg",
-  },
-];
-
-function DesignApproachImages() {
-  return (
-    <div className="relative w-full" style={{ aspectRatio: "768 / 607" }}>
-      {DESIGN_APPROACH_IMAGES.map((image) => (
-        <div
-          key={image.key}
-          className="absolute overflow-hidden rounded-2xl border border-border"
-          style={{ ...image.style, transform: `rotate(${image.rotate})` }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
-        </div>
-      ))}
     </div>
   );
 }
@@ -433,17 +386,17 @@ export default function SalesforcePage() {
         </div>
         <div className="flex flex-col gap-16">
           <div className="flex flex-col gap-6">
-            <BeforeAfterCarousel slides={BEFORE_SLIDES} />
+            <BeforeAfterCarousel slides={AFTER_SLIDES} />
             <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-              {BEFORE_INSIGHTS.map((item) => (
+              {AFTER_INSIGHTS.map((item) => (
                 <InsightItem key={item.label} {...item} />
               ))}
             </div>
           </div>
           <div className="flex flex-col gap-6">
-            <BeforeAfterCarousel slides={AFTER_SLIDES} />
+            <BeforeAfterCarousel slides={BEFORE_SLIDES} />
             <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-              {AFTER_INSIGHTS.map((item) => (
+              {BEFORE_INSIGHTS.map((item) => (
                 <InsightItem key={item.label} {...item} />
               ))}
             </div>

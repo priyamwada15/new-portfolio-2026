@@ -12,7 +12,7 @@ const RM_ICON = "/Icons/RM%20Logo%20Icon.svg";
 const TARS_ICON = "/Icons/Tars%20Icon%20Logo.svg";
 
 const SUMMARY =
-  "Product Designer with 3+ years designing for enterprise and early-stage products. I have designed from zero as one of the first two designers at a conversational AI B2B SaaS startup and owned interaction design for an AI assistant embedded inside Rocket Mortgage's client-facing dashboard. I focus on high-stakes workflows where information is scattered: decision-support interfaces, agent configuration and multi-step process design.";
+  "Product Designer with 3+ years of experience designing AI-powered enterprise and consumer fintech products. I've designed from zero as one of the first designers at a B2B SaaS startup and for Rocket Mortgage's AI assistant. I specialise in simplifying complex, high-stakes workflows through agent configuration experience and decision-support interfaces. My work spans internal tools and customer-facing AI products.";
 
 /** Skills — copy matches resume PDF. */
 const PD_CHIPS = [
@@ -38,21 +38,46 @@ const RESEARCH_CHIPS = [
   "A/B Testing",
 ];
 
-const ROCKET_BULLETS = [
-  "Redesigned the post-offer onboarding experience inside Rocket Assist from a text-based assistant into a personalized and context-driven system grounded in each client's actual loan stage and home details.",
-  "Defined three net-new interaction patterns for Rocket Assist that were taken into roadmap discussions with the product lead as candidate features for the next development cycle.",
-  "Led usability testing with 8 Rocket Mortgage clients against defined success criteria; 92% rated the redesigned experience as more helpful and trustworthy than the existing assistant.",
+function Bold({ children }: { children: ReactNode }) {
+  return <strong className="font-semibold text-ink">{children}</strong>;
+}
+
+const ROCKET_BULLETS: ReactNode[] = [
+  <>
+    Designed adaptive AI guidance for Rocket Assist, personalizing post-offer experiences across{" "}
+    <Bold>6.8M+ client conversations</Bold> through loan-stage and home-specific context.
+  </>,
+  "Defined three new interaction patterns for Rocket Assist that were taken into roadmap discussions with the product lead as candidate features for the next development cycle.",
+  <>
+    Led usability testing with 8 Rocket Mortgage clients against defined success criteria;{" "}
+    <Bold>92% rated the redesigned experience as more helpful and trustworthy</Bold> than the existing assistant.
+  </>,
   "Scoped design features against technical dependencies across product, engineering and research, producing handoff artifacts that were roadmap-ready at the end of a 3-month engagement.",
 ];
 
-const TARS_BULLETS = [
-  "Joined as one of the first two designers at Tars, establishing the design system, component library and design-dev handoff process from scratch, which served as the foundation of subsequent product work.",
-  "Owned research and interaction design for the Asimov dashboard, enabling 15+ enterprise teams to configure and manage AI workflows; achieved 41% product adoption within the first quarter post-launch.",
-  "Designed and shipped Chatbot Debug Mode for internal team, surfacing conversation flow errors and system issues in one place, cutting manual troubleshooting time by 70% across large-scale deployments.",
+const TARS_BULLETS: ReactNode[] = [
+  <>
+    <Bold>Joined as one of the first two designers at Tars</Bold>, establishing the design system, component
+    library and design-dev handoff process from scratch, which served as the foundation of subsequent product
+    work.
+  </>,
+  <>
+    Owned research and interaction design for the Asimov dashboard, enabling <Bold>15+ enterprise</Bold> teams
+    to configure and manage AI workflows; <Bold>achieved 41% product adoption</Bold> within the first quarter
+    post-launch.
+  </>,
+  <>
+    Designed and shipped Chatbot Debug Mode for internal team, surfacing conversation flow errors and system
+    issues in one place, <Bold>cutting manual troubleshooting time by 70%</Bold> across large-scale
+    deployments.
+  </>,
 ];
 
-const TARS_INTERN_BULLETS = [
-  "Built Tars' analytics feature from scratch, giving ~85 active clients their first native view of chatbot performance across 10 visualization types. Adopted across the entire active client base.",
+const TARS_INTERN_BULLETS: ReactNode[] = [
+  <>
+    Built Tars' analytics feature from scratch, giving <Bold>~85 active clients</Bold> their first native view
+    of chatbot performance across 10 visualization types. Adopted across the entire active client base.
+  </>,
   "Redesigned chatbot customization into a WYSIWYG interface, moving advanced controls out of the codebase and into the product and eliminating technical dependency for every active account.",
 ];
 
@@ -83,14 +108,14 @@ function ChipGroup({ title, chips }: { title: string; chips: string[] }) {
   );
 }
 
-function BulletList({ items, dotClass }: { items: string[]; dotClass: string }) {
+function BulletList({ items, dotClass }: { items: ReactNode[]; dotClass: string }) {
   return (
     <ul
       className="mt-4 list-none space-y-2.5 text-[14px] leading-relaxed text-primary"
       style={{ fontFamily: "var(--font-hind), sans-serif" }}
     >
-      {items.map((text) => (
-        <li key={text} className="flex gap-3">
+      {items.map((text, index) => (
+        <li key={index} className="flex gap-3">
           <span className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full ${dotClass}`} aria-hidden />
           <span>{text}</span>
         </li>

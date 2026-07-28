@@ -187,7 +187,7 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={homeCardFooterTitleStyle}>
-                  Designing adaptive AI guidance for Rocket Mortgage clients
+                  Designing adaptive AI guidance across Rocket Mortgage's 6.8M+ client conversations
                 </div>
                 <div style={homeCardFooterTagsStyle}>
                   <span>#b2c-fintech</span>

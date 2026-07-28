@@ -635,7 +635,7 @@ export default function RocketMortgageContent() {
         ]}
         projectName="Rocket Mortgage"
         contextLabel="TL;DR"
-        headline="Designing adaptive AI guidance for Rocket Mortgage clients"
+        headline="Designing adaptive AI guidance across Rocket Mortgage's 6.8M+ client conversations"
         reverseHeaderOrder
         hideContextLabel
         heroVisual={<RocketMortgageTripleVideos className="rounded-2xl" />}

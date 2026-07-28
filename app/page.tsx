@@ -187,7 +187,7 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={homeCardFooterTitleStyle}>
-                  Redesigned the decision logic behind Rocket Mortgage's AI assistant around each client's mortgage stage.
+                  Designing adaptive AI guidance for Rocket Mortgage clients
                 </div>
                 <div style={homeCardFooterTagsStyle}>
                   <span>#b2c-fintech</span>

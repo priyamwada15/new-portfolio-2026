@@ -329,37 +329,26 @@ export default function SalesforcePage() {
       breadcrumbLabel="Salesforce"
       headline="Designing a 0→1 AI product that turns fragmented academic data into one system."
       context={
-        <div className="flex max-w-[768px] flex-col gap-14">
+        <div className="flex max-w-[768px] flex-col items-start gap-6">
           <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
             TL;DR
           </h2>
-          <div className="flex flex-col gap-14">
-            {[
-              {
-                label: "Problem",
-                body: "Students had to piece together their academic decisions from fragmented university systems, with no personalized guidance connecting the information.",
-              },
-              {
-                label: "Solution",
-                body: "We designed Galileo, an AI companion integrated into iGPS that unified course planning, peer insights, scheduling, and academic trajectory into a single experience.",
-              },
-              {
-                label: "Contribution",
-                body: "As one of two lead designers, I defined the product's information architecture, designed key experiences, and established trustworthy AI patterns for explainable recommendations.",
-              },
-            ].map((item) => (
-              <div key={item.label} className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                <p className="shrink-0 text-[20px] font-medium leading-[140%] text-[#555555]" style={fontStyle.figtree}>
-                  {item.label}
-                </p>
-                <p className="text-[16px] font-normal leading-[160%] text-[#555555] md:w-[392px]" style={fontStyle.figtree}>
-                  {item.body}
-                </p>
-              </div>
-            ))}
+          <div className="flex flex-col items-start gap-4">
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+              Students had to piece together academic decisions across disconnected university
+              systems, with no personalized guidance connecting courses, schedules and long-term
+              goals.
+            </p>
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+              As one of two lead designers, I designed Galileo, an AI companion integrated into
+              IUB&rsquo;s iGPS platform. I defined the information architecture, designed core
+              planning experiences and established explainable AI patterns for trustworthy
+              recommendations.
+            </p>
           </div>
         </div>
       }
+      contextMarginBottomClassName="mb-[120px]"
       meta={{
         timelineLabel: "Handed Off",
         timeline: "Dec 2025",

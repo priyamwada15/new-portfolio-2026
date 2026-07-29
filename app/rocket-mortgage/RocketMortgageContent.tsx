@@ -20,7 +20,7 @@ const RM_LAYOUT_STYLE = {
   "--rm-grid-gap": "40px",
   "--rm-grid-gap-lg": "64px",
   "--rm-feedback-gap": "40px",
-  "--rm-context-bottom": "160px",
+  "--rm-context-bottom": "120px",
   "--rm-h1-hero-gap": "32px",
   "--rm-hero-meta-gap": "40px",
   "--rm-padding-card": "40px",
@@ -33,45 +33,21 @@ const RM_LAYOUT_STYLE = {
 } as React.CSSProperties;
 
 function ContextTldr() {
-  const items = [
-    {
-      label: "Problem",
-      title: "The guidance was generic, right when clients needed specifics most.",
-      body: "Rocket Mortgage's assistant walks homebuyers through the process after their offer is accepted, but the advice didn't reflect each client's actual stage or situation.",
-    },
-    {
-      label: "Solution",
-      title: "I redesigned the experience around three moves.",
-      body: "Task cards during onboarding driven by their real loan stage, in-chat access to sourced recommendations personalized to their home and a transparent human handoff flow when needed.",
-    },
-    {
-      label: "Impact",
-      title: "The patterns I proposed helped shape Rocket Assist's feature roadmap.",
-      body: "This was an intern project, but I wanted to find opportunities for real impact. My work influenced what the team prioritized next for Rocket Assist's capabilities.",
-    },
-  ];
-
   return (
-    <div className="flex max-w-[768px] flex-col gap-14">
+    <div className="flex max-w-[768px] flex-col items-start gap-6">
       <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
         TL;DR
       </h2>
-      <div className="flex flex-col gap-14">
-        {items.map((item) => (
-          <div key={item.label} className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <p className="shrink-0 text-[20px] font-medium leading-[140%] text-[#555555]" style={fontStyle.figtree}>
-              {item.label}
-            </p>
-            <div className="flex flex-col gap-2 md:w-[392px]">
-              <p className="text-[20px] font-medium leading-[140%] text-[#333333]" style={fontStyle.figtree}>
-                {item.title}
-              </p>
-              <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
-                {item.body}
-              </p>
-            </div>
-          </div>
-        ))}
+      <div className="flex flex-col items-start gap-4">
+        <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+          Rocket Mortgage&apos;s AI assistant supports homebuyers after their offer is accepted, but the
+          guidance was generic when clients needed advice tailored to their loan stage and home.
+        </p>
+        <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+          I redesigned the experience from onboarding through in-chat guidance, introducing personalized
+          task cards, contextual recommendations and a transparent human handoff. The interaction patterns I
+          proposed influenced Rocket Assist&apos;s product roadmap beyond the internship.
+        </p>
       </div>
     </div>
   );

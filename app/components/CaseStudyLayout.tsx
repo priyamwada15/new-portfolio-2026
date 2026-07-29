@@ -71,6 +71,8 @@ interface Props {
   headlineClassName?: string;
   /** Inline styles merged onto the H1 (e.g. DialKit-driven size/weight). */
   headlineStyle?: React.CSSProperties;
+  /** Overrides the default margin-bottom below the context/TL;DR block. */
+  contextMarginBottomClassName?: string;
   children: React.ReactNode;
 }
 
@@ -120,6 +122,7 @@ export default function CaseStudyLayout({
   headlineColor,
   headlineClassName,
   headlineStyle,
+  contextMarginBottomClassName,
   children,
 }: Props) {
   const bodyTextClass = contentBodyClassName ?? caseStudyBody;
@@ -189,9 +192,9 @@ export default function CaseStudyLayout({
 
   // ── context + contribution block ──────────────────────────────────────
   const hasTwoCols = sidePanel !== undefined || contribution !== undefined;
-  const contextMarginClass = contextVisualBelow
-    ? (contextVisual ? "mb-10" : "mb-[9.5rem]")
-    : "mb-40";
+  const contextMarginClass =
+    contextMarginBottomClassName ??
+    (contextVisualBelow ? (contextVisual ? "mb-10" : "mb-[9.5rem]") : "mb-40");
   const contextBlock = (
     <div id="context" className={`${hasTwoCols ? "grid md:grid-cols-2 gap-10 md:gap-16" : ""} ${contextMarginClass}`.trim()}>
       {sidePanel !== undefined ? (

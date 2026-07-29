@@ -21,21 +21,6 @@ export const metadata: Metadata = {
     "I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups.",
 };
 
-const TLDR_ROWS = [
-  {
-    label: "Problem",
-    text: "Tars lets enterprise teams build AI agents as visual flowcharts, but debugging large 500-node canvases meant manually tracing every node to find a broken node.",
-  },
-  {
-    label: "Solution",
-    text: "I designed and shipped Debug Mode, an automated test runner with one interface tailored to two technical audiences through a signal canvas and adaptive controls.",
-  },
-  {
-    label: "Contribution",
-    text: "Troubleshooting time dropped by ~70%, validated post-release. Shipped in a month, full release, still in use.",
-  },
-] as const;
-
 function PlaceholderSection({ id, label }: { id: string; label: string }) {
   return (
     <section id={id}>
@@ -119,23 +104,23 @@ export default function DebugModePage() {
       contextVisualBelow={true}
       contextLabel="TL;DR"
       context={
-        <div className="flex flex-col gap-14">
+        <div className="flex max-w-[768px] flex-col items-start gap-6">
           <h2 className={caseStudySectionH2}>TL;DR</h2>
-          <div className="flex flex-col gap-14">
-            {TLDR_ROWS.map((row) => (
-              <div
-                key={row.label}
-                className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-8"
-              >
-                <p className="font-label text-[20px] font-medium text-secondary md:w-[140px] md:flex-none">
-                  {row.label}
-                </p>
-                <p className={`${caseStudyBody} md:max-w-[392px]`}>{row.text}</p>
-              </div>
-            ))}
+          <div className="flex flex-col items-start gap-4">
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+              Tars lets enterprise teams build AI agents as visual flowcharts, but debugging large
+              agent canvases meant manually tracing hundreds of nodes to find where conversations
+              broke.
+            </p>
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+              I designed and shipped Debug Mode, an automated testing experience with adaptive
+              workflows for technical and non-technical users. The feature reduced troubleshooting
+              time by ~70%, shipped within a month.
+            </p>
           </div>
         </div>
       }
+      contextMarginBottomClassName="mb-[120px]"
       hideContextLabel={true}
       meta={{
         timeline: "Oct 2022",

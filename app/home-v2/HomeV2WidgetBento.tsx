@@ -19,37 +19,53 @@ const tileShellStyle = {
   flex: "none",
 } satisfies CSSProperties;
 
-const tileLabelPositionStyle = {
-  position: "absolute",
-  left: "24px",
-  top: "24px",
-  zIndex: 1,
-} satisfies CSSProperties;
-
 const tickerTextStyle = {
   fontFamily: "Figtree, sans-serif",
   fontSize: "10px",
   color: "#333",
 } satisfies CSSProperties;
 
+// Matches the Figma "Smart animate" hover interaction shared by all 4 bento tiles.
+const HOVER_DURATION = "0.5s";
+const HOVER_EASE = "cubic-bezier(0.52, -0.01, 0, 1)";
+
+function tileLabelStyle(hovered: boolean): CSSProperties {
+  return {
+    ...homeBentoTileLabelStyle,
+    position: "absolute",
+    left: "24px",
+    top: hovered ? "24px" : "-28px",
+    fontSize: hovered ? "14px" : "10px",
+    lineHeight: hovered ? "17px" : "12px",
+    opacity: hovered ? 1 : 0.2,
+    zIndex: 1,
+    transition: `top ${HOVER_DURATION} ${HOVER_EASE}, font-size ${HOVER_DURATION} ${HOVER_EASE}, line-height ${HOVER_DURATION} ${HOVER_EASE}, opacity ${HOVER_DURATION} ${HOVER_EASE}`,
+  };
+}
+
 function FloorPlanTile({ style, centerImage = false }: { style: CSSProperties; centerImage?: boolean }) {
+  const [hovered, setHovered] = useState(false);
+
   return (
     <a
       href="/floor-plan-version"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Open the floor-plan homepage concept"
-      className="cursor-hover-pointer bento-fp-tile"
+      className="cursor-hover-pointer"
       style={{ ...tileShellStyle, ...style, display: "block" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <span style={{ ...homeBentoTileLabelStyle, ...tileLabelPositionStyle }}>Floor Plan Version</span>
+      <span style={tileLabelStyle(hovered)}>Floor Plan Version</span>
       <div
-        className="bento-tilt-outer"
-        style={
-          centerImage
-            ? { position: "absolute", left: "50%", top: "59px", transform: "translateX(-50%)" }
-            : { position: "absolute", left: "52px", top: "59px" }
-        }
+        style={{
+          position: "absolute",
+          left: centerImage ? "50%" : "52px",
+          top: hovered ? "59px" : "27px",
+          transform: centerImage ? "translateX(-50%)" : undefined,
+          transition: `top ${HOVER_DURATION} ${HOVER_EASE}`,
+        }}
       >
         <div
           style={{
@@ -74,20 +90,29 @@ function FloorPlanTile({ style, centerImage = false }: { style: CSSProperties; c
 }
 
 function ReadingTile({ style }: { style: CSSProperties }) {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div style={{ ...tileShellStyle, ...style }}>
-      <span style={{ ...homeBentoTileLabelStyle, ...tileLabelPositionStyle }}>Reading</span>
+    <div
+      style={{ ...tileShellStyle, ...style }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <span style={tileLabelStyle(hovered)}>Reading</span>
       <div
         style={{
           position: "absolute",
-          width: "74.82px",
-          height: "113.74px",
-          left: "51.9px",
-          top: "52.04px",
-          borderRadius: "2px",
+          width: hovered ? "74.82px" : "88px",
+          height: hovered ? "113.74px" : "134px",
+          left: hovered ? "51.9px" : "38.35px",
+          top: hovered ? "52.04px" : "26px",
+          borderRadius: hovered ? "2px" : "2.62px",
           overflow: "hidden",
-          boxShadow: "4px 4px 20px rgba(0, 0, 0, 0.15)",
+          boxShadow: hovered
+            ? "4px 4px 20px rgba(0, 0, 0, 0.15)"
+            : "5.24px 5.24px 26.18px rgba(0, 0, 0, 0.15)",
           transform: "rotate(6.74deg)",
+          transition: `width ${HOVER_DURATION} ${HOVER_EASE}, height ${HOVER_DURATION} ${HOVER_EASE}, left ${HOVER_DURATION} ${HOVER_EASE}, top ${HOVER_DURATION} ${HOVER_EASE}, border-radius ${HOVER_DURATION} ${HOVER_EASE}, box-shadow ${HOVER_DURATION} ${HOVER_EASE}`,
         }}
       >
         <Image src="/26june-homepage-assets/book.avif" alt="Currently reading" fill sizes="150px" className="object-cover" />
@@ -98,20 +123,30 @@ function ReadingTile({ style }: { style: CSSProperties }) {
 
 function CreativeLicenseTile({ style }: { style: CSSProperties }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   return (
     <>
       <div
-        className="cursor-hover-pointer bento-cl-tile"
+        className="cursor-hover-pointer"
         style={{ ...tileShellStyle, ...style }}
         onClick={() => setLightboxOpen(true)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         role="button"
         tabIndex={0}
         aria-label="Open Creative License"
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setLightboxOpen(true); }}
       >
-        <span style={{ ...homeBentoTileLabelStyle, ...tileLabelPositionStyle }}>About</span>
-        <div className="bento-tilt-outer" style={{ position: "absolute", left: "40.21px", top: "34.48px" }}>
+        <span style={tileLabelStyle(hovered)}>About</span>
+        <div
+          style={{
+            position: "absolute",
+            left: "40.21px",
+            top: hovered ? "34.48px" : "10.48px",
+            transition: `top ${HOVER_DURATION} ${HOVER_EASE}`,
+          }}
+        >
           <div
             style={{
               width: "301.12px",
@@ -146,7 +181,7 @@ function ListeningTile({
 
   return (
     <div style={{ ...tileShellStyle, ...style }}>
-      <span style={{ ...homeBentoTileLabelStyle, ...tileLabelPositionStyle }}>Listening</span>
+      <span style={tileLabelStyle(hovered)}>Listening</span>
 
       {lead ? (
         <a
@@ -163,17 +198,17 @@ function ListeningTile({
           <div
             style={{
               position: "absolute",
-              left: "calc(50% - 44px)",
-              top: "calc(50% - 44px + 4px)",
-              width: "88px",
-              height: "88px",
-              border: "1.6px solid #fff",
-              borderRadius: "8px",
+              left: hovered ? "calc(50% - 44px)" : "calc(50% - 58.5px)",
+              top: hovered ? "calc(50% - 40px)" : "calc(50% - 69px)",
+              width: hovered ? "88px" : "117px",
+              height: hovered ? "88px" : "117px",
+              border: hovered ? "1.6px solid #fff" : "2.13px solid #fff",
+              borderRadius: hovered ? "8px" : "10.64px",
               overflow: "hidden",
               boxShadow: hovered
                 ? "0px 8px 22px rgba(0,0,0,0.14), 0 0 0 1.5px #fff, 0 0 0 3px var(--ds-color-accent-terminal)"
-                : "0px 8px 22px rgba(0,0,0,0.14)",
-              transition: "box-shadow 0.2s ease",
+                : "0px 10.64px 29.25px rgba(0,0,0,0.14)",
+              transition: `left ${HOVER_DURATION} ${HOVER_EASE}, top ${HOVER_DURATION} ${HOVER_EASE}, width ${HOVER_DURATION} ${HOVER_EASE}, height ${HOVER_DURATION} ${HOVER_EASE}, border ${HOVER_DURATION} ${HOVER_EASE}, border-radius ${HOVER_DURATION} ${HOVER_EASE}, box-shadow ${HOVER_DURATION} ${HOVER_EASE}`,
             }}
           >
             <Image

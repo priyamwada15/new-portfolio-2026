@@ -975,18 +975,6 @@ body {
   animation: bento-ticker 10s linear infinite;
 }
 
-.bento-tilt-outer {
-  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.bento-fp-tile:hover .bento-tilt-outer {
-  transform: rotate(3deg) scale(1.04);
-}
-
-.bento-cl-tile:hover .bento-tilt-outer {
-  transform: rotate(-3deg) scale(1.04);
-}
-
 /* Reveal gap lives inside the sheet surface; tall enough for bottom radius arc */
 .site-scroll-layer__sheet-foot {
   min-height: max(

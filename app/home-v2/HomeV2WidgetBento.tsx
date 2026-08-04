@@ -115,7 +115,7 @@ function ReadingTile({ style }: { style: CSSProperties }) {
           transition: `width ${HOVER_DURATION} ${HOVER_EASE}, height ${HOVER_DURATION} ${HOVER_EASE}, left ${HOVER_DURATION} ${HOVER_EASE}, top ${HOVER_DURATION} ${HOVER_EASE}, border-radius ${HOVER_DURATION} ${HOVER_EASE}, box-shadow ${HOVER_DURATION} ${HOVER_EASE}`,
         }}
       >
-        <Image src="/26june-homepage-assets/book.avif" alt="Currently reading" fill sizes="150px" className="object-cover" />
+        <Image src="/26june-homepage-assets/slow_gods_book_cover.avif" alt="Currently reading" fill sizes="150px" className="object-cover" />
       </div>
     </div>
   );

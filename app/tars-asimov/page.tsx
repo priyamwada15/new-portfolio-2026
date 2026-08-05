@@ -118,7 +118,7 @@ const DEEP_DIVE_ITEMS = [
 
 const REFLECTIONS = [
   {
-    title: "Power requires permissions, not just capabilities.",
+    title: "Power requires permissions, not just capabilities",
     weight: "font-medium",
     paragraphs: [
       "As Asimov evolved as a summarizer to knowledge access and taking actions, I realized that trust depended as much on permission models as on AI capabilities.",
@@ -126,7 +126,7 @@ const REFLECTIONS = [
     ],
   },
   {
-    title: "AI products become platforms faster than you expect.",
+    title: "AI products become platforms faster than you expect",
     weight: "font-medium",
     paragraphs: [
       "What started as a single Slack capability quickly expanded into a system of knowledge, integrations and custom actions.",
@@ -230,7 +230,7 @@ export default function AsimovPage() {
         <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
           <SectionLabel>Core Features</SectionLabel>
           <h2 className={caseStudySectionH2}>
-            From thread summaries to an AI-enabled workspace.
+            From thread summaries to an AI-enabled workspace
           </h2>
           <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
             The product began with a single capability: summarizing Slack
@@ -261,7 +261,7 @@ export default function AsimovPage() {
         <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
           <SectionLabel>Opportunities & Research</SectionLabel>
           <h2 className={caseStudySectionH2}>
-            Designing an AI that could do more than answer.
+            Designing an AI that could do more than answer
           </h2>
           <div className="flex flex-col items-start gap-4">
             <p className="text-[16px] font-normal leading-[160%] text-[#555555]">

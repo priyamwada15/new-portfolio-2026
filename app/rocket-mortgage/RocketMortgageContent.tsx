@@ -198,7 +198,7 @@ function CoreFlows() {
           Core Flows
         </p>
         <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
-          Turning a generic chat into a guided mortgage journey.
+          Turning a generic chat into a guided mortgage journey
         </h2>
       </div>
       <div className="flex flex-col gap-14">
@@ -255,7 +255,7 @@ function Impact() {
           Impact
         </p>
         <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
-          Trust, control and explainability, validated with the clients.
+          Trust, control and explainability, validated with the clients
         </h2>
       </div>
       <div className="flex flex-col gap-8 md:flex-row md:gap-12">

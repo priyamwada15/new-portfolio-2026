@@ -370,7 +370,7 @@ export default function SalesforcePage() {
             Before and After
           </p>
           <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
-            What actually changed for students, before Galileo and after.
+            What actually changed for students, before Galileo and after
           </h2>
         </div>
         <div className="flex flex-col gap-16">

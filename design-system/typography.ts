@@ -49,4 +49,4 @@ export const salesforceBody =
 
 /** Shared media panel shell (grey fill + large radius). */
 export const mediaPanel =
-  "bg-surface-media rounded-[24px]" as const;
+  "bg-surface-media rounded-[var(--ds-radius-container)]" as const;

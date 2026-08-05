@@ -1,11 +1,144 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import SectionLabel from "../components/SectionLabel";
+import AutoPauseVideo from "../components/AutoPauseVideo";
+import { CoreFeatureVideo } from "./CoreFeatureVideo";
+import WorkflowLoopGraphic from "./WorkflowLoopGraphic";
+import KnowledgeSourcesDemo from "./KnowledgeSourcesDemo";
+import { caseStudySectionH2, mediaPanel } from "@/design-system";
+
+const CORE_FEATURES = [
+  {
+    title: "Knowledge Dashboard",
+    description:
+      "Teams connected sources like Notion and Google Drive so Asimov could answer questions using company knowledge beyond Slack. Admins could monitor sync status and control how often each source was refreshed.",
+    videoSrc:
+      "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/KB_Asimov_nrvbu8.mp4",
+  },
+  {
+    title: "Integrations Hub",
+    description:
+      "One place to connect an app, see what it's linked to and what information Asimov is accessing from it.",
+    videoSrc:
+      "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/Integrations_Asimov_izfe8q.mp4",
+  },
+  {
+    title: "Action Configuration",
+    description:
+      "Teams configure third-party apps actions and build custom actions, that combined with Slack context, enabling Asimov to automate recurring workflows.",
+    videoSrc:
+      "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/Actions_Asimov_e9ezjr.mp4",
+  },
+] as const;
+
+const OPPORTUNITIES = [
+  {
+    title: "Opportunity 1: Conversations were only the beginning",
+    description: [
+      "Slack conversations often triggered work elsewhere.",
+      "Customer-facing teams moved from a discussion to updating HubSpot, writing reports or sharing project updates, carrying the same context across multiple tools.",
+      "Summaries reduced reading time, but they didn't reduce the work that followed.",
+    ],
+    image: {
+      src: "/new-asimov/Slack 1.png",
+      alt: "Slack thread with Asimov summarizing the conversation",
+      width: 352,
+      height: 361,
+    },
+    caption: "Example scenario of Asimov summarizing threads.",
+  },
+  {
+    title: "Opportunity 2: No two teams worked the same way",
+    description: [
+      "Engineering wanted GitHub workflows, sales wanted CRM updates and marketing wanted content generation. The pattern that emerged was a need for flexibility.",
+      "Instead of designing automations for every use case, we designed a system that let teams define their own actions on top of connected tools.",
+    ],
+    image: {
+      src: "/new-asimov/Slack 2.png",
+      alt: "Slack thread showing Asimov integrating with another app",
+      width: 352,
+      height: 405,
+    },
+    caption: "Example scenario of Asimov integration with other apps.",
+  },
+] as const;
+
+const DEEP_DIVE_ITEMS = [
+  {
+    title: "Building trust through knowledge controls",
+    description: [
+      "Asimov's usefulness depended on the context it could access. I designed the knowledge setup experience to help teams connect relevant sources while maintaining visibility into what information the AI could use.",
+      "The experience balanced flexibility with control: teams could add different knowledge sources, select specific Slack channels and monitor sync status from one place.",
+    ],
+    graphicOverlay: <KnowledgeSourcesDemo />,
+    fillContainer: false,
+  },
+  {
+    title: "Connecting AI to the tools teams already used",
+    description: [
+      "Knowledge answered questions based on databases, but real work happened in tools like HubSpot. I designed the integrations experience to make connecting external systems feel transparent, showing what was connected, what data Asimov could access and where teams could manage permissions.",
+      "This helped position integrations as something teams could understand and trust, rather than a hidden system running in the background.",
+    ],
+    graphicOverlay: (
+      <AutoPauseVideo
+        src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785523382/Integrations_Preview_xayos0.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label="Integrations experience demo"
+        className="h-full w-full object-cover"
+      />
+    ),
+    fillContainer: true,
+  },
+  {
+    title: "Configuring custom actions",
+    description: [
+      "No predefined set of actions could cover every team's workflow. Instead of shipping one-off automations, I designed a system that let teams decide what Asimov could do and define new capabilities as their needs evolved.",
+      "Teams could enable or disable built-in actions for connected tools and create custom actions through a configurable schema, giving them control over both permissions and extensibility.",
+    ],
+    graphicOverlay: (
+      <AutoPauseVideo
+        src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785526992/Actions_Preview_ykwxsc.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label="Custom actions configuration demo"
+        className="h-full w-full object-cover"
+      />
+    ),
+    fillContainer: true,
+  },
+] as const;
+
+const REFLECTIONS = [
+  {
+    title: "Power requires permissions, not just capabilities.",
+    weight: "font-medium",
+    paragraphs: [
+      "As Asimov evolved as a summarizer to knowledge access and taking actions, I realized that trust depended as much on permission models as on AI capabilities.",
+      "Today, I would design governance alongside the feature instead of treating it as a later phase.",
+    ],
+  },
+  {
+    title: "AI products become platforms faster than you expect.",
+    weight: "font-medium",
+    paragraphs: [
+      "What started as a single Slack capability quickly expanded into a system of knowledge, integrations and custom actions.",
+      "The project reinforced the importance of designing scalable foundations that can accommodate new capabilities without breaking the entire experience.",
+    ],
+  },
+] as const;
 
 export const metadata: Metadata = {
   title: "Asimov for Tars | Priyamwada Pandey",
   description:
-    "I designed the system that taught an AI what to know, who to trust and what to do, and 82% of pilot teams adopted it.",
+    "Designing the workflow configuration hub that grew a Slack AI agent from a single capability to 82% pilot adoption.",
 };
 
 export default function AsimovPage() {
@@ -17,15 +150,66 @@ export default function AsimovPage() {
         { src: "/logos/tars.svg", alt: "TARS" },
       ]}
       projectName="Asimov for Tars"
-      breadcrumbLabel="Tars"
-      headline="I designed the system that taught an AI what to know, who to trust and what to do, and 82% of pilot teams adopted it."
-      context="Asimov is an AI assistant that lives inside team Slack workspaces. The core design challenge was what Asimov could access, who could use it and what it was allowed to do."
-      contribution="I led 0→1 design for Asimov's knowledge management system, permissions architecture and external integrations hub, shipping incrementally across a 4-month engagement. Components I designed became the foundation for Tars' product suite."
+      breadcrumbLabel="Asimov for Tars"
+      contextLabel="TL;DR"
+      headline="Designing the workflow configuration hub that grew a Slack AI agent from a single capability to 82% pilot adoption."
+      headlineColor="#333333"
+      headlineClassName="text-[36px] font-medium leading-[140%] text-[#333333] max-tablet:text-[24px]"
+      headlineStyle={{ fontWeight: 500 }}
+      reverseHeaderOrder={true}
+      heroVisual={
+        <AutoPauseVideo
+          src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-label="Asimov for Tars, hero overview"
+          className="block w-full rounded-2xl"
+        />
+      }
+      hideContextLabel={true}
+      context={
+        <div className="flex max-w-[768px] flex-col items-start gap-6">
+          <h2 className={caseStudySectionH2}>TL;DR</h2>
+          <div className="flex flex-col items-start gap-4">
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+              As generative AI capabilities emerged in 2023, we saw an
+              opportunity to rethink workplace productivity: instead of
+              asking people to switch between tools, could an AI agent help
+              them work directly where conversations already happened?
+            </p>
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+              I designed Asimov from its first prototype into a broader AI
+              teammate inside Slack, creating experiences for knowledge
+              discovery, app integrations and automated workflows. The beta
+              release helped the Tars team reduce repetitive task-related
+              queries by 74%.
+            </p>
+          </div>
+          <div className="flex w-full flex-col gap-8 md:flex-row md:gap-12">
+            {[
+              { label: "Pilot adoption", value: "82%" },
+              { label: "Reduction in queries", value: "~74%" },
+              { label: "Positive feedback", value: "86%" },
+            ].map((item) => (
+              <div key={item.label} className="flex-1">
+                <SectionLabel>{item.label}</SectionLabel>
+                <p className="font-label text-[48px] font-semibold leading-[48px] text-ink">
+                  {item.value}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      }
       meta={{
-        timeline: "Dec 2023 – Mar 2024",
+        timelineLabel: "Shipped (Beta)",
+        timeline: "Jan 2024",
         industry: "B2B SaaS",
         role: "Product Designer",
-        team: "Founders, Engineers, Me",
+        team: "Founders, Developers",
       }}
       nextProject={{
         href: "/rocket-mortgage",
@@ -34,193 +218,235 @@ export default function AsimovPage() {
           "I introduced interaction patterns to Rocket's AI assistant that made it to the product roadmap.",
       }}
       toc={[
-        { id: "section-01", label: "01" },
-        { id: "section-02", label: "02" },
-        { id: "section-03", label: "03" },
-        { id: "constraint", label: "Constraint" },
-        { id: "craft", label: "Craft" },
-        { id: "reflection", label: "Reflection" },
+        { id: "section-01", label: "Core Features" },
+        { id: "section-02", label: "Opportunities & Research" },
+        { id: "section-03", label: "Deep Dive" },
+        { id: "constraint", label: "Blockers" },
+        { id: "reflection", label: "Reflections" },
       ]}
     >
-      <div className="grid md:grid-cols-3 gap-8 py-8 border-y border-border">
-        {[
-          { stat: "82.3%", label: "Adoption in early pilot teams" },
-          { stat: "~74%", label: "Reduction in task-related queries" },
-          { stat: "86%", label: "Positive feedback from teams" },
-        ].map((item) => (
-          <div key={item.stat}>
-            <p className="font-sans text-3xl md:text-4xl font-medium text-ink mb-1">{item.stat}</p>
-            <p className="font-mono text-[11px] font-medium tracking-tight uppercase text-muted">
-              {item.label}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Section 01 */}
-      <section id="section-01">
-        <SectionLabel>01</SectionLabel>
-        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
-          What the system needs to know
-        </h2>
-        <div className="space-y-5">
-          <p>
-            We started with Slack as the only knowledge source. During early
-            interviews, a CXO asked whether Asimov could pull from their Notion
-            wiki. That question was the first signal that a single source
-            wasn&apos;t going to work for how teams actually store information.
-          </p>
-          <p>
-            The pivot meant rethinking the knowledge base from a channel list
-            into something closer to a management system. I designed a dashboard
-            where admins could connect multiple sources, set sync frequency and
-            see metadata on what Asimov had ingested from each one.
-          </p>
-          <p>
-            Admins needed to know what the AI was learning from, so I made that
-            information visible rather than something teams had to assume was
-            working.
+      {/* Section 01 - Core Features */}
+      <section id="section-01" className="flex flex-col items-start gap-10">
+        <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
+          <SectionLabel>Core Features</SectionLabel>
+          <h2 className={caseStudySectionH2}>
+            From thread summaries to an AI-enabled workspace.
+          </h2>
+          <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+            The product began with a single capability: summarizing Slack
+            threads. Each release expanded what Asimov could understand,
+            connect to and eventually do on a team&apos;s behalf.
           </p>
         </div>
-      </section>
 
-      {/* Section 02 */}
-      <section id="section-02">
-        <SectionLabel>02</SectionLabel>
-        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
-          How the admins stay in control
-        </h2>
-        <div className="space-y-5">
-          <p>
-            Teams were excited that Asimov could find information fast. What
-            they needed alongside that was confidence that it couldn&apos;t
-            access the wrong things.
-          </p>
-          <p>
-            Early designs had integration settings scattered across individual
-            feature sections. That worked when there were two or three
-            connections, but teams were asking for more. A unified hub meant
-            admins had one place to audit the system&apos;s external reach,
-            which turned out to be important for teams dealing with internal
-            compliance requirements.
-          </p>
-        </div>
-        <div className="mt-8 grid md:grid-cols-3 gap-6">
-          {[
-            {
-              label: "Connect",
-              desc: "Link external tools like Google Drive, HubSpot and Notion as live sources.",
-            },
-            {
-              label: "Permission",
-              desc: "Control what Asimov can read and act on per integration.",
-            },
-            {
-              label: "Disconnect",
-              desc: "Revoke access at any time without disrupting the rest of the system.",
-            },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="border border-border p-5 rounded-sm"
-            >
-              <p className="font-mono text-[11px] font-semibold tracking-tight uppercase text-secondary mb-2">
-                {item.label}
-              </p>
-              <p className="font-sans text-sm text-secondary leading-relaxed">
-                {item.desc}
-              </p>
+        <div className="flex flex-col items-start gap-16 self-stretch">
+          {CORE_FEATURES.map((feature) => (
+            <div key={feature.title} className="flex flex-col items-start gap-4 self-stretch">
+              <div className="flex flex-col items-start gap-2">
+                <h3 className="text-[20px] font-medium leading-[140%] text-[#333333]">
+                  {feature.title}
+                </h3>
+                <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+                  {feature.description}
+                </p>
+              </div>
+              <CoreFeatureVideo src={feature.videoSrc} title={feature.title} />
             </div>
           ))}
         </div>
       </section>
 
-      {/* Section 03 */}
-      <section id="section-03">
-        <SectionLabel>03</SectionLabel>
-        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
-          From retrieval to execution
-        </h2>
-        <div className="space-y-5">
-          <p>
-            Once integrations were in place, teams started asking whether Asimov
-            could do things inside those tools, not just read from them.
-          </p>
-          <p>
-            I looked at how GPT Builder was handling this in early 2024 and used
-            it as a reference point for what configurability at this level
-            actually required. The design constraint was making schema
-            configuration and authentication setup usable for someone who
-            wasn&apos;t technical.
-          </p>
-          <p>
-            The first version let teams add custom tools by configuring a schema
-            and authentication method. It was functional but it assumed a level
-            of technical comfort most admins didn&apos;t have. The next
-            iteration connected actions directly to the integrations hub, so
-            teams could authorize Asimov to perform specific tasks within tools
-            they had already connected.
-          </p>
+      {/* Section 02 - Opportunities & Research */}
+      <section id="section-02" className="flex flex-col items-start gap-[33px]">
+        <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
+          <SectionLabel>Opportunities & Research</SectionLabel>
+          <h2 className={caseStudySectionH2}>
+            Designing an AI that could do more than answer.
+          </h2>
+          <div className="flex flex-col items-start gap-4">
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+              I interviewed customer success, sales, engineering, design and
+              marketing to understand how work moved across conversations,
+              tools and teams.
+            </p>
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+              Rather than validating a specific feature, I wanted to identify
+              where an AI teammate could meaningfully participate in daily
+              work and boost productivity.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-start gap-10 self-stretch">
+          {OPPORTUNITIES.map((opportunity, index) => (
+            <div
+              key={opportunity.title}
+              className={`flex flex-col items-center gap-8 self-stretch md:flex-row ${
+                index % 2 === 1 ? "md:flex-row-reverse" : ""
+              }`}
+            >
+              <div className="flex flex-[336] flex-col items-start gap-4">
+                <h3 className="text-[20px] font-medium leading-[140%] text-[#333333]">
+                  {opportunity.title}
+                </h3>
+                <div className="flex flex-col items-start gap-4">
+                  {opportunity.description.map((paragraph, i) => (
+                    <p
+                      key={i}
+                      className="text-[16px] font-normal leading-[160%] text-[#555555]"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+              <div
+                className={`flex w-full flex-[400] flex-col items-center gap-6 py-6 ${mediaPanel}`}
+              >
+                <div className="w-[88%] overflow-hidden rounded-lg border border-[#E8E8E8]">
+                  <Image
+                    src={opportunity.image.src}
+                    alt={opportunity.image.alt}
+                    width={opportunity.image.width}
+                    height={opportunity.image.height}
+                    className="block h-auto w-full"
+                  />
+                </div>
+                <p className="w-full px-6 text-center text-[12px] leading-[150%] text-[#555555]">
+                  {opportunity.caption}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Constraint */}
-      <section id="constraint">
-        <SectionLabel>The constraint I didn&apos;t anticipate</SectionLabel>
-        <h2 className="font-mono text-[32px] font-bold text-ink mb-10">
-          Access control became urgent before the backend was ready for it.
-        </h2>
-        <div className="space-y-5">
-          <p>
-            As teams connected more data sources, it became clear that not
-            everyone should have the same access to what Asimov knew. A full
-            role-based access system at the dashboard level needed deeper
-            backend work than we had runway for at the time.
-          </p>
-          <p>
-            I designed a workaround through Asimov&apos;s Slack settings that
-            let admins control who had access and introduced multiple instances
-            so teams could deploy Asimov at different organizational levels.
-          </p>
+      {/* Section 03 - Deep Dive */}
+      <section id="section-03" className="flex flex-col items-start gap-16">
+        <div className="flex flex-col items-start gap-4 self-stretch">
+          <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
+            <SectionLabel>Deep Dive</SectionLabel>
+            <h2 className={caseStudySectionH2}>
+              Designing the foundation for an Asimov
+            </h2>
+          </div>
+
+          <div className="flex flex-col items-start gap-4 self-stretch">
+            <div className="flex flex-col items-start gap-4">
+              <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+                Asimov&apos;s experience started with a simple setup: connect
+                Slack, define knowledge sources and choose what context the AI
+                could access.
+              </p>
+              <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+                Once configured, teams could interact with Asimov directly
+                inside Slack, where it used that context to summarize
+                conversations, retrieve information and complete workflows.
+              </p>
+            </div>
+            <div
+              className="aspect-[768/200] w-full min-h-[140px] overflow-hidden rounded-[var(--ds-radius-container)]"
+              aria-hidden="true"
+            >
+              <WorkflowLoopGraphic />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-start gap-16 self-stretch">
+          {DEEP_DIVE_ITEMS.map((item) => (
+            <div key={item.title} className="flex flex-col items-start gap-4 self-stretch">
+              <div className="flex flex-col items-start gap-2">
+                <h3 className="text-[20px] font-medium leading-[140%] text-[#333333]">
+                  {item.title}
+                </h3>
+                <div className="flex flex-col items-start gap-4">
+                  {item.description.map((paragraph, i) => (
+                    <p
+                      key={i}
+                      className="text-[16px] font-normal leading-[160%] text-[#555555]"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+              <div
+                className={`relative w-full overflow-hidden ${
+                  item.fillContainer ? "aspect-[768/500]" : ""
+                } ${mediaPanel}`}
+                aria-hidden="true"
+              >
+                {item.graphicOverlay}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Craft */}
-      <section id="craft">
-        <SectionLabel>Craft</SectionLabel>
-        <p className="font-sans text-lg text-secondary leading-relaxed">
-          Components designed for Asimov became the foundation for Tars&apos;
-          product suite. I designed these to work consistently across desktop
-          and mobile surfaces so each new feature could be assembled from
-          existing parts rather than built from scratch.
-        </p>
+      {/* Blockers */}
+      <section id="constraint" className="flex flex-col items-start gap-12">
+        <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
+          <SectionLabel>Blockers</SectionLabel>
+          <h2 className={caseStudySectionH2}>
+            Trust became the biggest design challenge
+          </h2>
+          <div className="flex flex-col items-start gap-4">
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+              Early versions of Asimov focused on what the AI could do. As its
+              capabilities expanded, a different question emerged: who should
+              be allowed to configure those capabilities?
+            </p>
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
+              A full role-based permission system required backend support
+              beyond the beta timeline. I designed the future access model
+              while relying on Slack&apos;s existing administrator
+              permissions as a temporary solution.
+            </p>
+          </div>
+        </div>
+
+        <div className={`relative aspect-[768/481] w-full overflow-hidden ${mediaPanel}`}>
+          <div
+            className="absolute left-1/2 top-4 w-[505px] max-w-[calc(100%-32px)] -translate-x-1/2 sm:top-16"
+            style={{ filter: "drop-shadow(0px 0px 24px rgba(0,0,0,0.04))" }}
+          >
+            <Image
+              src="/new-asimov/Admin User Manage Settings Modal.png"
+              alt="Admin settings modal for managing who has access to configure Asimov"
+              width={505}
+              height={635}
+              className="h-auto w-full"
+            />
+          </div>
+        </div>
       </section>
 
       {/* Reflection */}
-      <section id="reflection">
-        <SectionLabel>Reflection</SectionLabel>
-        <div className="space-y-8">
-          {[
-            {
-              title: "Ship small, ship quick, learn fast",
-              body: "Breaking work into shippable features meant learning from real usage before the next decision was locked in. Asimov got better because teams were using it, not because we anticipated everything upfront.",
-            },
-            {
-              title: "Constraints surface on their own schedule",
-              body: "RBAC felt like a future problem until teams started connecting sensitive data sources. The gap between 'we'll deal with that later' and 'we need this now' closed faster than the roadmap expected.",
-            },
-            {
-              title: "Sequence is a design decision",
-              body: "What gets built first shapes what's possible afterward. Focusing on RBAC earlier would have made enterprise adoption easier. Designers should be in the conversation about what gets prioritized, not just how it gets designed.",
-            },
-          ].map((item, i) => (
-            <div key={i} className="border-l-2 border-border pl-5">
-              <p className="font-mono text-xs font-semibold uppercase tracking-tight mb-2">
+      <section id="reflection" className="flex flex-col items-start gap-12">
+        <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
+          <SectionLabel>Reflections</SectionLabel>
+          <h2 className={caseStudySectionH2}>
+            What I&apos;d take into the next project
+          </h2>
+        </div>
+
+        <div className="flex flex-col items-start gap-12 self-stretch">
+          {REFLECTIONS.map((item) => (
+            <div key={item.title} className="flex flex-col items-start gap-3 self-stretch">
+              <h3 className={`text-[20px] leading-[140%] text-[#333333] ${item.weight}`}>
                 {item.title}
-              </p>
-              <p className="font-sans text-base text-secondary leading-relaxed">
-                {item.body}
-              </p>
+              </h3>
+              <div className="flex flex-col items-start gap-4">
+                {item.paragraphs.map((paragraph, i) => (
+                  <p
+                    key={i}
+                    className="text-[16px] font-normal leading-[160%] text-[#555555]"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             </div>
           ))}
         </div>

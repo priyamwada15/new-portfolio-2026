@@ -10,7 +10,9 @@ import {
 
 // Elements where the asterisk glyph itself should hide, leaving only the
 // native pointer cursor (nav, footer, TOC, breadcrumb) — mirrors AsciiCursorTrail.
-const HIDE_HEAD_SELECTOR = ".cursor-hover-pointer";
+// Also covers zoom-in/zoom-out targets (e.g. expandable case study video), which
+// need the native magnifying-glass cursor rather than the asterisk glyph.
+const HIDE_HEAD_SELECTOR = ".cursor-hover-pointer, .cursor-zoom-in, .cursor-zoom-out";
 
 export function AsteriskCursor() {
   const headWrapRef = useRef<HTMLDivElement>(null);

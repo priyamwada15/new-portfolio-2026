@@ -337,6 +337,74 @@ export default async function HomeV2Page() {
           </ScrollReveal>
           </div>
 
+          {/* Asimov */}
+          <div className="home-v2-section home-v2-asimov">
+          <ScrollReveal>
+            <HomeV2CardLink
+              href="/tars-asimov"
+              ariaLabel="Read Asimov for Tars case study"
+              className="cursor-hover-dark"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                padding: "24px",
+                gap: "24px",
+                width: "100%",
+                background: "var(--ds-surface-page)",
+                borderRadius: "var(--ds-radius-container)",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logos/tars.svg"
+                alt="TARS"
+                style={{ height: "24px", width: "auto", flex: "none", objectFit: "contain" }}
+              />
+
+              <LazyVideo
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
+                poster="/Asimov Video Poster.png"
+                ariaLabel="Asimov for Tars preview video"
+                style={{
+                  width: "100%",
+                  aspectRatio: "960 / 621",
+                  flex: "none",
+                  alignSelf: "stretch",
+                  objectFit: "contain",
+                  backgroundColor: "var(--ds-surface-page)",
+                  border: "1px solid var(--ds-border-faint)",
+                  borderRadius: "16px",
+                }}
+              />
+
+              <div
+                className="home-v2-card-footer"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "56px",
+                  width: "100%",
+                  alignSelf: "stretch",
+                  flex: "none",
+                  ...homeCardFooterFont,
+                }}
+              >
+                <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
+                  Designing the workflow configuration hub that grew a Slack AI agent from a
+                  single capability to 82% pilot adoption.
+                </div>
+                <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
+                  <span>#0-to-1</span>
+                  <span>#ai-agent</span>
+                  <span>#b2b-saas</span>
+                </div>
+              </div>
+            </HomeV2CardLink>
+          </ScrollReveal>
+          </div>
+
           {/* Stellar Scan + Arduino robot arm duet */}
           <div id="creative-projects" className="home-v2-section home-v2-frame-9">
           <ScrollReveal>

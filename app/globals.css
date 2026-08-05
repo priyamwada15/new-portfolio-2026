@@ -305,6 +305,16 @@ body {
   cursor: pointer;
 }
 
+.cursor-zoom-in,
+.cursor-zoom-in * {
+  cursor: zoom-in;
+}
+
+.cursor-zoom-out,
+.cursor-zoom-out * {
+  cursor: zoom-out;
+}
+
 /* SVG cursors need explicit hotspot coords. */
 @media (hover: hover) and (pointer: fine) {
   /* Hide OS cursor on Home V2; custom trail draws on top. */
@@ -352,6 +362,16 @@ body {
   body.portfolio-asterisk-cursor .cursor-hover-pointer,
   body.portfolio-asterisk-cursor .cursor-hover-pointer * {
     cursor: pointer;
+  }
+
+  body.portfolio-asterisk-cursor .cursor-zoom-in,
+  body.portfolio-asterisk-cursor .cursor-zoom-in * {
+    cursor: zoom-in;
+  }
+
+  body.portfolio-asterisk-cursor .cursor-zoom-out,
+  body.portfolio-asterisk-cursor .cursor-zoom-out * {
+    cursor: zoom-out;
   }
 }
 

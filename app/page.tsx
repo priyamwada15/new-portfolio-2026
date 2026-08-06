@@ -64,6 +64,21 @@ function IntroPara3() {
   );
 }
 
+/** Pill-style tag chip used on case study cards (video overlay layout). */
+const homeCardTagPillStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "6px 12px",
+  background: "var(--ds-surface-page)",
+  borderRadius: "4px",
+  fontSize: "12px",
+  fontWeight: 300,
+  lineHeight: "140%",
+  textTransform: "uppercase" as const,
+  color: "var(--ds-text-secondary)",
+};
+
 /** Small "category" badge used on Creative Coding / prototyping cards (icon + label). */
 function CardCategoryBadge({ label }: { label: string }) {
   return (
@@ -132,46 +147,63 @@ export default async function HomeV2Page() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                padding: "24px",
-                gap: "24px",
+                padding: 0,
+                gap: "16px",
                 width: "350px",
-                background: "var(--ds-surface-page)",
-                borderRadius: "var(--ds-radius-container)",
               }}
             >
-              {/* Logos */}
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: "none" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logos/rocket-mortgage.svg"
-                  alt="Rocket Mortgage"
-                  style={{ width: "86.5px", height: "24px" }}
-                />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logos/rocket-assist-full.svg"
-                  alt="Rocket Assist"
-                  style={{ height: "24px", width: "auto" }}
-                />
-              </div>
-
-              {/* Video region */}
-              <LazyVideo
-                className="home-v2-rm-video"
-                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295116/RM_Onboarding_new_case_study_and_hero_video_biuj2w.mp4"
-                poster="/Rocket Mortgage Poster.png"
-                ariaLabel="Rocket Mortgage onboarding video"
+              {/* Video region (logos overlaid top-left) */}
+              <div
                 style={{
+                  position: "relative",
+                  boxSizing: "border-box",
                   width: "100%",
                   aspectRatio: "302 / 452",
                   flex: "none",
                   alignSelf: "stretch",
-                  objectFit: "cover",
-                  backgroundColor: "var(--ds-surface-page)",
-                  border: "1px solid var(--ds-border-faint)",
-                  borderRadius: "16px",
+                  padding: "80px 56px 24px",
+                  background: "var(--ds-surface-page)",
+                  borderRadius: "var(--ds-radius-container)",
+                  overflow: "hidden",
                 }}
-              />
+              >
+                <div
+                  className="home-v2-card-media-logo-group"
+                  style={{
+                    position: "absolute",
+                    top: "24px",
+                    left: "24px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    zIndex: 1,
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/logos/rocket-mortgage.svg"
+                    alt="Rocket Mortgage"
+                    style={{ width: "86.5px", height: "24px" }}
+                  />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/logos/rocket-assist-full.svg"
+                    alt="Rocket Assist"
+                    style={{ height: "24px", width: "auto" }}
+                  />
+                </div>
+                <LazyVideo
+                  className="home-v2-rm-video"
+                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295116/RM_Onboarding_new_case_study_and_hero_video_biuj2w.mp4"
+                  poster="/Rocket Mortgage Poster.png"
+                  ariaLabel="Rocket Mortgage onboarding video"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
 
               {/* Text */}
               <div
@@ -187,12 +219,12 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={homeCardFooterTitleStyle}>
-                  Designing adaptive AI guidance across Rocket Mortgage's 6.8M+ client conversations
+                  Personalizing AI guidance across 6.8M+ client conversations
                 </div>
                 <div style={homeCardFooterTagsStyle}>
-                  <span>#b2c-fintech</span>
-                  <span>#ai-assistant</span>
-                  <span>#trust-design</span>
+                  <span style={homeCardTagPillStyle}>b2c fintech</span>
+                  <span style={homeCardTagPillStyle}>ai assistant</span>
+                  <span style={homeCardTagPillStyle}>trust design</span>
                 </div>
               </div>
             </HomeV2CardLink>
@@ -210,37 +242,52 @@ export default async function HomeV2Page() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                padding: "24px",
-                gap: "24px",
+                padding: 0,
+                gap: "16px",
                 width: "100%",
-                background: "var(--ds-surface-page)",
-                borderRadius: "var(--ds-radius-container)",
               }}
             >
-              {/* Logo */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/logos/salesforce.svg"
-                alt="Salesforce"
-                style={{ height: "32px", width: "auto", flex: "none", objectFit: "contain" }}
-              />
-
-              {/* Video region */}
-              <LazyVideo
-                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295117/Salesforce_new_case_study_card_and_hero_fx5vpe.mp4"
-                poster="/Salesforce Poster.png"
-                ariaLabel="Salesforce case study preview video"
+              {/* Video region (logo overlaid top-left) */}
+              <div
                 style={{
+                  position: "relative",
+                  boxSizing: "border-box",
                   width: "100%",
-                  aspectRatio: "960 / 419",
+                  aspectRatio: "1008 / 575",
                   flex: "none",
                   alignSelf: "stretch",
-                  objectFit: "contain",
-                  backgroundColor: "var(--ds-surface-page)",
-                  border: "1px solid var(--ds-border-faint)",
-                  borderRadius: "16px",
+                  padding: "56px 56px 24px",
+                  background: "var(--ds-surface-page)",
+                  borderRadius: "var(--ds-radius-container)",
+                  overflow: "hidden",
                 }}
-              />
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logos/salesforce.svg"
+                  alt="Salesforce"
+                  className="home-v2-card-media-logo"
+                  style={{
+                    position: "absolute",
+                    top: "24px",
+                    left: "24px",
+                    width: "56px",
+                    height: "40px",
+                    objectFit: "contain",
+                    zIndex: 1,
+                  }}
+                />
+                <LazyVideo
+                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295117/Salesforce_new_case_study_card_and_hero_fx5vpe.mp4"
+                  poster="/Salesforce Poster.png"
+                  ariaLabel="Salesforce case study preview video"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
 
               {/* Text */}
               <div
@@ -257,12 +304,12 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Designing a 0→1 AI product that turns fragmented academic data into one system.
+                  Designing a 0→1 AI platform for fragmented academic data
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span>#0-to-1</span>
-                  <span>#ai-product-design</span>
-                  <span>#b2b2c</span>
+                  <span style={homeCardTagPillStyle}>b2b2c</span>
+                  <span style={homeCardTagPillStyle}>0→1</span>
+                  <span style={homeCardTagPillStyle}>ai product design</span>
                 </div>
               </div>
             </HomeV2CardLink>
@@ -280,35 +327,52 @@ export default async function HomeV2Page() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                padding: "24px",
-                gap: "24px",
+                padding: 0,
+                gap: "16px",
                 width: "100%",
-                background: "var(--ds-surface-page)",
-                borderRadius: "var(--ds-radius-container)",
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/logos/tars.svg"
-                alt="TARS"
-                style={{ height: "24px", width: "auto", flex: "none", objectFit: "contain" }}
-              />
-
-              <LazyVideo
-                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295525/Debug_Mode_new_case_study_and_hero_video_kuliwm.mp4"
-                poster="/Debug Video Poster.png"
-                ariaLabel="TARS debug mode preview video"
+              {/* Video region (logo overlaid top-left) */}
+              <div
                 style={{
+                  position: "relative",
+                  boxSizing: "border-box",
                   width: "100%",
-                  aspectRatio: "960 / 435",
+                  aspectRatio: "1008 / 575",
                   flex: "none",
                   alignSelf: "stretch",
-                  objectFit: "contain",
-                  backgroundColor: "var(--ds-surface-page)",
-                  border: "1px solid var(--ds-border-faint)",
-                  borderRadius: "16px",
+                  padding: "56px 56px 24px",
+                  background: "var(--ds-surface-page)",
+                  borderRadius: "var(--ds-radius-container)",
+                  overflow: "hidden",
                 }}
-              />
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logos/tars.svg"
+                  alt="TARS"
+                  className="home-v2-card-media-logo"
+                  style={{
+                    position: "absolute",
+                    top: "24px",
+                    left: "24px",
+                    height: "24px",
+                    width: "auto",
+                    objectFit: "contain",
+                    zIndex: 1,
+                  }}
+                />
+                <LazyVideo
+                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295525/Debug_Mode_new_case_study_and_hero_video_kuliwm.mp4"
+                  poster="/Debug Video Poster.png"
+                  ariaLabel="TARS debug mode preview video"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
 
               <div
                 className="home-v2-card-footer"
@@ -324,13 +388,12 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Designed an internal debugger for Tars&apos; CS team, cutting troubleshooting
-                  time by ~70%.
+                  Designing an internal debugger that cut troubleshooting time by ~70%
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span>#b2b-saas</span>
-                  <span>#complex-workflows</span>
-                  <span>#internal-tools</span>
+                  <span style={homeCardTagPillStyle}>b2b saas</span>
+                  <span style={homeCardTagPillStyle}>complex workflows</span>
+                  <span style={homeCardTagPillStyle}>internal tools</span>
                 </div>
               </div>
             </HomeV2CardLink>
@@ -348,35 +411,52 @@ export default async function HomeV2Page() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                padding: "24px",
-                gap: "24px",
+                padding: 0,
+                gap: "16px",
                 width: "100%",
-                background: "var(--ds-surface-page)",
-                borderRadius: "var(--ds-radius-container)",
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/logos/tars.svg"
-                alt="TARS"
-                style={{ height: "24px", width: "auto", flex: "none", objectFit: "contain" }}
-              />
-
-              <LazyVideo
-                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
-                poster="/Asimov Video Poster.png"
-                ariaLabel="Asimov for Tars preview video"
+              {/* Video region (logo overlaid top-left) */}
+              <div
                 style={{
+                  position: "relative",
+                  boxSizing: "border-box",
                   width: "100%",
-                  aspectRatio: "960 / 621",
+                  aspectRatio: "1008 / 575",
                   flex: "none",
                   alignSelf: "stretch",
-                  objectFit: "contain",
-                  backgroundColor: "var(--ds-surface-page)",
-                  border: "1px solid var(--ds-border-faint)",
-                  borderRadius: "16px",
+                  padding: "56px 56px 24px",
+                  background: "var(--ds-surface-page)",
+                  borderRadius: "var(--ds-radius-container)",
+                  overflow: "hidden",
                 }}
-              />
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logos/tars.svg"
+                  alt="TARS"
+                  className="home-v2-card-media-logo"
+                  style={{
+                    position: "absolute",
+                    top: "24px",
+                    left: "24px",
+                    height: "24px",
+                    width: "auto",
+                    objectFit: "contain",
+                    zIndex: 1,
+                  }}
+                />
+                <LazyVideo
+                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
+                  poster="/Asimov Video Poster.png"
+                  ariaLabel="Asimov for Tars preview video"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
 
               <div
                 className="home-v2-card-footer"
@@ -392,20 +472,20 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Designing the workflow configuration hub that grew a Slack AI agent from a
-                  single capability to 82% pilot adoption.
+                  Scaling an AI agent to 82% pilot adoption through configurable workflows
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span>#0-to-1</span>
-                  <span>#ai-agent</span>
-                  <span>#b2b-saas</span>
+                  <span style={homeCardTagPillStyle}>b2b saas</span>
+                  <span style={homeCardTagPillStyle}>0→1</span>
+                  <span style={homeCardTagPillStyle}>workflow design</span>
                 </div>
               </div>
             </HomeV2CardLink>
           </ScrollReveal>
           </div>
 
-          {/* Stellar Scan + Arduino robot arm duet */}
+          {/* Stellar Scan + Arduino robot arm duet — hidden for now */}
+          {false && (
           <div id="creative-projects" className="home-v2-section home-v2-frame-9">
           <ScrollReveal>
             <div
@@ -540,8 +620,10 @@ export default async function HomeV2Page() {
             </div>
           </ScrollReveal>
           </div>
+          )}
 
-          {/* Frame 10: Sunlight + Water shaders / ASCII Lane Dodge / Rocket Money LISA (GUI Reimagining) — no links yet */}
+          {/* Frame 10: Sunlight + Water shaders / ASCII Lane Dodge / Rocket Money LISA (GUI Reimagining) — no links yet — hidden for now */}
+          {false && (
           <div className="home-v2-section home-v2-frame-10">
           <ScrollReveal>
             <div
@@ -721,6 +803,7 @@ export default async function HomeV2Page() {
             </div>
           </ScrollReveal>
           </div>
+          )}
         </div>
         </HomeV2VideoProvider>
       </div>

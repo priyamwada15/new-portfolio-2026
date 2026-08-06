@@ -1,6 +1,6 @@
 "use client";
 
-import { DiscoBall, FileText, LinkedinLogo } from "@phosphor-icons/react";
+import { FileText, LinkedinLogo } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -39,19 +39,6 @@ export default function Nav() {
   const linkedin = useTilt(8);
   const mail = useTilt(-8);
   const resume = useTilt(8);
-  const disco = useTilt(-8);
-
-  const handleDiscoClick = () => {
-    if (isHomeV2) {
-      const el = document.getElementById("creative-projects");
-      if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY - 64;
-        window.scrollTo({ top, behavior: "smooth" });
-      }
-    } else {
-      window.location.href = "/#creative-projects";
-    }
-  };
 
   return (
     <div
@@ -78,25 +65,6 @@ export default function Nav() {
               />
 
               <div className="flex items-center gap-3 sm:gap-4">
-                <Tooltip side="bottom" sideOffset={8}>
-                  <TooltipTrigger
-                    asChild
-                    onMouseEnter={disco.onMouseEnter}
-                    onMouseLeave={disco.onMouseLeave}
-                  >
-                    <button
-                      onClick={handleDiscoClick}
-                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
-                      aria-label="Play"
-                    >
-                      <span style={disco.iconStyle}>
-                        <DiscoBall size={24} color="#555555" weight="regular" aria-hidden />
-                      </span>
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent>Play</TooltipContent>
-                </Tooltip>
-
                 <Tooltip side="bottom" sideOffset={8}>
                   <TooltipTrigger
                     asChild

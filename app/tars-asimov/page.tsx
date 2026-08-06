@@ -152,7 +152,7 @@ export default function AsimovPage() {
       projectName="Asimov for Tars"
       breadcrumbLabel="Asimov for Tars"
       contextLabel="TL;DR"
-      headline="Designing the workflow configuration hub that grew a Slack AI agent from a single capability to 82% pilot adoption."
+      headline="Scaling an AI agent to 82% pilot adoption through configurable workflows"
       headlineColor="#333333"
       headlineClassName="text-[36px] font-medium leading-[140%] text-[#333333] max-tablet:text-[24px]"
       headlineStyle={{ fontWeight: 500 }}

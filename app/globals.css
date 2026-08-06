@@ -127,15 +127,12 @@ body {
 /* Home V2 — main blocks: hover scale + subtle shadow */
 @media (hover: hover) and (pointer: fine) {
   .home-v2-main-card {
-    transition:
-      transform var(--home-card-duration) var(--home-card-easing),
-      box-shadow var(--home-card-duration) var(--home-card-easing);
+    transition: transform var(--home-card-duration) var(--home-card-easing);
   }
 
   .home-v2-main-card:hover {
-    will-change: transform, box-shadow;
+    will-change: transform;
     transform: translateY(var(--home-card-hover-y)) scale(var(--home-card-hover-scale));
-    box-shadow: var(--home-shadow-card-hover);
     z-index: 10;
   }
 }
@@ -233,23 +230,26 @@ body {
     height: 100% !important;
   }
 
-  /* Case-study logos above media */
-  .home-v2-layout .home-v2-main-card > img[alt="Salesforce"],
-  .home-v2-layout .home-v2-main-card > img[alt="TARS"] {
+  /* Case-study logo overlaid on media (video-overlay card layout) — width:auto
+     preserves each mark's native aspect ratio (Salesforce's cloud icon and
+     TARS's wordmark are very differently proportioned). */
+  .home-v2-card-media-logo {
+    top: 12px !important;
+    left: 12px !important;
     width: auto !important;
     height: 24px !important;
-    max-height: 24px !important;
-    object-fit: contain !important;
-    object-position: left center;
-    align-self: flex-start;
-    margin: 0;
-    padding: 8px 8px 0;
-    z-index: 1;
   }
 
-  .home-v2-layout .home-v2-main-card > img[alt="Salesforce"] {
-    height: 28px !important;
-    max-height: 28px !important;
+  /* Rocket Mortgage's dual-logo overlay group */
+  .home-v2-card-media-logo-group {
+    top: 12px !important;
+    left: 12px !important;
+    gap: 6px !important;
+  }
+
+  .home-v2-card-media-logo-group img {
+    width: auto !important;
+    height: 16px !important;
   }
 
   .home-v2-layout .home-v2-main-card video {

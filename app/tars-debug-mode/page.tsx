@@ -87,7 +87,7 @@ export default function DebugModePage() {
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       projectName="Debug Mode for Tars"
       breadcrumbLabel="Tars"
-      headline="Designed an internal debugger for Tars' CS team, cutting troubleshooting time by ~70%."
+      headline="Designing an internal debugger that cut troubleshooting time by ~70%"
       reverseHeaderOrder={true}
       heroVisual={
         <AutoPauseVideo

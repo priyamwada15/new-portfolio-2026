@@ -88,7 +88,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
             aria-hidden
           />
           <div
-            className="home-v2-flip-footer-gap min-h-[56px] w-full shrink-0"
+            className="home-v2-flip-footer-gap min-h-[104px] w-full shrink-0"
             aria-hidden
           />
         </div>

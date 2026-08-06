@@ -138,7 +138,7 @@ const BEFORE_SLIDES: BeforeAfterSlide[] = [
     badgeBg: "#FFEBEB",
     badgeColor: "#CB2A2F",
     badgeBorder: "#E59597",
-    title: "Platform 2: Degree requirements live in another page.",
+    title: "Platform 2: Degree requirements live in another page",
     images: [
       {
         src: "/new-salesforce/Degree%20Requirements.png",
@@ -147,7 +147,7 @@ const BEFORE_SLIDES: BeforeAfterSlide[] = [
         height: 372,
       },
     ],
-    caption: "Students had to have multiple tabs open for processing information.",
+    caption: "Students had to have multiple tabs open to process information.",
   },
   {
     badgeLabel: "before",
@@ -155,7 +155,7 @@ const BEFORE_SLIDES: BeforeAfterSlide[] = [
     badgeColor: "#CB2A2F",
     badgeBorder: "#E59597",
     title:
-      "Platform 3: Course reviews live on community platforms and in person 1-1 communication.",
+      "Platform 3: Course reviews live on community platforms and in person 1-1 communication",
     images: [
       {
         src: "/new-salesforce/Reddit%201.png",
@@ -173,14 +173,14 @@ const BEFORE_SLIDES: BeforeAfterSlide[] = [
       },
     ],
     caption:
-      "Students rely on Reddit or asking upperclassmen for course reviews for deciding between courses.",
+      "Students rely on Reddit or upperclassmen for course reviews when deciding between courses.",
   },
   {
     badgeLabel: "before",
     badgeBg: "#FFEBEB",
     badgeColor: "#CB2A2F",
     badgeBorder: "#E59597",
-    title: "Platform 4: Sites like RateMyProfessor give students insights into the professor's teaching style.",
+    title: "Platform 4: Sites like RateMyProfessor give students insights into the professor's teaching style",
     images: [
       {
         src: "/new-salesforce/RateMyProfessor.png",
@@ -194,7 +194,7 @@ const BEFORE_SLIDES: BeforeAfterSlide[] = [
       },
     ],
     caption:
-      "RateMyProfessor provides reviews but these are calculated bases on generic criteria rather than qualitative information.",
+      "RateMyProfessor provides reviews but these are calculated based on generic criteria rather than qualitative information.",
   },
 ];
 
@@ -204,7 +204,7 @@ const AFTER_SLIDES: BeforeAfterSlide[] = [
     badgeBg: "#EBFAEB",
     badgeColor: "#297A3A",
     badgeBorder: "#94BD9D",
-    title: "Feature 1: In-depth course review generated from university portals and peer reviews.",
+    title: "Feature 1: In-depth course review generated from university portals and peer reviews",
     images: [
       {
         src: "/new-salesforce/5.%20Course%20Details.png",
@@ -220,7 +220,7 @@ const AFTER_SLIDES: BeforeAfterSlide[] = [
     badgeColor: "#297A3A",
     badgeBorder: "#94BD9D",
     title:
-      "Feature 2: Clarity about professor teaching style and course workload and expectations in one place.",
+      "Feature 2: Clarity about professor teaching style and course workload and expectations in one place",
     images: [
       {
         src: "/new-salesforce/Professor%20Reviews.png",
@@ -235,7 +235,7 @@ const AFTER_SLIDES: BeforeAfterSlide[] = [
     badgeBg: "#EBFAEB",
     badgeColor: "#297A3A",
     badgeBorder: "#94BD9D",
-    title: "Feature 3: AI insights on the degree progress so far, which acts as a checkpoint for students.",
+    title: "Feature 3: AI insights on the degree progress so far, which acts as a checkpoint for students",
     images: [
       {
         src: "/new-salesforce/Academic%20Trajectory-%20Overview.png",
@@ -273,7 +273,7 @@ const BEFORE_INSIGHTS = [
   },
   {
     label: "Early choices locked in long-term consequences",
-    body: "Workload balance and major eligibility down the line got shaped by decisions made before a student had enough context to make them well.",
+    body: "Workload balance and major eligibility down the line got shaped by decisions made before a student had enough context to make them confidently.",
   },
   {
     label: "Scattered inputs wore down confidence and time",
@@ -284,7 +284,7 @@ const BEFORE_INSIGHTS = [
 const AFTER_INSIGHTS = [
   {
     label: "All in one system",
-    body: "In-depth course and professor reviews by peers, a 10,000 feet overview of their academic history and connections to majors and careers, under one tool.",
+    body: "In-depth course and professor reviews by peers, a 10,000-foot overview of their academic history and connections to majors and careers, under one tool.",
   },
   {
     label: "Easy sync between planner and enrollment",

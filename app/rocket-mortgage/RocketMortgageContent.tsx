@@ -464,7 +464,7 @@ function FinalSolution() {
             alt: "Rocket Assist showing next steps in a visual interactive form",
             caption: "Next steps in a visual and interactive form",
             cardTitle: "Task lists scoped to real progress",
-            body: "Rocket Mortgage already tracked each client against a milestone map: pre-approval letter, signed application.. The assistant read that state and showed only what was left, specific to their loan stage.",
+            body: "Rocket Mortgage already tracked each client against a milestone map: pre-approval letter, signed application. The assistant read that state and showed only what was left, specific to their loan stage.",
           },
           {
             src: "/new-rocket-mortgage-case-page/Solution%20Type%201-%201.avif",
@@ -484,7 +484,7 @@ function FinalSolution() {
             alt: "In-chat inspector contact cards in Rocket Assist",
             caption: "In-chat inspector contact cards",
             cardTitle: "All recommendations name the source",
-            body: "Inspector suggestions came labeled as from the realtor, appraisal insights were tied to the report and insurance tips pointed back to the home's own Redfin listing.",
+            body: "Inspector suggestions came labeled with the realtor as the source, appraisal insights were tied to the report and insurance tips pointed back to the home's own Redfin listing.",
           },
           {
             src: "/new-rocket-mortgage-case-page/Solution%20Type%202-%202.avif",
@@ -533,7 +533,7 @@ function Blockers() {
           The inspector card feature tested well but got cut
         </h2>
         <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
-          It scored high in usability testing, but the backend architecture needed to support it wasn&apos;t within the team&apos;s bandwidth that cycle. Building it would require multiple API integrations, not just within the Rocket Mortgage system but also Redfin&apos;s which has been acquired by Rocket Companies. It was an essential lesson between the simplicity of a feature design and the many pieces that had to fall into place in order to push it out the door.
+          It scored high in usability testing, but the backend architecture needed to support it wasn&apos;t within the team&apos;s bandwidth that cycle. Building it would require multiple API integrations, not just within the Rocket Mortgage system but also Redfin&apos;s, which has been acquired by Rocket Companies. It was an essential lesson in the gap between the simplicity of a feature design and the many pieces that had to fall into place in order to push it out the door.
         </p>
       </div>
       <div className="flex flex-col items-center justify-center gap-8 rounded-[var(--ds-radius-container)] bg-[#F5F5F5] px-10 pb-8 pt-10 md:flex-row md:gap-[58px]">
@@ -711,7 +711,7 @@ export default function RocketMortgageContent() {
                   <span className="font-semibold text-[#851F27]">a guided journey.</span>&rdquo;
                 </p>
                 <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
-                  When a client needed a human, the handoff flow was broken. No actionable next step came from the chat itself, just contact details to figure out on their own. This left a majority of clients frustrated which impacted Rocket Assist&apos;s credibility as a product the clients could depend on.
+                  When a client needed a human, the handoff flow was broken. No actionable next step came from the chat itself, just contact details to figure out on their own. This left a majority of clients frustrated, which impacted Rocket Assist&apos;s credibility as a product the clients could depend on.
                 </p>
               </div>
               <ProblemVisualCard

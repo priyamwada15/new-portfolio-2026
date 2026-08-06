@@ -153,7 +153,7 @@ export default function DebugModePage() {
                 </h3>
                 <p className={caseStudyBody}>
                   Shows exactly where the debugger is at every node, so the CS
-                  team don&apos;t lose their place and don&apos;t have to
+                  team doesn&apos;t lose their place and doesn&apos;t have to
                   scroll back to the start.
                 </p>
               </div>
@@ -272,7 +272,7 @@ export default function DebugModePage() {
               </p>
               <p className={caseStudyBody}>
                 Navigating this visually complex canvas was the bottleneck
-                that was costing turn-around-time for enterprise clients.
+                that was costing turnaround time for enterprise clients.
               </p>
             </div>
           </div>
@@ -412,7 +412,7 @@ export default function DebugModePage() {
           <div className="flex flex-col md:flex-row md:items-end gap-8">
             <EvolutionCard
               tone="shipped"
-              description="3 simple and basic controls that didn't complicate things and got the job done."
+              description="Three simple, clear controls that got the job done."
             >
               <ScaleToFit width={368} height={760}>
                 <DebugChatPreview autoPlay />
@@ -424,13 +424,13 @@ export default function DebugModePage() {
               </h3>
               <div className="space-y-3">
                 <p className="font-label text-[16px] font-normal leading-[160%] text-secondary">
-                  I shipped three controls and status messages stated
-                  clearly, so nothing about what the tool was doing had to
+                  I shipped three controls with clearly stated status
+                  messages, so nothing about what the tool was doing had to
                   be inferred.
                 </p>
                 <p className="font-label text-[16px] font-normal leading-[160%] text-secondary">
                   That cut held up against real usage. Within a couple
-                  months, 90% of errors traced back to minor control
+                  of months, 90% of errors traced back to minor control
                   changes or API and custom code issues, the exact cases
                   the three-control version already covered.
                 </p>

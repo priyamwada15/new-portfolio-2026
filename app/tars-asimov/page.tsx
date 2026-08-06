@@ -26,7 +26,7 @@ const CORE_FEATURES = [
   {
     title: "Action Configuration",
     description:
-      "Teams configure third-party apps actions and build custom actions, that combined with Slack context, enabling Asimov to automate recurring workflows.",
+      "Teams configured third-party app actions and built custom ones that, combined with Slack context, enabled Asimov to automate recurring workflows.",
     videoSrc:
       "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/Actions_Asimov_e9ezjr.mp4",
   },
@@ -52,7 +52,7 @@ const OPPORTUNITIES = [
     title: "Opportunity 2: No two teams worked the same way",
     description: [
       "Engineering wanted GitHub workflows, sales wanted CRM updates and marketing wanted content generation. The pattern that emerged was a need for flexibility.",
-      "Instead of designing automations for every use case, we designed a system that let teams define their own actions on top of connected tools.",
+      "Instead of designing automations for every use case, I designed a system that let teams define their own actions on top of connected tools.",
     ],
     image: {
       src: "/new-asimov/Slack 2.png",
@@ -60,7 +60,7 @@ const OPPORTUNITIES = [
       width: 352,
       height: 405,
     },
-    caption: "Example scenario of Asimov integration with other apps.",
+    caption: "Example scenario of Asimov integrating with other apps.",
   },
 ] as const;
 
@@ -121,7 +121,7 @@ const REFLECTIONS = [
     title: "Power requires permissions, not just capabilities",
     weight: "font-medium",
     paragraphs: [
-      "As Asimov evolved as a summarizer to knowledge access and taking actions, I realized that trust depended as much on permission models as on AI capabilities.",
+      "As Asimov evolved from a summarizer to knowledge access and taking actions, I realized that trust depended as much on permission models as on AI capabilities.",
       "Today, I would design governance alongside the feature instead of treating it as a later phase.",
     ],
   },
@@ -172,7 +172,7 @@ export default function AsimovPage() {
       hideContextLabel={true}
       context={
         <div className="flex max-w-[768px] flex-col items-start gap-6">
-          <h2 className={caseStudySectionH2}>TL;DR</h2>
+          <h2 data-dialkit="h2" className={caseStudySectionH2}>TL;DR</h2>
           <div className="flex flex-col items-start gap-4">
             <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
               As generative AI capabilities emerged in 2023, we saw an
@@ -185,7 +185,7 @@ export default function AsimovPage() {
               teammate inside Slack, creating experiences for knowledge
               discovery, app integrations and automated workflows. The beta
               release helped the Tars team reduce repetitive task-related
-              queries by 74%.
+              queries by ~74%.
             </p>
           </div>
           <div className="flex w-full flex-col gap-8 md:flex-row md:gap-12">
@@ -229,7 +229,7 @@ export default function AsimovPage() {
       <section id="section-01" className="flex flex-col items-start gap-10">
         <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
           <SectionLabel>Core Features</SectionLabel>
-          <h2 className={caseStudySectionH2}>
+          <h2 data-dialkit="h2" className={caseStudySectionH2}>
             From thread summaries to an AI-enabled workspace
           </h2>
           <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
@@ -243,7 +243,7 @@ export default function AsimovPage() {
           {CORE_FEATURES.map((feature) => (
             <div key={feature.title} className="flex flex-col items-start gap-4 self-stretch">
               <div className="flex flex-col items-start gap-2">
-                <h3 className="text-[20px] font-medium leading-[140%] text-[#333333]">
+                <h3 data-dialkit="h3" className="text-[20px] font-medium leading-[140%] text-[#333333]">
                   {feature.title}
                 </h3>
                 <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
@@ -260,7 +260,7 @@ export default function AsimovPage() {
       <section id="section-02" className="flex flex-col items-start gap-[33px]">
         <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
           <SectionLabel>Opportunities & Research</SectionLabel>
-          <h2 className={caseStudySectionH2}>
+          <h2 data-dialkit="h2" className={caseStudySectionH2}>
             Designing an AI that could do more than answer
           </h2>
           <div className="flex flex-col items-start gap-4">
@@ -286,7 +286,7 @@ export default function AsimovPage() {
               }`}
             >
               <div className="flex flex-[336] flex-col items-start gap-4">
-                <h3 className="text-[20px] font-medium leading-[140%] text-[#333333]">
+                <h3 data-dialkit="h3" className="text-[20px] font-medium leading-[140%] text-[#333333]">
                   {opportunity.title}
                 </h3>
                 <div className="flex flex-col items-start gap-4">
@@ -326,8 +326,8 @@ export default function AsimovPage() {
         <div className="flex flex-col items-start gap-4 self-stretch">
           <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
             <SectionLabel>Deep Dive</SectionLabel>
-            <h2 className={caseStudySectionH2}>
-              Designing the foundation for an Asimov
+            <h2 data-dialkit="h2" className={caseStudySectionH2}>
+              Designing the foundation for Asimov
             </h2>
           </div>
 
@@ -357,7 +357,7 @@ export default function AsimovPage() {
           {DEEP_DIVE_ITEMS.map((item) => (
             <div key={item.title} className="flex flex-col items-start gap-4 self-stretch">
               <div className="flex flex-col items-start gap-2">
-                <h3 className="text-[20px] font-medium leading-[140%] text-[#333333]">
+                <h3 data-dialkit="h3" className="text-[20px] font-medium leading-[140%] text-[#333333]">
                   {item.title}
                 </h3>
                 <div className="flex flex-col items-start gap-4">
@@ -388,7 +388,7 @@ export default function AsimovPage() {
       <section id="constraint" className="flex flex-col items-start gap-12">
         <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
           <SectionLabel>Blockers</SectionLabel>
-          <h2 className={caseStudySectionH2}>
+          <h2 data-dialkit="h2" className={caseStudySectionH2}>
             Trust became the biggest design challenge
           </h2>
           <div className="flex flex-col items-start gap-4">
@@ -426,7 +426,7 @@ export default function AsimovPage() {
       <section id="reflection" className="flex flex-col items-start gap-12">
         <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
           <SectionLabel>Reflections</SectionLabel>
-          <h2 className={caseStudySectionH2}>
+          <h2 data-dialkit="h2" className={caseStudySectionH2}>
             What I&apos;d take into the next project
           </h2>
         </div>
@@ -434,7 +434,7 @@ export default function AsimovPage() {
         <div className="flex flex-col items-start gap-12 self-stretch">
           {REFLECTIONS.map((item) => (
             <div key={item.title} className="flex flex-col items-start gap-3 self-stretch">
-              <h3 className={`text-[20px] leading-[140%] text-[#333333] ${item.weight}`}>
+              <h3 data-dialkit="h3" className={`text-[20px] leading-[140%] text-[#333333] ${item.weight}`}>
                 {item.title}
               </h3>
               <div className="flex flex-col items-start gap-4">

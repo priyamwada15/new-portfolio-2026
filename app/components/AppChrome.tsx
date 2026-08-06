@@ -6,8 +6,6 @@ import Nav from "./Nav";
 import Footer from "./Footer";
 import { HOME_V2_PAGE_BG, SITE_DEFAULT_PAGE_BG } from "@/design-system";
 import { isCaseStudyPath } from "../lib/caseStudy";
-import { AsciiCursorTrail } from "./AsciiCursorTrail";
-import { AsteriskCursor } from "./AsteriskCursor";
 import dynamic from "next/dynamic";
 import { FLIP_BOARD_REVEAL_IMAGE_OVERLAP_PX } from "./flip-board/constants";
 import { HOME_SCROLL_REVEAL_CSS_DEFAULTS } from "../home-v2/homeScrollRevealDial.config";
@@ -35,29 +33,18 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     (pathname?.startsWith("/flip-board-test/") ?? false);
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy;
-  const usePortfolioAsteriskCursor = !isHomeV2 && !isBarePage;
 
   useEffect(() => {
     if (isBarePage) return;
 
     if (isHomeV2) {
       document.body.style.backgroundColor = HOME_V2_PAGE_BG;
-      document.body.classList.add("ascii-cursor");
-      document.body.classList.remove("portfolio-asterisk-cursor");
-    } else {
-      if (isCaseStudy) {
-        document.body.style.backgroundColor = SITE_DEFAULT_PAGE_BG;
-      }
-      document.body.classList.add("portfolio-asterisk-cursor");
-      document.body.classList.remove("ascii-cursor");
+    } else if (isCaseStudy) {
+      document.body.style.backgroundColor = SITE_DEFAULT_PAGE_BG;
     }
 
     return () => {
       document.body.style.backgroundColor = SITE_DEFAULT_PAGE_BG;
-      document.body.classList.remove(
-        "ascii-cursor",
-        "portfolio-asterisk-cursor",
-      );
     };
   }, [isBarePage, isCaseStudy, isHomeV2]);
 
@@ -137,8 +124,6 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
         </div>
       )}
       <DevAgentation />
-      {isHomeV2 ? <AsciiCursorTrail /> : null}
-      {usePortfolioAsteriskCursor ? <AsteriskCursor /> : null}
     </>
   );
 }

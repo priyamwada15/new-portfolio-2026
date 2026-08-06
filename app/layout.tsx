@@ -7,6 +7,11 @@ import {
   Kalam,
   IBM_Plex_Sans_Devanagari,
   Geist,
+  Ovo,
+  Young_Serif,
+  Frank_Ruhl_Libre,
+  Forum,
+  Sree_Krushnadevaraya,
 } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -22,7 +27,7 @@ const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 const figtree = Figtree({
   variable: "--font-hind",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 const inter = Inter({
@@ -51,6 +56,37 @@ const dmMono = DM_Mono({
 
 const festive = Festive({
   variable: "--font-festive",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+// Temporary: only used by the Asimov page's dialkit font tester.
+const ovo = Ovo({
+  variable: "--font-ovo",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const youngSerif = Young_Serif({
+  variable: "--font-young-serif",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const frankRuhlLibre = Frank_Ruhl_Libre({
+  variable: "--font-frank-ruhl-libre",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
+
+const forum = Forum({
+  variable: "--font-forum",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const sreeKrushnadevaraya = Sree_Krushnadevaraya({
+  variable: "--font-sree-krushnadevaraya",
   subsets: ["latin"],
   weight: "400",
 });
@@ -86,6 +122,11 @@ export default function RootLayout({
         kalam.variable,
         dmMono.variable,
         festive.variable,
+        ovo.variable,
+        youngSerif.variable,
+        frankRuhlLibre.variable,
+        forum.variable,
+        sreeKrushnadevaraya.variable,
         "font-sans",
         geist.variable,
       )}

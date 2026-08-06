@@ -162,6 +162,7 @@ export default function CaseStudyLayout({
   // ── H1 element ────────────────────────────────────────────────────────
   const h1InHeader = (extraClass = "mb-10") => (
     <h1
+      data-dialkit="h1"
       className={`${h1ClassName} ${extraClass}`}
       style={{
         ...headlineFontStyle,
@@ -178,6 +179,7 @@ export default function CaseStudyLayout({
   // Uses text-wrap: pretty (not balance) so the text fills the full column width.
   const h1InColumn = (
     <h1
+      data-dialkit="h1"
       className={`${h1ClassName} mb-10`}
       style={{
         ...headlineFontStyle,

@@ -106,6 +106,64 @@ export const metadata: Metadata = {
   },
 };
 
+const PERSON_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Priyamwada Pandey",
+  url: "https://www.priyamwada.me",
+  jobTitle: "Product Designer",
+  description:
+    "Product Designer with 3+ years of experience designing AI-powered enterprise and consumer fintech products, specializing in agentic interfaces, agent configuration design and conversational UI for internal tools, developer products and fintech companies.",
+  knowsAbout: [
+    "AI Product Design",
+    "Agentic Interfaces",
+    "Agent Configuration Design",
+    "Conversational UI Design",
+    "Internal Tools Design",
+    "Developer Tools UX",
+    "Fintech Product Design",
+    "Enterprise SaaS UX",
+    "Design Systems",
+    "Information Architecture",
+    "Payment Flows",
+  ],
+  alumniOf: [
+    { "@type": "CollegeOrUniversity", name: "Indiana University Bloomington" },
+    { "@type": "CollegeOrUniversity", name: "Amity University" },
+  ],
+  sameAs: [
+    "https://www.linkedin.com/in/priyamwadapandey",
+    "https://github.com/priyamwada15",
+    "https://x.com/PriymwadaPandey",
+  ],
+  review: [
+    {
+      "@type": "Review",
+      reviewBody:
+        "This was perhaps her most complex assignment, and Pri quickly mapped key friction points while collaborating with engineers and researchers. Her work helped influence product roadmap priorities.",
+      author: {
+        "@type": "Person",
+        name: "Dana Lee",
+        jobTitle: "Director of Conversational AI Design & Digital Product Management",
+        url: "https://www.linkedin.com/in/danayoo/",
+        worksFor: { "@type": "Organization", name: "Rocket Mortgage" },
+      },
+    },
+    {
+      "@type": "Review",
+      reviewBody:
+        "Pri routinely sought out and addressed challenging issues, independently identified critical opportunities for improvement, and delivered results on par with a full-time associate designer.",
+      author: {
+        "@type": "Person",
+        name: "Amanda Matzenbach",
+        jobTitle: "Conversational AI Design Manager & Mentor",
+        url: "https://www.linkedin.com/in/amanda-matzenbach/",
+        worksFor: { "@type": "Organization", name: "Rocket Mortgage" },
+      },
+    },
+  ],
+} as const;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -132,6 +190,10 @@ export default function RootLayout({
       )}
     >
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSON_LD) }}
+        />
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};

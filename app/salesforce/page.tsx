@@ -293,9 +293,16 @@ const AFTER_INSIGHTS = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Galileo for Salesforce | Priyamwada Pandey",
+  title: "Galileo for Salesforce — 0→1 AI Product Design Case Study | Priyamwada Pandey",
   description:
-    "I co-led the design of a 0→1 AI product that helps students plan their academic future.",
+    "I co-led the design of Galileo, a 0→1 AI product on Salesforce that helps college students plan their academic future using course, peer and career insights.",
+  keywords: [
+    "0 to 1 product design",
+    "AI product design case study",
+    "Salesforce UX design",
+    "edtech product design",
+    "AI product designer portfolio",
+  ],
 };
 
 export default function SalesforcePage() {

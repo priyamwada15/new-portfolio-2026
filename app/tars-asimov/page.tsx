@@ -136,9 +136,17 @@ const REFLECTIONS = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Asimov for Tars | Priyamwada Pandey",
+  title: "Asimov for Tars — AI Agent Workflow Design Case Study | Priyamwada Pandey",
   description:
-    "Designing the workflow configuration hub that grew a Slack AI agent from a single capability to 82% pilot adoption.",
+    "How I designed the knowledge, integrations and custom actions system that grew Tars' Slack AI agent from a single capability to 82% pilot adoption.",
+  keywords: [
+    "AI product design",
+    "enterprise AI UX",
+    "Slack AI agent design",
+    "B2B SaaS UX case study",
+    "workflow automation design",
+    "AI agent UX designer",
+  ],
 };
 
 export default function AsimovPage() {

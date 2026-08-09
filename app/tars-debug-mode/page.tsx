@@ -16,9 +16,16 @@ import {
 } from "@/design-system";
 
 export const metadata: Metadata = {
-  title: "Debug Mode | Priyamwada Pandey",
+  title: "Debug Mode for Tars — Internal Tools Design Case Study | Priyamwada Pandey",
   description:
-    "I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups.",
+    "I designed and shipped Debug Mode, an internal testing tool for Tars that cut QA time by ~70% for two distinct user groups.",
+  keywords: [
+    "internal tools design",
+    "developer tools UX",
+    "B2B SaaS design case study",
+    "enterprise software UX",
+    "product designer portfolio",
+  ],
 };
 
 function PlaceholderSection({ id, label }: { id: string; label: string }) {

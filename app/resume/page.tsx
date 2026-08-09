@@ -8,23 +8,24 @@ export const metadata: Metadata = {
   description: "Resume for Priyamwada Pandey. Product Designer focused on AI-native interfaces.",
 };
 
+const HEARTLAND_ICON = "/heartland%20community%20network%20logo.avif";
 const RM_ICON = "/Icons/RM%20Logo%20Icon.svg";
 const TARS_ICON = "/Icons/Tars%20Icon%20Logo.svg";
 
 const SUMMARY =
-  "Product Designer with 3+ years of experience designing AI-powered enterprise and consumer fintech products. I've designed from zero as one of the first designers at a B2B SaaS startup and for Rocket Mortgage's AI assistant. I specialise in simplifying complex, high-stakes workflows through agent configuration experience and decision-support interfaces. My work spans internal tools and customer-facing AI products.";
+  "Product Designer with 3+ years of experience designing AI-powered enterprise and consumer fintech products, including two-sided marketplace pricing and payment flows. I've designed from zero as one of the first designers at a B2B SaaS startup and for Rocket Mortgage's AI assistant. I specialise in simplifying complex, high-stakes workflows through agent configuration experience and decision-support interfaces.";
 
 /** Skills — copy matches resume PDF. */
 const PD_CHIPS = [
-  "User-Centered Design",
   "Information Architecture",
+  "Payment Flows",
+  "Monetization",
   "Design Systems",
   "Responsive Design",
   "Accessibility",
   "Conversational UI",
   "Agentic Interfaces",
   "Agent Configuration Design",
-  "AI Assistant Design",
 ];
 
 const AI_PROTOTYPE_CHIPS = ["Cursor", "Claude Code", "Figma"];
@@ -42,17 +43,21 @@ function Bold({ children }: { children: ReactNode }) {
   return <strong className="font-semibold text-ink">{children}</strong>;
 }
 
+const HEARTLAND_BULLETS: ReactNode[] = [
+  "Reconstructed pricing requirements by auditing product specs, API documentation and legacy designs, uncovering unsupported features and missing backend-driven pricing logic.",
+  "Translated these findings into IA and payment flows for advertiser and broadcaster transactions, covering CPM pricing, negotiation, payments and payouts.",
+];
+
 const ROCKET_BULLETS: ReactNode[] = [
   <>
     Designed adaptive AI guidance for Rocket Assist, personalizing post-offer experiences across{" "}
     <Bold>6.8M+ client conversations</Bold> through loan-stage and home-specific context.
   </>,
-  "Defined three new interaction patterns for Rocket Assist that were taken into roadmap discussions with the product lead as candidate features for the next development cycle.",
+  "Defined three interaction patterns to extend the redesigned experience, advancing them to roadmap discussions with the product lead for the next development cycle.",
   <>
     Led usability testing with 8 Rocket Mortgage clients against defined success criteria;{" "}
-    <Bold>92% rated the redesigned experience as more helpful and trustworthy</Bold> than the existing assistant.
+    <Bold>92% found the redesigned experience more helpful and trustworthy</Bold> than the existing assistant.
   </>,
-  "Scoped design features against technical dependencies across product, engineering and research, producing handoff artifacts that were roadmap-ready at the end of a 3-month engagement.",
 ];
 
 const TARS_BULLETS: ReactNode[] = [
@@ -71,14 +76,6 @@ const TARS_BULLETS: ReactNode[] = [
     issues in one place, <Bold>cutting manual troubleshooting time by 70%</Bold> across large-scale
     deployments.
   </>,
-];
-
-const TARS_INTERN_BULLETS: ReactNode[] = [
-  <>
-    Built Tars' analytics feature from scratch, giving <Bold>~85 active clients</Bold> their first native view
-    of chatbot performance across 10 visualization types. Adopted across the entire active client base.
-  </>,
-  "Redesigned chatbot customization into a WYSIWYG interface, moving advanced controls out of the codebase and into the product and eliminating technical dependency for every active account.",
 ];
 
 function SectionLabel({ children }: { children: ReactNode }) {
@@ -164,6 +161,31 @@ export default function ResumePage() {
                     aria-hidden
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={HEARTLAND_ICON} alt="" className="h-9 w-9 object-contain" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-[16px] text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
+                      <span className="font-normal text-primary">Product Designer @ </span>
+                      <span className="font-semibold">Heartland Community Network</span>
+                    </h3>
+                    <p
+                      className="mt-1 text-xs uppercase tracking-wide text-secondary"
+                      style={{ fontFamily: "var(--font-hind), sans-serif" }}
+                    >
+                      BLOOMINGTON, IN <span className="mx-1.5 text-secondary/80">★</span> JUN 2026 – PRESENT
+                    </p>
+                    <BulletList items={HEARTLAND_BULLETS} dotClass="bg-ink" />
+                  </div>
+                </div>
+              </article>
+
+              <article>
+                <div className="flex flex-wrap items-start gap-3">
+                  <div
+                    className="relative mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full"
+                    aria-hidden
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={RM_ICON} alt="" className="h-9 w-9 object-contain" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -203,31 +225,6 @@ export default function ResumePage() {
                       BENGALURU, INDIA <span className="mx-1.5 text-secondary/80">*</span> MAR 2022 – JUL 2024
                     </p>
                     <BulletList items={TARS_BULLETS} dotClass="bg-ink" />
-                  </div>
-                </div>
-              </article>
-
-              <article>
-                <div className="flex flex-wrap items-start gap-3">
-                  <div
-                    className="relative mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-[#6D33AA]"
-                    aria-hidden
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={TARS_ICON} alt="" className="h-6 w-6 object-contain" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-[16px] text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
-                      <span className="font-normal text-primary">Product Design Intern @ </span>
-                      <span className="font-semibold">Tars Technologies</span>
-                    </h3>
-                    <p
-                      className="mt-1 text-xs uppercase tracking-wide text-secondary"
-                      style={{ fontFamily: "var(--font-hind), sans-serif" }}
-                    >
-                      BENGALURU, INDIA <span className="mx-1.5 text-secondary/80">*</span> SEP 2021 – FEB 2022
-                    </p>
-                    <BulletList items={TARS_INTERN_BULLETS} dotClass="bg-ink" />
                   </div>
                 </div>
               </article>

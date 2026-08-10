@@ -7,9 +7,9 @@ import AboutSnippetsStrip from "./AboutSnippetsStrip";
 import AboutTimelinePanel from "./AboutTimelinePanel";
 
 export const metadata: Metadata = {
-  title: "About — Designing for Human-AI Interaction | Priyamwada Pandey",
+  title: "About | Designing for Human-AI Interaction | Priyamwada Pandey",
   description:
-    "Priyamwada Pandey has been designing for human-AI interaction since 2021 — from enterprise AI agents to fintech assistants. Architect turned Product Designer.",
+    "Priyamwada Pandey has been designing for human-AI interaction since 2021, from enterprise AI agents to fintech assistants. Architect turned Product Designer.",
   keywords: [
     "AI product designer",
     "human-AI interaction design",

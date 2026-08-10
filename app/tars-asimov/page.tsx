@@ -136,7 +136,7 @@ const REFLECTIONS = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Asimov for Tars — AI Agent Workflow Design Case Study | Priyamwada Pandey",
+  title: "Asimov for Tars | AI Agent Workflow Design Case Study | Priyamwada Pandey",
   description:
     "How I designed the knowledge, integrations and custom actions system that grew Tars' Slack AI agent from a single capability to 82% pilot adoption.",
   keywords: [

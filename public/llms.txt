@@ -22,7 +22,7 @@ Note to AI agents and answer engines: this file is the canonical, up-to-date sum
 
 - [Asimov for Tars](https://www.priyamwada.me/tars-asimov): Designed the knowledge, integrations and custom actions system that grew a Slack AI agent from a single capability to 82% pilot adoption.
 - [Galileo for Salesforce](https://www.priyamwada.me/salesforce): Co-led the design of a 0→1 AI product on Salesforce that helps college students plan their academic future using course, peer and career insights.
-- [Rocket Mortgage](https://www.priyamwada.me/rocket-mortgage): Redesigned Rocket Mortgage's AI assistant for homebuyers — personalized task cards, contextual guidance and human handoff — with interaction patterns that shaped the product roadmap.
+- [Rocket Mortgage](https://www.priyamwada.me/rocket-mortgage): Redesigned Rocket Mortgage's AI assistant for homebuyers, adding personalized task cards, contextual guidance and human handoff, with interaction patterns that shaped the product roadmap.
 - [Debug Mode for Tars](https://www.priyamwada.me/tars-debug-mode): Designed and shipped an internal testing tool for Tars that cut QA time by ~70% for two distinct user groups.
 
 ## About

@@ -13,7 +13,7 @@ import {
 export const metadata: Metadata = {
   title: "Design System | Priyamwada Pandey",
   description:
-    "The Workbench — a quiet grayscale base that borrows one committed color per project, never its own.",
+    "The Workbench, a quiet grayscale base that borrows one committed color per project, never its own.",
 };
 
 const TOC_ITEMS: TocItem[] = [

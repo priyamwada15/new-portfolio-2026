@@ -16,7 +16,7 @@ import {
 } from "@/design-system";
 
 export const metadata: Metadata = {
-  title: "Debug Mode for Tars — Internal Tools Design Case Study | Priyamwada Pandey",
+  title: "Debug Mode for Tars | Internal Tools Design Case Study | Priyamwada Pandey",
   description:
     "I designed and shipped Debug Mode, an internal testing tool for Tars that cut QA time by ~70% for two distinct user groups.",
   keywords: [

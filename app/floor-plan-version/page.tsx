@@ -3,7 +3,7 @@ import { FloorPlanScaler } from "./FloorPlanScaler";
 
 export const metadata: Metadata = {
   title: "Floor Plan | Priyamwada Pandey",
-  description: "An alternate homepage laid out as a floor plan — each room is a chapter of Priyamwada's work.",
+  description: "An alternate homepage laid out as a floor plan, where each room is a chapter of Priyamwada's work.",
   robots: {
     index: false,
     follow: true,

@@ -2,9 +2,9 @@ import { Metadata } from "next";
 import RocketMortgageContent from "./RocketMortgageContent";
 
 export const metadata: Metadata = {
-  title: "Rocket Mortgage — AI Assistant Interaction Design Case Study | Priyamwada Pandey",
+  title: "Rocket Mortgage | AI Assistant Interaction Design Case Study | Priyamwada Pandey",
   description:
-    "I redesigned Rocket Mortgage's AI assistant for homebuyers — personalized task cards, contextual guidance and human handoff — with interaction patterns that shaped the product roadmap.",
+    "I redesigned Rocket Mortgage's AI assistant for homebuyers, adding personalized task cards, contextual guidance and human handoff, with interaction patterns that shaped the product roadmap.",
   keywords: [
     "AI assistant design",
     "conversational UX design",

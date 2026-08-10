@@ -4,7 +4,7 @@ import AsciiGamePageClient from "./AsciiGamePageClient";
 export const metadata: Metadata = {
   title: "ASCII Game | Priyamwada Pandey",
   description:
-    "Scroll-linked ASCII lane game — arrow keys, ramping speed, no intro dialog.",
+    "Scroll-linked ASCII lane game with arrow keys, ramping speed and no intro dialog.",
 };
 
 export default function AsciiGamePage() {

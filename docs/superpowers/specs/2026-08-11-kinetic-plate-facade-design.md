@@ -30,8 +30,8 @@ Performance is not a hard constraint here — the Playground page is meant to sh
 ## Tech stack
 
 - **`@react-three/fiber`** — React renderer for Three.js, scene/camera/render-loop setup
-- **`@react-three/drei`** — `Environment` component with an HDRI preset (warm tone, e.g. sunset/warehouse) for realistic metallic reflections without manually authoring a lighting rig
-- **`MeshPhysicalMaterial`** (or `MeshStandardMaterial` if clearcoat isn't needed) with `metalness`/`roughness` tuned to match the copper-toned reference photo
+- **`@react-three/drei`** — `Environment` component with HDRI presets for realistic metallic reflections without manually authoring a lighting rig (preset varies by material variant — see Material & lighting variants below)
+- **`MeshPhysicalMaterial`** (or `MeshStandardMaterial` if clearcoat isn't needed) with `metalness`/`roughness`/color tuned per material variant
 - **Hand-rolled pendulum physics**, not a full physics engine. Each plate has exactly one rotational degree of freedom (its swing angle around the top hinge), which a full engine like `@react-three/rapier` would be overkill for at this stage. A damped spring/pendulum formula per plate, updated in a single `useFrame` loop, gives full control over the feel with no added WASM dependency.
   - Noted as a considered alternative: `@react-three/rapier` (Rapier physics via WASM, real revolute/hinge joints, real collision) — worth revisiting later if plate-to-plate collision ("clinking") needs to be physically real rather than a heuristic cue.
 
@@ -46,13 +46,21 @@ Each plate is pinned only at its top edge (matches the reference photo — earli
 - Result: plates near the cursor swing open, overshoot slightly, and oscillate back to rest — a real pendulum, not just an eased tween — while the effect ripples outward as the cursor moves, matching the "wind blowing through" feel from the original brief.
 - Rendered via `rotateX` on each plate's group, with `transform-origin`/pivot at the top edge (in R3F terms: position the plate mesh's geometry offset so the group's local origin sits at the hinge, and rotate the group).
 
+## Material & lighting variants
+
+Two selectable material presets, each paired with lighting tuned to suit it:
+
+- **Steel / Aluminum (default)** — cool, brushed-metal tone matching the portfolio's existing clean visual language. Paired with a neutral/cool HDRI preset (e.g. drei's `studio` or `city` preset) so reflections read crisp and sleek.
+- **Copper / Brass** — warm tone matching the original architectural reference photo. Paired with a warm HDRI preset (e.g. `sunset`/`warehouse`) for an oxidized-copper glow.
+
+Both variants share the same geometry, plate grid, and pendulum physics — only `metalness`/`roughness`/base color and the `Environment` preset swap. A small toggle control in the prototype UI switches between the two live, so look and lighting can be compared side-by-side under identical motion, without navigating away. Steel/aluminum is the default given the goal of matching the portfolio's clean look; copper/brass stays available as the secondary option since it's the closer match to the original building reference.
+
 ## Lighting model
 
-The light source is **fixed**, not tied to the cursor. This is intentional: the reference photo's light/shadow wave comes entirely from each plate's own swing angle catching a constant light source differently — if the light instead followed the cursor, that traveling-wave effect would collapse into a simple spotlight-follows-mouse effect and lose the "wind" read.
+The light source is **fixed**, not tied to the cursor, for either variant. This is intentional: the reference photo's light/shadow wave comes entirely from each plate's own swing angle catching a constant light source differently — if the light instead followed the cursor, that traveling-wave effect would collapse into a simple spotlight-follows-mouse effect and lose the "wind" read.
 
-- `drei`'s `Environment` component with a warm HDRI preset provides the reflections/highlights.
-- Wind (motion) and light (shading) are deliberately decoupled: cursor drives physics only.
-- A secondary cursor-following point light, as a subtle glint accent layered on top of the fixed lighting, is a possible later addition — not built in this first pass. Only add if the base version reads as needing more sparkle once it's moving on screen.
+- Wind (motion) and light (shading) are deliberately decoupled: cursor drives physics only, never lighting.
+- A secondary cursor-following point light, as a subtle glint accent layered on top of the fixed lighting, is a possible later addition — not built in this first pass, and not tied to either material variant specifically. Only add if the base version reads as needing more sparkle once it's moving on screen.
 
 ## Accessibility
 
@@ -62,16 +70,18 @@ The light source is **fixed**, not tied to the cursor. This is intentional: the 
 
 New standalone route, following the existing `app/water/`, `app/sunlight/` convention (bare effect + a "back home" link, no site nav/header):
 
-- `app/kinetic-facade/page.tsx` — route entry
-- `app/kinetic-facade/KineticFacadeScene.tsx` — R3F Canvas, scene setup, Environment/lighting
+- `app/kinetic-facade/page.tsx` — route entry, owns the active material-variant state and renders the toggle control
+- `app/kinetic-facade/KineticFacadeScene.tsx` — R3F Canvas, scene setup, Environment/lighting (reads the active variant)
 - `app/kinetic-facade/KineticPlateGrid.tsx` — generates the uniform plate grid, owns the per-plate physics state and pointer tracking
+- `app/kinetic-facade/materialVariants.ts` — the two variant presets (color/metalness/roughness/HDRI preset name)
 
 (Route/file names are a starting proposal — easy to rename before or during implementation.)
 
 ## Testing / verification
 
 Since this is a visual/motion prototype, verification is manual in-browser:
-- Confirm plates hang flat at rest with visible metallic sheen from the fixed light.
+- Confirm plates hang flat at rest with visible metallic sheen from the fixed light, in both material variants.
 - Move cursor across the grid: nearby plates should swing open with a pendulum overshoot-and-settle motion, with a visible falloff (farther plates react less).
-- Confirm the light/shadow highlight moves believably as plates swing (fixed-light PBR should produce this automatically).
+- Confirm the light/shadow highlight moves believably as plates swing (fixed-light PBR should produce this automatically), in both material variants.
+- Switch the variant toggle mid-interaction and confirm material/lighting swap cleanly without disrupting in-progress plate motion.
 - Toggle OS-level reduced-motion and confirm plates go static.

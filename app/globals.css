@@ -658,14 +658,6 @@ body {
   }
 }
 
-.rm-dial-root .rm-testimonial-grid {
-  gap: 32px;
-}
-
-.rm-dial-root .rm-testimonial-card {
-  padding: var(--rm-padding-card);
-}
-
 .rm-dial-root .rm-quote-block > div {
   padding-top: var(--rm-padding-quote-y);
   padding-bottom: var(--rm-padding-quote-y);
@@ -678,10 +670,6 @@ body {
 
 .rm-dial-root .rm-feedback-stack {
   gap: var(--rm-feedback-gap);
-}
-
-.rm-dial-root .rm-testimonial-card {
-  padding: var(--rm-padding-card);
 }
 
 /* Case study body column: vertical rhythm between major blocks (matches former space-y-40). */

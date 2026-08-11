@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import SolutionShowcase from "../components/SolutionShowcase";
 import { RocketMortgageTripleVideos } from "../components/RocketMortgageTripleVideos";
-import { CursorFollowTooltip } from "../about/CursorFollowTooltip";
+import { ImageZoomViewer, type ZoomImage } from "../components/ImageZoomViewer";
 import {
   brands,
   caseStudyBody,
@@ -48,6 +49,20 @@ function ContextTldr() {
           task cards, contextual recommendations and a transparent human handoff. The interaction patterns I
           proposed influenced Rocket Assist&apos;s product roadmap beyond the internship.
         </p>
+      </div>
+      <div className="flex w-full flex-col items-center gap-8 pt-6 md:flex-row md:gap-14">
+        <TestimonialCard
+          quote="This was perhaps her most complex assignment, and Pri quickly mapped key friction points while collaborating with engineers and researchers. Her work helped influence product roadmap priorities."
+          name="Dana Lee"
+          title="Director of Conversational AI Design & Digital Product Management"
+          linkedin="https://www.linkedin.com/in/danayoo/"
+        />
+        <TestimonialCard
+          quote="Driven by curiosity to understand client problems, Pri developed solutions that delivered business value. Her prototypes influenced product strategy, and she collaborated exceptionally across teams."
+          name="Amanda Matzenbach"
+          title="Conversational AI Design Manager & Mentor"
+          linkedin="https://www.linkedin.com/in/amanda-matzenbach/"
+        />
       </div>
     </div>
   );
@@ -121,14 +136,14 @@ function TestimonialCard({
   linkedin: string;
 }) {
   return (
-    <div className="rm-testimonial-card flex min-w-0 flex-1 flex-col gap-6 rounded-[var(--ds-radius-container)] bg-[#F5F5F5] p-10">
-      <p className="text-[16px] font-normal italic leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+    <div className="flex min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-2xl bg-[#F7F7F7] p-3">
+      <p className="w-full text-[14px] font-medium leading-[22px] text-[#333333]" style={fontStyle.figtree}>
         &ldquo;{quote}&rdquo;
       </p>
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between gap-4">
+      <div className="flex w-full flex-col items-center gap-1">
+        <div className="flex w-full items-center justify-center gap-2">
           <p
-            className="text-[12px] font-bold uppercase leading-[21px]"
+            className="flex-1 text-[12px] font-bold uppercase leading-[21px]"
             style={{ ...fontStyle.figtree, color: brands.rocket.dark }}
           >
             {name}
@@ -144,17 +159,9 @@ function TestimonialCard({
             <img src="/logos/LinkedIn_icon.svg" alt="" width={16} height={16} />
           </a>
         </div>
-        <div className="flex flex-col gap-3">
-          <p className="text-[12px] font-normal leading-[140%] text-[#555555]" style={fontStyle.figtree}>
-            {title}
-          </p>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logos/rocket-mortgage.svg"
-            alt="Rocket Mortgage"
-            className="h-[17px] w-auto object-contain object-left"
-          />
-        </div>
+        <p className="w-full text-[10px] font-normal leading-[150%] text-[#555555]" style={fontStyle.figtree}>
+          {title}
+        </p>
       </div>
     </div>
   );
@@ -306,60 +313,45 @@ function ApproachCard({
   );
 }
 
+/** The 4 images shown in the Design Approach zoom viewer, browsable via its prev/next arrows. */
+const designApproachZoomImages: ZoomImage[] = [
+  {
+    key: "happy-path",
+    src: "/new-rocket-mortgage-case-page/Happy%20Path.avif",
+    alt: "Flowchart mapping the happy path of the conversation flow",
+    caption: "Happy Path for the conversation flow with new interaction opportunity areas identified.",
+    zoomable: true,
+  },
+  {
+    key: "human-handoff",
+    src: "/new-rocket-mortgage-case-page/Human%20Handoff.avif",
+    alt: "Flowchart mapping the human handoff decision logic",
+    caption: "Human handoff flow showing the decision logic behind when a conversation escalates to a specialist.",
+    zoomable: true,
+  },
+  {
+    key: "key-features",
+    src: "/new-rocket-mortgage-case-page/Key%20Features%20Full%20Image.avif",
+    alt: "Key features of the Rocket Assist onboarding experience",
+    caption: "Key features identified for personalized onboarding.",
+    zoomable: true,
+  },
+  {
+    key: "iterations",
+    src: "/new-rocket-mortgage-case-page/Iterations.avif",
+    alt: "Iterations of the onboarding task carousel card",
+    caption: "Some early explorations for inspector card and onboarding carousels.",
+    zoomable: true,
+    zoomLevel: 2,
+  },
+];
+
 function DesignApproachImages() {
-  const images = [
-    {
-      key: "feature-mapping",
-      src: "/new-rocket-mortgage-case-page/feature%20mapping%204x.avif",
-      alt: "Feature mapping notes weighing personalized onboarding considerations",
-      tooltip: "Feature mapping",
-      style: { width: "70.71%", height: "29.25%", right: "1.45%", top: "0%" },
-      rotate: "3.94deg",
-    },
-    {
-      key: "unhappy-path",
-      src: "/new-rocket-mortgage-case-page/unhappy%20path%20sneak%20peek%201%204x.avif",
-      alt: "Flowchart mapping the unhappy path of the human handoff decision logic",
-      tooltip: "Sample flow layout",
-      style: { width: "58.98%", height: "39.8%", left: "0%", top: "9.23%" },
-      rotate: "-5.47deg",
-    },
-    {
-      key: "carousel-2",
-      src: "/new-rocket-mortgage-case-page/carousel%20card%20iteration%202%204x.avif",
-      alt: "Second iteration of the onboarding task carousel card",
-      tooltip: "Carousel card iteration",
-      style: { width: "41.28%", height: "52.9%", right: "7.42%", bottom: "7.63%" },
-      rotate: "-8.96deg",
-    },
-    {
-      key: "carousel-1",
-      src: "/new-rocket-mortgage-case-page/carousel%20card%20iteration%201%204x.avif",
-      alt: "First iteration of the onboarding task carousel card",
-      tooltip: "Carousel card iteration",
-      style: { width: "45.05%", height: "42.51%", left: "7.8%", top: "51.56%" },
-      rotate: "4.58deg",
-    },
-  ];
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="relative w-full" style={{ aspectRatio: "768 / 607" }}>
-      {images.map((image) => (
-        <CursorFollowTooltip key={image.key} label={image.tooltip}>
-          <div
-            className="snippet-photo-card absolute overflow-hidden rounded-2xl border border-[#E8E8E8] bg-[#FAFAFA]"
-            style={
-              {
-                ...image.style,
-                "--snippet-rot": image.rotate,
-              } as React.CSSProperties & Record<"--snippet-rot", string>
-            }
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
-          </div>
-        </CursorFollowTooltip>
-      ))}
+    <div className="w-full">
+      <ImageZoomViewer images={designApproachZoomImages} index={activeIndex} onIndexChange={setActiveIndex} />
     </div>
   );
 }
@@ -632,7 +624,6 @@ export default function RocketMortgageContent() {
         toc={[
           { id: "core-flows", label: "Core Flows" },
           { id: "impact", label: "Impact" },
-          { id: "testimonials", label: "Testimonials" },
           { id: "problem-space", label: "Problem" },
           { id: "design-approach", label: "Design Approach" },
           { id: "final-solution", label: "Final Solution" },
@@ -644,34 +635,6 @@ export default function RocketMortgageContent() {
         <CoreFlows />
 
         <Impact />
-
-        <section id="testimonials" className="flex max-w-[768px] flex-col gap-8">
-          <div className="flex flex-col gap-3">
-            <p
-              className="text-[14px] font-semibold leading-[150%]"
-              style={{ ...fontStyle.figtree, color: brands.rocket.dark }}
-            >
-              Testimonials
-            </p>
-            <h2 className={caseStudySectionH2} style={fontStyle.figtree}>
-              What the people who saw the work up close had to say
-            </h2>
-          </div>
-          <div className="rm-testimonial-grid flex flex-col md:flex-row">
-            <TestimonialCard
-              quote="This was perhaps her most complex assignment, and Pri quickly mapped key friction points while collaborating with engineers and researchers. Her work helped influence product roadmap priorities."
-              name="Dana Lee"
-              title="Director of Conversational AI Design & Digital Product Management"
-              linkedin="https://www.linkedin.com/in/danayoo/"
-            />
-            <TestimonialCard
-              quote="Pri routinely sought out and addressed challenging issues, independently identified critical opportunities for improvement, and delivered results on par with a full-time associate designer."
-              name="Amanda Matzenbach"
-              title="Conversational AI Design Manager & Mentor"
-              linkedin="https://www.linkedin.com/in/amanda-matzenbach/"
-            />
-          </div>
-        </section>
 
         <section id="problem-space" className="flex max-w-[768px] flex-col gap-[33px]">
           <div className="flex flex-col gap-3">

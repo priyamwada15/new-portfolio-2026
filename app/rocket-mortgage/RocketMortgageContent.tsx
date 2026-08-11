@@ -316,28 +316,24 @@ function ApproachCard({
 /** The 4 images shown in the Design Approach zoom viewer, browsable via its prev/next arrows. */
 const designApproachZoomImages: ZoomImage[] = [
   {
-    key: "happy-path",
     src: "/new-rocket-mortgage-case-page/Happy%20Path.avif",
     alt: "Flowchart mapping the happy path of the conversation flow",
     caption: "Happy Path for the conversation flow with new interaction opportunity areas identified.",
     zoomable: true,
   },
   {
-    key: "human-handoff",
     src: "/new-rocket-mortgage-case-page/Human%20Handoff.avif",
     alt: "Flowchart mapping the human handoff decision logic",
     caption: "Human handoff flow showing the decision logic behind when a conversation escalates to a specialist.",
     zoomable: true,
   },
   {
-    key: "key-features",
     src: "/new-rocket-mortgage-case-page/Key%20Features%20Full%20Image.avif",
     alt: "Key features of the Rocket Assist onboarding experience",
     caption: "Key features identified for personalized onboarding.",
     zoomable: true,
   },
   {
-    key: "iterations",
     src: "/new-rocket-mortgage-case-page/Iterations.avif",
     alt: "Iterations of the onboarding task carousel card",
     caption: "Some early explorations for inspector card and onboarding carousels.",

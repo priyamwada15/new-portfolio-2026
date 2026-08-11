@@ -19,7 +19,7 @@ export type PlateGridConfig = {
 
 export const DEFAULT_GRID_CONFIG: PlateGridConfig = {
   columns: 14,
-  rows: 9,
+  rows: 7,
   plateWidth: 0.55,
   plateHeight: 0.8,
   gapX: 0.15,

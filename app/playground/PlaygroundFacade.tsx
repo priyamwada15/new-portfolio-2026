@@ -29,7 +29,7 @@ export function PlaygroundFacade({ reducedMotion }: PlaygroundFacadeProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100]"
+      className="fixed inset-0 z-[100] touch-none"
       style={{ pointerEvents: dissolved ? "none" : "auto" }}
       role="button"
       tabIndex={dissolved ? -1 : 0}

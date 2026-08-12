@@ -7,7 +7,7 @@ export type WindFieldParams = {
 
 export const DEFAULT_WIND_FIELD_PARAMS: WindFieldParams = {
   radius: 2.5,
-  strength: 25,
+  strength: 50,
 };
 
 export function computeWindTorque(

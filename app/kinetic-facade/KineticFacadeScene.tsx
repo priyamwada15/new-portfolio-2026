@@ -8,29 +8,24 @@ import type { MaterialVariant } from "./materialVariants";
 type KineticFacadeSceneProps = {
   variant: MaterialVariant;
   reducedMotion: boolean;
-  gapX: number;
-  gapY: number;
 };
 
 export function KineticFacadeScene({
   variant,
   reducedMotion,
-  gapX,
-  gapY,
 }: KineticFacadeSceneProps) {
   return (
     <Canvas
       camera={{ position: [0, 0, 8], fov: 50 }}
       frameloop={reducedMotion ? "demand" : "always"}
     >
-      <Environment preset={variant.environmentPreset} />
-      <ambientLight intensity={0.15} />
-      <KineticPlateGrid
-        variant={variant}
-        reducedMotion={reducedMotion}
-        gapX={gapX}
-        gapY={gapY}
+      <Environment
+        preset={variant.environmentPreset}
+        environmentRotation={[0, Math.PI, 0]}
       />
+      <ambientLight intensity={0.15} />
+      <directionalLight position={[-4, 8, 6]} intensity={1.2} />
+      <KineticPlateGrid variant={variant} reducedMotion={reducedMotion} />
     </Canvas>
   );
 }

@@ -10,8 +10,8 @@ export type PendulumParams = {
 };
 
 export const DEFAULT_PENDULUM_PARAMS: PendulumParams = {
-  stiffness: 18,
-  damping: 4.5,
+  stiffness: 36,
+  damping: 6.36,
   maxAngle: Math.PI / 2.2,
 };
 

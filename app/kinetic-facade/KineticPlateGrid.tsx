@@ -14,25 +14,24 @@ import type { MaterialVariant } from "./materialVariants";
 type KineticPlateGridProps = {
   variant: MaterialVariant;
   reducedMotion: boolean;
-  gapX: number;
-  gapY: number;
 };
 
 export function KineticPlateGrid({
   variant,
   reducedMotion,
-  gapX,
-  gapY,
 }: KineticPlateGridProps) {
   const { gl, viewport } = useThree();
 
   const columns = useMemo(
-    () => Math.ceil(viewport.width / (DEFAULT_GRID_CONFIG.plateWidth + gapX)),
-    [viewport.width, gapX],
+    () =>
+      Math.ceil(
+        viewport.width / (DEFAULT_GRID_CONFIG.plateWidth + DEFAULT_GRID_CONFIG.gapX),
+      ),
+    [viewport.width],
   );
   const plates = useMemo(
-    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns, gapX, gapY }),
-    [columns, gapX, gapY],
+    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns }),
+    [columns],
   );
   const swingStates = useRef<PlateSwingState[]>(
     plates.map(() => ({ angle: 0, angularVelocity: 0 })),

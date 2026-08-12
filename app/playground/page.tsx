@@ -1,5 +1,5 @@
-import { PlaygroundCardGrid } from "./PlaygroundCardGrid";
+import { PlaygroundApp } from "./PlaygroundApp";
 
 export default function PlaygroundPage() {
-  return <PlaygroundCardGrid />;
+  return <PlaygroundApp />;
 }

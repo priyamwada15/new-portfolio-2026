@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { DialRoot, useDialKit } from "dialkit";
+import "dialkit/styles.css";
 import { KineticFacadeScene } from "./KineticFacadeScene";
 import {
   DEFAULT_MATERIAL_VARIANT_ID,
   MATERIAL_VARIANTS,
   type MaterialVariantId,
 } from "./materialVariants";
+import { DEFAULT_GRID_CONFIG } from "./plateGrid";
 
 export function KineticFacadeApp() {
   const [variantId, setVariantId] = useState<MaterialVariantId>(
@@ -26,11 +29,31 @@ export function KineticFacadeApp() {
     return () => query.removeEventListener("change", listener);
   }, []);
 
+  const { gapX, gapY } = useDialKit("Plate spacing", {
+    gapX: [DEFAULT_GRID_CONFIG.gapX, 0, 0.6, 0.01] as [
+      number,
+      number,
+      number,
+      number,
+    ],
+    gapY: [DEFAULT_GRID_CONFIG.gapY, 0, 0.6, 0.01] as [
+      number,
+      number,
+      number,
+      number,
+    ],
+  });
+
   const variant = MATERIAL_VARIANTS[variantId];
 
   return (
     <div className="relative h-screen w-screen bg-[#0a0a0a]">
-      <KineticFacadeScene variant={variant} reducedMotion={reducedMotion} />
+      <KineticFacadeScene
+        variant={variant}
+        reducedMotion={reducedMotion}
+        gapX={gapX}
+        gapY={gapY}
+      />
       <div className="absolute left-6 top-6 z-10 flex gap-2">
         {Object.values(MATERIAL_VARIANTS).map((option) => (
           <button
@@ -53,6 +76,7 @@ export function KineticFacadeApp() {
       >
         Back Home
       </Link>
+      <DialRoot position="bottom-right" theme="dark" />
     </div>
   );
 }

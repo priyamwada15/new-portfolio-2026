@@ -8,11 +8,15 @@ import type { MaterialVariant } from "./materialVariants";
 type KineticFacadeSceneProps = {
   variant: MaterialVariant;
   reducedMotion: boolean;
+  gapX: number;
+  gapY: number;
 };
 
 export function KineticFacadeScene({
   variant,
   reducedMotion,
+  gapX,
+  gapY,
 }: KineticFacadeSceneProps) {
   return (
     <Canvas
@@ -21,7 +25,12 @@ export function KineticFacadeScene({
     >
       <Environment preset={variant.environmentPreset} />
       <ambientLight intensity={0.15} />
-      <KineticPlateGrid variant={variant} reducedMotion={reducedMotion} />
+      <KineticPlateGrid
+        variant={variant}
+        reducedMotion={reducedMotion}
+        gapX={gapX}
+        gapY={gapY}
+      />
     </Canvas>
   );
 }

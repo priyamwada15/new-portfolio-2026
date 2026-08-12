@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Group, Plane, Vector3 } from "three";
-import { buildPlateGrid } from "./plateGrid";
+import { buildPlateGrid, DEFAULT_GRID_CONFIG } from "./plateGrid";
 import {
   stepPendulum,
   type PlateSwingState,
@@ -14,13 +14,20 @@ import type { MaterialVariant } from "./materialVariants";
 type KineticPlateGridProps = {
   variant: MaterialVariant;
   reducedMotion: boolean;
+  gapX: number;
+  gapY: number;
 };
 
 export function KineticPlateGrid({
   variant,
   reducedMotion,
+  gapX,
+  gapY,
 }: KineticPlateGridProps) {
-  const plates = useMemo(() => buildPlateGrid(), []);
+  const plates = useMemo(
+    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, gapX, gapY }),
+    [gapX, gapY],
+  );
   const swingStates = useRef<PlateSwingState[]>(
     plates.map(() => ({ angle: 0, angularVelocity: 0 })),
   );

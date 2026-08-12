@@ -2,12 +2,13 @@
 
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import type { Group } from "three";
+import { Group, Plane, Vector3 } from "three";
 import { buildPlateGrid } from "./plateGrid";
 import {
   stepPendulum,
   type PlateSwingState,
 } from "./pendulumPhysics";
+import { computeWindTorque } from "./windField";
 import type { MaterialVariant } from "./materialVariants";
 
 type KineticPlateGridProps = {
@@ -24,20 +25,20 @@ export function KineticPlateGrid({
     plates.map(() => ({ angle: 0, angularVelocity: 0 })),
   );
   const groupRefs = useRef<(Group | null)[]>([]);
-  const elapsed = useRef(0);
+  const plane = useMemo(() => new Plane(new Vector3(0, 0, 1), 0), []);
+  const pointerWorld = useRef(new Vector3());
 
-  useFrame((_state, delta) => {
+  useFrame((state, delta) => {
     if (reducedMotion) return;
-    elapsed.current += delta;
 
-    // TEMPORARY test impulse: pulses a wind torque on plates near the grid
-    // center for the first second, so the pendulum math can be verified
-    // visually before real pointer tracking is wired in (Task 4).
-    const testTorque = elapsed.current < 1 ? 30 : 0;
+    state.raycaster.setFromCamera(state.pointer, state.camera);
+    const hit = state.raycaster.ray.intersectPlane(plane, pointerWorld.current);
+    const pointer = hit
+      ? { x: pointerWorld.current.x, y: pointerWorld.current.y }
+      : null;
 
     plates.forEach((plate, index) => {
-      const isNearCenter = Math.abs(plate.col - 6.5) < 2 && Math.abs(plate.row - 4) < 2;
-      const windTorque = isNearCenter ? testTorque : 0;
+      const windTorque = computeWindTorque({ x: plate.x, y: plate.y }, pointer);
       const nextState = stepPendulum(swingStates.current[index], windTorque, delta);
       swingStates.current[index] = nextState;
 

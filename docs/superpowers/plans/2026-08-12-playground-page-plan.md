@@ -18,7 +18,7 @@
 - Card grid is placeholder content only: 6 cards, white rounded rectangles (`bg-surface-card`) with a title/date row beneath each (not inside), on a new dark page background (`#0a0a0a`, wired as a proper design token, not a hardcoded hex in a component).
 - `/kinetic-facade` (the existing prototype route) is not modified by this plan.
 - No hex colors hardcoded in new components — use existing tokens (`bg-surface-card`, `text-ink`, `text-muted`) and the new `bg-surface-playground`/`PLAYGROUND_PAGE_BG` token added in Task 1.
-- An accessibility bypass for keyboard-only/reduced-motion users who can't trigger a mouse/touch dissolve is explicitly out of scope for this plan (flagged during design, deliberately deferred).
+- Keyboard: the facade is focusable (`tabIndex={0}`, `role="button"`, descriptive `aria-label`) and triggers the same one-directional dissolve-out on Enter or Space — the standard way a native button activates via keyboard — so keyboard-only users aren't permanently blocked from the page content.
 - No automated test suite exists in this repo (confirmed during the original kinetic-facade work) — every task below is verified by running the dev server and checking behavior in the browser.
 
 ---
@@ -237,6 +237,7 @@ git commit -m "feat(playground): add page shell with placeholder card grid"
 **Interfaces:**
 - Consumes: `buildPlateGrid`, `DEFAULT_GRID_CONFIG` from `app/kinetic-facade/plateGrid.ts`; `stepPendulum`, `type PlateSwingState` from `app/kinetic-facade/pendulumPhysics.ts`; `computeWindTorque` from `app/kinetic-facade/windField.ts`; `createRipple`, `hasRippleReachedPlate`, `isRippleExpired`, `type Ripple` from `app/kinetic-facade/ripplePhysics.ts`; `stepDissolve`, `type DissolveState` from `app/kinetic-facade/dissolvePhysics.ts`; `buildDissolvePoints` from `app/kinetic-facade/dissolvePoints.ts`; `MATERIAL_VARIANTS` from `app/kinetic-facade/materialVariants.ts`. None of these are modified — read-only reuse.
 - Produces: `<PlaygroundApp />` (no props) — the new default export rendered by `page.tsx`.
+- Internal: `keyboardTriggerCount: number` prop threads from `PlaygroundFacade` → `PlaygroundFacadeScene` → `PlaygroundPlateGrid`. It starts at `0` and increments by exactly 1 each time Enter/Space fires; `PlaygroundPlateGrid` treats any increase past `0` as a one-time keyboard-triggered dissolve (world-origin-centered, since there's no cursor position to anchor it to).
 
 - [ ] **Step 1: Create the dissolve-only, touch-aware plate grid**
 
@@ -278,11 +279,15 @@ import { MATERIAL_VARIANTS } from "@/app/kinetic-facade/materialVariants";
 
 type PlaygroundPlateGridProps = {
   reducedMotion: boolean;
+  keyboardTriggerCount: number;
 };
 
 const VARIANT = MATERIAL_VARIANTS.copperDissolve;
 
-export function PlaygroundPlateGrid({ reducedMotion }: PlaygroundPlateGridProps) {
+export function PlaygroundPlateGrid({
+  reducedMotion,
+  keyboardTriggerCount,
+}: PlaygroundPlateGridProps) {
   const { gl, viewport } = useThree();
 
   const columns = useMemo(
@@ -314,6 +319,7 @@ export function PlaygroundPlateGrid({ reducedMotion }: PlaygroundPlateGridProps)
   const prevPlateCount = useRef(plates.length);
   const ripples = useRef<Ripple[]>([]);
   const pendingClick = useRef(false);
+  const pendingKeyboardTrigger = useRef(false);
   const active = useRef(false);
 
   const dissolveGeometry = useMemo(() => {
@@ -378,6 +384,12 @@ export function PlaygroundPlateGrid({ reducedMotion }: PlaygroundPlateGridProps)
     };
   }, [gl]);
 
+  useEffect(() => {
+    if (keyboardTriggerCount > 0) {
+      pendingKeyboardTrigger.current = true;
+    }
+  }, [keyboardTriggerCount]);
+
   useFrame((state, delta) => {
     if (reducedMotion) {
       if (!wasReducedMotion.current) {
@@ -400,6 +412,7 @@ export function PlaygroundPlateGrid({ reducedMotion }: PlaygroundPlateGridProps)
           if (points) points.scale.setScalar(1);
         });
         active.current = false;
+        pendingKeyboardTrigger.current = false;
         wasReducedMotion.current = true;
       }
       return;
@@ -429,6 +442,16 @@ export function PlaygroundPlateGrid({ reducedMotion }: PlaygroundPlateGridProps)
             plates.length,
             true,
           ),
+        );
+      }
+    }
+
+    if (pendingKeyboardTrigger.current) {
+      pendingKeyboardTrigger.current = false;
+      if (!active.current) {
+        active.current = true;
+        ripples.current.push(
+          createRipple(0, 0, state.clock.elapsedTime, plates.length, true),
         );
       }
     }
@@ -534,9 +557,13 @@ import { MATERIAL_VARIANTS } from "@/app/kinetic-facade/materialVariants";
 
 type PlaygroundFacadeSceneProps = {
   reducedMotion: boolean;
+  keyboardTriggerCount: number;
 };
 
-export function PlaygroundFacadeScene({ reducedMotion }: PlaygroundFacadeSceneProps) {
+export function PlaygroundFacadeScene({
+  reducedMotion,
+  keyboardTriggerCount,
+}: PlaygroundFacadeSceneProps) {
   const environmentPreset = MATERIAL_VARIANTS.copperDissolve.environmentPreset;
 
   return (
@@ -547,7 +574,10 @@ export function PlaygroundFacadeScene({ reducedMotion }: PlaygroundFacadeScenePr
       <Environment preset={environmentPreset} environmentRotation={[0, Math.PI, 0]} />
       <ambientLight intensity={0.15} />
       <directionalLight position={[-4, 8, 6]} intensity={2.5} />
-      <PlaygroundPlateGrid reducedMotion={reducedMotion} />
+      <PlaygroundPlateGrid
+        reducedMotion={reducedMotion}
+        keyboardTriggerCount={keyboardTriggerCount}
+      />
     </Canvas>
   );
 }
@@ -560,7 +590,7 @@ export function PlaygroundFacadeScene({ reducedMotion }: PlaygroundFacadeScenePr
 ```tsx
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type KeyboardEvent } from "react";
 import { PlaygroundFacadeScene } from "./PlaygroundFacadeScene";
 
 const DISSOLVE_SETTLE_MS = 2200;
@@ -571,6 +601,7 @@ type PlaygroundFacadeProps = {
 
 export function PlaygroundFacade({ reducedMotion }: PlaygroundFacadeProps) {
   const [dissolved, setDissolved] = useState(false);
+  const [keyboardTriggerCount, setKeyboardTriggerCount] = useState(0);
   const hasTriggered = useRef(false);
 
   const handleTrigger = () => {
@@ -579,13 +610,28 @@ export function PlaygroundFacade({ reducedMotion }: PlaygroundFacadeProps) {
     window.setTimeout(() => setDissolved(true), DISSOLVE_SETTLE_MS);
   };
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    setKeyboardTriggerCount((count) => count + 1);
+    handleTrigger();
+  };
+
   return (
     <div
       className="fixed inset-0 z-[100]"
       style={{ pointerEvents: dissolved ? "none" : "auto" }}
+      role="button"
+      tabIndex={dissolved ? -1 : 0}
+      aria-hidden={dissolved}
+      aria-label="Reveal the Playground page"
       onPointerDown={handleTrigger}
+      onKeyDown={handleKeyDown}
     >
-      <PlaygroundFacadeScene reducedMotion={reducedMotion} />
+      <PlaygroundFacadeScene
+        reducedMotion={reducedMotion}
+        keyboardTriggerCount={keyboardTriggerCount}
+      />
     </div>
   );
 }
@@ -643,6 +689,7 @@ Reload `http://localhost:3000/playground`. Expected:
 - Clicking anywhere on the facade triggers the dissolve-out ripple: plates near the click fade into dust and disappear first, with the effect sweeping outward.
 - Clicking again during or after the dissolve does nothing new (no second ripple, no re-toggle).
 - About 2.2 seconds after the click, the facade stops blocking the page: hovering/clicking Nav links and the card grid now works normally, and the (now fully invisible) facade no longer intercepts any pointer events. Confirm by clicking a Nav link (e.g. Resume) after this point and confirming navigation occurs.
+- Reload the page, then press Tab until the facade receives focus (a visible focus outline should appear on the full-viewport facade), then press Space (reload and repeat with Enter): the same dissolve-out ripple triggers, this time centered on the viewport rather than a click point, and the same 2.2s click-through handoff follows. After the handoff, press Tab repeatedly from the top of the page and confirm the (now invisible) facade is no longer part of the tab order — focus should move directly from Nav into the card grid.
 - No console errors throughout.
 
 - [ ] **Step 6: Commit**
@@ -676,7 +723,12 @@ If dragging doesn't produce continuous tracking (e.g. only registers at touch-st
     <div
       className="fixed inset-0 z-[100] touch-none"
       style={{ pointerEvents: dissolved ? "none" : "auto" }}
+      role="button"
+      tabIndex={dissolved ? -1 : 0}
+      aria-hidden={dissolved}
+      aria-label="Reveal the Playground page"
       onPointerDown={handleTrigger}
+      onKeyDown={handleKeyDown}
     >
 ```
 
@@ -702,6 +754,7 @@ git commit -m "fix(playground): prevent touch-drag from scrolling the page inste
 With `npm run dev` running and `http://localhost:3000/playground` open:
 - Desktop: hover-peek and click-to-dissolve both work as described in Task 2's verification.
 - Mobile-emulated: drag-to-peek and tap-to-dissolve both work as described in Task 3's verification.
+- Keyboard: Tab to focus the facade, Enter and Space (test both, on separate reloads) each trigger the dissolve-out centered on the viewport, followed by the same click-through handoff.
 - Page background is `#0a0a0a`; card grid is 6 placeholder cards, 1 column narrow / 2 columns from `tablet` (744px) up.
 - `reducedMotion` (OS-level or forced via DevTools `matchMedia` override): facade plates render static, no swing animation, and clicking still triggers dissolve (the dissolve mechanic isn't gated by reduced motion — only the continuous wind-sway is).
 - `/kinetic-facade` still works exactly as before (Steel/Copper/Dissolve toggle, all three variants) — confirms this plan didn't regress the existing prototype route.

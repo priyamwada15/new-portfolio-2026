@@ -16,11 +16,11 @@ This is the integration phase the original kinetic-facade prototype spec explici
 - Desktop: hover-peek (existing wind mechanic, unchanged) + click-to-dissolve (existing ripple mechanic, unchanged)
 - Mobile: drag-to-peek (same wind mechanic, driven by touch position instead of pointer position) + tap-to-dissolve
 - Once fully dissolved, the facade becomes click-through so the real page (Nav, cards, Footer) is normally interactive
+- Keyboard activation: the facade is focusable and triggers the same dissolve-out on Enter or Space (the standard way a native button activates via keyboard), so keyboard-only users aren't permanently blocked from reaching the page content
 
 **Explicitly out of scope for this pass:**
-- Dissolve-back-in / re-covering the page. First click/tap dissolves and that's final for this pass — no toggle back. (You're still deciding what should trigger this later.)
+- Dissolve-back-in / re-covering the page. First click/tap/keypress dissolves and that's final for this pass — no toggle back. (You're still deciding what should trigger this later.)
 - Real project card content/styling — cards in this pass are plain placeholders (white rounded rectangles + label/date row underneath, matching the shape of your reference image, no live preview content inside).
-- An accessibility bypass for keyboard-only/reduced-motion users who can't trigger a mouse/touch dissolve. This was flagged during design discussion and consciously deferred, not overlooked — worth solving before this page is the primary way to reach your project work, but not blocking this pass.
 
 ## Page structure & layering
 
@@ -38,6 +38,10 @@ Two independent layers:
 **Mobile:**
 - `touchmove` drives the same wind-field peek, using touch position in place of pointer position — no new physics, just an additional event listener feeding the same calculation.
 - `tap` triggers the same dissolve-out ripple as desktop's click.
+
+**Keyboard:**
+- The facade is a focusable element (reachable via Tab) with `role="button"` and a descriptive `aria-label`.
+- Pressing Enter or Space while it's focused triggers the same dissolve-out ripple as a click/tap — centered on the facade rather than a cursor position, since there's no pointer coordinate to anchor it to.
 
 **Dissolve is one-directional for this pass:** once a click/tap starts the dissolve, it runs to completion and stays dissolved. Repeat clicks/taps during or after the dissolve do nothing (no re-toggle).
 

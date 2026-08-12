@@ -1,4 +1,4 @@
-export type MaterialVariantId = "steel" | "copper";
+export type MaterialVariantId = "steel" | "copper" | "copperDissolve";
 
 export type MaterialVariant = {
   id: MaterialVariantId;
@@ -7,6 +7,7 @@ export type MaterialVariant = {
   metalness: number;
   roughness: number;
   environmentPreset: "studio" | "sunset";
+  interactionMode: "lift" | "dissolve";
 };
 
 export const MATERIAL_VARIANTS: Record<MaterialVariantId, MaterialVariant> = {
@@ -17,6 +18,7 @@ export const MATERIAL_VARIANTS: Record<MaterialVariantId, MaterialVariant> = {
     metalness: 0.9,
     roughness: 0.25,
     environmentPreset: "studio",
+    interactionMode: "lift",
   },
   copper: {
     id: "copper",
@@ -25,6 +27,16 @@ export const MATERIAL_VARIANTS: Record<MaterialVariantId, MaterialVariant> = {
     metalness: 0.85,
     roughness: 0.35,
     environmentPreset: "sunset",
+    interactionMode: "lift",
+  },
+  copperDissolve: {
+    id: "copperDissolve",
+    label: "Dissolve",
+    color: "#b5652d",
+    metalness: 0.85,
+    roughness: 0.35,
+    environmentPreset: "sunset",
+    interactionMode: "dissolve",
   },
 };
 

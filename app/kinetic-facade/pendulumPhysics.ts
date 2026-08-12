@@ -1,6 +1,7 @@
 export type PlateSwingState = {
   angle: number;
   angularVelocity: number;
+  targetAngle: number;
 };
 
 export type PendulumParams = {
@@ -21,7 +22,7 @@ export function stepPendulum(
   dt: number,
   params: PendulumParams = DEFAULT_PENDULUM_PARAMS,
 ): PlateSwingState {
-  const restoringTorque = -params.stiffness * state.angle;
+  const restoringTorque = -params.stiffness * (state.angle - state.targetAngle);
   const dampingTorque = -params.damping * state.angularVelocity;
   const angularAcceleration = restoringTorque + dampingTorque + windTorque;
 
@@ -29,5 +30,5 @@ export function stepPendulum(
   let angle = state.angle + angularVelocity * dt;
   angle = Math.max(-params.maxAngle, Math.min(params.maxAngle, angle));
 
-  return { angle, angularVelocity };
+  return { angle, angularVelocity, targetAngle: state.targetAngle };
 }

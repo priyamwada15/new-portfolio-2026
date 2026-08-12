@@ -22,8 +22,8 @@ export const DEFAULT_GRID_CONFIG: PlateGridConfig = {
   rows: 7,
   plateWidth: 0.55,
   plateHeight: 0.8,
-  gapX: 0.15,
-  gapY: 0.15,
+  gapX: 0.02,
+  gapY: 0.02,
 };
 
 export function buildPlateGrid(

@@ -24,9 +24,15 @@ export function KineticPlateGrid({
   gapX,
   gapY,
 }: KineticPlateGridProps) {
+  const { gl, viewport } = useThree();
+
+  const columns = useMemo(
+    () => Math.ceil(viewport.width / (DEFAULT_GRID_CONFIG.plateWidth + gapX)),
+    [viewport.width, gapX],
+  );
   const plates = useMemo(
-    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, gapX, gapY }),
-    [gapX, gapY],
+    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns, gapX, gapY }),
+    [columns, gapX, gapY],
   );
   const swingStates = useRef<PlateSwingState[]>(
     plates.map(() => ({ angle: 0, angularVelocity: 0 })),
@@ -36,7 +42,15 @@ export function KineticPlateGrid({
   const pointerWorld = useRef(new Vector3());
   const pointerActive = useRef(false);
   const wasReducedMotion = useRef(false);
-  const { gl } = useThree();
+  const prevPlateCount = useRef(plates.length);
+
+  useEffect(() => {
+    if (plates.length !== prevPlateCount.current) {
+      swingStates.current = plates.map(() => ({ angle: 0, angularVelocity: 0 }));
+      groupRefs.current = groupRefs.current.slice(0, plates.length);
+      prevPlateCount.current = plates.length;
+    }
+  }, [plates]);
 
   useEffect(() => {
     const el = gl.domElement;

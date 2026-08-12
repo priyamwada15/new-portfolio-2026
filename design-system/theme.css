@@ -36,6 +36,7 @@
   --color-border: var(--ds-border-default);
   --color-border-media: var(--ds-border-media);
   --color-surface-chip: var(--ds-surface-chip);
+  --color-surface-playground: var(--ds-surface-playground);
   --color-card: var(--ds-surface-card);
 
   /* Brand */

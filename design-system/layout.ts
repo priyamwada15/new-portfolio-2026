@@ -12,6 +12,9 @@ export const SITE_DEFAULT_PAGE_BG = "var(--ds-surface-page)";
 /** Homepage surface. */
 export const HOME_V2_PAGE_BG = "var(--ds-surface-home)";
 
+/** Playground page surface. */
+export const PLAYGROUND_PAGE_BG = "var(--ds-surface-playground)";
+
 /**
  * Case study article column width. 1008px is a max-width ceiling, not a fixed
  * width — page margin is 24px below 744px, 48px from 744-1024px, and 120px

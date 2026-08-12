@@ -17,6 +17,7 @@
   --ds-surface-card: var(--ds-color-surface-card);
   --ds-surface-media: var(--ds-color-surface-media);
   --ds-surface-chip: var(--ds-color-surface-chip);
+  --ds-surface-playground: var(--ds-color-surface-playground);
 
   /* Borders */
   --ds-border-default: var(--ds-color-border);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { KineticFacadeScene } from "./KineticFacadeScene";
 import {
@@ -13,7 +13,19 @@ export function KineticFacadeApp() {
   const [variantId, setVariantId] = useState<MaterialVariantId>(
     DEFAULT_MATERIAL_VARIANT_ID,
   );
-  const reducedMotion = false;
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(query.matches);
+
+    const listener = (event: MediaQueryListEvent) => {
+      setReducedMotion(event.matches);
+    };
+    query.addEventListener("change", listener);
+    return () => query.removeEventListener("change", listener);
+  }, []);
+
   const variant = MATERIAL_VARIANTS[variantId];
 
   return (

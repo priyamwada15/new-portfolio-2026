@@ -24,7 +24,7 @@ export function KineticFacadeScene({
         environmentRotation={[0, Math.PI, 0]}
       />
       <ambientLight intensity={0.15} />
-      <directionalLight position={[-4, 8, 6]} intensity={1.2} />
+      <directionalLight position={[-4, 8, 6]} intensity={2.5} />
       <KineticPlateGrid variant={variant} reducedMotion={reducedMotion} />
     </Canvas>
   );

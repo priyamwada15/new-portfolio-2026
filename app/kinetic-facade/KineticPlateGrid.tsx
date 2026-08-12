@@ -9,6 +9,13 @@ import {
   type PlateSwingState,
 } from "./pendulumPhysics";
 import { computeWindTorque } from "./windField";
+import {
+  createRipple,
+  DEFAULT_RIPPLE_PARAMS,
+  hasRippleReachedPlate,
+  isRippleExpired,
+  type Ripple,
+} from "./ripplePhysics";
 import type { MaterialVariant } from "./materialVariants";
 
 type KineticPlateGridProps = {
@@ -39,14 +46,18 @@ export function KineticPlateGrid({
   const groupRefs = useRef<(Group | null)[]>([]);
   const plane = useMemo(() => new Plane(new Vector3(0, 0, 1), 0), []);
   const pointerWorld = useRef(new Vector3());
+  const clickWorld = useRef(new Vector3());
   const pointerActive = useRef(false);
   const wasReducedMotion = useRef(false);
   const prevPlateCount = useRef(plates.length);
+  const ripples = useRef<Ripple[]>([]);
+  const pendingClick = useRef(false);
 
   useEffect(() => {
     if (plates.length !== prevPlateCount.current) {
       swingStates.current = plates.map(() => ({ angle: 0, angularVelocity: 0 }));
       groupRefs.current = groupRefs.current.slice(0, plates.length);
+      ripples.current = [];
       prevPlateCount.current = plates.length;
     }
   }, [plates]);
@@ -59,11 +70,16 @@ export function KineticPlateGrid({
     const leave = () => {
       pointerActive.current = false;
     };
+    const down = () => {
+      pendingClick.current = true;
+    };
     el.addEventListener("pointermove", enter);
     el.addEventListener("pointerleave", leave);
+    el.addEventListener("pointerdown", down);
     return () => {
       el.removeEventListener("pointermove", enter);
       el.removeEventListener("pointerleave", leave);
+      el.removeEventListener("pointerdown", down);
     };
   }, [gl]);
 
@@ -94,9 +110,46 @@ export function KineticPlateGrid({
         : null;
     }
 
+    if (pendingClick.current) {
+      pendingClick.current = false;
+      state.raycaster.setFromCamera(state.pointer, state.camera);
+      const clickHit = state.raycaster.ray.intersectPlane(plane, clickWorld.current);
+      if (clickHit) {
+        ripples.current.push(
+          createRipple(
+            clickWorld.current.x,
+            clickWorld.current.y,
+            state.clock.elapsedTime,
+            plates.length,
+          ),
+        );
+      }
+    }
+
+    const elapsedTime = state.clock.elapsedTime;
+    // Cap the timestep fed into the pendulum integrator. A throttled/
+    // backgrounded tab can deliver a single frame with a much larger delta
+    // than normal, which destabilizes the semi-implicit Euler integration
+    // (angularVelocity diverges instead of settling). Clamping keeps every
+    // step well inside the integrator's stability margin.
+    const stableDelta = Math.min(delta, 1 / 30);
+
     plates.forEach((plate, index) => {
       const windTorque = computeWindTorque({ x: plate.x, y: plate.y }, pointer);
-      const nextState = stepPendulum(swingStates.current[index], windTorque, delta);
+
+      let plateState = swingStates.current[index];
+      for (const ripple of ripples.current) {
+        if (!ripple.hit[index] && hasRippleReachedPlate(ripple, plate, elapsedTime)) {
+          plateState = {
+            angle: plateState.angle,
+            angularVelocity:
+              plateState.angularVelocity + DEFAULT_RIPPLE_PARAMS.impulseStrength,
+          };
+          ripple.hit[index] = 1;
+        }
+      }
+
+      const nextState = stepPendulum(plateState, windTorque, stableDelta);
       swingStates.current[index] = nextState;
 
       const group = groupRefs.current[index];
@@ -104,6 +157,12 @@ export function KineticPlateGrid({
         group.rotation.x = nextState.angle;
       }
     });
+
+    if (ripples.current.length > 0) {
+      ripples.current = ripples.current.filter(
+        (ripple) => !isRippleExpired(ripple, elapsedTime),
+      );
+    }
   });
 
   return (

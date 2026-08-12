@@ -15,7 +15,10 @@ export function KineticFacadeScene({
   reducedMotion,
 }: KineticFacadeSceneProps) {
   return (
-    <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+    <Canvas
+      camera={{ position: [0, 0, 8], fov: 50 }}
+      frameloop={reducedMotion ? "demand" : "always"}
+    >
       <Environment preset={variant.environmentPreset} />
       <ambientLight intensity={0.15} />
       <KineticPlateGrid variant={variant} reducedMotion={reducedMotion} />

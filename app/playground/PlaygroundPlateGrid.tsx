@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import {
+  BoxGeometry,
   BufferAttribute,
   BufferGeometry,
   Group,
@@ -51,9 +52,16 @@ export function PlaygroundPlateGrid({
       ),
     [viewport.width],
   );
+  const rows = useMemo(
+    () =>
+      Math.ceil(
+        viewport.height / (DEFAULT_GRID_CONFIG.plateHeight + DEFAULT_GRID_CONFIG.gapY),
+      ),
+    [viewport.height],
+  );
   const plates = useMemo(
-    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns }),
-    [columns],
+    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns, rows }),
+    [columns, rows],
   );
   const swingStates = useRef<PlateSwingState[]>(
     plates.map(() => ({ angle: 0, angularVelocity: 0, targetAngle: 0 })),
@@ -87,6 +95,16 @@ export function PlaygroundPlateGrid({
     return geometry;
   }, []);
 
+  const plateGeometry = useMemo(
+    () =>
+      new BoxGeometry(
+        DEFAULT_GRID_CONFIG.plateWidth,
+        DEFAULT_GRID_CONFIG.plateHeight,
+        0.03,
+      ),
+    [],
+  );
+
   useEffect(() => {
     if (plates.length !== prevPlateCount.current) {
       swingStates.current = plates.map(() => ({
@@ -100,6 +118,7 @@ export function PlaygroundPlateGrid({
       pointsRefs.current = pointsRefs.current.slice(0, plates.length);
       pointsMaterialRefs.current = pointsMaterialRefs.current.slice(0, plates.length);
       ripples.current = [];
+      active.current = false;
       prevPlateCount.current = plates.length;
     }
   }, [plates]);
@@ -249,8 +268,7 @@ export function PlaygroundPlateGrid({
           }}
           position={[plate.x, plate.y + plate.height / 2, 0]}
         >
-          <mesh position={[0, -plate.height / 2, 0]}>
-            <boxGeometry args={[plate.width, plate.height, 0.03]} />
+          <mesh position={[0, -plate.height / 2, 0]} geometry={plateGeometry}>
             <meshPhysicalMaterial
               ref={(el) => {
                 meshMaterialRefs.current[index] = el;

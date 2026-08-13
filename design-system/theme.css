@@ -33,6 +33,7 @@
   --color-secondary: var(--ds-text-secondary);
   --color-muted: var(--ds-text-muted);
   --color-faint: var(--ds-text-faint);
+  --color-on-dark: var(--ds-text-on-dark);
   --color-border: var(--ds-border-default);
   --color-border-media: var(--ds-border-media);
   --color-surface-chip: var(--ds-surface-chip);

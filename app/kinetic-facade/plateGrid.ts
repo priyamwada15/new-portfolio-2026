@@ -61,13 +61,18 @@ export type GapFiller = {
   y: number;
   width: number;
   height: number;
+  plateIndexA: number;
+  plateIndexB: number;
 };
 
 /**
  * Static, non-rotating fillers for the thin seams between plates. Sized to
  * exactly the resting gap (never a plate's own footprint), so they hide the
  * gap-level leak-through at rest without ever covering the much larger area
- * a plate's swing exposes.
+ * a plate's swing exposes. Each filler records the indices (into the
+ * row-major array `buildPlateGrid` returns) of the two plates it sits
+ * between, so a consumer can fade a filler based on whether either
+ * neighboring plate has swung open.
  */
 export function buildGapFillers(
   config: PlateGridConfig = DEFAULT_GRID_CONFIG,
@@ -89,6 +94,8 @@ export function buildGapFillers(
         y,
         width: gapX,
         height: plateHeight + gapY,
+        plateIndexA: row * columns + col,
+        plateIndexB: row * columns + (col + 1),
       });
     }
   }
@@ -103,6 +110,8 @@ export function buildGapFillers(
         y,
         width: plateWidth + gapX,
         height: gapY,
+        plateIndexA: row * columns + col,
+        plateIndexB: (row + 1) * columns + col,
       });
     }
   }

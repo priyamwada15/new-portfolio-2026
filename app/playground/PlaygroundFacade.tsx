@@ -12,6 +12,7 @@ type PlaygroundFacadeProps = {
 
 export function PlaygroundFacade({ reducedMotion, onDissolve }: PlaygroundFacadeProps) {
   const [keyboardTriggerCount, setKeyboardTriggerCount] = useState(0);
+  const [sceneLoaded, setSceneLoaded] = useState(false);
   const hasTriggered = useRef(false);
   const timeoutRef = useRef<number | null>(null);
 
@@ -55,7 +56,7 @@ export function PlaygroundFacade({ reducedMotion, onDissolve }: PlaygroundFacade
 
   return (
     <div
-      className="fixed inset-0 z-[100] touch-none bg-surface-playground"
+      className="fixed inset-0 z-[100] touch-none"
       role="button"
       tabIndex={0}
       aria-label="Reveal the Playground page"
@@ -65,7 +66,18 @@ export function PlaygroundFacade({ reducedMotion, onDissolve }: PlaygroundFacade
       <PlaygroundFacadeScene
         reducedMotion={reducedMotion}
         keyboardTriggerCount={keyboardTriggerCount}
-        dissolved={false}
+        onLoaded={() => setSceneLoaded(true)}
+      />
+      {/* Opaque cover so the real page never flashes visible before the
+          3D scene (HDRI + plates) has actually loaded. Separate from the
+          Canvas itself so the Canvas's own transparency — the gaps between
+          plates that the hover peek effect relies on — isn't blocked once
+          the scene is ready. */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 bg-surface-playground transition-opacity duration-300 ${
+          sceneLoaded ? "opacity-0" : "opacity-100"
+        }`}
       />
     </div>
   );

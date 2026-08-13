@@ -6,13 +6,14 @@ import {
   BufferAttribute,
   BufferGeometry,
   Group,
+  type Mesh,
   type MeshPhysicalMaterial,
   type Object3D,
   Plane,
   type PointsMaterial,
   Vector3,
 } from "three";
-import { buildPlateGrid, DEFAULT_GRID_CONFIG } from "./plateGrid";
+import { buildGapFillers, buildPlateGrid, DEFAULT_GRID_CONFIG } from "./plateGrid";
 import {
   stepPendulum,
   type PlateSwingState,
@@ -54,6 +55,10 @@ export function KineticPlateGrid({
     () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns }),
     [columns],
   );
+  const gapFillers = useMemo(
+    () => buildGapFillers({ ...DEFAULT_GRID_CONFIG, columns }),
+    [columns],
+  );
   const swingStates = useRef<PlateSwingState[]>(
     plates.map(() => ({ angle: 0, angularVelocity: 0, targetAngle: 0 })),
   );
@@ -61,6 +66,7 @@ export function KineticPlateGrid({
     plates.map(() => ({ progress: 0, target: 0 })),
   );
   const groupRefs = useRef<(Group | null)[]>([]);
+  const fillerRefs = useRef<(Mesh | null)[]>([]);
   const meshMaterialRefs = useRef<(MeshPhysicalMaterial | null)[]>([]);
   const pointsRefs = useRef<(Object3D | null)[]>([]);
   const pointsMaterialRefs = useRef<(PointsMaterial | null)[]>([]);
@@ -97,11 +103,12 @@ export function KineticPlateGrid({
       meshMaterialRefs.current = meshMaterialRefs.current.slice(0, plates.length);
       pointsRefs.current = pointsRefs.current.slice(0, plates.length);
       pointsMaterialRefs.current = pointsMaterialRefs.current.slice(0, plates.length);
+      fillerRefs.current = fillerRefs.current.slice(0, gapFillers.length);
       ripples.current = [];
       active.current = false;
       prevPlateCount.current = plates.length;
     }
-  }, [plates]);
+  }, [plates, gapFillers]);
 
   useEffect(() => {
     const el = gl.domElement;
@@ -175,6 +182,17 @@ export function KineticPlateGrid({
       const clickHit = state.raycaster.ray.intersectPlane(plane, clickWorld.current);
       if (clickHit) {
         active.current = !active.current;
+
+        if (variant.interactionMode === "dissolve") {
+          // Gap fillers only need to hide the tiny resting-state seams; once
+          // the dissolve reveals the real page behind, a lingering grid of
+          // seam lines over that page would look like a stray artifact —
+          // and they need to come back if the plates reform.
+          const fillersVisible = !active.current;
+          fillerRefs.current.forEach((mesh) => {
+            if (mesh) mesh.visible = fillersVisible;
+          });
+        }
 
         const isReform = variant.interactionMode === "dissolve" && !active.current;
         const direction = isReform ? "inward" : "outward";
@@ -271,6 +289,18 @@ export function KineticPlateGrid({
 
   return (
     <>
+      {gapFillers.map((filler, index) => (
+        <mesh
+          key={filler.id}
+          ref={(el) => {
+            fillerRefs.current[index] = el;
+          }}
+          position={[filler.x, filler.y, 0]}
+        >
+          <planeGeometry args={[filler.width, filler.height]} />
+          <meshBasicMaterial color="#0a0a0a" />
+        </mesh>
+      ))}
       {plates.map((plate, index) => (
         <group
           key={plate.id}

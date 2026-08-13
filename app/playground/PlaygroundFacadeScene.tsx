@@ -21,7 +21,6 @@ export function PlaygroundFacadeScene({
   return (
     <Canvas
       camera={{ position: [0, 0, 8], fov: 50 }}
-      frameloop={reducedMotion ? "demand" : "always"}
       style={{ pointerEvents: dissolved ? "none" : "auto" }}
     >
       <Environment preset={environmentPreset} environmentRotation={[0, Math.PI, 0]} />

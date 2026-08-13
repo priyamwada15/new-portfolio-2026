@@ -152,29 +152,17 @@ export function PlaygroundPlateGrid({
           angularVelocity: 0,
           targetAngle: 0,
         }));
-        dissolveStates.current = plates.map(() => ({ progress: 0, target: 0 }));
         groupRefs.current.forEach((group) => {
           if (group) group.rotation.x = 0;
         });
-        meshMaterialRefs.current.forEach((material) => {
-          if (material) material.opacity = 1;
-        });
-        pointsMaterialRefs.current.forEach((material) => {
-          if (material) material.opacity = 0;
-        });
-        pointsRefs.current.forEach((points) => {
-          if (points) points.scale.setScalar(1);
-        });
-        active.current = false;
-        pendingKeyboardTrigger.current = false;
         wasReducedMotion.current = true;
       }
-      return;
+    } else {
+      wasReducedMotion.current = false;
     }
-    wasReducedMotion.current = false;
 
     let pointer: { x: number; y: number } | null = null;
-    if (pointerActive.current) {
+    if (!reducedMotion && pointerActive.current) {
       state.raycaster.setFromCamera(state.pointer, state.camera);
       const hit = state.raycaster.ray.intersectPlane(plane, pointerWorld.current);
       pointer = hit
@@ -214,8 +202,6 @@ export function PlaygroundPlateGrid({
     const stableDelta = Math.min(delta, 1 / 30);
 
     plates.forEach((plate, index) => {
-      const windTorque = computeWindTorque({ x: plate.x, y: plate.y }, pointer);
-
       let dissolveState = dissolveStates.current[index];
       for (const ripple of ripples.current) {
         if (!ripple.hit[index] && hasRippleReachedPlate(ripple, plate, elapsedTime)) {
@@ -224,11 +210,14 @@ export function PlaygroundPlateGrid({
         }
       }
 
-      const nextState = stepPendulum(swingStates.current[index], windTorque, stableDelta);
-      swingStates.current[index] = nextState;
+      if (!reducedMotion) {
+        const windTorque = computeWindTorque({ x: plate.x, y: plate.y }, pointer);
+        const nextState = stepPendulum(swingStates.current[index], windTorque, stableDelta);
+        swingStates.current[index] = nextState;
 
-      const group = groupRefs.current[index];
-      if (group) group.rotation.x = nextState.angle;
+        const group = groupRefs.current[index];
+        if (group) group.rotation.x = nextState.angle;
+      }
 
       const nextDissolve = stepDissolve(dissolveState, stableDelta);
       dissolveStates.current[index] = nextDissolve;

@@ -231,12 +231,12 @@ export default async function HomeV2Page() {
           </ScrollReveal>
           </div>
 
-          {/* Salesforce */}
-          <div className="home-v2-section home-v2-salesforce">
+          {/* Asimov */}
+          <div className="home-v2-section home-v2-asimov">
           <ScrollReveal>
             <HomeV2CardLink
-              href="/salesforce"
-              ariaLabel="Read Salesforce case study"
+              href="/tars-asimov"
+              ariaLabel="Read Asimov for Tars case study"
               className="cursor-hover-dark"
               style={{
                 display: "flex",
@@ -264,23 +264,23 @@ export default async function HomeV2Page() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/logos/salesforce.svg"
-                  alt="Salesforce"
+                  src="/logos/tars.svg"
+                  alt="TARS"
                   className="home-v2-card-media-logo"
                   style={{
                     position: "absolute",
                     top: "24px",
                     left: "24px",
-                    width: "56px",
-                    height: "40px",
+                    height: "24px",
+                    width: "auto",
                     objectFit: "contain",
                     zIndex: 1,
                   }}
                 />
                 <LazyVideo
-                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295117/Salesforce_new_case_study_card_and_hero_fx5vpe.mp4"
-                  poster="/Salesforce Poster.png"
-                  ariaLabel="Salesforce case study preview video"
+                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
+                  poster="/Asimov Video Poster.png"
+                  ariaLabel="Asimov for Tars preview video"
                   style={{
                     width: "100%",
                     height: "100%",
@@ -289,7 +289,6 @@ export default async function HomeV2Page() {
                 />
               </div>
 
-              {/* Text */}
               <div
                 className="home-v2-card-footer"
                 style={{
@@ -304,12 +303,12 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Designing a 0→1 AI platform for fragmented academic data
+                  Scaling an AI agent to 82% pilot adoption through configurable workflows
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span style={homeCardTagPillStyle}>b2b2c</span>
+                  <span style={homeCardTagPillStyle}>b2b saas</span>
                   <span style={homeCardTagPillStyle}>0→1</span>
-                  <span style={homeCardTagPillStyle}>ai product design</span>
+                  <span style={homeCardTagPillStyle}>workflow design</span>
                 </div>
               </div>
             </HomeV2CardLink>
@@ -400,12 +399,12 @@ export default async function HomeV2Page() {
           </ScrollReveal>
           </div>
 
-          {/* Asimov */}
-          <div className="home-v2-section home-v2-asimov">
+          {/* Salesforce */}
+          <div className="home-v2-section home-v2-salesforce">
           <ScrollReveal>
             <HomeV2CardLink
-              href="/tars-asimov"
-              ariaLabel="Read Asimov for Tars case study"
+              href="/salesforce"
+              ariaLabel="Read Salesforce case study"
               className="cursor-hover-dark"
               style={{
                 display: "flex",
@@ -433,23 +432,23 @@ export default async function HomeV2Page() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/logos/tars.svg"
-                  alt="TARS"
+                  src="/logos/salesforce.svg"
+                  alt="Salesforce"
                   className="home-v2-card-media-logo"
                   style={{
                     position: "absolute",
                     top: "24px",
                     left: "24px",
-                    height: "24px",
-                    width: "auto",
+                    width: "56px",
+                    height: "40px",
                     objectFit: "contain",
                     zIndex: 1,
                   }}
                 />
                 <LazyVideo
-                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
-                  poster="/Asimov Video Poster.png"
-                  ariaLabel="Asimov for Tars preview video"
+                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295117/Salesforce_new_case_study_card_and_hero_fx5vpe.mp4"
+                  poster="/Salesforce Poster.png"
+                  ariaLabel="Salesforce case study preview video"
                   style={{
                     width: "100%",
                     height: "100%",
@@ -458,6 +457,7 @@ export default async function HomeV2Page() {
                 />
               </div>
 
+              {/* Text */}
               <div
                 className="home-v2-card-footer"
                 style={{
@@ -472,12 +472,12 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Scaling an AI agent to 82% pilot adoption through configurable workflows
+                  Designing a 0→1 AI platform for fragmented academic data
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span style={homeCardTagPillStyle}>b2b saas</span>
+                  <span style={homeCardTagPillStyle}>b2b2c</span>
                   <span style={homeCardTagPillStyle}>0→1</span>
-                  <span style={homeCardTagPillStyle}>workflow design</span>
+                  <span style={homeCardTagPillStyle}>ai product design</span>
                 </div>
               </div>
             </HomeV2CardLink>

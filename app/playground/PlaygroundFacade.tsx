@@ -72,10 +72,18 @@ export function PlaygroundFacade({ reducedMotion, onDissolve }: PlaygroundFacade
           3D scene (HDRI + plates) has actually loaded. Separate from the
           Canvas itself so the Canvas's own transparency — the gaps between
           plates that the hover peek effect relies on — isn't blocked once
-          the scene is ready. */}
+          the scene is ready.
+          Inline pointerEvents (not just the Tailwind class) because
+          Playground's flip-board footer layer applies a global
+          `.site-scroll-layer__sheet-body *` rule forcing pointer-events:
+          auto on every descendant, which otherwise outranks the single-class
+          `pointer-events-none` utility on specificity and silently makes
+          this "invisible" cover intercept every pointer event meant for the
+          canvas beneath it — killing cursor-lift and click-to-dissolve. */}
       <div
         aria-hidden="true"
-        className={`pointer-events-none absolute inset-0 bg-surface-playground transition-opacity duration-300 ${
+        style={{ pointerEvents: "none" }}
+        className={`absolute inset-0 bg-surface-playground transition-opacity duration-300 ${
           sceneLoaded ? "opacity-0" : "opacity-100"
         }`}
       />

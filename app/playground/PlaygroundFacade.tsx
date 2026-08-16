@@ -56,7 +56,7 @@ export function PlaygroundFacade({ reducedMotion, onDissolve }: PlaygroundFacade
 
   return (
     <div
-      className="fixed inset-0 z-[100] touch-none"
+      className="fixed inset-0 z-[100] touch-none cursor-hover-pointer"
       role="button"
       tabIndex={0}
       aria-label="Reveal the Playground page"

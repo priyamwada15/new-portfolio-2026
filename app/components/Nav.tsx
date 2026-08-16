@@ -77,8 +77,7 @@ export default function Nav() {
               />
 
               <div className="flex items-center gap-3 sm:gap-4">
-                {/* Hidden for now — Playground has known interaction bugs. */}
-                {false && !isPlayground && (
+                {!isPlayground && (
                   <Tooltip side="bottom" sideOffset={8}>
                     <TooltipTrigger
                       asChild

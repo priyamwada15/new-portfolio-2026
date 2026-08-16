@@ -108,7 +108,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
     id: "rocket-lisa",
     title: "Rocket LISA",
-    tagParts: ["Figma", "Claude Code", "Nano Banana 2", "April 2026"],
+    tagParts: ["Claude Code", "Nano Banana 2", "April 2026"],
     description:
       "Dawn of Man. Dawn of personal finance. Redesigned Rocket Money's dashboard in the 1984 Apple Macintosh GUI style. The apes are reacting to my spending report.",
     videoSrc: ROCKET_LISA_VIDEO_SRC,

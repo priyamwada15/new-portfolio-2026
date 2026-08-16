@@ -190,7 +190,7 @@ function TooltipPortal(props: React.ComponentProps<typeof FloatingPortal>) {
 }
 
 function TooltipOverlay() {
-  const { currentTooltip, transition, globalId, referenceElRef } = useGlobalTooltip();
+  const { currentTooltip, transition, globalId, referenceElRef, hideImmediate } = useGlobalTooltip();
   const [rendered, setRendered] = React.useState<{ data: TooltipData | null; open: boolean }>({ data: null, open: false });
   const arrowRef = React.useRef<SVGSVGElement | null>(null);
   const side = rendered.data?.side ?? "top";
@@ -198,7 +198,22 @@ function TooltipOverlay() {
 
   const { refs, x, y, strategy, context, update } = useFloating({
     placement: align === "center" ? side : `${side}-${align}`,
-    whileElementsMounted: autoUpdate,
+    // A reference element removed from the DOM mid-tooltip (e.g. its
+    // trigger conditionally unmounts on a route change) still gets measured
+    // by plain autoUpdate — getBoundingClientRect() on a detached node
+    // returns all zeros, snapping the tooltip to the viewport's top-left
+    // and leaving it stuck there. Checking isConnected on every recompute,
+    // rather than relying on the trigger's own unmount-cleanup timing (which
+    // can lose the race against this very callback), catches it regardless
+    // of ordering.
+    whileElementsMounted: (reference, floating, update) =>
+      autoUpdate(reference, floating, () => {
+        if ("isConnected" in reference && !reference.isConnected) {
+          hideImmediate();
+          return;
+        }
+        update();
+      }),
     middleware: [
       floatingOffset({ mainAxis: rendered.data?.sideOffset ?? 0, crossAxis: rendered.data?.alignOffset ?? 0 }),
       flip(),

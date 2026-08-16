@@ -72,6 +72,7 @@ export default function Nav() {
                 className={`cursor-hover-pointer rounded-full transition-opacity ${pathname === "/" ? "" : "hover:opacity-75"}`}
                 style={{ padding: "6px 12px 6px 0", display: "flex", alignItems: "center" }}
                 textColor={isPlayground ? PLAYGROUND_NAV_ICON_COLOR : undefined}
+                logoSrc={isPlayground ? "/logos/nav-logo-playground.svg" : undefined}
               />
 
               <div className="flex items-center gap-3 sm:gap-4">

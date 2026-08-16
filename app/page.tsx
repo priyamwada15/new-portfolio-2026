@@ -73,9 +73,8 @@ const homeCardTagPillStyle = {
   background: "var(--ds-surface-page)",
   borderRadius: "4px",
   fontSize: "12px",
-  fontWeight: 300,
+  fontWeight: 500,
   lineHeight: "140%",
-  textTransform: "uppercase" as const,
   color: "var(--ds-text-secondary)",
 };
 
@@ -222,9 +221,9 @@ export default async function HomeV2Page() {
                   Personalizing AI guidance across 6.8M+ client conversations
                 </div>
                 <div style={homeCardFooterTagsStyle}>
-                  <span style={homeCardTagPillStyle}>b2c fintech</span>
-                  <span style={homeCardTagPillStyle}>ai assistant</span>
-                  <span style={homeCardTagPillStyle}>trust design</span>
+                  <span style={homeCardTagPillStyle}>B2C Fintech</span>
+                  <span style={homeCardTagPillStyle}>AI Assistant</span>
+                  <span style={homeCardTagPillStyle}>Trust Design</span>
                 </div>
               </div>
             </HomeV2CardLink>
@@ -306,9 +305,9 @@ export default async function HomeV2Page() {
                   Scaling an AI agent to 82% pilot adoption through configurable workflows
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span style={homeCardTagPillStyle}>b2b saas</span>
+                  <span style={homeCardTagPillStyle}>B2B SaaS</span>
                   <span style={homeCardTagPillStyle}>0→1</span>
-                  <span style={homeCardTagPillStyle}>workflow design</span>
+                  <span style={homeCardTagPillStyle}>Workflow Design</span>
                 </div>
               </div>
             </HomeV2CardLink>
@@ -390,9 +389,9 @@ export default async function HomeV2Page() {
                   Designing an internal debugger that cut troubleshooting time by ~70%
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span style={homeCardTagPillStyle}>b2b saas</span>
-                  <span style={homeCardTagPillStyle}>complex workflows</span>
-                  <span style={homeCardTagPillStyle}>internal tools</span>
+                  <span style={homeCardTagPillStyle}>B2B SaaS</span>
+                  <span style={homeCardTagPillStyle}>Complex Workflows</span>
+                  <span style={homeCardTagPillStyle}>Internal Tools</span>
                 </div>
               </div>
             </HomeV2CardLink>
@@ -475,9 +474,9 @@ export default async function HomeV2Page() {
                   Designing a 0→1 AI platform for fragmented academic data
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span style={homeCardTagPillStyle}>b2b2c</span>
+                  <span style={homeCardTagPillStyle}>B2B2C</span>
                   <span style={homeCardTagPillStyle}>0→1</span>
-                  <span style={homeCardTagPillStyle}>ai product design</span>
+                  <span style={homeCardTagPillStyle}>AI Product Design</span>
                 </div>
               </div>
             </HomeV2CardLink>

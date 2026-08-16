@@ -61,6 +61,25 @@ import { surfaces, brands, fontStyle } from "@/design-system";
 3. Expose as a Tailwind utility in `theme.css` if used in class names
 4. Add TS helpers in `typography.ts` / `surfaces.ts` / `brands.ts` only when needed in JavaScript
 
+## Responsive breakpoints
+
+Breakpoints live in `breakpoints.ts` and are mirrored as real Tailwind variants in `theme.css`:
+
+| Variant | Min-width |
+|---|---|
+| `tablet:` / `max-tablet:` | 744px |
+| `desktop:` / `max-desktop:` | 1024px |
+
+Use `tablet:` / `desktop:` (and their `max-` inverses) in className strings — not ad-hoc `min-[...]:` arbitrary values. "Mobile" means `max-tablet:` (below 744px).
+
+### Page margins
+
+Content columns follow a 3-tier margin ladder rather than a fixed percentage width: **24px** below `tablet`, **48px** from `tablet` to `desktop`, **120px** from `desktop` up (capped at a max content width beyond which margin keeps growing). This is `RESPONSIVE_CONTENT_WIDTH_CLASS` in `layout.ts` — use it (or compose from it, as `CASE_STUDY_COLUMN_CLASS` does) for any full-page content column instead of a one-off `w-[N%]`.
+
+### Font sizes
+
+Large/prominent text (headlines, card titles, breadcrumbs) steps down at `max-tablet:` — e.g. `text-[32px] max-tablet:text-[24px]` (see `caseStudyHeadline` in `typography.ts`). Small meta/label text (tags, captions) generally doesn't need a mobile-specific size.
+
 ## Migration
 
 `app/lib/caseStudy.ts` re-exports from `@/design-system` for backward compatibility. New code should import from `@/design-system` directly.

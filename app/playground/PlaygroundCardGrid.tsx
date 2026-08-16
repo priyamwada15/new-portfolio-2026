@@ -2,19 +2,21 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { fontStyle } from "@/design-system";
+import { fontStyle, RESPONSIVE_CONTENT_WIDTH_CLASS } from "@/design-system";
 import { PLAY_PORTFOLIO_ITEMS, type PlayPortfolioItem } from "@/app/lib/playPortfolio";
 
 // Figma-specified colors, tuned specifically for Playground's dark page —
 // not promoted to design-system tokens since this is the only page using
 // them (matching the same approach as Nav's dark-page icon color override).
+// Font size is handled separately via className (max-tablet: reduction),
+// so it isn't part of this inline style object.
 const breadcrumbFontStyle: React.CSSProperties = {
   ...fontStyle.figtree,
   fontWeight: 500,
-  fontSize: "14px",
   lineHeight: "17px",
   letterSpacing: "-0.02px",
 };
+const breadcrumbTextClass = "text-[14px] max-tablet:text-[12px]" as const;
 const breadcrumbMutedStyle: React.CSSProperties = {
   ...breadcrumbFontStyle,
   color: "#767676",
@@ -86,14 +88,14 @@ export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridP
       id={PLAYGROUND_CARD_GRID_FOCUS_ID}
       tabIndex={-1}
       inert={inert || undefined}
-      className="relative z-[1] mx-auto w-[86%] max-w-[1008px] pt-[32px] pb-[96px] xl:pt-[72px] outline-none"
+      className={`relative z-[1] ${RESPONSIVE_CONTENT_WIDTH_CLASS} pt-[32px] pb-[96px] desktop:pt-[72px] outline-none`}
     >
       <div className="mb-8 flex flex-row items-center gap-2 py-2 pr-2">
-        <Link href="/" className="cursor-hover-pointer" style={breadcrumbMutedStyle}>
+        <Link href="/" className={`cursor-hover-pointer ${breadcrumbTextClass}`} style={breadcrumbMutedStyle}>
           Home
         </Link>
-        <span style={breadcrumbMutedStyle}>/</span>
-        <span style={breadcrumbActiveStyle}>Play</span>
+        <span className={breadcrumbTextClass} style={breadcrumbMutedStyle}>/</span>
+        <span className={breadcrumbTextClass} style={breadcrumbActiveStyle}>Play</span>
       </div>
 
       <div className="grid grid-cols-1 gap-x-12 gap-y-12 tablet:grid-cols-2">
@@ -105,8 +107,8 @@ export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridP
           const cardBody = (
             <>
               <PlaygroundCardVideo item={item} videosEnabled={videosEnabled} />
-              <div className="flex items-center justify-between gap-14">
-                <span className="text-on-dark grow">{item.title}</span>
+              <div className="flex items-center justify-between gap-14 max-tablet:gap-4">
+                <span className="text-on-dark grow text-[16px] max-tablet:text-[14px]">{item.title}</span>
                 <div className="flex flex-none items-center gap-2">
                   {tags.map((tag) => (
                     <span

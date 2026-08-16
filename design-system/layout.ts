@@ -16,13 +16,17 @@ export const HOME_V2_PAGE_BG = "var(--ds-surface-home)";
 export const PLAYGROUND_PAGE_BG = "var(--ds-surface-playground)";
 
 /**
- * Case study article column width. 1008px is a max-width ceiling, not a fixed
- * width — page margin is 24px below 744px, 48px from 744-1024px, and 120px
- * from 1024px up (the 1024px+ tier also caps content at 1008px, so margin
- * grows beyond 120px once the viewport is wide enough to hit that ceiling).
+ * Site-wide responsive page-margin ladder: 24px below `tablet` (744px), 48px
+ * from `tablet` to `desktop` (1024px), 120px from `desktop` up — the
+ * `desktop`+ tier also caps content at 1008px, so margin grows beyond 120px
+ * once the viewport is wide enough to hit that ceiling. Any page-width
+ * content column should use this rather than a one-off percentage width.
  */
-export const CASE_STUDY_COLUMN_CLASS =
-  "w-[calc(100%-48px)] min-[744px]:w-[calc(100%-96px)] min-[1024px]:w-[min(calc(100%_-_240px),1008px)] mx-auto pb-16" as const;
+export const RESPONSIVE_CONTENT_WIDTH_CLASS =
+  "w-[calc(100%-48px)] min-[744px]:w-[calc(100%-96px)] min-[1024px]:w-[min(calc(100%_-_240px),1008px)] mx-auto" as const;
+
+/** Case study article column width — `RESPONSIVE_CONTENT_WIDTH_CLASS` plus case-study-specific bottom padding. */
+export const CASE_STUDY_COLUMN_CLASS = `${RESPONSIVE_CONTENT_WIDTH_CLASS} pb-16` as const;
 
 /** TOC grid at desktop breakpoint. */
 export const CASE_STUDY_TOC_GRID_CLASS =

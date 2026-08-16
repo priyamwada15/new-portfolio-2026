@@ -73,9 +73,8 @@ const homeCardTagPillStyle = {
   background: "var(--ds-surface-page)",
   borderRadius: "4px",
   fontSize: "12px",
-  fontWeight: 300,
+  fontWeight: 500,
   lineHeight: "140%",
-  textTransform: "uppercase" as const,
   color: "var(--ds-text-secondary)",
 };
 
@@ -222,9 +221,177 @@ export default async function HomeV2Page() {
                   Personalizing AI guidance across 6.8M+ client conversations
                 </div>
                 <div style={homeCardFooterTagsStyle}>
-                  <span style={homeCardTagPillStyle}>b2c fintech</span>
-                  <span style={homeCardTagPillStyle}>ai assistant</span>
-                  <span style={homeCardTagPillStyle}>trust design</span>
+                  <span style={homeCardTagPillStyle}>B2C Fintech</span>
+                  <span style={homeCardTagPillStyle}>AI Assistant</span>
+                  <span style={homeCardTagPillStyle}>Trust Design</span>
+                </div>
+              </div>
+            </HomeV2CardLink>
+          </ScrollReveal>
+          </div>
+
+          {/* Asimov */}
+          <div className="home-v2-section home-v2-asimov">
+          <ScrollReveal>
+            <HomeV2CardLink
+              href="/tars-asimov"
+              ariaLabel="Read Asimov for Tars case study"
+              className="cursor-hover-dark"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                padding: 0,
+                gap: "16px",
+                width: "100%",
+              }}
+            >
+              {/* Video region (logo overlaid top-left) */}
+              <div
+                style={{
+                  position: "relative",
+                  boxSizing: "border-box",
+                  width: "100%",
+                  aspectRatio: "1008 / 575",
+                  flex: "none",
+                  alignSelf: "stretch",
+                  padding: "56px 56px 24px",
+                  background: "var(--ds-surface-page)",
+                  borderRadius: "var(--ds-radius-container)",
+                  overflow: "hidden",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logos/tars.svg"
+                  alt="TARS"
+                  className="home-v2-card-media-logo"
+                  style={{
+                    position: "absolute",
+                    top: "24px",
+                    left: "24px",
+                    height: "24px",
+                    width: "auto",
+                    objectFit: "contain",
+                    zIndex: 1,
+                  }}
+                />
+                <LazyVideo
+                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
+                  poster="/Asimov Video Poster.png"
+                  ariaLabel="Asimov for Tars preview video"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
+
+              <div
+                className="home-v2-card-footer"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "56px",
+                  width: "100%",
+                  alignSelf: "stretch",
+                  flex: "none",
+                  ...homeCardFooterFont,
+                }}
+              >
+                <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
+                  Scaling an AI agent to 82% pilot adoption through configurable workflows
+                </div>
+                <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
+                  <span style={homeCardTagPillStyle}>B2B SaaS</span>
+                  <span style={homeCardTagPillStyle}>0→1</span>
+                  <span style={homeCardTagPillStyle}>Workflow Design</span>
+                </div>
+              </div>
+            </HomeV2CardLink>
+          </ScrollReveal>
+          </div>
+
+          {/* Tars Debug */}
+          <div className="home-v2-section home-v2-tars">
+          <ScrollReveal>
+            <HomeV2CardLink
+              href="/tars-debug-mode"
+              ariaLabel="Read TARS debug mode case study"
+              className="cursor-hover-dark"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                padding: 0,
+                gap: "16px",
+                width: "100%",
+              }}
+            >
+              {/* Video region (logo overlaid top-left) */}
+              <div
+                style={{
+                  position: "relative",
+                  boxSizing: "border-box",
+                  width: "100%",
+                  aspectRatio: "1008 / 575",
+                  flex: "none",
+                  alignSelf: "stretch",
+                  padding: "56px 56px 24px",
+                  background: "var(--ds-surface-page)",
+                  borderRadius: "var(--ds-radius-container)",
+                  overflow: "hidden",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logos/tars.svg"
+                  alt="TARS"
+                  className="home-v2-card-media-logo"
+                  style={{
+                    position: "absolute",
+                    top: "24px",
+                    left: "24px",
+                    height: "24px",
+                    width: "auto",
+                    objectFit: "contain",
+                    zIndex: 1,
+                  }}
+                />
+                <LazyVideo
+                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295525/Debug_Mode_new_case_study_and_hero_video_kuliwm.mp4"
+                  poster="/Debug Video Poster.png"
+                  ariaLabel="TARS debug mode preview video"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
+
+              <div
+                className="home-v2-card-footer"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "56px",
+                  width: "100%",
+                  alignSelf: "stretch",
+                  flex: "none",
+                  ...homeCardFooterFont,
+                }}
+              >
+                <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
+                  Designing an internal debugger that cut troubleshooting time by ~70%
+                </div>
+                <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
+                  <span style={homeCardTagPillStyle}>B2B SaaS</span>
+                  <span style={homeCardTagPillStyle}>Complex Workflows</span>
+                  <span style={homeCardTagPillStyle}>Internal Tools</span>
                 </div>
               </div>
             </HomeV2CardLink>
@@ -307,177 +474,9 @@ export default async function HomeV2Page() {
                   Designing a 0→1 AI platform for fragmented academic data
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span style={homeCardTagPillStyle}>b2b2c</span>
+                  <span style={homeCardTagPillStyle}>B2B2C</span>
                   <span style={homeCardTagPillStyle}>0→1</span>
-                  <span style={homeCardTagPillStyle}>ai product design</span>
-                </div>
-              </div>
-            </HomeV2CardLink>
-          </ScrollReveal>
-          </div>
-
-          {/* Tars Debug */}
-          <div className="home-v2-section home-v2-tars">
-          <ScrollReveal>
-            <HomeV2CardLink
-              href="/tars-debug-mode"
-              ariaLabel="Read TARS debug mode case study"
-              className="cursor-hover-dark"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                padding: 0,
-                gap: "16px",
-                width: "100%",
-              }}
-            >
-              {/* Video region (logo overlaid top-left) */}
-              <div
-                style={{
-                  position: "relative",
-                  boxSizing: "border-box",
-                  width: "100%",
-                  aspectRatio: "1008 / 575",
-                  flex: "none",
-                  alignSelf: "stretch",
-                  padding: "56px 56px 24px",
-                  background: "var(--ds-surface-page)",
-                  borderRadius: "var(--ds-radius-container)",
-                  overflow: "hidden",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logos/tars.svg"
-                  alt="TARS"
-                  className="home-v2-card-media-logo"
-                  style={{
-                    position: "absolute",
-                    top: "24px",
-                    left: "24px",
-                    height: "24px",
-                    width: "auto",
-                    objectFit: "contain",
-                    zIndex: 1,
-                  }}
-                />
-                <LazyVideo
-                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295525/Debug_Mode_new_case_study_and_hero_video_kuliwm.mp4"
-                  poster="/Debug Video Poster.png"
-                  ariaLabel="TARS debug mode preview video"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              </div>
-
-              <div
-                className="home-v2-card-footer"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: "56px",
-                  width: "100%",
-                  alignSelf: "stretch",
-                  flex: "none",
-                  ...homeCardFooterFont,
-                }}
-              >
-                <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Designing an internal debugger that cut troubleshooting time by ~70%
-                </div>
-                <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span style={homeCardTagPillStyle}>b2b saas</span>
-                  <span style={homeCardTagPillStyle}>complex workflows</span>
-                  <span style={homeCardTagPillStyle}>internal tools</span>
-                </div>
-              </div>
-            </HomeV2CardLink>
-          </ScrollReveal>
-          </div>
-
-          {/* Asimov */}
-          <div className="home-v2-section home-v2-asimov">
-          <ScrollReveal>
-            <HomeV2CardLink
-              href="/tars-asimov"
-              ariaLabel="Read Asimov for Tars case study"
-              className="cursor-hover-dark"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                padding: 0,
-                gap: "16px",
-                width: "100%",
-              }}
-            >
-              {/* Video region (logo overlaid top-left) */}
-              <div
-                style={{
-                  position: "relative",
-                  boxSizing: "border-box",
-                  width: "100%",
-                  aspectRatio: "1008 / 575",
-                  flex: "none",
-                  alignSelf: "stretch",
-                  padding: "56px 56px 24px",
-                  background: "var(--ds-surface-page)",
-                  borderRadius: "var(--ds-radius-container)",
-                  overflow: "hidden",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logos/tars.svg"
-                  alt="TARS"
-                  className="home-v2-card-media-logo"
-                  style={{
-                    position: "absolute",
-                    top: "24px",
-                    left: "24px",
-                    height: "24px",
-                    width: "auto",
-                    objectFit: "contain",
-                    zIndex: 1,
-                  }}
-                />
-                <LazyVideo
-                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
-                  poster="/Asimov Video Poster.png"
-                  ariaLabel="Asimov for Tars preview video"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              </div>
-
-              <div
-                className="home-v2-card-footer"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: "56px",
-                  width: "100%",
-                  alignSelf: "stretch",
-                  flex: "none",
-                  ...homeCardFooterFont,
-                }}
-              >
-                <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Scaling an AI agent to 82% pilot adoption through configurable workflows
-                </div>
-                <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
-                  <span style={homeCardTagPillStyle}>b2b saas</span>
-                  <span style={homeCardTagPillStyle}>0→1</span>
-                  <span style={homeCardTagPillStyle}>workflow design</span>
+                  <span style={homeCardTagPillStyle}>AI Product Design</span>
                 </div>
               </div>
             </HomeV2CardLink>

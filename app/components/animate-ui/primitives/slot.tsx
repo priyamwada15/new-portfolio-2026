@@ -42,7 +42,8 @@ function Slot<T extends HTMLElement = HTMLElement>({ children, ref, ...props }: 
 
   if (!React.isValidElement(children)) return null;
   const { ref: childRef, ...childProps } = children.props as AnyProps;
-  return <Base {...mergeProps(childProps, props)} ref={mergeRefs(childRef as React.Ref<T>, ref)} />;
+  const AnyBase = Base as any;
+  return <AnyBase {...mergeProps(childProps, props)} ref={mergeRefs(childRef as React.Ref<T>, ref)} />;
 }
 
 export { Slot, type SlotProps, type WithAsChild, type DOMMotionProps, type AnyProps };

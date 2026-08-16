@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { PlaygroundPlateGrid } from "./PlaygroundPlateGrid";
@@ -33,7 +33,15 @@ export function PlaygroundFacadeScene({
 
   return (
     <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
-      <Environment preset={environmentPreset} environmentRotation={[0, Math.PI, 0]} />
+      {/* Its own Suspense boundary so the remote HDRI fetch (raw.githack.com,
+          several seconds on a cold cache) doesn't hold up the plates and
+          SceneLoadedSignal below — they're siblings under R3F's single
+          implicit Suspense otherwise, so nothing in the Canvas would render
+          until the HDRI arrived. Plates render immediately with flat
+          ambient/directional lighting; reflections pop in once it loads. */}
+      <Suspense fallback={null}>
+        <Environment preset={environmentPreset} environmentRotation={[0, Math.PI, 0]} />
+      </Suspense>
       <ambientLight intensity={0.15} />
       <directionalLight position={[-4, 8, 6]} intensity={2.5} />
       <PlaygroundPlateGrid

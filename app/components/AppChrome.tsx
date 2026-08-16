@@ -37,7 +37,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const isPlayground =
     pathname === "/playground" || pathname.startsWith("/playground/");
-  const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy;
+  const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy || isPlayground;
 
   useEffect(() => {
     if (isBarePage) return;
@@ -64,7 +64,11 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     return <main className="flex-1 min-h-screen">{children}</main>;
   }
 
-  const scrollLayerBg = isHomeV2 ? HOME_V2_PAGE_BG : SITE_DEFAULT_PAGE_BG;
+  const scrollLayerBg = isHomeV2
+    ? HOME_V2_PAGE_BG
+    : isPlayground
+      ? PLAYGROUND_PAGE_BG
+      : SITE_DEFAULT_PAGE_BG;
 
   const mainColumn = (
     <div className="flex min-h-screen flex-1 flex-col">

@@ -26,7 +26,7 @@ export function PlaygroundApp() {
 
   return (
     <>
-      <PlaygroundCardGrid inert={!dissolved} />
+      <PlaygroundCardGrid inert={!dissolved} videosEnabled={dissolved} />
       {!dissolved && (
         <PlaygroundFacade
           reducedMotion={reducedMotion}

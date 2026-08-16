@@ -296,7 +296,7 @@ type TooltipTriggerProps = WithAsChild<HTMLMotionProps<"div">>;
 
 function TooltipTrigger({ ref, onMouseEnter, onMouseLeave, onFocus, onBlur, onPointerDown, asChild = false, ...props }: TooltipTriggerProps) {
   const { props: contentProps, asChild: contentAsChild, side, sideOffset, align, alignOffset, id } = useTooltip();
-  const { showTooltip, hideTooltip, hideImmediate, currentTooltip, setReferenceEl } = useGlobalTooltip();
+  const { showTooltip, hideTooltip, hideImmediate, currentTooltip, setReferenceEl, referenceElRef } = useGlobalTooltip();
   const triggerRef = React.useRef<HTMLDivElement>(null);
   React.useImperativeHandle(ref, () => triggerRef.current as HTMLDivElement);
   const suppressNextFocusRef = React.useRef(false);
@@ -321,6 +321,20 @@ function TooltipTrigger({ ref, onMouseEnter, onMouseLeave, onFocus, onBlur, onPo
   const handleMouseLeave = React.useCallback((e: React.MouseEvent<HTMLDivElement>) => { onMouseLeave?.(e); hideTooltip(); }, [hideTooltip, onMouseLeave]);
   const handleFocus = React.useCallback((e: React.FocusEvent<HTMLDivElement>) => { onFocus?.(e); if (suppressNextFocusRef.current) return; handleOpen(); }, [handleOpen, onFocus]);
   const handleBlur = React.useCallback((e: React.FocusEvent<HTMLDivElement>) => { onBlur?.(e); hideTooltip(); }, [hideTooltip, onBlur]);
+
+  React.useEffect(() => {
+    return () => {
+      // If this trigger's own element is still the globally-tracked
+      // reference when it unmounts (e.g. conditionally removed on route
+      // change while its tooltip is open/closing), floating-ui would keep
+      // measuring a now-detached node — getBoundingClientRect() on that
+      // returns all zeros, snapping the tooltip to the viewport's top-left.
+      if (referenceElRef.current === triggerRef.current) {
+        hideImmediate();
+        setReferenceEl(null);
+      }
+    };
+  }, [hideImmediate, referenceElRef, setReferenceEl]);
 
   const Component = asChild ? Slot : motion.div;
   return (

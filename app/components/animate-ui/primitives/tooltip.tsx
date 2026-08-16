@@ -205,11 +205,17 @@ function TooltipOverlay() {
     // and leaving it stuck there. Checking isConnected on every recompute,
     // rather than relying on the trigger's own unmount-cleanup timing (which
     // can lose the race against this very callback), catches it regardless
-    // of ordering.
+    // of ordering. Unmounting rendered.data directly (not just
+    // hideImmediate(), which still runs the normal close animation) skips
+    // the fade-out entirely — an orphaned tooltip has nothing meaningful to
+    // animate away from, and on a heavy page transition the animated path
+    // can stay visible for several seconds before the main thread is free
+    // enough to finish it.
     whileElementsMounted: (reference, floating, update) =>
       autoUpdate(reference, floating, () => {
         if ("isConnected" in reference && !reference.isConnected) {
           hideImmediate();
+          setRendered({ data: null, open: false });
           return;
         }
         update();

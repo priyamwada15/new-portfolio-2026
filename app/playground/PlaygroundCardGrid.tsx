@@ -61,14 +61,14 @@ function PlaygroundCardVideo({ item, videosEnabled }: { item: PlayPortfolioItem;
 
   if (!item.videoSrc) {
     return (
-      <div className="aspect-square w-full rounded-3xl bg-surface-card shadow-[0_0_0_5px_rgba(255,255,255,0.8)]" />
+      <div className="aspect-square w-full rounded-3xl bg-surface-card shadow-[0_0_0_5px_rgba(255,255,255,0.3)]" />
     );
   }
 
   return (
     <video
       ref={videoRef}
-      className="aspect-square w-full rounded-3xl bg-surface-card object-cover shadow-[0_0_0_5px_rgba(255,255,255,0.8)]"
+      className="aspect-square w-full rounded-3xl bg-surface-card object-cover shadow-[0_0_0_5px_rgba(255,255,255,0.3)]"
       src={item.videoSrc}
       poster={item.posterSrc}
       aria-label={item.mediaAlt}

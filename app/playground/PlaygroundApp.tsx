@@ -21,7 +21,7 @@ export function PlaygroundApp() {
 
   useEffect(() => {
     if (!dissolved) return;
-    document.getElementById(PLAYGROUND_CARD_GRID_FOCUS_ID)?.focus();
+    document.getElementById(PLAYGROUND_CARD_GRID_FOCUS_ID)?.focus({ preventScroll: true });
   }, [dissolved]);
 
   return (

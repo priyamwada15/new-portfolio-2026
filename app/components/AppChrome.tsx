@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "./Nav";
 import Footer from "./Footer";
-import { HOME_V2_PAGE_BG, SITE_DEFAULT_PAGE_BG } from "@/design-system";
+import { HOME_V2_PAGE_BG, PLAYGROUND_PAGE_BG, SITE_DEFAULT_PAGE_BG } from "@/design-system";
 import { isCaseStudyPath } from "../lib/caseStudy";
 import dynamic from "next/dynamic";
 import { FLIP_BOARD_REVEAL_IMAGE_OVERLAP_PX } from "./flip-board/constants";
@@ -35,7 +35,9 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     pathname === "/flip-board-test" ||
     (pathname?.startsWith("/flip-board-test/") ?? false);
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
-  const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy;
+  const isPlayground =
+    pathname === "/playground" || pathname.startsWith("/playground/");
+  const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy || isPlayground;
 
   useEffect(() => {
     if (isBarePage) return;
@@ -44,12 +46,14 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
       document.body.style.backgroundColor = HOME_V2_PAGE_BG;
     } else if (isCaseStudy) {
       document.body.style.backgroundColor = SITE_DEFAULT_PAGE_BG;
+    } else if (isPlayground) {
+      document.body.style.backgroundColor = PLAYGROUND_PAGE_BG;
     }
 
     return () => {
       document.body.style.backgroundColor = SITE_DEFAULT_PAGE_BG;
     };
-  }, [isBarePage, isCaseStudy, isHomeV2]);
+  }, [isBarePage, isCaseStudy, isHomeV2, isPlayground]);
 
   useEffect(() => {
     if (!useFlipBoardFooter) return;
@@ -60,7 +64,11 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     return <main className="flex-1 min-h-screen">{children}</main>;
   }
 
-  const scrollLayerBg = isHomeV2 ? HOME_V2_PAGE_BG : SITE_DEFAULT_PAGE_BG;
+  const scrollLayerBg = isHomeV2
+    ? HOME_V2_PAGE_BG
+    : isPlayground
+      ? PLAYGROUND_PAGE_BG
+      : SITE_DEFAULT_PAGE_BG;
 
   const mainColumn = (
     <div className="flex min-h-screen flex-1 flex-col">

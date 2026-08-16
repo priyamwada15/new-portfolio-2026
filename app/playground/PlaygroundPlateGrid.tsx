@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import {
+  BoxGeometry,
   BufferAttribute,
   BufferGeometry,
   Group,
@@ -14,30 +15,35 @@ import {
   type PointsMaterial,
   Vector3,
 } from "three";
-import { buildGapFillers, buildPlateGrid, DEFAULT_GRID_CONFIG } from "./plateGrid";
+import {
+  buildGapFillers,
+  buildPlateGrid,
+  DEFAULT_GRID_CONFIG,
+} from "@/app/kinetic-facade/plateGrid";
 import {
   stepPendulum,
   type PlateSwingState,
-} from "./pendulumPhysics";
-import { computeWindTorque } from "./windField";
+} from "@/app/kinetic-facade/pendulumPhysics";
+import { computeWindTorque } from "@/app/kinetic-facade/windField";
 import {
   createRipple,
-  DEFAULT_RIPPLE_PARAMS,
   hasRippleReachedPlate,
   isRippleExpired,
   type Ripple,
-} from "./ripplePhysics";
+} from "@/app/kinetic-facade/ripplePhysics";
 import {
   stepDissolve,
   type DissolveState,
-} from "./dissolvePhysics";
-import { buildDissolvePoints } from "./dissolvePoints";
-import type { MaterialVariant } from "./materialVariants";
+} from "@/app/kinetic-facade/dissolvePhysics";
+import { buildDissolvePoints } from "@/app/kinetic-facade/dissolvePoints";
+import { MATERIAL_VARIANTS } from "@/app/kinetic-facade/materialVariants";
 
-type KineticPlateGridProps = {
-  variant: MaterialVariant;
+type PlaygroundPlateGridProps = {
   reducedMotion: boolean;
+  keyboardTriggerCount: number;
 };
+
+const VARIANT = MATERIAL_VARIANTS.copperDissolve;
 
 // Any deviation past this (radians) counts as "lifted" for seam-filler
 // fading — small enough that even a slight hover-driven sway hides the
@@ -47,10 +53,10 @@ const FILLER_LIFT_ANGLE_THRESHOLD = 0.01;
 // doesn't visibly lag behind the quick wind-driven sway it's reacting to.
 const FILLER_FADE_PARAMS = { rate: 6 };
 
-export function KineticPlateGrid({
-  variant,
+export function PlaygroundPlateGrid({
   reducedMotion,
-}: KineticPlateGridProps) {
+  keyboardTriggerCount,
+}: PlaygroundPlateGridProps) {
   const { gl, viewport } = useThree();
 
   const columns = useMemo(
@@ -60,13 +66,20 @@ export function KineticPlateGrid({
       ),
     [viewport.width],
   );
+  const rows = useMemo(
+    () =>
+      Math.ceil(
+        viewport.height / (DEFAULT_GRID_CONFIG.plateHeight + DEFAULT_GRID_CONFIG.gapY),
+      ),
+    [viewport.height],
+  );
   const plates = useMemo(
-    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns }),
-    [columns],
+    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns, rows }),
+    [columns, rows],
   );
   const gapFillers = useMemo(
-    () => buildGapFillers({ ...DEFAULT_GRID_CONFIG, columns }),
-    [columns],
+    () => buildGapFillers({ ...DEFAULT_GRID_CONFIG, columns, rows }),
+    [columns, rows],
   );
   const swingStates = useRef<PlateSwingState[]>(
     plates.map(() => ({ angle: 0, angularVelocity: 0, targetAngle: 0 })),
@@ -91,6 +104,7 @@ export function KineticPlateGrid({
   const prevPlateCount = useRef(plates.length);
   const ripples = useRef<Ripple[]>([]);
   const pendingClick = useRef(false);
+  const pendingKeyboardTrigger = useRef(false);
   const active = useRef(false);
 
   const dissolveGeometry = useMemo(() => {
@@ -103,6 +117,16 @@ export function KineticPlateGrid({
     geometry.setAttribute("position", new BufferAttribute(positions, 3));
     return geometry;
   }, []);
+
+  const plateGeometry = useMemo(
+    () =>
+      new BoxGeometry(
+        DEFAULT_GRID_CONFIG.plateWidth,
+        DEFAULT_GRID_CONFIG.plateHeight,
+        0.03,
+      ),
+    [],
+  );
 
   useEffect(() => {
     if (plates.length !== prevPlateCount.current) {
@@ -134,17 +158,48 @@ export function KineticPlateGrid({
       pointerActive.current = false;
     };
     const down = () => {
+      if (active.current) return;
       pendingClick.current = true;
+    };
+    const touchMove = () => {
+      pointerActive.current = true;
+    };
+    const touchEnd = () => {
+      pointerActive.current = false;
     };
     el.addEventListener("pointermove", enter);
     el.addEventListener("pointerleave", leave);
     el.addEventListener("pointerdown", down);
+    el.addEventListener("touchmove", touchMove, { passive: true });
+    el.addEventListener("touchend", touchEnd);
+    el.addEventListener("touchcancel", touchEnd);
     return () => {
       el.removeEventListener("pointermove", enter);
       el.removeEventListener("pointerleave", leave);
       el.removeEventListener("pointerdown", down);
+      el.removeEventListener("touchmove", touchMove);
+      el.removeEventListener("touchend", touchEnd);
+      el.removeEventListener("touchcancel", touchEnd);
     };
   }, [gl]);
+
+  useEffect(() => {
+    if (keyboardTriggerCount > 0) {
+      pendingKeyboardTrigger.current = true;
+    }
+  }, [keyboardTriggerCount]);
+
+  // Gap fillers only need to hide the tiny resting-state seams; once the
+  // dissolve reveals the real page behind, a lingering grid of seam lines
+  // over that page would look like a stray artifact. There's no reform in
+  // this build, so this only ever needs to fire once, but it's written the
+  // same way as the kinetic-facade prototype's toggleable version for
+  // consistency.
+  const hideFillers = () => {
+    fillerRefs.current.forEach((mesh) => {
+      if (mesh) mesh.visible = false;
+    });
+  };
 
   useFrame((state, delta) => {
     if (reducedMotion) {
@@ -154,42 +209,17 @@ export function KineticPlateGrid({
           angularVelocity: 0,
           targetAngle: 0,
         }));
-        dissolveStates.current = plates.map(() => ({ progress: 0, target: 0 }));
-        fillerOpacityStates.current = gapFillers.map(() => ({ progress: 1, target: 1 }));
         groupRefs.current.forEach((group) => {
-          if (group) {
-            group.rotation.x = 0;
-          }
+          if (group) group.rotation.x = 0;
         });
-        meshMaterialRefs.current.forEach((material) => {
-          if (material) {
-            material.opacity = 1;
-          }
-        });
-        fillerMaterialRefs.current.forEach((material) => {
-          if (material) {
-            material.opacity = 1;
-          }
-        });
-        pointsMaterialRefs.current.forEach((material) => {
-          if (material) {
-            material.opacity = 0;
-          }
-        });
-        pointsRefs.current.forEach((points) => {
-          if (points) {
-            points.scale.setScalar(1);
-          }
-        });
-        active.current = false;
         wasReducedMotion.current = true;
       }
-      return;
+    } else {
+      wasReducedMotion.current = false;
     }
-    wasReducedMotion.current = false;
 
     let pointer: { x: number; y: number } | null = null;
-    if (pointerActive.current) {
+    if (!reducedMotion && pointerActive.current) {
       state.raycaster.setFromCamera(state.pointer, state.camera);
       const hit = state.raycaster.ray.intersectPlane(plane, pointerWorld.current);
       pointer = hit
@@ -201,104 +231,64 @@ export function KineticPlateGrid({
       pendingClick.current = false;
       state.raycaster.setFromCamera(state.pointer, state.camera);
       const clickHit = state.raycaster.ray.intersectPlane(plane, clickWorld.current);
-      if (clickHit) {
-        active.current = !active.current;
-
-        if (variant.interactionMode === "dissolve") {
-          // Gap fillers only need to hide the tiny resting-state seams; once
-          // the dissolve reveals the real page behind, a lingering grid of
-          // seam lines over that page would look like a stray artifact —
-          // and they need to come back if the plates reform.
-          const fillersVisible = !active.current;
-          fillerRefs.current.forEach((mesh) => {
-            if (mesh) mesh.visible = fillersVisible;
-          });
-        }
-
-        const isReform = variant.interactionMode === "dissolve" && !active.current;
-        const direction = isReform ? "inward" : "outward";
-        let maxDistance = 0;
-        if (isReform) {
-          for (const plate of plates) {
-            const dx = plate.x - clickWorld.current.x;
-            const dy = plate.y - clickWorld.current.y;
-            maxDistance = Math.max(maxDistance, Math.sqrt(dx * dx + dy * dy));
-          }
-        }
-
+      if (clickHit && !active.current) {
+        active.current = true;
+        hideFillers();
         ripples.current.push(
           createRipple(
             clickWorld.current.x,
             clickWorld.current.y,
             state.clock.elapsedTime,
             plates.length,
-            active.current,
-            direction,
-            maxDistance,
+            true,
           ),
         );
       }
     }
 
+    if (pendingKeyboardTrigger.current) {
+      pendingKeyboardTrigger.current = false;
+      if (!active.current) {
+        active.current = true;
+        hideFillers();
+        ripples.current.push(
+          createRipple(0, 0, state.clock.elapsedTime, plates.length, true),
+        );
+      }
+    }
+
     const elapsedTime = state.clock.elapsedTime;
-    // Cap the timestep fed into the pendulum integrator. A throttled/
-    // backgrounded tab can deliver a single frame with a much larger delta
-    // than normal, which destabilizes the semi-implicit Euler integration
-    // (angularVelocity diverges instead of settling). Clamping keeps every
-    // step well inside the integrator's stability margin.
     const stableDelta = Math.min(delta, 1 / 30);
 
     plates.forEach((plate, index) => {
-      const windTorque = computeWindTorque({ x: plate.x, y: plate.y }, pointer);
-
-      let plateState = swingStates.current[index];
       let dissolveState = dissolveStates.current[index];
-
       for (const ripple of ripples.current) {
         if (!ripple.hit[index] && hasRippleReachedPlate(ripple, plate, elapsedTime)) {
-          if (variant.interactionMode === "lift") {
-            plateState = {
-              angle: plateState.angle,
-              angularVelocity: plateState.angularVelocity,
-              targetAngle: ripple.toActive ? DEFAULT_RIPPLE_PARAMS.liftAngle : 0,
-            };
-          } else {
-            dissolveState = {
-              progress: dissolveState.progress,
-              target: ripple.toActive ? 1 : 0,
-            };
-          }
+          dissolveState = { progress: dissolveState.progress, target: 1 };
           ripple.hit[index] = 1;
         }
       }
 
-      const nextState = stepPendulum(plateState, windTorque, stableDelta);
-      swingStates.current[index] = nextState;
+      if (!reducedMotion) {
+        const windTorque = computeWindTorque({ x: plate.x, y: plate.y }, pointer);
+        const nextState = stepPendulum(swingStates.current[index], windTorque, stableDelta);
+        swingStates.current[index] = nextState;
 
-      const group = groupRefs.current[index];
-      if (group) {
-        group.rotation.x = nextState.angle;
+        const group = groupRefs.current[index];
+        if (group) group.rotation.x = nextState.angle;
       }
 
-      if (variant.interactionMode === "dissolve") {
-        const nextDissolve = stepDissolve(dissolveState, stableDelta);
-        dissolveStates.current[index] = nextDissolve;
+      const nextDissolve = stepDissolve(dissolveState, stableDelta);
+      dissolveStates.current[index] = nextDissolve;
 
-        const meshMaterial = meshMaterialRefs.current[index];
-        if (meshMaterial) {
-          meshMaterial.opacity = 1 - nextDissolve.progress;
-        }
+      const meshMaterial = meshMaterialRefs.current[index];
+      if (meshMaterial) meshMaterial.opacity = 1 - nextDissolve.progress;
 
-        const pointsMaterial = pointsMaterialRefs.current[index];
-        if (pointsMaterial) {
-          pointsMaterial.opacity = Math.sin(nextDissolve.progress * Math.PI);
-        }
+      const pointsMaterial = pointsMaterialRefs.current[index];
+      if (pointsMaterial) pointsMaterial.opacity = Math.sin(nextDissolve.progress * Math.PI);
 
-        const points = pointsRefs.current[index];
-        if (points) {
-          points.scale.setScalar(1 + nextDissolve.progress * 1.5);
-        }
-      }
+      const points = pointsRefs.current[index];
+      if (points) points.scale.setScalar(1 + nextDissolve.progress * 1.5);
     });
 
     // Fade each seam filler out the moment either plate it sits between
@@ -360,38 +350,35 @@ export function KineticPlateGrid({
           }}
           position={[plate.x, plate.y + plate.height / 2, 0]}
         >
-          <mesh position={[0, -plate.height / 2, 0]}>
-            <boxGeometry args={[plate.width, plate.height, 0.03]} />
+          <mesh position={[0, -plate.height / 2, 0]} geometry={plateGeometry}>
             <meshPhysicalMaterial
               ref={(el) => {
                 meshMaterialRefs.current[index] = el;
               }}
-              color={variant.color}
-              metalness={variant.metalness}
-              roughness={variant.roughness}
-              transparent={variant.interactionMode === "dissolve"}
+              color={VARIANT.color}
+              metalness={VARIANT.metalness}
+              roughness={VARIANT.roughness}
+              transparent
             />
           </mesh>
-          {variant.interactionMode === "dissolve" && (
-            <points
+          <points
+            ref={(el) => {
+              pointsRefs.current[index] = el;
+            }}
+            position={[0, -plate.height / 2, 0]}
+            geometry={dissolveGeometry}
+          >
+            <pointsMaterial
               ref={(el) => {
-                pointsRefs.current[index] = el;
+                pointsMaterialRefs.current[index] = el;
               }}
-              position={[0, -plate.height / 2, 0]}
-              geometry={dissolveGeometry}
-            >
-              <pointsMaterial
-                ref={(el) => {
-                  pointsMaterialRefs.current[index] = el;
-                }}
-                color={variant.color}
-                size={0.06}
-                transparent
-                opacity={0}
-                depthWrite={false}
-              />
-            </points>
-          )}
+              color={VARIANT.color}
+              size={0.06}
+              transparent
+              opacity={0}
+              depthWrite={false}
+            />
+          </points>
         </group>
       ))}
     </>

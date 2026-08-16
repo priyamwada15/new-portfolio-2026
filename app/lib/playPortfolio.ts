@@ -53,6 +53,8 @@ const ASCII_GAME_GITHUB_HREF =
   "https://github.com/priyamwada15/ASCII-race-game-with-Pixelact-and-shadcn-UI";
 const SUNLIGHT_SHADER_GITHUB_HREF =
   "https://github.com/priyamwada15/sunlight-effect";
+const WATER_GLINT_GITHUB_HREF =
+  "https://github.com/priyamwada15/water-glint-shader";
 
 /** AVIF assets under `public/play/` — regenerate with `npm run optimize:play-images`. */
 const PLAY_AVIF = "/play";
@@ -74,12 +76,20 @@ const ROBOT_DUET_VIDEO_SRC =
 const ROBOT_DUET_POSTER_SRC = `${PLAY_AVIF}/robo-poster.avif`;
 const ROBO_FLANK_LEFT_SRC = `${PLAY_AVIF}/robo1.avif`;
 const ROBO_FLANK_RIGHT_SRC = `${PLAY_AVIF}/robo2.avif`;
+const SUNLIGHT_VIDEO_SRC =
+  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779835178/Sunlight_q0djya.mp4";
+const SUNLIGHT_POSTER_SRC = "/sunlight poster.png";
+const WATER_GLINT_VIDEO_SRC =
+  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779834787/Water_shader_mzsc0k.mp4";
+const WATER_GLINT_POSTER_SRC = "/water shader poster.png";
+const KINETIC_FACADE_VIDEO_SRC =
+  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1786900388/Screen_Recording_2026-08-11_225854_x2cb1a.mp4";
 
 export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
     id: "ascii-run",
     title: "ASCII Run",
-    tagParts: ["Cursor", "May 2026"],
+    tagParts: ["Mini-game", "Cursor", "Next.js", "May 2026"],
     description:
       "A fast scroll-linked lane dodge game, navigate using arrow keys, ramping speed every 5s and a chance to listen to my favorite song.",
     experienceCta: {
@@ -94,23 +104,6 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
     videoSrc: ASCII_GAME_VIDEO_SRC,
     posterSrc: ASCII_GAME_POSTER_SRC,
     mediaAlt: "Screen recording of the ASCII lane game",
-  },
-  {
-    id: "sunlight-effect",
-    title: "Sunlight Effect",
-    tagParts: ["React Component", "CSS", "May 2026"],
-    description:
-      "A React component with CSS-driven shadow bands and a soft radial glow that read as sunlight. The shader is applied on my homepage.",
-    experienceCta: {
-      label: "View Shader",
-      href: "/sunlight",
-      ariaLabel: "Open the Sunlight shader page",
-    },
-    githubLiquidCta: {
-      href: SUNLIGHT_SHADER_GITHUB_HREF,
-      ariaLabel: "View Sunlight effect on GitHub",
-    },
-    mediaAlt: "Sunlight shader effect on the homepage background",
   },
   {
     id: "rocket-lisa",
@@ -147,7 +140,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
     id: "stellar-scan",
     title: "Stellar Scan",
-    tagParts: ["Google Stitch", "Google AI Studio", "Mar 2026"],
+    tagParts: ["Gemini API", "React", "Tailwind", "Mar 2026"],
     description:
       "A retro-futuristic star map from one line in Stitch—enter a date, see the dominant constellation, export a playing card.",
     homeDescription:
@@ -165,7 +158,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
     id: "ai-intelligencer",
     title: "AI Intelligencer",
-    tagParts: ["Claude Code", "Mar 2026"],
+    tagParts: ["Claude API", "Vercel KV", "Vanilla JS", "Mar 2026"],
     description:
       "Designed and built a newspaper-style widget that pulls live AI news into a vintage broadsheet layout.",
     filledCta: {
@@ -177,6 +170,58 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
     videoSrc: AI_INTELLIGENCER_VIDEO_SRC,
     posterSrc: AI_INTELLIGENCER_POSTER_SRC,
     mediaAlt: "AI Intelligencer newspaper-style layout",
+  },
+  {
+    id: "sunlight-effect",
+    title: "Sunlight Effect",
+    tagParts: ["React", "TypeScript", "CSS", "May 2026"],
+    description:
+      "A React component with CSS-driven shadow bands and a soft radial glow that read as sunlight. The shader is applied on my homepage.",
+    experienceCta: {
+      label: "View Shader",
+      href: "/sunlight",
+      ariaLabel: "Open the Sunlight shader page",
+    },
+    githubLiquidCta: {
+      href: SUNLIGHT_SHADER_GITHUB_HREF,
+      ariaLabel: "View Sunlight effect on GitHub",
+    },
+    videoSrc: SUNLIGHT_VIDEO_SRC,
+    posterSrc: SUNLIGHT_POSTER_SRC,
+    mediaAlt: "Sunlight shader effect on the homepage background",
+  },
+  {
+    id: "water-glint",
+    title: "Water Glint",
+    tagParts: ["WebGL2", "GLSL", "May 2026"],
+    description:
+      "An ambient WebGL2 shader simulating sunlight glinting off moving water, hand-written fragment shader with layered noise for the ripple field.",
+    experienceCta: {
+      label: "View Shader",
+      href: "/water",
+      ariaLabel: "Open the Water Glint shader page",
+    },
+    githubLiquidCta: {
+      href: WATER_GLINT_GITHUB_HREF,
+      ariaLabel: "View Water Glint on GitHub",
+    },
+    videoSrc: WATER_GLINT_VIDEO_SRC,
+    posterSrc: WATER_GLINT_POSTER_SRC,
+    mediaAlt: "Water glint WebGL2 shader demo",
+  },
+  {
+    id: "kinetic-facade",
+    title: "Kinetic Facade",
+    tagParts: ["React Three Fiber", "Three.js", "Aug 2026"],
+    description:
+      "A WebGL grid of metal plates that swing open on a hand-rolled pendulum physics model, revealing the page behind them.",
+    experienceCta: {
+      label: "View Experiment",
+      href: "/kinetic-facade",
+      ariaLabel: "Open the Kinetic Facade testing ground",
+    },
+    videoSrc: KINETIC_FACADE_VIDEO_SRC,
+    mediaAlt: "Kinetic facade plate grid experiment",
   },
 ];
 

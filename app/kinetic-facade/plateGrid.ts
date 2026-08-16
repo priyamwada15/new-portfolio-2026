@@ -54,3 +54,67 @@ export function buildPlateGrid(
 
   return plates;
 }
+
+export type GapFiller = {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  plateIndexA: number;
+  plateIndexB: number;
+};
+
+/**
+ * Static, non-rotating fillers for the thin seams between plates. Sized to
+ * exactly the resting gap (never a plate's own footprint), so they hide the
+ * gap-level leak-through at rest without ever covering the much larger area
+ * a plate's swing exposes. Each filler records the indices (into the
+ * row-major array `buildPlateGrid` returns) of the two plates it sits
+ * between, so a consumer can fade a filler based on whether either
+ * neighboring plate has swung open.
+ */
+export function buildGapFillers(
+  config: PlateGridConfig = DEFAULT_GRID_CONFIG,
+): GapFiller[] {
+  const { columns, rows, plateWidth, plateHeight, gapX, gapY } = config;
+  const cellWidth = plateWidth + gapX;
+  const cellHeight = plateHeight + gapY;
+  const totalWidth = columns * cellWidth;
+  const totalHeight = rows * cellHeight;
+  const fillers: GapFiller[] = [];
+
+  for (let row = 0; row < rows; row++) {
+    const y = totalHeight / 2 - row * cellHeight - cellHeight / 2;
+    for (let col = 0; col < columns - 1; col++) {
+      const x = (col + 1) * cellWidth - totalWidth / 2;
+      fillers.push({
+        id: `v-${row}-${col}`,
+        x,
+        y,
+        width: gapX,
+        height: plateHeight + gapY,
+        plateIndexA: row * columns + col,
+        plateIndexB: row * columns + (col + 1),
+      });
+    }
+  }
+
+  for (let col = 0; col < columns; col++) {
+    const x = col * cellWidth - totalWidth / 2 + cellWidth / 2;
+    for (let row = 0; row < rows - 1; row++) {
+      const y = totalHeight / 2 - (row + 1) * cellHeight;
+      fillers.push({
+        id: `h-${row}-${col}`,
+        x,
+        y,
+        width: plateWidth + gapX,
+        height: gapY,
+        plateIndexA: row * columns + col,
+        plateIndexB: (row + 1) * columns + col,
+      });
+    }
+  }
+
+  return fillers;
+}

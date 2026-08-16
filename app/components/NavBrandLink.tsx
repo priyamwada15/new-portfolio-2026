@@ -24,6 +24,10 @@ type NavBrandLinkProps = {
   href: string;
   className?: string;
   style?: React.CSSProperties;
+  /** Overrides the default #111111 text color — used on dark-background pages. */
+  textColor?: string;
+  /** Overrides the default /logos/nav-logo.svg mark — used on dark-background pages. */
+  logoSrc?: string;
 };
 
 function splitGraphemes(text: string): string[] {
@@ -43,7 +47,7 @@ function waveLift(signedDist: number, radius: number, lift: number): number {
   return lift * envelope * ripple;
 }
 
-export function NavBrandLink({ href, className, style }: NavBrandLinkProps) {
+export function NavBrandLink({ href, className, style, textColor, logoSrc }: NavBrandLinkProps) {
   const rootRef = useRef<HTMLAnchorElement>(null);
   const orbRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
@@ -262,7 +266,7 @@ export function NavBrandLink({ href, className, style }: NavBrandLinkProps) {
           aria-hidden
         >
           <img
-            src="/logos/nav-logo.svg"
+            src={logoSrc ?? "/logos/nav-logo.svg"}
             alt=""
             width={LOGO_HOME_PX}
             height={LOGO_HOME_PX}
@@ -277,7 +281,7 @@ export function NavBrandLink({ href, className, style }: NavBrandLinkProps) {
           style={{
             fontFamily: "var(--font-hind), sans-serif",
             fontWeight: 500,
-            color: "#111111",
+            color: textColor ?? "#111111",
             lineHeight: `${LOGO_HOME_PX}px`,
           }}
           aria-hidden

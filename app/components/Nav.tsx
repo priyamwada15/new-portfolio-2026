@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, LinkedinLogo } from "@phosphor-icons/react";
+import { DiscoBall, FileText, LinkedinLogo } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -45,6 +45,7 @@ export default function Nav() {
   const caseStudyBg = isCaseStudy ? CASE_STUDY_CHROME_BG : null;
   const navIconColor = isPlayground ? PLAYGROUND_NAV_ICON_COLOR : "#555555";
 
+  const disco = useTilt(-8);
   const linkedin = useTilt(8);
   const mail = useTilt(-8);
   const resume = useTilt(8);
@@ -76,6 +77,27 @@ export default function Nav() {
               />
 
               <div className="flex items-center gap-3 sm:gap-4">
+                {!isPlayground && (
+                  <Tooltip side="bottom" sideOffset={8}>
+                    <TooltipTrigger
+                      asChild
+                      onMouseEnter={disco.onMouseEnter}
+                      onMouseLeave={disco.onMouseLeave}
+                    >
+                      <Link
+                        href="/playground"
+                        className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
+                        aria-label="Play"
+                      >
+                        <span style={disco.iconStyle}>
+                          <DiscoBall size={24} color={navIconColor} weight="regular" aria-hidden />
+                        </span>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>Play</TooltipContent>
+                  </Tooltip>
+                )}
+
                 <Tooltip side="bottom" sideOffset={8}>
                   <TooltipTrigger
                     asChild

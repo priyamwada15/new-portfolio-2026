@@ -30,11 +30,20 @@ function useTilt(deg: number) {
   };
 }
 
+// Playground's page background is dark (#0a0a0a); Nav's default icon/text
+// colors are tuned for the site's light-background pages and read as
+// near-invisible there. Not promoted to a design-system token yet — this
+// is the only page using it.
+const PLAYGROUND_NAV_ICON_COLOR = "#F6F6FB";
+
 export default function Nav() {
   const pathname = usePathname();
   const isHomeV2 = pathname === "/";
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
+  const isPlayground =
+    pathname === "/playground" || (pathname?.startsWith("/playground/") ?? false);
   const caseStudyBg = isCaseStudy ? CASE_STUDY_CHROME_BG : null;
+  const navIconColor = isPlayground ? PLAYGROUND_NAV_ICON_COLOR : "#555555";
 
   const linkedin = useTilt(8);
   const mail = useTilt(-8);
@@ -62,6 +71,7 @@ export default function Nav() {
                 href="/"
                 className={`cursor-hover-pointer rounded-full transition-opacity ${pathname === "/" ? "" : "hover:opacity-75"}`}
                 style={{ padding: "6px 12px 6px 0", display: "flex", alignItems: "center" }}
+                textColor={isPlayground ? PLAYGROUND_NAV_ICON_COLOR : undefined}
               />
 
               <div className="flex items-center gap-3 sm:gap-4">
@@ -79,7 +89,7 @@ export default function Nav() {
                       aria-label="LinkedIn"
                     >
                       <span style={linkedin.iconStyle}>
-                        <LinkedinLogo size={24} color="#555555" weight="regular" aria-hidden />
+                        <LinkedinLogo size={24} color={navIconColor} weight="regular" aria-hidden />
                       </span>
                     </a>
                   </TooltipTrigger>
@@ -88,6 +98,7 @@ export default function Nav() {
 
                 <CopyEmailIcon
                   tooltipSide="bottom"
+                  iconColor={navIconColor}
                   onMouseEnter={mail.onMouseEnter}
                   onMouseLeave={mail.onMouseLeave}
                   iconStyle={mail.iconStyle}
@@ -106,7 +117,7 @@ export default function Nav() {
                       aria-label="Resume"
                     >
                       <span style={resume.iconStyle}>
-                        <FileText size={24} color="#555555" weight="regular" aria-hidden />
+                        <FileText size={24} color={navIconColor} weight="regular" aria-hidden />
                       </span>
                     </Link>
                   </TooltipTrigger>

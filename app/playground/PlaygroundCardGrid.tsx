@@ -2,12 +2,23 @@ import Link from "next/link";
 import { fontStyle } from "@/design-system";
 import { PLAY_PORTFOLIO_ITEMS } from "@/app/lib/playPortfolio";
 
+// Figma-specified colors, tuned specifically for Playground's dark page —
+// not promoted to design-system tokens since this is the only page using
+// them (matching the same approach as Nav's dark-page icon color override).
 const breadcrumbFontStyle: React.CSSProperties = {
   ...fontStyle.figtree,
   fontWeight: 500,
   fontSize: "14px",
   lineHeight: "17px",
   letterSpacing: "-0.02px",
+};
+const breadcrumbMutedStyle: React.CSSProperties = {
+  ...breadcrumbFontStyle,
+  color: "#767676",
+};
+const breadcrumbActiveStyle: React.CSSProperties = {
+  ...breadcrumbFontStyle,
+  color: "#E8E8E8",
 };
 
 // Stable id used as a programmatic focus target once the facade dissolves,
@@ -28,15 +39,11 @@ export function PlaygroundCardGrid({ inert }: PlaygroundCardGridProps) {
       className="relative z-[1] mx-auto w-[86%] max-w-[1008px] pt-[32px] pb-[96px] xl:pt-[72px] outline-none"
     >
       <div className="mb-8 flex flex-row items-center gap-2 py-2 pr-2">
-        <Link href="/" className="text-secondary cursor-hover-pointer" style={breadcrumbFontStyle}>
+        <Link href="/" className="cursor-hover-pointer" style={breadcrumbMutedStyle}>
           Home
         </Link>
-        <span className="text-secondary" style={breadcrumbFontStyle}>
-          /
-        </span>
-        <span className="text-primary" style={breadcrumbFontStyle}>
-          Play
-        </span>
+        <span style={breadcrumbMutedStyle}>/</span>
+        <span style={breadcrumbActiveStyle}>Play</span>
       </div>
 
       <div className="grid grid-cols-1 gap-x-12 gap-y-12 tablet:grid-cols-2">

@@ -159,14 +159,14 @@ export default function ResumePage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="text-[16px] text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
-                      <span className="font-normal text-primary">Product Designer @ </span>
-                      <span className="font-semibold">Heartland Community Network</span>
+                      <span className="font-semibold text-primary">Product Designer @ </span>
+                      <span className="font-normal">Heartland Community Network</span>
                     </h3>
                     <p
                       className="mt-1 text-xs uppercase tracking-wide text-secondary"
                       style={{ fontFamily: "var(--font-hind), sans-serif" }}
                     >
-                      BLOOMINGTON, IN <span className="mx-1.5 text-secondary/80">★</span> JUN 2026 – PRESENT
+                      BLOOMINGTON, IN <span className="mx-1.5 text-secondary/80">•</span> JUN 2026 – PRESENT
                     </p>
                     <BulletList items={HEARTLAND_BULLETS} dotClass="bg-ink" />
                   </div>
@@ -184,14 +184,14 @@ export default function ResumePage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="text-[16px] text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
-                      <span className="font-normal text-primary">Conversational AI Design Intern @ </span>
-                      <span className="font-semibold">Rocket Mortgage</span>
+                      <span className="font-semibold text-primary">Conversational AI Design Intern @ </span>
+                      <span className="font-normal">Rocket Mortgage</span>
                     </h3>
                     <p
                       className="mt-1 text-xs uppercase tracking-wide text-secondary"
                       style={{ fontFamily: "var(--font-hind), sans-serif" }}
                     >
-                      DETROIT, MI <span className="mx-1.5 text-secondary/80">★</span> MAY 2025 - AUG 2025
+                      DETROIT, MI <span className="mx-1.5 text-secondary/80">•</span> MAY 2025 - AUG 2025
                     </p>
                     <BulletList items={ROCKET_BULLETS} dotClass="bg-ink" />
                   </div>
@@ -209,14 +209,14 @@ export default function ResumePage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="text-[16px] text-ink" style={{ fontFamily: "var(--font-hind), sans-serif" }}>
-                      <span className="font-normal text-primary">Product Designer @ </span>
-                      <span className="font-semibold">Tars Technologies</span>
+                      <span className="font-semibold text-primary">Product Designer @ </span>
+                      <span className="font-normal">Tars Technologies</span>
                     </h3>
                     <p
                       className="mt-1 text-xs uppercase tracking-wide text-secondary"
                       style={{ fontFamily: "var(--font-hind), sans-serif" }}
                     >
-                      BENGALURU, INDIA <span className="mx-1.5 text-secondary/80">*</span> MAR 2022 – JUL 2024
+                      BENGALURU, INDIA <span className="mx-1.5 text-secondary/80">•</span> MAR 2022 – JUL 2024
                     </p>
                     <BulletList items={TARS_BULLETS} dotClass="bg-ink" />
                   </div>

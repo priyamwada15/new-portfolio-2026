@@ -45,6 +45,8 @@ export type PlayPortfolioItem = {
   mediaPanelOmitGradient?: boolean;
   /** `aria-label` on `<video>`; `title` on `<iframe>`. */
   mediaAlt: string;
+  /** When true, the playground card's primary link opens in a new tab (internal routes only — external links already do). */
+  openInNewTab?: boolean;
 };
 
 const PROFILE_X_HREF = "https://x.com/PriymwadaPandey";
@@ -81,6 +83,7 @@ const KINETIC_FACADE_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1786900388/Screen_Recording_2026-08-11_225854_x2cb1a.mp4";
 const ARCADE_EFFWON_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1787084726/EffWon_qwcsmx.mp4";
+const ARCADE_EFFWON_POSTER_SRC = "/arcade-effwon/poster.png";
 
 export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
@@ -95,7 +98,9 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
       ariaLabel: "Play Arcade EffWon",
     },
     videoSrc: ARCADE_EFFWON_VIDEO_SRC,
+    posterSrc: ARCADE_EFFWON_POSTER_SRC,
     mediaAlt: "Arcade EffWon pseudo-3D racer",
+    openInNewTab: true,
   },
   {
     id: "rocket-lisa",
@@ -103,6 +108,12 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
     tagParts: ["Claude Code", "Nano Banana 2", "April 2026"],
     description:
       "Dawn of Man. Dawn of personal finance. Redesigned Rocket Money's dashboard in the 1984 Apple Macintosh GUI style. The apes are reacting to my spending report.",
+    filledCta: {
+      label: "View on X",
+      href: "https://x.com/priymwadapandey/status/2043177912698867868?s=20",
+      ariaLabel: "View the Rocket LISA post on X",
+      icon: "x",
+    },
     videoSrc: ROCKET_LISA_VIDEO_SRC,
     posterSrc: ROCKET_LISA_POSTER_SRC,
     mediaAlt: "Rocket LISA screen recording",

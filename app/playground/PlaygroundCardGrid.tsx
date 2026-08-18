@@ -146,7 +146,12 @@ export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridP
           }
 
           return (
-            <Link key={item.id} href={href} className="cursor-hover-pointer flex flex-col gap-6">
+            <Link
+              key={item.id}
+              href={href}
+              className="cursor-hover-pointer flex flex-col gap-6"
+              {...(item.openInNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
               {cardBody}
             </Link>
           );

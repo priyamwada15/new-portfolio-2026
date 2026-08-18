@@ -19,8 +19,8 @@ const FlipBoardFooter = dynamic(
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHomeV2 = pathname === "/";
-  const bareAsciiGame =
-    pathname === "/ascii-game" || pathname.startsWith("/ascii-game/");
+  const bareArcadeEffwon =
+    pathname === "/arcade-effwon" || pathname.startsWith("/arcade-effwon/");
   const bareSunlight =
     pathname === "/sunlight" || pathname.startsWith("/sunlight/");
   const bareWater =
@@ -30,7 +30,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
   const bareKineticFacade =
     pathname === "/kinetic-facade" || pathname.startsWith("/kinetic-facade/");
   const isBarePage =
-    bareAsciiGame || bareSunlight || bareWater || bareFloorPlanVersion || bareKineticFacade;
+    bareArcadeEffwon || bareSunlight || bareWater || bareFloorPlanVersion || bareKineticFacade;
   const isFlipBoardTest =
     pathname === "/flip-board-test" ||
     (pathname?.startsWith("/flip-board-test/") ?? false);

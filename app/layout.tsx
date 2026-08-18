@@ -12,6 +12,7 @@ import {
   Frank_Ruhl_Libre,
   Forum,
   Sree_Krushnadevaraya,
+  Press_Start_2P,
 } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -91,6 +92,13 @@ const sreeKrushnadevaraya = Sree_Krushnadevaraya({
   weight: "400",
 });
 
+// Temporary: only used by the Arcade EffWon game page's pixel-art HUD.
+const pressStart2P = Press_Start_2P({
+  variable: "--font-press-start-2p",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.priyamwada.me"),
   title: "Priyamwada Pandey | Product Designer",
@@ -159,6 +167,7 @@ export default function RootLayout({
         frankRuhlLibre.variable,
         forum.variable,
         sreeKrushnadevaraya.variable,
+        pressStart2P.variable,
         "font-sans",
         geist.variable,
       )}

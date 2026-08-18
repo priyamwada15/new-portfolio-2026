@@ -1,6 +1,6 @@
 "use client";
 
-import { TEAMS } from "./raceData";
+import { TEAMS, TOTAL_LAPS } from "./raceData";
 import { pad, formatTime } from "./raceMath";
 
 export function TeamSelectOverlay({
@@ -91,7 +91,7 @@ export function HudSidebar({
       </div>
       <div>
         <div className="mb-[6px] text-[9px] text-[#888]">LAP</div>
-        <div className="text-[13px]">{hud.lap} / 8</div>
+        <div className="text-[13px]">{hud.lap} / {TOTAL_LAPS}</div>
       </div>
       <div>
         <div className="mb-[6px] text-[9px] text-[#888]">SPEED</div>

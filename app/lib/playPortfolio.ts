@@ -49,8 +49,6 @@ export type PlayPortfolioItem = {
 
 const PROFILE_X_HREF = "https://x.com/PriymwadaPandey";
 
-const ASCII_GAME_GITHUB_HREF =
-  "https://github.com/priyamwada15/ASCII-race-game-with-Pixelact-and-shadcn-UI";
 const SUNLIGHT_SHADER_GITHUB_HREF =
   "https://github.com/priyamwada15/sunlight-effect";
 const WATER_GLINT_GITHUB_HREF =
@@ -59,9 +57,6 @@ const WATER_GLINT_GITHUB_HREF =
 /** AVIF assets under `public/play/` — regenerate with `npm run optimize:play-images`. */
 const PLAY_AVIF = "/play";
 
-const ASCII_GAME_VIDEO_SRC =
-  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1778784207/Screen_Recording_2026-05-13_235432_gyusng.mp4";
-const ASCII_GAME_POSTER_SRC = `${PLAY_AVIF}/ascii-game-poster.avif`;
 const STELLAR_SCAN_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1778784179/Stellar_Scan_Video_wghj5o.mp4";
 const STELLAR_SCAN_POSTER_SRC = `${PLAY_AVIF}/stellar-scan-poster.avif`;
@@ -87,23 +82,17 @@ const KINETIC_FACADE_VIDEO_SRC =
 
 export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
-    id: "ascii-run",
-    title: "ASCII Run",
-    tagParts: ["Mini-game", "Cursor", "Next.js", "May 2026"],
+    id: "arcade-effwon",
+    title: "Arcade EffWon",
+    tagParts: ["Mini-game", "Canvas", "Next.js", "Aug 2026"],
     description:
-      "A fast scroll-linked lane dodge game, navigate using arrow keys, ramping speed every 5s and a chance to listen to my favorite song.",
+      "A pseudo-3D pixel-art F1 racer built on a single canvas. Pick a team, survive 8 laps of corners and rival traffic without racking up 3 hits.",
     experienceCta: {
       label: "Play Game",
-      href: "/ascii-game",
-      ariaLabel: "Play the ASCII lane game",
+      href: "/arcade-effwon",
+      ariaLabel: "Play Arcade EffWon",
     },
-    githubLiquidCta: {
-      href: ASCII_GAME_GITHUB_HREF,
-      ariaLabel: "View ASCII Run on GitHub",
-    },
-    videoSrc: ASCII_GAME_VIDEO_SRC,
-    posterSrc: ASCII_GAME_POSTER_SRC,
-    mediaAlt: "Screen recording of the ASCII lane game",
+    mediaAlt: "Arcade EffWon pseudo-3D racer",
   },
   {
     id: "rocket-lisa",
@@ -227,7 +216,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
 
 /** Homepage Play tab order. */
 export const HOME_PLAY_TAB_ITEM_IDS = [
-  "ascii-run",
+  "arcade-effwon",
   "sunlight-effect",
   "rocket-lisa",
   "robot-duet",

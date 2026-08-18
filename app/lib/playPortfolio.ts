@@ -79,6 +79,8 @@ const WATER_GLINT_VIDEO_SRC =
 const WATER_GLINT_POSTER_SRC = "/water shader poster.png";
 const KINETIC_FACADE_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1786900388/Screen_Recording_2026-08-11_225854_x2cb1a.mp4";
+const ARCADE_EFFWON_VIDEO_SRC =
+  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1787084726/EffWon_qwcsmx.mp4";
 
 export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
@@ -92,6 +94,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
       href: "/arcade-effwon",
       ariaLabel: "Play Arcade EffWon",
     },
+    videoSrc: ARCADE_EFFWON_VIDEO_SRC,
     mediaAlt: "Arcade EffWon pseudo-3D racer",
   },
   {

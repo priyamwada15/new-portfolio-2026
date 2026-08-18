@@ -87,6 +87,7 @@ export default function ArcadeEffWonGame() {
   const minimapRef = useRef<HTMLCanvasElement>(null);
 
   const [hud, setHudState] = useState<HudState>(INITIAL_HUD);
+  const [isTouchOrNarrow, setIsTouchOrNarrow] = useState(false);
   const hudRef = useRef<HudState>(INITIAL_HUD);
   const setHud = useCallback(
     (update: Partial<HudState> | ((s: HudState) => Partial<HudState>)) => {
@@ -112,6 +113,11 @@ export default function ArcadeEffWonGame() {
   const beepRef = useRef(createBeeper());
 
   useEffect(() => {
+    const beeper = beepRef.current;
+    return () => beeper.dispose();
+  }, []);
+
+  useEffect(() => {
     try {
       const stored = parseInt(localStorage.getItem(BEST_SCORE_STORAGE_KEY) || "0", 10);
       if (!Number.isNaN(stored)) setHud({ best: stored });
@@ -119,6 +125,17 @@ export default function ArcadeEffWonGame() {
       // localStorage unavailable — best stays 0
     }
   }, [setHud]);
+
+  useEffect(() => {
+    const check = () => {
+      const coarse = window.matchMedia("(pointer: coarse)").matches;
+      const narrow = window.innerWidth < 768;
+      setIsTouchOrNarrow(coarse || narrow);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const layout = useCallback(() => {
     const el = wrapRef.current;
@@ -595,6 +612,20 @@ export default function ArcadeEffWonGame() {
 
   const showMinimap =
     hud.screen === "playing" || hud.screen === "countdown" || hud.screen === "finished";
+
+  if (isTouchOrNarrow) {
+    return (
+      <div
+        className="flex h-dvh w-full flex-col items-center justify-center gap-4 bg-[#0a0a0a] p-8 text-center text-white"
+        style={{ fontFamily: "var(--font-press-start-2p), monospace" }}
+      >
+        <div className="text-[14px] text-[#ffd23f]">ARCADE EFFWON</div>
+        <div className="max-w-[320px] text-[9px] leading-[1.8] text-[#aaa]">
+          BEST PLAYED ON A DESKTOP WITH A KEYBOARD. COME BACK ON A LARGER SCREEN TO RACE.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

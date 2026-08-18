@@ -147,3 +147,53 @@ export function HudSidebar({
     </div>
   );
 }
+
+export function PausedOverlay() {
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/75 text-white">
+      <div className="text-[16px] text-[#ffd23f]">PAUSED</div>
+      <div className="animate-[blink_1s_step-start_infinite] text-[8px] text-[#aaa]">
+        PRESS P TO RESUME
+      </div>
+    </div>
+  );
+}
+
+export function FinishedOverlay({
+  podium,
+  resultLine,
+  score,
+  best,
+}: {
+  podium: { label: string; name: string; isPlayer: boolean }[];
+  resultLine: string;
+  score: string;
+  best: string;
+}) {
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/90 p-5 text-center text-white">
+      <div className="text-[16px] text-[#ffd23f]">CHECKERED FLAG</div>
+      <div className="flex items-end gap-4">
+        {podium.map((slot) => (
+          <div
+            key={slot.label}
+            className="min-w-[100px] rounded p-[12px_16px]"
+            style={{
+              background: slot.isPlayer ? "#2a2a2a" : "#1a1a1a",
+              border: `2px solid ${slot.isPlayer ? "#ffd23f" : "#333"}`,
+            }}
+          >
+            <div className="text-[8px]">{slot.label}</div>
+            <div className="mt-[6px] text-[7px]">{slot.name}</div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-2 text-[9px]">{resultLine}</div>
+      <div className="text-[9px] text-white">SCORE {score}</div>
+      <div className="text-[9px] text-[#6ab04c]">BEST {best}</div>
+      <div className="animate-[blink_1s_step-start_infinite] text-[9px] text-[#ffd23f]">
+        PRESS ENTER TO RACE AGAIN
+      </div>
+    </div>
+  );
+}

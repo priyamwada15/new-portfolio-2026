@@ -15,21 +15,25 @@ export function TeamSelectOverlay({
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-[18px] overflow-y-auto bg-black/[.92] p-6 text-white">
       <div className="text-[18px] text-[#ff3b3b]">CHOOSE YOUR TEAM</div>
-      <div className="grid max-w-[820px] grid-cols-4 gap-[10px]">
+      <div className="flex max-w-[820px] flex-wrap justify-center gap-[10px]">
         {TEAMS.map((team, i) => (
           <button
             key={team.name}
             type="button"
             onClick={() => onSelect(i)}
-            className="flex cursor-pointer flex-col items-center gap-[6px] rounded p-[10px_6px]"
+            className="flex w-[197.5px] shrink-0 cursor-pointer flex-col items-center gap-[16px] rounded p-[10px_6px]"
             style={{
               background: i === teamIndex ? "#2a2a2a" : "#1a1a1a",
               border: `2px solid ${i === teamIndex ? "#ffd23f" : "#333"}`,
             }}
           >
             <div
-              className="h-[22px] w-[44px] rounded-sm"
-              style={{ background: team.p, borderBottom: `7px solid ${team.a}` }}
+              className="h-[45px] w-[90px] rounded-sm"
+              style={{
+                background: team.p,
+                borderBottom: `7px solid ${team.a}`,
+                outline: "1px solid #FAFAFA",
+              }}
             />
             <div className="text-center text-[7px] leading-[1.5]">{team.name}</div>
           </button>
@@ -71,6 +75,8 @@ export function CountdownOverlay({ lightsLit }: { lightsLit: number }) {
 
 export function HudSidebar({
   hud,
+  musicOn,
+  onToggleMusic,
 }: {
   hud: {
     score: number;
@@ -81,6 +87,8 @@ export function HudSidebar({
     damage: number;
     best: number;
   };
+  musicOn: boolean;
+  onToggleMusic: () => void;
 }) {
   const dmgColor = (level: number) => (hud.damage >= level ? "#e74c3c" : "#2a2a2a");
   return (
@@ -118,20 +126,48 @@ export function HudSidebar({
 
       <div className="mt-2 border-t border-[#2a2a2a] pt-[14px]">
         <div className="mb-[10px] text-[9px] text-[#888]">CONTROLS</div>
-        <div className="mb-[6px] grid grid-cols-3 gap-1">
+        <div className="mb-[6px] grid grid-cols-[26px_26px_26px] gap-1">
           <div />
-          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border border-[#444] bg-[#2a2a2a] text-[11px]">
-            ▲
+          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border border-[#444] bg-[#2a2a2a]">
+            <span
+              className="h-0 w-0"
+              style={{
+                borderLeft: "5px solid transparent",
+                borderRight: "5px solid transparent",
+                borderBottom: "8px solid #fff",
+              }}
+            />
           </div>
           <div />
-          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border border-[#444] bg-[#2a2a2a] text-[11px]">
-            ◀
+          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border border-[#444] bg-[#2a2a2a]">
+            <span
+              className="h-0 w-0"
+              style={{
+                borderTop: "5px solid transparent",
+                borderBottom: "5px solid transparent",
+                borderRight: "8px solid #fff",
+              }}
+            />
           </div>
-          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border border-[#444] bg-[#2a2a2a] text-[11px]">
-            ▼
+          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border border-[#444] bg-[#2a2a2a]">
+            <span
+              className="h-0 w-0"
+              style={{
+                borderLeft: "5px solid transparent",
+                borderRight: "5px solid transparent",
+                borderTop: "8px solid #fff",
+              }}
+            />
           </div>
-          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border border-[#444] bg-[#2a2a2a] text-[11px]">
-            ▶
+          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border border-[#444] bg-[#2a2a2a]">
+            <span
+              className="h-0 w-0"
+              style={{
+                borderTop: "5px solid transparent",
+                borderBottom: "5px solid transparent",
+                borderLeft: "8px solid #fff",
+              }}
+            />
           </div>
         </div>
         <div className="mb-3 text-[7px] leading-[1.6] text-[#999]">STEER / ACCEL / BRAKE</div>
@@ -143,7 +179,16 @@ export function HudSidebar({
         </div>
       </div>
 
-      <div className="mt-auto text-[8px] text-[#555]">BEST {pad(hud.best, 6)}</div>
+      <div className="mt-auto flex items-center justify-between text-[8px] text-[#555]">
+        <div>BEST {pad(hud.best, 6)}</div>
+        <button
+          type="button"
+          onClick={onToggleMusic}
+          className="cursor-pointer rounded-[3px] border border-[#444] bg-[#2a2a2a] px-2 py-1 text-[7px] text-[#999]"
+        >
+          {musicOn ? "MUSIC OFF" : "MUSIC ON"}
+        </button>
+      </div>
     </div>
   );
 }

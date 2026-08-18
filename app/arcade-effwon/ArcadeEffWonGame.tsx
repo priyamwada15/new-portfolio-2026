@@ -88,6 +88,7 @@ export default function ArcadeEffWonGame() {
 
   const [hud, setHudState] = useState<HudState>(INITIAL_HUD);
   const [isTouchOrNarrow, setIsTouchOrNarrow] = useState(false);
+  const [musicOn, setMusicOn] = useState(true);
   const hudRef = useRef<HudState>(INITIAL_HUD);
   const setHud = useCallback(
     (update: Partial<HudState> | ((s: HudState) => Partial<HudState>)) => {
@@ -111,6 +112,12 @@ export default function ArcadeEffWonGame() {
   const finishRankRef = useRef(1);
   const finishFieldRef = useRef<Car[]>([]);
   const beepRef = useRef(createBeeper());
+  const teamSelectMusicRef = useRef<HTMLAudioElement>(null);
+  const musicOnRef = useRef(true);
+
+  useEffect(() => {
+    musicOnRef.current = musicOn;
+  }, [musicOn]);
 
   useEffect(() => {
     const beeper = beepRef.current;
@@ -125,6 +132,17 @@ export default function ArcadeEffWonGame() {
       // localStorage unavailable — best stays 0
     }
   }, [setHud]);
+
+  useEffect(() => {
+    const audio = teamSelectMusicRef.current;
+    if (!audio) return;
+    audio.volume = 0.3;
+    if (hud.screen === "select" && musicOn) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  }, [hud.screen, musicOn]);
 
   useEffect(() => {
     const check = () => {
@@ -149,7 +167,7 @@ export default function ArcadeEffWonGame() {
     dimsRef.current = {
       W,
       H,
-      roadHW: Math.max(80, Math.min(200, W * 0.15)),
+      roadHW: Math.max(80, Math.min(200, W * 0.13)),
       CX: W / 2,
       playerY: H - 130,
     };
@@ -214,6 +232,7 @@ export default function ArcadeEffWonGame() {
         if (e.key === "ArrowUp")
           setHud((s) => ({ teamIndex: Math.max(0, s.teamIndex - 4) }));
         if (e.key === "Enter") startRace();
+        if (musicOnRef.current) teamSelectMusicRef.current?.play().catch(() => {});
       } else if (e.key === "Enter" && (screen === "finished" || screen === "gameover")) {
         setHud({ screen: "select" });
       }
@@ -632,6 +651,8 @@ export default function ArcadeEffWonGame() {
       className="flex h-dvh w-full overflow-hidden bg-[#0a0a0a] text-white"
       style={{ fontFamily: "var(--font-press-start-2p), monospace" }}
     >
+      <audio ref={teamSelectMusicRef} src="/arcade-effwon/team-select-theme.mp3" loop preload="auto" />
+
       <div ref={wrapRef} className="relative h-full flex-1">
         <canvas ref={canvasRef} className="block h-full w-full [image-rendering:pixelated]" />
 
@@ -647,7 +668,10 @@ export default function ArcadeEffWonGame() {
         {hud.screen === "select" && (
           <TeamSelectOverlay
             teamIndex={hud.teamIndex}
-            onSelect={(i) => setHud({ teamIndex: i })}
+            onSelect={(i) => {
+              if (musicOn) teamSelectMusicRef.current?.play().catch(() => {});
+              setHud({ teamIndex: i });
+            }}
             onStart={startRace}
           />
         )}
@@ -670,7 +694,7 @@ export default function ArcadeEffWonGame() {
         )}
       </div>
 
-      <HudSidebar hud={hud} />
+      <HudSidebar hud={hud} musicOn={musicOn} onToggleMusic={() => setMusicOn((m) => !m)} />
     </div>
   );
 }

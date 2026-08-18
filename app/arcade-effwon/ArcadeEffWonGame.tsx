@@ -6,6 +6,7 @@ import {
   BEST_SCORE_STORAGE_KEY,
   DIFFICULTY_MULTIPLIER,
   MIN_RIVALS,
+  STARTING_GRID_SIZE,
   TEAMS,
   TOTAL_LAPS,
   TRACK,
@@ -13,6 +14,7 @@ import {
 import {
   buildMinimapCache,
   curveOffset,
+  makeCar,
   pad,
   type Car,
   type MinimapCache,
@@ -22,6 +24,7 @@ import {
   TeamSelectOverlay,
   CountdownOverlay,
   PausedOverlay,
+  GameOverOverlay,
   FinishedOverlay,
   HudSidebar,
 } from "./ArcadeEffWonOverlays";
@@ -136,6 +139,15 @@ export default function ArcadeEffWonGame() {
   }, []);
 
   const startRace = useCallback(() => {
+    const idx = hudRef.current.teamIndex;
+    const roadHW = dimsRef.current?.roadHW ?? 100;
+    const rivals = TEAMS.filter((_, i) => i !== idx).slice(0, STARTING_GRID_SIZE);
+    const cars = rivals.map((team, i) => {
+      const row = Math.floor(i / 2);
+      const col = i % 2;
+      const offset = (col === 0 ? -1 : 1) * roadHW * 0.4;
+      return makeCar(team, 90 + row * 75, offset);
+    });
     minimapCacheRef.current = buildMinimapCache(TRACK);
     gameRef.current = {
       worldScroll: 0,
@@ -143,10 +155,10 @@ export default function ArcadeEffWonGame() {
       speed: 0,
       time: 0,
       damage: 0,
-      rank: 1,
+      rank: cars.length + 1,
       invuln: 999,
       shakeT: 0,
-      cars: [],
+      cars,
       retireTimer: 10 + Math.random() * 6,
       countdownT: 0,
       minRivals: MIN_RIVALS,
@@ -156,6 +168,7 @@ export default function ArcadeEffWonGame() {
     };
     setHud({
       screen: "countdown",
+      teamIndex: idx,
       lightsLit: 0,
       score: 0,
       speed: 0,
@@ -184,7 +197,7 @@ export default function ArcadeEffWonGame() {
         if (e.key === "ArrowUp")
           setHud((s) => ({ teamIndex: Math.max(0, s.teamIndex - 4) }));
         if (e.key === "Enter") startRace();
-      } else if (e.key === "Enter" && screen === "finished") {
+      } else if (e.key === "Enter" && (screen === "finished" || screen === "gameover")) {
         setHud({ screen: "select" });
       }
       if (e.key === "p" || e.key === "P" || e.key === "Escape") {
@@ -245,6 +258,21 @@ export default function ArcadeEffWonGame() {
     [setHud],
   );
 
+  const gameOver = useCallback(
+    (finalScore: number) => {
+      const best = Math.max(hudRef.current.best, finalScore);
+      try {
+        localStorage.setItem(BEST_SCORE_STORAGE_KEY, String(best));
+      } catch {
+        // localStorage unavailable — best score just won't persist
+      }
+      beepRef.current(200, 0.3, "sawtooth");
+      beepRef.current(140, 0.4, "sawtooth");
+      setHud({ screen: "gameover", score: finalScore, best, damage: 3 });
+    },
+    [setHud],
+  );
+
   const update = useCallback(
     (dt: number) => {
       const g = gameRef.current;
@@ -277,9 +305,82 @@ export default function ArcadeEffWonGame() {
       g.lap = Math.min(g.totalLaps, Math.floor(g.worldScroll / TRACK.length) + 1);
       if (g.invuln > 0) g.invuln -= dt;
 
-      const scoreGain = g.speed * dt * 0.12;
-      g.scoreAcc = Math.max(0, g.scoreAcc + scoreGain);
+      let scoreGain = g.speed * dt * 0.12;
+
+      for (let i = 0; i < g.cars.length; i++) {
+        const c = g.cars[i];
+        const prevD = c.d;
+        g.cars[i].d -= (g.speed - c.speed * speedRamp) * dt;
+        c.phase += dt * c.weaveSpeed;
+        c.offset = Math.max(
+          -(ROAD_HW - 14),
+          Math.min(ROAD_HW - 14, Math.sin(c.phase) * c.weaveAmp),
+        );
+        if (c.hit > 0) c.hit -= dt;
+
+        if (!c.justReset) {
+          if (prevD >= 0 && c.d < 0) {
+            g.rank = Math.max(1, g.rank - 1);
+            scoreGain += 60;
+            beepRef.current(880, 0.08, "sine", 0.05);
+          } else if (prevD <= 0 && c.d > 0) {
+            g.rank = Math.min(g.cars.length + 1, g.rank + 1);
+            beepRef.current(220, 0.12, "triangle", 0.05);
+          }
+        }
+        c.justReset = false;
+
+        if (
+          g.invuln <= 0 &&
+          Math.abs(c.d) < 16 &&
+          Math.abs(c.offset - g.playerOffset) < 20
+        ) {
+          g.damage += 1;
+          g.invuln = 1.4;
+          c.hit = 0.4;
+          c.d = 200 + Math.random() * 100;
+          c.justReset = true;
+          g.speed *= 0.5;
+          g.shakeT = 0.3;
+          beepRef.current(120, 0.25, "sawtooth", 0.12);
+        }
+      }
+
+      g.cars = g.cars.filter((c) => {
+        if (c.d < -60) {
+          if (g.cars.length > g.minRivals) return false;
+          Object.assign(
+            c,
+            makeCar({ p: c.color, a: c.accent, name: c.name }, 300 + Math.random() * 260),
+          );
+        } else if (c.d > 640) {
+          Object.assign(
+            c,
+            makeCar({ p: c.color, a: c.accent, name: c.name }, 260 + Math.random() * 200),
+          );
+        }
+        return true;
+      });
+      g.rank = Math.min(g.rank, g.cars.length + 1);
+
+      if (g.cars.length > g.minRivals) {
+        g.retireTimer -= dt;
+        if (g.retireTimer <= 0) {
+          g.retireTimer = 9 + Math.random() * 8;
+          const idx = Math.floor(Math.random() * g.cars.length);
+          g.cars.splice(idx, 1);
+          g.rank = Math.min(g.rank, g.cars.length + 1);
+          beepRef.current(300, 0.15, "triangle", 0.04);
+        }
+      }
+
       g.shakeT = Math.max(0, g.shakeT - dt);
+      g.scoreAcc = Math.max(0, g.scoreAcc + scoreGain);
+
+      if (g.damage >= 3) {
+        gameOver(Math.floor(g.scoreAcc));
+        return;
+      }
 
       if (g.worldScroll >= TRACK.length * g.totalLaps) {
         finishRace(Math.floor(g.scoreAcc) + 500);
@@ -295,7 +396,7 @@ export default function ArcadeEffWonGame() {
         lap: g.lap,
       });
     },
-    [finishRace, setHud],
+    [gameOver, finishRace, setHud],
   );
 
   const drawCar = useCallback(
@@ -402,6 +503,14 @@ export default function ArcadeEffWonGame() {
       }
 
       const playerCenter = CX + curveOffset(TRACK, g.worldScroll, intensity);
+      const sorted = [...g.cars].sort((a, b) => b.d - a.d);
+      for (const c of sorted) {
+        const cy = PLAYER_Y - c.d;
+        if (cy < -30 || cy > H + 30) continue;
+        const cc = CX + curveOffset(TRACK, g.worldScroll + c.d, intensity);
+        drawCar(ctx, cc + c.offset, cy, c.color, c.accent, false, c.hit > 0);
+      }
+
       const team = TEAMS[hudRef.current.teamIndex];
       drawCar(
         ctx,
@@ -515,6 +624,10 @@ export default function ArcadeEffWonGame() {
         {hud.screen === "countdown" && <CountdownOverlay lightsLit={hud.lightsLit} />}
 
         {hud.screen === "playing" && hud.paused && <PausedOverlay />}
+
+        {hud.screen === "gameover" && (
+          <GameOverOverlay score={pad(hud.score, 6)} best={pad(hud.best, 6)} />
+        )}
 
         {hud.screen === "finished" && (
           <FinishedOverlay

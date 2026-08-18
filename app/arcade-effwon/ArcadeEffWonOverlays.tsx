@@ -197,3 +197,16 @@ export function FinishedOverlay({
     </div>
   );
 }
+
+export function GameOverOverlay({ score, best }: { score: string; best: string }) {
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-[14px] bg-black/85 p-5 text-center text-white">
+      <div className="text-[16px] text-[#ff3b3b]">DNF</div>
+      <div className="text-[9px] text-white">SCORE {score}</div>
+      <div className="text-[9px] text-[#6ab04c]">BEST {best}</div>
+      <div className="animate-[blink_1s_step-start_infinite] text-[9px] text-[#ffd23f]">
+        PRESS ENTER TO PICK A TEAM
+      </div>
+    </div>
+  );
+}

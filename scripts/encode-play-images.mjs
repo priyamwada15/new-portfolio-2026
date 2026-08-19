@@ -22,6 +22,7 @@ const jobs = [
   ["Stellar scan poster image.png", "stellar-scan-poster.avif"],
   ["Robo Poster Image.png", "robo-poster.avif"],
   ["play/Rocket LISA Poster Image.png", "rocket-lisa-poster.avif"],
+  ["Kinetic Facade Poster Image.png", "kinetic-facade-poster.avif"],
 ];
 
 for (const [srcName, destName] of jobs) {

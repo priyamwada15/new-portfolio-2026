@@ -81,6 +81,7 @@ const WATER_GLINT_VIDEO_SRC =
 const WATER_GLINT_POSTER_SRC = "/water shader poster.png";
 const KINETIC_FACADE_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1786900388/Screen_Recording_2026-08-11_225854_x2cb1a.mp4";
+const KINETIC_FACADE_POSTER_SRC = `${PLAY_AVIF}/kinetic-facade-poster.avif`;
 const ARCADE_EFFWON_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1787084726/EffWon_qwcsmx.mp4";
 const ARCADE_EFFWON_POSTER_SRC = "/arcade-effwon/poster.png";
@@ -224,6 +225,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
       ariaLabel: "Open the Kinetic Facade testing ground",
     },
     videoSrc: KINETIC_FACADE_VIDEO_SRC,
+    posterSrc: KINETIC_FACADE_POSTER_SRC,
     mediaAlt: "Kinetic facade plate grid experiment",
   },
 ];

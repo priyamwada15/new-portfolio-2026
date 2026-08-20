@@ -16,6 +16,7 @@ export function KineticFacadeScene({
 }: KineticFacadeSceneProps) {
   return (
     <Canvas
+      className="cursor-hover-pointer"
       camera={{ position: [0, 0, 8], fov: 50 }}
       frameloop={reducedMotion ? "demand" : "always"}
     >

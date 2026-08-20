@@ -29,7 +29,7 @@ export function KineticFacadeApp() {
   const variant = MATERIAL_VARIANTS[variantId];
 
   return (
-    <div className="relative h-screen w-screen bg-[#0a0a0a]">
+    <div className="relative h-screen w-screen cursor-hover-pointer bg-[#0a0a0a]">
       <KineticFacadeScene variant={variant} reducedMotion={reducedMotion} />
       <div className="absolute left-6 top-6 z-10 flex gap-2">
         {Object.values(MATERIAL_VARIANTS).map((option) => (

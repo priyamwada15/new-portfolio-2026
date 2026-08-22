@@ -13,6 +13,7 @@ import { HomeV2PlayableCard } from "./home-v2/HomeV2PlayableCard";
 import { HomeV2VideoProvider } from "./home-v2/HomeV2VideoProvider";
 import { LazyVideo } from "./home-v2/LazyVideo";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
+import { DebugFlowPreview } from "@/app/components/DebugFlowPreview";
 
 const ARDUINO_ROBOT_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1775952719/20250416_201134_2_vimbv1.mp4";
@@ -360,16 +361,7 @@ export default async function HomeV2Page() {
                     zIndex: 1,
                   }}
                 />
-                <LazyVideo
-                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295525/Debug_Mode_new_case_study_and_hero_video_kuliwm.mp4"
-                  poster="/Debug Video Poster.png"
-                  ariaLabel="TARS debug mode preview video"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
+                <DebugFlowPreview />
               </div>
 
               <div

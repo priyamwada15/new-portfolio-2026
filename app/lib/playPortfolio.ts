@@ -62,9 +62,7 @@ const PLAY_AVIF = "/play";
 const STELLAR_SCAN_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1778784179/Stellar_Scan_Video_wghj5o.mp4";
 const STELLAR_SCAN_POSTER_SRC = `${PLAY_AVIF}/stellar-scan-poster.avif`;
-const AI_INTELLIGENCER_VIDEO_SRC =
-  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1776089764/Screen_Recording_2026-04-13_101501_ls24dq.mp4";
-const AI_INTELLIGENCER_POSTER_SRC = `${PLAY_AVIF}/ai-intelligencer-poster.avif`;
+const THE_INTELLIGENCER_IMAGE_SRC = `${PLAY_AVIF}/the-intelligencer-poster.png`;
 const ROCKET_LISA_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779388469/Screen_Recording_2026-05-21_143314_cenlai.mp4";
 const ROCKET_LISA_POSTER_SRC = `${PLAY_AVIF}/rocket-lisa-poster.avif`;
@@ -104,20 +102,20 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
     openInNewTab: true,
   },
   {
-    id: "rocket-lisa",
-    title: "Rocket LISA",
-    tagParts: ["Claude Code", "Nano Banana 2", "April 2026"],
+    id: "the-intelligencer",
+    title: "The Intelligencer",
+    tagParts: ["Next.js", "NewsData.io", "Vercel Blob", "Aug 2026"],
     description:
-      "Dawn of Man. Dawn of personal finance. Redesigned Rocket Money's dashboard in the 1984 Apple Macintosh GUI style. The apes are reacting to my spending report.",
+      "A daily AI news briefing in a single-card, swipe-through format for mobile — real headlines, sorted by category, never rewritten.",
     filledCta: {
-      label: "View on X",
-      href: "https://x.com/priymwadapandey/status/2043177912698867868?s=20",
-      ariaLabel: "View the Rocket LISA post on X",
-      icon: "x",
+      label: "Open Website",
+      href: "/the-intelligencer",
+      ariaLabel: "Open The Intelligencer",
+      icon: "arrow",
     },
-    videoSrc: ROCKET_LISA_VIDEO_SRC,
-    posterSrc: ROCKET_LISA_POSTER_SRC,
-    mediaAlt: "Rocket LISA screen recording",
+    openInNewTab: true,
+    imageSrc: THE_INTELLIGENCER_IMAGE_SRC,
+    mediaAlt: "The Intelligencer single-card news layout",
   },
   {
     id: "robot-duet",
@@ -160,20 +158,20 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
     mediaAlt: "Stellar Scan constellation UI",
   },
   {
-    id: "ai-intelligencer",
-    title: "AI Intelligencer",
-    tagParts: ["Claude API", "Vercel KV", "Vanilla JS", "Mar 2026"],
+    id: "rocket-lisa",
+    title: "Rocket LISA",
+    tagParts: ["Claude Code", "Nano Banana 2", "April 2026"],
     description:
-      "Designed and built a newspaper-style widget that pulls live AI news into a vintage broadsheet layout.",
+      "Dawn of Man. Dawn of personal finance. Redesigned Rocket Money's dashboard in the 1984 Apple Macintosh GUI style. The apes are reacting to my spending report.",
     filledCta: {
-      label: "Open Widget",
-      href: "https://ai-intelligencer.vercel.app/",
-      ariaLabel: "Open AI Intelligencer widget",
-      icon: "arrow",
+      label: "View on X",
+      href: "https://x.com/priymwadapandey/status/2043177912698867868?s=20",
+      ariaLabel: "View the Rocket LISA post on X",
+      icon: "x",
     },
-    videoSrc: AI_INTELLIGENCER_VIDEO_SRC,
-    posterSrc: AI_INTELLIGENCER_POSTER_SRC,
-    mediaAlt: "AI Intelligencer newspaper-style layout",
+    videoSrc: ROCKET_LISA_VIDEO_SRC,
+    posterSrc: ROCKET_LISA_POSTER_SRC,
+    mediaAlt: "Rocket LISA screen recording",
   },
   {
     id: "sunlight-effect",
@@ -237,7 +235,7 @@ export const HOME_PLAY_TAB_ITEM_IDS = [
   "rocket-lisa",
   "robot-duet",
   "stellar-scan",
-  "ai-intelligencer",
+  "the-intelligencer",
 ] as const;
 
 export function getHomePlayTabItems(): PlayPortfolioItem[] {

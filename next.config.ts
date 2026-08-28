@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import path from "path";
+import { withMicrofrontends } from "@vercel/microfrontends/next/config";
 
 /**
  * Pin Turbopack to this repo. If another `package-lock.json` exists higher on
@@ -20,4 +21,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withMicrofrontends(nextConfig);

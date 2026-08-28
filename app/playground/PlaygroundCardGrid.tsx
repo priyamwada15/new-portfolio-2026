@@ -62,6 +62,16 @@ function PlaygroundCardVideo({ item, videosEnabled }: { item: PlayPortfolioItem;
   }, [videosEnabled]);
 
   if (!item.videoSrc) {
+    if (item.imageSrc) {
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={item.imageSrc}
+          alt={item.mediaAlt}
+          className="aspect-square w-full rounded-3xl bg-surface-card object-cover shadow-[0_0_0_5px_rgba(255,255,255,0.3)]"
+        />
+      );
+    }
     return (
       <div className="aspect-square w-full rounded-3xl bg-surface-card shadow-[0_0_0_5px_rgba(255,255,255,0.3)]" />
     );

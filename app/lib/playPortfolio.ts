@@ -62,7 +62,9 @@ const PLAY_AVIF = "/play";
 const STELLAR_SCAN_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1778784179/Stellar_Scan_Video_wghj5o.mp4";
 const STELLAR_SCAN_POSTER_SRC = `${PLAY_AVIF}/stellar-scan-poster.avif`;
-const THE_INTELLIGENCER_IMAGE_SRC = `${PLAY_AVIF}/the-intelligencer-poster.png`;
+const THE_INTELLIGENCER_VIDEO_SRC =
+  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1787956281/the-intelligencer_video_ozr1fw.mp4";
+const THE_INTELLIGENCER_POSTER_SRC = `${PLAY_AVIF}/the-intelligencer-poster.png`;
 const ROCKET_LISA_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779388469/Screen_Recording_2026-05-21_143314_cenlai.mp4";
 const ROCKET_LISA_POSTER_SRC = `${PLAY_AVIF}/rocket-lisa-poster.avif`;
@@ -114,7 +116,8 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
       icon: "arrow",
     },
     openInNewTab: true,
-    imageSrc: THE_INTELLIGENCER_IMAGE_SRC,
+    videoSrc: THE_INTELLIGENCER_VIDEO_SRC,
+    posterSrc: THE_INTELLIGENCER_POSTER_SRC,
     mediaAlt: "The Intelligencer single-card news layout",
   },
   {

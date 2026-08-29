@@ -134,15 +134,17 @@ export default function Nav() {
                     onMouseEnter={resume.onMouseEnter}
                     onMouseLeave={resume.onMouseLeave}
                   >
-                    <Link
+                    <a
                       href="/resume"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
                       aria-label="Resume"
                     >
                       <span style={resume.iconStyle}>
                         <FileText size={24} color={navIconColor} weight="regular" aria-hidden />
                       </span>
-                    </Link>
+                    </a>
                   </TooltipTrigger>
                   <TooltipContent>Resume</TooltipContent>
                 </Tooltip>

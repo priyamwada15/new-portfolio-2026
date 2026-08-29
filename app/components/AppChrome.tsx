@@ -29,8 +29,9 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     pathname === "/floor-plan-version" || pathname.startsWith("/floor-plan-version/");
   const bareKineticFacade =
     pathname === "/kinetic-facade" || pathname.startsWith("/kinetic-facade/");
+  const bareResume = pathname === "/resume";
   const isBarePage =
-    bareArcadeEffwon || bareSunlight || bareWater || bareFloorPlanVersion || bareKineticFacade;
+    bareArcadeEffwon || bareSunlight || bareWater || bareFloorPlanVersion || bareKineticFacade || bareResume;
   const isFlipBoardTest =
     pathname === "/flip-board-test" ||
     (pathname?.startsWith("/flip-board-test/") ?? false);

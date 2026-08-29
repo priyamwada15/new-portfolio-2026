@@ -19,6 +19,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // the-intelligencer.vercel.app's root now falls through to this app
+      // (unmatched paths on any project in the microfrontends group land
+      // on the default app), so send it to the app's real home instead of
+      // showing the portfolio.
+      {
+        source: "/",
+        has: [{ type: "host", value: "the-intelligencer.vercel.app" }],
+        destination: "https://www.priyamwada.me/the-intelligencer",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withMicrofrontends(nextConfig);

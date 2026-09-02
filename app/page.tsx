@@ -29,7 +29,7 @@ const STELLAR_SCAN_HREF    = "https://stellar-scan-eta.vercel.app/";
 const SUNLIGHT_SHADER_HREF = "https://github.com/priyamwada15/sunlight-effect";
 const WATER_SHADER_HREF    = "https://github.com/priyamwada15/water-glint-shader";
 const ASCII_GAME_HREF      = "https://www.priyamwada.me/ascii-game";
-const NEWS_WIDGET_HREF     = "https://github.com/priyamwada15/ai-intelligencer";
+const NEWS_WIDGET_HREF     = "https://www.priyamwada.me/the-intelligencer";
 
 const introProjLinkStyle = {
   color: "#858585",
@@ -42,7 +42,7 @@ const introProjLinkStyle = {
 const INTRO_PARAGRAPHS = [
   "Hi, I'm Priyamwada. An Architect turned Product Designer.",
   "I design internal tools, agentic interfaces and explainable AI across B2B SaaS and B2C fintech.",
-  "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a water shader, a news widget and a time-of-the-day constellation app.",
+  "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a water shader, a news app and a time-of-the-day constellation app.",
 ] as const;
 
 /** <1280px intro copy — first two sentences flow into one paragraph. */
@@ -57,7 +57,7 @@ function IntroPara3() {
       Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a{" "}
       <a href={WATER_SHADER_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>water shader</a>
       , a{" "}
-      <a href={NEWS_WIDGET_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>news widget</a>
+      <a href={NEWS_WIDGET_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>news app</a>
       {" "}and a time-of-the-day{" "}
       <a href={STELLAR_SCAN_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>constellation app</a>
       .

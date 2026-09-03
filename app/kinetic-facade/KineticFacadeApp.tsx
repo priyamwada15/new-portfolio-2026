@@ -14,7 +14,6 @@ export function KineticFacadeApp() {
     DEFAULT_MATERIAL_VARIANT_ID,
   );
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [contextLost, setContextLost] = useState(false);
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -31,17 +30,7 @@ export function KineticFacadeApp() {
 
   return (
     <div className="relative h-screen w-screen bg-[#0a0a0a]">
-      {contextLost ? (
-        <div className="flex h-full w-full items-center justify-center px-6 text-center text-sm text-white/50">
-          This 3D preview couldn&apos;t load in this browser.
-        </div>
-      ) : (
-        <KineticFacadeScene
-          variant={variant}
-          reducedMotion={reducedMotion}
-          onContextLost={() => setContextLost(true)}
-        />
-      )}
+      <KineticFacadeScene variant={variant} reducedMotion={reducedMotion} />
       <div className="absolute left-6 top-6 z-10 flex gap-2">
         {Object.values(MATERIAL_VARIANTS).map((option) => (
           <button

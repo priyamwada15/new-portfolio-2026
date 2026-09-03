@@ -67,7 +67,6 @@ export function PlaygroundFacade({ reducedMotion, onDissolve }: PlaygroundFacade
         reducedMotion={reducedMotion}
         keyboardTriggerCount={keyboardTriggerCount}
         onLoaded={() => setSceneLoaded(true)}
-        onContextLost={onDissolve}
       />
       {/* Opaque cover so the real page never flashes visible before the
           3D scene (HDRI + plates) has actually loaded. Separate from the

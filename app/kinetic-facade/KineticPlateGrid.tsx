@@ -14,13 +14,7 @@ import {
   type PointsMaterial,
   Vector3,
 } from "three";
-import {
-  buildGapFillers,
-  buildPlateGrid,
-  DEFAULT_GRID_CONFIG,
-  MAX_GRID_COLUMNS,
-  resolveGridAxis,
-} from "./plateGrid";
+import { buildGapFillers, buildPlateGrid, DEFAULT_GRID_CONFIG } from "./plateGrid";
 import {
   stepPendulum,
   type PlateSwingState,
@@ -59,27 +53,21 @@ export function KineticPlateGrid({
 }: KineticPlateGridProps) {
   const { gl, viewport } = useThree();
 
-  const { count: columns, scale: widthScale } = useMemo(
+  const columns = useMemo(
     () =>
-      resolveGridAxis(
-        viewport.width,
-        DEFAULT_GRID_CONFIG.plateWidth,
-        DEFAULT_GRID_CONFIG.gapX,
-        MAX_GRID_COLUMNS,
+      Math.ceil(
+        viewport.width / (DEFAULT_GRID_CONFIG.plateWidth + DEFAULT_GRID_CONFIG.gapX),
       ),
     [viewport.width],
   );
-  const gridConfig = useMemo(
-    () => ({
-      ...DEFAULT_GRID_CONFIG,
-      columns,
-      plateWidth: DEFAULT_GRID_CONFIG.plateWidth * widthScale,
-      gapX: DEFAULT_GRID_CONFIG.gapX * widthScale,
-    }),
-    [columns, widthScale],
+  const plates = useMemo(
+    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns }),
+    [columns],
   );
-  const plates = useMemo(() => buildPlateGrid(gridConfig), [gridConfig]);
-  const gapFillers = useMemo(() => buildGapFillers(gridConfig), [gridConfig]);
+  const gapFillers = useMemo(
+    () => buildGapFillers({ ...DEFAULT_GRID_CONFIG, columns }),
+    [columns],
+  );
   const swingStates = useRef<PlateSwingState[]>(
     plates.map(() => ({ angle: 0, angularVelocity: 0, targetAngle: 0 })),
   );
@@ -108,13 +96,13 @@ export function KineticPlateGrid({
   const dissolveGeometry = useMemo(() => {
     const geometry = new BufferGeometry();
     const positions = buildDissolvePoints(
-      gridConfig.plateWidth * 2.5,
-      gridConfig.plateHeight * 2.5,
+      DEFAULT_GRID_CONFIG.plateWidth * 2.5,
+      DEFAULT_GRID_CONFIG.plateHeight * 2.5,
       40,
     );
     geometry.setAttribute("position", new BufferAttribute(positions, 3));
     return geometry;
-  }, [gridConfig]);
+  }, []);
 
   useEffect(() => {
     if (plates.length !== prevPlateCount.current) {

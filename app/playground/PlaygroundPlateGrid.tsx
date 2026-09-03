@@ -19,6 +19,9 @@ import {
   buildGapFillers,
   buildPlateGrid,
   DEFAULT_GRID_CONFIG,
+  MAX_GRID_COLUMNS,
+  MAX_GRID_ROWS,
+  resolveGridAxis,
 } from "@/app/kinetic-facade/plateGrid";
 import {
   stepPendulum,
@@ -59,28 +62,39 @@ export function PlaygroundPlateGrid({
 }: PlaygroundPlateGridProps) {
   const { gl, viewport } = useThree();
 
-  const columns = useMemo(
+  const { count: columns, scale: widthScale } = useMemo(
     () =>
-      Math.ceil(
-        viewport.width / (DEFAULT_GRID_CONFIG.plateWidth + DEFAULT_GRID_CONFIG.gapX),
+      resolveGridAxis(
+        viewport.width,
+        DEFAULT_GRID_CONFIG.plateWidth,
+        DEFAULT_GRID_CONFIG.gapX,
+        MAX_GRID_COLUMNS,
       ),
     [viewport.width],
   );
-  const rows = useMemo(
+  const { count: rows, scale: heightScale } = useMemo(
     () =>
-      Math.ceil(
-        viewport.height / (DEFAULT_GRID_CONFIG.plateHeight + DEFAULT_GRID_CONFIG.gapY),
+      resolveGridAxis(
+        viewport.height,
+        DEFAULT_GRID_CONFIG.plateHeight,
+        DEFAULT_GRID_CONFIG.gapY,
+        MAX_GRID_ROWS,
       ),
     [viewport.height],
   );
-  const plates = useMemo(
-    () => buildPlateGrid({ ...DEFAULT_GRID_CONFIG, columns, rows }),
-    [columns, rows],
+  const gridConfig = useMemo(
+    () => ({
+      columns,
+      rows,
+      plateWidth: DEFAULT_GRID_CONFIG.plateWidth * widthScale,
+      plateHeight: DEFAULT_GRID_CONFIG.plateHeight * heightScale,
+      gapX: DEFAULT_GRID_CONFIG.gapX * widthScale,
+      gapY: DEFAULT_GRID_CONFIG.gapY * heightScale,
+    }),
+    [columns, rows, widthScale, heightScale],
   );
-  const gapFillers = useMemo(
-    () => buildGapFillers({ ...DEFAULT_GRID_CONFIG, columns, rows }),
-    [columns, rows],
-  );
+  const plates = useMemo(() => buildPlateGrid(gridConfig), [gridConfig]);
+  const gapFillers = useMemo(() => buildGapFillers(gridConfig), [gridConfig]);
   const swingStates = useRef<PlateSwingState[]>(
     plates.map(() => ({ angle: 0, angularVelocity: 0, targetAngle: 0 })),
   );
@@ -110,22 +124,17 @@ export function PlaygroundPlateGrid({
   const dissolveGeometry = useMemo(() => {
     const geometry = new BufferGeometry();
     const positions = buildDissolvePoints(
-      DEFAULT_GRID_CONFIG.plateWidth * 2.5,
-      DEFAULT_GRID_CONFIG.plateHeight * 2.5,
+      gridConfig.plateWidth * 2.5,
+      gridConfig.plateHeight * 2.5,
       40,
     );
     geometry.setAttribute("position", new BufferAttribute(positions, 3));
     return geometry;
-  }, []);
+  }, [gridConfig]);
 
   const plateGeometry = useMemo(
-    () =>
-      new BoxGeometry(
-        DEFAULT_GRID_CONFIG.plateWidth,
-        DEFAULT_GRID_CONFIG.plateHeight,
-        0.03,
-      ),
-    [],
+    () => new BoxGeometry(gridConfig.plateWidth, gridConfig.plateHeight, 0.03),
+    [gridConfig],
   );
 
   useEffect(() => {

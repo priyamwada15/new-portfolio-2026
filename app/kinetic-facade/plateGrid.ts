@@ -26,6 +26,28 @@ export const DEFAULT_GRID_CONFIG: PlateGridConfig = {
   gapY: 0.02,
 };
 
+// Grid callers used to size columns/rows directly off the viewport with no
+// ceiling, so a wide/high-res screen could drive plate (and draw call)
+// count arbitrarily high — heavy enough to crash the tab on weaker GPUs.
+// These cap one axis at a time: below the cap, sizing is unchanged; at the
+// cap, the (now fixed) count of plates is scaled up to still span the full
+// viewport edge-to-edge, just as fewer, larger tiles.
+export const MAX_GRID_COLUMNS = 18;
+export const MAX_GRID_ROWS = 9;
+
+export function resolveGridAxis(
+  viewportSize: number,
+  plateSize: number,
+  gapSize: number,
+  maxCount: number,
+): { count: number; scale: number } {
+  const idealCellSize = plateSize + gapSize;
+  const idealCount = Math.ceil(viewportSize / idealCellSize);
+  const count = Math.min(idealCount, maxCount);
+  const scale = count < idealCount ? viewportSize / (count * idealCellSize) : 1;
+  return { count, scale };
+}
+
 export function buildPlateGrid(
   config: PlateGridConfig = DEFAULT_GRID_CONFIG,
 ): PlateDefinition[] {

@@ -5,11 +5,13 @@ import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { PlaygroundPlateGrid } from "./PlaygroundPlateGrid";
 import { MATERIAL_VARIANTS } from "@/app/kinetic-facade/materialVariants";
+import { ContextLossWatcher } from "@/app/kinetic-facade/ContextLossWatcher";
 
 type PlaygroundFacadeSceneProps = {
   reducedMotion: boolean;
   keyboardTriggerCount: number;
   onLoaded: () => void;
+  onContextLost: () => void;
 };
 
 // Renders as a Canvas child alongside Environment/PlaygroundPlateGrid, all
@@ -28,6 +30,7 @@ export function PlaygroundFacadeScene({
   reducedMotion,
   keyboardTriggerCount,
   onLoaded,
+  onContextLost,
 }: PlaygroundFacadeSceneProps) {
   const environmentPreset = MATERIAL_VARIANTS.copperDissolve.environmentPreset;
 
@@ -49,6 +52,7 @@ export function PlaygroundFacadeScene({
         keyboardTriggerCount={keyboardTriggerCount}
       />
       <SceneLoadedSignal onLoaded={onLoaded} />
+      <ContextLossWatcher onContextLost={onContextLost} />
     </Canvas>
   );
 }

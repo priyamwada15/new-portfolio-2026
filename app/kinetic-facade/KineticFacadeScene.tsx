@@ -3,16 +3,19 @@
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { KineticPlateGrid } from "./KineticPlateGrid";
+import { ContextLossWatcher } from "./ContextLossWatcher";
 import type { MaterialVariant } from "./materialVariants";
 
 type KineticFacadeSceneProps = {
   variant: MaterialVariant;
   reducedMotion: boolean;
+  onContextLost: () => void;
 };
 
 export function KineticFacadeScene({
   variant,
   reducedMotion,
+  onContextLost,
 }: KineticFacadeSceneProps) {
   return (
     <Canvas
@@ -27,6 +30,7 @@ export function KineticFacadeScene({
       <ambientLight intensity={0.15} />
       <directionalLight position={[-4, 8, 6]} intensity={2.5} />
       <KineticPlateGrid variant={variant} reducedMotion={reducedMotion} />
+      <ContextLossWatcher onContextLost={onContextLost} />
     </Canvas>
   );
 }

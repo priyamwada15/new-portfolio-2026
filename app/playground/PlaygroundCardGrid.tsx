@@ -105,7 +105,7 @@ export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridP
           Home
         </Link>
         <span className={breadcrumbTextClass} style={breadcrumbMutedStyle}>/</span>
-        <span className={breadcrumbTextClass} style={breadcrumbActiveStyle}>Play</span>
+        <span className={breadcrumbTextClass} style={breadcrumbActiveStyle}>Playground</span>
       </div>
 
       <div className="grid grid-cols-1 gap-x-12 gap-y-12 tablet:grid-cols-2">

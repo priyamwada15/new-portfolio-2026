@@ -161,7 +161,7 @@ export default async function HomeV2Page() {
                   aspectRatio: "302 / 452",
                   flex: "none",
                   alignSelf: "stretch",
-                  padding: "80px 56px 24px",
+                  padding: "80px 24px 24px",
                   background: "var(--ds-surface-page)",
                   borderRadius: "var(--ds-radius-container)",
                   overflow: "hidden",

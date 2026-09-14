@@ -1000,6 +1000,28 @@ body {
   100% { transform: translateX(0); }
 }
 
+/* ─── Playground project cards ──────────────────────────────────────────── */
+/* Y-axis-only hover lift, scoped to this page — no scale, no shared class.
+   Uses literal values (not --home-card-* vars) since those are scoped to
+   .home-v2-layout, which this page doesn't have. */
+@media (hover: hover) and (pointer: fine) {
+  .playground-card {
+    transition: transform 250ms cubic-bezier(0.3, 0.6, 0.32, 1);
+  }
+
+  .playground-card:hover {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playground-card,
+  .playground-card:hover {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 /* Reveal gap lives inside the sheet surface; tall enough for bottom radius arc */
 .site-scroll-layer__sheet-foot {
   min-height: max(

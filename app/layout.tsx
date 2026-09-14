@@ -13,6 +13,7 @@ import {
   Forum,
   Sree_Krushnadevaraya,
   Press_Start_2P,
+  Sora,
 } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -99,6 +100,13 @@ const pressStart2P = Press_Start_2P({
   weight: "400",
 });
 
+// Temporary: only used by the homepage bento's Intelligencer card.
+const sora = Sora({
+  variable: "--font-sora",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.priyamwada.me"),
   title: "Priyamwada Pandey | Product Designer",
@@ -168,6 +176,7 @@ export default function RootLayout({
         forum.variable,
         sreeKrushnadevaraya.variable,
         pressStart2P.variable,
+        sora.variable,
         "font-sans",
         geist.variable,
       )}

@@ -8,6 +8,7 @@ import {
 } from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { HomeV2WidgetBento } from "./home-v2/HomeV2WidgetBento";
+import { PriyamwadaNameLink } from "./home-v2/PriyamwadaNameLink";
 import { getListeningWidgetData } from "@/app/lib/spotify";
 import { HomeV2PlayableCard } from "./home-v2/HomeV2PlayableCard";
 import { HomeV2VideoProvider } from "./home-v2/HomeV2VideoProvider";
@@ -29,7 +30,6 @@ const STELLAR_SCAN_HREF    = "https://stellar-scan-eta.vercel.app/";
 const SUNLIGHT_SHADER_HREF = "https://github.com/priyamwada15/sunlight-effect";
 const WATER_SHADER_HREF    = "https://github.com/priyamwada15/water-glint-shader";
 const ASCII_GAME_HREF      = "https://www.priyamwada.me/ascii-game";
-const NEWS_WIDGET_HREF     = "https://www.priyamwada.me/the-intelligencer";
 
 const introProjLinkStyle = {
   color: "#858585",
@@ -42,7 +42,7 @@ const introProjLinkStyle = {
 const INTRO_PARAGRAPHS = [
   "Hi, I'm Priyamwada. An Architect turned Product Designer.",
   "I design internal tools, agentic interfaces and explainable AI across B2B SaaS and B2C fintech.",
-  "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a water shader, a news app and a time-of-the-day constellation app.",
+  "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. You can explore some of my recent experiments below, and find others here.",
 ] as const;
 
 /** <1280px intro copy — first two sentences flow into one paragraph. */
@@ -51,15 +51,33 @@ const INTRO_PARAGRAPHS_COMPACT = [
   INTRO_PARAGRAPHS[2],
 ] as const;
 
+function IntroPara1() {
+  const [before, after] = INTRO_PARAGRAPHS[0].split("Priyamwada");
+  return (
+    <>
+      {before}
+      <PriyamwadaNameLink />
+      {after}
+    </>
+  );
+}
+
+function IntroPara1Compact() {
+  const [before, after] = INTRO_PARAGRAPHS[0].split("Priyamwada");
+  return (
+    <>
+      {before}
+      <PriyamwadaNameLink />
+      {after} {INTRO_PARAGRAPHS[1]}
+    </>
+  );
+}
+
 function IntroPara3() {
   return (
     <>
-      Outside of work, I tinker and try to build something every now and then to exercise my design muscles. Recent projects include a{" "}
-      <a href={WATER_SHADER_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>water shader</a>
-      , a{" "}
-      <a href={NEWS_WIDGET_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>news app</a>
-      {" "}and a time-of-the-day{" "}
-      <a href={STELLAR_SCAN_HREF} target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>constellation app</a>
+      Outside of work, I tinker and try to build something every now and then to exercise my design muscles. You can explore some of my recent experiments below, and find others{" "}
+      <a href="/playground" target="_blank" rel="noreferrer" className="cursor-hover-pointer" style={introProjLinkStyle}>here</a>
       .
     </>
   );
@@ -115,7 +133,7 @@ export default async function HomeV2Page() {
               <div className="hidden xl:flex xl:w-[594px] xl:flex-col xl:items-start hero-intro hero-intro--text">
                 {INTRO_PARAGRAPHS.map((paragraph, index) => (
                   <p key={index} style={{ margin: 0, marginTop: index === 0 ? 0 : "24px" }}>
-                    {index === 2 ? <IntroPara3 /> : paragraph}
+                    {index === 0 ? <IntroPara1 /> : index === 2 ? <IntroPara3 /> : paragraph}
                   </p>
                 ))}
               </div>
@@ -124,7 +142,7 @@ export default async function HomeV2Page() {
               <div className="flex w-full flex-col items-start xl:hidden hero-intro hero-intro--text">
                 {INTRO_PARAGRAPHS_COMPACT.map((paragraph, index) => (
                   <p key={index} style={{ margin: 0, marginTop: index === 0 ? 0 : "24px" }}>
-                    {index === 1 ? <IntroPara3 /> : paragraph}
+                    {index === 0 ? <IntroPara1Compact /> : index === 1 ? <IntroPara3 /> : paragraph}
                   </p>
                 ))}
               </div>

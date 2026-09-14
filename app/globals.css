@@ -983,6 +983,23 @@ body {
   animation: bento-ticker 10s linear infinite;
 }
 
+/* Kinetic Facade tile — one plate's lift-and-fall; staggered per plate via animation-delay */
+@keyframes kinetic-plate-lift {
+  0%, 100% { transform: rotateX(0deg) translateY(0); }
+  45% { transform: rotateX(-42deg) translateY(-4px); }
+}
+
+/* Arcade EffWon tile — car exits right (accelerating), reappears at left,
+   eases back into rest. Percent-based translateX so it clears the car's own
+   width regardless of tile size. Per-keyframe timing functions give the
+   accelerate-out / snap / decelerate-in feel within one animation. */
+@keyframes arcade-car-sweep {
+  0%   { transform: translateX(0); animation-timing-function: cubic-bezier(0.55, 0.06, 0.9, 0.35); }
+  45%  { transform: translateX(160%); animation-timing-function: step-end; }
+  46%  { transform: translateX(-160%); animation-timing-function: cubic-bezier(0.15, 0.6, 0.25, 1); }
+  100% { transform: translateX(0); }
+}
+
 /* Reveal gap lives inside the sheet surface; tall enough for bottom radius arc */
 .site-scroll-layer__sheet-foot {
   min-height: max(

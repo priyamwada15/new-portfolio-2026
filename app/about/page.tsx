@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { SunlightEffect } from "../components/SunlightEffect";
 import { AboutBookHoverProvider } from "./AboutBookHoverContext";
 import { AboutAnimatedHeadline } from "./AboutAnimatedHeadline";
@@ -20,6 +21,10 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  // Temporarily disabled — not linked anywhere in the site, but people were
+  // still reaching it via direct URL. Remove this line to bring it back.
+  notFound();
+
   return (
     <AboutBookHoverProvider>
       <SunlightEffect className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" />

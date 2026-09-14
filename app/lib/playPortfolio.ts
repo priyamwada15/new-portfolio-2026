@@ -60,7 +60,7 @@ const WATER_GLINT_GITHUB_HREF =
 const PLAY_AVIF = "/play";
 
 const STELLAR_SCAN_VIDEO_SRC =
-  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1778784179/Stellar_Scan_Video_wghj5o.mp4";
+  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1789424209/stellar_card_onika5.mp4";
 const STELLAR_SCAN_POSTER_SRC = `${PLAY_AVIF}/stellar-scan-poster.avif`;
 const THE_INTELLIGENCER_VIDEO_SRC =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1787956281/the-intelligencer_video_ozr1fw.mp4";

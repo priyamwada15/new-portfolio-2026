@@ -100,7 +100,7 @@ export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridP
       inert={inert || undefined}
       className={`relative z-[1] ${RESPONSIVE_CONTENT_WIDTH_CLASS} pt-[32px] pb-[96px] desktop:pt-[72px] outline-none`}
     >
-      <div className="mb-8 flex flex-row items-center gap-2 py-2 pr-2">
+      <div className="mb-8 flex flex-row items-center gap-2 py-2 pr-2 hero-intro hero-intro--breadcrumb-top">
         <Link href="/" className={`cursor-hover-pointer ${breadcrumbTextClass}`} style={breadcrumbMutedStyle}>
           Home
         </Link>
@@ -108,7 +108,7 @@ export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridP
         <span className={breadcrumbTextClass} style={breadcrumbActiveStyle}>Playground</span>
       </div>
 
-      <div className="grid grid-cols-1 gap-x-12 gap-y-12 tablet:grid-cols-2">
+      <div className="grid grid-cols-1 gap-x-12 gap-y-12 tablet:grid-cols-2 hero-intro hero-intro--bento">
         {PLAY_PORTFOLIO_ITEMS.map((item) => {
           const tags = item.tagParts.slice(0, -1);
           const href = primaryHref(item);

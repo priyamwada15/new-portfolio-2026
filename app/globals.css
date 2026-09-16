@@ -529,6 +529,16 @@ body {
   animation-delay: 200ms;
 }
 
+/* Playground: nav + breadcrumb drop in from above, grid rises in last (reuses .hero-intro--bento). */
+.hero-intro--nav-top {
+  --hero-intro-y: -16px;
+}
+
+.hero-intro--breadcrumb-top {
+  --hero-intro-y: -16px;
+  animation-delay: 100ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-intro {
     animation: hero-intro-fade 300ms ease-out both;

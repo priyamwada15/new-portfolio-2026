@@ -311,7 +311,7 @@ export default function CaseStudyLayout({
     >
 
       {/* Breadcrumb, mt-12/mb-12 (48px) gap above and below */}
-      <div className="mt-12 mb-12 flex flex-row items-center gap-2 py-2 pr-2">
+      <div className="mt-12 mb-12 flex flex-row items-center gap-2 py-2 pr-2 hero-intro hero-intro--breadcrumb-top">
         <Link href="/" className="text-secondary cursor-hover-pointer" style={breadcrumbFontStyle}>
           Home
         </Link>
@@ -324,13 +324,13 @@ export default function CaseStudyLayout({
       </div>
 
       {/* Header, mb-14 (56px) creates the gap to H1 when toc is present */}
-      <header className={toc ? "mb-14" : "mb-16"}>
+      <header className={`${toc ? "mb-14" : "mb-16"} hero-intro hero-intro--bento`}>
         {headerContent}
       </header>
 
       {/* Body */}
       {toc ? (
-        <div className={CASE_STUDY_TOC_GRID_CLASS}>
+        <div className={`${CASE_STUDY_TOC_GRID_CLASS} hero-intro hero-intro--bento`}>
           {/* Left: sticky TOC, aligns with top of H1 */}
           <TableOfContents
             items={tocItems}
@@ -363,7 +363,7 @@ export default function CaseStudyLayout({
           </div>
         </div>
       ) : (
-        <>
+        <div className="hero-intro hero-intro--bento">
           {contextVisualBelow ? (
             <>
               {contextBlock}
@@ -384,7 +384,7 @@ export default function CaseStudyLayout({
             {children}
           </div>
           {nextProjectBlock}
-        </>
+        </div>
       )}
     </article>
     </>

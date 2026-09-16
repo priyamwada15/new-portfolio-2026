@@ -52,7 +52,7 @@ export default function Nav() {
 
   return (
     <div
-      className="relative z-50 w-full pt-[16px] pb-[16px] xl:pt-8 xl:pb-2"
+      className="relative z-50 w-full pt-[16px] pb-[16px] xl:pt-8 xl:pb-2 hero-intro hero-intro--nav-top"
       style={caseStudyBg ? { backgroundColor: caseStudyBg } : undefined}
     >
       <div className="w-[86%] max-w-[1008px] mx-auto pointer-events-auto">

@@ -288,7 +288,7 @@ const AFTER_INSIGHTS = [
   },
   {
     label: "Easy sync between planner and enrollment",
-    body: "The plugin carries a student's plan directly into iGPS, so registering picked up where planning left off instead of starting over.",
+    body: "The plugin carries a student's plan directly into iGPS, so registering picks up where planning left off instead of starting over.",
   },
 ] as const;
 
@@ -342,15 +342,22 @@ export default function SalesforcePage() {
           </h2>
           <div className="flex flex-col items-start gap-4">
             <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
-              Students had to piece together academic decisions across disconnected university
-              systems, with no personalized guidance connecting courses, schedules and long-term
-              goals.
+              Students often piece together fragmented course requirements, peer advice, academic
+              progress, and enrollment information, then re-create these decisions during
+              enrollment.
             </p>
             <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
-              As one of two lead designers, I designed Galileo, an AI companion integrated into
-              IUB&rsquo;s iGPS platform. I defined the information architecture, designed core
-              planning experiences and established explainable AI patterns for trustworthy
-              recommendations.
+              Galileo acts as a companion layer to the university&rsquo;s portal that helps
+              students explore, plan, reflect on emerging academic directions, and carry finalized
+              courses into enrollment.
+            </p>
+            <p className="text-[16px] font-normal leading-[160%] text-[#555555]" style={fontStyle.figtree}>
+              <span className="font-semibold">I owned</span>{" "}
+              the information architecture,
+              conceptualized and designed Academic Trajectory&rsquo;s four-lens model, AI
+              interaction patterns and the Course Details experiences. I also led visual design
+              and evaluation, and served as a point of contact with the Salesforce Experience
+              Design team.
             </p>
           </div>
         </div>
@@ -469,7 +476,7 @@ export default function SalesforcePage() {
               title="The four lenses of academic progress"
               body={
                 <>
-                  Lets a student view the same course history by year, by potential major, by
+                  It lets a student view the same course history by year, by potential major, by
                   course theme or by career pathway, each one answering a different version of
                   &ldquo;what does this actually mean for me.&rdquo;
                 </>

@@ -34,7 +34,7 @@ const CORE_FEATURES = [
 
 const OPPORTUNITIES = [
   {
-    title: "Opportunity 1: Conversations were only the beginning",
+    title: "Opportunity 1: Work happened across multiple tools",
     description: [
       "Slack conversations often triggered work elsewhere.",
       "Customer-facing teams moved from a discussion to updating HubSpot, writing reports or sharing project updates, carrying the same context across multiple tools.",
@@ -49,7 +49,7 @@ const OPPORTUNITIES = [
     caption: "Example scenario of Asimov summarizing threads.",
   },
   {
-    title: "Opportunity 2: No two teams worked the same way",
+    title: "Opportunity 2: Teams had different workflows",
     description: [
       "Engineering wanted GitHub workflows, sales wanted CRM updates and marketing wanted content generation. The pattern that emerged was a need for flexibility.",
       "Instead of designing automations for every use case, I designed a system that let teams define their own actions on top of connected tools.",
@@ -66,7 +66,7 @@ const OPPORTUNITIES = [
 
 const DEEP_DIVE_ITEMS = [
   {
-    title: "Building trust through knowledge controls",
+    title: "Knowledge and access controls",
     description: [
       "Asimov's usefulness depended on the context it could access. I designed the knowledge setup experience to help teams connect relevant sources while maintaining visibility into what information the AI could use.",
       "The experience balanced flexibility with control: teams could add different knowledge sources, select specific Slack channels and monitor sync status from one place.",
@@ -75,7 +75,7 @@ const DEEP_DIVE_ITEMS = [
     fillContainer: false,
   },
   {
-    title: "Connecting AI to the tools teams already used",
+    title: "Tool integrations",
     description: [
       "Knowledge answered questions based on databases, but real work happened in tools like HubSpot. I designed the integrations experience to make connecting external systems feel transparent, showing what was connected, what data Asimov could access and where teams could manage permissions.",
       "This helped position integrations as something teams could understand and trust, rather than a hidden system running in the background.",
@@ -118,7 +118,7 @@ const DEEP_DIVE_ITEMS = [
 
 const REFLECTIONS = [
   {
-    title: "Power requires permissions, not just capabilities",
+    title: "Designing permissions for AI actions",
     weight: "font-medium",
     paragraphs: [
       "As Asimov evolved from a summarizer to knowledge access and taking actions, I realized that trust depended as much on permission models as on AI capabilities.",
@@ -226,7 +226,7 @@ export default function AsimovPage() {
           "I introduced interaction patterns to Rocket's AI assistant that made it to the product roadmap.",
       }}
       toc={[
-        { id: "section-01", label: "Core Features" },
+        { id: "section-01", label: "What I Designed" },
         { id: "section-02", label: "Opportunities & Research" },
         { id: "section-03", label: "Deep Dive" },
         { id: "constraint", label: "Blockers" },
@@ -236,9 +236,9 @@ export default function AsimovPage() {
       {/* Section 01 - Core Features */}
       <section id="section-01" className="flex flex-col items-start gap-10">
         <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
-          <SectionLabel>Core Features</SectionLabel>
+          <SectionLabel>What I Designed</SectionLabel>
           <h2 data-dialkit="h2" className={caseStudySectionH2}>
-            From thread summaries to an AI-enabled workspace
+            Expanding Asimov&apos;s role in Slack
           </h2>
           <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
             The product began with a single capability: summarizing Slack
@@ -269,7 +269,7 @@ export default function AsimovPage() {
         <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
           <SectionLabel>Opportunities & Research</SectionLabel>
           <h2 data-dialkit="h2" className={caseStudySectionH2}>
-            Designing an AI that could do more than answer
+            Finding useful roles for Asimov
           </h2>
           <div className="flex flex-col items-start gap-4">
             <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
@@ -335,7 +335,7 @@ export default function AsimovPage() {
           <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
             <SectionLabel>Deep Dive</SectionLabel>
             <h2 data-dialkit="h2" className={caseStudySectionH2}>
-              Designing the foundation for Asimov
+              Asimov&apos;s core system
             </h2>
           </div>
 
@@ -397,7 +397,7 @@ export default function AsimovPage() {
         <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
           <SectionLabel>Blockers</SectionLabel>
           <h2 data-dialkit="h2" className={caseStudySectionH2}>
-            Trust became the biggest design challenge
+            Permissions and access
           </h2>
           <div className="flex flex-col items-start gap-4">
             <p className="text-[16px] font-normal leading-[160%] text-[#555555]">

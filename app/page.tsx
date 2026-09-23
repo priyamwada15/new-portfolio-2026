@@ -38,17 +38,10 @@ const introProjLinkStyle = {
   textUnderlineOffset: "3px",
 };
 
-/** Desktop (>=1280px) intro copy — 3 separate paragraphs. */
+/** Intro copy — two paragraphs at every breakpoint. */
 const INTRO_PARAGRAPHS = [
-  "Hi, I'm Priyamwada. An Architect turned Product Designer.",
-  "I design internal tools, agentic interfaces and explainable AI across B2B SaaS and B2C fintech.",
+  "Hi, I'm Priyamwada. I design internal tools, agentic interfaces and explainable AI across B2B SaaS and B2C fintech. I started out as an architect.",
   "Outside of work, I tinker and try to build something every now and then to exercise my design muscles. You can explore some of my recent experiments below, and find others here.",
-] as const;
-
-/** <1280px intro copy — first two sentences flow into one paragraph. */
-const INTRO_PARAGRAPHS_COMPACT = [
-  `${INTRO_PARAGRAPHS[0]} ${INTRO_PARAGRAPHS[1]}`,
-  INTRO_PARAGRAPHS[2],
 ] as const;
 
 function IntroPara1() {
@@ -58,17 +51,6 @@ function IntroPara1() {
       {before}
       <PriyamwadaNameLink />
       {after}
-    </>
-  );
-}
-
-function IntroPara1Compact() {
-  const [before, after] = INTRO_PARAGRAPHS[0].split("Priyamwada");
-  return (
-    <>
-      {before}
-      <PriyamwadaNameLink />
-      {after} {INTRO_PARAGRAPHS[1]}
     </>
   );
 }
@@ -129,20 +111,20 @@ export default async function HomeV2Page() {
           >
           <ScrollReveal revealOnMount className="flex-1 min-w-0">
             <div className="home-v2-intro-copy" style={{ ...homeIntroCopyStyle }}>
-              {/* >=1280px: 3 separate paragraphs */}
+              {/* >=1280px */}
               <div className="hidden xl:flex xl:w-[594px] xl:flex-col xl:items-start hero-intro hero-intro--text">
-                {INTRO_PARAGRAPHS.map((paragraph, index) => (
+                {INTRO_PARAGRAPHS.map((_, index) => (
                   <p key={index} style={{ margin: 0, marginTop: index === 0 ? 0 : "24px" }}>
-                    {index === 0 ? <IntroPara1 /> : index === 2 ? <IntroPara3 /> : paragraph}
+                    {index === 0 ? <IntroPara1 /> : <IntroPara3 />}
                   </p>
                 ))}
               </div>
 
-              {/* <1280px: first two sentences flow into one paragraph */}
+              {/* <1280px */}
               <div className="flex w-full flex-col items-start xl:hidden hero-intro hero-intro--text">
-                {INTRO_PARAGRAPHS_COMPACT.map((paragraph, index) => (
+                {INTRO_PARAGRAPHS.map((_, index) => (
                   <p key={index} style={{ margin: 0, marginTop: index === 0 ? 0 : "24px" }}>
-                    {index === 0 ? <IntroPara1Compact /> : index === 1 ? <IntroPara3 /> : paragraph}
+                    {index === 0 ? <IntroPara1 /> : <IntroPara3 />}
                   </p>
                 ))}
               </div>

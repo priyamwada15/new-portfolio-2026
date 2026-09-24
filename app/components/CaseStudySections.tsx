@@ -33,7 +33,7 @@ export function SectionHeader({
   bodyClassName?: string;
   /** Heading level; use 3 for sub-rows inside a section. */
   level?: 2 | 3;
-  /** Renders the 24px sub-heading style instead of the 40px section heading. */
+  /** Renders the 18px sub-heading style instead of the 24px section heading. */
   subheading?: boolean;
   children: React.ReactNode;
 }) {
@@ -95,7 +95,7 @@ export function CardRow({
             <p
               className={
                 stat
-                  ? "font-label text-[40px] leading-[48px] text-surface-page/80"
+                  ? "font-label text-[24px] leading-[1.45] text-surface-page/80"
                   : dark
                   ? `${caseStudyCardLabel} text-surface-page/50`
                   : "font-label text-[14px] font-semibold leading-[28px] text-[var(--accent-dark)]"
@@ -111,7 +111,7 @@ export function CardRow({
                 className={
                   dark
                     ? `${caseStudyCardText} text-surface-page`
-                    : "font-label text-[18px] leading-[28px] text-secondary"
+                    : "font-label text-[16px] leading-[28px] text-secondary"
                 }
               >
                 {paragraph}
@@ -233,7 +233,7 @@ export function Testimonial({
       </div>
       <figcaption className="flex flex-col items-center gap-2">
         <span className="flex items-center gap-2">
-          <span className="font-label text-[16px] font-semibold leading-[21px] text-tertiary">{name}</span>
+          <span className="font-label text-[14px] font-semibold leading-[21px] text-tertiary">{name}</span>
           <a
             href={linkedin}
             target="_blank"

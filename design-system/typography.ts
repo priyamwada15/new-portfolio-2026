@@ -39,21 +39,21 @@ export const caseStudySectionH2 =
 export const caseStudyTitle =
   "font-label text-[40px] font-medium leading-[1.4] text-primary" as const;
 
-/** Section heading — 40px SemiBold. */
+/** Section heading — 24px SemiBold. */
 export const caseStudyHeading =
-  "font-label text-[40px] font-semibold leading-[1.45] text-primary" as const;
+  "font-label text-[24px] font-semibold leading-[1.45] text-primary" as const;
 
-/** Sub-heading inside a section — 24px Medium. */
+/** Sub-heading inside a section — 18px Medium. */
 export const caseStudySubheading =
-  "font-label text-[24px] font-medium leading-[1.45] text-primary" as const;
+  "font-label text-[18px] font-medium leading-[1.45] text-primary" as const;
 
 /** Eyebrow above a section heading (e.g. "Problem Space"). */
 export const caseStudyEyebrow =
   "font-label text-[14px] font-semibold leading-[21px] text-[var(--accent-dark)]" as const;
 
-/** Section body copy — 18px. */
+/** Section body copy — 16px. */
 export const caseStudyText =
-  "font-label text-[18px] font-normal leading-[1.6] text-secondary" as const;
+  "font-label text-[16px] font-normal leading-[1.6] text-secondary" as const;
 
 /** Title above a text + screenshot row — 18px SemiBold. */
 export const caseStudyRowTitle =
@@ -65,7 +65,7 @@ export const caseStudyCardLabel =
 
 /** Main text on a card. Colour set by card variant. */
 export const caseStudyCardText =
-  "font-label text-[18px] font-medium leading-[28px]" as const;
+  "font-label text-[16px] font-medium leading-[28px]" as const;
 
 /** Visual caption under media. */
 export const visualCaption =

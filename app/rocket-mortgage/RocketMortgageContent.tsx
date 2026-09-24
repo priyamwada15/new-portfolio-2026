@@ -17,7 +17,7 @@ const PROBLEM_IMAGE_DIR = "/new-rocket-mortgage-case-page";
 function ProblemCardText({ number, title, text }: { number: string; title: string; text: string }) {
   return (
     <div className="flex w-full flex-col gap-3">
-      <p className="flex gap-2 font-label text-[20px] leading-[28px]">
+      <p className="flex gap-2 font-label text-[18px] leading-[28px]">
         <span className="font-semibold text-[var(--accent-dark)]">{number}</span>
         <span className="font-medium text-primary">{title}</span>
       </p>
@@ -80,7 +80,7 @@ function ProblemSpace() {
             text="Answers came as paragraphs with nothing a client could act on."
           />
           <figure className="flex flex-1 flex-col justify-center gap-4 rounded-[var(--ds-radius-container)] border border-border bg-surface-page p-10">
-            <blockquote className="font-label text-[20px] leading-[1.4] text-primary">
+            <blockquote className="font-label text-[18px] leading-[1.4] text-primary">
               <span className="font-black">&ldquo;</span> It&rsquo;s an authenticated experience so
               it should have my data, but this chat history tells me otherwise.{" "}
               <span className="font-black">&rdquo;</span>
@@ -212,7 +212,7 @@ function Impact() {
       <SectionHeader eyebrow="Impact" title="Validating the new experience with the clients" bodyClassName="gap-12">
         {IMPACT_STATS.map((stat) => (
           <div key={stat.label} className="flex items-center gap-6">
-            <p className="flex size-[91px] shrink-0 items-center justify-center rounded-full bg-[var(--accent-dark)] font-label text-[32px] font-bold leading-[48px] text-surface-page">
+            <p className="flex size-20 shrink-0 items-center justify-center rounded-full bg-[var(--accent-dark)] font-label text-[24px] font-bold leading-[1.45] text-surface-page">
               {stat.value}
             </p>
             <div className="flex min-w-0 flex-1 flex-col gap-1">

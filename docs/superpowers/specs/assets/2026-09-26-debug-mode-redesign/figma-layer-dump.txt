@@ -1,0 +1,328 @@
+FRAME "New Debug" 171:6037  @-252,0 1512x7726  fill=#FAFAFA  clip
+  FRAME "Nav" 171:6038  @-252,0 1512x100  VERTICAL gap0 pad[32, 0, 8, 0] main:MIN cross:CENTER  fill=#FAFAFA
+    FRAME "Container:margin" 171:6039  @-252,32 1512x60  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:CENTER
+      FRAME "Container" 171:6040  @0,32 1008x60  HORIZONTAL gap0 pad[0, 0, 0, 0] main:SPACE_BETWEEN cross:CENTER  fill=#FAFAFA  r26843500
+        FRAME "Link - priyamwada pandey" 171:6041  @0,44 172x36  HORIZONTAL gap0 pad[6, 12, 6, 0] main:MIN cross:CENTER  r26843500
+          FRAME "Text" 171:6042  @0,50 160x24  HORIZONTAL gap0 pad[0, 0, 0, 32] main:MIN cross:CENTER
+            FRAME "Text" 171:6043  @32,50 128x24
+              TEXT "p" 171:6044  @32,49 9x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > p
+              TEXT "r" 171:6045  @40,49 5x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > r
+              TEXT "i" 171:6046  @45,49 4x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > i
+              TEXT "y" 171:6047  @49,49 8x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > y
+              TEXT "a" 171:6048  @56,49 8x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > a
+              TEXT "m" 171:6049  @63,49 13x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > m
+              TEXT "w" 171:6050  @75,49 12x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > w
+              TEXT "a" 171:6051  @87,49 8x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > a
+              TEXT "d" 171:6052  @94,49 9x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > d
+              TEXT "a" 171:6053  @102,49 8x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > a
+              TEXT "p" 171:6054  @113,49 9x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > p
+              TEXT "a" 171:6055  @121,49 8x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > a
+              TEXT "n" 171:6056  @128,49 8x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > n
+              TEXT "d" 171:6057  @136,49 9x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > d
+              TEXT "e" 171:6058  @144,49 8x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > e
+              TEXT "y" 171:6059  @152,49 8x24  Figtree 500 14px lh24 ls0 LEFT color=#111111
+                 > y
+            FRAME "Text" 171:6060  @0,50 24x24  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN  ABS
+              FRAME "Image" 171:6061  @0,50 24x24  clip
+                VECTOR "Vector" 171:6062  @0,50 24x24  fill=#111111
+                VECTOR "Vector" 171:6063  @6,55 13x13  fill=#FAFAFA
+        FRAME "Container" 171:6064  @832,46 176x32  HORIZONTAL gap16 pad[0, 0, 0, 0] main:MIN cross:CENTER
+          FRAME "Button - Play" 171:6065  @832,46 32x32  HORIZONTAL gap0 pad[0, 0, 0, 0] main:CENTER cross:CENTER
+            FRAME "Text" 171:6066  @836,50 24x24  HORIZONTAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+              FRAME "Icon" 171:6067  @836,50 24x24  clip
+                VECTOR "Vector" 171:6068  @838,51 22x22  fill=#555555
+          FRAME "Link - LinkedIn" 171:6069  @880,46 32x32  HORIZONTAL gap0 pad[0, 0, 0, 0] main:CENTER cross:CENTER
+            FRAME "Text" 171:6070  @884,50 24x24  HORIZONTAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+              FRAME "Icon" 171:6071  @884,50 24x24  clip
+                VECTOR "Vector" 171:6072  @886,52 20x20  fill=#555555
+          FRAME "Button - Copy email address" 171:6073  @928,46 32x32  HORIZONTAL gap0 pad[0, 0, 0, 0] main:CENTER cross:CENTER  r8
+            FRAME "Text" 171:6074  @932,50 24x24  HORIZONTAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN  LAYER_BLUR(0,0,0,0,)
+              FRAME "Icon" 171:6075  @932,50 24x24  clip
+                VECTOR "Vector" 171:6076  @934,52 21x20  fill=#555555
+          FRAME "Link - Resume" 171:6077  @976,46 32x32  HORIZONTAL gap0 pad[0, 0, 0, 0] main:CENTER cross:CENTER
+            FRAME "Text" 171:6078  @980,50 24x24  HORIZONTAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+              FRAME "Icon" 171:6079  @980,50 24x24  clip
+                VECTOR "Vector" 171:6080  @984,52 16x20  fill=#555555
+  FRAME "Breadcrumb" 171:6081  @0,148 1008x33  HORIZONTAL gap8 pad[8, 8, 8, 0] main:MIN cross:CENTER
+    TEXT "Home" 171:6082  @0,156 39x17  Figtree 500 14px lh16.8 ls-0.02 LEFT color=#555555
+       > Home
+    TEXT "/" 171:6083  @47,156 6x17  Figtree 500 14px lh16.8 ls-0.02 LEFT color=#555555
+       > /
+    TEXT "Tars Debug Mode" 171:6084  @61,156 110x17  Figtree 500 14px lh16.8 ls-0.02 LEFT color=#333333
+       > Tars Debug Mode
+  FRAME "Intro Section" 171:6085  @0,229 1008x896  VERTICAL gap8 pad[0, 0, 0, 0] main:MIN cross:MIN
+    FRAME "Container" 171:6086  @0,229 1008x24  HORIZONTAL gap12 pad[0, 0, 0, 0] main:MIN cross:CENTER
+      FRAME "Image (TARS)" 171:6087  @0,229 76x24  clip
+        GROUP "Clip path group" 171:6088  @0,229 76x24
+          GROUP "clip0_0_34" 171:6089  @0,229 76x24
+            VECTOR "Vector" 171:6090  @0,229 76x24  fill=#000000
+          GROUP "Tars Frame 6 1" 171:6091  @0,229 76x24
+            VECTOR "Vector" 171:6092  @51,229 12x24  fill=#6D33AA
+            VECTOR "Vector_2" 171:6093  @36,229 13x24  fill=#6D33AA
+            VECTOR "Vector_3" 171:6094  @65,229 11x24  fill=#6D33AA
+            VECTOR "Vector_4" 171:6095  @24,229 11x24  fill=#6D33AA
+            VECTOR "Vector_5" 171:6096  @0,229 21x24  fill=#6D33AA
+            VECTOR "Vector_6" 171:6097  @3,236 18x17  fill=GRADIENT_LINEAR  op0.10
+            VECTOR "Vector_7" 171:6098  @3,235 10x2  fill=#FFFFFF
+            VECTOR "Vector_8" 171:6099  @8,238 10x2  fill=#FFFFFF
+            VECTOR "Vector_9" 171:6100  @3,242 10x2  fill=#FFFFFF
+            VECTOR "Vector_10" 171:6101  @10,245 8x2  fill=#FFFFFF
+    FRAME "Frame 1" 171:6102  @0,261 1008x128  HORIZONTAL gap8 pad[8, 0, 8, 0] main:CENTER cross:CENTER
+      TEXT "Designing an internal debugger that cut troubleshooting time by ~70%" 171:6103  @0,269 1008x112  grow  Figtree 500 40px lh56 ls0 LEFT color=#333333
+         > Designing an internal debugger that cut troubleshooting time by ~70%
+    FRAME "Container" 171:6104  @0,397 1008x631  VERTICAL gap0 pad[32, 0, 32, 0] main:MIN cross:MIN
+      FRAME "Video - Debug Mode — Tars canvas with active gambit highlighted" 171:6105  @0,429 1008x567  fill=IMG(e9e31cab30,FILL),#FAFAFA  r18  clip
+    FRAME "Container:margin" 171:6106  @0,1036 1008x89  VERTICAL gap0 pad[24, 0, 0, 0] main:MIN cross:MIN
+      FRAME "Container" 171:6107  @0,1060 1008x65
+        FRAME "Container" 171:6108  @0,1060 234x65  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "Paragraph" 171:6109  @0,1060 234x21  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+            TEXT "Shipped" 171:6110  @0,1060 53x21  Figtree 600 14px lh21 ls0 LEFT color=#6D33AA
+               > Shipped
+          FRAME "Paragraph" 171:6111  @0,1081 234x24  VERTICAL gap0 pad[4, 0, 0, 0] main:MIN cross:MIN
+            TEXT "Oct 2022" 171:6112  @0,1085 60x20  Figtree 400 14px lh20 ls0 LEFT color=#111111
+               > Oct 2022
+        FRAME "Container" 171:6113  @258,1060 234x65  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "Paragraph" 171:6114  @258,1060 234x21  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+            TEXT "Industry" 171:6115  @258,1060 53x21  Figtree 600 14px lh21 ls0 LEFT color=#6D33AA
+               > Industry
+          FRAME "Paragraph" 171:6116  @258,1081 234x24  VERTICAL gap0 pad[4, 0, 0, 0] main:MIN cross:MIN
+            TEXT "B2B SaaS" 171:6117  @258,1085 60x20  Figtree 400 14px lh20 ls0 LEFT color=#111111
+               > B2B SaaS
+        FRAME "Container" 171:6118  @516,1060 234x65  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "Paragraph" 171:6119  @516,1060 234x21  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+            TEXT "Role" 171:6120  @516,1060 29x21  Figtree 600 14px lh21 ls0 LEFT color=#6D33AA
+               > Role
+          FRAME "Paragraph" 171:6121  @516,1081 234x24  VERTICAL gap0 pad[4, 0, 0, 0] main:MIN cross:MIN
+            TEXT "Product Designer" 171:6122  @516,1085 109x20  Figtree 400 14px lh20 ls0 LEFT color=#333333
+               > Product Designer
+        FRAME "Container" 171:6123  @774,1060 234x65  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "Paragraph" 171:6124  @774,1060 234x21  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+            TEXT "Team" 171:6125  @774,1060 35x21  Figtree 600 14px lh21 ls0 LEFT color=#6D33AA
+               > Team
+          FRAME "Paragraph" 171:6126  @774,1081 234x24  VERTICAL gap0 pad[4, 0, 0, 0] main:MIN cross:MIN
+            TEXT "CS Team, Developers" 171:6127  @774,1085 234x20  Figtree 400 14px lh20 ls0 LEFT color=#111111
+               > CS Team, Developers
+  FRAME "Content" 171:6592  @0,1233 1008x6345  VERTICAL gap184 pad[0, 0, 0, 0] main:MIN cross:MIN
+    FRAME "About" 171:6593  @0,1233 1008x169  VERTICAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN  fill=#FAFAFA
+      FRAME "Text" 171:6594  @0,1233 1008x169  HORIZONTAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN
+        FRAME "Header" 171:6595  @0,1233 480x58  VERTICAL gap10 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+          FRAME "Paragraph" 171:6596  @0,1233 460x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+            TEXT "TL;DR" 171:6597  @0,1233 39x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#032C5F
+               > TL;DR
+          TEXT "What is Debug Mode?" 171:6598  @0,1233 480x58  Figtree 600 40px lh58 ls0 LEFT color=#333333
+             > What is Debug Mode?
+        FRAME "Body" 171:6599  @528,1233 480x169  VERTICAL gap16 pad[8, 0, 0, 0] main:MIN cross:MIN  grow
+          TEXT "Debug Mode is a testing tool inside Tars, where teams build AI agents as visual flowcharts. It runs a conversation through the flow and stops on the node where it breaks." 171:6600  @528,1241 480x87  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+             > Debug Mode is a testing tool inside Tars, where teams build AI agents as visual flowcharts. It runs a conversation through the flow and stops on the node where it breaks.
+          TEXT "Before it, the CS team traced 500+ nodes by hand to find one broken link. I designed and shipped it within a month." 171:6601  @528,1344 480x58  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+             > Before it, the CS team traced 500+ nodes by hand to find one broken link. I designed and shipped it within a month.
+    FRAME "Core Features" 171:6621  @0,1586 1008x1497  VERTICAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN  fill=#FAFAFA
+      FRAME "Header" 171:6622  @0,1586 1008x283  VERTICAL gap8 pad[0, 0, 0, 0] main:MIN cross:MIN
+        FRAME "Paragraph" 171:6623  @0,1586 1008x21  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+          TEXT "Core Features" 171:6624  @0,1586 90x21  Figtree 600 14px lh21 ls0 LEFT color=#40156E
+             > Core Features
+        FRAME "Text" 171:6625  @0,1615 1008x254  HORIZONTAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "Header" 171:6626  @0,1615 480x174  VERTICAL gap10 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+            TEXT "The canvas follows the run and stops where it breaks" 171:6627  @0,1615 480x174  Figtree 600 40px lh58 ls0 LEFT color=#333333
+               > The canvas follows the run and stops where it breaks
+          FRAME "Body" 171:6982  @528,1615 480x254  VERTICAL gap48 pad[8, 0, 0, 0] main:MIN cross:MIN  grow
+            FRAME "Body" 171:6983  @528,1623 480x99  VERTICAL gap12 pad[0, 0, 0, 0] main:MIN cross:MIN
+              FRAME "Header" 171:6984  @528,1623 480x29  VERTICAL gap8 pad[0, 0, 0, 0] main:CENTER cross:MIN
+                FRAME "Paragraph" 171:6985  @528,1623 300x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "AI Integration" 171:6986  @528,1623 88x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#032C5F
+                     > AI Integration
+                TEXT "The active node stays in focus" 171:6987  @528,1623 480x29  Figtree 600 18px lh28.8 ls0 LEFT color=#333333
+                   > The active node stays in focus
+              TEXT "The canvas tracks the debugger node by node, so the CS team doesn't lose their place in a 500 node flow." 171:6988  @528,1664 480x58  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > The canvas tracks the debugger node by node, so the CS team doesn't lose their place in a 500 node flow.
+            FRAME "Body" 171:6989  @528,1770 480x99  VERTICAL gap12 pad[0, 0, 0, 0] main:MIN cross:MIN
+              FRAME "Header" 171:6990  @528,1770 480x29  VERTICAL gap8 pad[0, 0, 0, 0] main:CENTER cross:MIN
+                FRAME "Paragraph" 171:6991  @528,1770 300x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "AI Integration" 171:6992  @528,1770 88x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#032C5F
+                     > AI Integration
+                TEXT "Failures surface on their own" 171:6993  @528,1770 480x29  Figtree 600 18px lh28.8 ls0 LEFT color=#333333
+                   > Failures surface on their own
+              TEXT "When a connection breaks, the run pauses on that node and the canvas zooms straight to it in red." 171:6994  @528,1811 480x58  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > When a connection breaks, the run pauses on that node and the canvas zooms straight to it in red.
+      FRAME "Video" 171:6996  @0,1917 1008x658  fill=#FAFAFA  r24  clip
+      FRAME "One" 171:6955  @0,2623 1008x460  HORIZONTAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN
+        FRAME "Supporting Text" 171:6956  @0,2623 480x138  VERTICAL gap16 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+          TEXT "Three controls that anyone can run" 171:6957  @0,2623 480x35  Figtree 500 24px lh34.8 ls0 LEFT color=#333333
+             > Three controls that anyone can run
+          TEXT "Play/pause, stop and restart. I kept the set small enough that a client with no dev background could use it once Debug Mode shipped for them." 171:6958  @0,2674 480x87  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+             > Play/pause, stop and restart. I kept the set small enough that a client with no dev background could use it once Debug Mode shipped for them.
+        FRAME "Container" 171:6959  @528,2623 480x460  HORIZONTAL gap0 pad[40, 40, 0, 40] main:CENTER cross:CENTER  grow  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+          RECTANGLE "Simple Controls" 171:6966  @568,2663 400x420  fill=IMG(1fb99da285,STRETCH)
+    FRAME "Impact" 171:7018  @0,3267 1008x238  VERTICAL gap48 pad[0, 0, 0, 0] main:MIN cross:CENTER  fill=#FAFAFA
+      FRAME "Header" 171:7019  @0,3267 1008x238  VERTICAL gap8 pad[0, 0, 0, 0] main:MIN cross:MIN
+        FRAME "Paragraph" 171:7020  @0,3267 1008x21  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+          TEXT "Impact" 171:7021  @0,3267 45x21  Figtree 600 14px lh21 ls0 LEFT color=#40156E
+             > Impact
+        FRAME "Text" 171:7022  @0,3296 1008x209  HORIZONTAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "Header" 171:7023  @0,3296 480x116  VERTICAL gap10 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+            TEXT "Debug Mode became part of every chatbot update" 171:7024  @0,3296 480x116  Figtree 600 40px lh58 ls0 LEFT color=#333333
+               > Debug Mode became part of every chatbot update
+          FRAME "Cards" 174:526  @528,3296 480x209  VERTICAL gap24 pad[8, 0, 0, 0] main:CENTER cross:MIN  grow
+            TEXT "On the release call, Tars' CEO described a CS team member starting a run and moving on to other work." 174:549  @528,3304 480x58  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+               > On the release call, Tars' CEO described a CS team member starting a run and moving on to other work.
+            FRAME "One" 174:527  @528,3386 480x119  VERTICAL gap16 pad[0, 0, 0, 0] main:MIN cross:MIN
+              FRAME "Mini Header" 174:528  @528,3386 480x21  HORIZONTAL gap8 pad[0, 0, 0, 0] main:CENTER cross:CENTER
+                TEXT "Troubleshooting Time" 174:529  @528,3386 480x21  grow  Figtree 600 14px lh21 ls0 LEFT color=#6D33AA
+                   > Troubleshooting Time
+              FRAME "Text" 174:551  @528,3423 480x82  VERTICAL gap8 pad[0, 0, 0, 0] main:MIN cross:MIN
+                FRAME "Number" 174:530  @528,3423 480x48  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "~70%" 174:531  @528,3423 129x48  Figtree 700 48px lh48 ls0 LEFT color=#111111
+                     > ~70%
+                FRAME "Paragraph" 174:532  @528,3479 480x26  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "Time that used to go into tracing broken flows by hand." 174:533  @528,3479 480x26  Figtree 400 16px lh25.6 ls0 LEFT color=#555555
+                     > Time that used to go into tracing broken flows by hand.
+    FRAME "Iterations" 180:3123  @0,3689 1008x3508  VERTICAL gap120 pad[0, 0, 0, 0] main:CENTER cross:MIN  fill=#FAFAFA
+      FRAME "Iteration 01" 171:6677  @0,3689 1008x1704  VERTICAL gap56 pad[0, 0, 0, 0] main:MIN cross:MIN  fill=#FAFAFA
+        FRAME "Header" 171:6678  @0,3689 1008x145  VERTICAL gap8 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "Paragraph" 171:6679  @0,3689 1008x21  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+            TEXT "Iterations" 171:6680  @0,3689 62x21  Figtree 600 14px lh21 ls0 LEFT color=#40156E
+               > Iterations
+          FRAME "Text" 171:6681  @0,3718 1008x116  HORIZONTAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN
+            FRAME "Header" 171:6682  @0,3718 480x116  VERTICAL gap10 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+              TEXT "Iteration 1: Three status colors down to one signal" 171:6683  @0,3718 480x116  Figtree 600 40px lh58 ls0 LEFT color=#333333
+                 > Iteration 1: Three status colors down to one signal
+            FRAME "Body" 171:6684  @528,3718 480x227  [HIDDEN]  VERTICAL gap16 pad[8, 0, 0, 0] main:MIN cross:MIN  grow
+              TEXT "Asimov's experience started with a simple setup: connect Slack, define knowledge sources and choose what context the AI could access." 171:6685  @528,3726 480x87  [HIDDEN]  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > Asimov's experience started with a simple setup: connect Slack, define knowledge sources and choose what context the AI could access.
+              TEXT "Once configured, teams could interact with Asimov directly inside Slack, where it used that context to summarize conversations, retrieve information and complete workflows." 171:6686  @528,3829 480x116  [HIDDEN]  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > Once configured, teams could interact with Asimov directly inside Slack, where it used that context to summarize conversations, retrieve information and complete workflows.
+        FRAME "Container" 180:3066  @0,3890 1008x1503  VERTICAL gap56 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "One" 180:3082  @0,3890 1008x387  HORIZONTAL gap40 pad[0, 0, 0, 0] main:MIN cross:MIN
+            FRAME "Body" 180:3083  @0,3890 300x132  VERTICAL gap16 pad[0, 0, 0, 0] main:MIN cross:MIN
+              FRAME "Header" 180:3084  @0,3890 300x29  VERTICAL gap8 pad[0, 0, 0, 0] main:CENTER cross:MIN
+                FRAME "Paragraph" 180:3085  @0,3890 300x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "AI Integration" 180:3086  @0,3890 88x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#032C5F
+                     > AI Integration
+                TEXT "Before" 180:3087  @0,3890 300x29  Figtree 600 18px lh28.8 ls0 LEFT color=#333333
+                   > Before
+              TEXT "The canvas I was designing for had 500+ nodes and all of them had the same visual treatment." 180:3088  @0,3935 300x87  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > The canvas I was designing for had 500+ nodes and all of them had the same visual treatment.
+            FRAME "Before Gambit Canvas" 180:3090  @340,3890 668x387  grow  fill=IMG(67d0364159,STRETCH)  stroke=#E8E8E8 w1  r24  clip
+          FRAME "Two" 180:3095  @0,4333 1008x478  HORIZONTAL gap40 pad[0, 0, 0, 0] main:MIN cross:MIN
+            FRAME "Color Coded States" 180:3102  @0,4333 668x478  VERTICAL gap8 pad[0, 0, 0, 0] main:MIN cross:MIN  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+              RECTANGLE "Color Coded States" 180:3115  @1,4334 666x476  fill=IMG(8beac80fa4,FILL)
+            FRAME "Body" 180:3096  @708,4333 300x293  VERTICAL gap16 pad[0, 0, 0, 0] main:MIN cross:MIN
+              FRAME "Header" 180:3097  @708,4333 300x29  VERTICAL gap8 pad[0, 0, 0, 0] main:CENTER cross:MIN
+                FRAME "Paragraph" 180:3098  @708,4333 300x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "AI Integration" 180:3099  @708,4333 88x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#032C5F
+                     > AI Integration
+                TEXT "Design Iteration" 180:3100  @708,4333 300x29  Figtree 600 18px lh28.8 ls0 LEFT color=#333333
+                   > Design Iteration
+              TEXT "My first idea was to color code every node by status. I soon realized while testing that adding three more colors on top of all that blue made the one failing node harder to find." 180:3101  @708,4378 300x145  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > My first idea was to color code every node by status. I soon realized while testing that adding three more colors on top of all that blue made the one failing node harder to find.
+              TEXT "It also made the canvas more chaotic, which was something I wanted to avoid." 180:3104  @708,4539 300x87  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > It also made the canvas more chaotic, which was something I wanted to avoid.
+          FRAME "Three" 180:3105  @0,4866 1008x526  HORIZONTAL gap40 pad[0, 0, 0, 0] main:MIN cross:MIN
+            FRAME "Body" 180:3106  @0,4866 300x322  VERTICAL gap16 pad[0, 0, 0, 0] main:MIN cross:MIN
+              FRAME "Header" 180:3107  @0,4866 300x29  VERTICAL gap8 pad[0, 0, 0, 0] main:CENTER cross:MIN
+                FRAME "Paragraph" 180:3108  @0,4866 300x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "AI Integration" 180:3109  @0,4866 88x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#032C5F
+                     > AI Integration
+                TEXT "Shipped Design" 180:3110  @0,4866 300x29  Figtree 600 18px lh28.8 ls0 LEFT color=#333333
+                   > Shipped Design
+              TEXT "I dropped the status colors and made the active node the only thing that stands out. It stays at full opacity while the rest of the canvas fades to 40%." 180:3111  @0,4911 300x145  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > I dropped the status colors and made the active node the only thing that stands out. It stays at full opacity while the rest of the canvas fades to 40%.
+              TEXT "The failure node still needed to stand out from the other nodes, so I retained the standard ‘red-failure’ treatment for it." 180:3120  @0,5072 300x116  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > The failure node still needed to stand out from the other nodes, so I retained the standard ‘red-failure’ treatment for it.
+            FRAME "Image" 180:3117  @340,4866 668x526  VERTICAL gap8 pad[0, 0, 0, 0] main:MIN cross:MIN  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+              FRAME "Video" 180:3121  @341,4867 666x524  fill=IMG(dfd7e08413,FILL)  clip
+      FRAME "Iteration 2" 180:3124  @0,5512 1008x1684  VERTICAL gap56 pad[0, 0, 0, 0] main:MIN cross:MIN  fill=#FAFAFA
+        FRAME "Header" 180:3125  @0,5512 1008x116  VERTICAL gap8 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "Paragraph" 180:3126  @0,5512 1008x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+            TEXT "Iterations" 180:3127  @0,5512 62x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#40156E
+               > Iterations
+          FRAME "Text" 180:3128  @0,5512 1008x116  HORIZONTAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN
+            FRAME "Header" 180:3129  @0,5512 480x116  VERTICAL gap10 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+              TEXT "Iteration 2: Dropping the code editor conventions" 180:3130  @0,5512 480x116  Figtree 600 40px lh58 ls0 LEFT color=#333333
+                 > Iteration 2: Dropping the code editor conventions
+            FRAME "Body" 180:3131  @528,5512 480x227  [HIDDEN]  VERTICAL gap16 pad[8, 0, 0, 0] main:MIN cross:MIN  grow
+              TEXT "Asimov's experience started with a simple setup: connect Slack, define knowledge sources and choose what context the AI could access." 180:3132  @528,5520 480x87  [HIDDEN]  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > Asimov's experience started with a simple setup: connect Slack, define knowledge sources and choose what context the AI could access.
+              TEXT "Once configured, teams could interact with Asimov directly inside Slack, where it used that context to summarize conversations, retrieve information and complete workflows." 180:3133  @528,5623 480x116  [HIDDEN]  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > Once configured, teams could interact with Asimov directly inside Slack, where it used that context to summarize conversations, retrieve information and complete workflows.
+        FRAME "Container" 180:3134  @0,5684 1008x1512  VERTICAL gap56 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "One" 180:3135  @0,5684 1008x447  HORIZONTAL gap40 pad[0, 0, 0, 0] main:MIN cross:MIN
+            FRAME "Body" 180:3136  @0,5684 420x235  VERTICAL gap16 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+              FRAME "Header" 180:3137  @0,5684 420x29  VERTICAL gap8 pad[0, 0, 0, 0] main:CENTER cross:MIN
+                FRAME "Paragraph" 180:3138  @0,5684 300x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "AI Integration" 180:3139  @0,5684 88x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#032C5F
+                     > AI Integration
+                TEXT "Design Iteration" 180:3140  @0,5684 420x29  Figtree 600 18px lh28.8 ls0 LEFT color=#333333
+                   > Design Iteration
+              TEXT "My first version borrowed from code editors: play/pause, stop, step into, step out, step over and logs. The CS team could work with it." 180:3141  @0,5729 420x87  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > My first version borrowed from code editors: play/pause, stop, step into, step out, step over and logs. The CS team could work with it.
+              TEXT "However, clients were going to use this tool next, and for anyone without a dev background the step controls are where they'd get stuck." 180:3169  @0,5832 420x87  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > However, clients were going to use this tool next, and for anyone without a dev background the step controls are where they'd get stuck.
+            FRAME "Image" 180:3163  @460,5684 548x447  VERTICAL gap8 pad[40, 40, 0, 40] main:MIN cross:CENTER  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+              RECTANGLE "Complex Controls" 180:3167  @501,5725 466x405  fill=IMG(2eddec1c16,STRETCH)  radii[30, 30, 0, 0]  DROP_SHADOW(0,0,12,2.25,#000000@0.04)
+          FRAME "Two" 180:3170  @0,6187 1008x447  HORIZONTAL gap40 pad[0, 0, 0, 0] main:MIN cross:MIN
+            FRAME "Image" 180:3178  @0,6187 548x447  VERTICAL gap8 pad[40, 40, 0, 40] main:MIN cross:CENTER  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+              RECTANGLE "Simple Controls" 180:3179  @41,6228 466x405  fill=IMG(1fb99da285,STRETCH)  radii[30, 30, 0, 0]  DROP_SHADOW(0,0,12,2.25,#000000@0.04)
+            FRAME "Body" 180:3171  @588,6187 420x293  VERTICAL gap16 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+              FRAME "Header" 180:3172  @588,6187 420x29  VERTICAL gap8 pad[0, 0, 0, 0] main:CENTER cross:MIN
+                FRAME "Paragraph" 180:3173  @588,6187 300x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "AI Integration" 180:3174  @588,6187 88x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#032C5F
+                     > AI Integration
+                TEXT "Shipped Design" 180:3175  @588,6187 420x29  Figtree 600 18px lh28.8 ls0 LEFT color=#333333
+                   > Shipped Design
+              TEXT "I kept play/pause, stop and restart, with a status line that says what the debugger is doing at any moment." 180:3176  @588,6232 420x87  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > I kept play/pause, stop and restart, with a status line that says what the debugger is doing at any moment.
+              TEXT "Within a couple of months, 90% of the errors the CS team ran into came from small control changes or API and custom code issues that were reported via the debugger. These three basic controls covered all of them." 180:3177  @588,6335 420x145  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > Within a couple of months, 90% of the errors the CS team ran into came from small control changes or API and custom code issues that were reported via the debugger. These three basic controls covered all of them.
+          FRAME "Three" 183:3181  @0,6690 1008x506  HORIZONTAL gap40 pad[0, 0, 0, 0] main:MIN cross:MIN
+            FRAME "Body" 183:3182  @0,6690 472x235  VERTICAL gap16 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+              FRAME "Header" 183:3183  @0,6690 472x29  VERTICAL gap8 pad[0, 0, 0, 0] main:CENTER cross:MIN
+                FRAME "Paragraph" 183:3184  @0,6690 300x21  [HIDDEN]  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+                  TEXT "AI Integration" 183:3185  @0,6690 88x21  [HIDDEN]  Figtree 600 14px lh21 ls0 LEFT color=#032C5F
+                     > AI Integration
+                TEXT "Shelved Design" 183:3186  @0,6690 472x29  Figtree 600 18px lh28.8 ls0 LEFT color=#333333
+                   > Shelved Design
+              TEXT "The debugging console was never shipped. I had designed it as a way to surface deeper error reports, but once V1 launched, the CS team found the simpler interface handled nearly every issue." 183:3187  @0,6735 472x116  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > The debugging console was never shipped. I had designed it as a way to surface deeper error reports, but once V1 launched, the CS team found the simpler interface handled nearly every issue.
+              TEXT "Since engineering support was rarely needed, the console was shelved." 183:3188  @0,6867 472x58  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+                 > Since engineering support was rarely needed, the console was shelved.
+            FRAME "Image" 183:3189  @512,6690 496x506  VERTICAL gap8 pad[0, 40, 40, 40] main:MAX cross:CENTER  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+              RECTANGLE "ChatbotPreview Console Window New" 207:2820  @553,6300 414x855  fill=IMG(baae4094eb,FILL)
+    FRAME "Reflections" 171:6800  @0,7380 1008x198  VERTICAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN  fill=#FAFAFA
+      FRAME "Header" 171:6801  @0,7380 1008x198  VERTICAL gap8 pad[0, 0, 0, 0] main:MIN cross:MIN
+        FRAME "Paragraph" 171:6802  @0,7380 1008x21  VERTICAL gap0 pad[0, 0, 0, 0] main:MIN cross:MIN
+          TEXT "Reflections" 171:6803  @0,7380 73x21  Figtree 600 14px lh21 ls0 LEFT color=#40156E
+             > Reflections
+        FRAME "Text" 171:6804  @0,7409 1008x169  HORIZONTAL gap48 pad[0, 0, 0, 0] main:MIN cross:MIN
+          FRAME "Header" 171:6805  @0,7409 480x116  VERTICAL gap24 pad[0, 0, 0, 0] main:MIN cross:MIN  grow
+            TEXT "Runs should call people back" 171:6806  @0,7409 480x116  Figtree 600 40px lh58 ls0 LEFT color=#333333
+               > Runs should call people back
+          FRAME "Body" 183:3191  @528,7409 480x169  VERTICAL gap16 pad[8, 0, 0, 0] main:MIN cross:MIN  grow
+            TEXT "Once the CS team started leaving runs on their own, they still had to keep checking the canvas to see if one had paused." 183:3192  @528,7417 480x87  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+               > Once the CS team started leaving runs on their own, they still had to keep checking the canvas to see if one had paused.
+            TEXT "I'd add sound and desktop notifications so Debug Mode could tell them." 183:3193  @528,7520 480x58  Figtree 400 18px lh28.8 ls0 LEFT color=#555555
+               > I'd add sound and desktop notifications so Debug Mode could tell them.
+      FRAME "UI Bento" 171:6820  @0,7867 1008x1258  [HIDDEN]
+        FRAME "One" 171:6821  @0,7867 1008x504  [HIDDEN]  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+          RECTANGLE "image 16" 171:6822  @59,7899 889x829  [HIDDEN]  fill=IMG(357b8d7216,FILL)  stroke=#E8E8E8 w1  r16  DROP_SHADOW(0,0,16,3,#000000@0.04)
+        FRAME "One" 171:6823  @0,8387 1008x333  [HIDDEN]  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+          RECTANGLE "image 17" 171:6824  @32,8419 1422x269  [HIDDEN]  fill=IMG(687b70e48b,FILL)  stroke=#E8E8E8 w1  r16  DROP_SHADOW(0,0,16,3,#000000@0.04)
+        FRAME "One" 171:6825  @0,8736 496x389  [HIDDEN]  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+          RECTANGLE "image 18" 171:6826  @32,8768 977x325  [HIDDEN]  fill=IMG(86df35a7d0,STRETCH)  stroke=#E8E8E8 w1  r16  DROP_SHADOW(0,0,16,3,#000000@0.04)
+        FRAME "One" 171:6827  @512,8736 496x389  [HIDDEN]  fill=#FAFAFA  stroke=#E8E8E8 w1  r24  clip
+          RECTANGLE "image 19" 171:6828  @232,8768 744x324  [HIDDEN]  fill=IMG(1b1c9918dc,STRETCH)  stroke=#E8E8E8 w1  r16  DROP_SHADOW(0,0,16,3,#000000@0.04)

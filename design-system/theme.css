@@ -31,6 +31,7 @@
   --color-ink: var(--ds-text-ink);
   --color-primary: var(--ds-text-primary);
   --color-secondary: var(--ds-text-secondary);
+  --color-tertiary: var(--ds-text-tertiary);
   --color-muted: var(--ds-text-muted);
   --color-faint: var(--ds-text-faint);
   --color-on-dark: var(--ds-text-on-dark);

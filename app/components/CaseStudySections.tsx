@@ -19,6 +19,7 @@ export function SectionHeader({
   subheading = false,
   titleAdornment,
   looseBody = false,
+  bodyClassName,
   children,
 }: {
   eyebrow?: string;
@@ -27,6 +28,8 @@ export function SectionHeader({
   titleAdornment?: React.ReactNode;
   /** 24px between body paragraphs instead of 16px. */
   looseBody?: boolean;
+  /** Replaces the body column's default gap and top padding (e.g. for stat rows). */
+  bodyClassName?: string;
   /** Renders the 24px sub-heading style instead of the 40px section heading. */
   subheading?: boolean;
   children: React.ReactNode;
@@ -39,7 +42,11 @@ export function SectionHeader({
           <h2 className={subheading ? caseStudySubheading : caseStudyHeading}>{title}</h2>
           {titleAdornment}
         </div>
-        <div className={`${caseStudyText} flex min-w-0 flex-1 flex-col ${looseBody ? "gap-6" : "gap-4"} ${subheading ? "" : "pt-2"}`}>
+        <div
+          className={`${caseStudyText} flex min-w-0 flex-1 flex-col ${
+            bodyClassName ?? `${looseBody ? "gap-6" : "gap-4"} ${subheading ? "" : "pt-2"}`
+          }`}
+        >
           {children}
         </div>
       </div>
@@ -193,5 +200,43 @@ export function MediaRow({
       {imageSide === "left" ? tile : text}
       {imageSide === "left" ? text : tile}
     </div>
+  );
+}
+
+/** Centred quote from a colleague, with their name, LinkedIn link and title below. */
+export function Testimonial({
+  quote,
+  name,
+  title,
+  linkedin,
+}: {
+  quote: string;
+  name: string;
+  title: string;
+  linkedin: string;
+}) {
+  return (
+    <figure className="flex w-full flex-col items-center gap-6 text-center">
+      <div className="flex w-full flex-col items-center gap-2">
+        <p className={caseStudyEyebrow}>Testimonial</p>
+        <blockquote className={`${caseStudySubheading} max-w-[800px]`}>{quote}</blockquote>
+      </div>
+      <figcaption className="flex flex-col items-center gap-2">
+        <span className="flex items-center gap-2">
+          <span className="font-label text-[16px] font-semibold leading-[21px] text-tertiary">{name}</span>
+          <a
+            href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${name} on LinkedIn`}
+            className="shrink-0 transition-opacity hover:opacity-60"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logos/LinkedIn_icon.svg" alt="" width={20} height={20} className="size-5" />
+          </a>
+        </span>
+        <span className="font-label text-[14px] leading-[1.5] text-tertiary opacity-80">{title}</span>
+      </figcaption>
+    </figure>
   );
 }

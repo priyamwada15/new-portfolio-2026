@@ -11,6 +11,8 @@ interface Props {
   videoShadow?: string;
   /** Overrides the default `w-full h-[80vh]` sizing. */
   className?: string;
+  /** Overrides the default video sizing and corner radius. */
+  videoClassName?: string;
 }
 
 export default function SolutionShowcase({
@@ -21,6 +23,7 @@ export default function SolutionShowcase({
   videoClipPath = "none",
   videoShadow = "none",
   className,
+  videoClassName,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -85,7 +88,7 @@ export default function SolutionShowcase({
             muted
             playsInline
             preload="none"
-            className="rounded-[2rem] min-[400px]:rounded-[52px] md:h-[90%] md:w-auto h-auto w-[80%]"
+            className={videoClassName ?? "rounded-[2rem] min-[400px]:rounded-[52px] md:h-[90%] md:w-auto h-auto w-[80%]"}
             style={{
               display: "block",
               boxShadow: videoShadow,

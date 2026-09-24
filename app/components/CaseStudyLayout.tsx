@@ -43,7 +43,7 @@ interface Props {
   breadcrumbLabel?: string;
   /** TOC label for the auto-prepended context section (defaults to "Context"). */
   contextLabel?: string;
-  context: React.ReactNode;
+  context?: React.ReactNode;
   contribution?: React.ReactNode;
   sidePanel?: React.ReactNode;
   contextVisual?: React.ReactNode;
@@ -73,11 +73,26 @@ interface Props {
   headlineStyle?: React.CSSProperties;
   /** Overrides the default margin-bottom below the context/TL;DR block. */
   contextMarginBottomClassName?: string;
+  /**
+   * Sept 2026 case study layout: intro spacing and meta row from the new Figma
+   * frame. Opt-in per page until every case study has migrated.
+   */
+  sept2026Layout?: boolean;
   children: React.ReactNode;
 }
 
-const MetaGrid = ({ meta, accentDark }: { meta: Meta; accentDark: string }) => (
-  <div className="grid grid-cols-1 min-[400px]:grid-cols-2 min-[1080px]:grid-cols-4 gap-6">
+const MetaGrid = ({
+  meta,
+  accentDark,
+  sept2026Layout = false,
+}: {
+  meta: Meta;
+  accentDark: string;
+  sept2026Layout?: boolean;
+}) => (
+  <div
+    className={`grid grid-cols-1 min-[400px]:grid-cols-2 min-[1080px]:grid-cols-4 ${sept2026Layout ? "gap-10" : "gap-6"}`}
+  >
     {[
       { label: meta.timelineLabel ?? "Shipped", value: meta.timeline },
       { label: "Industry", value: meta.industry },
@@ -85,10 +100,21 @@ const MetaGrid = ({ meta, accentDark }: { meta: Meta; accentDark: string }) => (
       { label: "Team", value: meta.team },
     ].map((item) => (
       <div key={item.label}>
-        <p className={caseStudyMetaLabel} style={{ color: accentDark }}>
-          {item.label}
-        </p>
-        <p className="text-sm text-ink">{item.value}</p>
+        {sept2026Layout ? (
+          <>
+            <p className="font-label text-[14px] font-semibold leading-[21px]" style={{ color: accentDark }}>
+              {item.label}
+            </p>
+            <p className="pt-1 font-label text-[14px] leading-[20px] text-primary">{item.value}</p>
+          </>
+        ) : (
+          <>
+            <p className={caseStudyMetaLabel} style={{ color: accentDark }}>
+              {item.label}
+            </p>
+            <p className="text-sm text-ink">{item.value}</p>
+          </>
+        )}
       </div>
     ))}
   </div>
@@ -123,6 +149,7 @@ export default function CaseStudyLayout({
   headlineClassName,
   headlineStyle,
   contextMarginBottomClassName,
+  sept2026Layout = false,
   children,
 }: Props) {
   const bodyTextClass = contentBodyClassName ?? caseStudyBody;
@@ -197,7 +224,7 @@ export default function CaseStudyLayout({
   const contextMarginClass =
     contextMarginBottomClassName ??
     (contextVisualBelow ? (contextVisual ? "mb-10" : "mb-[9.5rem]") : "mb-40");
-  const contextBlock = (
+  const contextBlock = context === undefined ? null : (
     <div id="context" className={`${hasTwoCols ? "grid md:grid-cols-2 gap-10 md:gap-16" : ""} ${contextMarginClass}`.trim()}>
       {sidePanel !== undefined ? (
         <>
@@ -271,10 +298,12 @@ export default function CaseStudyLayout({
     reverseHeaderOrder ? (
       /* logos → H1 → heroVisual → meta */
       <>
-        {logoRow("mb-8")}
-        {h1InHeaderSection && h1InHeader("rm-header-h1 mb-8")}
-        {heroVisual && <div className="rm-header-hero mb-10">{heroVisual}</div>}
-        <MetaGrid meta={meta} accentDark={accentDark} />
+        {logoRow(sept2026Layout ? "mb-4" : "mb-8")}
+        {h1InHeaderSection && h1InHeader(`rm-header-h1 ${sept2026Layout ? "mb-12" : "mb-8"}`)}
+        {heroVisual && (
+          <div className={`rm-header-hero ${sept2026Layout ? "mb-16" : "mb-10"}`}>{heroVisual}</div>
+        )}
+        <MetaGrid meta={meta} accentDark={accentDark} sept2026Layout={sept2026Layout} />
       </>
     ) : (
       /* Default without TOC: logos → tagline? → H1 → meta */
@@ -324,7 +353,7 @@ export default function CaseStudyLayout({
       </div>
 
       {/* Header, mb-14 (56px) creates the gap to H1 when toc is present */}
-      <header className={`${toc ? "mb-14" : "mb-16"} hero-intro hero-intro--bento`}>
+      <header className={`${toc ? "mb-14" : sept2026Layout ? "mb-[120px]" : "mb-16"} hero-intro hero-intro--bento`}>
         {headerContent}
       </header>
 
@@ -380,6 +409,7 @@ export default function CaseStudyLayout({
             className={[CASE_STUDY_SECTION_STACK_CLASS, sectionBodyClassName]
               .filter(Boolean)
               .join(" ")}
+            style={sept2026Layout ? { rowGap: 184 } : undefined}
           >
             {children}
           </div>

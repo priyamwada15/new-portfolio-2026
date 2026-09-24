@@ -63,7 +63,7 @@ export function caseStudyUsesSiteDefaultSurface(pathname: string): boolean {
 
 /** Hero/card videos shared between homepage Work cards and case study page heroes. */
 export const SALESFORCE_HERO_VIDEO =
-  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295117/Salesforce_new_case_study_card_and_hero_fx5vpe.mp4";
+  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1790270207/acadtrajnew_s2agio.mp4";
 
 export const TARS_DEBUG_MODE_HERO_VIDEO =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295525/Debug_Mode_new_case_study_and_hero_video_kuliwm.mp4";

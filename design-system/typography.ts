@@ -30,6 +30,43 @@ export const caseStudyHeadline =
 export const caseStudySectionH2 =
   "text-[32px] font-medium leading-[140%] text-[#333333] max-tablet:text-[24px]" as const;
 
+/*
+ * Sept 2026 case study type scale — shared by every case study page.
+ * Accent-coloured roles read `--accent-dark`, which CaseStudyLayout sets per brand.
+ */
+
+/** Case study H1 — 40px Medium. */
+export const caseStudyTitle =
+  "font-label text-[40px] font-medium leading-[1.4] text-primary" as const;
+
+/** Section heading — 40px SemiBold. */
+export const caseStudyHeading =
+  "font-label text-[40px] font-semibold leading-[1.45] text-primary" as const;
+
+/** Sub-heading inside a section — 24px Medium. */
+export const caseStudySubheading =
+  "font-label text-[24px] font-medium leading-[1.45] text-primary" as const;
+
+/** Eyebrow above a section heading (e.g. "Problem Space"). */
+export const caseStudyEyebrow =
+  "font-label text-[14px] font-semibold leading-[21px] text-[var(--accent-dark)]" as const;
+
+/** Section body copy — 18px. */
+export const caseStudyText =
+  "font-label text-[18px] font-normal leading-[1.6] text-secondary" as const;
+
+/** Title above a text + screenshot row — 18px SemiBold. */
+export const caseStudyRowTitle =
+  "font-label text-[18px] font-semibold leading-[1.6] text-primary" as const;
+
+/** Small label on a card (e.g. "01", "PRINCIPLE 01"). Colour set by card variant. */
+export const caseStudyCardLabel =
+  "font-label text-[14px] font-normal leading-[28px]" as const;
+
+/** Main text on a card. Colour set by card variant. */
+export const caseStudyCardText =
+  "font-label text-[18px] font-medium leading-[28px]" as const;
+
 /** Visual caption under media. */
 export const visualCaption =
   "font-label text-[12px] font-normal tracking-wider text-muted mt-3 text-center" as const;

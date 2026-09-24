@@ -812,6 +812,28 @@ body {
   html {
     @apply font-sans;
   }
+  /*
+   * Standard pointer on everything interactive. Tailwind v4's preflight sets
+   * buttons to `cursor: default`; this restores the pointer site-wide. It lives
+   * in the base layer, so cursor utilities and the custom-cursor rules above
+   * (unlayered) still override it.
+   */
+  a[href],
+  button:not(:disabled),
+  summary,
+  select:not(:disabled),
+  label[for],
+  [role="button"],
+  [role="link"],
+  [role="tab"],
+  [role="menuitem"],
+  [role="option"],
+  [role="switch"],
+  [role="checkbox"],
+  [role="radio"],
+  input:is([type="button"], [type="submit"], [type="reset"], [type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]):not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 /* About page — desktop timeline chapter scroll snap */

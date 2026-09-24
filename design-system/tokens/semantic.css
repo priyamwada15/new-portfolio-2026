@@ -25,6 +25,18 @@
   --ds-border-subtle: var(--ds-color-gray-subtle);
   --ds-border-faint: var(--ds-color-border-faint);
 
+  /* Research-area categories */
+  --ds-research-academic: var(--ds-color-research-academic);
+  --ds-research-academic-bg: var(--ds-color-research-academic-bg);
+  --ds-research-career: var(--ds-color-research-career);
+  --ds-research-career-bg: var(--ds-color-research-career-bg);
+  --ds-research-social: var(--ds-color-research-social);
+  --ds-research-social-bg: var(--ds-color-research-social-bg);
+  --ds-research-health: var(--ds-color-research-health);
+  --ds-research-health-bg: var(--ds-color-research-health-bg);
+  --ds-research-direction: var(--ds-color-research-direction);
+  --ds-research-direction-bg: var(--ds-color-research-direction-bg);
+
   /* Case study accent defaults (overridable per page via --accent-dark) */
   --ds-accent-default: var(--ds-color-primary);
   --ds-accent-subtle: var(--ds-color-gray-subtle);

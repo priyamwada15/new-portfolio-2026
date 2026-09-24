@@ -1,11 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { fontStyle } from "@/design-system";
-
-/** Reference width the Figma frame was designed at — image width/top are expressed as % of this. */
-const CAROUSEL_CANVAS_WIDTH = 768;
+import { useRef, useState } from "react";
 
 export type ImageRedaction = {
   left: string;
@@ -19,10 +14,10 @@ export type ImageRedaction = {
 export type BeforeAfterImage = {
   src: string;
   alt: string;
-  /** Natural design width/height in px (768px-frame reference) — scaled down responsively, never exceeding it. */
+  /** Size in px inside the 790×535 slide. */
   width: number;
   height: number;
-  /** Vertical offset from the top of the image group, in px on the 768px canvas. Omit (0) for single-image slides. */
+  /** Offset in px from the top of the slide. Defaults to the image area's top (92). */
   top?: number;
   redactions?: ImageRedaction[];
 };
@@ -38,39 +33,18 @@ export type BeforeAfterSlide = {
   caption?: string;
 };
 
-const EASE_OUT = [0.23, 1, 0.32, 1] as [number, number, number, number];
+const SLIDE_WIDTH = 790;
+const SLIDE_GAP = 24;
+/** Where the image area starts inside a slide (below the badge row). */
+const IMAGE_AREA_TOP = 92;
 
-const slideVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 48 : -48,
-    scale: 0.94,
-    opacity: 0,
-  }),
-  center: {
-    x: 0,
-    scale: 1,
-    opacity: 1,
-  },
-  exit: (direction: number) => ({
-    x: direction > 0 ? -48 : 48,
-    scale: 0.94,
-    opacity: 0,
-  }),
-};
-
-function ArrowButton({
-  direction,
-  onClick,
-}: {
-  direction: "left" | "right";
-  onClick: () => void;
-}) {
+function ArrowButton({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={direction === "left" ? "Previous screen" : "Next screen"}
-      className={`absolute top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white ${
+      className={`absolute top-1/2 z-10 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-[0_0_16px_3px_rgba(0,0,0,0.06)] ${
         direction === "left" ? "left-3" : "right-3"
       }`}
     >
@@ -82,127 +56,88 @@ function ArrowButton({
         aria-hidden="true"
         style={direction === "left" ? { transform: "rotate(180deg)" } : undefined}
       >
-        <path
-          d="M1 1L7 7L1 13"
-          stroke="#555555"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <path d="M1 1L7 7L1 13" stroke="#555555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </button>
   );
 }
 
-function ImageGroup({ images }: { images: BeforeAfterImage[] }) {
-  if (images.length === 1) {
-    const image = images[0];
-    return (
-      <div
-        className="relative mx-auto w-full overflow-hidden rounded-lg border border-border shadow-[0px_0px_28px_4px_rgba(0,0,0,0.04)]"
-        style={{ width: `min(${image.width}px, 100%)`, aspectRatio: `${image.width} / ${image.height}` }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
-        {image.redactions?.map((r) => (
-          <div
-            key={`${r.left}-${r.top ?? r.bottom}`}
-            className="absolute bg-white/20 backdrop-blur-[7.5px]"
-            style={{
-              left: r.left,
-              top: r.top,
-              bottom: r.bottom,
-              width: r.width,
-              height: r.height,
-              borderRadius: r.borderRadius,
-            }}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  // Multiple overlapping images (e.g. two stacked screenshots) — sized as one
-  // group whose height matches their combined bounding box on the canvas.
-  const groupTop = Math.min(...images.map((i) => i.top ?? 0));
-  const groupBottom = Math.max(...images.map((i) => (i.top ?? 0) + i.height));
-  const groupHeight = groupBottom - groupTop;
-
+function Slide({ slide }: { slide: BeforeAfterSlide }) {
   return (
-    <div className="relative w-full" style={{ aspectRatio: `${CAROUSEL_CANVAS_WIDTH} / ${groupHeight}` }}>
-      {images.map((image) => (
+    <div
+      className="relative h-[535px] shrink-0 rounded-[var(--ds-radius-container)] bg-surface-media"
+      style={{ width: SLIDE_WIDTH }}
+    >
+      <div className="absolute left-6 right-6 top-6 flex items-center gap-4">
+        <span
+          className="shrink-0 rounded-[4px] border px-3 py-[6px] font-mono text-[12px] font-medium uppercase leading-4"
+          style={{ backgroundColor: slide.badgeBg, color: slide.badgeColor, borderColor: slide.badgeBorder }}
+        >
+          {slide.badgeLabel}
+        </span>
+        <p className="min-w-0 font-label text-[14px] font-medium leading-[22.4px] text-primary">{slide.title}</p>
+      </div>
+      {slide.images.map((image) => (
         <div
           key={image.src}
-          className="absolute left-1/2 -translate-x-1/2 overflow-hidden rounded-lg border border-border shadow-[0px_0px_28px_4px_rgba(0,0,0,0.04)]"
-          style={{
-            top: `${(((image.top ?? 0) - groupTop) / groupHeight) * 100}%`,
-            width: `min(${image.width}px, 100%)`,
-            aspectRatio: `${image.width} / ${image.height}`,
-          }}
+          className="absolute left-1/2 -translate-x-1/2 overflow-hidden rounded-lg border border-border shadow-[0_0_16px_3px_rgba(0,0,0,0.04)]"
+          style={{ top: image.top ?? IMAGE_AREA_TOP, width: image.width, height: image.height }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
+          <img src={image.src} alt={image.alt} className="size-full object-cover" />
+          {image.redactions?.map((r) => (
+            <div
+              key={`${r.left}-${r.top ?? r.bottom}`}
+              className="absolute bg-white/20 backdrop-blur-[7.5px]"
+              style={{ left: r.left, top: r.top, bottom: r.bottom, width: r.width, height: r.height, borderRadius: r.borderRadius }}
+            />
+          ))}
         </div>
       ))}
+      {slide.caption && (
+        <p className="absolute inset-x-6 top-[488px] text-center font-label text-[12px] leading-[22.4px] text-secondary">
+          {slide.caption}
+        </p>
+      )}
     </div>
   );
 }
 
+/** Horizontal track of fixed-size slides; the next slide peeks in from the right edge. */
 export default function BeforeAfterCarousel({ slides }: { slides: BeforeAfterSlide[] }) {
-  const [[index, direction], setSlide] = useState<[number, number]>([0, 0]);
-  const slide = slides[index];
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [edges, setEdges] = useState({ atStart: true, atEnd: false });
 
-  const goTo = (nextIndex: number) => setSlide([nextIndex, nextIndex > index ? 1 : -1]);
+  const updateEdges = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    setEdges({ atStart: el.scrollLeft <= 1, atEnd: el.scrollLeft + el.clientWidth >= el.scrollWidth - 1 });
+  };
+
+  /** Free scrolling can leave the track between slides, so arrows align to the next/previous slide edge. */
+  const step = (direction: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const stride = SLIDE_WIDTH + SLIDE_GAP;
+    const position = el.scrollLeft / stride;
+    const target = direction > 0 ? Math.floor(position + 0.01) + 1 : Math.ceil(position - 0.01) - 1;
+    el.scrollTo({ left: Math.max(0, target) * stride, behavior: "smooth" });
+  };
 
   return (
-    <motion.div
-      layout
-      className="relative w-full overflow-hidden rounded-[var(--ds-radius-container)] bg-surface-media"
-    >
-      <AnimatePresence initial={false} custom={direction} mode="popLayout">
-        <motion.div
-          key={index}
-          custom={direction}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.4, ease: EASE_OUT }}
-          layout
-          className="flex flex-col pb-6"
-        >
-          <div className="flex items-center gap-4 px-6 pb-4 pt-6">
-            <span
-              className="shrink-0 rounded-[4px] border px-3 py-[6px] font-mono text-[12px] font-medium uppercase leading-4"
-              style={{
-                backgroundColor: slide.badgeBg,
-                color: slide.badgeColor,
-                borderColor: slide.badgeBorder,
-              }}
-            >
-              {slide.badgeLabel}
-            </span>
-            <p className="min-w-0 text-[14px] font-medium leading-[160%] text-[#333333]" style={fontStyle.figtree}>
-              {slide.title}
-            </p>
-          </div>
-          <div className="px-6">
-            <ImageGroup images={slide.images} />
-          </div>
-          {slide.caption && (
-            <p
-              className="px-6 pt-6 text-center text-[12px] font-normal leading-[187%] text-[#555555]"
-              style={fontStyle.figtree}
-            >
-              {slide.caption}
-            </p>
-          )}
-        </motion.div>
-      </AnimatePresence>
-      {index > 0 && <ArrowButton direction="left" onClick={() => goTo(index - 1)} />}
-      {index < slides.length - 1 && (
-        <ArrowButton direction="right" onClick={() => goTo(index + 1)} />
-      )}
-    </motion.div>
+    <div className="relative w-full">
+      <div
+        ref={trackRef}
+        onScroll={updateEdges}
+        className="flex overflow-x-auto overscroll-x-contain rounded-[var(--ds-radius-container)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ gap: SLIDE_GAP }}
+      >
+        {slides.map((slide) => (
+          <Slide key={slide.title} slide={slide} />
+        ))}
+      </div>
+      {!edges.atStart && <ArrowButton direction="left" onClick={() => step(-1)} />}
+      {!edges.atEnd && <ArrowButton direction="right" onClick={() => step(1)} />}
+    </div>
   );
 }

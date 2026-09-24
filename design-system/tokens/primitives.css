@@ -37,7 +37,19 @@
 
   /* Brand — Salesforce */
   --ds-color-brand-salesforce: #032c5f;
-  --ds-color-brand-salesforce-light: #bad4eb;
+  --ds-color-brand-salesforce-light: #e5f6fc;
+
+  /* Research-area categories (Salesforce problem-space grid) */
+  --ds-color-research-academic: #0d99ff;
+  --ds-color-research-academic-bg: rgba(189, 227, 255, 0.3);
+  --ds-color-research-career: #14ae5c;
+  --ds-color-research-career-bg: #ebfff4;
+  --ds-color-research-social: #de7d02;
+  --ds-color-research-social-bg: #fff9f2;
+  --ds-color-research-health: #8a38f5;
+  --ds-color-research-health-bg: #f7f1ff;
+  --ds-color-research-direction: #e03e1a;
+  --ds-color-research-direction-bg: #fff1f1;
 
   /* Brand — Nav accent */
   --ds-color-brand-nav-glow: #744577;

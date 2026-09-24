@@ -20,6 +20,7 @@ export function SectionHeader({
   titleAdornment,
   looseBody = false,
   bodyClassName,
+  level = 2,
   children,
 }: {
   eyebrow?: string;
@@ -30,16 +31,19 @@ export function SectionHeader({
   looseBody?: boolean;
   /** Replaces the body column's default gap and top padding (e.g. for stat rows). */
   bodyClassName?: string;
+  /** Heading level; use 3 for sub-rows inside a section. */
+  level?: 2 | 3;
   /** Renders the 24px sub-heading style instead of the 40px section heading. */
   subheading?: boolean;
   children: React.ReactNode;
 }) {
+  const Heading = level === 3 ? "h3" : "h2";
   return (
     <div className="flex w-full flex-col gap-2">
       {eyebrow && <p className={caseStudyEyebrow}>{eyebrow}</p>}
       <div className="flex w-full items-start gap-12">
         <div className="relative min-w-0 flex-1">
-          <h2 className={subheading ? caseStudySubheading : caseStudyHeading}>{title}</h2>
+          <Heading className={subheading ? caseStudySubheading : caseStudyHeading}>{title}</Heading>
           {titleAdornment}
         </div>
         <div
@@ -57,6 +61,7 @@ export function SectionHeader({
 /**
  * Row of equal-width cards, each with a small label above its text.
  * `dark`: brand-filled cards with one line of medium text.
+ * `stat`: brand-filled cards with a large number as the label.
  * `light`: pale brand cards with one or more paragraphs of body text.
  */
 export function CardRow({
@@ -65,15 +70,18 @@ export function CardRow({
 }: {
   /** `icon`: optional 16px image shown before the label. */
   cards: { label: string; text: string | string[]; icon?: string }[];
-  variant?: "dark" | "light";
+  variant?: "dark" | "stat" | "light";
 }) {
-  const dark = variant === "dark";
+  const stat = variant === "stat";
+  const dark = variant === "dark" || stat;
   return (
     <div className={`flex w-full items-stretch ${dark ? "gap-6" : "gap-12"}`}>
       {cards.map((card) => (
         <div
           key={card.label}
-          className={`flex min-w-0 flex-1 flex-col gap-3 rounded-[var(--ds-radius-container)] ${
+          className={`flex min-w-0 flex-1 flex-col rounded-[var(--ds-radius-container)] ${
+            stat ? "justify-center gap-6" : "gap-3"
+          } ${
             dark
               ? "border border-[var(--accent-dark)] bg-[var(--accent-dark)] px-[23px] py-[39px]"
               : "bg-[var(--accent-light)] px-8 py-10"
@@ -86,7 +94,9 @@ export function CardRow({
             )}
             <p
               className={
-                dark
+                stat
+                  ? "font-label text-[40px] leading-[48px] text-surface-page/80"
+                  : dark
                   ? `${caseStudyCardLabel} text-surface-page/50`
                   : "font-label text-[14px] font-semibold leading-[28px] text-[var(--accent-dark)]"
               }

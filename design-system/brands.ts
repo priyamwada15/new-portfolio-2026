@@ -11,6 +11,7 @@ export const brands = {
   tars: {
     primary: "var(--ds-color-brand-tars)",
     light: "var(--ds-color-brand-tars-light)",
+    dark: "var(--ds-color-brand-tars-dark)",
     accentDark: "var(--ds-color-brand-tars)",
     accentLight: "var(--ds-color-brand-tars-light)",
   },

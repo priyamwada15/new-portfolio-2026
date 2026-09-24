@@ -1,18 +1,26 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import CaseStudyLayout from "../components/CaseStudyLayout";
-import SectionLabel from "../components/SectionLabel";
 import AutoPauseVideo from "../components/AutoPauseVideo";
 import { CoreFeatureVideo } from "./CoreFeatureVideo";
 import WorkflowLoopGraphic from "./WorkflowLoopGraphic";
 import KnowledgeSourcesDemo from "./KnowledgeSourcesDemo";
-import { caseStudySectionH2, mediaPanel } from "@/design-system";
+import { CardRow, SectionHeader } from "../components/CaseStudySections";
+import {
+  brands,
+  caseStudyRowTitle,
+  caseStudySubheading,
+  caseStudyText,
+  caseStudyTitle,
+  mediaPanel,
+  SITE_DEFAULT_PAGE_BG,
+} from "@/design-system";
 
 const CORE_FEATURES = [
   {
     title: "Knowledge Dashboard",
     description:
-      "Teams connected sources like Notion and Google Drive so Asimov could answer questions using company knowledge beyond Slack. Admins could monitor sync status and control how often each source was refreshed.",
+      "Teams connected sources like Notion and Google Drive so Asimov could answer from company docs, with sync status and refresh timing visible for each source.",
     videoSrc:
       "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/KB_Asimov_nrvbu8.mp4",
   },
@@ -32,19 +40,22 @@ const CORE_FEATURES = [
   },
 ] as const;
 
+/**
+ * Screenshot sizes are the Figma frame's, as a share of the 488×558 panel
+ * (centred, 48px from the top), so the layout holds as the panel scales.
+ */
 const OPPORTUNITIES = [
   {
     title: "Opportunity 1: Work happened across multiple tools",
     description: [
       "Slack conversations often triggered work elsewhere.",
-      "Customer-facing teams moved from a discussion to updating HubSpot, writing reports or sharing project updates, carrying the same context across multiple tools.",
-      "Summaries reduced reading time, but they didn't reduce the work that followed.",
+      "Customer-facing teams moved from a discussion to updating HubSpot, writing reports or sharing project updates, oftentimes carrying the same context across multiple tools.",
+      "Summaries reduced reading time, but rarely reduced the work that followed.",
     ],
     image: {
-      src: "/new-asimov/Slack 1.png",
+      src: "/new-asimov/Slack%201.avif",
       alt: "Slack thread with Asimov summarizing the conversation",
-      width: 352,
-      height: 361,
+      width: 415,
     },
     caption: "Example scenario of Asimov summarizing threads.",
   },
@@ -55,21 +66,21 @@ const OPPORTUNITIES = [
       "Instead of designing automations for every use case, I designed a system that let teams define their own actions on top of connected tools.",
     ],
     image: {
-      src: "/new-asimov/Slack 2.png",
+      src: "/new-asimov/Slack%202.avif",
       alt: "Slack thread showing Asimov integrating with another app",
-      width: 352,
-      height: 405,
+      width: 378,
     },
     caption: "Example scenario of Asimov integrating with other apps.",
   },
 ] as const;
 
+const OPPORTUNITY_PANEL = { width: 488, height: 558, imageTop: 48, captionTop: 510 };
+
 const DEEP_DIVE_ITEMS = [
   {
     title: "Knowledge and access controls",
     description: [
-      "Asimov's usefulness depended on the context it could access. I designed the knowledge setup experience to help teams connect relevant sources while maintaining visibility into what information the AI could use.",
-      "The experience balanced flexibility with control: teams could add different knowledge sources, select specific Slack channels and monitor sync status from one place.",
+      "Asimov was only as useful as the context it could reach. I designed the setup so teams could pick exactly which sources and Slack channels it used, and see what was syncing.",
     ],
     graphicOverlay: <KnowledgeSourcesDemo />,
     fillContainer: false,
@@ -77,8 +88,7 @@ const DEEP_DIVE_ITEMS = [
   {
     title: "Tool integrations",
     description: [
-      "Knowledge answered questions based on databases, but real work happened in tools like HubSpot. I designed the integrations experience to make connecting external systems feel transparent, showing what was connected, what data Asimov could access and where teams could manage permissions.",
-      "This helped position integrations as something teams could understand and trust, rather than a hidden system running in the background.",
+      "I designed each integration to show what it was connected to, what data Asimov could read and where to manage permissions, so teams always knew what the AI could reach.",
     ],
     graphicOverlay: (
       <AutoPauseVideo
@@ -97,8 +107,8 @@ const DEEP_DIVE_ITEMS = [
   {
     title: "Configuring custom actions",
     description: [
-      "No predefined set of actions could cover every team's workflow. Instead of shipping one-off automations, I designed a system that let teams decide what Asimov could do and define new capabilities as their needs evolved.",
-      "Teams could enable or disable built-in actions for connected tools and create custom actions through a configurable schema, giving them control over both permissions and extensibility.",
+      "No fixed set of actions could cover every team's workflow, so I designed a system where teams decided what Asimov could do.",
+      "They could turn built-in actions on or off for connected tools and write their own through a configurable schema.",
     ],
     graphicOverlay: (
       <AutoPauseVideo
@@ -116,29 +126,30 @@ const DEEP_DIVE_ITEMS = [
   },
 ] as const;
 
+const ABOUT_STATS = [
+  { label: "12 of 15", text: "beta teams kept using Asimov" },
+  { label: "~74%", text: "fewer repetitive questions asked" },
+  { label: "86%", text: "of responses rated helpful" },
+];
+
 const REFLECTIONS = [
   {
-    title: "Designing permissions for AI actions",
-    weight: "font-medium",
-    paragraphs: [
-      "As Asimov evolved from a summarizer to knowledge access and taking actions, I realized that trust depended as much on permission models as on AI capabilities.",
-      "Today, I would design governance alongside the feature instead of treating it as a later phase.",
-    ],
+    title: "Permissions should ship with the first action",
+    text: "Once Asimov could act in other apps, who was allowed to configure it became the harder question. Today, I would design governance alongside the feature instead of treating it as a later phase.",
   },
   {
     title: "AI products become platforms faster than you expect",
-    weight: "font-medium",
-    paragraphs: [
-      "What started as a single Slack capability quickly expanded into a system of knowledge, integrations and custom actions.",
-      "The project reinforced the importance of designing scalable foundations that can accommodate new capabilities without breaking the entire experience.",
-    ],
+    text: "Asimov went from one Slack capability to a system of knowledge, integrations and actions. I'd plan the structure for new capabilities before we needed them.",
   },
 ] as const;
+
+/** Admin modal placement inside the 768×481 Blocker panel (Figma px). */
+const BLOCKER_PANEL = { width: 768, height: 481, imageWidth: 505, imageTop: 64 };
 
 export const metadata: Metadata = {
   title: "Asimov for Tars | AI Agent Workflow Design Case Study | Priyamwada Pandey",
   description:
-    "How I designed the knowledge, integrations and custom actions system that grew Tars' Slack AI agent from a single capability to 82% pilot adoption.",
+    "How I designed the knowledge, integrations and custom actions system that took Tars' Slack AI agent from a single capability to a teammate 12 of 15 beta teams kept using.",
   keywords: [
     "AI product design",
     "enterprise AI UX",
@@ -152,18 +163,17 @@ export const metadata: Metadata = {
 export default function AsimovPage() {
   return (
     <CaseStudyLayout
-      accentDark="#6D33AA"
-      accentLight="#E2D6EE"
+      sept2026Layout
+      accentDark={brands.tars.dark}
+      accentLight={brands.tars.light}
+      bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
+      headlineClassName={caseStudyTitle}
       logos={[
         { src: "/logos/tars.svg", alt: "TARS" },
       ]}
       projectName="Asimov for Tars"
       breadcrumbLabel="Asimov for Tars"
-      contextLabel="TL;DR"
-      headline="Scaling an AI agent to 82% pilot adoption through configurable workflows"
-      headlineColor="#333333"
-      headlineClassName="text-[36px] font-medium leading-[140%] text-[#333333] max-tablet:text-[24px]"
-      headlineStyle={{ fontWeight: 500 }}
+      headline="Designing the configuration hub for a Slack AI agent used by startup teams"
       reverseHeaderOrder={true}
       heroVisual={
         <AutoPauseVideo
@@ -176,41 +186,6 @@ export default function AsimovPage() {
           aria-label="Asimov for Tars, hero overview"
           className="block w-full rounded-2xl"
         />
-      }
-      hideContextLabel={true}
-      context={
-        <div className="flex max-w-[768px] flex-col items-start gap-6">
-          <h2 data-dialkit="h2" className={caseStudySectionH2}>TL;DR</h2>
-          <div className="flex flex-col items-start gap-4">
-            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-              As generative AI capabilities emerged in 2023, we saw an
-              opportunity to rethink workplace productivity: instead of
-              asking people to switch between tools, could an AI agent help
-              them work directly where conversations already happened?
-            </p>
-            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-              I designed Asimov from its first prototype into a broader AI
-              teammate inside Slack, creating experiences for knowledge
-              discovery, app integrations and automated workflows. The beta
-              release helped the Tars team reduce repetitive task-related
-              queries by ~74%.
-            </p>
-          </div>
-          <div className="flex w-full flex-col gap-8 md:flex-row md:gap-12">
-            {[
-              { label: "Pilot adoption", value: "82%" },
-              { label: "Reduction in queries", value: "~74%" },
-              { label: "Positive feedback", value: "86%" },
-            ].map((item) => (
-              <div key={item.label} className="flex-1">
-                <SectionLabel>{item.label}</SectionLabel>
-                <p className="font-label text-[48px] font-semibold leading-[48px] text-ink">
-                  {item.value}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
       }
       meta={{
         timelineLabel: "Shipped (Beta)",
@@ -225,202 +200,150 @@ export default function AsimovPage() {
         title:
           "I introduced interaction patterns to Rocket's AI assistant that made it to the product roadmap.",
       }}
-      toc={[
-        { id: "section-01", label: "What I Designed" },
-        { id: "section-02", label: "Opportunities & Research" },
-        { id: "section-03", label: "Deep Dive" },
-        { id: "constraint", label: "Blockers" },
-        { id: "reflection", label: "Reflections" },
-      ]}
     >
-      {/* Section 01 - Core Features */}
-      <section id="section-01" className="flex flex-col items-start gap-10">
-        <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
-          <SectionLabel>What I Designed</SectionLabel>
-          <h2 data-dialkit="h2" className={caseStudySectionH2}>
-            Expanding Asimov&apos;s role in Slack
-          </h2>
-          <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-            The product began with a single capability: summarizing Slack
-            threads. Each release expanded what Asimov could understand,
-            connect to and eventually do on a team&apos;s behalf.
+      <section id="about" className="flex flex-col gap-12">
+        <SectionHeader title="What is Asimov?">
+          <p>
+            Asimov is Tars&rsquo; AI agent for Slack. Work kept starting in Slack threads and
+            finishing somewhere else, so we wanted the agent to handle that second half.
           </p>
-        </div>
-
-        <div className="flex flex-col items-start gap-16 self-stretch">
-          {CORE_FEATURES.map((feature) => (
-            <div key={feature.title} className="flex flex-col items-start gap-4 self-stretch">
-              <div className="flex flex-col items-start gap-2">
-                <h3 data-dialkit="h3" className="text-[20px] font-medium leading-[140%] text-[#333333]">
-                  {feature.title}
-                </h3>
-                <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-                  {feature.description}
-                </p>
-              </div>
-              <CoreFeatureVideo src={feature.videoSrc} title={feature.title} />
-            </div>
-          ))}
-        </div>
+          <p>
+            I took it from a thread summarizer to an AI teammate inside Slack, creating experiences
+            for knowledge management, app integrations and configuring automated workflows.
+          </p>
+        </SectionHeader>
+        <CardRow variant="stat" cards={ABOUT_STATS} />
       </section>
 
-      {/* Section 02 - Opportunities & Research */}
-      <section id="section-02" className="flex flex-col items-start gap-[33px]">
-        <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
-          <SectionLabel>Opportunities & Research</SectionLabel>
-          <h2 data-dialkit="h2" className={caseStudySectionH2}>
-            Finding useful roles for Asimov
-          </h2>
-          <div className="flex flex-col items-start gap-4">
-            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-              I interviewed customer success, sales, engineering, design and
-              marketing to understand how work moved across conversations,
-              tools and teams.
-            </p>
-            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-              Rather than validating a specific feature, I wanted to identify
-              where an AI teammate could meaningfully participate in daily
-              work and boost productivity.
-            </p>
+      <section id="what-i-designed" className="flex flex-col gap-[88px]">
+        <SectionHeader eyebrow="What I Designed" title="Expanding Asimov's role in Slack">
+          <p>
+            The product began with a single capability: summarizing Slack threads. Each release
+            expanded what Asimov could understand, connect to and eventually do on a team&rsquo;s
+            behalf.
+          </p>
+        </SectionHeader>
+        {CORE_FEATURES.map((feature) => (
+          <div key={feature.title} className="flex flex-col gap-12">
+            <SectionHeader subheading level={3} title={feature.title}>
+              <p>{feature.description}</p>
+            </SectionHeader>
+            <CoreFeatureVideo src={feature.videoSrc} title={feature.title} />
           </div>
-        </div>
+        ))}
+      </section>
 
-        <div className="flex flex-col items-start gap-10 self-stretch">
+      <section id="opportunities" className="flex flex-col gap-[88px]">
+        <SectionHeader eyebrow="Opportunities & Research" title="Finding useful roles for Asimov">
+          <p>
+            I interviewed customer success, sales, engineering, design and marketing to understand
+            how work moved across conversations, tools and teams.
+          </p>
+          <p>
+            Rather than validating a specific feature, I wanted to identify where an AI teammate
+            could meaningfully participate in daily work and boost productivity.
+          </p>
+        </SectionHeader>
+        <div className="flex flex-col gap-28">
           {OPPORTUNITIES.map((opportunity, index) => (
             <div
               key={opportunity.title}
-              className={`flex flex-col items-center gap-8 self-stretch md:flex-row ${
-                index % 2 === 1 ? "md:flex-row-reverse" : ""
-              }`}
+              className={`flex w-full items-start gap-8 ${index % 2 === 1 ? "flex-row-reverse" : ""}`}
             >
-              <div className="flex flex-[336] flex-col items-start gap-4">
-                <h3 data-dialkit="h3" className="text-[20px] font-medium leading-[140%] text-[#333333]">
-                  {opportunity.title}
-                </h3>
-                <div className="flex flex-col items-start gap-4">
-                  {opportunity.description.map((paragraph, i) => (
-                    <p
-                      key={i}
-                      className="text-[16px] font-normal leading-[160%] text-[#555555]"
-                    >
-                      {paragraph}
-                    </p>
+              <div className="flex min-w-0 flex-1 flex-col gap-4">
+                <h3 className={caseStudySubheading}>{opportunity.title}</h3>
+                <div className={`${caseStudyText} flex flex-col gap-3`}>
+                  {opportunity.description.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
               </div>
-              <div
-                className={`flex w-full flex-[400] flex-col items-center gap-6 py-6 ${mediaPanel}`}
+              <figure
+                className={`relative min-w-0 flex-1 overflow-hidden ${mediaPanel}`}
+                style={{ aspectRatio: `${OPPORTUNITY_PANEL.width} / ${OPPORTUNITY_PANEL.height}` }}
               >
-                <div className="w-[88%] overflow-hidden rounded-lg border border-[#E8E8E8]">
-                  <Image
-                    src={opportunity.image.src}
-                    alt={opportunity.image.alt}
-                    width={opportunity.image.width}
-                    height={opportunity.image.height}
-                    className="block h-auto w-full"
-                  />
-                </div>
-                <p className="w-full px-6 text-center text-[12px] leading-[150%] text-[#555555]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={opportunity.image.src}
+                  alt={opportunity.image.alt}
+                  className="absolute left-1/2 h-auto -translate-x-1/2 rounded-[9px] border border-border"
+                  style={{
+                    width: `${(opportunity.image.width / OPPORTUNITY_PANEL.width) * 100}%`,
+                    top: `${(OPPORTUNITY_PANEL.imageTop / OPPORTUNITY_PANEL.height) * 100}%`,
+                  }}
+                />
+                <figcaption
+                  className="absolute inset-x-6 text-center font-label text-[12px] leading-[22.4px] text-secondary"
+                  style={{ top: `${(OPPORTUNITY_PANEL.captionTop / OPPORTUNITY_PANEL.height) * 100}%` }}
+                >
                   {opportunity.caption}
-                </p>
-              </div>
+                </figcaption>
+              </figure>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Section 03 - Deep Dive */}
-      <section id="section-03" className="flex flex-col items-start gap-16">
-        <div className="flex flex-col items-start gap-4 self-stretch">
-          <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
-            <SectionLabel>Deep Dive</SectionLabel>
-            <h2 data-dialkit="h2" className={caseStudySectionH2}>
-              Asimov&apos;s core system
-            </h2>
+      <section id="deep-dive" className="flex flex-col gap-[88px]">
+        <div className="flex flex-col gap-2">
+          <SectionHeader eyebrow="Deep Dive" title="Asimov's core system">
+            <p>
+              Setup took three steps: connect Slack, add knowledge sources and choose what Asimov
+              could access.
+            </p>
+            <p>After that, teams worked with it directly inside Slack.</p>
+          </SectionHeader>
+          <div
+            className="aspect-[1008/262] w-full overflow-hidden rounded-[var(--ds-radius-container)]"
+            aria-hidden="true"
+          >
+            <WorkflowLoopGraphic />
           </div>
-
-          <div className="flex flex-col items-start gap-4 self-stretch">
-            <div className="flex flex-col items-start gap-4">
-              <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-                Asimov&apos;s experience started with a simple setup: connect
-                Slack, define knowledge sources and choose what context the AI
-                could access.
-              </p>
-              <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-                Once configured, teams could interact with Asimov directly
-                inside Slack, where it used that context to summarize
-                conversations, retrieve information and complete workflows.
-              </p>
-            </div>
+        </div>
+        {DEEP_DIVE_ITEMS.map((item) => (
+          <div key={item.title} className="flex flex-col gap-12">
+            <SectionHeader subheading level={3} title={item.title}>
+              {item.description.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </SectionHeader>
             <div
-              className="aspect-[768/200] w-full min-h-[140px] overflow-hidden rounded-[var(--ds-radius-container)]"
+              className={`relative w-full overflow-hidden ${
+                item.fillContainer ? "aspect-[1008/658]" : ""
+              } ${mediaPanel}`}
               aria-hidden="true"
             >
-              <WorkflowLoopGraphic />
+              {item.graphicOverlay}
             </div>
           </div>
-        </div>
-
-        <div className="flex flex-col items-start gap-16 self-stretch">
-          {DEEP_DIVE_ITEMS.map((item) => (
-            <div key={item.title} className="flex flex-col items-start gap-4 self-stretch">
-              <div className="flex flex-col items-start gap-2">
-                <h3 data-dialkit="h3" className="text-[20px] font-medium leading-[140%] text-[#333333]">
-                  {item.title}
-                </h3>
-                <div className="flex flex-col items-start gap-4">
-                  {item.description.map((paragraph, i) => (
-                    <p
-                      key={i}
-                      className="text-[16px] font-normal leading-[160%] text-[#555555]"
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </div>
-              <div
-                className={`relative w-full overflow-hidden ${
-                  item.fillContainer ? "aspect-[768/500]" : ""
-                } ${mediaPanel}`}
-                aria-hidden="true"
-              >
-                {item.graphicOverlay}
-              </div>
-            </div>
-          ))}
-        </div>
+        ))}
       </section>
 
-      {/* Blockers */}
-      <section id="constraint" className="flex flex-col items-start gap-12">
-        <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
-          <SectionLabel>Blockers</SectionLabel>
-          <h2 data-dialkit="h2" className={caseStudySectionH2}>
-            Permissions and access
-          </h2>
-          <div className="flex flex-col items-start gap-4">
-            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-              Early versions of Asimov focused on what the AI could do. As its
-              capabilities expanded, a different question emerged: who should
-              be allowed to configure those capabilities?
-            </p>
-            <p className="text-[16px] font-normal leading-[160%] text-[#555555]">
-              A full role-based permission system required backend support
-              beyond the beta timeline. I designed the future access model
-              while relying on Slack&apos;s existing administrator
-              permissions as a temporary solution.
-            </p>
-          </div>
-        </div>
-
-        <div className={`relative aspect-[768/481] w-full overflow-hidden ${mediaPanel}`}>
+      <section id="blocker" className="flex flex-col items-center gap-12">
+        <SectionHeader eyebrow="Blocker" title="Permissions and access">
+          <p>
+            Early versions focused on what Asimov could do. As it grew, the question became who
+            should be allowed to configure it.
+          </p>
+          <p>
+            Full role-based permissions needed backend work beyond the beta timeline. I designed the
+            future access model and used Slack&rsquo;s admin permissions in the meantime.
+          </p>
+        </SectionHeader>
+        <div
+          className={`relative w-[768px] max-w-full overflow-hidden ${mediaPanel}`}
+          style={{ aspectRatio: `${BLOCKER_PANEL.width} / ${BLOCKER_PANEL.height}` }}
+        >
           <div
-            className="absolute left-1/2 top-4 w-[505px] max-w-[calc(100%-32px)] -translate-x-1/2 sm:top-16"
-            style={{ filter: "drop-shadow(0px 0px 24px rgba(0,0,0,0.04))" }}
+            className="absolute left-1/2 -translate-x-1/2"
+            style={{
+              width: `${(BLOCKER_PANEL.imageWidth / BLOCKER_PANEL.width) * 100}%`,
+              top: `${(BLOCKER_PANEL.imageTop / BLOCKER_PANEL.height) * 100}%`,
+              filter: "drop-shadow(0px 0px 24px rgba(0,0,0,0.04))",
+            }}
           >
             <Image
-              src="/new-asimov/Admin User Manage Settings Modal.png"
+              src="/new-asimov/Admin User Manage Settings Modal.avif"
               alt="Admin settings modal for managing who has access to configure Asimov"
               width={505}
               height={635}
@@ -430,34 +353,19 @@ export default function AsimovPage() {
         </div>
       </section>
 
-      {/* Reflection */}
-      <section id="reflection" className="flex flex-col items-start gap-12">
-        <div className="flex flex-col items-start gap-3 [&>p:first-child]:mb-0">
-          <SectionLabel>Reflections</SectionLabel>
-          <h2 data-dialkit="h2" className={caseStudySectionH2}>
-            What I&apos;d take into the next project
-          </h2>
-        </div>
-
-        <div className="flex flex-col items-start gap-12 self-stretch">
+      <section id="reflections">
+        <SectionHeader
+          eyebrow="Reflections"
+          title="What I'd take into the next project"
+          bodyClassName="gap-12 pt-2"
+        >
           {REFLECTIONS.map((item) => (
-            <div key={item.title} className="flex flex-col items-start gap-3 self-stretch">
-              <h3 data-dialkit="h3" className={`text-[20px] leading-[140%] text-[#333333] ${item.weight}`}>
-                {item.title}
-              </h3>
-              <div className="flex flex-col items-start gap-4">
-                {item.paragraphs.map((paragraph, i) => (
-                  <p
-                    key={i}
-                    className="text-[16px] font-normal leading-[160%] text-[#555555]"
-                  >
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
+            <div key={item.title} className="flex flex-col gap-3">
+              <h3 className={caseStudyRowTitle}>{item.title}</h3>
+              <p>{item.text}</p>
             </div>
           ))}
-        </div>
+        </SectionHeader>
       </section>
     </CaseStudyLayout>
   );

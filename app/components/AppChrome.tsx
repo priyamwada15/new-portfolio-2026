@@ -39,6 +39,8 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
   const isPlayground =
     pathname === "/playground" || pathname.startsWith("/playground/");
   const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy || isPlayground;
+  /** Rocket Mortgage sits on the lighter home surface (#FEFEFE); other case studies use the site default. */
+  const caseStudyBg = pathname === "/rocket-mortgage" ? HOME_V2_PAGE_BG : SITE_DEFAULT_PAGE_BG;
 
   useEffect(() => {
     if (isBarePage) return;
@@ -46,7 +48,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     if (isHomeV2) {
       document.body.style.backgroundColor = HOME_V2_PAGE_BG;
     } else if (isCaseStudy) {
-      document.body.style.backgroundColor = SITE_DEFAULT_PAGE_BG;
+      document.body.style.backgroundColor = caseStudyBg;
     } else if (isPlayground) {
       document.body.style.backgroundColor = PLAYGROUND_PAGE_BG;
     }
@@ -54,7 +56,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     return () => {
       document.body.style.backgroundColor = SITE_DEFAULT_PAGE_BG;
     };
-  }, [isBarePage, isCaseStudy, isHomeV2, isPlayground]);
+  }, [isBarePage, isCaseStudy, isHomeV2, isPlayground, caseStudyBg]);
 
   useEffect(() => {
     if (!useFlipBoardFooter) return;
@@ -69,7 +71,9 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     ? HOME_V2_PAGE_BG
     : isPlayground
       ? PLAYGROUND_PAGE_BG
-      : SITE_DEFAULT_PAGE_BG;
+      : isCaseStudy
+        ? caseStudyBg
+        : SITE_DEFAULT_PAGE_BG;
 
   const mainColumn = (
     <div className="flex min-h-screen flex-1 flex-col">

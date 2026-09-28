@@ -213,40 +213,54 @@ export function MediaRow({
   );
 }
 
-/** Centred quote from a colleague, with their name, LinkedIn link and title below. */
-export function Testimonial({
-  quote,
-  name,
+/**
+ * "Testimonials" section: eyebrow + heading, then quote cards side by side
+ * (Figma 435px cards, 58px apart, inset 40px). Each card: quote, then the
+ * name with a LinkedIn link and the person's title.
+ */
+export function Testimonials({
   title,
-  linkedin,
+  items,
 }: {
-  quote: string;
-  name: string;
   title: string;
-  linkedin: string;
+  items: { quote: string; name: string; title: string; linkedin: string }[];
 }) {
   return (
-    <figure className="flex w-full flex-col items-center gap-6 text-center">
-      <div className="flex w-full flex-col items-center gap-2">
-        <p className={caseStudyEyebrow}>Testimonial</p>
-        <blockquote className={`${caseStudySubheading} max-w-[800px]`}>{quote}</blockquote>
+    <section id="testimonials" className="flex w-full flex-col gap-12">
+      <div className="flex flex-col gap-2">
+        <p className={caseStudyEyebrow}>Testimonials</p>
+        <h2 className={caseStudyHeading}>{title}</h2>
       </div>
-      <figcaption className="flex flex-col items-center gap-2">
-        <span className="flex items-center gap-2">
-          <span className="font-label text-[14px] font-semibold leading-[21px] text-tertiary">{name}</span>
-          <a
-            href={linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${name} on LinkedIn`}
-            className="shrink-0 transition-opacity hover:opacity-60"
+      <div className="flex w-full items-stretch gap-[58px] px-10">
+        {items.map((item) => (
+          <figure
+            key={item.name}
+            className="flex min-w-0 flex-1 flex-col justify-center gap-4 rounded-[var(--ds-radius-container)] border border-border bg-surface-home p-6"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logos/LinkedIn_icon.svg" alt="" width={20} height={20} className="size-5" />
-          </a>
-        </span>
-        <span className="font-label text-[14px] leading-[1.5] text-tertiary opacity-80">{title}</span>
-      </figcaption>
-    </figure>
+            <blockquote className="font-label text-[14px] leading-[22px] text-secondary">
+              &ldquo;{item.quote}&rdquo;
+            </blockquote>
+            <figcaption className="flex flex-col gap-1">
+              <span className="flex items-center gap-2">
+                <span className="min-w-0 flex-1 font-label text-[14px] font-bold uppercase leading-[21px] text-[var(--accent-dark)]">
+                  {item.name}
+                </span>
+                <a
+                  href={item.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${item.name} on LinkedIn`}
+                  className="shrink-0 cursor-pointer transition-opacity hover:opacity-60"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/logos/LinkedIn_icon.svg" alt="" width={16} height={16} className="size-4" />
+                </a>
+              </span>
+              <span className="font-label text-[12px] leading-[1.5] text-secondary">{item.title}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
   );
 }

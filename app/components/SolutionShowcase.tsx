@@ -3,8 +3,9 @@
 import { useEffect, useRef } from "react";
 
 interface Props {
-  bgSrc: string;
-  bgAlt: string;
+  /** Optional photo backdrop (dimmed); omit for a plain panel styled via `className`. */
+  bgSrc?: string;
+  bgAlt?: string;
   videoSrc: string;
   videoAlt?: string;
   videoClipPath?: string;
@@ -17,7 +18,7 @@ interface Props {
 
 export default function SolutionShowcase({
   bgSrc,
-  bgAlt,
+  bgAlt = "",
   videoSrc,
   videoAlt = "",
   videoClipPath = "none",
@@ -66,18 +67,22 @@ export default function SolutionShowcase({
     <div
       className={`relative overflow-hidden rounded-[var(--ds-radius-container)] ${className ?? "w-full h-[80vh]"}`}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={bgSrc}
-        alt={bgAlt}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ outline: "none" }}
-      />
+      {bgSrc && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={bgSrc}
+            alt={bgAlt}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ outline: "none" }}
+          />
 
-      <div
-        className="absolute inset-0"
-        style={{ background: "rgba(0,0,0,0.35)" }}
-      />
+          <div
+            className="absolute inset-0"
+            style={{ background: "rgba(0,0,0,0.35)" }}
+          />
+        </>
+      )}
 
       {videoSrc && (
         <div className="absolute inset-0 flex items-center justify-center">

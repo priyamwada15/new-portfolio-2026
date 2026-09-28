@@ -1,14 +1,16 @@
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import SolutionShowcase from "../components/SolutionShowcase";
 import { RocketMortgageTripleVideos } from "../components/RocketMortgageTripleVideos";
-import { SectionHeader, Testimonial } from "../components/CaseStudySections";
+import { SectionHeader, Testimonials } from "../components/CaseStudySections";
 import {
   brands,
+  caseStudyEyebrow,
   caseStudyRowTitle,
   caseStudySubheading,
   caseStudyText,
   caseStudyTitle,
-  SITE_DEFAULT_PAGE_BG,
+  HOME_V2_PAGE_BG,
+  ROCKET_MORTGAGE_CARD_VIDEOS,
 } from "@/design-system";
 
 const PROBLEM_IMAGE_DIR = "/new-rocket-mortgage-case-page";
@@ -39,7 +41,7 @@ function ProblemCard({
 }: React.ComponentProps<typeof ProblemCardText> & { src: string; alt: string; full?: boolean }) {
   return (
     <div
-      className={`flex flex-col items-center gap-10 overflow-hidden rounded-[var(--ds-radius-container)] border border-border bg-surface-media px-10 pb-10 ${
+      className={`flex flex-col items-center gap-10 overflow-hidden rounded-[var(--ds-radius-container)] border border-border bg-surface-page px-10 pb-10 ${
         full ? "justify-end pt-10" : ""
       }`}
     >
@@ -60,17 +62,19 @@ function ProblemSpace() {
     <section id="problem-space" className="flex flex-col gap-12">
       <SectionHeader eyebrow="Problem Space" title="Rocket's AI assistant treated every homebuyer the same">
         <p>
-          As an intern at Rocket Mortgage, I had to pick my own solo project. I went through the
-          research team&rsquo;s reports, client reviews and chat transcripts looking for a gap and
-          kept landing on Rocket Assist.
+          Rocket&rsquo;s AI Assistant was giving clients generic guidance when they needed
+          personalized support the most. The lack of relevant guidance and transparency made the
+          experience harder to trust and contributed to lower chat containment.
         </p>
         <p>
-          Clients were leaving the chat and calling support for questions it could have answered. I
-          scoped the project around the three gaps that showed up most.
+          To understand where the experience was falling short, I reviewed research reports, client
+          reviews, and chat transcripts. Three recurring gaps surfaced across the research, which
+          became the focus of the project.
         </p>
       </SectionHeader>
+      {/* 01 + quote sit in the right column; DOM order keeps 01 first for screen readers. */}
       <div className="grid w-full grid-cols-2 gap-4">
-        <div className="flex flex-col gap-[21px]">
+        <div className="order-2 flex flex-col gap-[21px]">
           <ProblemCard
             full
             src={`${PROBLEM_IMAGE_DIR}/Problem%201.avif`}
@@ -90,7 +94,7 @@ function ProblemSpace() {
             </figcaption>
           </figure>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="order-1 flex flex-col gap-4">
           <ProblemCard
             src={`${PROBLEM_IMAGE_DIR}/Problem%202.avif`}
             alt="Rocket Assist giving the same generic loan-stage answer to every client"
@@ -111,36 +115,33 @@ function ProblemSpace() {
   );
 }
 
+/** Same clips as the hero (RocketMortgageTripleVideos): [0] onboarding, [1] inspector, [2] escalation. */
 const CORE_FLOWS = [
   {
-    title: "Move 1: Reading the loan stage to know what's next",
+    title: "Move 1: Turning walls of text into answers clients could act on",
     body: [
-      "I sat with engineers to see what data the chat could use without a big restructure. A live API already fed each client's loan stage to their dashboard, so Rocket Assist could read the same state and show only the tasks still open.",
+      "In the chat transcripts, Rocket Assist answered almost every question with a block of FAQ text. A client asking what an inspection costs needed an estimate for their area and got a paragraph on everything it depends on.",
+      "I kept the AI's guidance to a few lines in the message bubble and moved everything else into cards below it. Inspector recommendations became contact-style cards that named the client's realtor as the source, since a shortlist from someone they already worked with was easier to trust than one from the AI. Clients in testing said as much.",
     ],
-    bgSrc: "/rm-bg-orientation.avif",
-    bgAlt: "Living room interior",
-    videoSrc: "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1776030651/Onboarding_Flow_hm76na.mp4",
-    videoAlt: "Redesigned onboarding flow for Rocket Assist",
-  },
-  {
-    title: "Move 2: Naming the source behind every recommendation",
-    body: [
-      "Inspector suggestions named the realtor as the source, appraisal insights pointed to the report and insurance tips came from the home's own listing. Clients could open the files right in the chat.",
-    ],
-    bgSrc: "/rm-bg-comprehension.avif",
-    bgAlt: "Kitchen interior",
-    videoSrc: "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1776035827/Inspector_Recommendations_cvyuma.mp4",
+    videoSrc: ROCKET_MORTGAGE_CARD_VIDEOS[1],
     videoAlt: "Personalized recommendations of local inspectors",
   },
   {
-    title: "Move 3: Handing off to a person before the client gets stuck",
+    title: "Move 2: Using what Rocket already knew about each client",
     body: [
-      "Chat specialists handled these conversations every day, so I interviewed them on what clients kept asking and how they worked around Rocket Assist.",
-      "A request for help or signs of frustration now route the client straight to their purchase specialist, with the conversation history carried over.",
+      "By the time clients reached Rocket Assist, they had already shared their documents, pre-approval and home details with Rocket. The chat still answered like a stranger, so clients stopped trusting it and called their specialist even for basic questions.",
+      "I sat with engineers and found a live API already feeding each client's loan stage and home details to their dashboard, which made it the lowest-friction way to personalize the chat. Routine questions could now stay in the chat, leaving specialists more time for the sensitive ones.",
     ],
-    bgSrc: "/rm-bg-resolution.avif",
-    bgAlt: "Person on telephone",
-    videoSrc: "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1776035827/Human_Handover_xbhbj3.mp4",
+    videoSrc: ROCKET_MORTGAGE_CARD_VIDEOS[0],
+    videoAlt: "Redesigned onboarding flow for Rocket Assist",
+  },
+  {
+    title: "Move 3: Handing clients to their specialist without making them start over",
+    body: [
+      "Asking for a person got clients a phone number, and the specialist on the other end couldn't see the chat. One client wrote, “I already talked about this in chat, why do I have to repeat it everywhere.”",
+      "I routed a request for help straight to the client's purchase specialist inside the chat, with the conversation carried over. If the specialist was busy, the client could wait in the chat or get notified when they were free. Handing off early also helped with trust, since the research reports showed clients grew suspicious when the AI claimed it could help with everything.",
+    ],
+    videoSrc: ROCKET_MORTGAGE_CARD_VIDEOS[2],
     videoAlt: "Quick human handover and context preservation",
   },
 ];
@@ -149,15 +150,11 @@ const CORE_FLOWS = [
 function CoreFlows() {
   return (
     <section id="core-flows" className="flex flex-col gap-28">
-      <SectionHeader eyebrow="Core Flows" title="How I turned a generic experience into a guided mortgage journey">
+      <SectionHeader eyebrow="Core Flows" title="What I changed to keep clients in the chat">
         <p>
-          The redesign runs from onboarding through in-chat guidance, with task cards scoped to each
-          client&rsquo;s loan stage, recommendations that name their source and a handoff to a real
-          person.
-        </p>
-        <p>
-          The interaction patterns I proposed influenced Rocket Assist&rsquo;s product roadmap beyond
-          the internship.
+          I wanted more clients to get their answers in the chat and leave satisfied with it. That
+          meant making Rocket Assist personal enough to trust, and giving it interactions such as
+          inspector cards and a handoff wait timer, so it felt like a mature Rocket product.
         </p>
       </SectionHeader>
       {CORE_FLOWS.map((flow, index) => (
@@ -173,13 +170,11 @@ function CoreFlows() {
               ))}
             </div>
           </div>
-          {/* Figma: 480×747 container, 323×667 phone with 41.94px corners. */}
+          {/* Figma: 480×747 container, 323×667 phone with 41.94px corners; styled like the problem cards. */}
           <SolutionShowcase
-            bgSrc={flow.bgSrc}
-            bgAlt={flow.bgAlt}
             videoSrc={flow.videoSrc}
             videoAlt={flow.videoAlt}
-            className="aspect-[480/747] min-w-0 flex-1"
+            className="aspect-[480/747] min-w-0 flex-1 border border-border bg-surface-page"
             videoClassName="h-[89.29%] w-[67.29%] rounded-[41.94px] object-cover"
           />
         </div>
@@ -209,14 +204,13 @@ const IMPACT_STATS = [
 function Impact() {
   return (
     <section id="impact">
-      <SectionHeader eyebrow="Impact" title="Validating the new experience with the clients" bodyClassName="gap-12">
+      <SectionHeader eyebrow="Impact" title="Validating the new experience with the clients" bodyClassName="gap-12 pt-2">
+        {/* Same stat layout as Debug Mode: label, then the number reading straight into its sentence. */}
         {IMPACT_STATS.map((stat) => (
-          <div key={stat.label} className="flex items-center gap-6">
-            <p className="flex size-20 shrink-0 items-center justify-center rounded-full bg-[var(--accent-dark)] font-label text-[24px] font-bold leading-[1.45] text-surface-page">
-              {stat.value}
-            </p>
-            <div className="flex min-w-0 flex-1 flex-col gap-1">
-              <h3 className={caseStudyRowTitle}>{stat.label}</h3>
+          <div key={stat.label} className="flex flex-col gap-4">
+            <h3 className={caseStudyEyebrow}>{stat.label}</h3>
+            <div className="flex flex-col gap-2">
+              <p className="font-label text-[32px] font-bold leading-none text-ink">{stat.value}</p>
               <p>{stat.text}</p>
             </div>
           </div>
@@ -301,8 +295,9 @@ export default function RocketMortgageContent() {
       sept2026Layout
       accentDark={brands.rocket.dark}
       accentLight={brands.rocket.light}
-      bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
+      bodyBackgroundColor={HOME_V2_PAGE_BG}
       headlineClassName={caseStudyTitle}
+      headlineMarginClassName="mb-8"
       logos={[
         { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
         { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
@@ -310,7 +305,7 @@ export default function RocketMortgageContent() {
       projectName="Rocket Mortgage"
       headline="Personalizing AI guidance across 6.8M+ client conversations"
       reverseHeaderOrder
-      heroVisual={<RocketMortgageTripleVideos className="rounded-2xl" />}
+      heroVisual={<RocketMortgageTripleVideos framed className="rounded-[var(--ds-radius-container)]" />}
       meta={{
         timelineLabel: "Handed off",
         timeline: "Aug 2025",
@@ -327,25 +322,34 @@ export default function RocketMortgageContent() {
     >
       <ProblemSpace />
 
-      <Testimonial
-        quote="This was perhaps her most complex assignment, and Pri quickly mapped key friction points while collaborating with engineers and researchers. Her work helped influence product roadmap priorities."
-        name="Dana Lee"
-        title="Director of CXD & Digital Product Management"
-        linkedin="https://www.linkedin.com/in/danayoo/"
-      />
 
       <CoreFlows />
 
       <Impact />
 
-      <Blocker />
-
-      <Testimonial
-        quote="Driven by curiosity to understand client problems, Pri developed solutions that delivered business value. Her prototypes influenced product strategy, and she collaborated exceptionally across teams."
-        name="Amanda Matzenbach"
-        title="Conversational AI Design Manager & Mentor"
-        linkedin="https://www.linkedin.com/in/amanda-matzenbach/"
+      <Testimonials
+        title="Feedback from my director and mentor"
+        items={[
+          {
+            quote:
+              "This was perhaps her most complex assignment, and Pri quickly mapped key friction points while collaborating with engineers and researchers. Her work helped influence product roadmap priorities.",
+            name: "Dana Lee",
+            title: "Director of CXD & Digital Product Management",
+            linkedin: "https://www.linkedin.com/in/danayoo/",
+          },
+          {
+            quote:
+              "Driven by curiosity to understand client problems, Pri developed solutions that delivered business value. Her prototypes influenced product strategy, and she collaborated exceptionally across teams.",
+            name: "Amanda Matzenbach",
+            title: "Conversational AI Design Manager & Mentor",
+            linkedin: "https://www.linkedin.com/in/amanda-matzenbach/",
+          },
+        ]}
       />
+
+      {/* Blocker hidden for now: the "tested well but got cut" framing read as negative. Reframe before bringing back. */}
+      {false && <Blocker />}
+
 
       <Reflections />
     </CaseStudyLayout>

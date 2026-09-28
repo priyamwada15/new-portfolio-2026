@@ -5,6 +5,7 @@ import {
   homeCardFooterTagsStyle,
   homeCardFooterTitleStyle,
   homeIntroCopyStyle,
+  SALESFORCE_HERO_VIDEO,
 } from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { HomeV2WidgetBento } from "./home-v2/HomeV2WidgetBento";
@@ -437,8 +438,8 @@ export default async function HomeV2Page() {
                   }}
                 />
                 <LazyVideo
-                  src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295117/Salesforce_new_case_study_card_and_hero_fx5vpe.mp4"
-                  poster="/Salesforce Poster.png"
+                  src={SALESFORCE_HERO_VIDEO}
+                  poster="/Salesforce Poster.avif"
                   ariaLabel="Salesforce case study preview video"
                   style={{
                     width: "100%",

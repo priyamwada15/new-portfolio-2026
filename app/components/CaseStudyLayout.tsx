@@ -69,8 +69,6 @@ interface Props {
   headlineColor?: string;
   /** Optional classes merged onto the H1 (replaces default responsive size/weight). */
   headlineClassName?: string;
-  /** Sept 2026 layout: overrides the gap below the H1 (default `mb-12`, 48px). */
-  headlineMarginClassName?: string;
   /** Inline styles merged onto the H1 (e.g. DialKit-driven size/weight). */
   headlineStyle?: React.CSSProperties;
   /** Overrides the default margin-bottom below the context/TL;DR block. */
@@ -149,7 +147,6 @@ export default function CaseStudyLayout({
   sectionBodyClassName,
   headlineColor,
   headlineClassName,
-  headlineMarginClassName,
   headlineStyle,
   contextMarginBottomClassName,
   sept2026Layout = false,
@@ -302,7 +299,7 @@ export default function CaseStudyLayout({
       /* logos → H1 → heroVisual → meta */
       <>
         {logoRow(sept2026Layout ? "mb-4" : "mb-8")}
-        {h1InHeaderSection && h1InHeader(`rm-header-h1 ${sept2026Layout ? headlineMarginClassName ?? "mb-12" : "mb-8"}`)}
+        {h1InHeaderSection && h1InHeader(`rm-header-h1 ${sept2026Layout ? "mb-6" : "mb-8"}`)}
         {heroVisual && (
           <div className={`rm-header-hero ${sept2026Layout ? "mb-16" : "mb-10"}`}>{heroVisual}</div>
         )}

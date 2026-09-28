@@ -13,7 +13,7 @@ import {
   caseStudyText,
   caseStudyTitle,
   mediaPanel,
-  SITE_DEFAULT_PAGE_BG,
+  CASE_STUDY_PAGE_BG,
 } from "@/design-system";
 
 const CORE_FEATURES = [
@@ -166,7 +166,7 @@ export default function AsimovPage() {
       sept2026Layout
       accentDark={brands.tars.dark}
       accentLight={brands.tars.light}
-      bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
+      bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
       logos={[
         { src: "/logos/tars.svg", alt: "TARS" },
@@ -184,7 +184,7 @@ export default function AsimovPage() {
           playsInline
           preload="metadata"
           aria-label="Asimov for Tars, hero overview"
-          className="block w-full rounded-2xl"
+          className="block w-full rounded-[var(--ds-radius-container)]"
         />
       }
       meta={{
@@ -294,7 +294,7 @@ export default function AsimovPage() {
             <p>After that, teams worked with it directly inside Slack.</p>
           </SectionHeader>
           <div
-            className="aspect-[1008/262] w-full overflow-hidden rounded-[var(--ds-radius-container)]"
+            className="aspect-[1008/262] w-full overflow-hidden rounded-[var(--ds-radius-container)] border border-border"
             aria-hidden="true"
           >
             <WorkflowLoopGraphic />
@@ -307,10 +307,14 @@ export default function AsimovPage() {
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </SectionHeader>
+            {/* The knowledge demo's tab bar sits above its video, so the panel matches
+                the video's baked-in #F5F5F5 instead of the #FAFAFA media panel. */}
             <div
               className={`relative w-full overflow-hidden ${
-                item.fillContainer ? "aspect-[1008/658]" : ""
-              } ${mediaPanel}`}
+                item.fillContainer
+                  ? `aspect-[1008/658] ${mediaPanel}`
+                  : "rounded-[var(--ds-radius-container)] border border-border bg-surface-media"
+              }`}
               aria-hidden="true"
             >
               {item.graphicOverlay}

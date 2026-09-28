@@ -11,7 +11,7 @@ import {
   caseStudySubheading,
   caseStudyText,
   caseStudyTitle,
-  SITE_DEFAULT_PAGE_BG,
+  CASE_STUDY_PAGE_BG,
   TARS_DEBUG_MODE_HERO_VIDEO,
 } from "@/design-system";
 
@@ -81,7 +81,7 @@ export default function DebugModePage() {
       sept2026Layout
       accentDark={brands.tars.dark}
       accentLight={brands.tars.light}
-      bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
+      bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       projectName="Debug Mode for Tars"
@@ -89,16 +89,22 @@ export default function DebugModePage() {
       headline="Designing an internal debugger that cut troubleshooting time by ~70%"
       reverseHeaderOrder={true}
       heroVisual={
-        <AutoPauseVideo
-          src={TARS_DEBUG_MODE_HERO_VIDEO}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-label="Debug Mode — Tars canvas with active gambit highlighted"
-          className="block w-full rounded-2xl"
-        />
+        // Crops the 1920×1080 video to the laptop (x 70–1845, y 0–1069), dropping the
+        // baked-in margins and green edge lines, so the 24px padding frames it evenly.
+        <div className="w-full rounded-[var(--ds-radius-container)] bg-surface-page p-6">
+          <div className="relative aspect-[1776/1070] w-full overflow-hidden">
+            <AutoPauseVideo
+              src={TARS_DEBUG_MODE_HERO_VIDEO}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Debug Mode — Tars canvas with active gambit highlighted"
+              className="absolute left-[-3.941%] top-0 aspect-video w-[108.108%] max-w-none"
+            />
+          </div>
+        </div>
       }
       meta={{
         timeline: "Oct 2022",
@@ -135,17 +141,22 @@ export default function DebugModePage() {
           ))}
         </SectionHeader>
 
-        <div className="aspect-[768/524] w-full overflow-hidden rounded-[var(--ds-radius-container)] bg-surface-page">
-          <AutoPauseVideo
-            src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1784081146/New_Debug_Video_uscsz1.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-label="Debug Mode canvas highlighting the active gambit as it steps through the flow"
-            className="h-full w-full object-cover"
-          />
+        {/* The 16:9 video has its own #FAFAFA margins baked in. The inner box crops the
+            frame to just the app window (x 167–1760, y 37–1045 of 1920×1080), so the
+            panel's 24px padding is the only space around it. */}
+        <div className="w-full rounded-[var(--ds-radius-container)] border border-border bg-surface-page p-6">
+          <div className="relative aspect-[1593/1008] w-full overflow-hidden">
+            <AutoPauseVideo
+              src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1784081146/New_Debug_Video_uscsz1.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Debug Mode canvas highlighting the active gambit as it steps through the flow"
+              className="absolute left-[-10.48%] top-[-3.67%] aspect-video w-[120.53%] max-w-none"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col gap-12 md:flex-row">

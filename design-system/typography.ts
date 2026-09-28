@@ -35,9 +35,9 @@ export const caseStudySectionH2 =
  * Accent-coloured roles read `--accent-dark`, which CaseStudyLayout sets per brand.
  */
 
-/** Case study H1 — 40px Medium. */
+/** Case study H1 — 32px Medium. */
 export const caseStudyTitle =
-  "font-label text-[40px] font-medium leading-[1.4] text-primary" as const;
+  "font-label text-[32px] font-medium leading-[1.4] text-primary" as const;
 
 /** Section heading — 24px SemiBold. */
 export const caseStudyHeading =
@@ -84,6 +84,6 @@ export const salesforceH3 =
 export const salesforceBody =
   "text-[16px] font-normal leading-[160%] text-primary" as const;
 
-/** Shared media panel shell (grey fill + large radius). */
+/** Shared media panel shell (#FAFAFA fill, 1px border, 24px radius). */
 export const mediaPanel =
-  "bg-surface-media rounded-[var(--ds-radius-container)]" as const;
+  "border border-border bg-surface-page rounded-[var(--ds-radius-container)]" as const;

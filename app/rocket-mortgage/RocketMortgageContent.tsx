@@ -9,7 +9,7 @@ import {
   caseStudySubheading,
   caseStudyText,
   caseStudyTitle,
-  HOME_V2_PAGE_BG,
+  CASE_STUDY_PAGE_BG,
   ROCKET_MORTGAGE_CARD_VIDEOS,
 } from "@/design-system";
 
@@ -295,9 +295,8 @@ export default function RocketMortgageContent() {
       sept2026Layout
       accentDark={brands.rocket.dark}
       accentLight={brands.rocket.light}
-      bodyBackgroundColor={HOME_V2_PAGE_BG}
+      bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
-      headlineMarginClassName="mb-8"
       logos={[
         { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
         { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },

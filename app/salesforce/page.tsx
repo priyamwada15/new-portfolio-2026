@@ -9,7 +9,7 @@ import {
   brands,
   caseStudyTitle,
   SALESFORCE_HERO_VIDEO,
-  SITE_DEFAULT_PAGE_BG,
+  CASE_STUDY_PAGE_BG,
 } from "@/design-system";
 
 /** Brand-coloured inline emphasis inside body copy. */
@@ -36,7 +36,7 @@ export default function SalesforcePage() {
       sept2026Layout
       accentDark={brands.salesforce.accentDark}
       accentLight={brands.salesforce.accentLight}
-      bodyBackgroundColor={SITE_DEFAULT_PAGE_BG}
+      bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
       logos={[{ src: "/logos/salesforce.svg", alt: "Salesforce", cls: "h-10" }]}
       reverseHeaderOrder={true}
@@ -118,14 +118,17 @@ export default function SalesforcePage() {
             {" "}were used across the product, led visual design and evaluation of Galileo.
           </p>
         </SectionHeader>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/new-salesforce/galileo/role-design-flow.avif"
-          alt="Galileo information architecture: Academic Overview branches into Browse Courses (Discovery, Course Catalog, Course Details), Shortlisted Courses (All Shortlisted, Scheduler, Compare Courses), Semester Planner, which connects to the iGPS university portal through an enrollment plugin, and Academic Trajectory. Academic Trajectory and Course Details are highlighted as features I owned."
-          width={1008}
-          height={602}
-          className="block h-auto w-full"
-        />
+        {/* The diagram's #FAFAFA background runs to its bottom edge; the panel adds 24px below it. */}
+        <div className="overflow-hidden rounded-[var(--ds-radius-container)] border border-border bg-surface-page pb-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/new-salesforce/galileo/role-design-flow.avif"
+            alt="Galileo information architecture: Academic Overview branches into Browse Courses (Discovery, Course Catalog, Course Details), Shortlisted Courses (All Shortlisted, Scheduler, Compare Courses), Semester Planner, which connects to the iGPS university portal through an enrollment plugin, and Academic Trajectory. Academic Trajectory and Course Details are highlighted as features I owned."
+            width={1008}
+            height={602}
+            className="block h-auto w-full"
+          />
+        </div>
       </section>
 
       <section id="problem" className="flex flex-col gap-[72px]">
@@ -239,7 +242,7 @@ export default function SalesforcePage() {
             playsInline
             preload="metadata"
             aria-label="Galileo Course Details page, built from all three sources"
-            className="block w-full rounded-[var(--ds-radius-container)]"
+            className="block w-full rounded-[var(--ds-radius-container)] border border-border"
           />
         </div>
         <div className="flex flex-col gap-12">
@@ -316,7 +319,7 @@ export default function SalesforcePage() {
           playsInline
           preload="metadata"
           aria-label="Galileo Academic Trajectory across its four lenses"
-          className="block w-full rounded-[var(--ds-radius-container)]"
+          className="block w-full rounded-[var(--ds-radius-container)] border border-border"
         />
         <div className="flex flex-col gap-12">
           <MediaRow

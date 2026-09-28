@@ -65,7 +65,7 @@ function ArrowButton({ direction, onClick }: { direction: "left" | "right"; onCl
 function Slide({ slide }: { slide: BeforeAfterSlide }) {
   return (
     <div
-      className="relative h-[535px] shrink-0 rounded-[var(--ds-radius-container)] bg-surface-media"
+      className="relative h-[535px] shrink-0 rounded-[var(--ds-radius-container)] border border-border bg-surface-page"
       style={{ width: SLIDE_WIDTH }}
     >
       <div className="absolute left-6 right-6 top-6 flex items-center gap-4">

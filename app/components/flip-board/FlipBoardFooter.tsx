@@ -18,11 +18,6 @@ import {
   SOCIAL_SEGMENTS,
 } from "./constants";
 import {
-  armFlipBoardFooterSoundUnlock,
-  playFlipBoardSpin,
-  stopFlipBoardSpin,
-} from "./flipBoardSound";
-import {
   FLIP_BOARD_THEME_DEFAULTS,
   flipBoardCssVars,
 } from "./flipBoardDial.config";
@@ -157,7 +152,6 @@ export default function FlipBoardFooter({
   );
 
   const resetToIdle = useCallback(() => {
-    stopFlipBoardSpin();
     flipTweenRef.current?.kill();
     flipTweenRef.current = null;
 
@@ -180,19 +174,10 @@ export default function FlipBoardFooter({
     if (!ready) return false;
 
     flipTweenRef.current?.kill();
-    stopFlipBoardSpin();
 
     const revealDuration = FLIP_BOARD_REVEAL_DURATION_S;
 
-    if (!reducedMotion) {
-      playFlipBoardSpin();
-    }
-
-    const master = gsap.timeline({
-      onComplete: () => {
-        stopFlipBoardSpin();
-      },
-    });
+    const master = gsap.timeline();
 
     ordered.forEach((spec) => {
       const handle = cellHandles.current.get(spec.id)!;
@@ -311,8 +296,6 @@ export default function FlipBoardFooter({
         if (!ready) return;
 
         scrollRevealFiredRef.current = true;
-        const footerEl = footerRef.current;
-        if (footerEl) armFlipBoardFooterSoundUnlock(footerEl);
         runFlipAnimation();
       },
       { threshold: 0 },
@@ -324,7 +307,6 @@ export default function FlipBoardFooter({
 
   useGSAP(
     () => () => {
-      stopFlipBoardSpin();
       flipTweenRef.current?.kill();
     },
     { scope: boardRef },

@@ -4,12 +4,11 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "./Nav";
 import Footer from "./Footer";
-import { HOME_V2_PAGE_BG, PLAYGROUND_PAGE_BG, SITE_DEFAULT_PAGE_BG } from "@/design-system";
+import { CASE_STUDY_PAGE_BG, HOME_V2_PAGE_BG, PLAYGROUND_PAGE_BG, SITE_DEFAULT_PAGE_BG } from "@/design-system";
 import { isCaseStudyPath } from "../lib/caseStudy";
 import dynamic from "next/dynamic";
 import { FLIP_BOARD_REVEAL_IMAGE_OVERLAP_PX } from "./flip-board/constants";
 import { HOME_SCROLL_REVEAL_CSS_DEFAULTS } from "../home-v2/homeScrollRevealDial.config";
-import { initFlipBoardAudioUnlock } from "./flip-board/flipBoardSound";
 import DevAgentation from "./DevAgentation";
 
 const FlipBoardFooter = dynamic(
@@ -39,8 +38,6 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
   const isPlayground =
     pathname === "/playground" || pathname.startsWith("/playground/");
   const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy || isPlayground;
-  /** Rocket Mortgage sits on the lighter home surface (#FEFEFE); other case studies use the site default. */
-  const caseStudyBg = pathname === "/rocket-mortgage" ? HOME_V2_PAGE_BG : SITE_DEFAULT_PAGE_BG;
 
   useEffect(() => {
     if (isBarePage) return;
@@ -48,7 +45,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     if (isHomeV2) {
       document.body.style.backgroundColor = HOME_V2_PAGE_BG;
     } else if (isCaseStudy) {
-      document.body.style.backgroundColor = caseStudyBg;
+      document.body.style.backgroundColor = CASE_STUDY_PAGE_BG;
     } else if (isPlayground) {
       document.body.style.backgroundColor = PLAYGROUND_PAGE_BG;
     }
@@ -56,12 +53,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     return () => {
       document.body.style.backgroundColor = SITE_DEFAULT_PAGE_BG;
     };
-  }, [isBarePage, isCaseStudy, isHomeV2, isPlayground, caseStudyBg]);
-
-  useEffect(() => {
-    if (!useFlipBoardFooter) return;
-    initFlipBoardAudioUnlock();
-  }, [useFlipBoardFooter]);
+  }, [isBarePage, isCaseStudy, isHomeV2, isPlayground]);
 
   if (isBarePage) {
     return <main className="flex-1 min-h-screen">{children}</main>;
@@ -72,7 +64,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     : isPlayground
       ? PLAYGROUND_PAGE_BG
       : isCaseStudy
-        ? caseStudyBg
+        ? CASE_STUDY_PAGE_BG
         : SITE_DEFAULT_PAGE_BG;
 
   const mainColumn = (

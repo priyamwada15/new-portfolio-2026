@@ -29,9 +29,6 @@ export const SOCIAL_SEGMENTS: readonly SocialSegment[] = [
 export const FLIP_BOARD_BACKGROUND_SRC =
   "/flip-board-footer/pench-jabalpur-marble-rocks-activity.jpg.imgw.1280.1280.jpeg_202606031550.jpeg";
 
-export const FLIP_BOARD_SPIN_SOUND_SRC =
-  "/flip-board-footer/victorabdo-spin-232536.mp3";
-
 /** Wall-clock reveal — synced to spin SFX length. */
 export const FLIP_BOARD_REVEAL_DURATION_S = 3;
 

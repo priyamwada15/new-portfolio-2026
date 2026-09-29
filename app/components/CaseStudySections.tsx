@@ -81,7 +81,7 @@ export function CardRow({
           key={card.label}
           className={`flex min-w-0 flex-1 flex-col ${
             stat
-              ? "gap-6 rounded-[16px] border border-border bg-surface-case-study px-[23px] py-[39px]"
+              ? "gap-6 rounded-[var(--ds-radius-container)] border border-border bg-surface-case-study px-[23px] py-[39px]"
               : `gap-3 rounded-[var(--ds-radius-container)] ${
                   dark
                     ? "border border-[var(--accent-dark)] bg-[var(--accent-dark)] px-[23px] py-[39px]"

@@ -10,7 +10,10 @@ import AgentMentionVisual from "./AgentMentionVisual";
 import { CardRow, SectionHeader } from "../components/CaseStudySections";
 import {
   brands,
+  caseStudyEyebrow,
   caseStudyRowTitle,
+  caseStudySubheading,
+  caseStudyText,
   caseStudyTitle,
   mediaPanel,
   CASE_STUDY_PAGE_BG,
@@ -63,6 +66,40 @@ function ScreenshotPanel({
   );
 }
 
+/**
+ * Taller grey panel for a split row: the screenshot sits 48px from the top of a
+ * 488×558 frame, with the caption near the bottom, so it holds as the column scales.
+ */
+function TallScreenshotPanel({
+  src,
+  alt,
+  width,
+  caption,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  caption: string;
+}) {
+  return (
+    <figure className={`relative aspect-[488/558] w-full overflow-hidden ${mediaPanel}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt}
+        className="absolute left-1/2 h-auto -translate-x-1/2 rounded-[9px] border border-border"
+        style={{ width: `${(width / 488) * 100}%`, top: `${(48 / 558) * 100}%` }}
+      />
+      <figcaption
+        className="absolute inset-x-6 text-center font-label text-[12px] leading-[22.4px] text-secondary"
+        style={{ top: `${(510 / 558) * 100}%` }}
+      >
+        {caption}
+      </figcaption>
+    </figure>
+  );
+}
+
 /** Stand-in for a visual that is still being designed. */
 function VisualPlaceholder({ label }: { label: string }) {
   return (
@@ -94,8 +131,8 @@ function PreviewVideo({ src, label }: { src: string; label: string }) {
   );
 }
 
-/** Admin modal placement inside the 768×481 panel (Figma px). */
-const ADMIN_PANEL = { width: 768, height: 481, imageWidth: 505, imageTop: 64 };
+/** Admin modal placement inside the 488×558 split-row panel (px). */
+const ADMIN_PANEL = { imageWidth: 370, imageTop: 48 };
 
 function Lead({ children }: { children: React.ReactNode }) {
   return <strong className="font-semibold text-primary">{children}</strong>;
@@ -105,6 +142,10 @@ const RELEASES: {
   number: number;
   /** Replaces the default "Release N" eyebrow. */
   label?: string;
+  /** Text and media side by side in two equal columns (like Rocket Mortgage's Moves). */
+  split?: "media-right" | "media-left";
+  /** Full-width media shown below a split row. */
+  after?: React.ReactNode;
   title: string;
   body: React.ReactNode;
   media: React.ReactNode;
@@ -132,6 +173,7 @@ const RELEASES: {
   },
   {
     number: 1,
+    split: "media-right",
     title: "Summaries and answers pulled from long Slack threads",
     body: (
       <>
@@ -152,7 +194,7 @@ const RELEASES: {
       </>
     ),
     media: (
-      <ScreenshotPanel
+      <TallScreenshotPanel
         src="/new-asimov/Slack%201.avif"
         alt="Slack thread with Asimov summarizing the conversation"
         width={415}
@@ -162,6 +204,7 @@ const RELEASES: {
   },
   {
     number: 2,
+    split: "media-left",
     title: "Admin-only setup and rules for what Asimov could reveal",
     body: (
       <>
@@ -183,31 +226,26 @@ const RELEASES: {
       </>
     ),
     media: (
-      <div className="flex w-full flex-col items-center gap-12">
+      <figure className={`relative aspect-[488/558] w-full overflow-hidden ${mediaPanel}`}>
         <div
-          className={`relative w-[768px] max-w-full overflow-hidden ${mediaPanel}`}
-          style={{ aspectRatio: `${ADMIN_PANEL.width} / ${ADMIN_PANEL.height}` }}
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{
+            width: `${(ADMIN_PANEL.imageWidth / 488) * 100}%`,
+            top: `${(ADMIN_PANEL.imageTop / 558) * 100}%`,
+            filter: "drop-shadow(0px 0px 24px rgba(0,0,0,0.04))",
+          }}
         >
-          <div
-            className="absolute left-1/2 -translate-x-1/2"
-            style={{
-              width: `${(ADMIN_PANEL.imageWidth / ADMIN_PANEL.width) * 100}%`,
-              top: `${(ADMIN_PANEL.imageTop / ADMIN_PANEL.height) * 100}%`,
-              filter: "drop-shadow(0px 0px 24px rgba(0,0,0,0.04))",
-            }}
-          >
-            <Image
-              src="/new-asimov/Admin User Manage Settings Modal.avif"
-              alt="Admin settings modal for managing who has access to configure Asimov"
-              width={505}
-              height={635}
-              className="h-auto w-full"
-            />
-          </div>
+          <Image
+            src="/new-asimov/Admin User Manage Settings Modal.avif"
+            alt="Admin settings modal for managing who has access to configure Asimov"
+            width={505}
+            height={635}
+            className="h-auto w-full"
+          />
         </div>
-        <VisualPlaceholder label="the response model cases" />
-      </div>
+      </figure>
     ),
+    after: <VisualPlaceholder label="the response model cases" />,
   },
   {
     number: 3,
@@ -464,7 +502,26 @@ export default function AsimovPage() {
             </p>
           </SectionHeader>
         </div>
-        {RELEASES.map((release) => (
+        {RELEASES.map((release) =>
+          release.split ? (
+            <div key={release.number} className="flex flex-col gap-12">
+            <div
+              className={`flex w-full items-start gap-12 ${
+                release.split === "media-left" ? "flex-row-reverse" : ""
+              }`}
+            >
+              <div className="flex min-w-0 flex-1 flex-col gap-2">
+                <p className={caseStudyEyebrow}>{release.label ?? `Release ${release.number}`}</p>
+                <div className="flex flex-col gap-4">
+                  <h3 className={caseStudySubheading}>{release.title}</h3>
+                  <div className={`${caseStudyText} flex flex-col gap-4`}>{release.body}</div>
+                </div>
+              </div>
+              <div className="min-w-0 flex-1">{release.media}</div>
+            </div>
+            {release.after}
+            </div>
+          ) : (
           <div key={release.number} className="flex flex-col gap-12">
             <SectionHeader
               subheading
@@ -476,7 +533,8 @@ export default function AsimovPage() {
             </SectionHeader>
             {release.media}
           </div>
-        ))}
+          )
+        )}
       </section>
 
       <section id="design-system" className="flex flex-col gap-12">

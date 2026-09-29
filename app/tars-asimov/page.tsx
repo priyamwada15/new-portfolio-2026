@@ -110,8 +110,8 @@ const RELEASES: {
 }[] = [
   {
     number: 0,
-    label: "Before Release 1",
-    title: "One agent instead of many",
+    label: "Initial direction",
+    title: "One agent that held every team's context",
     body: (
       <>
         <p>

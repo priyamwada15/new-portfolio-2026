@@ -34,7 +34,7 @@ const MY_ROLE = [
   },
   {
     label: "Engineering alignment",
-    text: "Kept the design aligned across engineering through detailed handoff documentation and thorough QA sessions, ensuring pixel-perfect execution.",
+    text: "Kept the design aligned across engineering through detailed handoff documentation and thorough QA sessions, ensuring pixel-perfect execution",
   },
 ];
 
@@ -433,6 +433,11 @@ export default function AsimovPage() {
       <section id="my-role" className="flex flex-col gap-12">
         <SectionHeader eyebrow="My role" title="I owned design for a new AI product line at Tars">
           <p>As Asimov&rsquo;s founding designer, my scope went well past just UI design.</p>
+          <p>
+            I designed the platform teams used to configure Asimov and built the design system behind
+            it, which cut handoff-to-release time by ~60%. Through detailed handoff documentation and
+            thorough QA sessions, I kept every build true to the design.
+          </p>
         </SectionHeader>
         <CardRow variant="tile" cards={MY_ROLE} />
       </section>

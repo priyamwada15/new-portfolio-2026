@@ -418,15 +418,13 @@ export default function AsimovPage() {
       <section id="about" className="flex flex-col gap-12">
         <SectionHeader title="What is Asimov?">
           <p>
-            Asimov is an AI agent that lives in Slack. It started as a Slack thread summarizer for 15
+            Asimov is Tars&rsquo; AI agent that lives in Slack. It started as a thread summarizer for
             startups and grew into a teammate that could answer from company docs and kick off work in
             other tools.
           </p>
           <p>
-            I joined Tars, a company that builds AI agents for customer support and sales, as one of
-            its first two designers, and Asimov was the new product line I owned on my own. I worked
-            with Tars&rsquo; founders on this project. Over five months I ran the research, led design
-            for the product and built the design system it shipped on.
+            I joined Tars as one of its first two designers, and owned Asimov, the new product line,
+            alongside its founders.
           </p>
         </SectionHeader>
         <CardRow variant="stat" cards={ABOUT_STATS} />

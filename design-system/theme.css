@@ -50,6 +50,24 @@
   --color-salesforce: var(--ds-color-brand-salesforce);
   --color-nav-glow: var(--ds-color-brand-nav-glow);
 
+  /* Tag palette (bg-tag-blue-bg, text-tag-blue-fg, …) */
+  --color-tag-blue-bg: var(--ds-tag-blue-bg);
+  --color-tag-blue-fg: var(--ds-tag-blue-fg);
+  --color-tag-purple-bg: var(--ds-tag-purple-bg);
+  --color-tag-purple-fg: var(--ds-tag-purple-fg);
+  --color-tag-amber-bg: var(--ds-tag-amber-bg);
+  --color-tag-amber-fg: var(--ds-tag-amber-fg);
+  --color-tag-red-bg: var(--ds-tag-red-bg);
+  --color-tag-red-fg: var(--ds-tag-red-fg);
+  --color-tag-pink-bg: var(--ds-tag-pink-bg);
+  --color-tag-pink-fg: var(--ds-tag-pink-fg);
+  --color-tag-green-bg: var(--ds-tag-green-bg);
+  --color-tag-green-fg: var(--ds-tag-green-fg);
+  --color-tag-teal-bg: var(--ds-tag-teal-bg);
+  --color-tag-teal-fg: var(--ds-tag-teal-fg);
+  --color-tag-gray-bg: var(--ds-tag-gray-bg);
+  --color-tag-gray-fg: var(--ds-tag-gray-fg);
+
   /* shadcn mappings */
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);

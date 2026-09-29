@@ -38,6 +38,24 @@
   --ds-research-direction: var(--ds-color-research-direction);
   --ds-research-direction-bg: var(--ds-color-research-direction-bg);
 
+  /* Tag palette */
+  --ds-tag-blue-bg: var(--ds-color-tag-blue-bg);
+  --ds-tag-blue-fg: var(--ds-color-tag-blue-fg);
+  --ds-tag-purple-bg: var(--ds-color-tag-purple-bg);
+  --ds-tag-purple-fg: var(--ds-color-tag-purple-fg);
+  --ds-tag-amber-bg: var(--ds-color-tag-amber-bg);
+  --ds-tag-amber-fg: var(--ds-color-tag-amber-fg);
+  --ds-tag-red-bg: var(--ds-color-tag-red-bg);
+  --ds-tag-red-fg: var(--ds-color-tag-red-fg);
+  --ds-tag-pink-bg: var(--ds-color-tag-pink-bg);
+  --ds-tag-pink-fg: var(--ds-color-tag-pink-fg);
+  --ds-tag-green-bg: var(--ds-color-tag-green-bg);
+  --ds-tag-green-fg: var(--ds-color-tag-green-fg);
+  --ds-tag-teal-bg: var(--ds-color-tag-teal-bg);
+  --ds-tag-teal-fg: var(--ds-color-tag-teal-fg);
+  --ds-tag-gray-bg: var(--ds-color-tag-gray-bg);
+  --ds-tag-gray-fg: var(--ds-color-tag-gray-fg);
+
   /* Case study accent defaults (overridable per page via --accent-dark) */
   --ds-accent-default: var(--ds-color-primary);
   --ds-accent-subtle: var(--ds-color-gray-subtle);

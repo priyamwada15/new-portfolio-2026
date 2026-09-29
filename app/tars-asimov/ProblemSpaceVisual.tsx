@@ -24,9 +24,17 @@ function Marker({ n }: { n: number }) {
   );
 }
 
-function Avatar({ initials }: { initials: string }) {
+/** Full class strings so Tailwind can see them. */
+const AVATAR = {
+  teal: "bg-tag-teal-bg text-tag-teal-fg",
+  amber: "bg-tag-amber-bg text-tag-amber-fg",
+} as const;
+
+function Avatar({ initials, color }: { initials: string; color: keyof typeof AVATAR }) {
   return (
-    <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent-light)] font-label text-[12px] font-semibold text-[var(--accent-dark)]">
+    <span
+      className={`flex size-8 shrink-0 items-center justify-center rounded-lg font-label text-[12px] font-semibold ${AVATAR[color]}`}
+    >
       {initials}
     </span>
   );
@@ -34,12 +42,14 @@ function Avatar({ initials }: { initials: string }) {
 
 function Message({
   initials,
+  color,
   name,
   time,
   marker,
   children,
 }: {
   initials: string;
+  color: keyof typeof AVATAR;
   name: string;
   time: string;
   marker?: number;
@@ -47,7 +57,7 @@ function Message({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <Avatar initials={initials} />
+      <Avatar initials={initials} color={color} />
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <p className="font-label text-[14px] leading-[20px]">
           <span className="font-semibold text-primary">{name}</span>{" "}
@@ -74,17 +84,17 @@ export default function ProblemSpaceVisual() {
             # client-escalations
           </div>
           <div className="flex flex-col gap-5 px-5 py-5">
-            <Message initials="CS" name="CS rep" time="10:42 AM" marker={1}>
+            <Message initials="CS" color="teal" name="CS rep" time="10:42 AM" marker={1}>
               Acme&rsquo;s API calls are failing again. Didn&rsquo;t we fix this before?
             </Message>
-            <Message initials="EL" name="Eng lead" time="10:58 AM" marker={2}>
+            <Message initials="EL" color="amber" name="Eng lead" time="10:58 AM" marker={2}>
               <span>Yes, back in March. Let me find the thread&hellip;</span>
               <span className="mt-2 flex w-fit items-center gap-2 rounded-md bg-surface-page px-2 py-1 text-[12px] leading-[18px] text-tertiary">
                 <span className="font-semibold text-[var(--accent-dark)]">64 replies</span>
                 Last reply 5 months ago
               </span>
             </Message>
-            <Message initials="CS" name="CS rep" time="11:20 AM" marker={3}>
+            <Message initials="CS" color="teal" name="CS rep" time="11:20 AM" marker={3}>
               Thanks! Updating the client now.
             </Message>
           </div>

@@ -53,6 +53,24 @@
   --ds-color-research-direction: #e03e1a;
   --ds-color-research-direction-bg: #fff1f1;
 
+  /* Tag palette — subtle badges (tinted fill + same-hue text), for avatars and chips */
+  --ds-color-tag-blue-bg: #e9f4ff;
+  --ds-color-tag-blue-fg: #0068d6;
+  --ds-color-tag-purple-bg: #f5ebff;
+  --ds-color-tag-purple-fg: #7d2ab8;
+  --ds-color-tag-amber-bg: #fff3d6;
+  --ds-color-tag-amber-fg: #a35200;
+  --ds-color-tag-red-bg: #ffebeb;
+  --ds-color-tag-red-fg: #c42a30;
+  --ds-color-tag-pink-bg: #ffe9f3;
+  --ds-color-tag-pink-fg: #c0175f;
+  --ds-color-tag-green-bg: #e8f7ec;
+  --ds-color-tag-green-fg: #2a7a3b;
+  --ds-color-tag-teal-bg: #defbf3;
+  --ds-color-tag-teal-fg: #00766a;
+  --ds-color-tag-gray-bg: #ededed;
+  --ds-color-tag-gray-fg: #4d4d4d;
+
   /* Brand — Nav accent */
   --ds-color-brand-nav-glow: #744577;
 

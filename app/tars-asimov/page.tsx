@@ -5,6 +5,7 @@ import AutoPauseVideo from "../components/AutoPauseVideo";
 import MediaCarousel from "../components/MediaCarousel";
 import { CoreFeatureVideo } from "./CoreFeatureVideo";
 import KnowledgeSourcesDemo from "./KnowledgeSourcesDemo";
+import ProblemSpaceVisual from "./ProblemSpaceVisual";
 import { CardRow, SectionHeader } from "../components/CaseStudySections";
 import {
   brands,
@@ -114,7 +115,7 @@ const RELEASES: {
     body: (
       <>
         <p>
-          <Lead>Why:</Lead>{" "}every team shared those pains, but each wanted something different from
+          <Lead>Why:</Lead>{" "}every team shared the pains above, but each wanted something different from
           an AI agent: engineering wanted GitHub workflows, sales wanted CRM updates and marketing
           wanted help with content.
         </p>
@@ -472,12 +473,7 @@ export default function AsimovPage() {
             HubSpot or a client report by hand, and every switch between tools cost time and focus.
           </p>
         </SectionHeader>
-        <blockquote className="rounded-[var(--ds-radius-container)] bg-[var(--accent-light)] px-10 py-8 font-label text-[18px] font-medium leading-[1.6] text-primary">
-          <span className="text-[var(--accent-dark)]">How might we</span> give startup teams an AI
-          assistant in Slack that can find answers across their conversations and docs and act in
-          their other tools, while they decide what it can see and do?
-        </blockquote>
-        <VisualPlaceholder label="the problem space: a Slack thread with its three pains (buried answers, repeat questions, context copied into other tools), leading to the How might we" />
+        <ProblemSpaceVisual />
       </section>
 
       <section id="releases" className="flex flex-col gap-[88px]">

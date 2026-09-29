@@ -101,10 +101,34 @@ function Lead({ children }: { children: React.ReactNode }) {
 
 const RELEASES: {
   number: number;
+  /** Replaces the default "Release N" eyebrow. */
+  label?: string;
   title: string;
   body: React.ReactNode;
   media: React.ReactNode;
 }[] = [
+  {
+    number: 0,
+    label: "Before Release 1",
+    title: "One agent instead of many",
+    body: (
+      <>
+        <p>
+          <Lead>Why:</Lead>{" "}every team shared those pains, but each wanted something different from
+          an AI agent: engineering wanted GitHub workflows, sales wanted CRM updates and marketing
+          wanted help with content.
+        </p>
+        <p>
+          <Lead>My approach:</Lead>{" "}my early designs gave each use-case its own Slack agent. In a
+          stakeholder review we saw that several AI agents in one workspace would be hard to scale and
+          manage, so we decided on one agent that could hold many contexts. I redesigned Asimov around
+          it, with its knowledge sources (the channels and docs it could read) managed separately so
+          each team&rsquo;s context stayed organized.
+        </p>
+      </>
+    ),
+    media: <VisualPlaceholder label="the multi-agent iteration next to the single-agent structure" />,
+  },
   {
     number: 1,
     title: "Summaries and answers pulled from long Slack threads",
@@ -456,25 +480,6 @@ export default function AsimovPage() {
         <VisualPlaceholder label="the problem space: a Slack thread with its three pains (buried answers, repeat questions, context copied into other tools), leading to the How might we" />
       </section>
 
-      <section id="one-agent" className="flex flex-col gap-12">
-        <SectionHeader eyebrow="The dropped direction" title="One agent instead of many">
-          <p>
-            Every team shared those pains, but each wanted something different from an AI agent:
-            engineering wanted GitHub workflows, sales wanted CRM updates and marketing wanted help with
-            content. My early designs followed that split and gave each use-case its own Slack agent. In a
-            stakeholder review we looked at what that meant inside a real workspace: several AI agents
-            that would get hard to scale and hard to manage. We decided on one agent that could hold
-            many contexts.
-          </p>
-          <p>
-            I redesigned Asimov around that single agent, with its knowledge sources (the channels and
-            docs it could read) managed separately so each team&rsquo;s context stayed organized. Teams
-            could still create more than one Asimov if they wanted.
-          </p>
-        </SectionHeader>
-        <VisualPlaceholder label="the multi-agent iteration next to the single-agent structure" />
-      </section>
-
       <section id="releases" className="flex flex-col gap-[88px]">
         <div className="flex flex-col gap-12">
           <SectionHeader eyebrow="Five releases" title="How Asimov grew, one release at a time">
@@ -490,7 +495,7 @@ export default function AsimovPage() {
             <SectionHeader
               subheading
               level={3}
-              eyebrow={`Release ${release.number}`}
+              eyebrow={release.label ?? `Release ${release.number}`}
               title={release.title}
             >
               {release.body}

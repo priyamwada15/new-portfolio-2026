@@ -20,7 +20,7 @@ const ABOUT_STATS = [
     text: "designed and shipped in 5 months, including knowledge sources, answer verification and custom actions",
   },
   { label: "~74%", text: "fewer repeat questions landing on teammates, now answered by Asimov" },
-  { label: "86%", text: "of Asimov's answers rated helpful across Tars and the startups using it" },
+  { label: "86%", text: "of Asimov's answers rated helpful across Tars and the startup teams using it" },
 ];
 
 const MY_ROLE = [

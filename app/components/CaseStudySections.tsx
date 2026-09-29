@@ -61,7 +61,7 @@ export function SectionHeader({
 /**
  * Row of equal-width cards, each with a small label above its text.
  * `dark`: brand-filled cards with one line of medium text.
- * `stat`: brand-filled cards with a large number as the label.
+ * `stat`: light bordered cards with a large brand-coloured number above muted text.
  * `light`: pale brand cards with one or more paragraphs of body text.
  */
 export function CardRow({
@@ -79,12 +79,14 @@ export function CardRow({
       {cards.map((card) => (
         <div
           key={card.label}
-          className={`flex min-w-0 flex-1 flex-col rounded-[var(--ds-radius-container)] ${
-            stat ? "justify-center gap-6" : "gap-3"
-          } ${
-            dark
-              ? "border border-[var(--accent-dark)] bg-[var(--accent-dark)] px-[23px] py-[39px]"
-              : "bg-[var(--accent-light)] px-8 py-10"
+          className={`flex min-w-0 flex-1 flex-col ${
+            stat
+              ? "gap-6 rounded-[16px] border border-border bg-surface-case-study px-[23px] py-[39px]"
+              : `gap-3 rounded-[var(--ds-radius-container)] ${
+                  dark
+                    ? "border border-[var(--accent-dark)] bg-[var(--accent-dark)] px-[23px] py-[39px]"
+                    : "bg-[var(--accent-light)] px-8 py-10"
+                }`
           }`}
         >
           <div className="flex items-center gap-2">
@@ -95,7 +97,7 @@ export function CardRow({
             <p
               className={
                 stat
-                  ? "font-label text-[24px] leading-[1.45] text-surface-page/80"
+                  ? "font-label text-[32px] font-semibold leading-[38px] text-[var(--accent-dark)]"
                   : dark
                   ? `${caseStudyCardLabel} text-surface-page/50`
                   : "font-label text-[14px] font-semibold leading-[28px] text-[var(--accent-dark)]"
@@ -109,7 +111,9 @@ export function CardRow({
               <p
                 key={paragraph}
                 className={
-                  dark
+                  stat
+                    ? `${caseStudyCardText} text-tertiary`
+                    : dark
                     ? `${caseStudyCardText} text-surface-page`
                     : "font-label text-[16px] leading-[28px] text-secondary"
                 }

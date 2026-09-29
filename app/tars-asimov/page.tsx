@@ -414,7 +414,7 @@ export default function AsimovPage() {
           <p>
             I joined Tars, a company that builds AI agents for customer support and sales, as one of
             its first two designers, and Asimov was the new product line I owned on my own. I worked
-            with Tars&rsquo; founder on this project. Over five months I ran the research, led design
+            with Tars&rsquo; founders on this project. Over five months I ran the research, led design
             for the product and built the design system it shipped on.
           </p>
         </SectionHeader>

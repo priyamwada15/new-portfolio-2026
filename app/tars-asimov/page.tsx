@@ -23,21 +23,6 @@ const ABOUT_STATS = [
   { label: "86%", text: "of Asimov's answers rated helpful across Tars and the startup teams using it" },
 ];
 
-const MY_ROLE = [
-  {
-    label: "End-to-end design",
-    text: "Designed the platform teams used to configure Asimov: its knowledge sources, integrations, permissions and actions",
-  },
-  {
-    label: "Design system",
-    text: "Built the design system that cut handoff-to-release time by ~60%, to about two days per new design",
-  },
-  {
-    label: "Engineering alignment",
-    text: "Kept the design aligned across engineering through detailed handoff documentation and thorough QA sessions, ensuring pixel-perfect execution",
-  },
-];
-
 const REFLECTIONS = [
   {
     title: "Ship a first version of the future, even a small one",
@@ -430,7 +415,7 @@ export default function AsimovPage() {
         <CardRow variant="stat" cards={ABOUT_STATS} />
       </section>
 
-      <section id="my-role" className="flex flex-col gap-12">
+      <section id="my-role">
         <SectionHeader eyebrow="My role" title="I owned design for a new AI product line at Tars">
           <p>As Asimov&rsquo;s founding designer, my scope went well past just UI design.</p>
           <p>
@@ -439,7 +424,6 @@ export default function AsimovPage() {
             thorough QA sessions, I kept every build true to the design.
           </p>
         </SectionHeader>
-        <CardRow variant="tile" cards={MY_ROLE} />
       </section>
 
       <section id="problem" className="flex flex-col gap-12">

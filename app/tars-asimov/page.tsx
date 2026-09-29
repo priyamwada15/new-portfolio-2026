@@ -17,7 +17,7 @@ import {
 const ABOUT_STATS = [
   { label: "5 capabilities", text: "designed and shipped in 5 months" },
   { label: "~74%", text: "fewer repeat questions landing on teammates, now answered by Asimov" },
-  { label: "86%", text: "of Asimov's answers rated helpful across Tars and the startups using Asimov" },
+  { label: "86%", text: "of Asimov's answers rated helpful across Tars and the startups using it" },
 ];
 
 const MY_ROLE = [

@@ -62,6 +62,7 @@ export function SectionHeader({
  * Row of equal-width cards, each with a small label above its text.
  * `dark`: brand-filled cards with one line of medium text.
  * `stat`: light bordered cards with a large brand-coloured number above muted text.
+ * `tile`: same card as `stat`, with a 24px label instead of a number.
  * `light`: pale brand cards with one or more paragraphs of body text.
  */
 export function CardRow({
@@ -70,9 +71,9 @@ export function CardRow({
 }: {
   /** `icon`: optional 16px image shown before the label. */
   cards: { label: string; text: string | string[]; icon?: string }[];
-  variant?: "dark" | "stat" | "light";
+  variant?: "dark" | "stat" | "tile" | "light";
 }) {
-  const stat = variant === "stat";
+  const stat = variant === "stat" || variant === "tile";
   const dark = variant === "dark" || stat;
   return (
     <div className={`flex w-full items-stretch ${dark ? "gap-6" : "gap-12"}`}>
@@ -97,7 +98,9 @@ export function CardRow({
             <p
               className={
                 stat
-                  ? "font-label text-[32px] font-semibold leading-[38px] text-[var(--accent-dark)]"
+                  ? `font-label font-semibold text-[var(--accent-dark)] ${
+                      variant === "tile" ? "text-[24px] leading-[1.45]" : "text-[32px] leading-[38px]"
+                    }`
                   : dark
                   ? `${caseStudyCardLabel} text-surface-page/50`
                   : "font-label text-[14px] font-semibold leading-[28px] text-[var(--accent-dark)]"

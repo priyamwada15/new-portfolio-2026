@@ -24,11 +24,19 @@ const ABOUT_STATS = [
 ];
 
 const MY_ROLE = [
-  "Designed the platform teams used to configure Asimov: its knowledge sources, integrations, permissions and actions",
-  "Built the design system that cut the time between handoff and testing to about two days, down from at least a week",
-  "Set up how design moved into engineering, pairing every flow's specs with a recorded walkthrough so developers understood the reasoning behind it as well as the screens",
-  "Held the quality bar for what shipped, reviewing every build in the test environment with the front-end developer before release",
-] as const;
+  {
+    label: "End-to-end design",
+    text: "Designed the platform teams used to configure Asimov: its knowledge sources, integrations, permissions and actions",
+  },
+  {
+    label: "Design system",
+    text: "Built the design system that cut handoff-to-release time by ~60%, to about two days per new design",
+  },
+  {
+    label: "Engineering alignment",
+    text: "Kept the design aligned across engineering and QA through detailed handoff documentation and thorough design QA sessions, so builds matched the design pixel for pixel",
+  },
+];
 
 const REFLECTIONS = [
   {
@@ -424,14 +432,11 @@ export default function AsimovPage() {
         <CardRow variant="stat" cards={ABOUT_STATS} />
       </section>
 
-      <section id="my-role">
+      <section id="my-role" className="flex flex-col gap-12">
         <SectionHeader eyebrow="My role" title="I owned design for a new AI product line at Tars">
-          <ul className="flex list-disc flex-col gap-3 pl-5">
-            {MY_ROLE.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+          <p>As Asimov&rsquo;s founding designer, my scope went well past the screens.</p>
         </SectionHeader>
+        <CardRow variant="tile" cards={MY_ROLE} />
       </section>
 
       <section id="problem" className="flex flex-col gap-12">
@@ -523,7 +528,7 @@ export default function AsimovPage() {
       <section id="design-system" className="flex flex-col gap-12">
         <SectionHeader
           eyebrow="Design system"
-          title="Building the design system that cut handoff-to-testing time by ~60%"
+          title="Building the design system that cut handoff-to-release time by ~60%"
         >
           <p>
             I waited until Asimov needed its own interface. The summarizer lived inside Slack, so
@@ -533,7 +538,7 @@ export default function AsimovPage() {
           </p>
           <p>
             It covered components, tokens and patterns. Once the front-end developers had built it, a
-            new design went from handoff to testing in about two days. Before, that took at least a
+            new design went from handoff to release in about two days. Before, that took at least a
             week.
           </p>
           <p>

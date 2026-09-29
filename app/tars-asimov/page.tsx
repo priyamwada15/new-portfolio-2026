@@ -15,7 +15,7 @@ import {
 } from "@/design-system";
 
 const ABOUT_STATS = [
-  { label: "12 of 15", text: "startups kept using Asimov" },
+  { label: "5 releases", text: "in 5 months as the only designer" },
   { label: "~74%", text: "fewer repetitive questions between teammates" },
   { label: "86%", text: "of answers rated helpful" },
 ];

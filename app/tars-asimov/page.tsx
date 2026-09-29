@@ -488,7 +488,6 @@ export default function AsimovPage() {
               that came after the pilot in Release 1, I pushed for three.
             </p>
           </SectionHeader>
-          <VisualPlaceholder label="release timeline, marking who pushed each release" />
         </div>
         {RELEASES.map((release) => (
           <div key={release.number} className="flex flex-col gap-12">

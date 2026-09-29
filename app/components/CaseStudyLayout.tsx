@@ -20,6 +20,8 @@ interface Meta {
   industry: string;
   role: string;
   team: string;
+  /** Sept 2026 layout only: replaces the four default fields with a custom list (one column each). */
+  items?: { label: string; value: string }[];
 }
 
 interface NextProject {
@@ -91,14 +93,16 @@ const MetaGrid = ({
   sept2026Layout?: boolean;
 }) => (
   <div
-    className={`grid grid-cols-1 min-[400px]:grid-cols-2 min-[1080px]:grid-cols-4 ${sept2026Layout ? "gap-10" : "gap-6"}`}
+    className={`grid grid-cols-1 min-[400px]:grid-cols-2 ${
+      sept2026Layout && meta.items?.length === 5 ? "min-[1080px]:grid-cols-5" : "min-[1080px]:grid-cols-4"
+    } ${sept2026Layout ? "gap-10" : "gap-6"}`}
   >
-    {[
+    {((sept2026Layout && meta.items) || [
       { label: meta.timelineLabel ?? "Shipped", value: meta.timeline },
       { label: "Industry", value: meta.industry },
       { label: "Role", value: meta.role },
       { label: "Team", value: meta.team },
-    ].map((item) => (
+    ]).map((item) => (
       <div key={item.label}>
         {sept2026Layout ? (
           <>

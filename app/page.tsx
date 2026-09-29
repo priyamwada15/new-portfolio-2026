@@ -304,7 +304,7 @@ export default async function HomeV2Page() {
                 }}
               >
                 <div style={{ ...homeCardFooterTitleStyle, flex: "1 0 0" }}>
-                  Scaling an AI agent to 82% pilot adoption through configurable workflows
+                  Designing the agent configuration platform and design system for Asimov as its founding designer
                 </div>
                 <div style={{ ...homeCardFooterTagsStyle, flex: "none" }}>
                   <span style={homeCardTagPillStyle}>B2B SaaS</span>

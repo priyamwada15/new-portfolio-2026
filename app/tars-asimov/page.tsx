@@ -370,7 +370,7 @@ export default function AsimovPage() {
       ]}
       projectName="Asimov for Tars"
       breadcrumbLabel="Asimov for Tars"
-      headline="Asimov is Tars' AI agent for Slack. As its founding designer, I designed the platform startup teams used to configure it and the design system it shipped on."
+      headline="Designing the agent configuration platform and design system for Asimov as its founding designer"
       reverseHeaderOrder={true}
       heroVisual={
         <AutoPauseVideo
@@ -385,17 +385,16 @@ export default function AsimovPage() {
         />
       }
       meta={{
-        timelineLabel: "Shipped (Beta)",
+        timelineLabel: "Shipped",
         timeline: "Dec 2023 – Apr 2024 · 5 releases",
         industry: "B2B SaaS",
         role: "Product Designer · Founding designer, Asimov",
         team: "CTO · Eng lead · 4 developers · QA · Designer (me)",
         items: [
-          { label: "Shipped (Beta)", value: "Dec 2023 – Apr 2024 · 5 releases" },
+          { label: "Shipped", value: "Dec 2023 – Apr 2024 · 5 releases" },
           { label: "Role", value: "Product Designer · Founding designer, Asimov" },
           { label: "Team", value: "CTO · Eng lead · 4 developers · QA · Designer (me)" },
           { label: "Key contributions", value: "Research, product design, design system, design QA" },
-          { label: "Key impact", value: "12 of 15 startups kept using Asimov" },
         ],
       }}
       nextProject={{
@@ -414,9 +413,9 @@ export default function AsimovPage() {
           </p>
           <p>
             I joined Tars, a company that builds AI agents for customer support and sales, as one of
-            its first two designers, and Asimov was the new product line I owned on my own. I reported
-            to the CTO, and to the CEO. Over five months I ran the research, designed every release
-            and built the design system it shipped on.
+            its first two designers, and Asimov was the new product line I owned on my own. I worked
+            with Tars&rsquo; founder on this project. Over five months I ran the research, led design
+            for the product and built the design system it shipped on.
           </p>
         </SectionHeader>
         <CardRow variant="stat" cards={ABOUT_STATS} />

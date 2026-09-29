@@ -435,19 +435,17 @@ export default function AsimovPage() {
           title="Startup teams lost time digging through Slack and switching between tools"
         >
           <p>
-            At the startups I talked to, most work began in Slack, and most of what people needed to
-            know was buried there too. Finding one detail meant scrolling back through long threads,
-            because Slack&rsquo;s search wasn&rsquo;t advanced enough to surface it.
+            At the startups I talked to, most work began in Slack, and so did most of what people
+            needed to know. Finding one detail meant scrolling back through long threads, because
+            Slack&rsquo;s search couldn&rsquo;t surface it.
           </p>
           <p>
             The same questions kept coming back as a result. A customer success rep might ask the
-            engineering lead about the same API failure in a client&rsquo;s account several times over
-            a few months, because the answer sat in an old thread nobody could find.
+            engineering lead about the same API failure several times over a few months.
           </p>
           <p>
-            Once people found what they needed, the work usually continued somewhere else. That same
-            rep would carry the context of a client issue into HubSpot, a report or a GitHub ticket by
-            hand. Every switch cost time, and jumping between tools and tasks all day wore down focus.
+            Once they found an answer, the work moved elsewhere. The rep would carry the context into
+            HubSpot or a client report by hand, and every switch between tools cost time and focus.
           </p>
         </SectionHeader>
         <blockquote className="rounded-[var(--ds-radius-container)] bg-[var(--accent-light)] px-10 py-8 font-label text-[18px] font-medium leading-[1.6] text-primary">
@@ -460,14 +458,14 @@ export default function AsimovPage() {
       <section id="research" className="flex flex-col gap-12">
         <SectionHeader eyebrow="Research" title="Every team wanted something different from an AI agent">
           <p>
-            Engineering wanted GitHub workflows, sales wanted CRM updates and marketing wanted help
-            with content. I brought the synthesis of my interviews to our daily standups and sorted it
-            so the team could make calls from it: where needs overlapped, which one-off requests could
-            scale to other teams and what belonged in the MVP versus later.
+            Every team shared those pains. Where they split was what they wanted an AI agent to do
+            about them: engineering wanted GitHub workflows, sales wanted CRM updates and marketing
+            wanted help with content.
           </p>
           <p>
-            The PRD evolved from this synthesis, and most of Asimov&rsquo;s roadmap came straight out
-            of it.
+            I sorted my interview synthesis by where needs overlapped, which one-off requests could
+            scale and what belonged in the MVP. The PRD and most of Asimov&rsquo;s roadmap evolved
+            from it.
           </p>
         </SectionHeader>
         <VisualPlaceholder label="the synthesis framework: team needs sorted into overlapping, scalable one-off, true one-off, MVP and future scope" />

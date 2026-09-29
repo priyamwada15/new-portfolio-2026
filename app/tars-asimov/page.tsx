@@ -115,16 +115,15 @@ const RELEASES: {
     body: (
       <>
         <p>
-          <Lead>Why:</Lead>{" "}every team shared the pains above, but each wanted something different from
-          an AI agent: engineering wanted GitHub workflows, sales wanted CRM updates and marketing
-          wanted help with content.
+          <Lead>Why:</Lead>{" "}every team shared the pains above, but each wanted something
+          different from an AI agent: engineering wanted GitHub workflows, sales wanted CRM updates
+          and marketing wanted help with content.
         </p>
         <p>
-          <Lead>My approach:</Lead>{" "}my early designs gave each use-case its own Slack agent. In a
-          stakeholder review we saw that several AI agents in one workspace would be hard to scale and
-          manage, so we decided on one agent that could hold many contexts. I redesigned Asimov around
-          it, with its knowledge sources (the channels and docs it could read) managed separately so
-          each team&rsquo;s context stayed organized.
+          <Lead>My approach:</Lead>{" "}my early designs gave each use-case its own Slack agent. A
+          stakeholder review showed that several agents in one workspace would be hard to scale and
+          manage, so I redesigned Asimov as one agent holding many contexts, with each team&rsquo;s
+          knowledge sources (the channels and docs it could read) managed separately.
         </p>
       </>
     ),
@@ -136,22 +135,18 @@ const RELEASES: {
     body: (
       <>
         <p>
-          <Lead>Why:</Lead>{" "}the first pain point I found was finding information. Someone looking for
-          one detail had to scroll through lengthy threads, because Slack&rsquo;s search couldn&rsquo;t
-          pull it out for them.
+          <Lead>Why:</Lead>{" "}people had to scroll through long threads to find one detail,
+          because Slack&rsquo;s search couldn&rsquo;t surface it.
         </p>
         <p>
-          <Lead>My approach:</Lead>{" "}the problem was people switching between tools, so the first
-          release couldn&rsquo;t ask them to open another one. I designed Asimov to live entirely
-          inside Slack&rsquo;s own interface. Teams added it to a channel and it read the history.
-          Anyone could ask it to summarize a thread, or ask for a specific piece of information and
-          get it back with the context around it. Today&rsquo;s AI meeting notetakers work the same
-          way: you ask the transcript a question instead of rewatching the whole recording.
+          <Lead>My approach:</Lead>{" "}the problem was already too many tools, so I kept the pilot
+          entirely inside Slack. Anyone could ask Asimov to summarize a thread or pull out a
+          specific answer with its context, much like today&rsquo;s AI meeting notetakers.
         </p>
         <p>
-          <Lead>No configuration hub in the pilot.</Lead>{" "}Trying Asimov meant adding it to a channel
-          and nothing more, which let us test whether its answers were useful before building
-          anything around it.
+          <Lead>No configuration hub in the pilot.</Lead>{" "}Adding Asimov to a channel was the
+          whole setup, so we could test whether its answers were useful before building anything
+          around it.
         </p>
       </>
     ),
@@ -170,21 +165,19 @@ const RELEASES: {
     body: (
       <>
         <p>
-          <Lead>Why:</Lead>{" "}an AI agent reading team conversations needed guardrails from the start.
-          I pushed for permissions as the very next release, before Asimov could reach anything
-          beyond Slack.
+          <Lead>Why:</Lead>{" "}an AI agent reading team conversations needed guardrails from day
+          one, so I pushed for permissions right after the pilot.
         </p>
         <p>
-          <Lead>My approach:</Lead>{" "}I split the problem in two. Who could change Asimov needed an
-          answer fast, so I kept it simple on purpose: only Slack workspace admins could configure
-          it, since they were already the people accountable for the workspace. What Asimov should
-          say was the harder part. It could have read access to something the person asking
-          wasn&rsquo;t allowed to see. I designed a response model for those cases in Slack&rsquo;s
-          interface, covering different roles and what happens when permissions clash.
+          <Lead>My approach:</Lead>{" "}I split the problem in two. Who could change Asimov needed a
+          fast answer: only Slack workspace admins, who were already accountable for the workspace.
+          What Asimov should say was harder, since it could read things the person asking
+          wasn&rsquo;t allowed to see. I designed a response model in Slack for those cases,
+          covering different roles and permission clashes.
         </p>
         <p>
           <Lead>The response model is the decision I&rsquo;m proudest of.</Lead>{" "}It set the base
-          for how Asimov would handle roles once teams were ready to share more.
+          for handling roles once teams were ready to share more.
         </p>
       </>
     ),
@@ -221,30 +214,24 @@ const RELEASES: {
     body: (
       <>
         <p>
-          <Lead>Why:</Lead>{" "}channel history only went so far. Teams needed Asimov to answer from
-          company docs and other sources, and I pushed for knowledge sources based on the user and
-          competitive research.
+          <Lead>Why:</Lead>{" "}channel history only went so far. Research showed teams needed
+          answers from company docs too, so I pushed for knowledge sources next.
         </p>
         <p>
-          <Lead>My approach:</Lead>{" "}once Asimov could read beyond Slack, I designed the first
-          configuration flow around one idea: admins should control what the agent could read and
-          use. They picked which sources and Slack channels Asimov could use. I added sync status to
-          every source so admins could see which time period of messages Asimov had, then run a sync
-          again or schedule automatic ones so it kept learning from new messages. For each
-          integration, I showed what it was connected to and what data Asimov could read from it.
+          <Lead>My approach:</Lead>{" "}I designed the first configuration flow around one idea:
+          admins control what the agent can read and use. They picked sources and channels, saw each
+          source&rsquo;s sync status and could re-sync or schedule syncs. Each integration showed
+          what data Asimov could read. My bet was that control would build confidence, and
+          confidence would drive adoption.
         </p>
         <p>
-          My bet was that control would build confidence in the product, and confidence would drive
-          adoption.
+          <Lead>I limited Asimov to public information.</Lead>{" "}Teams in early 2024 were wary of
+          giving an AI private data, so I parked private sources for later and let trust build
+          first.
         </p>
         <p>
-          <Lead>I limited Asimov to public information.</Lead>{" "}In early 2024 teams were hesitant to
-          hand an AI agent anything private. I kept Asimov to public and open sources so teams could
-          build trust in it first, and moved access to private sources into future scope.
-        </p>
-        <p>
-          <Lead>Knowledge sources and integrations shipped together</Lead>, because connecting an
-          app like Notion is what turns it into a knowledge source.
+          <Lead>Integrations shipped alongside,</Lead>{" "}since connecting an app like Notion is
+          what makes it a knowledge source.
         </p>
       </>
     ),
@@ -285,26 +272,20 @@ const RELEASES: {
     body: (
       <>
         <p>
-          <Lead>Why:</Lead>{" "}once Asimov answered from company docs, people needed a way to check it.
-          AI interaction patterns were still being worked out in early 2024, and I was convinced an
-          agent holding team information had to show its sources before anyone would trust it. I
-          pushed for this release.
+          <Lead>Why:</Lead>{" "}once Asimov answered from company docs, people needed to check it.
+          AI interaction patterns were still forming in early 2024, and I was convinced an agent
+          holding team information had to show its sources to be trusted. I pushed for this release.
         </p>
         <p>
-          <Lead>My approach:</Lead>{" "}I designed two ways to verify any answer: the sources Asimov
-          used, like the Slack thread or Notion doc, and the steps it took to reach the answer.
+          <Lead>My approach:</Lead>{" "}I designed two ways to verify an answer: the sources Asimov
+          used and the steps it took. Together they covered both ways an answer could go wrong. A
+          hallucination got a thumbs down with optional feedback, and stale information got fixed by
+          updating the source. The same thumbs up and down gave us the 86% helpful score.
         </p>
         <p>
-          I built them around the two ways an answer could go wrong. When Asimov answered
-          incorrectly, the team could open its sources and find the cause. If it had hallucinated,
-          they gave the answer a thumbs down, with optional detailed feedback. If the information
-          was stale, they updated the knowledge source so Asimov had the current version. One design
-          handled both cases, and the same thumbs up and down gave us the 86% helpful score.
-        </p>
-        <p>
-          <Lead>This is where the repetitive questions dropped.</Lead>{" "}When a rep asked about an API
-          failure that had come up before, Asimov answered with a link to the original thread, and
-          the engineering lead didn&rsquo;t have to explain it again.
+          <Lead>This is where repeat questions dropped.</Lead>{" "}Asked about a past API failure,
+          Asimov linked the original thread, and the engineering lead didn&rsquo;t have to explain
+          it again.
         </p>
       </>
     ),
@@ -316,23 +297,20 @@ const RELEASES: {
     body: (
       <>
         <p>
-          <Lead>Why:</Lead>{" "}the research had surfaced one clear automation opportunity. If Asimov
-          held the full context of a situation, Slack could become the place where every task around
-          it got triggered, with no switching between tools. The CTO pushed for Actions as the next
-          release.
+          <Lead>Why:</Lead>{" "}research surfaced one clear automation opportunity: with a
+          situation&rsquo;s full context, Asimov could let teams trigger every related task from
+          Slack. The CTO pushed for Actions next.
         </p>
         <p>
-          <Lead>My approach:</Lead>{" "}letting an AI act in other tools raised the stakes more than
-          anything before it. So we piloted custom actions first, and I kept them simple on purpose.
-          Teams wrote their own actions through a configurable schema. Tars&rsquo; CEO set one up for
-          himself: whenever a developer posted a new release in the release channel, he typed
-          /linkedin and Asimov drafted a LinkedIn post about it in his writing style. Starting with
-          custom actions let us test whether Asimov understood and carried out actions safely before
-          anyone connected their own tools and APIs.
+          <Lead>My approach:</Lead>{" "}letting an AI act in other tools raised the stakes, so we
+          piloted custom actions first and I kept them simple on purpose. Teams wrote their own
+          through a configurable schema. Tars&rsquo; CEO set up /linkedin to have Asimov draft a
+          LinkedIn post in his voice whenever a developer announced a release. This let us test
+          whether Asimov acted safely before anyone connected their own tools and APIs.
         </p>
         <p>
           <Lead>I designed built-in actions for connected tools</Lead>{" "}so admins could switch
-          actions on or off for each app. I held to the principle behind every release: admins
+          actions on or off for each app, holding to the principle behind every release: admins
           decide what Asimov can do.
         </p>
       </>

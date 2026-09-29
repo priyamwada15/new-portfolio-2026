@@ -60,14 +60,6 @@ function Message({
   );
 }
 
-function ToolChip({ label }: { label: string }) {
-  return (
-    <span className="rounded-md border border-border bg-surface-page px-2 py-[2px] font-label text-[12px] leading-[18px] text-secondary">
-      {label}
-    </span>
-  );
-}
-
 /**
  * The problem space in one picture: a Slack thread where each of the three pains
  * shows up, numbered to match the list beside it, with the How might we below.
@@ -93,11 +85,7 @@ export default function ProblemSpaceVisual() {
               </span>
             </Message>
             <Message initials="CS" name="CS rep" time="11:20 AM" marker={3}>
-              <span>Thanks! Updating the client now.</span>
-              <span className="mt-2 flex flex-wrap items-center gap-2">
-                <ToolChip label="HubSpot" />
-                <ToolChip label="Client report" />
-              </span>
+              Thanks! Updating the client now.
             </Message>
           </div>
         </div>
@@ -119,7 +107,7 @@ export default function ProblemSpaceVisual() {
       </div>
 
       {/* How might we */}
-      <figcaption className="rounded-2xl bg-[var(--accent-light)] px-8 py-6 font-label text-[18px] font-medium leading-[1.6] text-primary">
+      <figcaption className="px-8 text-center font-label text-[18px] font-medium leading-[1.6] text-primary">
         <span className="text-[var(--accent-dark)]">How might we</span>{" "}give startup teams an AI
         assistant in Slack that can find answers across their conversations and docs and act in
         their other tools, while they decide what it can see and do?

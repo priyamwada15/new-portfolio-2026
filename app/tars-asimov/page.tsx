@@ -6,6 +6,7 @@ import MediaCarousel from "../components/MediaCarousel";
 import { CoreFeatureVideo } from "./CoreFeatureVideo";
 import KnowledgeSourcesDemo from "./KnowledgeSourcesDemo";
 import ProblemSpaceVisual from "./ProblemSpaceVisual";
+import AgentMentionVisual from "./AgentMentionVisual";
 import { CardRow, SectionHeader } from "../components/CaseStudySections";
 import {
   brands,
@@ -127,7 +128,7 @@ const RELEASES: {
         </p>
       </>
     ),
-    media: <VisualPlaceholder label="the multi-agent iteration next to the single-agent structure" />,
+    media: <AgentMentionVisual />,
   },
   {
     number: 1,

@@ -453,28 +453,15 @@ export default function AsimovPage() {
           assistant in Slack that can find answers across their conversations and docs and act in
           their other tools, while they decide what it can see and do?
         </blockquote>
-      </section>
-
-      <section id="research" className="flex flex-col gap-12">
-        <SectionHeader eyebrow="Research" title="Every team wanted something different from an AI agent">
-          <p>
-            Every team shared those pains. Where they split was what they wanted an AI agent to do
-            about them: engineering wanted GitHub workflows, sales wanted CRM updates and marketing
-            wanted help with content.
-          </p>
-          <p>
-            I sorted my interview synthesis by where needs overlapped, which one-off requests could
-            scale and what belonged in the MVP. The PRD and most of Asimov&rsquo;s roadmap evolved
-            from it.
-          </p>
-        </SectionHeader>
-        <VisualPlaceholder label="the synthesis framework: team needs sorted into overlapping, scalable one-off, true one-off, MVP and future scope" />
+        <VisualPlaceholder label="the problem space: a Slack thread with its three pains (buried answers, repeat questions, context copied into other tools), leading to the How might we" />
       </section>
 
       <section id="one-agent" className="flex flex-col gap-12">
         <SectionHeader eyebrow="The dropped direction" title="One agent instead of many">
           <p>
-            My early designs followed that split and gave each use-case its own Slack agent. In a
+            Every team shared those pains, but each wanted something different from an AI agent:
+            engineering wanted GitHub workflows, sales wanted CRM updates and marketing wanted help with
+            content. My early designs followed that split and gave each use-case its own Slack agent. In a
             stakeholder review we looked at what that meant inside a real workspace: several AI agents
             that would get hard to scale and hard to manage. We decided on one agent that could hold
             many contexts.

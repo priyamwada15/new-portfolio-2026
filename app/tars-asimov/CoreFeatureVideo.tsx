@@ -43,7 +43,16 @@ function VideoLightbox({
   );
 }
 
-export function CoreFeatureVideo({ src, title }: { src: string; title: string }) {
+export function CoreFeatureVideo({
+  src,
+  title,
+  className = `aspect-[768/501] w-full ${mediaPanel}`,
+}: {
+  src: string;
+  title: string;
+  /** Frame around the video; defaults to the full-width media panel. */
+  className?: string;
+}) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -52,7 +61,7 @@ export function CoreFeatureVideo({ src, title }: { src: string; title: string })
         type="button"
         onClick={() => setExpanded(true)}
         aria-label={`Expand ${title} video`}
-        className={`cursor-zoom-in aspect-[768/501] w-full overflow-hidden ${mediaPanel}`}
+        className={`cursor-zoom-in overflow-hidden ${className}`}
       >
         <AutoPauseVideo
           src={src}

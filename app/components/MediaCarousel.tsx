@@ -2,6 +2,20 @@
 
 import { useRef, useState } from "react";
 
+/** Salesforce carousel sizes: 790×535 slides, 24px apart, inside a 1008 column. */
+const SLIDE_WIDTH = "78.37%";
+const SLIDE_GAP = 24;
+/** Media area inside a slide, as a share of the 535px slide height (Figma: 92px from the top). */
+const MEDIA_TOP = "17.2%";
+const MEDIA_HEIGHT = "75.3%";
+
+export type MediaSlide = {
+  title: string;
+  /** Rendered inside a centred box with this aspect ratio (e.g. "768 / 501"). */
+  media: React.ReactNode;
+  aspect: string;
+};
+
 function ArrowButton({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) {
   return (
     <button
@@ -27,63 +41,62 @@ function ArrowButton({ direction, onClick }: { direction: "left" | "right"; onCl
 }
 
 /**
- * One full-width slide at a time, with arrows and dots. Slides are any media
- * (videos, demos, screenshots). Off-screen slides are clipped by the track, so
- * `AutoPauseVideo` pauses them on its own.
+ * Horizontal track of fixed-shape slides in the Salesforce carousel style: a title
+ * at the top left, the media centred below it, and the next slide peeking in from
+ * the right. Off-screen slides are clipped, so `AutoPauseVideo` pauses them itself.
  */
-export default function MediaCarousel({ slides, label }: { slides: React.ReactNode[]; label: string }) {
+export default function MediaCarousel({ slides, label }: { slides: MediaSlide[]; label: string }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
+  const [edges, setEdges] = useState({ atStart: true, atEnd: false });
 
-  const goTo = (target: number) => {
+  const updateEdges = () => {
     const el = trackRef.current;
     if (!el) return;
-    el.scrollTo({ left: target * el.clientWidth, behavior: "smooth" });
+    setEdges({ atStart: el.scrollLeft <= 1, atEnd: el.scrollLeft + el.clientWidth >= el.scrollWidth - 1 });
   };
 
-  const onScroll = () => {
+  /** Free scrolling can leave the track between slides, so arrows align to the next/previous slide edge. */
+  const step = (direction: 1 | -1) => {
     const el = trackRef.current;
-    if (!el) return;
-    setIndex(Math.round(el.scrollLeft / el.clientWidth));
+    const first = el?.firstElementChild as HTMLElement | null;
+    if (!el || !first) return;
+    const stride = first.offsetWidth + SLIDE_GAP;
+    const position = el.scrollLeft / stride;
+    const target = direction > 0 ? Math.floor(position + 0.01) + 1 : Math.ceil(position - 0.01) - 1;
+    el.scrollTo({ left: Math.max(0, target) * stride, behavior: "smooth" });
   };
 
   return (
-    <div className="flex w-full flex-col items-center gap-4" role="region" aria-roledescription="carousel" aria-label={label}>
-      <div className="relative w-full">
-        <div
-          ref={trackRef}
-          onScroll={onScroll}
-          className="flex snap-x snap-mandatory items-start overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {slides.map((slide, i) => (
+    <div className="relative w-full" role="region" aria-roledescription="carousel" aria-label={label}>
+      <div
+        ref={trackRef}
+        onScroll={updateEdges}
+        className="flex overflow-x-auto overscroll-x-contain rounded-[var(--ds-radius-container)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ gap: SLIDE_GAP }}
+      >
+        {slides.map((slide, i) => (
+          <div
+            key={slide.title}
+            className="relative aspect-[790/535] shrink-0 rounded-[var(--ds-radius-container)] border border-border bg-surface-page"
+            style={{ width: SLIDE_WIDTH }}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${slides.length}: ${slide.title}`}
+          >
+            <p className="absolute left-6 right-6 top-6 font-label text-[14px] font-medium leading-[22.4px] text-primary">
+              {slide.title}
+            </p>
             <div
-              key={i}
-              className="w-full shrink-0 snap-start"
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${i + 1} of ${slides.length}`}
+              className="absolute left-1/2 -translate-x-1/2 overflow-hidden rounded-lg border border-border shadow-[0_0_16px_3px_rgba(0,0,0,0.04)]"
+              style={{ top: MEDIA_TOP, height: MEDIA_HEIGHT, aspectRatio: slide.aspect }}
             >
-              {slide}
+              {slide.media}
             </div>
-          ))}
-        </div>
-        {index > 0 && <ArrowButton direction="left" onClick={() => goTo(index - 1)} />}
-        {index < slides.length - 1 && <ArrowButton direction="right" onClick={() => goTo(index + 1)} />}
-      </div>
-      <div className="flex items-center gap-2">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => goTo(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            aria-current={i === index}
-            className={`size-2 cursor-pointer rounded-full transition-colors ${
-              i === index ? "bg-[var(--accent-dark)]" : "bg-border"
-            }`}
-          />
+          </div>
         ))}
       </div>
+      {!edges.atStart && <ArrowButton direction="left" onClick={() => step(-1)} />}
+      {!edges.atEnd && <ArrowButton direction="right" onClick={() => step(1)} />}
     </div>
   );
 }

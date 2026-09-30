@@ -35,83 +35,54 @@ const REFLECTIONS = [
   },
 ] as const;
 
-/** Media slides share the 1008×658 panel shape used across the page. */
-const panelSlide = "aspect-[1008/658] w-full overflow-hidden";
-
-/** Grey panel holding a centred Slack screenshot. `width` is the screenshot's px width inside a 1008×658 panel. */
-function ScreenshotPanel({
-  src,
-  alt,
-  width,
-  caption,
-}: {
-  src: string;
-  alt: string;
-  width: number;
-  caption: string;
-}) {
-  return (
-    <figure className={`relative ${panelSlide} ${mediaPanel}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt}
-        className="absolute left-1/2 top-[7.3%] h-auto -translate-x-1/2 rounded-[9px] border border-border"
-        style={{ width: `${(width / 1008) * 100}%` }}
-      />
-      <figcaption className="absolute inset-x-6 bottom-[3.5%] text-center font-label text-[12px] leading-[22.4px] text-secondary">
-        {caption}
-      </figcaption>
-    </figure>
-  );
-}
-
 /**
- * Taller grey panel for a split row: the screenshot sits 48px from the top of a
- * 488×558 frame, with the caption near the bottom, so it holds as the column scales.
+ * Grey 488×558 panel with a screenshot 48px from the top and its caption 16px
+ * below it, in the page's caption style. Sizes are Figma px, turned into
+ * percentages so the layout holds as the panel scales.
  */
-function TallScreenshotPanel({
+function PanelShot({
   src,
   alt,
+  intrinsic,
   width,
   caption,
+  bordered = false,
 }: {
   src: string;
   alt: string;
+  /** The file's pixel size, for next/image. */
+  intrinsic: { width: number; height: number };
+  /** Display width inside the 488px panel. */
   width: number;
   caption: string;
+  /** Adds a 1px border for screenshots without their own frame. */
+  bordered?: boolean;
 }) {
   return (
     <figure className={`relative aspect-[488/558] w-full overflow-hidden ${mediaPanel}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt}
-        className="absolute left-1/2 h-auto -translate-x-1/2 rounded-[9px] border border-border"
+      <div
+        className="absolute left-1/2 flex -translate-x-1/2 flex-col gap-4"
         style={{ width: `${(width / 488) * 100}%`, top: `${(48 / 558) * 100}%` }}
-      />
-      <figcaption
-        className="absolute inset-x-6 text-center font-label text-[12px] leading-[22.4px] text-secondary"
-        style={{ top: `${(510 / 558) * 100}%` }}
       >
-        {caption}
-      </figcaption>
+        <Image
+          src={src}
+          alt={alt}
+          width={intrinsic.width}
+          height={intrinsic.height}
+          className={`h-auto w-full ${bordered ? "rounded-[9px] border border-border" : ""}`}
+          style={{ filter: "drop-shadow(0px 0px 24px rgba(0,0,0,0.04))" }}
+        />
+        <figcaption className="font-label text-[14px] leading-[22px] text-secondary">{caption}</figcaption>
+      </div>
     </figure>
   );
 }
 
 /** Stand-in for a visual that is still being designed. */
-function VisualPlaceholder({
-  label,
-  className = "aspect-[1008/560] w-full",
-}: {
-  label: string;
-  /** Size of the box; defaults to a full-width 1008×560 panel. */
-  className?: string;
-}) {
+function VisualPlaceholder({ label }: { label: string }) {
   return (
     <div
-      className={`flex items-center justify-center rounded-[var(--ds-radius-container)] border border-dashed border-border bg-surface-page px-10 ${className}`}
+      className="flex aspect-[1008/560] w-full items-center justify-center rounded-[var(--ds-radius-container)] border border-dashed border-border bg-surface-page px-10"
       aria-hidden="true"
     >
       <p className="max-w-[480px] text-center font-label text-[14px] leading-[22px] text-muted">
@@ -123,26 +94,22 @@ function VisualPlaceholder({
 
 function PreviewVideo({ src, label }: { src: string; label: string }) {
   return (
-    <div className={`${panelSlide} ${mediaPanel}`}>
-      <AutoPauseVideo
-        src={src}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        aria-label={label}
-        className="h-full w-full object-cover"
-      />
-    </div>
+    <AutoPauseVideo
+      src={src}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-label={label}
+      className="h-full w-full object-cover"
+    />
   );
 }
 
-/** Admin modal placement inside the 488×558 split-row panel (px). */
-const ADMIN_PANEL = { imageWidth: 370, imageTop: 48 };
-
-/** Response model placement inside the same 488×558 panel (px). */
-const RESPONSE_MODEL_PANEL = { imageWidth: 384, imageTop: 48 };
+/** Video frames fill their carousel slot. */
+const VIDEO_ASPECT = "768 / 501";
+const slotVideo = "block size-full";
 
 function Lead({ children }: { children: React.ReactNode }) {
   return <strong className="font-semibold text-primary">{children}</strong>;
@@ -202,11 +169,13 @@ const RELEASES: {
       </>
     ),
     media: (
-      <TallScreenshotPanel
+      <PanelShot
         src="/new-asimov/Slack%201.avif"
         alt="Slack thread with Asimov summarizing the conversation"
+        intrinsic={{ width: 830, height: 851 }}
         width={415}
-        caption="Example scenario of Asimov summarizing threads."
+        bordered
+        caption="Example scenario of Asimov summarizing threads"
       />
     ),
   },
@@ -234,42 +203,20 @@ const RELEASES: {
     ),
     media: (
       <div className="grid w-full grid-cols-2 items-start gap-8">
-        <figure className={`relative aspect-[488/558] min-w-0 overflow-hidden ${mediaPanel}`}>
-          <div
-            className="absolute left-1/2 -translate-x-1/2"
-            style={{
-              width: `${(ADMIN_PANEL.imageWidth / 488) * 100}%`,
-              top: `${(ADMIN_PANEL.imageTop / 558) * 100}%`,
-              filter: "drop-shadow(0px 0px 24px rgba(0,0,0,0.04))",
-            }}
-          >
-            <Image
-              src="/new-asimov/Admin User Manage Settings Modal.avif"
-              alt="Admin settings modal for managing who has access to configure Asimov"
-              width={505}
-              height={635}
-              className="h-auto w-full"
-            />
-          </div>
-        </figure>
-        <figure className={`relative aspect-[488/558] min-w-0 overflow-hidden ${mediaPanel}`}>
-          <div
-            className="absolute left-1/2 -translate-x-1/2"
-            style={{
-              width: `${(RESPONSE_MODEL_PANEL.imageWidth / 488) * 100}%`,
-              top: `${(RESPONSE_MODEL_PANEL.imageTop / 558) * 100}%`,
-              filter: "drop-shadow(0px 0px 24px rgba(0,0,0,0.04))",
-            }}
-          >
-            <Image
-              src="/new-asimov/Response Model.avif"
-              alt="Asimov telling a user privately that their answer is incomplete because it drew on channels they can't access, with Request Access and Dismiss options"
-              width={800}
-              height={963}
-              className="h-auto w-full"
-            />
-          </div>
-        </figure>
+        <PanelShot
+          src="/new-asimov/Admin User Manage Settings Modal.avif"
+          alt="Admin settings modal for managing who has access to configure Asimov"
+          intrinsic={{ width: 1010, height: 1269 }}
+          width={330}
+          caption="Admin-only settings for Asimov's members, channels and prompt"
+        />
+        <PanelShot
+          src="/new-asimov/Response Model.avif"
+          alt="Asimov telling a user privately that their answer is incomplete because it drew on channels they can't access, with Request Access and Dismiss options"
+          intrinsic={{ width: 800, height: 963 }}
+          width={340}
+          caption="Asimov flagging an incomplete answer privately, with a way to request access"
+        />
       </div>
     ),
   },
@@ -304,35 +251,55 @@ const RELEASES: {
       <MediaCarousel
         label="Knowledge sources and integrations"
         slides={[
-          <CoreFeatureVideo
-            key="kb"
-            src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/KB_Asimov_nrvbu8.mp4"
-            title="Knowledge Dashboard"
-          />,
-          // The demo's tab bar sits above its video, so the panel matches the video's baked-in #F5F5F5.
-          <div
-            key="sources-demo"
-            className="w-full overflow-hidden rounded-[var(--ds-radius-container)] border border-border bg-surface-media"
-            aria-hidden="true"
-          >
-            <KnowledgeSourcesDemo />
-          </div>,
-          <CoreFeatureVideo
-            key="integrations"
-            src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/Integrations_Asimov_izfe8q.mp4"
-            title="Integrations Hub"
-          />,
-          <PreviewVideo
-            key="integrations-preview"
-            src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785523382/Integrations_Preview_xayos0.mp4"
-            label="Integrations experience demo"
-          />,
+          {
+            title: "Knowledge dashboard",
+            aspect: VIDEO_ASPECT,
+            media: (
+              <CoreFeatureVideo
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/KB_Asimov_nrvbu8.mp4"
+                title="Knowledge Dashboard"
+                className={slotVideo}
+              />
+            ),
+          },
+          {
+            title: "Adding knowledge sources and Slack channels",
+            // The demo's tab bar sits above its video, so the slot matches the video's baked-in #F5F5F5.
+            aspect: "768 / 540",
+            media: (
+              <div className="size-full bg-surface-media" aria-hidden="true">
+                <KnowledgeSourcesDemo />
+              </div>
+            ),
+          },
+          {
+            title: "Integrations hub",
+            aspect: VIDEO_ASPECT,
+            media: (
+              <CoreFeatureVideo
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/Integrations_Asimov_izfe8q.mp4"
+                title="Integrations Hub"
+                className={slotVideo}
+              />
+            ),
+          },
+          {
+            title: "What each integration can read",
+            aspect: VIDEO_ASPECT,
+            media: (
+              <PreviewVideo
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785523382/Integrations_Preview_xayos0.mp4"
+                label="Integrations experience demo"
+              />
+            ),
+          },
         ]}
       />
     ),
   },
   {
     number: 4,
+    split: true,
     title: "Two ways to check every answer Asimov gave",
     body: (
       <>
@@ -354,7 +321,15 @@ const RELEASES: {
         </p>
       </>
     ),
-    media: <VisualPlaceholder label="source citations design" />,
+    media: (
+      <PanelShot
+        src="/new-asimov/Debug Asimov Response.avif"
+        alt="Inspect Asimov Response panel listing the steps Asimov took to answer a request, with the first step expanded to show the tool and query it used"
+        intrinsic={{ width: 800, height: 902 }}
+        width={370}
+        caption="Inspecting the steps Asimov took to reach an answer"
+      />
+    ),
   },
   {
     number: 5,
@@ -384,23 +359,40 @@ const RELEASES: {
       <MediaCarousel
         label="Actions"
         slides={[
-          <CoreFeatureVideo
-            key="actions"
-            src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/Actions_Asimov_e9ezjr.mp4"
-            title="Action Configuration"
-          />,
-          <PreviewVideo
-            key="actions-preview"
-            src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785526992/Actions_Preview_ykwxsc.mp4"
-            label="Custom actions configuration demo"
-          />,
-          <ScreenshotPanel
-            key="slack-2"
-            src="/new-asimov/Slack%202.avif"
-            alt="Slack thread showing Asimov integrating with another app"
-            width={378}
-            caption="Example scenario of Asimov integrating with other apps."
-          />,
+          {
+            title: "Action configuration",
+            aspect: VIDEO_ASPECT,
+            media: (
+              <CoreFeatureVideo
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/Actions_Asimov_e9ezjr.mp4"
+                title="Action Configuration"
+                className={slotVideo}
+              />
+            ),
+          },
+          {
+            title: "Writing a custom action",
+            aspect: VIDEO_ASPECT,
+            media: (
+              <PreviewVideo
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785526992/Actions_Preview_ykwxsc.mp4"
+                label="Custom actions configuration demo"
+              />
+            ),
+          },
+          {
+            title: "Asimov pulling an answer from a connected app",
+            aspect: "756 / 892",
+            media: (
+              <Image
+                src="/new-asimov/Slack%202.avif"
+                alt="Slack thread showing Asimov integrating with another app"
+                width={756}
+                height={892}
+                className="size-full object-cover"
+              />
+            ),
+          },
         ]}
       />
     ),

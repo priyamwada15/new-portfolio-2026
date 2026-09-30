@@ -46,50 +46,56 @@ export function AdtuaSnapshot() {
           if (e.target === e.currentTarget) e.currentTarget.close();
         }}
       >
-        <div className={styles.dialogMedia}>
-          <button
-            type="button"
-            className={styles.dialogClose}
-            onClick={() => dialogRef.current?.close()}
-            aria-label="Close"
-          >
+        <AdtuaDetail onClose={() => dialogRef.current?.close()} />
+      </dialog>
+    </>
+  );
+}
+
+/** Detail content shown in the Adtua snapshot dialog (also rendered alone on /adtua-card). */
+export function AdtuaDetail({ onClose }: { onClose?: () => void }) {
+  return (
+    <>
+      <div className={styles.dialogMedia}>
+        {onClose && (
+          <button type="button" className={styles.dialogClose} onClick={onClose} aria-label="Close">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M3.5 3.5l9 9m0-9l-9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
-        </div>
+        )}
+      </div>
 
-        <div className={styles.dialogBody}>
-          <div>
-            <div className={`${styles.tags} ${styles.dialogChips}`}>
-              <span className={styles.tag}>2026</span>
-              <span className={styles.tag}>In development</span>
-            </div>
-            <h2 id="adtua-dialog-title" className={styles.dialogTitle}>Adtua</h2>
-            <p className={styles.dialogSub}>Two-sided ad marketplace at Heartland Community Network</p>
-            <p className={styles.dialogCopy}>
-              I&apos;m the sole product designer on Adtua, a marketplace where advertisers buy airtime
-              from broadcasters. I&apos;m designing the whole platform from business, API and pricing
-              requirements: the information architecture, the workflows for each role and the design
-              system underneath them.
-            </p>
-            <p className={styles.dialogCopy}>
-              While mapping the pricing requirements I saw room for new ways to make money, so I&apos;m
-              also designing premium upsells and the pricing screens that help both sides understand
-              what they&apos;re paying for.
-            </p>
+      <div className={styles.dialogBody}>
+        <div>
+          <div className={`${styles.tags} ${styles.dialogChips}`}>
+            <span className={styles.tag}>2026</span>
+            <span className={styles.tag}>In development</span>
           </div>
-
-          <dl className={styles.facts}>
-            {FACTS.map((f) => (
-              <div key={f.label}>
-                <dt>{f.label}</dt>
-                <dd>{f.value}</dd>
-              </div>
-            ))}
-          </dl>
+          <h2 id="adtua-dialog-title" className={styles.dialogTitle}>Adtua</h2>
+          <p className={styles.dialogSub}>Two-sided ad marketplace at Heartland Community Network</p>
+          <p className={styles.dialogCopy}>
+            I&apos;m the sole product designer on Adtua, a marketplace where advertisers buy airtime
+            from broadcasters. I&apos;m designing the whole platform from business, API and pricing
+            requirements: the information architecture, the workflows for each role and the design
+            system underneath them.
+          </p>
+          <p className={styles.dialogCopy}>
+            While mapping the pricing requirements I saw room for new ways to make money, so I&apos;m
+            also designing premium upsells and the pricing screens that help both sides understand
+            what they&apos;re paying for.
+          </p>
         </div>
-      </dialog>
+
+        <dl className={styles.facts}>
+          {FACTS.map((f) => (
+            <div key={f.label}>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </>
   );
 }

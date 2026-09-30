@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { AdtuaSnapshot } from "../home-v2/AdtuaSnapshot";
+import { AdtuaDetail } from "../home-v2/AdtuaSnapshot";
+import styles from "../home-v2/home.module.css";
 
-/** Private page for editing the homepage Adtua snapshot card in isolation. */
+/** Private page for editing the Adtua snapshot's detail card in isolation. */
 export const metadata: Metadata = {
-  title: "Adtua card",
+  title: "Adtua detail card",
   robots: { index: false, follow: false },
 };
 
 export default function AdtuaCardPage() {
   return (
-    <div className="flex min-h-[70vh] items-center justify-center px-4 py-16">
-      {/* Same width as the homepage hero column */}
-      <div className="w-full max-w-[320px]">
-        <AdtuaSnapshot />
+    <div className="px-4 py-16">
+      {/* Same frame as the homepage dialog, rendered inline */}
+      <div className={styles.dialog} style={{ maxHeight: "none", overflow: "hidden" }}>
+        <AdtuaDetail />
       </div>
     </div>
   );

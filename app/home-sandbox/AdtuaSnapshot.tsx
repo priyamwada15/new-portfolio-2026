@@ -11,6 +11,8 @@ const FACTS = [
   { label: "Tools", value: "Figma, Cursor" },
 ] as const;
 
+const CARD_TAGS = ["0→1", "B2B SaaS", "Current work"] as const;
+
 /** Small "Currently" snapshot card for Adtua; opens a detail dialog. */
 export function AdtuaSnapshot() {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -24,14 +26,15 @@ export function AdtuaSnapshot() {
         aria-haspopup="dialog"
         aria-label="Open Adtua project snapshot"
       >
-        <div className={styles.snapshotMedia} aria-hidden="true" />
-        <div className={styles.snapshotMeta}>
-          <div>
-            <p className={styles.snapshotTitle}>Adtua</p>
-            <p className={styles.snapshotSub}>Two-sided ad marketplace</p>
+        <div className={styles.snapshotHeader}>
+          <p className={styles.snapshotTitle}>Adtua</p>
+          <div className={styles.tags}>
+            {CARD_TAGS.map((tag) => (
+              <span key={tag} className={styles.tag}>{tag}</span>
+            ))}
           </div>
-          <span className={styles.statusChip}>In development</span>
         </div>
+        <div className={styles.snapshotMedia} aria-hidden="true" />
       </button>
 
       <dialog
@@ -58,9 +61,9 @@ export function AdtuaSnapshot() {
 
         <div className={styles.dialogBody}>
           <div>
-            <div className={styles.dialogChips}>
-              <span className={styles.statusChip}>2026</span>
-              <span className={styles.statusChip}>In development</span>
+            <div className={`${styles.tags} ${styles.dialogChips}`}>
+              <span className={styles.tag}>2026</span>
+              <span className={styles.tag}>In development</span>
             </div>
             <h2 id="adtua-dialog-title" className={styles.dialogTitle}>Adtua</h2>
             <p className={styles.dialogSub}>Two-sided ad marketplace at Heartland Community Network</p>

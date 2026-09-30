@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 type CaseStudy = {
   href: string;
   ariaLabel: string;
-  logos: { src: string; alt: string }[];
+  logos: { src: string; alt: string; tall?: boolean }[];
   title: string;
   tags: string[];
 };
@@ -43,12 +43,12 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Tars Debug Mode case study",
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
-    tags: ["B2B SaaS", "Complex Workflows", "Internal Tools"],
+    tags: ["B2B SaaS", "Complex Workflows", "Internal Tool"],
   },
   {
     href: "/salesforce",
     ariaLabel: "Read Salesforce case study",
-    logos: [{ src: "/logos/salesforce.svg", alt: "Salesforce" }],
+    logos: [{ src: "/logos/salesforce.svg", alt: "Salesforce", tall: true }],
     title: "Designing a 0→1 AI platform for fragmented academic data",
     tags: ["B2B2C", "0→1", "AI Product Design"],
   },
@@ -58,20 +58,20 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
     <HomeV2CardLink href={study.href} ariaLabel={study.ariaLabel} className={`cursor-hover-dark ${styles.card}`}>
       <div className={styles.cardHeader}>
-        <div>
+        <div className={styles.cardMeta}>
           <div className={styles.cardLogos}>
             {study.logos.map((logo) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={logo.src} src={logo.src} alt={logo.alt} />
+              <img key={logo.src} src={logo.src} alt={logo.alt} className={logo.tall ? styles.logoTall : undefined} />
             ))}
           </div>
-          <h3 className={styles.cardTitle}>{study.title}</h3>
+          <div className={styles.tags}>
+            {study.tags.map((tag) => (
+              <span key={tag} className={styles.tag}>{tag}</span>
+            ))}
+          </div>
         </div>
-        <div className={styles.cardTags}>
-          {study.tags.map((tag) => (
-            <span key={tag} className={styles.tag}>{tag}</span>
-          ))}
-        </div>
+        <h3 className={styles.cardTitle}>{study.title}</h3>
       </div>
       {/* Video placeholder */}
       <div className={styles.cardMedia} aria-hidden="true" />
@@ -85,32 +85,30 @@ export default function HomeSandboxPage() {
       <div className={styles.layout}>
         <section className={styles.hero}>
           <ScrollReveal revealOnMount className={styles.intro}>
-            <p className={styles.introLead}>
-              Hi, I&apos;m <PriyamwadaNameLink />. I design AI and B2B products at early-stage teams,
-              usually as the first designer in the room, next to founders and engineers. At Tars I was
-              the founding designer on Asimov, an AI agent for Slack, and shipped 5 releases in 5 months.
-              I trained as an architect before I moved into product.
+            <p className={styles.introPara}>
+              Hi, I&apos;m <PriyamwadaNameLink />. I design AI and B2B products for early-stage teams,
+              usually as the first designer in the room.
             </p>
-            <p className={styles.introBody}>
-              Outside of work, I tinker and try to build something every now and then to exercise my
-              design muscles. You can explore some of my recent experiments{" "}
+            <p className={styles.introPara}>
+              Outside of work, I build{" "}
+              <a href="/playground" className={`cursor-hover-pointer ${styles.introLink}`}>fun things</a>.
+              You can explore some of my recent experiments{" "}
               <a href="/playground" className={`cursor-hover-pointer ${styles.introLink}`}>here</a>.
+            </p>
+            <p className={styles.currentLabel}>
+              <span className={styles.currentLogo} aria-hidden="true" />
+              <span>
+                Currently <span className={styles.currentRole}>· Product Designer @ Heartland Community Network</span>
+              </span>
             </p>
           </ScrollReveal>
 
-          <ScrollReveal revealOnMount className={styles.current}>
-            <p className={styles.currentLabel}>
-              <span className={styles.currentDot} aria-hidden="true" />
-              <span>
-                <strong>Currently</strong> · Product Designer @ Heartland Community Network
-              </span>
-            </p>
+          <ScrollReveal revealOnMount>
             <AdtuaSnapshot />
           </ScrollReveal>
         </section>
 
-        <section className={styles.work} aria-labelledby="selected-work">
-          <h2 id="selected-work" className={styles.sectionLabel}>Selected work</h2>
+        <section className={styles.work} aria-label="Case studies">
           {CASE_STUDIES.map((study) => (
             <ScrollReveal key={study.href}>
               <CaseStudyCard study={study} />

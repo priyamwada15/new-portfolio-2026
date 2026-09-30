@@ -376,13 +376,15 @@ const RELEASES: {
           {
             title: "Asimov pulling an answer from a connected app",
             media: (
-              <Image
-                src="/new-asimov/Slack%202.avif"
-                alt="Slack thread showing Asimov integrating with another app"
-                width={756}
-                height={892}
-                className="absolute inset-0 size-full object-contain pb-6 pt-2"
-              />
+              <div className="absolute inset-0 flex justify-center pb-6 pt-2">
+                <Image
+                  src="/new-asimov/Slack%202.avif"
+                  alt="Slack thread showing Asimov integrating with another app"
+                  width={756}
+                  height={892}
+                  className="h-full w-auto rounded-[9px] border border-border"
+                />
+              </div>
             ),
           },
         ]}
@@ -548,19 +550,17 @@ export default function AsimovPage() {
           title="Building the design system that cut handoff-to-release time by ~60%"
         >
           <p>
-            I waited until Asimov needed its own interface. The summarizer lived inside Slack, so
-            there was nothing to systematize yet. When knowledge sources needed a dashboard, I started
-            a design system, because every release after that would add more screens and more settings
-            to configure.
+            I waited until Asimov needed its own interface. The pilot lived inside Slack, but once
+            knowledge sources needed a dashboard, every release after it would add more screens to
+            configure, so I started a design system.
           </p>
           <p>
-            It covered components, tokens and patterns. Once the front-end developers had built it, a
-            new design went from handoff to release in about two days. Before, that took at least a
-            week.
+            It covered components, tokens and patterns. Once it was built, a new design went from
+            handoff to release in about two days, down from at least a week.
           </p>
           <p>
-            Its core components like cards, tables and accordions, later moved into Tars&rsquo; main
-            product with the same structure and new styling.
+            Its core components, like cards, tables and accordions, later moved into Tars&rsquo; main
+            product, restyled to match.
           </p>
         </SectionHeader>
         <VisualPlaceholder label="design system overview" />

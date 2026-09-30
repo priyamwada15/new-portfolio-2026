@@ -17,7 +17,7 @@ const FlipBoardFooter = dynamic(
 );
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isHomeV2 = pathname === "/" || pathname === "/home-sandbox";
+  const isHomeV2 = pathname === "/";
   const bareArcadeEffwon =
     pathname === "/arcade-effwon" || pathname.startsWith("/arcade-effwon/");
   const bareSunlight =

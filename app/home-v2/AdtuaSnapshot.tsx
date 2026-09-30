@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import styles from "./sandbox.module.css";
+import styles from "./home.module.css";
 
 const FACTS = [
   { label: "Role", value: "Sole product designer" },

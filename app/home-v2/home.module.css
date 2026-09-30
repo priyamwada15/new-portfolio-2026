@@ -1,4 +1,4 @@
-/* Homepage sandbox — private layout experiments (not linked, noindex). */
+/* Homepage layout — hero, HCN snapshot and case study cards. */
 
 .page {
   min-height: 100vh;
@@ -374,9 +374,34 @@
 }
 
 .cardMedia {
+  position: relative;
   width: 100%;
   aspect-ratio: 1008 / 575;
   border-radius: var(--ds-radius-container);
   background: var(--ds-surface-media);
   box-shadow: inset 0 0 0 1px var(--ds-border-media);
+  overflow: hidden;
+}
+
+/* Single video / preview, framed the same way the old homepage cards were */
+.mediaInset {
+  position: absolute;
+  inset: 0;
+  padding: 56px 56px 24px;
+}
+
+/* Rocket Mortgage's three phone videos */
+.mediaTriple {
+  position: absolute;
+  inset: 0;
+  padding: 24px;
+}
+
+@media (max-width: 767px) {
+  .mediaInset {
+    padding: 20px 16px 12px;
+  }
+  .mediaTriple {
+    padding: 12px;
+  }
 }

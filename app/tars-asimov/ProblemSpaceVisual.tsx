@@ -24,32 +24,27 @@ function Marker({ n }: { n: number }) {
   );
 }
 
-/** Full class strings so Tailwind can see them. */
-const AVATAR = {
-  teal: "bg-tag-teal-bg text-tag-teal-fg",
-  amber: "bg-tag-amber-bg text-tag-amber-fg",
+/** Illustrative teammates (Pexels photos by Justin Shaifer). */
+const AVATAR_SRC = {
+  cs: "/new-asimov/CS%20Rep%20Avatar.avif",
+  eng: "/new-asimov/Eng%20Lead%20Avatar.avif",
 } as const;
 
-function Avatar({ initials, color }: { initials: string; color: keyof typeof AVATAR }) {
+function Avatar({ person }: { person: keyof typeof AVATAR_SRC }) {
   return (
-    <span
-      className={`flex size-8 shrink-0 items-center justify-center rounded-lg font-label text-[12px] font-semibold ${AVATAR[color]}`}
-    >
-      {initials}
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={AVATAR_SRC[person]} alt="" width={32} height={32} className="size-8 shrink-0 rounded-lg object-cover" />
   );
 }
 
 function Message({
-  initials,
-  color,
+  person,
   name,
   time,
   marker,
   children,
 }: {
-  initials: string;
-  color: keyof typeof AVATAR;
+  person: keyof typeof AVATAR_SRC;
   name: string;
   time: string;
   marker?: number;
@@ -57,7 +52,7 @@ function Message({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <Avatar initials={initials} color={color} />
+      <Avatar person={person} />
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <p className="font-label text-[14px] leading-[20px]">
           <span className="font-semibold text-primary">{name}</span>{" "}
@@ -84,17 +79,17 @@ export default function ProblemSpaceVisual() {
             # client-escalations
           </div>
           <div className="flex flex-col gap-5 px-5 py-5">
-            <Message initials="CS" color="teal" name="CS rep" time="10:42 AM" marker={1}>
+            <Message person="cs" name="CS rep" time="10:42 AM" marker={1}>
               Acme&rsquo;s API calls are failing again. Didn&rsquo;t we fix this before?
             </Message>
-            <Message initials="EL" color="amber" name="Eng lead" time="10:58 AM" marker={2}>
+            <Message person="eng" name="Eng lead" time="10:58 AM" marker={2}>
               <span>Yes, back in March. Let me find the thread&hellip;</span>
               <span className="mt-2 flex w-fit items-center gap-2 rounded-md bg-surface-page px-2 py-1 text-[12px] leading-[18px] text-tertiary">
                 <span className="font-semibold text-[var(--accent-dark)]">64 replies</span>
                 Last reply 5 months ago
               </span>
             </Message>
-            <Message initials="CS" color="teal" name="CS rep" time="11:20 AM" marker={3}>
+            <Message person="cs" name="CS rep" time="11:20 AM" marker={3}>
               Thanks! Updating the client now.
             </Message>
           </div>

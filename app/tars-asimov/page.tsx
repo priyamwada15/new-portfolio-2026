@@ -141,6 +141,9 @@ function PreviewVideo({ src, label }: { src: string; label: string }) {
 /** Admin modal placement inside the 488×558 split-row panel (px). */
 const ADMIN_PANEL = { imageWidth: 370, imageTop: 48 };
 
+/** Response model placement inside the same 488×558 panel (px). */
+const RESPONSE_MODEL_PANEL = { imageWidth: 384, imageTop: 48 };
+
 function Lead({ children }: { children: React.ReactNode }) {
   return <strong className="font-semibold text-primary">{children}</strong>;
 }
@@ -249,7 +252,24 @@ const RELEASES: {
             />
           </div>
         </figure>
-        <VisualPlaceholder label="the response model cases" className="aspect-[488/558] min-w-0" />
+        <figure className={`relative aspect-[488/558] min-w-0 overflow-hidden ${mediaPanel}`}>
+          <div
+            className="absolute left-1/2 -translate-x-1/2"
+            style={{
+              width: `${(RESPONSE_MODEL_PANEL.imageWidth / 488) * 100}%`,
+              top: `${(RESPONSE_MODEL_PANEL.imageTop / 558) * 100}%`,
+              filter: "drop-shadow(0px 0px 24px rgba(0,0,0,0.04))",
+            }}
+          >
+            <Image
+              src="/new-asimov/Response Model.avif"
+              alt="Asimov telling a user privately that their answer is incomplete because it drew on channels they can't access, with Request Access and Dismiss options"
+              width={800}
+              height={963}
+              className="h-auto w-full"
+            />
+          </div>
+        </figure>
       </div>
     ),
   },

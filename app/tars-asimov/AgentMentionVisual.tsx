@@ -1,6 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import {
+  ChartLineUp,
+  Code,
+  Headset,
+  Megaphone,
+  PenNib,
+  Robot,
+  type Icon,
+} from "@phosphor-icons/react";
 import { mediaPanel } from "@/design-system";
 
 /** Full class strings so Tailwind can see them. */
@@ -13,17 +22,17 @@ const AVATAR = {
   purple: "bg-tag-purple-bg text-tag-purple-fg",
 } as const;
 
-type Bot = { handle: string; color: keyof typeof AVATAR };
+type Bot = { handle: string; color: keyof typeof AVATAR; icon: Icon };
 
 const TEAM_AGENTS: Bot[] = [
-  { handle: "asimov-engineering", color: "blue" },
-  { handle: "asimov-sales", color: "amber" },
-  { handle: "asimov-marketing", color: "pink" },
-  { handle: "asimov-customer-success", color: "teal" },
-  { handle: "asimov-design", color: "green" },
+  { handle: "asimov-engineering", color: "blue", icon: Code },
+  { handle: "asimov-sales", color: "amber", icon: ChartLineUp },
+  { handle: "asimov-marketing", color: "pink", icon: Megaphone },
+  { handle: "asimov-customer-success", color: "teal", icon: Headset },
+  { handle: "asimov-design", color: "green", icon: PenNib },
 ];
 
-const SHIPPED_AGENT: Bot[] = [{ handle: "asimov", color: "purple" }];
+const SHIPPED_AGENT: Bot[] = [{ handle: "asimov", color: "purple", icon: Robot }];
 
 const QUERY = "@asi";
 const TYPE_MS = 140;
@@ -34,6 +43,7 @@ type BoxState = { chars: number; rows: number };
 const EMPTY: BoxState = { chars: 0, rows: 0 };
 
 function BotRow({ bot, visible, active }: { bot: Bot; visible: boolean; active: boolean }) {
+  const BotIcon = bot.icon;
   return (
     <li
       className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-[opacity,transform] duration-300 ease-out ${
@@ -41,9 +51,9 @@ function BotRow({ bot, visible, active }: { bot: Bot; visible: boolean; active: 
       } ${visible ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"}`}
     >
       <span
-        className={`flex size-7 shrink-0 items-center justify-center rounded-md font-label text-[13px] font-semibold ${AVATAR[bot.color]}`}
+        className={`flex size-7 shrink-0 items-center justify-center rounded-md ${AVATAR[bot.color]}`}
       >
-        A
+        <BotIcon size={16} weight="bold" aria-hidden="true" />
       </span>
       <span className="min-w-0 truncate font-label text-[14px] font-medium text-primary">{bot.handle}</span>
       <span className="ml-auto shrink-0 rounded border border-border px-[5px] font-label text-[10px] font-semibold leading-[16px] text-tertiary">

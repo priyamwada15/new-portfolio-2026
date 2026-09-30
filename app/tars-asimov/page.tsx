@@ -550,9 +550,8 @@ export default function AsimovPage() {
           title="Building the design system that cut handoff-to-release time by ~60%"
         >
           <p>
-            I waited until Asimov needed its own interface. The pilot lived inside Slack, but once
-            knowledge sources needed a dashboard, every release after it would add more screens to
-            configure, so I started a design system.
+            I held off on a design system until Asimov needed its own interface. From then on, every
+            release added more screens.
           </p>
           <p>
             It covered components, tokens and patterns. Once it was built, a new design went from

@@ -4,6 +4,7 @@ import { HomeV2CardLink } from "../home-v2/HomeV2CardLink";
 import { PriyamwadaNameLink } from "../home-v2/PriyamwadaNameLink";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { AdtuaSnapshot } from "./AdtuaSnapshot";
+import { HcnCube } from "./HcnCube";
 import styles from "./sandbox.module.css";
 
 /** Private homepage layout sandbox: not linked anywhere, kept out of search. */
@@ -96,7 +97,7 @@ export default function HomeSandboxPage() {
               <a href="/playground" className={`cursor-hover-pointer ${styles.introLink}`}>here</a>.
             </p>
             <p className={styles.currentLabel}>
-              <span className={styles.currentLogo} aria-hidden="true" />
+              <HcnCube />
               <span>
                 Currently <span className={styles.currentRole}>· Product Designer @ Heartland Community Network</span>
               </span>

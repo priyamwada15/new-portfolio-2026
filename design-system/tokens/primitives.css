@@ -41,6 +41,14 @@
   --ds-color-brand-salesforce: #032c5f;
   --ds-color-brand-salesforce-light: #e5f6fc;
 
+  /* Brand — Heartland Community Network (one cube face per client) */
+  --ds-color-brand-hcn-adtua: #ff7f11;
+  --ds-color-brand-hcn-chomp: #d10034;
+  --ds-color-brand-hcn-rose: #c02b53;
+  --ds-color-brand-hcn-amber: #f4af30;
+  --ds-color-brand-hcn-olive: #bfb74c;
+  --ds-color-brand-hcn-teal: #1289b1;
+
   /* Research-area categories (Salesforce problem-space grid) */
   --ds-color-research-academic: #0d99ff;
   --ds-color-research-academic-bg: rgba(189, 227, 255, 0.3);

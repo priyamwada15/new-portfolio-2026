@@ -38,7 +38,7 @@ const PLAYGROUND_NAV_ICON_COLOR = "#F6F6FB";
 
 export default function Nav() {
   const pathname = usePathname();
-  const isHomeV2 = pathname === "/";
+  const isHomeV2 = pathname === "/" || pathname === "/home-sandbox";
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const isPlayground =
     pathname === "/playground" || (pathname?.startsWith("/playground/") ?? false);

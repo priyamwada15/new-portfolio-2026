@@ -95,14 +95,6 @@
   color: var(--ds-text-ink);
 }
 
-/* Placeholder for the HCN logo */
-.currentLogo {
-  flex: none;
-  width: 20px;
-  height: 20px;
-  background: var(--ds-border-default);
-}
-
 .currentRole {
   font-weight: 400;
   color: var(--ds-text-secondary);

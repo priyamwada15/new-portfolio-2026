@@ -559,24 +559,6 @@ export default function AsimovPage() {
         />
       </section>
 
-      <section id="outcomes">
-        <SectionHeader eyebrow="Outcomes" title="What happened with the 15 startups">
-          <ul className="flex list-disc flex-col gap-3 pl-5">
-            <li>
-              <Lead>12 of 15</Lead>{" "}startups that signed up to try Asimov kept it as a tool.
-            </li>
-            <li>
-              <Lead>~74% fewer repetitive questions</Lead>{" "}between teammates, once Asimov could answer
-              from company docs and link to its sources.
-            </li>
-            <li>
-              <Lead>86% of answers</Lead>{" "}got a thumbs up, across Tars&rsquo; own team and the startups
-              using it.
-            </li>
-          </ul>
-        </SectionHeader>
-      </section>
-
       <section id="reflections">
         <SectionHeader
           eyebrow="Reflections"

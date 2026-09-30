@@ -108,7 +108,6 @@ function PreviewVideo({ src, label }: { src: string; label: string }) {
 }
 
 /** Video frames fill their carousel slot. */
-const VIDEO_ASPECT = "768 / 501";
 const slotVideo = "block size-full";
 
 function Lead({ children }: { children: React.ReactNode }) {
@@ -253,7 +252,6 @@ const RELEASES: {
         slides={[
           {
             title: "Knowledge dashboard",
-            aspect: VIDEO_ASPECT,
             media: (
               <CoreFeatureVideo
                 src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/KB_Asimov_nrvbu8.mp4"
@@ -264,17 +262,15 @@ const RELEASES: {
           },
           {
             title: "Adding knowledge sources and Slack channels",
-            // The demo's tab bar sits above its video, so the slot matches the video's baked-in #F5F5F5.
-            aspect: "768 / 540",
+            // The demo's tab bar sits above its video, so it runs a little narrower to fit the slot.
             media: (
-              <div className="size-full bg-surface-media" aria-hidden="true">
+              <div className="mx-auto w-[96%]" aria-hidden="true">
                 <KnowledgeSourcesDemo />
               </div>
             ),
           },
           {
             title: "Integrations hub",
-            aspect: VIDEO_ASPECT,
             media: (
               <CoreFeatureVideo
                 src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/Integrations_Asimov_izfe8q.mp4"
@@ -285,7 +281,6 @@ const RELEASES: {
           },
           {
             title: "What each integration can read",
-            aspect: VIDEO_ASPECT,
             media: (
               <PreviewVideo
                 src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785523382/Integrations_Preview_xayos0.mp4"
@@ -361,7 +356,6 @@ const RELEASES: {
         slides={[
           {
             title: "Action configuration",
-            aspect: VIDEO_ASPECT,
             media: (
               <CoreFeatureVideo
                 src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/Actions_Asimov_e9ezjr.mp4"
@@ -372,7 +366,6 @@ const RELEASES: {
           },
           {
             title: "Writing a custom action",
-            aspect: VIDEO_ASPECT,
             media: (
               <PreviewVideo
                 src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785526992/Actions_Preview_ykwxsc.mp4"
@@ -382,14 +375,13 @@ const RELEASES: {
           },
           {
             title: "Asimov pulling an answer from a connected app",
-            aspect: "756 / 892",
             media: (
               <Image
                 src="/new-asimov/Slack%202.avif"
                 alt="Slack thread showing Asimov integrating with another app"
                 width={756}
                 height={892}
-                className="size-full object-cover"
+                className="absolute inset-0 size-full object-contain pb-6 pt-2"
               />
             ),
           },

@@ -87,7 +87,7 @@ export default function HomeSandboxPage() {
         <section className={styles.hero}>
           <ScrollReveal revealOnMount className={styles.intro}>
             <p className={styles.introPara}>
-              Hi, I&apos;m <PriyamwadaNameLink />. I design AI and B2B products for early-stage teams,
+              Hi, I&apos;m <PriyamwadaNameLink hoverPreview />. I design AI and B2B products for early-stage teams,
               usually as the first designer in the room.
             </p>
             <p className={styles.introPara}>
@@ -99,7 +99,7 @@ export default function HomeSandboxPage() {
             <p className={styles.currentLabel}>
               <HcnCube />
               <span>
-                Currently <span className={styles.currentRole}>· Product Designer @ Heartland Community Network</span>
+                Currently · <span className={styles.currentRole}>Product Designer @ Heartland Community Network</span>
               </span>
             </p>
           </ScrollReveal>

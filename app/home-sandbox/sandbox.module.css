@@ -91,13 +91,13 @@
   gap: 12px;
   font-size: 14px;
   line-height: 17px;
-  font-weight: 500;
-  color: var(--ds-text-ink);
+  font-weight: 400;
+  color: var(--ds-text-secondary);
 }
 
 .currentRole {
-  font-weight: 400;
-  color: var(--ds-text-secondary);
+  font-weight: 500;
+  color: var(--ds-text-ink);
 }
 
 /* Adtua snapshot trigger */

@@ -1,0 +1,80 @@
+/* Hover sneak peek of the creative license above the name */
+
+.wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.preview {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  width: 104px;
+  height: 66px;
+  perspective: 400px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 6px) scale(0.92);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 160ms ease-out,
+    transform 160ms ease-out;
+  z-index: 20;
+}
+
+.rotator {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: spin 7s linear infinite;
+  animation-play-state: paused;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.25);
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+@keyframes spin {
+  from {
+    transform: rotateY(-18deg);
+  }
+  to {
+    transform: rotateY(342deg);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wrap:hover .preview {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+    transition:
+      opacity 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .wrap:hover .rotator {
+    animation-play-state: running;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotator {
+    animation: none;
+  }
+  .preview {
+    transition: opacity 160ms ease-out;
+  }
+}

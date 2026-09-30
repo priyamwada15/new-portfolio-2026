@@ -554,15 +554,17 @@ export default function AsimovPage() {
             release added more screens.
           </p>
           <p>
-            It covered components, tokens and patterns. Once it was built, a new design went from
-            handoff to release in about two days, down from at least a week.
+            I built it in layers: tokens for color and type, then components with Figma variants for
+            every state. The ones Asimov leaned on most were cards, tables, accordions and the sync
+            status pills on each knowledge source.
           </p>
           <p>
-            Its core components, like cards, tables and accordions, later moved into Tars&rsquo; main
-            product, restyled to match.
+            Once it was built, a new design went from handoff to release in about two days, down from
+            at least a week. Its core components later moved into Tars&rsquo; main product, restyled to
+            match.
           </p>
         </SectionHeader>
-        <VisualPlaceholder label="design system overview" />
+        <VisualPlaceholder label="design system: foundations, then components (cards, tables, accordions, sync status pills), then the knowledge dashboard built from them" />
       </section>
 
       <section id="outcomes">

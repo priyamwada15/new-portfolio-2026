@@ -540,9 +540,10 @@ export default function AsimovPage() {
             release added more screens.
           </p>
           <p>
-            I built it in layers: tokens for color and type, then components with Figma variants for
-            every state. The ones Asimov leaned on most were cards, tables, accordions and the sync
-            status pills on each knowledge source.
+            I started with the components: 20+ of them, with 90+ variants covering every state a
+            screen could show. They carried the product&rsquo;s rules too. The knowledge accordion had a
+            variant for each Slack channel type, and sync and training status showed admins where each
+            source stood. I later formalized the system into 100+ tokens.
           </p>
           <p>
             Once it was built, a new design went from handoff to release in about two days, down from

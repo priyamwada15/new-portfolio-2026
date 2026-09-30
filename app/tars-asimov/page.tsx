@@ -7,6 +7,7 @@ import { CoreFeatureVideo } from "./CoreFeatureVideo";
 import KnowledgeSourcesDemo from "./KnowledgeSourcesDemo";
 import ProblemSpaceVisual from "./ProblemSpaceVisual";
 import AgentMentionVisual from "./AgentMentionVisual";
+import DesignSystemVisual from "./DesignSystemVisual";
 import { CardRow, SectionHeader } from "../components/CaseStudySections";
 import {
   brands,
@@ -75,20 +76,6 @@ function PanelShot({
         <figcaption className="font-label text-[14px] leading-[22px] text-secondary">{caption}</figcaption>
       </div>
     </figure>
-  );
-}
-
-/** Stand-in for a visual that is still being designed. */
-function VisualPlaceholder({ label }: { label: string }) {
-  return (
-    <div
-      className="flex aspect-[1008/560] w-full items-center justify-center rounded-[var(--ds-radius-container)] border border-dashed border-border bg-surface-page px-10"
-      aria-hidden="true"
-    >
-      <p className="max-w-[480px] text-center font-label text-[14px] leading-[22px] text-muted">
-        Visual in progress: {label}
-      </p>
-    </div>
   );
 }
 
@@ -564,7 +551,7 @@ export default function AsimovPage() {
             match.
           </p>
         </SectionHeader>
-        <VisualPlaceholder label="design system: foundations, then components (cards, tables, accordions, sync status pills), then the knowledge dashboard built from them" />
+        <DesignSystemVisual />
       </section>
 
       <section id="outcomes">

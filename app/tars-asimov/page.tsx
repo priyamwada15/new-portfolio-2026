@@ -7,7 +7,6 @@ import { CoreFeatureVideo } from "./CoreFeatureVideo";
 import KnowledgeSourcesDemo from "./KnowledgeSourcesDemo";
 import ProblemSpaceVisual from "./ProblemSpaceVisual";
 import AgentMentionVisual from "./AgentMentionVisual";
-import DesignSystemVisual from "./DesignSystemVisual";
 import { CardRow, SectionHeader } from "../components/CaseStudySections";
 import {
   brands,
@@ -551,7 +550,13 @@ export default function AsimovPage() {
             match.
           </p>
         </SectionHeader>
-        <DesignSystemVisual />
+        <Image
+          src="/new-asimov/Design System Visual.avif"
+          alt="Asimov's design system: color and type foundations, then components (sync status pills, buttons and the accordion in its closed and open states), then the Manage Knowledge screen built from them"
+          width={2016}
+          height={2505}
+          className="h-auto w-full"
+        />
       </section>
 
       <section id="outcomes">

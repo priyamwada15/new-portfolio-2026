@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import styles from "./home.module.css";
 
-const TAGS = ["0→1", "B2B SaaS", "Current work"] as const;
+const TAGS = ["0→1", "B2B SaaS", "In progress"] as const;
 
 /** Matches the longest close animation in home.module.css (backdropOut). */
 const CLOSE_MS = 280;

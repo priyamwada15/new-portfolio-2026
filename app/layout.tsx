@@ -111,7 +111,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.priyamwada.me"),
   title: "Priyamwada Pandey | Product Designer",
   description:
-    "Hi, I'm Priyamwada. I design interfaces that work with and for AI. I work where the design needs me, on a canvas or in a terminal.",
+    "Hi, I'm Priyamwada. I'm a 0→1 product designer for B2B SaaS, AI and marketplace products, currently designing Adtua, a two-sided ad marketplace.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "48x48 32x32 16x16" },
@@ -129,19 +129,27 @@ const PERSON_JSON_LD = {
   url: "https://www.priyamwada.me",
   jobTitle: "Product Designer",
   description:
-    "Product Designer with 3+ years of experience designing AI-powered enterprise and consumer fintech products, specializing in agentic interfaces, agent configuration design and conversational UI for internal tools, developer products and fintech companies. Design leadership at Rocket Mortgage has credited her with independently mapping complex friction points across cross-functional teams, surfacing critical improvement opportunities on her own, and delivering work on one of the team's most complex assignments that shaped product roadmap priorities at a level on par with a full-time associate designer.",
+    "0→1 Product Designer with 3+ years turning complex business and technical requirements into usable B2B SaaS, AI and marketplace products, often as an early or sole designer working with founders. Currently designing Adtua, a two-sided ad marketplace at Heartland Community Network. Previously founding designer on Asimov, Tars' AI agent for Slack, and Conversational AI Design Intern at Rocket Mortgage.",
+  worksFor: { "@type": "Organization", name: "Heartland Community Network" },
+  address: { "@type": "PostalAddress", addressLocality: "New York", addressRegion: "NY", addressCountry: "US" },
   knowsAbout: [
     "AI Product Design",
     "Agentic Interfaces",
     "Agent Configuration Design",
     "Conversational UI Design",
+    "Human-in-the-Loop",
+    "AI Transparency",
     "Internal Tools Design",
     "Developer Tools UX",
     "Fintech Product Design",
     "Enterprise SaaS UX",
+    "Marketplace Design",
     "Design Systems",
     "Information Architecture",
+    "Data Visualization",
+    "Permissions & Access Control",
     "Payment Flows",
+    "Product Strategy",
   ],
   alumniOf: [
     { "@type": "CollegeOrUniversity", name: "Indiana University Bloomington" },

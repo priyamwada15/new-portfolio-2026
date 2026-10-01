@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Resume | Priyamwada Pandey",
-  description: "Resume for Priyamwada Pandey. Product Designer focused on AI-native interfaces.",
+  description: "Resume for Priyamwada Pandey, a 0→1 product designer for B2B SaaS, AI and marketplace products.",
 };
 
 export default function ResumePage() {

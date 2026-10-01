@@ -449,12 +449,6 @@ export default function AsimovPage() {
           { label: "Key contributions", value: "Research, product design, design system, design QA" },
         ],
       }}
-      nextProject={{
-        href: "/rocket-mortgage",
-        tags: "Product Design · 2025 · Rocket Mortgage",
-        title:
-          "I introduced interaction patterns to Rocket's AI assistant that made it to the product roadmap.",
-      }}
     >
       <section id="about" className="flex flex-col gap-12">
         <SectionHeader title="What is Asimov?">

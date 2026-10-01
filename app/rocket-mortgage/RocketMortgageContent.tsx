@@ -220,49 +220,6 @@ function Impact() {
   );
 }
 
-const INSPECTOR_CARDS = [
-  {
-    label: "Front",
-    src: "/new-rocket-mortgage-case-page/General%20inspector-front.avif",
-    alt: "Front of the inspector recommendation card showing Sarah Millerson's profile and call-to-action",
-  },
-  {
-    label: "Back",
-    src: "/new-rocket-mortgage-case-page/General%20inspector-back.avif",
-    alt: "Back of the inspector recommendation card showing an AI-generated summary of client reviews",
-  },
-];
-
-function Blocker() {
-  return (
-    <section id="blocker" className="flex flex-col items-center gap-12">
-      <SectionHeader eyebrow="Blocker" title="The inspector card feature tested well but got cut">
-        <p>
-          It scored high in usability testing, but the backend architecture needed to support it
-          wasn&rsquo;t within the team&rsquo;s bandwidth that cycle. Building it would require
-          multiple API integrations, not just within the Rocket Mortgage system but also
-          Redfin&rsquo;s, which has been acquired by Rocket Companies.
-        </p>
-        <p>
-          It was an essential lesson in the gap between the simplicity of a feature design and the
-          many pieces that had to fall into place in order to push it out the door.
-        </p>
-      </SectionHeader>
-      <div className="flex w-[758px] max-w-full items-center justify-center gap-[58px] rounded-[var(--ds-radius-container)] border border-border bg-surface-page px-10 py-14">
-        {INSPECTOR_CARDS.map((card) => (
-          <figure key={card.label} className="flex w-[310px] min-w-0 flex-col items-center gap-4">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={card.src} alt={card.alt} className="aspect-[310/280] w-full" />
-            <figcaption className="font-label text-[14px] font-medium leading-[22px] text-secondary">
-              {card.label}
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 const REFLECTIONS = [
   {
     title: "No fallback path existed for a mismatched task",
@@ -318,12 +275,6 @@ export default function RocketMortgageContent() {
         role: "Product Design",
         team: "Conversational AI Designers, Product Designers",
       }}
-      nextProject={{
-        href: "/tars-debug-mode",
-        tags: "Product Design · 2022 · Tars Technologies",
-        title:
-          "I designed and shipped a debug tool that reduced testing time by ~70%, for two distinct user groups.",
-      }}
     >
       <ProblemSpace />
 
@@ -351,10 +302,6 @@ export default function RocketMortgageContent() {
           },
         ]}
       />
-
-      {/* Blocker hidden for now: the "tested well but got cut" framing read as negative. Reframe before bringing back. */}
-      {false && <Blocker />}
-
 
       <Reflections />
     </CaseStudyLayout>

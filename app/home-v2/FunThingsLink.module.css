@@ -1,0 +1,115 @@
+/* Hover sneak peek for "fun things": three cards fan out of a stack above the words. */
+
+.wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.fan {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  width: 0;
+  height: 60px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Outer layer: stacked at rest, fanned on hover (transition) */
+.card {
+  position: absolute;
+  bottom: 0;
+  left: -60px;
+  width: 120px;
+  height: 60px;
+  opacity: 0;
+  transform: translateY(8px) scale(0.9);
+  transition:
+    opacity 200ms ease-out,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.center {
+  z-index: 2;
+}
+
+/* Inner layer: soft shadow, rounded corners and a gentle drift while hovering */
+.float {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.3);
+  animation: drift 2.8s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+
+.left .float {
+  animation-delay: -0.9s;
+}
+
+.right .float {
+  animation-delay: -1.8s;
+}
+
+.image {
+  object-fit: cover;
+}
+
+@keyframes drift {
+  to {
+    transform: translateY(-3px);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wrap:hover .card,
+  .wrap:focus-within .card {
+    opacity: 1;
+    transition:
+      opacity 200ms ease-out,
+      transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .wrap:hover .center,
+  .wrap:focus-within .center {
+    transform: translateY(-4px);
+  }
+
+  .wrap:hover .left,
+  .wrap:focus-within .left {
+    transform: translate(-74px, 6px) rotate(-10deg);
+    transition-delay: 50ms;
+  }
+
+  .wrap:hover .right,
+  .wrap:focus-within .right {
+    transform: translate(74px, 6px) rotate(10deg);
+    transition-delay: 100ms;
+  }
+
+  .wrap:hover .float,
+  .wrap:focus-within .float {
+    animation-play-state: running;
+  }
+}
+
+/* Reduced motion: cards sit in the fan and only fade */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: opacity 200ms ease-out !important;
+  }
+  .left {
+    transform: translate(-74px, 6px) rotate(-10deg) !important;
+  }
+  .right {
+    transform: translate(74px, 6px) rotate(10deg) !important;
+  }
+  .center {
+    transform: translateY(-4px) !important;
+  }
+  .float {
+    animation: none;
+  }
+}

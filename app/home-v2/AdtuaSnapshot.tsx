@@ -97,7 +97,7 @@ export function AdtuaSnapshot() {
   );
 }
 
-/** Detail content shown in the Adtua snapshot dialog (also rendered alone on /adtua-card). */
+/** Detail content shown in the Adtua snapshot dialog. */
 export function AdtuaDetail({ onClose }: { onClose?: () => void }) {
   return (
     <>

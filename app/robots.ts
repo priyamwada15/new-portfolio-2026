@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/home-v2", "/debug-animation", "/flip-board-test", "/adtua-card"],
+      disallow: ["/home-v2", "/debug-animation", "/flip-board-test"],
     },
     sitemap: `${BASE_URL}/sitemap.xml`,
   };

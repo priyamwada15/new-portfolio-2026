@@ -112,7 +112,7 @@ export default function HomePage() {
     <div className={styles.page} style={{ backgroundColor: HOME_V2_PAGE_BG }}>
       <div className={styles.layout}>
         <section className={styles.hero}>
-          <ScrollReveal revealOnMount className={styles.intro}>
+          <div className={`${styles.intro} ${styles.heroIn}`}>
             <p className={styles.introPara}>
               Hi, I&apos;m <PriyamwadaNameLink hoverPreview />. I design AI and B2B products for early-stage teams,
               usually as the first designer in the room.
@@ -129,11 +129,11 @@ export default function HomePage() {
                 Currently · <span className={styles.currentRole}>Product Designer @ Heartland Community Network</span>
               </span>
             </p>
-          </ScrollReveal>
+          </div>
 
-          <ScrollReveal revealOnMount>
+          <div className={`${styles.heroIn} ${styles.heroInDelayed}`}>
             <AdtuaSnapshot />
-          </ScrollReveal>
+          </div>
         </section>
 
         <section className={styles.work} aria-label="Case studies">

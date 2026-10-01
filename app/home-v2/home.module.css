@@ -64,6 +64,36 @@
   }
 }
 
+/* Hero appears on load with the same rise-and-fade as the case study cards
+   (.card-reveal in globals.css), as a CSS animation so it plays on first paint */
+.heroIn {
+  animation: heroIn 700ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.heroInDelayed {
+  animation-delay: 100ms;
+}
+
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroIn {
+    animation-name: heroInFade;
+    animation-duration: 400ms;
+  }
+
+  @keyframes heroInFade {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
 .intro {
   display: flex;
   flex-direction: column;

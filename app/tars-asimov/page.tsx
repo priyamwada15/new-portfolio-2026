@@ -334,9 +334,9 @@ const RELEASES: {
           whether Asimov acted safely before anyone connected their own tools and APIs.
         </p>
         <p>
-          <Lead>I designed built-in actions for connected tools</Lead>{" "}so admins could switch
-          actions on or off for each app, holding to the principle behind every release: admins
-          decide what Asimov can do.
+          <Lead>I designed built-in actions for connected tools</Lead>{" "}as the next step, so
+          admins could switch actions on or off for each app. They never shipped, but they held to
+          the principle behind every release: admins decide what Asimov can do.
         </p>
       </>
     ),

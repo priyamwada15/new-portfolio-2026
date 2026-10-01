@@ -22,5 +22,7 @@ export type FlipBoardCellSpec = {
 
 export type SocialSegment = {
   label: string;
+  /** Accessible name for the link, since its visible cells are hidden from assistive tech. */
+  name: string;
   href: string;
 };

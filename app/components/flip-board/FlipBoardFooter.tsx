@@ -15,7 +15,6 @@ import {
   FLIP_BOARD_REVEAL_DURATION_S,
   FLIP_BOARD_ROWS,
   LINE_1_ROWS,
-  SOCIAL_SEGMENTS,
 } from "./constants";
 import {
   FLIP_BOARD_THEME_DEFAULTS,
@@ -47,10 +46,8 @@ const SCROLL_REVEAL_SENTINEL_ID = "flip-board-reveal-sentinel";
 
 gsap.registerPlugin(useGSAP);
 
-const SR_MESSAGE = [
-  LINE_1_ROWS.join(" "),
-  SOCIAL_SEGMENTS.map((s) => s.label).join(", "),
-].join(". ");
+// Social links are announced by the links themselves, so only the headline goes here.
+const SR_MESSAGE = LINE_1_ROWS.join(" ");
 
 function targetChar(spec: FlipBoardCellSpec): string {
   if (spec.kind === "icon") return " ";
@@ -430,7 +427,7 @@ export default function FlipBoardFooter({
         <p className="flip-board-footer__sr-message">{SR_MESSAGE}</p>
 
         <div className="flip-board-footer__shell">
-          <div ref={boardRef} className="flip-board-footer__display" aria-hidden>
+          <div ref={boardRef} className="flip-board-footer__display">
             {specsByRow.map((rowSpecs, row) => {
               if (rowSpecs.length === 0) return null;
 

@@ -15,6 +15,7 @@ import {
   useGlobalTooltip,
   TooltipArrow,
 } from "@/app/components/animate-ui/primitives/tooltip";
+import { SOCIAL_SEGMENTS } from "./constants";
 import type { FlipBoardCellSpec } from "./types";
 
 export type GridRenderSegment =
@@ -188,6 +189,7 @@ export function mapGridSegments(
         href={segment.href}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={SOCIAL_SEGMENTS.find((s) => s.href === segment.href)?.name}
         className="cursor-hover-pointer flip-board-footer__link"
         onPointerEnter={linkHover?.onPointerEnter}
         onPointerLeave={linkHover?.onPointerLeave}

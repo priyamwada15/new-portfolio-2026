@@ -20,7 +20,7 @@ function Emphasis({ children }: { children: React.ReactNode }) {
 export const metadata: Metadata = {
   title: "Galileo for Salesforce | 0→1 AI Product Design Case Study | Priyamwada Pandey",
   description:
-    "I co-led the design of Galileo, a 0→1 AI product on Salesforce that helps college students plan their academic future using course, peer and career insights.",
+    "I owned the information architecture of Galileo, a 0→1 AI product that helps college students plan their academic future, built for a Salesforce-sponsored design studio course at Indiana University.",
   keywords: [
     "0 to 1 product design",
     "AI product design case study",
@@ -77,6 +77,11 @@ export default function SalesforcePage() {
             helping students explore, plan, reflect on emerging academic directions and carry
             finalized courses into enrollment.
           </p>
+          <p>
+            We built it for a design studio course at Indiana University Bloomington that Salesforce
+            sponsors, with a different project for each team. Our stakeholders were the Salesforce
+            Experience Design team, and we met them weekly to share progress and get feedback.
+          </p>
         </SectionHeader>
         <CardRow
           cards={[
@@ -122,7 +127,7 @@ export default function SalesforcePage() {
           <p>
             I also shaped how{" "}
             <Emphasis>AI interaction patterns</Emphasis>
-            {" "}were used across the product, led visual design and evaluation of Galileo.
+            {" "}were used across the product and led Galileo&apos;s visual design and evaluation.
           </p>
         </SectionHeader>
         {/* The diagram's #FAFAFA background runs to its bottom edge; the panel adds 24px below it. */}
@@ -169,8 +174,8 @@ export default function SalesforcePage() {
         <div className="flex flex-col gap-12">
           <SectionHeader title="Where should we focus?" subheading>
             <p>
-              Interviews also touched career exploration, social life, mental health and we built
-              an Importance x Opportunity matrix to weigh where our effort could do the most good.
+              Interviews also touched on career exploration, social life and mental health, so we
+              built an Importance x Opportunity matrix to weigh where our effort could do the most good.
             </p>
             <p>
               We chose depth over coverage. Building one core academic planning experience end to

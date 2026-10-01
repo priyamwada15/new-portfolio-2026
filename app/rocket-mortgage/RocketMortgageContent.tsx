@@ -205,6 +205,7 @@ function Impact() {
   return (
     <section id="impact">
       <SectionHeader eyebrow="Impact" title="Validating the new experience with the clients" bodyClassName="gap-12 pt-2">
+        <p>We ran usability testing on the redesign with 8 Rocket clients.</p>
         {/* Same stat layout as Debug Mode: label, then the number reading straight into its sentence. */}
         {IMPACT_STATS.map((stat) => (
           <div key={stat.label} className="flex flex-col gap-4">
@@ -272,7 +273,7 @@ export default function RocketMortgageContent() {
         timelineLabel: "Handed off",
         timeline: "Aug 2025",
         industry: "B2C Fintech",
-        role: "Product Design",
+        role: "Conversational AI Design Intern",
         team: "Conversational AI Designers, Product Designers",
       }}
     >

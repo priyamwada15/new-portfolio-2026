@@ -10,18 +10,22 @@ export const LINE_1_ROWS = ["LET'S MAKE BEAUTIFUL", "SOFTWARE TOGETHER"] as cons
 export const SOCIAL_SEGMENTS: readonly SocialSegment[] = [
   {
     label: "LINKEDIN",
+    name: "LinkedIn",
     href: "https://www.linkedin.com/in/priyamwadapandey",
   },
   {
     label: "X",
+    name: "X",
     href: "https://x.com/PriymwadaPandey",
   },
   {
     label: "GITHUB",
+    name: "GitHub",
     href: "https://github.com/priyamwada15",
   },
   {
     label: "EMAIL",
+    name: "Email",
     href: `mailto:${CONTACT_EMAIL}`,
   },
 ] as const;

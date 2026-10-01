@@ -165,8 +165,15 @@
   border-radius: 20px;
   background: var(--ds-surface-home);
   color: inherit;
+  /* Still scrolls on short screens, just without a visible scrollbar */
   overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
   box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.18);
+}
+
+.dialog::-webkit-scrollbar {
+  display: none;
 }
 
 /* The page behind blurs in while the dialog is open */

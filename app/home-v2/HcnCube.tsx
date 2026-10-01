@@ -5,7 +5,7 @@ import styles from "./HcnCube.module.css";
 
 const FACES = ["front", "back", "right", "left", "top", "bottom"] as const;
 const AXES = ["x", "y", "z"] as const;
-const STEP_MS = 2200;
+const STEP_MS = 1800;
 
 /**
  * Six-colored cube standing in for the HCN logo (one face per client).

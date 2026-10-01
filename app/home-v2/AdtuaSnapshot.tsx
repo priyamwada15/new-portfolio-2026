@@ -71,6 +71,7 @@ export function AdtuaSnapshot() {
             alt="Adtua screen setup form with pricing and availability fields"
             fill
             sizes="320px"
+            loading="eager"
             className={styles.coverImage}
           />
         </div>
@@ -106,6 +107,8 @@ export function AdtuaDetail({ onClose }: { onClose?: () => void }) {
           alt="Adtua screen pricing form next to a Downtown Kiosk listing with earnings and booking requests"
           fill
           sizes="(max-width: 912px) 100vw, 880px"
+          // Load up front so the banner is ready when the dialog opens
+          loading="eager"
           className={styles.coverImage}
         />
         {onClose && (

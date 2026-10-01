@@ -10,7 +10,8 @@
     --toc-gap: 32px;
     --toc-left: 24px;
     position: fixed;
-    top: 128px;
+    /* Lines up with the top of the case study logos row (nav + header spacing at 1280px+) */
+    top: 172px;
     left: var(--toc-left);
     z-index: 40;
     /* % of the viewport minus its scrollbar (100vw would include the scrollbar) */

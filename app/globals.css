@@ -534,6 +534,24 @@ body {
   --hero-intro-y: -16px;
 }
 
+/* Site nav: sticks to the top, slides away while scrolling down (data-hidden) */
+.site-nav-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-nav-sticky[data-hidden] {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav-sticky {
+    transition: none;
+  }
+}
+
 .hero-intro--breadcrumb-top {
   --hero-intro-y: -16px;
   animation-delay: 100ms;

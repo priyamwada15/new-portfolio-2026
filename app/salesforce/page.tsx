@@ -34,6 +34,15 @@ export default function SalesforcePage() {
   return (
     <CaseStudyLayout
       sept2026Layout
+      sideToc={[
+        { id: "what-is-galileo", label: "Overview" },
+        { id: "my-role", label: "My role" },
+        { id: "problem", label: "Problem space" },
+        { id: "ai-principles", label: "AI principles" },
+        { id: "course-details", label: "Course details" },
+        { id: "academic-trajectory", label: "Academic trajectory" },
+        { id: "reflections", label: "Reflections" },
+      ]}
       accentDark={brands.salesforce.accentDark}
       accentLight={brands.salesforce.accentLight}
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
@@ -52,8 +61,6 @@ export default function SalesforcePage() {
           className="block w-full rounded-[var(--ds-radius-container)]"
         />
       }
-      projectName="Galileo for Salesforce"
-      breadcrumbLabel="Salesforce"
       headline="Designing a 0→1 AI platform for fragmented academic data"
       meta={{
         timelineLabel: "Handed off",

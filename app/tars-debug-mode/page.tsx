@@ -82,13 +82,18 @@ export default function DebugModePage() {
   return (
     <CaseStudyLayout
       sept2026Layout
+      sideToc={[
+        { id: "about", label: "Overview" },
+        { id: "core-features", label: "Core features" },
+        { id: "impact", label: "Impact" },
+        { id: "iterations", label: "Iterations" },
+        { id: "reflections", label: "Reflections" },
+      ]}
       accentDark={brands.tars.dark}
       accentLight={brands.tars.light}
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
-      projectName="Debug Mode for Tars"
-      breadcrumbLabel="Tars Debug Mode"
       headline="Designing an internal debugger that cut troubleshooting time by ~70%"
       reverseHeaderOrder={true}
       heroVisual={

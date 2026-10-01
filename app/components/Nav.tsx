@@ -10,7 +10,13 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "./animate-ui/tooltip";
-import { CASE_STUDY_CHROME_BG } from "@/design-system";
+import {
+  CASE_STUDY_CHROME_BG,
+  HOME_V2_PAGE_BG,
+  PLAYGROUND_PAGE_BG,
+  SITE_DEFAULT_PAGE_BG,
+} from "@/design-system";
+import { useHideOnScroll } from "./useHideOnScroll";
 import { isCaseStudyPath } from "../lib/caseStudy";
 import { CopyEmailIcon } from "./CopyEmailIcon";
 import { NavBrandLink } from "./NavBrandLink";
@@ -44,6 +50,13 @@ export default function Nav() {
     pathname === "/playground" || (pathname?.startsWith("/playground/") ?? false);
   const caseStudyBg = isCaseStudy ? CASE_STUDY_CHROME_BG : null;
   const navIconColor = isPlayground ? PLAYGROUND_NAV_ICON_COLOR : "#555555";
+  // Solid fill behind the sticky nav so scrolled content doesn't show through it
+  const navSurfaceBg = isHomeV2
+    ? HOME_V2_PAGE_BG
+    : isPlayground
+      ? PLAYGROUND_PAGE_BG
+      : (caseStudyBg ?? SITE_DEFAULT_PAGE_BG);
+  const navHidden = useHideOnScroll();
 
   const disco = useTilt(-8);
   const linkedin = useTilt(8);
@@ -51,6 +64,13 @@ export default function Nav() {
   const resume = useTilt(8);
 
   return (
+    // Sticky wrapper slides the nav up while scrolling down and back on scroll up.
+    // Kept separate from the inner div because its hero-intro animation holds a transform.
+    <div
+      className="site-nav-sticky"
+      data-hidden={navHidden || undefined}
+      style={{ backgroundColor: navSurfaceBg }}
+    >
     <div
       className="relative z-50 w-full pt-[16px] pb-[16px] xl:pt-8 xl:pb-2 hero-intro hero-intro--nav-top"
       style={caseStudyBg ? { backgroundColor: caseStudyBg } : undefined}
@@ -153,6 +173,7 @@ export default function Nav() {
           </div>
         </TooltipProvider>
       </div>
+    </div>
     </div>
   );
 }

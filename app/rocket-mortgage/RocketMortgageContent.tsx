@@ -293,6 +293,13 @@ export default function RocketMortgageContent() {
   return (
     <CaseStudyLayout
       sept2026Layout
+      sideToc={[
+        { id: "problem-space", label: "Problem space" },
+        { id: "core-flows", label: "Core flows" },
+        { id: "impact", label: "Impact" },
+        { id: "testimonials", label: "Testimonials" },
+        { id: "reflections", label: "Reflections" },
+      ]}
       accentDark={brands.rocket.dark}
       accentLight={brands.rocket.light}
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
@@ -301,7 +308,6 @@ export default function RocketMortgageContent() {
         { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
         { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
       ]}
-      projectName="Rocket Mortgage"
       headline="Personalizing AI guidance across 6.8M+ client conversations"
       reverseHeaderOrder
       heroVisual={<RocketMortgageTripleVideos framed className="rounded-[var(--ds-radius-container)]" />}

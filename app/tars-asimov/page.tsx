@@ -401,6 +401,14 @@ export default function AsimovPage() {
   return (
     <CaseStudyLayout
       sept2026Layout
+      sideToc={[
+        { id: "about", label: "Overview" },
+        { id: "my-role", label: "My role" },
+        { id: "problem", label: "Problem" },
+        { id: "releases", label: "Releases" },
+        { id: "design-system", label: "Design system" },
+        { id: "reflections", label: "Reflections" },
+      ]}
       accentDark={brands.tars.dark}
       accentLight={brands.tars.light}
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
@@ -408,8 +416,6 @@ export default function AsimovPage() {
       logos={[
         { src: "/logos/tars.svg", alt: "TARS" },
       ]}
-      projectName="Asimov for Tars"
-      breadcrumbLabel="Asimov for Tars"
       headline="Designing the agent configuration platform and design system for Asimov as its founding designer"
       reverseHeaderOrder={true}
       heroVisual={

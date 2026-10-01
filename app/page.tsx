@@ -21,21 +21,6 @@ type CaseStudy = {
 
 const CASE_STUDIES: CaseStudy[] = [
   {
-    href: "/rocket-mortgage",
-    ariaLabel: "Read Rocket Mortgage case study",
-    logos: [
-      { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
-      { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
-    ],
-    title: "Personalizing AI guidance across 6.8M+ client conversations",
-    tags: ["B2C Fintech", "AI Assistant", "Trust Design"],
-    media: (
-      <div className={styles.mediaTriple}>
-        <RocketMortgageTripleVideos className="h-full aspect-auto sm:aspect-auto" />
-      </div>
-    ),
-  },
-  {
     href: "/tars-asimov",
     ariaLabel: "Read Asimov for Tars case study",
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
@@ -49,6 +34,21 @@ const CASE_STUDIES: CaseStudy[] = [
           ariaLabel="Asimov for Tars preview video"
           style={{ width: "100%", height: "100%", objectFit: "contain" }}
         />
+      </div>
+    ),
+  },
+  {
+    href: "/rocket-mortgage",
+    ariaLabel: "Read Rocket Mortgage case study",
+    logos: [
+      { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
+      { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
+    ],
+    title: "Personalizing AI guidance across 6.8M+ client conversations",
+    tags: ["B2C Fintech", "AI Assistant", "Trust Design"],
+    media: (
+      <div className={styles.mediaTriple}>
+        <RocketMortgageTripleVideos className="h-full aspect-auto sm:aspect-auto" />
       </div>
     ),
   },

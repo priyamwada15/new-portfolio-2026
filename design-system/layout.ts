@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 /** Layout constants for case study shell and chrome. */
 
 /** Body / surface fill for all case study routes. */
@@ -65,8 +67,59 @@ export function caseStudyUsesSiteDefaultSurface(pathname: string): boolean {
 export const SALESFORCE_HERO_VIDEO =
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1790270207/acadtrajnew_s2agio.mp4";
 
-export const TARS_DEBUG_MODE_HERO_VIDEO =
-  "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295525/Debug_Mode_new_case_study_and_hero_video_kuliwm.mp4";
+/**
+ * A screen recording cropped to its app window, dropping the margins baked into the
+ * video. Offsets are measured on the full frame and expressed as % of the crop box.
+ */
+export type CroppedVideo = {
+  src: string;
+  poster: string;
+  /** CSS aspect-ratio of the cropped window */
+  frameAspect: string;
+  /** CSS aspect-ratio of the full video */
+  videoAspect: string;
+  left: string;
+  top: string;
+  width: string;
+};
+
+/** Frame (overflow-hidden box) and video styles that show only the cropped window. */
+export function croppedVideoStyles(v: CroppedVideo): { frame: CSSProperties; video: CSSProperties } {
+  return {
+    frame: { position: "relative", aspectRatio: v.frameAspect, overflow: "hidden" },
+    video: {
+      position: "absolute",
+      left: v.left,
+      top: v.top,
+      width: v.width,
+      maxWidth: "none",
+      height: "auto",
+      aspectRatio: v.videoAspect,
+    },
+  };
+}
+
+/** Knowledge dashboard recording (1894×1012); app window at x 240–1655, y 48–965. */
+export const ASIMOV_HERO_VIDEO: CroppedVideo = {
+  src: "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785343890/KB_Asimov_nrvbu8.mp4",
+  poster: "https://res.cloudinary.com/dh9rvf2hh/video/upload/so_0/v1785343890/KB_Asimov_nrvbu8.jpg",
+  frameAspect: "1415 / 917",
+  videoAspect: "1894 / 1012",
+  left: "-16.961%",
+  top: "-5.234%",
+  width: "133.852%",
+};
+
+/** Debug canvas recording (1920×1080); app window at x 167–1760, y 37–1045. */
+export const TARS_DEBUG_MODE_HERO_VIDEO: CroppedVideo = {
+  src: "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1784081146/New_Debug_Video_uscsz1.mp4",
+  poster: "https://res.cloudinary.com/dh9rvf2hh/video/upload/so_0/v1784081146/New_Debug_Video_uscsz1.jpg",
+  frameAspect: "1593 / 1008",
+  videoAspect: "16 / 9",
+  left: "-10.483%",
+  top: "-3.671%",
+  width: "120.527%",
+};
 
 export const ROCKET_MORTGAGE_CARD_VIDEOS = [
   "https://res.cloudinary.com/dh9rvf2hh/video/upload/v1779295116/RM_Onboarding_new_case_study_and_hero_video_biuj2w.mp4",

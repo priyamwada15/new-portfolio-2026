@@ -13,7 +13,10 @@ import {
   caseStudyTitle,
   CASE_STUDY_PAGE_BG,
   TARS_DEBUG_MODE_HERO_VIDEO,
+  croppedVideoStyles,
 } from "@/design-system";
+
+const debugHeroCrop = croppedVideoStyles(TARS_DEBUG_MODE_HERO_VIDEO);
 
 export const metadata: Metadata = {
   title: "Debug Mode for Tars | Internal Tools Design Case Study | Priyamwada Pandey",
@@ -89,19 +92,19 @@ export default function DebugModePage() {
       headline="Designing an internal debugger that cut troubleshooting time by ~70%"
       reverseHeaderOrder={true}
       heroVisual={
-        // Crops the 1920×1080 video to the laptop (x 70–1845, y 0–1069), dropping the
-        // baked-in margins and green edge lines, so the 24px padding frames it evenly.
+        // Cropped to the app window so the 24px padding is the only space around it.
         <div className="w-full rounded-[var(--ds-radius-container)] bg-surface-page p-6">
-          <div className="relative aspect-[1776/1070] w-full overflow-hidden">
+          <div className="w-full" style={debugHeroCrop.frame}>
             <AutoPauseVideo
-              src={TARS_DEBUG_MODE_HERO_VIDEO}
+              src={TARS_DEBUG_MODE_HERO_VIDEO.src}
+              poster={TARS_DEBUG_MODE_HERO_VIDEO.poster}
               autoPlay
               muted
               loop
               playsInline
               preload="metadata"
-              aria-label="Debug Mode — Tars canvas with active gambit highlighted"
-              className="absolute left-[-3.941%] top-0 aspect-video w-[108.108%] max-w-none"
+              aria-label="Debug Mode canvas highlighting the active gambit as it steps through the flow"
+              style={debugHeroCrop.video}
             />
           </div>
         </div>

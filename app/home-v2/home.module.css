@@ -501,6 +501,20 @@
   padding: 56px 56px 24px;
 }
 
+/* Screen recordings cropped to their app window, centered with even padding */
+.mediaCrop {
+  position: absolute;
+  inset: 0;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Matches the Asimov window's own rounded corners */
+.cropRounded {
+  border-radius: 12px;
+}
+
 /* Rocket Mortgage's three phone videos */
 .mediaTriple {
   position: absolute;
@@ -514,5 +528,8 @@
   }
   .mediaTriple {
     padding: 12px;
+  }
+  .mediaCrop {
+    padding: 16px;
   }
 }

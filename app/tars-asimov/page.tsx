@@ -17,7 +17,11 @@ import {
   caseStudyTitle,
   mediaPanel,
   CASE_STUDY_PAGE_BG,
+  ASIMOV_HERO_VIDEO,
+  croppedVideoStyles,
 } from "@/design-system";
+
+const asimovHeroCrop = croppedVideoStyles(ASIMOV_HERO_VIDEO);
 
 const ABOUT_STATS = [
   {
@@ -409,16 +413,22 @@ export default function AsimovPage() {
       headline="Designing the agent configuration platform and design system for Asimov as its founding designer"
       reverseHeaderOrder={true}
       heroVisual={
-        <AutoPauseVideo
-          src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-label="Asimov for Tars, hero overview"
-          className="block w-full rounded-[var(--ds-radius-container)]"
-        />
+        // Cropped to the app window; rounded to match the window's own corners
+        <div className="w-full rounded-[var(--ds-radius-container)] bg-surface-page p-6">
+          <div className="w-full rounded-[12px]" style={asimovHeroCrop.frame}>
+            <AutoPauseVideo
+              src={ASIMOV_HERO_VIDEO.src}
+              poster={ASIMOV_HERO_VIDEO.poster}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Asimov knowledge dashboard, adding a Slack channel as a knowledge resource"
+              style={asimovHeroCrop.video}
+            />
+          </div>
+        </div>
       }
       meta={{
         timelineLabel: "Shipped",

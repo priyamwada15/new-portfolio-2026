@@ -1,14 +1,32 @@
 import type { ReactNode } from "react";
-import { HOME_V2_PAGE_BG, SALESFORCE_HERO_VIDEO } from "@/design-system";
+import {
+  ASIMOV_HERO_VIDEO,
+  HOME_V2_PAGE_BG,
+  SALESFORCE_HERO_VIDEO,
+  TARS_DEBUG_MODE_HERO_VIDEO,
+  croppedVideoStyles,
+  type CroppedVideo,
+} from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { PriyamwadaNameLink } from "./home-v2/PriyamwadaNameLink";
 import { LazyVideo } from "./home-v2/LazyVideo";
 import { AdtuaSnapshot } from "./home-v2/AdtuaSnapshot";
 import { HcnCube } from "./home-v2/HcnCube";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
-import { DebugFlowPreview } from "@/app/components/DebugFlowPreview";
 import { RocketMortgageTripleVideos } from "@/app/components/RocketMortgageTripleVideos";
 import styles from "./home-v2/home.module.css";
+
+/** A screen recording cropped to its app window and fitted to the card's height. */
+function CroppedCardVideo({ video, ariaLabel, rounded }: { video: CroppedVideo; ariaLabel: string; rounded?: boolean }) {
+  const crop = croppedVideoStyles(video);
+  return (
+    <div className={styles.mediaCrop}>
+      <div className={rounded ? styles.cropRounded : undefined} style={{ ...crop.frame, height: "100%" }}>
+        <LazyVideo src={video.src} poster={video.poster} ariaLabel={ariaLabel} style={crop.video} />
+      </div>
+    </div>
+  );
+}
 
 type CaseStudy = {
   href: string;
@@ -26,16 +44,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
     title: "Designing the agent configuration platform and design system for Asimov as its founding designer",
     tags: ["B2B SaaS", "0→1", "Workflow Design"],
-    media: (
-      <div className={styles.mediaInset}>
-        <LazyVideo
-          src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1785952405/Asimov_Hero_Video_jkk4zq.mp4"
-          poster="/Asimov Video Poster.png"
-          ariaLabel="Asimov for Tars preview video"
-          style={{ width: "100%", height: "100%", objectFit: "contain" }}
-        />
-      </div>
-    ),
+    media: <CroppedCardVideo video={ASIMOV_HERO_VIDEO} ariaLabel="Asimov for Tars preview video" rounded />,
   },
   {
     href: "/rocket-mortgage",
@@ -58,11 +67,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
     tags: ["B2B SaaS", "Complex Workflows", "Internal Tool"],
-    media: (
-      <div className={styles.mediaInset}>
-        <DebugFlowPreview />
-      </div>
-    ),
+    media: <CroppedCardVideo video={TARS_DEBUG_MODE_HERO_VIDEO} ariaLabel="Tars Debug Mode preview video" />,
   },
   {
     href: "/salesforce",

@@ -60,5 +60,8 @@ export {
   caseStudyUsesSiteDefaultSurface,
   SALESFORCE_HERO_VIDEO,
   TARS_DEBUG_MODE_HERO_VIDEO,
+  ASIMOV_HERO_VIDEO,
+  croppedVideoStyles,
+  type CroppedVideo,
   ROCKET_MORTGAGE_CARD_VIDEOS,
 } from "./layout";

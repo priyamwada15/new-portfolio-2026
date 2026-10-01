@@ -91,7 +91,7 @@ const CASE_STUDIES: CaseStudy[] = [
 
 function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
-    <HomeV2CardLink href={study.href} ariaLabel={study.ariaLabel} className={`cursor-hover-dark ${styles.card}`}>
+    <HomeV2CardLink href={study.href} ariaLabel={`${study.title}. ${study.ariaLabel}`} className={`cursor-hover-dark ${styles.card}`}>
       <div className={styles.cardHeader}>
         <div className={styles.cardMeta}>
           <div className={styles.cardLogos}>

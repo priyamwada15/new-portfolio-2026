@@ -135,7 +135,7 @@ export function CopyEmailIcon({
           type="button"
           data-slot="copy-email-button"
           className={cn(
-            "flex items-center justify-center w-8 h-8 rounded-md outline-none cursor-pointer",
+            "flex items-center justify-center w-8 h-8 rounded-md cursor-pointer",
             className,
           )}
           whileHover={{ scale: 1.05 }}

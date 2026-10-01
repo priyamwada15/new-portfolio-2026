@@ -14,9 +14,17 @@
   width: 86%;
   max-width: 1008px;
   margin: 0 auto;
-  padding: 32px 0 128px;
+  /* No bottom padding on desktop: the flip-board footer gap follows directly,
+     same as the previous homepage */
+  padding: 32px 0 0;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    padding-bottom: 6rem;
+  }
 }
 
 @media (min-width: 1280px) {
@@ -409,7 +417,7 @@
 /* ── Case studies ─────────────────────────────────────── */
 
 .work {
-  padding: 120px 0;
+  padding-top: 120px;
   display: flex;
   flex-direction: column;
   gap: 88px;
@@ -417,7 +425,7 @@
 
 @media (max-width: 1023px) {
   .work {
-    padding: 88px 0;
+    padding-top: 88px;
     gap: 72px;
   }
 }

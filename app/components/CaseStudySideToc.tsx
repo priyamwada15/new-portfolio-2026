@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { ArrowLeft } from "@phosphor-icons/react";
@@ -13,16 +13,21 @@ const subscribeNoop = () => () => {};
 /** Where a clicked section lands, below where the nav sits when it slides back in. */
 const SCROLL_OFFSET_PX = 96;
 
+/** Once the logos row scrolls above this, the TOC stops following it and stays here. */
+const MIN_TOP_PX = 128;
+
 /**
  * Back button + table of contents fixed in the left margin, outside the content column.
- * Slides in when the page loads and stays. A section is active once its top crosses the
- * vertical midpoint of the viewport.
+ * Slides in when the page loads and stays. Its top follows the element `alignToId` (the
+ * logos row) until that scrolls above MIN_TOP_PX, then it holds there. A section is
+ * active once its top crosses the vertical midpoint of the viewport.
  */
-export function CaseStudySideToc({ items }: { items: SideTocItem[] }) {
+export function CaseStudySideToc({ items, alignToId }: { items: SideTocItem[]; alignToId: string }) {
   // The portal needs document.body, so only render on the client
   const isClient = useSyncExternalStore(subscribeNoop, () => true, () => false);
   const [visible, setVisible] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const asideRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -34,6 +39,11 @@ export function CaseStudySideToc({ items }: { items: SideTocItem[] }) {
       for (const { id } of items) {
         const el = document.getElementById(id);
         if (el && el.getBoundingClientRect().top <= mid) active = id;
+      }
+      const anchor = document.getElementById(alignToId);
+      if (anchor && asideRef.current) {
+        const top = Math.max(MIN_TOP_PX, anchor.getBoundingClientRect().top);
+        asideRef.current.style.top = `${Math.round(top)}px`;
       }
       setActiveId(active);
       // Set after the first frame so the slide-in transition plays on load
@@ -47,12 +57,16 @@ export function CaseStudySideToc({ items }: { items: SideTocItem[] }) {
     schedule();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
+    // Re-align if anything above the logos changes height after load (fonts, nav)
+    const observer = new ResizeObserver(schedule);
+    observer.observe(document.body);
     return () => {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
+      observer.disconnect();
       if (frame) cancelAnimationFrame(frame);
     };
-  }, [items]);
+  }, [items, alignToId]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -68,6 +82,7 @@ export function CaseStudySideToc({ items }: { items: SideTocItem[] }) {
 
   return createPortal(
     <aside
+      ref={asideRef}
       className={styles.root}
       data-visible={visible || undefined}
       aria-label="Case study navigation"

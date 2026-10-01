@@ -1,5 +1,7 @@
 import TableOfContents, { TocItem } from "./TableOfContents";
 import { CaseStudySideToc, type SideTocItem } from "./CaseStudySideToc";
+
+const CASE_STUDY_HEADER_ANCHOR_ID = "case-study-header-anchor";
 import CaseStudyPageStyle from "./CaseStudyPageStyle";
 import SectionLabel from "./SectionLabel";
 import {
@@ -333,10 +335,13 @@ export default function CaseStudyLayout({
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
 
-      {sideToc && <CaseStudySideToc items={sideToc} />}
+      {sideToc && <CaseStudySideToc items={sideToc} alignToId={CASE_STUDY_HEADER_ANCHOR_ID} />}
 
       {/* Header, mt-12 (48px) below the nav */}
-      <header className={`mt-12 ${toc ? "mb-14" : sept2026Layout ? "mb-[120px]" : "mb-16"} hero-intro hero-intro--bento`}>
+      {/* Untransformed marker at the header's top edge (the header itself animates in),
+          used to keep the side TOC level with the logos row */}
+      <div id={CASE_STUDY_HEADER_ANCHOR_ID} aria-hidden="true" className="mt-12" />
+      <header className={`${toc ? "mb-14" : sept2026Layout ? "mb-[120px]" : "mb-16"} hero-intro hero-intro--bento`}>
         {headerContent}
       </header>
 

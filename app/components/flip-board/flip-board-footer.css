@@ -117,7 +117,7 @@
   box-sizing: border-box;
   border-radius: var(--flip-footer-frame-radius);
   background-color: var(--flip-footer-display-background);
-  -webkit-backdrop-filter: blur(var(--flip-footer-display-blur));
+  /* Unprefixed only; the build adds -webkit- (listing both drops the standard one) */
   backdrop-filter: blur(var(--flip-footer-display-blur));
   contain: layout paint;
   box-shadow:

@@ -887,8 +887,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Unprefixed only; the build adds -webkit- (listing both drops the standard one) */
   backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
   background: rgba(0, 0, 0, 0.18);
   animation: cl-overlay-in 0.28s ease both;
 }

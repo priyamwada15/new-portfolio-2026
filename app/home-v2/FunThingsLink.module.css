@@ -40,6 +40,7 @@
   display: block;
   border-radius: 6px;
   overflow: hidden;
+  border: 1px solid var(--ds-border-default);
   box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.3);
   animation: drift 2.8s ease-in-out infinite alternate;
   animation-play-state: paused;

@@ -4,8 +4,8 @@ import styles from "./FunThingsLink.module.css";
 /** Left, center (front), right, matching the hand-drawn fan. */
 const CARDS = [
   { src: "/fun-things/terminal.avif", position: styles.left },
-  { src: "/fun-things/racing.avif", position: styles.center },
-  { src: "/fun-things/mac.avif", position: styles.right },
+  { src: "/fun-things/mac.avif", position: styles.center },
+  { src: "/fun-things/racing.avif", position: styles.right },
 ] as const;
 
 /**

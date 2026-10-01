@@ -329,12 +329,11 @@ export default function CaseStudyLayout({
     <>
     <CaseStudyPageStyle backgroundColor={bodyBackgroundColor} />
     <article
-      id="case-study"
       className={CASE_STUDY_COLUMN_CLASS}
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
 
-      {sideToc && <CaseStudySideToc items={sideToc} articleId="case-study" />}
+      {sideToc && <CaseStudySideToc items={sideToc} />}
 
       {/* Header, mt-12 (48px) below the nav */}
       <header className={`mt-12 ${toc ? "mb-14" : sept2026Layout ? "mb-[120px]" : "mb-16"} hero-intro hero-intro--bento`}>

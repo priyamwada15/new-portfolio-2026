@@ -15,10 +15,10 @@ const SCROLL_OFFSET_PX = 96;
 
 /**
  * Back button + table of contents fixed in the left margin, outside the content column.
- * Slides in once the first section reaches the middle of the viewport and slides out
- * after the article ends. A section is active once its top crosses that midpoint.
+ * Slides in when the page loads and stays. A section is active once its top crosses the
+ * vertical midpoint of the viewport.
  */
-export function CaseStudySideToc({ items, articleId }: { items: SideTocItem[]; articleId: string }) {
+export function CaseStudySideToc({ items }: { items: SideTocItem[] }) {
   // The portal needs document.body, so only render on the client
   const isClient = useSyncExternalStore(subscribeNoop, () => true, () => false);
   const [visible, setVisible] = useState(false);
@@ -35,10 +35,9 @@ export function CaseStudySideToc({ items, articleId }: { items: SideTocItem[]; a
         const el = document.getElementById(id);
         if (el && el.getBoundingClientRect().top <= mid) active = id;
       }
-      const article = document.getElementById(articleId);
-      const articleEnded = article ? article.getBoundingClientRect().bottom < mid : false;
       setActiveId(active);
-      setVisible(active !== null && !articleEnded);
+      // Set after the first frame so the slide-in transition plays on load
+      setVisible(true);
     };
 
     const schedule = () => {
@@ -53,7 +52,7 @@ export function CaseStudySideToc({ items, articleId }: { items: SideTocItem[]; a
       window.removeEventListener("resize", schedule);
       if (frame) cancelAnimationFrame(frame);
     };
-  }, [items, articleId]);
+  }, [items]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);

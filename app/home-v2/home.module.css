@@ -44,6 +44,8 @@
   font-weight: 500;
   text-transform: uppercase;
   color: var(--ds-text-secondary);
+  flex: none;
+  white-space: nowrap;
 }
 
 /* ── Hero ─────────────────────────────────────────────── */
@@ -132,11 +134,17 @@
 }
 
 .snapshotMedia {
+  position: relative;
   width: 100%;
   aspect-ratio: 320 / 200;
   border-radius: 16px;
+  overflow: hidden;
   background: var(--ds-surface-media);
   transition: transform 300ms var(--ease-out-quint);
+}
+
+.coverImage {
+  object-fit: cover;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -155,14 +163,17 @@
   padding: 0;
   border: none;
   border-radius: 20px;
-  background: var(--ds-surface-page);
+  background: var(--ds-surface-home);
   color: inherit;
   overflow: auto;
   box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.18);
 }
 
+/* The page behind blurs in while the dialog is open */
 .dialog::backdrop {
-  background: rgba(17, 17, 17, 0.4);
+  background: rgba(17, 17, 17, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .dialog[open] {
@@ -170,7 +181,15 @@
 }
 
 .dialog[open]::backdrop {
-  animation: backdropIn 320ms var(--ease-out-quint);
+  animation: backdropIn 400ms var(--ease-out-quint);
+}
+
+.dialog[data-closing] {
+  animation: dialogOut 240ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.dialog[data-closing]::backdrop {
+  animation: backdropOut 280ms ease-out forwards;
 }
 
 @keyframes dialogIn {
@@ -180,15 +199,34 @@
   }
 }
 
+@keyframes dialogOut {
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
 @keyframes backdropIn {
   from {
-    opacity: 0;
+    background-color: transparent;
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+  }
+}
+
+@keyframes backdropOut {
+  to {
+    background-color: transparent;
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .dialog[open],
-  .dialog[open]::backdrop {
+  .dialog[open]::backdrop,
+  .dialog[data-closing],
+  .dialog[data-closing]::backdrop {
     animation: none;
   }
   .snapshotMedia {
@@ -199,8 +237,8 @@
 .dialogMedia {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 7;
-  background: var(--ds-surface-media);
+  aspect-ratio: 880 / 300;
+  background: var(--ds-color-brand-hcn-adtua);
 }
 
 .dialogClose {
@@ -208,12 +246,13 @@
   position: absolute;
   top: 16px;
   right: 16px;
+  z-index: 1;
   width: 40px;
   height: 40px;
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--ds-surface-page);
+  background: var(--ds-surface-home);
   color: var(--ds-text-ink);
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -225,51 +264,86 @@
 }
 
 .dialogBody {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 32px;
   padding: 32px 24px 40px;
 }
 
 @media (min-width: 768px) {
   .dialogBody {
-    grid-template-columns: minmax(0, 1fr) 220px;
+    flex-direction: row;
     gap: 48px;
     padding: 40px 40px 48px;
   }
 }
 
-.dialogChips {
-  margin-bottom: 16px;
+.dialogMain {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dialogHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .dialogTitle {
   margin: 0;
-  font-size: clamp(26px, 3vw, 32px);
-  line-height: 120%;
-  font-weight: 500;
-  color: var(--ds-text-ink);
-  letter-spacing: -0.01em;
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 600;
+  letter-spacing: -0.32px;
+  color: var(--ds-text-primary);
 }
 
 .dialogSub {
-  margin: 6px 0 0;
+  margin: 0;
   font-size: 16px;
-  line-height: 150%;
+  line-height: 24px;
   color: var(--ds-text-muted);
 }
 
+.dialogText {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .dialogCopy {
-  margin: 24px 0 0;
+  margin: 0;
   font-size: 16px;
-  line-height: 165%;
+  line-height: 26px;
   color: var(--ds-text-secondary);
-  max-width: 62ch;
+  max-width: 636px;
   text-wrap: pretty;
 }
 
-.dialogCopy + .dialogCopy {
-  margin-top: 16px;
+.dialogAside {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  /* Tags and each fact share the column height evenly, like the Figma frame */
+  .dialogAside {
+    width: 243px;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .dialogAside .facts {
+    display: contents;
+  }
+  /* The three tags fill the 243px column exactly; keep them on one line */
+  .dialogAside .tags {
+    flex-wrap: nowrap;
+  }
 }
 
 .facts {
@@ -279,27 +353,20 @@
   gap: 20px;
 }
 
-@media (min-width: 768px) {
-  .facts {
-    padding-left: 32px;
-    border-left: 1px solid var(--ds-border-default);
-  }
-}
-
 .facts dt {
   font-size: 12px;
-  line-height: 140%;
+  line-height: 17px;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.48px;
   text-transform: uppercase;
-  color: var(--ds-text-faint);
+  color: var(--ds-text-muted);
 }
 
 .facts dd {
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   font-size: 15px;
-  line-height: 145%;
-  color: var(--ds-text-ink);
+  line-height: 22px;
+  color: var(--ds-text-primary);
 }
 
 /* ── Case studies ─────────────────────────────────────── */

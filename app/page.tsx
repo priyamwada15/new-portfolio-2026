@@ -137,8 +137,10 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className={`${styles.heroIn} ${styles.heroInDelayed}`}>
-            <AdtuaSnapshot />
+          <div className={`${styles.heroIn} ${styles.heroInDelayed} ${styles.adtuaSlot}`}>
+            <ScrollReveal>
+              <AdtuaSnapshot />
+            </ScrollReveal>
           </div>
         </section>
 

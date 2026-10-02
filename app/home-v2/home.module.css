@@ -102,6 +102,35 @@
   }
 }
 
+/* Below 1024px the hero stacks, so Adtua moves after the case studies:
+   the hero's children join .layout's flex column and get reordered.
+   There it scroll-reveals like the cards instead of playing the load animation. */
+@media (max-width: 1023px) {
+  .hero {
+    display: contents;
+  }
+
+  .work {
+    order: 1;
+  }
+
+  .adtuaSlot {
+    order: 2;
+    margin-top: 72px;
+    animation: none;
+  }
+}
+
+/* On desktop Adtua sits in the hero and uses the load animation, so the
+   scroll reveal wrapper stays inert */
+@media (min-width: 1024px) {
+  .adtuaSlot :global(.card-reveal) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 .intro {
   display: flex;
   flex-direction: column;

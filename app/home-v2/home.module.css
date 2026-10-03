@@ -2,6 +2,8 @@
 
 .page {
   min-height: 100vh;
+  /* Keeps GutterPixels' z-index: -1 canvas above the page background */
+  isolation: isolate;
   /* Card hover tokens reused by .home-v2-main-card (HomeV2CardLink) */
   --home-card-hover-y: -6px;
   --home-card-hover-scale: 1;

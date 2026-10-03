@@ -13,6 +13,7 @@ import { LazyVideo } from "./home-v2/LazyVideo";
 import { AdtuaSnapshot } from "./home-v2/AdtuaSnapshot";
 import { HcnCube } from "./home-v2/HcnCube";
 import { FunThingsLink } from "./home-v2/FunThingsLink";
+import { GutterPixels } from "./home-v2/GutterPixels";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { RocketMortgageTripleVideos } from "@/app/components/RocketMortgageTripleVideos";
 import styles from "./home-v2/home.module.css";
@@ -152,6 +153,7 @@ export default function HomePage() {
           ))}
         </section>
       </div>
+      <GutterPixels />
     </div>
   );
 }

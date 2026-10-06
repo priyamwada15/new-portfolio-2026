@@ -23,7 +23,8 @@ type Cell = { born: number; strength: number; color: string };
  * Pixel trail in the side gutters of the homepage and the gaps between its
  * sections. Cells light up along the cursor path, strongest at the viewport
  * edge and along the middle of each gap, fading out before the content.
- * Measures the content column it is rendered after.
+ * Measures the content column it is rendered after, and stays inside its
+ * parent (the page container) so it never draws over the footer.
  * The draw loop runs only while cells are still fading.
  */
 export function GutterPixels() {
@@ -32,8 +33,9 @@ export function GutterPixels() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const content = canvas?.previousElementSibling;
+    const container = canvas?.parentElement;
     const ctx = canvas?.getContext("2d");
-    if (!canvas || !content || !ctx) return;
+    if (!canvas || !content || !container || !ctx) return;
 
     const pointerMq = window.matchMedia(POINTER_QUERY);
     const gutterMq = window.matchMedia(GUTTER_QUERY);
@@ -47,6 +49,9 @@ export function GutterPixels() {
     let right = 0;
     let width = 0;
     let gaps: { top: number; bottom: number }[] = [];
+    // Vertical extent of the page container, in viewport coordinates
+    let clipTop = 0;
+    let clipBottom = 0;
     let frame = 0;
     let last: { x: number; y: number } | null = null;
 
@@ -63,6 +68,12 @@ export function GutterPixels() {
 
     /** Vertical gaps between content blocks, in viewport coordinates. Blocks
      *  sharing a row (intro + Adtua on desktop) count as one. */
+    const measureClip = () => {
+      const rect = container.getBoundingClientRect();
+      clipTop = rect.top;
+      clipBottom = rect.bottom;
+    };
+
     const measureGaps = () => {
       const rects = Array.from(content.querySelectorAll(BLOCK_SELECTOR), (el) => el.getBoundingClientRect())
         .filter((r) => r.height > 0)
@@ -102,6 +113,8 @@ export function GutterPixels() {
     const light = (x: number, y: number, now: number) => {
       const cx = Math.floor(x / CELL);
       const cy = Math.floor(y / CELL);
+      // Whole cells only, so none straddle the container's edge
+      if (cy * CELL < clipTop || (cy + 1) * CELL > clipBottom) return;
       const strength = strengthAt(cx * CELL + CELL / 2, cy * CELL + CELL / 2);
       // Sparser near the content, not just fainter
       if (strength <= 0 || Math.random() > 0.35 + strength * 0.65) return;
@@ -115,6 +128,13 @@ export function GutterPixels() {
     const draw = () => {
       const now = performance.now();
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // The container scrolls under the fixed canvas, so re-clip every frame
+      // to keep fading cells off the footer
+      measureClip();
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, clipTop, width, Math.max(0, clipBottom - clipTop));
+      ctx.clip();
       for (const [key, cell] of cells) {
         const age = (now - cell.born) / LIFE_MS;
         if (age >= 1) {
@@ -126,6 +146,7 @@ export function GutterPixels() {
         ctx.fillStyle = cell.color;
         ctx.fillRect(cx * CELL, cy * CELL, CELL - GAP, CELL - GAP);
       }
+      ctx.restore();
       frame = cells.size > 0 ? requestAnimationFrame(draw) : 0;
     };
 
@@ -136,6 +157,8 @@ export function GutterPixels() {
       last = { x: e.clientX, y: e.clientY };
       // Blocks move under the fixed canvas as the page scrolls
       measureGaps();
+      measureClip();
+      if (e.clientY < clipTop || e.clientY > clipBottom) return;
 
       const dist = Math.hypot(e.clientX - from.x, e.clientY - from.y);
       const steps = Math.max(1, Math.ceil(dist / CELL));

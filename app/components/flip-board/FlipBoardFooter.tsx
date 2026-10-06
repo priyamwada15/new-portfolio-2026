@@ -198,28 +198,20 @@ export default function FlipBoardFooter({
     }
   }, [interactiveSpecs]);
 
-  const onFooterClick = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
-      const target = e.target as Element | null;
-      const clickedLink = target?.closest("a");
+  // Clicking the headline scrambles it and flips it back into the message.
+  // A settled board is reset to gibberish first so the scramble is visible.
+  const onHeadlineClick = useCallback(() => {
+    const isSettled = interactiveSpecs.some((spec) =>
+      cellHandles.current.get(spec.id)?.root?.classList.contains("is-settled"),
+    );
 
-      if (!clickedLink) {
-        const isSettled = interactiveSpecs.some((spec) =>
-          cellHandles.current.get(spec.id)?.root?.classList.contains("is-settled"),
-        );
+    if (isSettled) {
+      resetToIdle();
+      seedGibberish();
+    }
 
-        if (isSettled) {
-          scrollRevealFiredRef.current = false;
-          resetToIdle();
-          seedGibberish();
-          return;
-        }
-
-        runFlipAnimation();
-      }
-    },
-    [interactiveSpecs, resetToIdle, runFlipAnimation, seedGibberish],
-  );
+    runFlipAnimation();
+  }, [interactiveSpecs, resetToIdle, runFlipAnimation, seedGibberish]);
 
   useEffect(() => {
     const footer = footerRef.current;
@@ -422,7 +414,6 @@ export default function FlipBoardFooter({
         )}
         style={footerStyle}
         aria-label="Site footer"
-        onClick={onFooterClick}
       >
         <p className="flip-board-footer__sr-message">{SR_MESSAGE}</p>
 
@@ -433,7 +424,12 @@ export default function FlipBoardFooter({
 
               if (row < 2) {
                 return (
-                  <div key={`row-${row}`} className="flip-board-footer__row">
+                  // Clicking the headline replays the flip, so it gets the pointer
+                  <div
+                    key={`row-${row}`}
+                    className="cursor-hover-pointer flip-board-footer__row"
+                    onClick={onHeadlineClick}
+                  >
                     {groupSpecsByWord(rowSpecs).map((wordSpecs, wordIndex) => (
                       <div
                         key={`row-${row}-word-${wordIndex}`}

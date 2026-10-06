@@ -26,7 +26,14 @@ export function KineticFacadeScene({
       />
       <ambientLight intensity={0.15} />
       <directionalLight position={[-4, 8, 6]} intensity={2.5} />
-      <KineticPlateGrid variant={variant} reducedMotion={reducedMotion} />
+      {/* Remount when switching lift <-> dissolve: three.js compiles the plate
+          shader as opaque and won't recompile when `transparent` flips, so the
+          plates could never fade. A fresh grid also resets the toggle state. */}
+      <KineticPlateGrid
+        key={variant.interactionMode}
+        variant={variant}
+        reducedMotion={reducedMotion}
+      />
     </Canvas>
   );
 }

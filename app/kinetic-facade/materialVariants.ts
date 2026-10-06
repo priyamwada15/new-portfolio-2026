@@ -11,15 +11,6 @@ export type MaterialVariant = {
 };
 
 export const MATERIAL_VARIANTS: Record<MaterialVariantId, MaterialVariant> = {
-  steel: {
-    id: "steel",
-    label: "Steel",
-    color: "#c7cdd4",
-    metalness: 0.9,
-    roughness: 0.25,
-    environmentPreset: "studio",
-    interactionMode: "lift",
-  },
   copper: {
     id: "copper",
     label: "Copper",
@@ -38,6 +29,15 @@ export const MATERIAL_VARIANTS: Record<MaterialVariantId, MaterialVariant> = {
     environmentPreset: "sunset",
     interactionMode: "dissolve",
   },
+  steel: {
+    id: "steel",
+    label: "Steel",
+    color: "#c7cdd4",
+    metalness: 0.9,
+    roughness: 0.25,
+    environmentPreset: "studio",
+    interactionMode: "lift",
+  },
 };
 
-export const DEFAULT_MATERIAL_VARIANT_ID: MaterialVariantId = "steel";
+export const DEFAULT_MATERIAL_VARIANT_ID: MaterialVariantId = "copper";

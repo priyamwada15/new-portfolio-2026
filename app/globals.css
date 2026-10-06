@@ -554,11 +554,6 @@ body {
   }
 }
 
-.hero-intro--breadcrumb-top {
-  --hero-intro-y: -16px;
-  animation-delay: 100ms;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .hero-intro {
     animation: hero-intro-fade 300ms ease-out both;

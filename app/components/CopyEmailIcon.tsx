@@ -29,18 +29,20 @@ type CopyEmailIconProps = {
   /** Renders this text instead of the icon (desktop nav). */
   label?: string;
   labelStyle?: React.CSSProperties;
+  /** Text of the tooltip shown after copying. */
+  copiedText?: string;
 };
 
 const COPIED_TOOLTIP_MS = 2500;
 
-function CopiedTooltipBody() {
+function CopiedTooltipBody({ text }: { text: string }) {
   return (
     <>
       <motion.div
         className="overflow-hidden px-3 py-1.5 text-xs text-balance"
         style={{ fontFamily: "var(--font-hind), sans-serif", color: "#fafafa" }}
       >
-        <motion.div layout="preserve-aspect">Copied</motion.div>
+        <motion.div layout="preserve-aspect">{text}</motion.div>
       </motion.div>
       <TooltipArrow
         className="fill-[#111111] size-3 data-[side='bottom']:translate-y-[1px] data-[side='right']:translate-x-[1px] data-[side='left']:translate-x-[-1px] data-[side='top']:translate-y-[-1px]"
@@ -62,6 +64,7 @@ export function CopyEmailIcon({
   className,
   label,
   labelStyle,
+  copiedText = "Copied",
 }: CopyEmailIconProps) {
   const [isCopied, setIsCopied] = useControlledState({ defaultValue: false });
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -86,7 +89,7 @@ export function CopyEmailIcon({
     showTooltip({
       contentProps: {
         className: "z-50 w-fit bg-[#111111] text-white rounded-md",
-        children: <CopiedTooltipBody />,
+        children: <CopiedTooltipBody text={copiedText} />,
       },
       contentAsChild: false,
       rect: el.getBoundingClientRect(),
@@ -101,7 +104,7 @@ export function CopyEmailIcon({
     copiedTooltipTimeoutRef.current = setTimeout(() => {
       hideImmediate();
     }, COPIED_TOOLTIP_MS);
-  }, [copiedTooltipId, hideImmediate, setReferenceEl, showTooltip, tooltipSide]);
+  }, [copiedText, copiedTooltipId, hideImmediate, setReferenceEl, showTooltip, tooltipSide]);
 
   const handleCopy = React.useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {

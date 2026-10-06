@@ -45,13 +45,11 @@ export type PlayPortfolioItem = {
   mediaPanelOmitGradient?: boolean;
   /** `aria-label` on `<video>`; `title` on `<iframe>`. */
   mediaAlt: string;
-  /** When true, the playground card's primary link opens in a new tab (internal routes only — external links already do). */
-  openInNewTab?: boolean;
 };
 
 const PROFILE_X_HREF = "https://x.com/PriymwadaPandey";
 
-const SUNLIGHT_SHADER_GITHUB_HREF =
+export const SUNLIGHT_SHADER_GITHUB_HREF =
   "https://github.com/priyamwada15/sunlight-effect";
 const WATER_GLINT_GITHUB_HREF =
   "https://github.com/priyamwada15/water-glint-shader";
@@ -88,20 +86,22 @@ const ARCADE_EFFWON_POSTER_SRC = "/arcade-effwon/poster.png";
 
 export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
-    id: "arcade-effwon",
-    title: "Arcade EffWon",
-    tagParts: ["Mini-game", "Canvas", "Next.js", "Aug 2026"],
+    id: "stellar-scan",
+    title: "Stellar Scan",
+    tagParts: ["Gemini API", "React", "Tailwind", "Mar 2026"],
     description:
-      "A pseudo-3D pixel-art F1 racer built on a single canvas. Pick a team, survive 8 laps of corners and rival traffic without racking up 3 hits.",
-    experienceCta: {
-      label: "Play Game",
-      href: "/arcade-effwon",
-      ariaLabel: "Play Arcade EffWon",
+      "A retro-futuristic star map from one line in Stitch—enter a date, see the dominant constellation, export a playing card.",
+    homeDescription:
+      "A retro-futuristic star mapping tool. Enter a date, get the dominant constellation, download a playing card. Used Stitch for the design system, AI Studio to build.",
+    filledCta: {
+      label: "Open Website",
+      href: "https://stellar-scan-eta.vercel.app/",
+      ariaLabel: "Open Stellar Scan website",
+      icon: "arrow",
     },
-    videoSrc: ARCADE_EFFWON_VIDEO_SRC,
-    posterSrc: ARCADE_EFFWON_POSTER_SRC,
-    mediaAlt: "Arcade EffWon pseudo-3D racer",
-    openInNewTab: true,
+    videoSrc: STELLAR_SCAN_VIDEO_SRC,
+    posterSrc: STELLAR_SCAN_POSTER_SRC,
+    mediaAlt: "Stellar Scan constellation UI",
   },
   {
     id: "the-intelligencer",
@@ -115,7 +115,6 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
       ariaLabel: "Open The Intelligencer",
       icon: "arrow",
     },
-    openInNewTab: true,
     videoSrc: THE_INTELLIGENCER_VIDEO_SRC,
     posterSrc: THE_INTELLIGENCER_POSTER_SRC,
     mediaAlt: "The Intelligencer single-card news layout",
@@ -143,22 +142,19 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
     mediaAlt: "Robot arms duet prototype screen recording",
   },
   {
-    id: "stellar-scan",
-    title: "Stellar Scan",
-    tagParts: ["Gemini API", "React", "Tailwind", "Mar 2026"],
+    id: "arcade-effwon",
+    title: "Arcade EffWon",
+    tagParts: ["Mini-game", "Canvas", "Next.js", "Aug 2026"],
     description:
-      "A retro-futuristic star map from one line in Stitch—enter a date, see the dominant constellation, export a playing card.",
-    homeDescription:
-      "A retro-futuristic star mapping tool. Enter a date, get the dominant constellation, download a playing card. Used Stitch for the design system, AI Studio to build.",
-    filledCta: {
-      label: "Open Website",
-      href: "https://stellar-scan-eta.vercel.app/",
-      ariaLabel: "Open Stellar Scan website",
-      icon: "arrow",
+      "A pseudo-3D pixel-art F1 racer built on a single canvas. Pick a team, survive 8 laps of corners and rival traffic without racking up 3 hits.",
+    experienceCta: {
+      label: "Play Game",
+      href: "/arcade-effwon",
+      ariaLabel: "Play Arcade EffWon",
     },
-    videoSrc: STELLAR_SCAN_VIDEO_SRC,
-    posterSrc: STELLAR_SCAN_POSTER_SRC,
-    mediaAlt: "Stellar Scan constellation UI",
+    videoSrc: ARCADE_EFFWON_VIDEO_SRC,
+    posterSrc: ARCADE_EFFWON_POSTER_SRC,
+    mediaAlt: "Arcade EffWon pseudo-3D racer",
   },
   {
     id: "rocket-lisa",
@@ -177,23 +173,19 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
     mediaAlt: "Rocket LISA screen recording",
   },
   {
-    id: "sunlight-effect",
-    title: "Sunlight Effect",
-    tagParts: ["React", "TypeScript", "CSS", "May 2026"],
+    id: "kinetic-facade",
+    title: "Kinetic Facade",
+    tagParts: ["React Three Fiber", "Three.js", "Aug 2026"],
     description:
-      "A React component with CSS-driven shadow bands and a soft radial glow that read as sunlight. The shader is applied on my homepage.",
+      "A WebGL grid of metal plates that swing open on a hand-rolled pendulum physics model, revealing the page behind them.",
     experienceCta: {
-      label: "View Shader",
-      href: "/sunlight",
-      ariaLabel: "Open the Sunlight shader page",
+      label: "View Experiment",
+      href: "/kinetic-facade",
+      ariaLabel: "Open the Kinetic Facade testing ground",
     },
-    githubLiquidCta: {
-      href: SUNLIGHT_SHADER_GITHUB_HREF,
-      ariaLabel: "View Sunlight effect on GitHub",
-    },
-    videoSrc: SUNLIGHT_VIDEO_SRC,
-    posterSrc: SUNLIGHT_POSTER_SRC,
-    mediaAlt: "Sunlight shader effect on the homepage background",
+    videoSrc: KINETIC_FACADE_VIDEO_SRC,
+    posterSrc: KINETIC_FACADE_POSTER_SRC,
+    mediaAlt: "Kinetic facade plate grid experiment",
   },
   {
     id: "water-glint",
@@ -215,19 +207,23 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
     mediaAlt: "Water glint WebGL2 shader demo",
   },
   {
-    id: "kinetic-facade",
-    title: "Kinetic Facade",
-    tagParts: ["React Three Fiber", "Three.js", "Aug 2026"],
+    id: "sunlight-effect",
+    title: "Sunlight Effect",
+    tagParts: ["React", "TypeScript", "CSS", "May 2026"],
     description:
-      "A WebGL grid of metal plates that swing open on a hand-rolled pendulum physics model, revealing the page behind them.",
+      "A React component with CSS-driven shadow bands and a soft radial glow that read as sunlight. The shader is applied on my homepage.",
     experienceCta: {
-      label: "View Experiment",
-      href: "/kinetic-facade",
-      ariaLabel: "Open the Kinetic Facade testing ground",
+      label: "View Shader",
+      href: "/sunlight",
+      ariaLabel: "Open the Sunlight shader page",
     },
-    videoSrc: KINETIC_FACADE_VIDEO_SRC,
-    posterSrc: KINETIC_FACADE_POSTER_SRC,
-    mediaAlt: "Kinetic facade plate grid experiment",
+    githubLiquidCta: {
+      href: SUNLIGHT_SHADER_GITHUB_HREF,
+      ariaLabel: "View Sunlight effect on GitHub",
+    },
+    videoSrc: SUNLIGHT_VIDEO_SRC,
+    posterSrc: SUNLIGHT_POSTER_SRC,
+    mediaAlt: "Sunlight shader effect on the homepage background",
   },
 ];
 

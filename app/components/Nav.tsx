@@ -136,6 +136,7 @@ export default function Nav() {
                   linkedin
                 </a>
                 <CopyEmailIcon
+                  copiedText="Email copied"
                   tooltipSide="bottom"
                   label="contact"
                   labelStyle={navTextStyle(false)}
@@ -216,6 +217,7 @@ export default function Nav() {
                 </Tooltip>
 
                 <CopyEmailIcon
+                  copiedText="Email copied"
                   tooltipSide="bottom"
                   iconColor={navIconColor}
                   onMouseEnter={mail.onMouseEnter}

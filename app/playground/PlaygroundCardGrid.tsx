@@ -1,30 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { fontStyle, RESPONSIVE_CONTENT_WIDTH_CLASS } from "@/design-system";
+import { RESPONSIVE_CONTENT_WIDTH_CLASS } from "@/design-system";
 import { PLAY_PORTFOLIO_ITEMS, type PlayPortfolioItem } from "@/app/lib/playPortfolio";
-
-// Figma-specified colors, tuned specifically for Playground's dark page —
-// not promoted to design-system tokens since this is the only page using
-// them (matching the same approach as Nav's dark-page icon color override).
-// Font size is handled separately via className (max-tablet: reduction),
-// so it isn't part of this inline style object.
-const breadcrumbFontStyle: React.CSSProperties = {
-  ...fontStyle.figtree,
-  fontWeight: 500,
-  lineHeight: "17px",
-  letterSpacing: "-0.02px",
-};
-const breadcrumbTextClass = "text-[14px] max-tablet:text-[12px]" as const;
-const breadcrumbMutedStyle: React.CSSProperties = {
-  ...breadcrumbFontStyle,
-  color: "#767676",
-};
-const breadcrumbActiveStyle: React.CSSProperties = {
-  ...breadcrumbFontStyle,
-  color: "#E8E8E8",
-};
 
 // Stable id used as a programmatic focus target once the facade dissolves,
 // and as a valid focus target itself (tabIndex={-1} keeps it out of the
@@ -100,19 +78,10 @@ export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridP
       inert={inert || undefined}
       className={`relative z-[1] ${RESPONSIVE_CONTENT_WIDTH_CLASS} pt-[32px] pb-[96px] desktop:pt-[72px] outline-none`}
     >
-      <div className="mb-8 flex flex-row items-center gap-2 py-2 pr-2 hero-intro hero-intro--breadcrumb-top">
-        <Link href="/" className={`cursor-hover-pointer ${breadcrumbTextClass}`} style={breadcrumbMutedStyle}>
-          Home
-        </Link>
-        <span className={breadcrumbTextClass} style={breadcrumbMutedStyle}>/</span>
-        <span className={breadcrumbTextClass} style={breadcrumbActiveStyle}>Playground</span>
-      </div>
-
       <div className="grid grid-cols-1 gap-x-12 gap-y-12 tablet:grid-cols-2 hero-intro hero-intro--bento">
         {PLAY_PORTFOLIO_ITEMS.map((item) => {
           const tags = item.tagParts.slice(0, -1);
           const href = primaryHref(item);
-          const isExternal = href?.startsWith("http") ?? false;
 
           const cardBody = (
             <>
@@ -141,29 +110,17 @@ export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridP
             );
           }
 
-          if (isExternal) {
-            return (
-              <a
-                key={item.id}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="playground-card cursor-hover-pointer flex flex-col gap-6"
-              >
-                {cardBody}
-              </a>
-            );
-          }
-
+          // Every card opens in a new tab so the Playground stays open
           return (
-            <Link
+            <a
               key={item.id}
               href={href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="playground-card cursor-hover-pointer flex flex-col gap-6"
-              {...(item.openInNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             >
               {cardBody}
-            </Link>
+            </a>
           );
         })}
       </div>

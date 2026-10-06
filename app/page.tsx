@@ -119,7 +119,7 @@ export default function HomePage() {
     <div className={styles.page} style={{ backgroundColor: HOME_V2_PAGE_BG }}>
       <div className={styles.layout}>
         <section className={styles.hero}>
-          <div className={`${styles.intro} ${styles.heroIn}`}>
+          <div className={`${styles.intro} ${styles.heroIn}`} data-pixel-block>
             <p className={styles.introPara}>
               Hi, I&apos;m <PriyamwadaNameLink hoverPreview />. I design AI and B2B products for early-stage teams,
               usually as the first designer in the room.
@@ -138,14 +138,14 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className={`${styles.heroIn} ${styles.heroInDelayed} ${styles.adtuaSlot}`}>
+          <div className={`${styles.heroIn} ${styles.heroInDelayed} ${styles.adtuaSlot}`} data-pixel-block>
             <ScrollReveal>
               <AdtuaSnapshot />
             </ScrollReveal>
           </div>
         </section>
 
-        <section className={styles.work} aria-label="Case studies">
+        <section className={styles.work} aria-label="Case studies" data-pixel-blocks>
           {CASE_STUDIES.map((study) => (
             <ScrollReveal key={study.href}>
               <CaseStudyCard study={study} />

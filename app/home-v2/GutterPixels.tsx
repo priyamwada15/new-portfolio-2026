@@ -8,15 +8,22 @@ const LIFE_MS = 700;
 const MAX_ALPHA = 0.85;
 /** Clear space kept between the last visible cell and the content column. */
 const EDGE_CLEARANCE = 24;
+/** Clear space kept between the last visible cell and a card above or below a gap. */
+const GAP_CLEARANCE = 16;
 const ROSE_SHARE = 0.3;
-const ENABLED_QUERY = "(min-width: 1024px) and (hover: hover) and (pointer: fine)";
+const POINTER_QUERY = "(hover: hover) and (pointer: fine)";
+/** Side gutters are too thin below this; section gaps run at every width. */
+const GUTTER_QUERY = "(min-width: 1024px)";
+/** Content blocks: `[data-pixel-block]` elements and children of `[data-pixel-blocks]`. */
+const BLOCK_SELECTOR = "[data-pixel-block], [data-pixel-blocks] > *";
 
 type Cell = { born: number; strength: number; color: string };
 
 /**
- * Pixel trail in the side gutters of the homepage. Cells light up along the
- * cursor path, strongest at the viewport edge and fading out before the
- * content column. Measures the content column it is rendered after.
+ * Pixel trail in the side gutters of the homepage and the gaps between its
+ * sections. Cells light up along the cursor path, strongest at the viewport
+ * edge and along the middle of each gap, fading out before the content.
+ * Measures the content column it is rendered after.
  * The draw loop runs only while cells are still fading.
  */
 export function GutterPixels() {
@@ -28,7 +35,8 @@ export function GutterPixels() {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !content || !ctx) return;
 
-    const enabledMq = window.matchMedia(ENABLED_QUERY);
+    const pointerMq = window.matchMedia(POINTER_QUERY);
+    const gutterMq = window.matchMedia(GUTTER_QUERY);
     const reducedMq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const rootStyle = getComputedStyle(document.documentElement);
     const olive = rootStyle.getPropertyValue("--ds-color-brand-hcn-olive").trim();
@@ -38,6 +46,7 @@ export function GutterPixels() {
     let left = 0;
     let right = 0;
     let width = 0;
+    let gaps: { top: number; bottom: number }[] = [];
     let frame = 0;
     let last: { x: number; y: number } | null = null;
 
@@ -52,19 +61,48 @@ export function GutterPixels() {
       right = rect.right;
     };
 
+    /** Vertical gaps between content blocks, in viewport coordinates. Blocks
+     *  sharing a row (intro + Adtua on desktop) count as one. */
+    const measureGaps = () => {
+      const rects = Array.from(content.querySelectorAll(BLOCK_SELECTOR), (el) => el.getBoundingClientRect())
+        .filter((r) => r.height > 0)
+        .sort((a, b) => a.top - b.top);
+      gaps = [];
+      let bottom = rects[0]?.bottom ?? 0;
+      for (const r of rects.slice(1)) {
+        if (r.top > bottom) gaps.push({ top: bottom, bottom: r.top });
+        bottom = Math.max(bottom, r.bottom);
+      }
+    };
+
+    const smooth = (t: number) => t * t * (3 - 2 * t);
+
     /** 1 at the viewport edge, 0 at EDGE_CLEARANCE from the content column. */
-    const strengthAt = (x: number) => {
+    const gutterStrength = (x: number) => {
+      if (!gutterMq.matches || (x >= left && x <= right)) return 0;
       const gutter = x < left ? left : width - right;
       const fromContent = x < left ? left - x : x - right;
       if (fromContent <= EDGE_CLEARANCE || gutter <= EDGE_CLEARANCE) return 0;
-      const t = Math.min(1, (fromContent - EDGE_CLEARANCE) / (gutter - EDGE_CLEARANCE));
-      return t * t * (3 - 2 * t);
+      return smooth(Math.min(1, (fromContent - EDGE_CLEARANCE) / (gutter - EDGE_CLEARANCE)));
     };
+
+    /** 1 along the middle of a gap, 0 at GAP_CLEARANCE from the blocks around it.
+     *  Spans the full width so the band joins the gutters without a seam. */
+    const gapStrength = (y: number) => {
+      const gap = gaps.find((g) => y > g.top && y < g.bottom);
+      if (!gap) return 0;
+      const half = (gap.bottom - gap.top) / 2;
+      const fromBlock = Math.min(y - gap.top, gap.bottom - y);
+      if (fromBlock <= GAP_CLEARANCE || half <= GAP_CLEARANCE) return 0;
+      return smooth(Math.min(1, (fromBlock - GAP_CLEARANCE) / (half - GAP_CLEARANCE)));
+    };
+
+    const strengthAt = (x: number, y: number) => Math.max(gutterStrength(x), gapStrength(y));
 
     const light = (x: number, y: number, now: number) => {
       const cx = Math.floor(x / CELL);
       const cy = Math.floor(y / CELL);
-      const strength = strengthAt(cx * CELL + CELL / 2);
+      const strength = strengthAt(cx * CELL + CELL / 2, cy * CELL + CELL / 2);
       // Sparser near the content, not just fainter
       if (strength <= 0 || Math.random() > 0.35 + strength * 0.65) return;
       cells.set(`${cx},${cy}`, {
@@ -96,7 +134,8 @@ export function GutterPixels() {
       const now = performance.now();
       const from = last ?? { x: e.clientX, y: e.clientY };
       last = { x: e.clientX, y: e.clientY };
-      if (e.clientX >= left && e.clientX <= right) return;
+      // Blocks move under the fixed canvas as the page scrolls
+      measureGaps();
 
       const dist = Math.hypot(e.clientX - from.x, e.clientY - from.y);
       const steps = Math.max(1, Math.ceil(dist / CELL));
@@ -128,7 +167,7 @@ export function GutterPixels() {
 
     let active = false;
     const sync = () => {
-      const shouldRun = enabledMq.matches && !reducedMq.matches;
+      const shouldRun = pointerMq.matches && !reducedMq.matches;
       if (shouldRun === active) return;
       active = shouldRun;
       if (active) {
@@ -145,12 +184,12 @@ export function GutterPixels() {
     };
 
     sync();
-    enabledMq.addEventListener("change", sync);
+    pointerMq.addEventListener("change", sync);
     reducedMq.addEventListener("change", sync);
     document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      enabledMq.removeEventListener("change", sync);
+      pointerMq.removeEventListener("change", sync);
       reducedMq.removeEventListener("change", sync);
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("pointermove", onMove);

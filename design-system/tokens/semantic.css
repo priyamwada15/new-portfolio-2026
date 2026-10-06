@@ -56,6 +56,10 @@
   --ds-tag-gray-bg: var(--ds-color-tag-gray-bg);
   --ds-tag-gray-fg: var(--ds-color-tag-gray-fg);
 
+  /* Nav — active link (current page) */
+  --ds-nav-active: var(--ds-color-brand-hcn-rose);
+  --ds-nav-active-on-dark: var(--ds-color-brand-hcn-rose-light);
+
   /* Case study accent defaults (overridable per page via --accent-dark) */
   --ds-accent-default: var(--ds-color-primary);
   --ds-accent-subtle: var(--ds-color-gray-subtle);

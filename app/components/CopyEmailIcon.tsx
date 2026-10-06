@@ -26,6 +26,9 @@ type CopyEmailIconProps = {
   onMouseLeave?: () => void;
   iconStyle?: React.CSSProperties;
   className?: string;
+  /** Renders this text instead of the icon (desktop nav). */
+  label?: string;
+  labelStyle?: React.CSSProperties;
 };
 
 const COPIED_TOOLTIP_MS = 2500;
@@ -57,6 +60,8 @@ export function CopyEmailIcon({
   onMouseLeave,
   iconStyle,
   className,
+  label,
+  labelStyle,
 }: CopyEmailIconProps) {
   const [isCopied, setIsCopied] = useControlledState({ defaultValue: false });
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -123,6 +128,51 @@ export function CopyEmailIcon({
     "aria-hidden": true as const,
   };
 
+  const button = (
+    <motion.button
+      ref={buttonRef}
+      type="button"
+      data-slot="copy-email-button"
+      className={cn(
+        "flex items-center justify-center h-8 rounded-md cursor-pointer",
+        !label && "w-8",
+        className,
+      )}
+      // Text label matches the other nav links: opacity hover only, no scale
+      whileHover={label ? undefined : { scale: 1.05 }}
+      whileTap={label ? undefined : { scale: 0.95 }}
+      onClick={handleCopy}
+      aria-label={isCopied ? "Email copied" : "Copy email address"}
+    >
+      {label ? (
+        <span style={labelStyle}>{label}</span>
+      ) : (
+      <span style={iconStyle}>
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span
+            key={isCopied ? "check" : "mailbox"}
+            data-slot="copy-email-icon"
+            className="inline-flex"
+            initial={{ scale: 0, opacity: 0.4, filter: "blur(4px)" }}
+            animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+            exit={{ scale: 0, opacity: 0.4, filter: "blur(4px)" }}
+            transition={{ duration: 0.25 }}
+          >
+            {isCopied ? (
+              <Check {...iconProps} />
+            ) : (
+              <Mailbox {...iconProps} />
+            )}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+      )}
+    </motion.button>
+  );
+
+  // Text label (desktop nav) needs no hover tooltip; only "Copied" shows on click
+  if (label) return button;
+
   return (
     <Tooltip side={tooltipSide} sideOffset={8}>
       <TooltipTrigger
@@ -130,39 +180,7 @@ export function CopyEmailIcon({
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <motion.button
-          ref={buttonRef}
-          type="button"
-          data-slot="copy-email-button"
-          className={cn(
-            "flex items-center justify-center w-8 h-8 rounded-md cursor-pointer",
-            className,
-          )}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={handleCopy}
-          aria-label={isCopied ? "Email copied" : "Copy email address"}
-        >
-          <span style={iconStyle}>
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={isCopied ? "check" : "mailbox"}
-                data-slot="copy-email-icon"
-                className="inline-flex"
-                initial={{ scale: 0, opacity: 0.4, filter: "blur(4px)" }}
-                animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
-                exit={{ scale: 0, opacity: 0.4, filter: "blur(4px)" }}
-                transition={{ duration: 0.25 }}
-              >
-                {isCopied ? (
-                  <Check {...iconProps} />
-                ) : (
-                  <Mailbox {...iconProps} />
-                )}
-              </motion.span>
-            </AnimatePresence>
-          </span>
-        </motion.button>
+        {button}
       </TooltipTrigger>
       <TooltipContent>Email</TooltipContent>
     </Tooltip>

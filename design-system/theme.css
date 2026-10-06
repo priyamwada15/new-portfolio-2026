@@ -49,6 +49,8 @@
   --color-tars-light: var(--ds-color-brand-tars-light);
   --color-salesforce: var(--ds-color-brand-salesforce);
   --color-nav-glow: var(--ds-color-brand-nav-glow);
+  --color-nav-active: var(--ds-nav-active);
+  --color-nav-active-on-dark: var(--ds-nav-active-on-dark);
 
   /* Tag palette (bg-tag-blue-bg, text-tag-blue-fg, …) */
   --color-tag-blue-bg: var(--ds-tag-blue-bg);

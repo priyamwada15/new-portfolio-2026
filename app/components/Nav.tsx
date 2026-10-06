@@ -1,6 +1,6 @@
 "use client";
 
-import { DiscoBall, FileText, LinkedinLogo } from "@phosphor-icons/react";
+import { Briefcase, DiscoBall, FileText, LinkedinLogo } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -42,6 +42,8 @@ function useTilt(deg: number) {
 // is the only page using it.
 const PLAYGROUND_NAV_ICON_COLOR = "#F6F6FB";
 
+const navTextClass = "cursor-hover-pointer text-[14px] leading-none transition-opacity hover:opacity-75";
+
 export default function Nav() {
   const pathname = usePathname();
   const isHomeV2 = pathname === "/";
@@ -50,6 +52,15 @@ export default function Nav() {
     pathname === "/playground" || (pathname?.startsWith("/playground/") ?? false);
   const caseStudyBg = isCaseStudy ? CASE_STUDY_CHROME_BG : null;
   const navIconColor = isPlayground ? PLAYGROUND_NAV_ICON_COLOR : "#555555";
+  // Current page link is rose; Playground's dark page uses the lifted rose
+  const navActiveColor = isPlayground
+    ? "var(--ds-nav-active-on-dark)"
+    : "var(--ds-nav-active)";
+  const navTextStyle = (active: boolean): React.CSSProperties => ({
+    fontFamily: "var(--font-hind), sans-serif",
+    fontWeight: 500,
+    color: active ? navActiveColor : navIconColor,
+  });
   // Solid fill behind the sticky nav so scrolled content doesn't show through it
   const navSurfaceBg = isHomeV2
     ? HOME_V2_PAGE_BG
@@ -58,6 +69,7 @@ export default function Nav() {
       : (caseStudyBg ?? SITE_DEFAULT_PAGE_BG);
   const navHidden = useHideOnScroll();
 
+  const work = useTilt(8);
   const disco = useTilt(-8);
   const linkedin = useTilt(8);
   const mail = useTilt(-8);
@@ -96,27 +108,91 @@ export default function Nav() {
                 logoSrc={isPlayground ? "/logos/nav-logo-playground.svg" : undefined}
               />
 
-              <div className="flex items-center gap-3 sm:gap-4">
-                {!isPlayground && (
-                  <Tooltip side="bottom" sideOffset={8}>
-                    <TooltipTrigger
-                      asChild
-                      onMouseEnter={disco.onMouseEnter}
-                      onMouseLeave={disco.onMouseLeave}
+              {/* Text links from 640px up */}
+              <div className="hidden sm:flex items-center gap-6">
+                <Link
+                  href="/"
+                  className={navTextClass}
+                  style={navTextStyle(isHomeV2)}
+                  aria-current={isHomeV2 ? "page" : undefined}
+                >
+                  work
+                </Link>
+                <Link
+                  href="/playground"
+                  className={navTextClass}
+                  style={navTextStyle(isPlayground)}
+                  aria-current={isPlayground ? "page" : undefined}
+                >
+                  playground
+                </Link>
+                <a
+                  href="https://www.linkedin.com/in/priyamwadapandey"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={navTextClass}
+                  style={navTextStyle(false)}
+                >
+                  linkedin
+                </a>
+                <CopyEmailIcon
+                  tooltipSide="bottom"
+                  label="contact"
+                  labelStyle={navTextStyle(false)}
+                  className={navTextClass}
+                />
+                <a
+                  href="/resume"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={navTextClass}
+                  style={navTextStyle(false)}
+                >
+                  resume
+                </a>
+              </div>
+
+              {/* Icons below 640px */}
+              <div className="flex sm:hidden items-center gap-3">
+                <Tooltip side="bottom" sideOffset={8}>
+                  <TooltipTrigger
+                    asChild
+                    onMouseEnter={work.onMouseEnter}
+                    onMouseLeave={work.onMouseLeave}
+                  >
+                    <Link
+                      href="/"
+                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
+                      aria-label="Work"
+                      aria-current={isHomeV2 ? "page" : undefined}
                     >
-                      <Link
-                        href="/playground"
-                        className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
-                        aria-label="Play"
-                      >
-                        <span style={disco.iconStyle}>
-                          <DiscoBall size={24} color={navIconColor} weight="regular" aria-hidden />
-                        </span>
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent>Play</TooltipContent>
-                  </Tooltip>
-                )}
+                      <span style={work.iconStyle}>
+                        <Briefcase size={24} color={isHomeV2 ? navActiveColor : navIconColor} weight="regular" aria-hidden />
+                      </span>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>Work</TooltipContent>
+                </Tooltip>
+
+                <Tooltip side="bottom" sideOffset={8}>
+                  <TooltipTrigger
+                    asChild
+                    onMouseEnter={disco.onMouseEnter}
+                    onMouseLeave={disco.onMouseLeave}
+                  >
+                    <Link
+                      href="/playground"
+                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
+                      aria-label="Playground"
+                      aria-current={isPlayground ? "page" : undefined}
+                    >
+                      <span style={disco.iconStyle}>
+                        <DiscoBall size={24} color={isPlayground ? navActiveColor : navIconColor} weight="regular" aria-hidden />
+                      </span>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>Playground</TooltipContent>
+                </Tooltip>
 
                 <Tooltip side="bottom" sideOffset={8}>
                   <TooltipTrigger

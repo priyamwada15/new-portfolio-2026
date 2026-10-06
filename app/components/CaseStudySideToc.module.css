@@ -47,23 +47,17 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 14px 7px 12px;
-  border: 1px solid var(--ds-text-ink);
-  border-radius: 8px;
   font-size: 13px;
   line-height: 16px;
   font-weight: 500;
   color: var(--ds-text-ink);
   text-decoration: none;
-  transition:
-    background-color 200ms ease-out,
-    color 200ms ease-out;
+  transition: color 200ms ease-out;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .back:hover {
-    background-color: var(--ds-text-ink);
-    color: var(--ds-surface-home);
+    color: var(--ds-nav-active);
   }
 }
 

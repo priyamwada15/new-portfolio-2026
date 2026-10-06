@@ -45,6 +45,8 @@
   --ds-color-brand-hcn-adtua: #ff7f11;
   --ds-color-brand-hcn-chomp: #d10034;
   --ds-color-brand-hcn-rose: #c02b53;
+  /* Lifted rose for dark surfaces (Playground) — ~7.4:1 on #0a0a0a */
+  --ds-color-brand-hcn-rose-light: #ef7a98;
   --ds-color-brand-hcn-amber: #f4af30;
   --ds-color-brand-hcn-olive: #bfb74c;
   --ds-color-brand-hcn-teal: #1289b1;

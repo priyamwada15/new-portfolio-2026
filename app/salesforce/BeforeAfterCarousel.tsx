@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 export type ImageRedaction = {
   left: string;
@@ -37,6 +37,8 @@ const SLIDE_WIDTH = 790;
 const SLIDE_GAP = 24;
 /** Where the image area starts inside a slide (below the badge row). */
 const IMAGE_AREA_TOP = 92;
+/** Padding inside a compact slide (plus its 1px border on each side). */
+const COMPACT_PADDING = 16;
 
 function ArrowButton({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) {
   return (
@@ -62,6 +64,74 @@ function ArrowButton({ direction, onClick }: { direction: "left" | "right"; onCl
   );
 }
 
+function SlideImage({ image, top }: { image: BeforeAfterImage; top: number }) {
+  return (
+    <div
+      className="absolute left-1/2 -translate-x-1/2 overflow-hidden rounded-lg border border-border shadow-[0_0_16px_3px_rgba(0,0,0,0.04)]"
+      style={{ top, width: image.width, height: image.height }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={image.src} alt={image.alt} className="size-full object-cover" />
+      {image.redactions?.map((r) => (
+        <div
+          key={`${r.left}-${r.top ?? r.bottom}`}
+          className="absolute bg-white/20 backdrop-blur-[7.5px]"
+          style={{ left: r.left, top: r.top, bottom: r.bottom, width: r.width, height: r.height, borderRadius: r.borderRadius }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function SlideBadge({ slide }: { slide: BeforeAfterSlide }) {
+  return (
+    <span
+      className="shrink-0 rounded-[4px] border px-3 py-[6px] font-mono text-[12px] font-medium uppercase leading-4"
+      style={{ backgroundColor: slide.badgeBg, color: slide.badgeColor, borderColor: slide.badgeBorder }}
+    >
+      {slide.badgeLabel}
+    </span>
+  );
+}
+
+/**
+ * Narrow-screen slide: badge, title and caption stay at full size as normal
+ * text; only the screenshot area is scaled down to fit the slide width.
+ */
+function CompactSlide({ slide, width }: { slide: BeforeAfterSlide; width: number }) {
+  const tops = slide.images.map((image) => image.top ?? IMAGE_AREA_TOP);
+  const stageTop = Math.min(...tops);
+  const stageHeight = Math.max(...slide.images.map((image, i) => tops[i] + image.height)) - stageTop;
+  const scale = (width - 2 * (COMPACT_PADDING + 1)) / SLIDE_WIDTH;
+  return (
+    <div
+      className="flex shrink-0 flex-col gap-4 rounded-[var(--ds-radius-container)] border border-border bg-surface-page"
+      style={{ width, padding: COMPACT_PADDING }}
+    >
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <SlideBadge slide={slide} />
+        <p className="min-w-0 font-label text-[14px] font-medium leading-[22.4px] text-primary">{slide.title}</p>
+      </div>
+      {/* Slides share the tallest one's height, so the screenshots centre in any spare space. */}
+      <div className="flex flex-1 items-center">
+        <div className="relative w-full" style={{ height: stageHeight * scale }}>
+          <div
+            className="absolute left-0 top-0 origin-top-left"
+            style={{ width: SLIDE_WIDTH, height: stageHeight, transform: `scale(${scale})` }}
+          >
+            {slide.images.map((image, i) => (
+              <SlideImage key={image.src} image={image} top={tops[i] - stageTop} />
+            ))}
+          </div>
+        </div>
+      </div>
+      {slide.caption && (
+        <p className="text-center font-label text-[12px] leading-[22.4px] text-secondary">{slide.caption}</p>
+      )}
+    </div>
+  );
+}
+
 function Slide({ slide }: { slide: BeforeAfterSlide }) {
   return (
     <div
@@ -69,30 +139,11 @@ function Slide({ slide }: { slide: BeforeAfterSlide }) {
       style={{ width: SLIDE_WIDTH }}
     >
       <div className="absolute left-6 right-6 top-6 flex items-center gap-4">
-        <span
-          className="shrink-0 rounded-[4px] border px-3 py-[6px] font-mono text-[12px] font-medium uppercase leading-4"
-          style={{ backgroundColor: slide.badgeBg, color: slide.badgeColor, borderColor: slide.badgeBorder }}
-        >
-          {slide.badgeLabel}
-        </span>
+        <SlideBadge slide={slide} />
         <p className="min-w-0 font-label text-[14px] font-medium leading-[22.4px] text-primary">{slide.title}</p>
       </div>
       {slide.images.map((image) => (
-        <div
-          key={image.src}
-          className="absolute left-1/2 -translate-x-1/2 overflow-hidden rounded-lg border border-border shadow-[0_0_16px_3px_rgba(0,0,0,0.04)]"
-          style={{ top: image.top ?? IMAGE_AREA_TOP, width: image.width, height: image.height }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={image.src} alt={image.alt} className="size-full object-cover" />
-          {image.redactions?.map((r) => (
-            <div
-              key={`${r.left}-${r.top ?? r.bottom}`}
-              className="absolute bg-white/20 backdrop-blur-[7.5px]"
-              style={{ left: r.left, top: r.top, bottom: r.bottom, width: r.width, height: r.height, borderRadius: r.borderRadius }}
-            />
-          ))}
-        </div>
+        <SlideImage key={image.src} image={image} top={image.top ?? IMAGE_AREA_TOP} />
       ))}
       {slide.caption && (
         <p className="absolute inset-x-6 top-[488px] text-center font-label text-[12px] leading-[22.4px] text-secondary">
@@ -103,10 +154,25 @@ function Slide({ slide }: { slide: BeforeAfterSlide }) {
   );
 }
 
-/** Horizontal track of fixed-size slides; the next slide peeks in from the right edge. */
+/**
+ * Horizontal track of fixed-size slides; the next slide peeks in from the right edge.
+ * When the track is narrower than a slide, it switches to full-width compact slides.
+ */
 export default function BeforeAfterCarousel({ slides }: { slides: BeforeAfterSlide[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [edges, setEdges] = useState({ atStart: true, atEnd: false });
+  const [trackWidth, setTrackWidth] = useState<number | null>(null);
+  const compactWidth = trackWidth !== null && trackWidth < SLIDE_WIDTH ? trackWidth : null;
+
+  useLayoutEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const update = () => setTrackWidth(el.clientWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const updateEdges = () => {
     const el = trackRef.current;
@@ -118,7 +184,7 @@ export default function BeforeAfterCarousel({ slides }: { slides: BeforeAfterSli
   const step = (direction: 1 | -1) => {
     const el = trackRef.current;
     if (!el) return;
-    const stride = SLIDE_WIDTH + SLIDE_GAP;
+    const stride = (compactWidth ?? SLIDE_WIDTH) + SLIDE_GAP;
     const position = el.scrollLeft / stride;
     const target = direction > 0 ? Math.floor(position + 0.01) + 1 : Math.ceil(position - 0.01) - 1;
     el.scrollTo({ left: Math.max(0, target) * stride, behavior: "smooth" });
@@ -132,9 +198,13 @@ export default function BeforeAfterCarousel({ slides }: { slides: BeforeAfterSli
         className="flex overflow-x-auto overscroll-x-contain rounded-[var(--ds-radius-container)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ gap: SLIDE_GAP }}
       >
-        {slides.map((slide) => (
-          <Slide key={slide.title} slide={slide} />
-        ))}
+        {slides.map((slide) =>
+          compactWidth !== null ? (
+            <CompactSlide key={slide.title} slide={slide} width={compactWidth} />
+          ) : (
+            <Slide key={slide.title} slide={slide} />
+          )
+        )}
       </div>
       {!edges.atStart && <ArrowButton direction="left" onClick={() => step(-1)} />}
       {!edges.atEnd && <ArrowButton direction="right" onClick={() => step(1)} />}

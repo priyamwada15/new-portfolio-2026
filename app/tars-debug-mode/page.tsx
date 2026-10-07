@@ -64,14 +64,15 @@ function IterationRow({
   children: React.ReactNode;
 }) {
   const text = (
-    <div className="flex shrink-0 flex-col gap-4" style={{ width: textWidth }}>
+    <div className="flex shrink-0 flex-col gap-4 max-md:w-full! md:max-lg:w-[calc(50%-20px)]!" style={{ width: textWidth }}>
       <h3 className={caseStudyRowTitle}>{title}</h3>
       <div className={`${caseStudyText} flex flex-col gap-4`}>{children}</div>
     </div>
   );
-  const panel = <div className="min-w-0 flex-1">{media}</div>;
+  const panel = <div className="min-w-0 flex-1 max-md:order-first max-md:w-full max-md:flex-none">{media}</div>;
+  // Phones stack media above text, like MediaRow; tablets split the row evenly.
   return (
-    <div className="flex w-full items-start gap-10">
+    <div className="flex w-full items-start gap-10 max-md:flex-col max-md:items-stretch max-md:gap-6">
       {mediaSide === "left" ? panel : text}
       {mediaSide === "left" ? text : panel}
     </div>
@@ -198,14 +199,14 @@ export default function DebugModePage() {
           <div className="flex flex-col gap-4">
             <p className={caseStudyEyebrow}>Troubleshooting Time</p>
             <div className="flex flex-col gap-2">
-              <p className="font-label text-[32px] font-bold leading-none text-ink">~70%</p>
+              <p className="font-label text-[32px] font-bold leading-none text-ink max-md:text-[28px]">~70%</p>
               <p>Time that used to go into tracing broken flows by hand.</p>
             </div>
           </div>
         </SectionHeader>
       </section>
 
-      <section id="iterations" className="flex flex-col gap-[120px]">
+      <section id="iterations" className="flex flex-col gap-[120px] max-md:gap-20">
         <div className="flex flex-col gap-14">
           <SectionHeader
             eyebrow="Iterations"

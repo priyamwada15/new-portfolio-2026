@@ -41,14 +41,14 @@ export function SectionHeader({
   return (
     <div className="flex w-full flex-col gap-2">
       {eyebrow && <p className={caseStudyEyebrow}>{eyebrow}</p>}
-      <div className="flex w-full items-start gap-12">
+      <div className="flex w-full items-start gap-12 max-md:flex-col max-md:items-stretch max-md:gap-4">
         <div className="relative min-w-0 flex-1">
           <Heading className={subheading ? caseStudySubheading : caseStudyHeading}>{title}</Heading>
           {titleAdornment}
         </div>
         <div
           className={`${caseStudyText} flex min-w-0 flex-1 flex-col ${
-            bodyClassName ?? `${looseBody ? "gap-6" : "gap-4"} ${subheading ? "" : "pt-2"}`
+            bodyClassName ?? `${looseBody ? "gap-6" : "gap-4"} ${subheading ? "" : "pt-2 max-md:pt-0"}`
           }`}
         >
           {children}
@@ -74,18 +74,24 @@ export function CardRow({
 }) {
   const stat = variant === "stat";
   const dark = variant === "dark" || stat;
+  // Four or more cards wrap two to a row on tablets.
+  const wrap = cards.length >= 4;
   return (
-    <div className={`flex w-full items-stretch ${dark ? "gap-6" : "gap-12"}`}>
+    <div
+      className={`flex w-full items-stretch max-md:flex-col max-md:gap-4 ${dark ? "gap-6" : "gap-12"} ${
+        wrap ? "max-lg:flex-wrap md:max-lg:gap-6" : ""
+      }`}
+    >
       {cards.map((card) => (
         <div
           key={card.label}
-          className={`flex min-w-0 flex-1 flex-col ${
+          className={`flex min-w-0 flex-1 flex-col ${wrap ? "md:max-lg:basis-[calc(50%-12px)]" : ""} ${
             stat
-              ? "gap-6 rounded-[var(--ds-radius-container)] border border-border bg-surface-case-study px-[23px] py-[39px]"
+              ? "gap-6 rounded-[var(--ds-radius-container)] border border-border bg-surface-case-study px-[23px] py-[39px] max-md:py-[23px]"
               : `gap-3 rounded-[var(--ds-radius-container)] ${
                   dark
-                    ? "border border-[var(--accent-dark)] bg-[var(--accent-dark)] px-[23px] py-[39px]"
-                    : "bg-[var(--accent-light)] px-8 py-10"
+                    ? "border border-[var(--accent-dark)] bg-[var(--accent-dark)] px-[23px] py-[39px] max-md:py-[23px]"
+                    : "bg-[var(--accent-light)] px-8 py-10 max-md:p-6"
                 }`
           }`}
         >
@@ -97,7 +103,7 @@ export function CardRow({
             <p
               className={
                 stat
-                  ? "font-label text-[32px] font-semibold leading-[38px] text-[var(--accent-dark)]"
+                  ? "font-label text-[32px] font-semibold leading-[38px] text-[var(--accent-dark)] max-md:text-[28px] max-md:leading-[34px]"
                   : dark
                   ? `${caseStudyCardLabel} text-surface-page/50`
                   : "font-label text-[14px] font-semibold leading-[28px] text-[var(--accent-dark)]"
@@ -180,8 +186,8 @@ export function MediaTile({
 }
 
 /**
- * A 300px text column beside a cropped-screenshot tile. `imageSide` puts the
- * tile on the left or right; rows are meant to alternate. The tile keeps its
+ * A 300px text column beside a cropped-screenshot tile (stacked, tile first, on
+ * phones). `imageSide` puts the tile on the left or right; rows are meant to alternate. The tile keeps its
  * Figma aspect ratio (`media.frame`, default 668×346) as it scales.
  */
 export function MediaRow({
@@ -199,18 +205,18 @@ export function MediaRow({
 }) {
   const frame = media.frame ?? { width: 668, height: 346 };
   const text = (
-    <div className="flex w-[300px] shrink-0 flex-col gap-4">
+    <div className="flex w-[300px] shrink-0 flex-col gap-4 max-md:w-full">
       <h3 className={caseStudyRowTitle}>{title}</h3>
       <div className={`${caseStudyText} flex flex-col gap-4`}>{children}</div>
     </div>
   );
   const tile = (
-    <div className="min-w-0 flex-1" style={{ aspectRatio: `${frame.width} / ${frame.height}` }}>
+    <div className="min-w-0 flex-1 max-md:order-first max-md:w-full max-md:flex-none" style={{ aspectRatio: `${frame.width} / ${frame.height}` }}>
       <MediaTile {...media} frame={frame} className="size-full" />
     </div>
   );
   return (
-    <div className="flex w-full items-start gap-10">
+    <div className="flex w-full items-start gap-10 max-md:flex-col max-md:items-stretch max-md:gap-6">
       {imageSide === "left" ? tile : text}
       {imageSide === "left" ? text : tile}
     </div>
@@ -235,7 +241,7 @@ export function Testimonials({
         <p className={caseStudyEyebrow}>Testimonials</p>
         <h2 className={caseStudyHeading}>{title}</h2>
       </div>
-      <div className="flex w-full items-stretch gap-[58px] px-10">
+      <div className="flex w-full items-stretch gap-[58px] px-10 max-md:flex-col max-md:gap-4 max-md:px-0">
         {items.map((item) => (
           <figure
             key={item.name}

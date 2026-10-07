@@ -41,8 +41,8 @@ function ProblemCard({
 }: React.ComponentProps<typeof ProblemCardText> & { src: string; alt: string; full?: boolean }) {
   return (
     <div
-      className={`flex flex-col items-center gap-10 overflow-hidden rounded-[var(--ds-radius-container)] border border-border bg-surface-page px-10 pb-10 ${
-        full ? "justify-end pt-10" : ""
+      className={`flex flex-col items-center gap-10 overflow-hidden rounded-[var(--ds-radius-container)] border border-border bg-surface-page px-10 pb-10 max-md:gap-6 max-md:px-6 max-md:pb-6 ${
+        full ? "justify-end pt-10 max-md:pt-6" : ""
       }`}
     >
       <div
@@ -72,9 +72,9 @@ function ProblemSpace() {
           became the focus of the project.
         </p>
       </SectionHeader>
-      {/* 01 + quote sit in the right column; DOM order keeps 01 first for screen readers. */}
-      <div className="grid w-full grid-cols-2 gap-4">
-        <div className="order-2 flex flex-col gap-[21px]">
+      {/* 01 + quote sit in the right column; DOM order keeps 01 first for screen readers. Phones show DOM order. */}
+      <div className="grid w-full grid-cols-2 gap-4 max-md:grid-cols-1">
+        <div className="order-2 flex flex-col gap-[21px] max-md:order-none max-md:gap-4">
           <ProblemCard
             full
             src={`${PROBLEM_IMAGE_DIR}/Problem%201.avif`}
@@ -83,8 +83,8 @@ function ProblemSpace() {
             title="Everything was text"
             text="Answers came as paragraphs with nothing a client could act on."
           />
-          <figure className="flex flex-1 flex-col justify-center gap-4 rounded-[var(--ds-radius-container)] border border-border bg-surface-page p-10">
-            <blockquote className="font-label text-[18px] leading-[1.4] text-primary">
+          <figure className="flex flex-1 flex-col justify-center gap-4 rounded-[var(--ds-radius-container)] border border-border bg-surface-page p-10 max-md:p-6">
+            <blockquote className="font-label text-[18px] leading-[1.4] text-primary max-md:text-[16px]">
               <span className="font-black">&ldquo;</span> It&rsquo;s an authenticated experience so
               it should have my data, but this chat history tells me otherwise.{" "}
               <span className="font-black">&rdquo;</span>
@@ -94,7 +94,7 @@ function ProblemSpace() {
             </figcaption>
           </figure>
         </div>
-        <div className="order-1 flex flex-col gap-4">
+        <div className="order-1 flex flex-col gap-4 max-md:order-none">
           <ProblemCard
             src={`${PROBLEM_IMAGE_DIR}/Problem%202.avif`}
             alt="Rocket Assist giving the same generic loan-stage answer to every client"
@@ -146,10 +146,10 @@ const CORE_FLOWS = [
   },
 ];
 
-/** Text and phone video side by side, in two equal columns; the video side alternates. */
+/** Text and phone video side by side, in two equal columns; the video side alternates. Phones stack text above video. */
 function CoreFlows() {
   return (
-    <section id="core-flows" className="flex flex-col gap-28">
+    <section id="core-flows" className="flex flex-col gap-28 max-md:gap-16">
       <SectionHeader eyebrow="Core Flows" title="What I changed to keep clients in the chat">
         <p>
           I wanted more clients to get their answers in the chat and leave satisfied with it. That
@@ -160,7 +160,9 @@ function CoreFlows() {
       {CORE_FLOWS.map((flow, index) => (
         <div
           key={flow.title}
-          className={`flex w-full items-start gap-12 ${index % 2 === 1 ? "flex-row-reverse" : ""}`}
+          className={`flex w-full items-start gap-12 max-md:flex-col max-md:items-stretch max-md:gap-6 ${
+            index % 2 === 1 ? "flex-row-reverse" : ""
+          }`}
         >
           <div className="flex min-w-0 flex-1 flex-col gap-4">
             <h3 className={caseStudySubheading}>{flow.title}</h3>
@@ -174,7 +176,7 @@ function CoreFlows() {
           <SolutionShowcase
             videoSrc={flow.videoSrc}
             videoAlt={flow.videoAlt}
-            className="aspect-[480/747] min-w-0 flex-1 border border-border bg-surface-page"
+            className="aspect-[480/747] min-w-0 flex-1 border border-border bg-surface-page max-md:w-full max-md:flex-none"
             videoClassName="h-[89.29%] w-[67.29%] rounded-[41.94px] object-cover"
           />
         </div>
@@ -211,7 +213,7 @@ function Impact() {
           <div key={stat.label} className="flex flex-col gap-4">
             <h3 className={caseStudyEyebrow}>{stat.label}</h3>
             <div className="flex flex-col gap-2">
-              <p className="font-label text-[32px] font-bold leading-none text-ink">{stat.value}</p>
+              <p className="font-label text-[32px] font-bold leading-none text-ink max-md:text-[28px]">{stat.value}</p>
               <p>{stat.text}</p>
             </div>
           </div>

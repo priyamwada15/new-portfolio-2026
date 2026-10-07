@@ -89,7 +89,7 @@ export default function ResearchAreas() {
   }, []);
 
   return (
-    <div ref={ref} className="mx-auto flex w-[870px] max-w-full items-start gap-3">
+    <div ref={ref} className="mx-auto flex w-[870px] max-w-full items-start gap-3 max-md:hidden">
       {COLUMNS.map((column) => (
         <div key={column.category} className="flex min-w-0 flex-1 flex-col gap-[17px]">
           {column.items.map((item) => (

@@ -162,7 +162,7 @@ export default function AgentMentionVisual() {
   }, []);
 
   return (
-    <figure ref={ref} className={`flex w-full items-stretch gap-12 p-12 ${mediaPanel}`}>
+    <figure ref={ref} className={`flex w-full items-stretch gap-12 p-12 max-md:flex-col max-md:gap-8 max-md:p-4 ${mediaPanel}`}>
       <MentionBox
         label="Early direction"
         bots={TEAM_AGENTS}

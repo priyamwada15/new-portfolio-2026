@@ -196,7 +196,7 @@ export default function SalesforcePage() {
               alt=""
               width={32}
               height={32}
-              className="pointer-events-none absolute left-[-32px] top-[-15px] size-8 -rotate-[14.85deg]"
+              className="pointer-events-none absolute left-[-32px] top-[-15px] size-8 -rotate-[14.85deg] max-md:left-[-16px] max-md:top-[-18px] max-md:size-6"
             />
           }
         >

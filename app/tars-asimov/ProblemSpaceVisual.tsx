@@ -71,8 +71,8 @@ function Message({
  */
 export default function ProblemSpaceVisual() {
   return (
-    <figure className={`flex w-full flex-col gap-10 p-12 ${mediaPanel}`}>
-      <div className="flex w-full items-center gap-12">
+    <figure className={`flex w-full flex-col gap-10 p-12 max-md:gap-6 max-md:p-4 ${mediaPanel}`}>
+      <div className="flex w-full items-center gap-12 max-md:flex-col max-md:items-stretch max-md:gap-6">
         {/* Slack thread */}
         <div className="flex min-w-0 flex-[1.15] flex-col overflow-hidden rounded-2xl border border-border bg-surface-case-study shadow-[0_0_24px_rgba(0,0,0,0.04)]">
           <div className="border-b border-border px-5 py-3 font-label text-[14px] font-semibold text-primary">
@@ -112,7 +112,7 @@ export default function ProblemSpaceVisual() {
       </div>
 
       {/* How might we */}
-      <figcaption className="px-8 text-center font-label text-[18px] font-medium leading-[1.6] text-primary">
+      <figcaption className="px-8 text-center font-label text-[18px] font-medium leading-[1.6] text-primary max-md:px-0 max-md:text-[16px]">
         <span className="text-[var(--accent-dark)]">How might we</span>{" "}give startup teams an AI
         assistant in Slack that can find answers across their conversations and docs and act in
         their other tools, while they decide what it can see and do?

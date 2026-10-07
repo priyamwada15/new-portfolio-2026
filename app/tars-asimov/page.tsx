@@ -191,7 +191,7 @@ const RELEASES: {
       </>
     ),
     media: (
-      <div className="grid w-full grid-cols-2 items-start gap-8">
+      <div className="grid w-full grid-cols-2 items-start gap-8 max-md:grid-cols-1 max-md:gap-4">
         <PanelShot
           src="/new-asimov/Admin User Manage Settings Modal.avif"
           alt="Admin settings modal for managing who has access to configure Asimov"
@@ -513,7 +513,7 @@ export default function AsimovPage() {
         {RELEASES.map((release) =>
           release.split ? (
             <div key={release.number} className="flex flex-col gap-12">
-            <div className="flex w-full items-start gap-12">
+            <div className="flex w-full items-start gap-12 max-md:flex-col max-md:items-stretch max-md:gap-6">
               <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <p className={caseStudyEyebrow}>{release.label ?? `Release ${release.number}`}</p>
                 <div className="flex flex-col gap-4">
@@ -521,7 +521,7 @@ export default function AsimovPage() {
                   <div className={`${caseStudyText} flex flex-col gap-4`}>{release.body}</div>
                 </div>
               </div>
-              <div className="min-w-0 flex-1">{release.media}</div>
+              <div className="min-w-0 flex-1 max-md:flex-none">{release.media}</div>
             </div>
             </div>
           ) : (

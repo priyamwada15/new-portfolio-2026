@@ -35,17 +35,17 @@ export const caseStudySectionH2 =
  * Accent-coloured roles read `--accent-dark`, which CaseStudyLayout sets per brand.
  */
 
-/** Case study H1 — 32px Medium. */
+/** Case study H1 — 32px Medium (28px on phones). */
 export const caseStudyTitle =
-  "font-label text-[32px] font-medium leading-[1.4] text-primary" as const;
+  "font-label text-[32px] font-medium leading-[1.4] text-primary max-md:text-[28px]" as const;
 
-/** Section heading — 24px SemiBold. */
+/** Section heading — 24px SemiBold (20px on phones). */
 export const caseStudyHeading =
-  "font-label text-[24px] font-semibold leading-[1.45] text-primary" as const;
+  "font-label text-[24px] font-semibold leading-[1.45] text-primary max-md:text-[20px]" as const;
 
-/** Sub-heading inside a section — 18px Medium. */
+/** Sub-heading inside a section — 18px Medium (16px on phones). */
 export const caseStudySubheading =
-  "font-label text-[18px] font-medium leading-[1.45] text-primary" as const;
+  "font-label text-[18px] font-medium leading-[1.45] text-primary max-md:text-[16px]" as const;
 
 /** Eyebrow above a section heading (e.g. "Problem Space"). */
 export const caseStudyEyebrow =
@@ -55,17 +55,17 @@ export const caseStudyEyebrow =
 export const caseStudyText =
   "font-label text-[16px] font-normal leading-[1.6] text-secondary" as const;
 
-/** Title above a text + screenshot row — 18px SemiBold. */
+/** Title above a text + screenshot row — 18px SemiBold (16px on phones). */
 export const caseStudyRowTitle =
-  "font-label text-[18px] font-semibold leading-[1.6] text-primary" as const;
+  "font-label text-[18px] font-semibold leading-[1.6] text-primary max-md:text-[16px]" as const;
 
 /** Small label on a card (e.g. "01", "PRINCIPLE 01"). Colour set by card variant. */
 export const caseStudyCardLabel =
   "font-label text-[14px] font-normal leading-[28px]" as const;
 
-/** Main text on a card. Colour set by card variant. */
+/** Main text on a card. Colour set by card variant. 26px line height on phones. */
 export const caseStudyCardText =
-  "font-label text-[16px] font-medium leading-[28px]" as const;
+  "font-label text-[16px] font-medium leading-[28px] max-md:leading-[26px]" as const;
 
 /** Visual caption under media. */
 export const visualCaption =

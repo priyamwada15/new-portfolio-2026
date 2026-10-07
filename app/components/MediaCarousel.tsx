@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-/** Salesforce carousel sizes: 790px slides, 24px apart, inside a 1008 column. */
+/** Salesforce carousel sizes: 790px slides, 24px apart, inside a 1008 column. Full width on phones. */
 const SLIDE_WIDTH = "78.37%";
 const SLIDE_GAP = 24;
 /** Every slide's media area shares the product videos' shape, so slides line up. */
@@ -76,13 +76,13 @@ export default function MediaCarousel({ slides, label }: { slides: MediaSlide[];
         {slides.map((slide, i) => (
           <div
             key={slide.title}
-            className="flex shrink-0 flex-col overflow-hidden rounded-[var(--ds-radius-container)] border border-border bg-surface-media"
+            className="flex shrink-0 flex-col overflow-hidden rounded-[var(--ds-radius-container)] border border-border bg-surface-media max-md:w-full!"
             style={{ width: SLIDE_WIDTH }}
             role="group"
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${slides.length}: ${slide.title}`}
           >
-            <p className="px-6 pb-2 pt-8 font-label text-[14px] font-medium leading-[22.4px] text-primary">
+            <p className="px-6 pb-2 pt-8 max-md:px-4 max-md:pt-4 font-label text-[14px] font-medium leading-[22.4px] text-primary">
               {slide.title}
             </p>
             <div className="relative w-full overflow-hidden" style={{ aspectRatio: MEDIA_ASPECT }}>

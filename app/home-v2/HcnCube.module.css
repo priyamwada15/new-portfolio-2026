@@ -24,9 +24,10 @@
 }
 
 .front  { background: var(--ds-color-brand-hcn-adtua); transform: translateZ(calc(var(--size) / 2)); }
-.back   { background: var(--ds-color-brand-hcn-chomp); transform: rotateY(180deg) translateZ(calc(var(--size) / 2)); }
+/* Similar hues sit on opposite faces so they never touch: crimson/rose, orange/amber, olive/teal */
+.back   { background: var(--ds-color-brand-hcn-amber); transform: rotateY(180deg) translateZ(calc(var(--size) / 2)); }
 .right  { background: var(--ds-color-brand-hcn-rose);  transform: rotateY(90deg) translateZ(calc(var(--size) / 2)); }
-.left   { background: var(--ds-color-brand-hcn-amber); transform: rotateY(-90deg) translateZ(calc(var(--size) / 2)); }
+.left   { background: var(--ds-color-brand-hcn-chomp); transform: rotateY(-90deg) translateZ(calc(var(--size) / 2)); }
 .top    { background: var(--ds-color-brand-hcn-olive); transform: rotateX(90deg) translateZ(calc(var(--size) / 2)); }
 .bottom { background: var(--ds-color-brand-hcn-teal);  transform: rotateX(-90deg) translateZ(calc(var(--size) / 2)); }
 

@@ -60,6 +60,10 @@
   --ds-nav-active: var(--ds-color-brand-hcn-rose);
   --ds-nav-active-on-dark: var(--ds-color-brand-hcn-rose-light);
 
+  /* Nav logo disc, matching the logo SVG's circle (shown when the glyph fades while rolling) */
+  --ds-nav-logo-disc: var(--ds-color-ink);
+  --ds-nav-logo-disc-on-dark: var(--ds-color-logo-disc-light);
+
   /* Case study accent defaults (overridable per page via --accent-dark) */
   --ds-accent-default: var(--ds-color-primary);
   --ds-accent-subtle: var(--ds-color-gray-subtle);

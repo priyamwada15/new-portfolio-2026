@@ -106,6 +106,7 @@ export default function Nav() {
                 style={{ padding: "6px 12px 6px 0", display: "flex", alignItems: "center" }}
                 textColor={isPlayground ? PLAYGROUND_NAV_ICON_COLOR : undefined}
                 logoSrc={isPlayground ? "/logos/nav-logo-playground.svg" : undefined}
+                logoDiscColor={isPlayground ? "var(--ds-nav-logo-disc-on-dark)" : undefined}
               />
 
               {/* Text links from 640px up */}

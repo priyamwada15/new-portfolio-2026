@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import { FLIP_BOARD_REVEAL_IMAGE_OVERLAP_PX } from "./flip-board/constants";
 import { HOME_SCROLL_REVEAL_CSS_DEFAULTS } from "../home-v2/homeScrollRevealDial.config";
 import DevAgentation from "./DevAgentation";
+import CaseStudyTransition from "./CaseStudyTransition";
 
 const FlipBoardFooter = dynamic(
   () => import("./flip-board/FlipBoardFooter"),
@@ -71,7 +72,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen flex-1 flex-col">
       <Nav />
       <main className="flex-1 overflow-visible">
-        {children}
+        <CaseStudyTransition isCaseStudy={isCaseStudy}>{children}</CaseStudyTransition>
       </main>
       {!useFlipBoardFooter ? <Footer /> : null}
     </div>

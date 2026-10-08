@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  experimental: {
+    // Case study sheet transition (app/components/CaseStudyTransition.tsx).
+    viewTransition: true,
+  },
   images: {
     remotePatterns: [
       {

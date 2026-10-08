@@ -1008,3 +1008,95 @@ body {
     var(--home-scroll-sheet-radius-br)
   );
 }
+
+/* ── Case study transition ───────────────────────────────────────────────
+   Driven by app/components/CaseStudyTransition.tsx.
+     html[data-cs-pending]    from the click until the next page commits
+     html[data-cs-transition] while the view transition runs
+   The nav stays put. The page content blurs and fades out and the next
+   page's content blurs in. "Content" is <main> plus anything portaled out of
+   it that is marked [data-cs-fade] (the case study side TOC). */
+:root {
+  --cs-vt-out: 260ms;
+  --cs-vt-in: 380ms;
+  --cs-vt-in-delay: 0ms;
+  --cs-vt-blur: 8px;
+}
+
+.site-nav-sticky {
+  view-transition-name: site-nav;
+}
+
+:root[data-cs-pending] [data-cs-fade],
+:root[data-cs-transition] [data-cs-fade] {
+  view-transition-name: cs-side;
+}
+/* Separate names for the outgoing and incoming content, so each snapshot
+   stays where it was on its own page instead of morphing between them. */
+:root[data-cs-pending] main {
+  view-transition-name: cs-content-out;
+}
+:root[data-cs-transition] main {
+  view-transition-name: cs-content-in;
+}
+
+/* Immediate feedback on click, while the next route loads. The view
+   transition's old snapshot picks up from here. */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-cs-pending] main,
+  :root[data-cs-pending] [data-cs-fade] {
+    opacity: 0;
+    filter: blur(var(--cs-vt-blur));
+    transition:
+      opacity var(--cs-vt-out) ease-in,
+      filter var(--cs-vt-out) ease-in;
+  }
+}
+
+:root[data-cs-transition]::view-transition-group(site-nav) {
+  animation: none;
+  z-index: 3;
+}
+:root[data-cs-transition]::view-transition-old(site-nav) {
+  display: none;
+}
+:root[data-cs-transition]::view-transition-new(site-nav) {
+  animation: none;
+}
+
+:root[data-cs-transition]::view-transition-group(cs-content-out),
+:root[data-cs-transition]::view-transition-group(cs-content-in),
+:root[data-cs-transition]::view-transition-group(cs-side) {
+  z-index: 2;
+}
+:root[data-cs-transition]::view-transition-old(cs-content-out),
+:root[data-cs-transition]::view-transition-old(cs-side) {
+  animation: cs-vt-blur-out var(--cs-vt-out) ease-in both;
+}
+:root[data-cs-transition]::view-transition-new(cs-content-in),
+:root[data-cs-transition]::view-transition-new(cs-side) {
+  animation: cs-vt-blur-in var(--cs-vt-in) ease-out var(--cs-vt-in-delay) both;
+}
+
+@keyframes cs-vt-blur-out {
+  to {
+    opacity: 0;
+    filter: blur(var(--cs-vt-blur));
+  }
+}
+
+@keyframes cs-vt-blur-in {
+  from {
+    opacity: 0;
+    filter: blur(var(--cs-vt-blur));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-cs-transition]::view-transition-old(cs-content-out),
+  :root[data-cs-transition]::view-transition-new(cs-content-in),
+  :root[data-cs-transition]::view-transition-old(cs-side),
+  :root[data-cs-transition]::view-transition-new(cs-side) {
+    animation: none;
+  }
+}

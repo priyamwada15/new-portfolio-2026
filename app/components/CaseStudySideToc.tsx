@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
+import { SiteLink } from "./SiteLink";
 import { Popover } from "radix-ui";
 import { ArrowLeft, CaretUp } from "@phosphor-icons/react";
 import styles from "./CaseStudySideToc.module.css";
@@ -135,10 +135,10 @@ export function CaseStudySideToc({ items, alignToId }: { items: SideTocItem[]; a
         aria-label="Case study navigation"
         inert={!visible}
       >
-        <Link href="/" className={`cursor-hover-pointer ${styles.back}`}>
+        <SiteLink href="/" className={`cursor-hover-pointer ${styles.back}`}>
           <ArrowLeft size={14} weight="bold" aria-hidden="true" />
           Back
-        </Link>
+        </SiteLink>
         <nav aria-label="Table of contents">
           <ol className={styles.list}>
             {items.map(({ id, label }) => (
@@ -168,10 +168,10 @@ export function CaseStudySideToc({ items, alignToId }: { items: SideTocItem[]; a
             data-cs-fade
             inert={!barVisible}
           >
-            <Link href="/" className={styles.barBack}>
+            <SiteLink href="/" className={styles.barBack}>
               <ArrowLeft size={14} weight="bold" aria-hidden="true" />
               Back
-            </Link>
+            </SiteLink>
             <span className={styles.barDivider} aria-hidden="true" />
             <Popover.Trigger className={styles.barContents} aria-label={`Contents, current section: ${activeLabel}`}>
               <span ref={labelBoxRef} className={styles.barLabelBox}>

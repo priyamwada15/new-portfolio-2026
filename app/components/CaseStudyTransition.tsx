@@ -2,6 +2,7 @@
 
 import { ViewTransition, useEffect, useLayoutEffect } from "react";
 import { isCaseStudyPath } from "@/design-system";
+import { stripReviewBase } from "../lib/reviewPath";
 
 /** Fallback for browsers without `document.activeViewTransition`. */
 const CLEAR_AFTER_MS = 3000;
@@ -55,7 +56,7 @@ function useBlurOnClick() {
       if (!(link instanceof HTMLAnchorElement) || link.target === "_blank" || link.hasAttribute("download")) return;
       const url = new URL(link.href);
       if (url.origin !== location.origin || url.pathname === location.pathname) return;
-      if (isCaseStudyPath(url.pathname) === isCaseStudyPath(location.pathname)) return;
+      if (isCaseStudyPath(stripReviewBase(url.pathname)) === isCaseStudyPath(stripReviewBase(location.pathname))) return;
 
       const root = document.documentElement;
       root.dataset.csPending = "";

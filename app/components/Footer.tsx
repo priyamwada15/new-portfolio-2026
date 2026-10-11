@@ -5,7 +5,7 @@ import {
   LinkedinLogo,
   XLogo,
 } from "@phosphor-icons/react";
-import { usePathname } from "next/navigation";
+import { useSitePathname } from "../lib/reviewPath";
 import { useState } from "react";
 import {
   TooltipProvider,
@@ -34,7 +34,7 @@ function useTilt(deg: number) {
 }
 
 export default function Footer() {
-  const pathname = usePathname();
+  const pathname = useSitePathname();
   const x = useTilt(8);
   const linkedin = useTilt(-8);
   const github = useTilt(8);

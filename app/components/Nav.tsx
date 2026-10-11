@@ -2,7 +2,6 @@
 
 import { Briefcase, DiscoBall, FileText, LinkedinLogo } from "@phosphor-icons/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
   TooltipProvider,
@@ -20,6 +19,7 @@ import { useHideOnScroll } from "./useHideOnScroll";
 import { isCaseStudyPath } from "../lib/caseStudy";
 import { CopyEmailIcon } from "./CopyEmailIcon";
 import { NavBrandLink } from "./NavBrandLink";
+import { useSiteHref, useSitePathname } from "../lib/reviewPath";
 
 const tiltTransition = "transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1)" as const;
 
@@ -45,7 +45,8 @@ const PLAYGROUND_NAV_ICON_COLOR = "#F6F6FB";
 const navTextClass = "cursor-hover-pointer text-[14px] leading-none transition-opacity hover:opacity-75";
 
 export default function Nav() {
-  const pathname = usePathname();
+  const pathname = useSitePathname();
+  const siteHref = useSiteHref();
   const isHomeV2 = pathname === "/";
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const isPlayground =
@@ -101,7 +102,7 @@ export default function Nav() {
               }}
             >
               <NavBrandLink
-                href="/"
+                href={siteHref("/")}
                 className={`cursor-hover-pointer rounded-full transition-opacity ${pathname === "/" ? "" : "hover:opacity-75"}`}
                 style={{ padding: "6px 12px 6px 0", display: "flex", alignItems: "center" }}
                 textColor={isPlayground ? PLAYGROUND_NAV_ICON_COLOR : undefined}
@@ -112,7 +113,7 @@ export default function Nav() {
               {/* Text links from 640px up */}
               <div className="hidden sm:flex items-center gap-6">
                 <Link
-                  href="/"
+                  href={siteHref("/")}
                   className={navTextClass}
                   style={navTextStyle(isHomeV2)}
                   aria-current={isHomeV2 ? "page" : undefined}
@@ -120,7 +121,7 @@ export default function Nav() {
                   work
                 </Link>
                 <Link
-                  href="/playground"
+                  href={siteHref("/playground")}
                   className={navTextClass}
                   style={navTextStyle(isPlayground)}
                   aria-current={isPlayground ? "page" : undefined}
@@ -144,7 +145,7 @@ export default function Nav() {
                   className={navTextClass}
                 />
                 <a
-                  href="/resume"
+                  href={siteHref("/resume")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={navTextClass}
@@ -163,7 +164,7 @@ export default function Nav() {
                     onMouseLeave={work.onMouseLeave}
                   >
                     <Link
-                      href="/"
+                      href={siteHref("/")}
                       className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
                       aria-label="Work"
                       aria-current={isHomeV2 ? "page" : undefined}
@@ -183,7 +184,7 @@ export default function Nav() {
                     onMouseLeave={disco.onMouseLeave}
                   >
                     <Link
-                      href="/playground"
+                      href={siteHref("/playground")}
                       className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
                       aria-label="Playground"
                       aria-current={isPlayground ? "page" : undefined}
@@ -234,7 +235,7 @@ export default function Nav() {
                     onMouseLeave={resume.onMouseLeave}
                   >
                     <a
-                      href="/resume"
+                      href={siteHref("/resume")}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="cursor-hover-pointer flex items-center justify-center w-8 h-8"

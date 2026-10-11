@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { SiteLink } from "@/app/components/SiteLink";
 import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -43,8 +43,8 @@ export function HomeV2CardLink({
   }
 
   return (
-    <Link href={href} aria-label={ariaLabel} style={linkStyle} className={mergedClassName}>
+    <SiteLink href={href} aria-label={ariaLabel} style={linkStyle} className={mergedClassName}>
       {children}
-    </Link>
+    </SiteLink>
   );
 }

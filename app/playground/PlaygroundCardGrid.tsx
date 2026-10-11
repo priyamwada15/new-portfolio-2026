@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { RESPONSIVE_CONTENT_WIDTH_CLASS } from "@/design-system";
 import { PLAY_PORTFOLIO_ITEMS, type PlayPortfolioItem } from "@/app/lib/playPortfolio";
+import { useSiteHref } from "@/app/lib/reviewPath";
 
 // Stable id used as a programmatic focus target once the facade dissolves,
 // and as a valid focus target itself (tabIndex={-1} keeps it out of the
@@ -71,6 +72,7 @@ function PlaygroundCardVideo({ item, videosEnabled }: { item: PlayPortfolioItem;
 }
 
 export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridProps) {
+  const siteHref = useSiteHref();
   return (
     <div
       id={PLAYGROUND_CARD_GRID_FOCUS_ID}
@@ -114,7 +116,7 @@ export function PlaygroundCardGrid({ inert, videosEnabled }: PlaygroundCardGridP
           return (
             <a
               key={item.id}
-              href={href}
+              href={siteHref(href)}
               target="_blank"
               rel="noopener noreferrer"
               className="playground-card cursor-hover-pointer flex flex-col gap-6"

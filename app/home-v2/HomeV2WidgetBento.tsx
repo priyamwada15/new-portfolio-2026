@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { homeBentoTileLabelStyle } from "@/design-system";
 import type { ListeningWidgetData } from "@/app/lib/spotify";
+import { useSiteHref } from "@/app/lib/reviewPath";
 
 type HomeV2WidgetBentoProps = {
   data: ListeningWidgetData | null;
@@ -51,10 +52,11 @@ const ARCADE_SPEED_LINES: Array<{ left: number; top: number; width: number }> = 
 
 function ArcadeEffWonTile({ style }: { style: CSSProperties }) {
   const [hovered, setHovered] = useState(false);
+  const siteHref = useSiteHref();
 
   return (
     <a
-      href="/arcade-effwon"
+      href={siteHref("/arcade-effwon")}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Open Arcade EffWon"
@@ -341,10 +343,11 @@ const KINETIC_PLATE_STAGGER_MS = 70;
 
 function KineticFacadeTile({ style }: { style: CSSProperties }) {
   const [hovered, setHovered] = useState(false);
+  const siteHref = useSiteHref();
 
   return (
     <a
-      href="/kinetic-facade"
+      href={siteHref("/kinetic-facade")}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Open Kinetic Facade"

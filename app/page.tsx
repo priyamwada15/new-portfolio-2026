@@ -16,6 +16,7 @@ import { FunThingsLink } from "./home-v2/FunThingsLink";
 import { GutterPixels } from "./home-v2/GutterPixels";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { RocketMortgageTripleVideos } from "@/app/components/RocketMortgageTripleVideos";
+import { SiteAnchor } from "@/app/components/SiteLink";
 import styles from "./home-v2/home.module.css";
 
 /** A screen recording cropped to its app window and fitted to the card's height. */
@@ -128,7 +129,7 @@ export default function HomePage() {
               Outside of work, I build{" "}
               <FunThingsLink className={`cursor-hover-pointer ${styles.introLink}`} />.
               You can explore some of my recent experiments{" "}
-              <a href="/playground" className={`cursor-hover-pointer ${styles.introLink}`}>here</a>.
+              <SiteAnchor href="/playground" className={`cursor-hover-pointer ${styles.introLink}`}>here</SiteAnchor>.
             </p>
             <p className={styles.currentLabel}>
               <HcnCube />

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { SiteLink } from "../components/SiteLink";
 import { SunlightEffect } from "../components/SunlightEffect";
 import { SUNLIGHT_SHADER_GITHUB_HREF } from "../lib/playPortfolio";
 
@@ -16,9 +16,9 @@ export default function SunlightPage() {
     >
       <SunlightEffect />
       <div className="relative z-[2] flex min-h-screen w-full items-center justify-center gap-6 px-6">
-        <Link href="/" className={linkClass} style={figtree} aria-label="Back to homepage">
+        <SiteLink href="/" className={linkClass} style={figtree} aria-label="Back to homepage">
           Back Home
-        </Link>
+        </SiteLink>
         <a
           href={SUNLIGHT_SHADER_GITHUB_HREF}
           target="_blank"

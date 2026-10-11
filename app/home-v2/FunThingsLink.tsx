@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./FunThingsLink.module.css";
+import { SiteAnchor } from "../components/SiteLink";
 
 /** Left, center (front), right, matching the hand-drawn fan. */
 const CARDS = [
@@ -15,9 +16,9 @@ const CARDS = [
 export function FunThingsLink({ className }: { className?: string }) {
   return (
     <span className={styles.wrap}>
-      <a href="/playground" className={className}>
+      <SiteAnchor href="/playground" className={className}>
         fun things
-      </a>
+      </SiteAnchor>
       <span className={styles.fan} aria-hidden="true">
         {CARDS.map(({ src, position }) => (
           <span key={src} className={`${styles.card} ${position}`}>

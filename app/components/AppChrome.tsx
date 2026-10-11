@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useSitePathname } from "../lib/reviewPath";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import { CASE_STUDY_PAGE_BG, HOME_V2_PAGE_BG, PLAYGROUND_PAGE_BG, SITE_DEFAULT_PAGE_BG } from "@/design-system";
@@ -17,7 +17,7 @@ const FlipBoardFooter = dynamic(
   { ssr: false },
 );
 export default function AppChrome({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+  const pathname = useSitePathname();
   const isHomeV2 = pathname === "/";
   const bareArcadeEffwon =
     pathname === "/arcade-effwon" || pathname.startsWith("/arcade-effwon/");

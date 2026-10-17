@@ -7,6 +7,7 @@ import {
   type CroppedVideo,
 } from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
+import { CardLogos } from "./home-v2/CardLogos";
 import { PriyamwadaNameLink } from "./home-v2/PriyamwadaNameLink";
 import { LazyVideo } from "./home-v2/LazyVideo";
 import { AdtuaSnapshot } from "./home-v2/AdtuaSnapshot";
@@ -79,12 +80,12 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
     <HomeV2CardLink href={study.href} ariaLabel={`${study.title}. ${study.ariaLabel}`} className={`cursor-hover-dark ${styles.card}`}>
       <div className={styles.cardHeader}>
         <div className={styles.cardMeta}>
-          <div className={styles.cardLogos}>
+          <CardLogos className={styles.cardLogos}>
             {study.logos.map((logo) => (
               // eslint-disable-next-line @next/next/no-img-element
               <img key={logo.src} src={logo.src} alt={logo.alt} className={logo.tall ? styles.logoTall : undefined} />
             ))}
-          </div>
+          </CardLogos>
           <div className={styles.tags}>
             {study.tags.map((tag) => (
               <span key={tag} className={styles.tag}>{tag}</span>

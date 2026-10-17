@@ -1,4 +1,4 @@
-import { mediaPanel } from "@/design-system";
+import { caseStudySubheading, mediaPanel } from "@/design-system";
 
 const PAINS = [
   {
@@ -112,7 +112,7 @@ export default function ProblemSpaceVisual() {
       </div>
 
       {/* How might we */}
-      <figcaption className="px-8 text-center font-label text-[18px] font-medium leading-[1.6] text-primary max-md:px-0 max-md:text-[16px]">
+      <figcaption className={`px-8 text-center max-md:px-0 ${caseStudySubheading}`}>
         <span className="text-[var(--accent-dark)]">How might we</span>{" "}give startup teams an AI
         assistant in Slack that can find answers across their conversations and docs and act in
         their other tools, while they decide what it can see and do?

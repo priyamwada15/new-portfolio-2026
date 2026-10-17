@@ -20,11 +20,11 @@ const PROBLEM_IMAGE_DIR = "/new-rocket-mortgage-case-page";
 function ProblemCardText({ number, title, text }: { number: string; title: string; text: string }) {
   return (
     <div className="flex w-full flex-col gap-3">
-      <p className="flex gap-2 font-label text-[18px] leading-[28px]">
+      <p className={`flex gap-2 ${caseStudySubheading}`}>
         <span className="font-semibold text-[var(--accent-dark)]">{number}</span>
-        <span className="font-medium text-primary">{title}</span>
+        <span>{title}</span>
       </p>
-      <p className="font-label text-[16px] leading-[24px] text-secondary">{text}</p>
+      <p className={caseStudyText}>{text}</p>
     </div>
   );
 }
@@ -85,10 +85,9 @@ function ProblemSpace() {
             text="Answers came as paragraphs with nothing a client could act on."
           />
           <figure className="flex flex-1 flex-col justify-center gap-4 rounded-[var(--ds-radius-container)] border border-border bg-surface-page p-10 max-md:p-6">
-            <blockquote className="font-label text-[18px] leading-[1.4] text-primary max-md:text-[16px]">
-              <span className="font-black">&ldquo;</span> It&rsquo;s an authenticated experience so
-              it should have my data, but this chat history tells me otherwise.{" "}
-              <span className="font-black">&rdquo;</span>
+            <blockquote className={caseStudySubheading}>
+              &ldquo;It&rsquo;s an authenticated experience so it should have my data, but this chat
+              history tells me otherwise.&rdquo;
             </blockquote>
             <figcaption className="text-right font-label text-[14px] leading-[24px] text-tertiary">
               Rocket Mortgage Client

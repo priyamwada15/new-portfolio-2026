@@ -10,7 +10,7 @@ import {
   Robot,
   type Icon,
 } from "@phosphor-icons/react";
-import { mediaPanel } from "@/design-system";
+import { caseStudyEyebrow, mediaPanel } from "@/design-system";
 
 /** Full class strings so Tailwind can see them. */
 const AVATAR = {
@@ -78,7 +78,7 @@ function MentionBox({
   const listOpen = state.rows > 0;
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-4">
-      <p className="font-label text-[12px] font-semibold uppercase leading-[21px] tracking-[0.08em] text-[var(--accent-dark)]">
+      <p className={caseStudyEyebrow}>
         {label}
       </p>
       <div className="flex flex-1 flex-col justify-end gap-2">

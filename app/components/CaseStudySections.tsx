@@ -253,7 +253,7 @@ export function Testimonials({
             </blockquote>
             <figcaption className="flex flex-col gap-1">
               <span className="flex items-center gap-2">
-                <span className="min-w-0 flex-1 font-label text-[14px] font-bold uppercase leading-[21px] text-[var(--accent-dark)]">
+                <span className={`min-w-0 flex-1 ${caseStudyEyebrow}`}>
                   {item.name}
                 </span>
                 <a

@@ -96,7 +96,7 @@ function MentionBox({
           <span className="ml-[1px] inline-block h-[18px] w-[1.5px] animate-pulse bg-primary" aria-hidden="true" />
         </div>
       </div>
-      <p className="font-label text-[14px] leading-[22px] text-secondary">{caption}</p>
+      <p className="text-center font-label text-[14px] leading-[22px] text-secondary">{caption}</p>
     </div>
   );
 }

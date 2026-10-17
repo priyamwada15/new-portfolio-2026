@@ -8,6 +8,7 @@ import {
   caseStudyEyebrow,
   caseStudyHeading,
   caseStudyRowTitle,
+  caseStudyStatNumber,
   caseStudySubheading,
   caseStudyText,
 } from "@/design-system";
@@ -103,7 +104,7 @@ export function CardRow({
             <p
               className={
                 stat
-                  ? "font-label text-[32px] font-semibold leading-[38px] text-[var(--accent-dark)] max-md:text-[28px] max-md:leading-[34px]"
+                  ? caseStudyStatNumber
                   : dark
                   ? `${caseStudyCardLabel} text-surface-page/50`
                   : "font-label text-[14px] font-semibold leading-[28px] text-[var(--accent-dark)]"

@@ -6,6 +6,7 @@ import {
   brands,
   caseStudyEyebrow,
   caseStudyRowTitle,
+  caseStudyStatNumber,
   caseStudySubheading,
   caseStudyText,
   caseStudyTitle,
@@ -213,7 +214,7 @@ function Impact() {
           <div key={stat.label} className="flex flex-col gap-4">
             <h3 className={caseStudyEyebrow}>{stat.label}</h3>
             <div className="flex flex-col gap-2">
-              <p className="font-label text-[32px] font-bold leading-none text-ink max-md:text-[28px]">{stat.value}</p>
+              <p className={caseStudyStatNumber}>{stat.value}</p>
               <p>{stat.text}</p>
             </div>
           </div>

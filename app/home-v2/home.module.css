@@ -491,6 +491,18 @@
 .cardLogos img {
   height: 20px;
   width: auto;
+  /* Neutral gray at rest so logos don't compete with the title; brand colour on card hover. */
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition:
+    filter 400ms cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 400ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.card:hover .cardLogos img,
+.card:focus-visible .cardLogos img {
+  filter: grayscale(0);
+  opacity: 1;
 }
 
 /* Salesforce's cloud mark is taller than the wordmark logos */

@@ -8,6 +8,7 @@ import {
   brands,
   caseStudyEyebrow,
   caseStudyRowTitle,
+  caseStudyStatNumber,
   caseStudySubheading,
   caseStudyText,
   caseStudyTitle,
@@ -199,7 +200,7 @@ export default function DebugModePage() {
           <div className="flex flex-col gap-4">
             <p className={caseStudyEyebrow}>Troubleshooting Time</p>
             <div className="flex flex-col gap-2">
-              <p className="font-label text-[32px] font-bold leading-none text-ink max-md:text-[28px]">~70%</p>
+              <p className={caseStudyStatNumber}>~70%</p>
               <p>Time that used to go into tracing broken flows by hand.</p>
             </div>
           </div>

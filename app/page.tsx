@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import {
   ASIMOV_HERO_VIDEO,
   HOME_V2_PAGE_BG,
-  SALESFORCE_HERO_VIDEO,
   TARS_DEBUG_MODE_HERO_VIDEO,
   croppedVideoStyles,
   type CroppedVideo,
@@ -72,23 +71,7 @@ const CASE_STUDIES: CaseStudy[] = [
     tags: ["B2B SaaS", "Complex Workflows", "Internal Tool"],
     media: <CroppedCardVideo video={TARS_DEBUG_MODE_HERO_VIDEO} ariaLabel="Tars Debug Mode preview video" />,
   },
-  {
-    href: "/salesforce",
-    ariaLabel: "Read Salesforce case study",
-    logos: [{ src: "/logos/salesforce.svg", alt: "Salesforce", tall: true }],
-    title: "Designing a 0→1 AI platform for fragmented academic data",
-    tags: ["B2B2C", "0→1", "AI Product Design"],
-    media: (
-      <div className={styles.mediaInset}>
-        <LazyVideo
-          src={SALESFORCE_HERO_VIDEO}
-          poster="/Salesforce Poster.avif"
-          ariaLabel="Salesforce case study preview video"
-          style={{ width: "100%", height: "100%", objectFit: "contain" }}
-        />
-      </div>
-    ),
-  },
+  // Salesforce is hidden until it's reworked; its page still lives at app/salesforce.
 ];
 
 function CaseStudyCard({ study }: { study: CaseStudy }) {

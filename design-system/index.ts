@@ -17,6 +17,7 @@ export {
   caseStudyRowTitle,
   caseStudyCardLabel,
   caseStudyCardText,
+  caseStudyStatNumber,
   visualCaption,
   iterationLabel,
   salesforceH2,

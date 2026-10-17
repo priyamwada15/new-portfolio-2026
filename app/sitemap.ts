@@ -25,11 +25,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/salesforce`,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
       url: `${BASE_URL}/tars-debug-mode`,
       changeFrequency: "monthly",
       priority: 0.7,

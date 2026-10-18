@@ -7,7 +7,7 @@ import {
   type CroppedVideo,
 } from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
-import { CardLogos } from "./home-v2/CardLogos";
+import { CompanyLogos } from "./home-v2/CompanyLogos";
 import { PriyamwadaNameLink } from "./home-v2/PriyamwadaNameLink";
 import { LazyVideo } from "./home-v2/LazyVideo";
 import { AdtuaSnapshot } from "./home-v2/AdtuaSnapshot";
@@ -34,68 +34,113 @@ function CroppedCardVideo({ video, ariaLabel, rounded }: { video: CroppedVideo; 
 type CaseStudy = {
   href: string;
   ariaLabel: string;
-  logos: { src: string; alt: string; tall?: boolean }[];
   title: string;
+  outcome: string;
   tags: string[];
   media: ReactNode;
 };
 
-const CASE_STUDIES: CaseStudy[] = [
+type Company = {
+  name: string;
+  logos: { src: string; alt: string; tall?: boolean }[];
+  role: string;
+  dates: string;
+  summary: string;
+  studies: CaseStudy[];
+};
+
+// Salesforce is hidden until it's reworked; its page still lives at app/salesforce.
+const COMPANIES: Company[] = [
   {
-    href: "/tars-asimov",
-    ariaLabel: "Read Asimov for Tars case study",
-    logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
-    title: "Designing the agent configuration platform and design system for Asimov as its founding designer",
-    tags: ["B2B SaaS", "0→1", "Workflow Design"],
-    media: <CroppedCardVideo video={ASIMOV_HERO_VIDEO} ariaLabel="Asimov for Tars preview video" rounded />,
-  },
-  {
-    href: "/rocket-mortgage",
-    ariaLabel: "Read Rocket Mortgage case study",
-    logos: [
-      { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
-      { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
+    name: "Rocket Mortgage",
+    logos: [{ src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" }],
+    role: "Conversational AI Design Intern",
+    dates: "Summer 2025",
+    summary: "I redesigned Rocket Assist, the AI assistant homebuyers talk to through their loan.",
+    studies: [
+      {
+        href: "/rocket-mortgage",
+        ariaLabel: "Read Rocket Mortgage case study",
+        title: "Personalizing AI guidance across 6.8M+ client conversations",
+        outcome: "In usability testing, 92% of clients found the redesign more helpful and 75% found it more trustworthy.",
+        tags: ["B2C Fintech", "AI Assistant", "Trust Design"],
+        media: (
+          <div className={styles.mediaTriple}>
+            <RocketMortgageTripleVideos className="h-full aspect-auto sm:aspect-auto" />
+          </div>
+        ),
+      },
     ],
-    title: "Personalizing AI guidance across 6.8M+ client conversations",
-    tags: ["B2C Fintech", "AI Assistant", "Trust Design"],
-    media: (
-      <div className={styles.mediaTriple}>
-        <RocketMortgageTripleVideos className="h-full aspect-auto sm:aspect-auto" />
-      </div>
-    ),
   },
   {
-    href: "/tars-debug-mode",
-    ariaLabel: "Read TARS debug mode case study",
-    logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
-    title: "Designing an internal debugger that cut troubleshooting time by ~70%",
-    tags: ["B2B SaaS", "Complex Workflows", "Internal Tool"],
-    media: <CroppedCardVideo video={TARS_DEBUG_MODE_HERO_VIDEO} ariaLabel="Tars Debug Mode preview video" />,
+    name: "Tars",
+    logos: [{ src: "/logos/tars.svg", alt: "Tars" }],
+    role: "Product Designer",
+    dates: "2021 – 2024",
+    summary:
+      "One of the first design hires at a startup where teams build AI agents. I designed its AI agent for Slack and the tool its teams used to debug agents.",
+    studies: [
+      {
+        href: "/tars-asimov",
+        ariaLabel: "Read Asimov for Tars case study",
+        title: "Designing the agent configuration platform and design system for Asimov",
+        outcome: "~74% fewer repeat questions landing on teammates, with 86% of Asimov's answers rated helpful.",
+        tags: ["B2B SaaS", "0→1", "Workflow Design"],
+        media: <CroppedCardVideo video={ASIMOV_HERO_VIDEO} ariaLabel="Asimov for Tars preview video" rounded />,
+      },
+      {
+        href: "/tars-debug-mode",
+        ariaLabel: "Read Tars Debug Mode case study",
+        title: "Designing an internal debugger that cut troubleshooting time by ~70%",
+        outcome: "One place for the CS team and developers to see where an agent's flow broke, and why.",
+        tags: ["B2B SaaS", "Complex Workflows", "Internal Tool"],
+        media: <CroppedCardVideo video={TARS_DEBUG_MODE_HERO_VIDEO} ariaLabel="Tars Debug Mode preview video" />,
+      },
+    ],
   },
-  // Salesforce is hidden until it's reworked; its page still lives at app/salesforce.
 ];
 
 function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
     <HomeV2CardLink href={study.href} ariaLabel={`${study.title}. ${study.ariaLabel}`} className={`cursor-hover-dark ${styles.card}`}>
-      <div className={styles.cardHeader}>
-        <div className={styles.cardMeta}>
-          <CardLogos className={styles.cardLogos}>
-            {study.logos.map((logo) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={logo.src} src={logo.src} alt={logo.alt} className={logo.tall ? styles.logoTall : undefined} />
-            ))}
-          </CardLogos>
-          <div className={styles.tags}>
-            {study.tags.map((tag) => (
-              <span key={tag} className={styles.tag}>{tag}</span>
-            ))}
-          </div>
-        </div>
-        <h3 className={styles.cardTitle}>{study.title}</h3>
-      </div>
       <div className={styles.cardMedia}>{study.media}</div>
+      <div className={styles.cardText}>
+        <h4 className={styles.cardTitle}>{study.title}</h4>
+        <p className={styles.cardOutcome}>{study.outcome}</p>
+        <div className={styles.tags}>
+          {study.tags.map((tag) => (
+            <span key={tag} className={styles.tag}>{tag}</span>
+          ))}
+        </div>
+      </div>
     </HomeV2CardLink>
+  );
+}
+
+/** One company: its logo, role, dates and summary pinned on the left, its case studies on the right. */
+function CompanyGroup({ company }: { company: Company }) {
+  return (
+    <section className={styles.group} aria-label={company.name} data-company-group>
+      <div className={styles.company}>
+        <h3 className="sr-only">{company.name}</h3>
+        <CompanyLogos className={styles.companyLogos}>
+          {company.logos.map((logo) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={logo.src} src={logo.src} alt={logo.alt} className={logo.tall ? styles.logoTall : undefined} />
+          ))}
+        </CompanyLogos>
+        <p className={styles.companyRole}>{company.role}</p>
+        <p className={styles.companyDates}>{company.dates}</p>
+        <p className={styles.companySummary}>{company.summary}</p>
+      </div>
+      <div className={styles.studies}>
+        {company.studies.map((study) => (
+          <ScrollReveal key={study.href}>
+            <CaseStudyCard study={study} />
+          </ScrollReveal>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -131,10 +176,8 @@ export default function HomePage() {
         </section>
 
         <section className={styles.work} aria-label="Case studies" data-pixel-blocks>
-          {CASE_STUDIES.map((study) => (
-            <ScrollReveal key={study.href}>
-              <CaseStudyCard study={study} />
-            </ScrollReveal>
+          {COMPANIES.map((company) => (
+            <CompanyGroup key={company.name} company={company} />
           ))}
         </section>
       </div>

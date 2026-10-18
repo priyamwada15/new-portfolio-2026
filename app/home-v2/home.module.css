@@ -446,18 +446,111 @@
 
 /* ── Case studies ─────────────────────────────────────── */
 
+/* Case studies grouped by company: no dividers, so groups are separated by
+   more space (120px) than the case studies inside a group (64px). */
 .work {
   padding-top: 120px;
   display: flex;
   flex-direction: column;
-  gap: 88px;
+  gap: 120px;
 }
 
 @media (max-width: 1023px) {
   .work {
     padding-top: 88px;
-    gap: 72px;
+    gap: 88px;
   }
+}
+
+.group {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+}
+
+@media (min-width: 1024px) {
+  .group {
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 56px;
+  }
+}
+
+/* Company column: pinned beside its case studies on desktop, released at the end of the group. */
+.company {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .company {
+    position: sticky;
+    top: 104px;
+    align-self: start;
+  }
+}
+
+.companyLogos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.companyLogos img {
+  height: 20px;
+  width: auto;
+  /* Neutral gray until the company's group is scrolled into view (CompanyLogos). */
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition:
+    filter 400ms cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 400ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.companyLogos[data-in-view] img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+/* Salesforce's cloud mark is taller than the wordmark logos */
+.companyLogos img.logoTall {
+  height: 28px;
+}
+
+.companyRole {
+  margin: 0;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+  color: var(--ds-text-primary);
+}
+
+.companyDates {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ds-text-tertiary);
+}
+
+.companySummary {
+  margin: 16px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ds-text-secondary);
+  text-wrap: pretty;
+}
+
+@media (max-width: 1023px) {
+  .companySummary {
+    max-width: 62ch;
+  }
+}
+
+.studies {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
 }
 
 .card {
@@ -468,47 +561,15 @@
   overflow: visible !important;
 }
 
-.cardHeader {
+.card:focus-visible {
+  outline: 2px solid var(--ds-text-ink);
+  outline-offset: 8px;
+  border-radius: var(--ds-radius-container);
+}
+
+.cardText {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.cardMeta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.cardLogos {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.cardLogos img {
-  height: 20px;
-  width: auto;
-  /* Neutral gray at rest so logos don't compete with the title; brand colour on card hover. */
-  filter: grayscale(1);
-  opacity: 0.55;
-  transition:
-    filter 400ms cubic-bezier(0.25, 1, 0.5, 1),
-    opacity 400ms cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.card:hover .cardLogos img,
-.card:focus-visible .cardLogos img,
-.cardLogos[data-in-view] img {
-  filter: grayscale(0);
-  opacity: 1;
-}
-
-/* Salesforce's cloud mark is taller than the wordmark logos */
-.cardLogos img.logoTall {
-  height: 28px;
 }
 
 .cardTitle {
@@ -528,6 +589,19 @@
   }
 }
 
+.cardOutcome {
+  margin: 8px 0 0;
+  max-width: 62ch;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ds-text-secondary);
+  text-wrap: pretty;
+}
+
+.cardText .tags {
+  margin-top: 16px;
+}
+
 .cardMedia {
   position: relative;
   width: 100%;
@@ -535,6 +609,8 @@
   border-radius: var(--ds-radius-container);
   /* Matches the #fafafa baked into the case study videos */
   background: var(--ds-surface-page);
+  /* Same 1px border as the case study media panels (mediaPanel) */
+  border: 1px solid var(--ds-border-default);
   overflow: hidden;
 }
 

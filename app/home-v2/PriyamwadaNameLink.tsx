@@ -6,7 +6,7 @@ import { CreativeLicenseLightbox } from "./CreativeLicenseLightbox";
 import styles from "./PriyamwadaNameLink.module.css";
 
 const nameLinkStyle = {
-  color: "var(--ds-text-muted)",
+  color: "var(--ds-text-tertiary)",
   textDecoration: "underline",
   textDecorationStyle: "dotted" as const,
   textUnderlineOffset: "3px",

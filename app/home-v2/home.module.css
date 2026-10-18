@@ -149,7 +149,7 @@
 }
 
 .introLink {
-  color: var(--ds-text-muted);
+  color: var(--ds-text-tertiary);
   text-decoration: underline dotted;
   text-underline-offset: 3px;
 }
@@ -168,7 +168,7 @@
 
 .currentRole {
   font-weight: 500;
-  color: var(--ds-text-ink);
+  color: var(--ds-text-primary);
 }
 
 /* Adtua snapshot trigger */
@@ -199,7 +199,7 @@
   font-size: 16px;
   line-height: 22px;
   font-weight: 500;
-  color: var(--ds-text-ink);
+  color: var(--ds-text-primary);
 }
 
 .snapshotMedia {
@@ -328,7 +328,7 @@
   place-items: center;
   border-radius: 50%;
   background: var(--ds-surface-home);
-  color: var(--ds-text-ink);
+  color: var(--ds-text-primary);
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
@@ -380,7 +380,7 @@
   margin: 0;
   font-size: 16px;
   line-height: 24px;
-  color: var(--ds-text-muted);
+  color: var(--ds-text-tertiary);
 }
 
 .dialogText {
@@ -434,7 +434,7 @@
   font-weight: 500;
   letter-spacing: 0.48px;
   text-transform: uppercase;
-  color: var(--ds-text-muted);
+  color: var(--ds-text-tertiary);
 }
 
 .facts dd {

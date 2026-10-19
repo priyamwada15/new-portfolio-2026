@@ -17,6 +17,24 @@
   outline-offset: 8px;
 }
 
+/* Gentle idle float: a slow bob with a hint of sway, layered under the cursor follow */
+.float {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: licenseFloat 6s ease-in-out infinite;
+}
+
+@keyframes licenseFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-0.6deg);
+  }
+}
+
 /* Cursor tilt, set every frame by HeroLicenseCard */
 .tilt {
   position: relative;
@@ -56,8 +74,12 @@
   transform: rotateY(180deg);
 }
 
-/* Reduced motion: no 3D flip, the faces crossfade instead */
+/* Reduced motion: no float, no 3D flip; the faces crossfade instead */
 @media (prefers-reduced-motion: reduce) {
+  .float {
+    animation: none;
+  }
+
   .flip,
   .flip[data-flipped] {
     transform: none;

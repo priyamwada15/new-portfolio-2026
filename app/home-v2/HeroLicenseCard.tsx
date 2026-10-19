@@ -26,7 +26,8 @@ const BACK_ALT =
 /**
  * Priyamwada's creative license, front and centre in the hero. It turns and
  * drifts toward the cursor and flips to its back on click, tap, drag, Enter
- * or Space. No auto-spin. Reduced motion: no follow, and the flip is a crossfade.
+ * or Space. At rest it floats gently in place. No auto-spin. Reduced motion:
+ * no float or follow, and the flip is a crossfade.
  */
 export function HeroLicenseCard() {
   const [flipped, setFlipped] = useState(false);
@@ -40,8 +41,8 @@ export function HeroLicenseCard() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!el || !fine || reduced) return;
 
-    // Measured on the untransformed button, so the drift doesn't feed back into itself.
-    const anchor = el.parentElement ?? el;
+    // Measured on the untransformed button, so the drift and float don't feed back into it.
+    const anchor = el.closest("button") ?? el;
     // dx/dy: cursor position around the card centre, -1 to 1.
     let target = { dx: 0, dy: 0 };
     const current = { dx: 0, dy: 0 };
@@ -109,24 +110,26 @@ export function HeroLicenseCard() {
       onPointerCancel={onPointerEnd}
       aria-label={flipped ? "Creative license, back. Press to see the front." : "Creative license, front. Press to see the back."}
     >
-      <div className={styles.tilt} ref={tiltRef}>
-        <div className={styles.flip} data-flipped={flipped || undefined}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/26june-homepage-assets/creative-license-front.avif"
-            alt={FRONT_ALT}
-            aria-hidden={flipped || undefined}
-            className={`${styles.face} ${styles.front}`}
-            draggable={false}
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/26june-homepage-assets/creative-license-back.avif"
-            alt={BACK_ALT}
-            aria-hidden={!flipped || undefined}
-            className={`${styles.face} ${styles.back}`}
-            draggable={false}
-          />
+      <div className={styles.float}>
+        <div className={styles.tilt} ref={tiltRef}>
+          <div className={styles.flip} data-flipped={flipped || undefined}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/26june-homepage-assets/creative-license-front.avif"
+              alt={FRONT_ALT}
+              aria-hidden={flipped || undefined}
+              className={`${styles.face} ${styles.front}`}
+              draggable={false}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/26june-homepage-assets/creative-license-back.avif"
+              alt={BACK_ALT}
+              aria-hidden={!flipped || undefined}
+              className={`${styles.face} ${styles.back}`}
+              draggable={false}
+            />
+          </div>
         </div>
       </div>
     </button>

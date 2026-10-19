@@ -117,7 +117,7 @@ export default function HomePage() {
           {/* The Adtua snapshot card (AdtuaSnapshot) is off the homepage for now; it'll move to a "currently working on" section. */}
         </section>
 
-        <section className={styles.work} aria-label="Case studies" data-pixel-blocks>
+        <section id="work" className={styles.work} aria-label="Case studies" data-pixel-blocks>
           {CASE_STUDIES.map((study) => (
             <ScrollReveal key={study.href}>
               <CaseStudyCard study={study} />

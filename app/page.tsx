@@ -10,7 +10,6 @@ import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { CardLogos } from "./home-v2/CardLogos";
 import { CloudsHero } from "./home-v2/CloudsHero";
 import { LazyVideo } from "./home-v2/LazyVideo";
-import { GutterPixels } from "./home-v2/GutterPixels";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
 import { RocketMortgageTripleVideos } from "@/app/components/RocketMortgageTripleVideos";
 import styles from "./home-v2/home.module.css";
@@ -102,7 +101,7 @@ export default function HomePage() {
           ))}
         </section>
       </div>
-      <GutterPixels />
+      {/* The gutter pixel trail (home-v2/GutterPixels) is switched off for now. */}
     </div>
   );
 }

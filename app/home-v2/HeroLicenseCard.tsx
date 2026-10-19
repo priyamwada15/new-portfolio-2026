@@ -19,9 +19,9 @@ const FOLLOW_EASE = 0.1;
 const DRAG_FLIP_PX = 40;
 
 const FRONT_ALT =
-  "Creative license card for Priyamwada Pandey, Product Designer, license number ARPR115D, issued September 2021, valid until curiosity expires.";
+  "Creative license card for Priyamwada Pandey, Product Designer, license number ARPR115D, issued September 2021, renewed by curiosity, authorized to make it weirder.";
 const BACK_ALT =
-  "Back of the creative license: notes on what this designer is known for, and that she's open for full time roles and contract work.";
+  "Back of the creative license. Open for full time roles and contract work. Known to research the Indian maximalist graphic movement obsessively, sketch floor plans when she misses her architecture roots, and daydream about a prototype studio with all the sensors. 3+ years of experience, 2 countries worked, 13+ products shipped.";
 
 /**
  * Priyamwada's creative license, front and centre in the hero. It turns and
@@ -113,7 +113,7 @@ export function HeroLicenseCard() {
         <div className={styles.flip} data-flipped={flipped || undefined}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/26june-homepage-assets/Creative License Front.png"
+            src="/26june-homepage-assets/creative-license-front.avif"
             alt={FRONT_ALT}
             aria-hidden={flipped || undefined}
             className={`${styles.face} ${styles.front}`}
@@ -121,7 +121,7 @@ export function HeroLicenseCard() {
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/26june-homepage-assets/Creative License Back.png"
+            src="/26june-homepage-assets/creative-license-back.avif"
             alt={BACK_ALT}
             aria-hidden={!flipped || undefined}
             className={`${styles.face} ${styles.back}`}

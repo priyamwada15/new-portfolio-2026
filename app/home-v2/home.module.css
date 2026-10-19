@@ -16,9 +16,9 @@
   width: 86%;
   max-width: 1008px;
   margin: 0 auto;
-  /* No bottom padding on desktop: the flip-board footer gap follows directly,
-     same as the previous homepage */
-  padding: 32px 0 0;
+  /* No top padding: the hero sits above this column now and sets the gap.
+     No bottom padding on desktop: the flip-board footer gap follows directly. */
+  padding: 0;
   display: flex;
   flex-direction: column;
 }
@@ -26,12 +26,6 @@
 @media (max-width: 1024px) {
   .layout {
     padding-bottom: 6rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  .layout {
-    padding-top: 72px;
   }
 }
 
@@ -334,7 +328,8 @@
 /* ── Case studies ─────────────────────────────────────── */
 
 .work {
-  padding-top: 120px;
+  /* With the hero's 32px bottom padding: 88px from the headline to the first case study */
+  padding-top: 56px;
   display: flex;
   flex-direction: column;
   gap: 88px;
@@ -342,7 +337,7 @@
 
 @media (max-width: 1023px) {
   .work {
-    padding-top: 88px;
+    padding-top: 40px;
     gap: 72px;
   }
 }

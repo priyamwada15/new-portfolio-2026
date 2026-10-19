@@ -4,6 +4,9 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import { HeroLicenseCard } from "./HeroLicenseCard";
 import styles from "./CloudsHero.module.css";
 
+/** Clouds are hidden for now; set to true to bring them back. */
+const SHOW_CLOUDS = false;
+
 /** Clouds: file, on-screen width, height in the hero (kept above the headline), resting spot (reduced motion), drift duration and parallax depth. */
 const CLOUDS = [
   { src: "/hero/cloud-0.webp", w: 520, top: "30%", rest: "2%", duration: 150, delay: -40, depth: 14 },
@@ -22,7 +25,7 @@ export function CloudsHero() {
   // Clouds lean a little toward the cursor.
   useEffect(() => {
     const hero = heroRef.current;
-    if (!hero) return;
+    if (!hero || !SHOW_CLOUDS) return;
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!fine || reduced) return;
@@ -36,6 +39,7 @@ export function CloudsHero() {
 
   return (
     <section ref={heroRef} className={styles.hero} aria-label="Introduction">
+      {SHOW_CLOUDS && (
       <div className={styles.clouds} aria-hidden="true">
         {CLOUDS.map((c) => (
           <div
@@ -48,6 +52,7 @@ export function CloudsHero() {
           </div>
         ))}
       </div>
+      )}
 
       <div className={styles.card}>
         <HeroLicenseCard />

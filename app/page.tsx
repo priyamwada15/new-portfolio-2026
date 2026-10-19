@@ -16,7 +16,7 @@ type CaseStudy = {
   logos: { src: string; alt: string; tall?: boolean }[];
   title: string;
   tags: string[];
-  /** Solarpunk illustration behind the card. The coded UI will sit in its calm centre. */
+  /** Solarpunk illustration behind the card, fine-dithered (lossless WebP). The coded UI will sit in its calm centre. */
   scene: string;
 };
 
@@ -27,7 +27,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: [{ src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" }],
     title: "Personalizing AI guidance across 6.8M+ client conversations",
     tags: ["B2C Fintech", "AI Assistant", "Trust Design"],
-    scene: "/case-study-scenes/rocket-mortgage-scene.avif",
+    scene: "/case-study-scenes/rocket-mortgage-scene.webp",
   },
   {
     href: "/tars-asimov",
@@ -35,7 +35,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
     title: "Designing the agent configuration platform and design system for Asimov",
     tags: ["B2B SaaS", "0→1", "Workflow Design"],
-    scene: "/case-study-scenes/asimov-scene.avif",
+    scene: "/case-study-scenes/asimov-scene.webp",
   },
   {
     href: "/tars-debug-mode",
@@ -43,7 +43,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
     tags: ["B2B SaaS", "Complex Workflows", "Internal Tool"],
-    scene: "/case-study-scenes/debug-mode-scene.avif",
+    scene: "/case-study-scenes/debug-mode-scene.webp",
   },
   // Salesforce is hidden until it's reworked; its page still lives at app/salesforce.
 ];
@@ -64,7 +64,8 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
         <h3 className={styles.cardTitle}>{study.title}</h3>
       </div>
       <div className={styles.cardMedia}>
-        <Image src={study.scene} alt="" fill sizes="(max-width: 1171px) 86vw, 1008px" className={styles.cardScene} />
+        {/* Unoptimized: re-encoding would blur the dither dots, so the lossless file is served as is. */}
+        <Image src={study.scene} alt="" fill unoptimized className={styles.cardScene} />
       </div>
     </HomeV2CardLink>
   );

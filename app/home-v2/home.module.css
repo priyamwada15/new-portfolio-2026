@@ -509,6 +509,15 @@
   height: 28px;
 }
 
+/* Case study tags as one plain line, e.g. "B2C Fintech, AI Assistant, Trust Design" */
+.cardTags {
+  margin: 0;
+  font-size: 12px;
+  line-height: 17px;
+  font-weight: 500;
+  color: var(--ds-text-secondary);
+}
+
 .cardTitle {
   margin: 0;
   font-size: 24px;
@@ -531,47 +540,25 @@
   width: 100%;
   aspect-ratio: 1008 / 575;
   border-radius: var(--ds-radius-container);
-  /* Matches the #fafafa baked into the case study videos */
+  /* Shows while the scene loads */
   background: var(--ds-surface-page);
   overflow: hidden;
 }
 
-/* Single video / preview, framed the same way the old homepage cards were */
+/* Solarpunk scene filling the card. The coded UI will sit in its calm centre. */
+.cardScene {
+  object-fit: cover;
+}
+
+/* Single video / preview, framed the same way the old homepage cards were (kept for Salesforce) */
 .mediaInset {
   position: absolute;
   inset: 0;
   padding: 56px 56px 24px;
 }
 
-/* Screen recordings cropped to their app window, centered with even padding */
-.mediaCrop {
-  position: absolute;
-  inset: 0;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
-}
-
-/* Matches the Asimov window's own rounded corners */
-.cropRounded {
-  border-radius: 12px;
-}
-
-/* Rocket Mortgage's three phone videos */
-.mediaTriple {
-  position: absolute;
-  inset: 0;
-  padding: 24px;
-}
-
 @media (max-width: 767px) {
   .mediaInset {
     padding: 20px 16px 12px;
-  }
-  .mediaTriple {
-    padding: 12px;
-  }
-  .mediaCrop {
-    padding: 16px;
   }
 }

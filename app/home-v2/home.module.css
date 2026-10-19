@@ -60,18 +60,57 @@
 
 /* ── Hero ─────────────────────────────────────────────── */
 
+/* Centred hero: the creative license card, then the headline and subline under it. */
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 48px;
+  text-align: center;
 }
 
 @media (min-width: 1024px) {
   .hero {
-    grid-template-columns: minmax(0, 1fr) 320px;
-    gap: 64px;
-    align-items: center;
+    gap: 56px;
   }
+}
+
+.heroCard {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: clamp(36px, 6.4vw, 72px);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ds-text-primary);
+  text-wrap: balance;
+}
+
+/* Three set lines on wider screens; phones wrap naturally */
+@media (min-width: 640px) {
+  .heroTitle span {
+    display: block;
+  }
+}
+
+.heroSub {
+  margin: 28px 0 0;
+  max-width: 56ch;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ds-text-secondary);
+  text-wrap: pretty;
 }
 
 /* Hero appears on load with the same rise-and-fade as the case study cards
@@ -102,73 +141,6 @@
       opacity: 0;
     }
   }
-}
-
-/* Below 1024px the hero stacks, so Adtua moves after the case studies:
-   the hero's children join .layout's flex column and get reordered.
-   There it scroll-reveals like the cards instead of playing the load animation. */
-@media (max-width: 1023px) {
-  .hero {
-    display: contents;
-  }
-
-  .work {
-    order: 1;
-  }
-
-  .adtuaSlot {
-    order: 2;
-    margin-top: 72px;
-    animation: none;
-  }
-}
-
-/* On desktop Adtua sits in the hero and uses the load animation, so the
-   scroll reveal wrapper stays inert */
-@media (min-width: 1024px) {
-  .adtuaSlot :global(.card-reveal) {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-
-.intro {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 624px;
-}
-
-.introPara {
-  margin: 0;
-  font-size: 18px;
-  line-height: 29px;
-  color: var(--ds-text-secondary);
-  text-wrap: pretty;
-}
-
-.introLink {
-  color: var(--ds-text-tertiary);
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-}
-
-.currentLabel {
-  margin: 0;
-  padding: 8px 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  line-height: 17px;
-  font-weight: 400;
-  color: var(--ds-text-secondary);
-}
-
-.currentRole {
-  font-weight: 500;
-  color: var(--ds-text-primary);
 }
 
 /* Adtua snapshot trigger */

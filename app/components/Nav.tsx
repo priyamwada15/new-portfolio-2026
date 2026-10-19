@@ -57,11 +57,17 @@ export default function Nav() {
     const nav = navRef.current;
     const more = moreRef.current;
     if (!pill || !nav || !more) return;
+    let current = -1;
     const sync = () => {
       // On phones the links sit in their own pill below and take no width here.
       const inline = getComputedStyle(more).position !== "absolute";
-      const closed = pill.offsetWidth - (inline ? more.offsetWidth : 0);
-      nav.style.setProperty("--nav-closed-w", `${closed}px`);
+      // Fractional widths: whole-pixel offsetWidth rounds differently frame to
+      // frame, which nudged the whole pill half a pixel back and forth.
+      const closed = pill.getBoundingClientRect().width - (inline ? more.getBoundingClientRect().width : 0);
+      // Ignore sub-pixel noise; real changes (fonts loading, route change) are larger.
+      if (Math.abs(closed - current) < 0.5) return;
+      current = closed;
+      nav.style.setProperty("--nav-closed-w", `${closed.toFixed(2)}px`);
     };
     sync();
     const ro = new ResizeObserver(sync);

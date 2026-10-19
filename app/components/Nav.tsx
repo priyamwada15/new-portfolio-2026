@@ -1,259 +1,246 @@
 "use client";
 
-import { Briefcase, DiscoBall, FileText, LinkedinLogo } from "@phosphor-icons/react";
 import Link from "next/link";
-import { useState } from "react";
-import {
-  TooltipProvider,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "./animate-ui/tooltip";
-import {
-  CASE_STUDY_CHROME_BG,
-  HOME_V2_PAGE_BG,
-  PLAYGROUND_PAGE_BG,
-  SITE_DEFAULT_PAGE_BG,
-} from "@/design-system";
-import { useHideOnScroll } from "./useHideOnScroll";
-import { isCaseStudyPath } from "../lib/caseStudy";
+import { useRouter } from "next/navigation";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { TooltipProvider } from "./animate-ui/tooltip";
 import { CopyEmailIcon } from "./CopyEmailIcon";
-import { NavBrandLink } from "./NavBrandLink";
+import { isCaseStudyPath } from "../lib/caseStudy";
 import { useSiteHref, useSitePathname } from "../lib/reviewPath";
+import { smoothScrollToElement } from "../lib/smoothScroll";
+import styles from "./Nav.module.css";
 
-const tiltTransition = "transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1)" as const;
+/** Grace period before the contact links tuck away once the cursor leaves. */
+const CLOSE_DELAY_MS = 220;
 
-function useTilt(deg: number) {
-  const [hovered, setHovered] = useState(false);
-  return {
-    onMouseEnter: () => setHovered(true),
-    onMouseLeave: () => setHovered(false),
-    iconStyle: {
-      display: "inline-flex",
-      transform: hovered ? `rotate(${deg}deg)` : "rotate(0deg)",
-      transition: tiltTransition,
-    } as React.CSSProperties,
-  };
-}
-
-// Playground's page background is dark (#0a0a0a); Nav's default icon/text
-// colors are tuned for the site's light-background pages and read as
-// near-invisible there. Not promoted to a design-system token yet — this
-// is the only page using it.
-const PLAYGROUND_NAV_ICON_COLOR = "#F6F6FB";
-
-const navTextClass = "cursor-hover-pointer text-[14px] leading-none transition-opacity hover:opacity-75";
-
+/**
+ * Site nav: a fixed, blurred pill centred at the top of every page.
+ * Hovering, focusing, clicking or tapping "contact" disperses LinkedIn, email
+ * and resume out of it (to the right on wider screens, below on phones).
+ * The pill keeps its left edge put while it widens, so the links grow rightward.
+ */
 export default function Nav() {
   const pathname = useSitePathname();
   const siteHref = useSiteHref();
-  const isHomeV2 = pathname === "/";
-  const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
-  const isPlayground =
-    pathname === "/fun" || (pathname?.startsWith("/fun/") ?? false);
-  const caseStudyBg = isCaseStudy ? CASE_STUDY_CHROME_BG : null;
-  const navIconColor = isPlayground ? PLAYGROUND_NAV_ICON_COLOR : "#555555";
-  // Current page link is rose; Playground's dark page uses the lifted rose
-  const navActiveColor = isPlayground
-    ? "var(--ds-nav-active-on-dark)"
-    : "var(--ds-nav-active)";
-  const navTextStyle = (active: boolean): React.CSSProperties => ({
-    fontFamily: "var(--font-hind), sans-serif",
-    fontWeight: 500,
-    color: active ? navActiveColor : navIconColor,
-  });
-  // Solid fill behind the sticky nav so scrolled content doesn't show through it
-  const navSurfaceBg = isHomeV2
-    ? HOME_V2_PAGE_BG
-    : isPlayground
-      ? PLAYGROUND_PAGE_BG
-      : (caseStudyBg ?? SITE_DEFAULT_PAGE_BG);
-  const navHidden = useHideOnScroll();
+  const router = useRouter();
+  const onHome = pathname === "/";
+  // On the homepage, "work" takes over from "home" once the case studies reach the upper part of the screen.
+  const [workInView, setWorkInView] = useState(false);
+  const isHome = onHome && !workInView;
+  const isWork = (onHome && workInView) || (pathname ? isCaseStudyPath(pathname) : false);
+  const isFun = pathname === "/fun" || pathname.startsWith("/fun/");
 
-  const work = useTilt(8);
-  const disco = useTilt(-8);
-  const linkedin = useTilt(8);
-  const mail = useTilt(-8);
-  const resume = useTilt(8);
+  const [open, setOpen] = useState(false);
+  const moreId = useId();
+  const pillRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
+  const moreRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pointerType = useRef("");
+
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = null;
+  };
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setOpen(false), CLOSE_DELAY_MS);
+  };
+
+  // Keep the pill's left edge anchored: centre the nav on its closed width.
+  // Measured as the pill minus the contact links' current width, so it stays
+  // correct while they open and close and the pill never shifts sideways.
+  useLayoutEffect(() => {
+    const pill = pillRef.current;
+    const nav = navRef.current;
+    const more = moreRef.current;
+    if (!pill || !nav || !more) return;
+    let current = -1;
+    const sync = () => {
+      // On phones the links sit in their own pill below and take no width here.
+      const inline = getComputedStyle(more).position !== "absolute";
+      // Fractional widths: whole-pixel offsetWidth rounds differently frame to
+      // frame, which nudged the whole pill half a pixel back and forth.
+      const closed = pill.getBoundingClientRect().width - (inline ? more.getBoundingClientRect().width : 0);
+      // Ignore sub-pixel noise; real changes (fonts loading, route change) are larger.
+      if (Math.abs(closed - current) < 0.5) return;
+      current = closed;
+      nav.style.setProperty("--nav-closed-w", `${closed.toFixed(2)}px`);
+    };
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(pill);
+    ro.observe(more);
+    return () => ro.disconnect();
+  }, [pathname]);
+
+  // Close on Escape or a press outside the contact group.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      buttonRef.current?.focus();
+    };
+    const onPointer = (e: PointerEvent) => {
+      if (!contactRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointer);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointer);
+    };
+  }, [open]);
+
+  useEffect(() => () => cancelClose(), []);
+
+  useEffect(() => {
+    if (!onHome) return;
+    const work = document.getElementById("work");
+    if (!work) return;
+    const observer = new IntersectionObserver(([entry]) => setWorkInView(entry.isIntersecting), {
+      // A line 30% down the screen: below the nav, and below where the case studies start on load.
+      rootMargin: "-30% 0px -70% 0px",
+    });
+    observer.observe(work);
+    return () => {
+      observer.disconnect();
+      setWorkInView(false);
+    };
+  }, [onHome]);
+
+  // "work" glides to the case studies. From another page it goes home first, then glides.
+  const pendingWorkScroll = useRef(false);
+  const scrollToWork = () => {
+    const work = document.getElementById("work");
+    if (work) smoothScrollToElement(work);
+  };
+  useEffect(() => {
+    if (!onHome || !pendingWorkScroll.current) return;
+    pendingWorkScroll.current = false;
+    // Let the route-change scroll-to-top settle before gliding down.
+    const id = setTimeout(scrollToWork, 120);
+    return () => clearTimeout(id);
+  }, [onHome]);
+  const onWorkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    if (onHome) {
+      scrollToWork();
+    } else {
+      pendingWorkScroll.current = true;
+      router.push(siteHref("/"));
+    }
+  };
+
+  // Route changes close the contact links.
+  const [shownPath, setShownPath] = useState(pathname);
+  if (shownPath !== pathname) {
+    setShownPath(pathname);
+    setOpen(false);
+  }
+
+  const onContactClick = () => {
+    // A mouse already opened it on hover, so a click shouldn't close it again.
+    if (pointerType.current === "mouse") setOpen(true);
+    else setOpen((o) => !o);
+  };
+
+  const link = (href: string, label: string, active: boolean) => (
+    <Link href={href} className={styles.link} data-active={active || undefined} aria-current={active ? "page" : undefined}>
+      {label}
+    </Link>
+  );
 
   return (
-    // Sticky wrapper slides the nav up while scrolling down and back on scroll up.
-    // Kept separate from the inner div because its hero-intro animation holds a transform.
-    <div
-      className="site-nav-sticky"
-      data-hidden={navHidden || undefined}
-      style={{ backgroundColor: navSurfaceBg }}
-    >
-    <div
-      className="relative z-50 w-full pt-[16px] pb-[16px] xl:pt-8 xl:pb-2 hero-intro hero-intro--nav-top"
-      style={caseStudyBg ? { backgroundColor: caseStudyBg } : undefined}
-    >
-      <div className="w-[86%] max-w-[1008px] mx-auto pointer-events-auto">
+    <>
+      {/* Keeps page content clear of the fixed nav, at the height the old in-flow nav took. */}
+      <div className={styles.spacer} aria-hidden="true" />
+      <nav ref={navRef} className={`site-nav ${styles.nav}`} data-dark={isFun || undefined} aria-label="Main">
         <TooltipProvider openDelay={150} closeDelay={150}>
-          <div className="relative rounded-full">
-            <div
-              className="relative flex items-center justify-between h-[60px] rounded-full"
-              style={{
-                background: caseStudyBg
-                  ? caseStudyBg
-                  : isHomeV2
-                    ? "rgba(255, 255, 255, 0.15)"
-                    : "transparent",
-              }}
-            >
-              <NavBrandLink
-                href={siteHref("/")}
-                className={`cursor-hover-pointer rounded-full transition-opacity ${pathname === "/" ? "" : "hover:opacity-75"}`}
-                style={{ padding: "6px 12px 6px 0", display: "flex", alignItems: "center" }}
-                textColor={isPlayground ? PLAYGROUND_NAV_ICON_COLOR : undefined}
-                logoSrc={isPlayground ? "/logos/nav-logo-playground.svg" : undefined}
-                logoDiscColor={isPlayground ? "var(--ds-nav-logo-disc-on-dark)" : undefined}
-              />
-
-              {/* Text links from 640px up */}
-              <div className="hidden sm:flex items-center gap-6">
-                <Link
-                  href={siteHref("/")}
-                  className={navTextClass}
-                  style={navTextStyle(isHomeV2)}
-                  aria-current={isHomeV2 ? "page" : undefined}
+          <div ref={pillRef} className={`site-nav-pill ${styles.pill} hero-intro hero-intro--nav-top`}>
+            <Link href={siteHref("/")} className={styles.mark} aria-label="Priyamwada Pandey, home">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logos/nav-mark.svg" alt="" width={44} height={44} />
+            </Link>
+            <div className={styles.links}>
+              {link(siteHref("/"), "home", isHome)}
+              <Link
+                href={`${siteHref("/")}#work`}
+                onClick={onWorkClick}
+                className={styles.link}
+                data-active={isWork || undefined}
+                aria-current={isWork ? "location" : undefined}
+              >
+                work
+              </Link>
+              {link(siteHref("/fun"), "fun", isFun)}
+              {/* "about" stays hidden until its page is ready. */}
+              <div
+                ref={contactRef}
+                className={styles.contact}
+                onPointerEnter={(e) => {
+                  if (e.pointerType !== "mouse") return;
+                  cancelClose();
+                  setOpen(true);
+                }}
+                onPointerLeave={(e) => {
+                  if (e.pointerType === "mouse") scheduleClose();
+                }}
+                onFocus={() => {
+                  cancelClose();
+                  setOpen(true);
+                }}
+                onBlur={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setOpen(false);
+                }}
+              >
+                <button
+                  ref={buttonRef}
+                  type="button"
+                  className={styles.link}
+                  aria-expanded={open}
+                  aria-controls={moreId}
+                  onPointerDown={(e) => {
+                    pointerType.current = e.pointerType;
+                  }}
+                  onClick={() => {
+                    onContactClick();
+                    pointerType.current = "";
+                  }}
                 >
-                  work
-                </Link>
-                <Link
-                  href={siteHref("/fun")}
-                  className={navTextClass}
-                  style={navTextStyle(isPlayground)}
-                  aria-current={isPlayground ? "page" : undefined}
-                >
-                  fun
-                </Link>
-                <a
-                  href="https://www.linkedin.com/in/priyamwadapandey"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={navTextClass}
-                  style={navTextStyle(false)}
-                >
-                  linkedin
-                </a>
-                <CopyEmailIcon
-                  copiedText="Email copied"
-                  tooltipSide="bottom"
-                  label="contact"
-                  labelStyle={navTextStyle(false)}
-                  className={navTextClass}
-                />
-                <a
-                  href={siteHref("/resume")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={navTextClass}
-                  style={navTextStyle(false)}
-                >
-                  resume
-                </a>
-              </div>
-
-              {/* Icons below 640px */}
-              <div className="flex sm:hidden items-center gap-3">
-                <Tooltip side="bottom" sideOffset={8}>
-                  <TooltipTrigger
-                    asChild
-                    onMouseEnter={work.onMouseEnter}
-                    onMouseLeave={work.onMouseLeave}
-                  >
-                    <Link
-                      href={siteHref("/")}
-                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
-                      aria-label="Work"
-                      aria-current={isHomeV2 ? "page" : undefined}
-                    >
-                      <span style={work.iconStyle}>
-                        <Briefcase size={24} color={isHomeV2 ? navActiveColor : navIconColor} weight="regular" aria-hidden />
-                      </span>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>Work</TooltipContent>
-                </Tooltip>
-
-                <Tooltip side="bottom" sideOffset={8}>
-                  <TooltipTrigger
-                    asChild
-                    onMouseEnter={disco.onMouseEnter}
-                    onMouseLeave={disco.onMouseLeave}
-                  >
-                    <Link
-                      href={siteHref("/fun")}
-                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
-                      aria-label="Fun"
-                      aria-current={isPlayground ? "page" : undefined}
-                    >
-                      <span style={disco.iconStyle}>
-                        <DiscoBall size={24} color={isPlayground ? navActiveColor : navIconColor} weight="regular" aria-hidden />
-                      </span>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>Fun</TooltipContent>
-                </Tooltip>
-
-                <Tooltip side="bottom" sideOffset={8}>
-                  <TooltipTrigger
-                    asChild
-                    onMouseEnter={linkedin.onMouseEnter}
-                    onMouseLeave={linkedin.onMouseLeave}
-                  >
-                    <a
-                      href="https://www.linkedin.com/in/priyamwadapandey"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
-                      aria-label="LinkedIn"
-                    >
-                      <span style={linkedin.iconStyle}>
-                        <LinkedinLogo size={24} color={navIconColor} weight="regular" aria-hidden />
-                      </span>
-                    </a>
-                  </TooltipTrigger>
-                  <TooltipContent>LinkedIn</TooltipContent>
-                </Tooltip>
-
-                <CopyEmailIcon
-                  copiedText="Email copied"
-                  tooltipSide="bottom"
-                  iconColor={navIconColor}
-                  onMouseEnter={mail.onMouseEnter}
-                  onMouseLeave={mail.onMouseLeave}
-                  iconStyle={mail.iconStyle}
-                  className="cursor-hover-pointer"
-                />
-
-                <Tooltip side="bottom" sideOffset={8}>
-                  <TooltipTrigger
-                    asChild
-                    onMouseEnter={resume.onMouseEnter}
-                    onMouseLeave={resume.onMouseLeave}
-                  >
-                    <a
-                      href={siteHref("/resume")}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
-                      aria-label="Resume"
-                    >
-                      <span style={resume.iconStyle}>
-                        <FileText size={24} color={navIconColor} weight="regular" aria-hidden />
-                      </span>
-                    </a>
-                  </TooltipTrigger>
-                  <TooltipContent>Resume</TooltipContent>
-                </Tooltip>
+                  contact
+                </button>
+                <div ref={moreRef} id={moreId} className={styles.more} data-open={open || undefined}>
+                  <div className={styles.moreInner}>
+                    <span className={styles.item} style={{ "--i": 0 } as CSSProperties}>
+                      <a href="https://www.linkedin.com/in/priyamwadapandey" target="_blank" rel="noopener noreferrer" className={styles.link}>
+                        linkedin
+                      </a>
+                    </span>
+                    <span className={styles.item} style={{ "--i": 1 } as CSSProperties}>
+                      <CopyEmailIcon
+                        label="email"
+                        copiedText="Email copied"
+                        tooltipSide="bottom"
+                        className={styles.link}
+                      />
+                    </span>
+                    <span className={styles.item} style={{ "--i": 2 } as CSSProperties}>
+                      <a href={siteHref("/resume")} target="_blank" rel="noopener noreferrer" className={styles.link}>
+                        resume
+                      </a>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </TooltipProvider>
-      </div>
-    </div>
-    </div>
+      </nav>
+    </>
   );
 }

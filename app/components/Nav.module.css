@@ -1,0 +1,255 @@
+/* Site nav: fixed blurred pill. Contact disperses LinkedIn, email and resume. */
+
+/* Holds the space the old in-flow nav took, so page layouts don't shift */
+.spacer {
+  height: 92px;
+  flex: none;
+}
+
+@media (min-width: 1280px) {
+  .spacer {
+    height: 100px;
+  }
+}
+
+.nav {
+  --nav-text: var(--ds-text-secondary);
+  --nav-active: var(--ds-nav-active);
+  --nav-surface: rgba(248, 248, 248, 0.5);
+  --nav-closed-w: 300px;
+  position: fixed;
+  z-index: 50;
+  top: 16px;
+  /* Centred on the closed width, so opening contact grows the pill to the right only */
+  left: calc(50% - var(--nav-closed-w) / 2);
+}
+
+@media (min-width: 1280px) {
+  .nav {
+    top: 32px;
+  }
+}
+
+/* Dark "fun" page */
+.nav[data-dark] {
+  --nav-text: #f6f6fb;
+  --nav-active: var(--ds-nav-active-on-dark);
+  --nav-surface: rgba(24, 24, 24, 0.55);
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 60px;
+  padding: 0 24px 0 0;
+  border-radius: 9999px;
+  background: var(--nav-surface);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
+.mark {
+  display: flex;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  margin-left: 2px;
+  padding: 6px;
+  border-radius: 9999px;
+  transition: opacity 200ms ease-out;
+}
+
+.mark img {
+  width: 44px;
+  height: 44px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mark:hover {
+    opacity: 0.8;
+  }
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.link {
+  all: unset;
+  cursor: pointer;
+  font-family: var(--font-hind), sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 400;
+  color: var(--nav-text);
+  transition: color 200ms ease-out, opacity 200ms ease-out;
+  border-radius: 4px;
+}
+
+.link[data-active] {
+  font-weight: 500;
+  color: var(--nav-active);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:not([data-active]):hover {
+    opacity: 0.7;
+  }
+}
+
+.link:focus-visible,
+.mark:focus-visible {
+  outline: 2px solid var(--nav-active);
+  outline-offset: 4px;
+}
+
+/* ── Contact: links disperse out of it ──────────────────────────────── */
+
+.contact {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Wider screens: the links grow out to the right, widening the pill */
+.more {
+  display: grid;
+  grid-template-columns: 0fr;
+  transition: grid-template-columns 420ms cubic-bezier(0.22, 1, 0.36, 1) 40ms;
+}
+
+.more[data-open] {
+  grid-template-columns: 1fr;
+  transition-delay: 0ms;
+}
+
+.moreInner {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Each link starts tucked into "contact" (scaled down, soft and slightly
+   turned, each at its own angle) and springs out to its place in a stagger. */
+.item {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  filter: blur(3px);
+  transform: translate(var(--from-x), var(--from-y)) scale(0.6) rotate(var(--from-rot));
+  transition:
+    opacity 180ms ease-in calc((2 - var(--i)) * 30ms),
+    transform 260ms ease-in calc((2 - var(--i)) * 30ms),
+    filter 180ms ease-in calc((2 - var(--i)) * 30ms),
+    visibility 0ms linear calc(260ms + (2 - var(--i)) * 30ms);
+}
+
+.moreInner > :first-child {
+  margin-left: 16px;
+}
+
+.item:nth-child(1) {
+  --from-x: -36px;
+  --from-y: 5px;
+  --from-rot: -10deg;
+}
+
+.item:nth-child(2) {
+  --from-x: -72px;
+  --from-y: -4px;
+  --from-rot: 8deg;
+}
+
+.item:nth-child(3) {
+  --from-x: -108px;
+  --from-y: 6px;
+  --from-rot: -6deg;
+}
+
+.more[data-open] .item {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  filter: blur(0);
+  transform: none;
+  transition:
+    opacity 260ms ease-out calc(60ms + var(--i) * 60ms),
+    transform 560ms cubic-bezier(0.34, 1.5, 0.64, 1) calc(60ms + var(--i) * 60ms),
+    filter 320ms ease-out calc(60ms + var(--i) * 60ms),
+    visibility 0ms linear 0ms;
+}
+
+/* Phones: no room to widen, so the links fan out in a small pill below */
+@media (max-width: 639px) {
+  .more {
+    position: absolute;
+    top: calc(100% + 30px);
+    right: -24px;
+    display: block;
+    transition: none;
+  }
+
+  .moreInner {
+    width: max-content;
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 9999px;
+    background: var(--nav-surface);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms ease-out, visibility 0ms linear 200ms;
+  }
+
+  .more[data-open] .moreInner {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 200ms ease-out, visibility 0ms;
+  }
+
+  .moreInner > :first-child {
+    margin-left: 0;
+  }
+
+  .item:nth-child(1) {
+    --from-x: 24px;
+    --from-y: -14px;
+  }
+
+  .item:nth-child(2) {
+    --from-x: 0px;
+    --from-y: -18px;
+  }
+
+  .item:nth-child(3) {
+    --from-x: -24px;
+    --from-y: -14px;
+  }
+}
+
+/* Reduced motion: the links just fade in and out */
+@media (prefers-reduced-motion: reduce) {
+  .more,
+  .more[data-open] {
+    transition: none;
+  }
+
+  .item,
+  .more[data-open] .item {
+    filter: none;
+    transform: none;
+    transition: opacity 150ms ease-out, visibility 0ms linear 150ms;
+  }
+
+  .more[data-open] .item {
+    transition: opacity 150ms ease-out, visibility 0ms;
+  }
+}

@@ -1,15 +1,25 @@
 /* Clouds hero: card floating in the middle, headline under it, dithered clouds drifting behind. */
 
 .hero {
+  /* The hero shrinks to the screen height so the first case study always peeks in below the headline */
+  --hero-space: clamp(24px, 6svh, 56px);
+  --title-size: clamp(36px, min(6.4vw, 9svh), 72px);
+  --case-study-peek: 140px;
+  /* Height left for the license card: screen minus nav, spacing, the two-line headline, the
+     case studies' 56px top padding (home.module.css) and the peek */
+  --card-h: calc(
+    100svh - var(--site-nav-space) - 2 * var(--hero-space) - 2.16 * var(--title-size) - 32px - 56px -
+      var(--case-study-peek)
+  );
   position: relative;
   width: 100%;
   /* Pull up under the fixed nav pill so the clouds can drift behind it too */
   margin-top: calc(-1 * var(--site-nav-space));
-  padding: calc(var(--site-nav-space) + 56px) 16px 32px;
+  padding: calc(var(--site-nav-space) + var(--hero-space)) 16px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 56px;
+  gap: var(--hero-space);
   text-align: center;
   overflow: hidden;
   container-type: inline-size;
@@ -18,14 +28,15 @@
 .card {
   position: relative;
   z-index: 1;
-  width: min(440px, 86cqw);
+  /* 1.568 is the license card's width-to-height ratio */
+  width: min(86cqw, max(280px, min(440px, var(--card-h) * 1.568)));
 }
 
 .title {
   position: relative;
   z-index: 1;
   margin: 0;
-  font-size: clamp(36px, 6.4vw, 72px);
+  font-size: var(--title-size);
   line-height: 1.08;
   font-weight: 600;
   letter-spacing: -0.025em;

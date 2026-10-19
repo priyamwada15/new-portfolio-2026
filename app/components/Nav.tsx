@@ -29,6 +29,7 @@ export default function Nav() {
   const pillRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+  const moreRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerType = useRef("");
@@ -43,16 +44,25 @@ export default function Nav() {
   };
 
   // Keep the pill's left edge anchored: centre the nav on its closed width.
+  // Measured as the pill minus the contact links' current width, so it stays
+  // correct while they open and close and the pill never shifts sideways.
   useLayoutEffect(() => {
     const pill = pillRef.current;
     const nav = navRef.current;
-    if (!pill || !nav || open) return;
-    const sync = () => nav.style.setProperty("--nav-closed-w", `${pill.offsetWidth}px`);
+    const more = moreRef.current;
+    if (!pill || !nav || !more) return;
+    const sync = () => {
+      // On phones the links sit in their own pill below and take no width here.
+      const inline = getComputedStyle(more).position !== "absolute";
+      const closed = pill.offsetWidth - (inline ? more.offsetWidth : 0);
+      nav.style.setProperty("--nav-closed-w", `${closed}px`);
+    };
     sync();
     const ro = new ResizeObserver(sync);
     ro.observe(pill);
+    ro.observe(more);
     return () => ro.disconnect();
-  }, [open, pathname]);
+  }, [pathname]);
 
   // Close on Escape or a press outside the contact group.
   useEffect(() => {
@@ -100,7 +110,7 @@ export default function Nav() {
       <div className={styles.spacer} aria-hidden="true" />
       <nav ref={navRef} className={`site-nav ${styles.nav}`} data-dark={isFun || undefined} aria-label="Main">
         <TooltipProvider openDelay={150} closeDelay={150}>
-          <div ref={pillRef} className={`${styles.pill} hero-intro hero-intro--nav-top`}>
+          <div ref={pillRef} className={`site-nav-pill ${styles.pill} hero-intro hero-intro--nav-top`}>
             <Link href={siteHref("/")} className={styles.mark} aria-label="Priyamwada Pandey, home">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/logos/nav-mark.svg" alt="" width={44} height={44} />
@@ -145,17 +155,13 @@ export default function Nav() {
                 >
                   contact
                 </button>
-                <div id={moreId} className={styles.more} data-open={open || undefined}>
+                <div ref={moreRef} id={moreId} className={styles.more} data-open={open || undefined}>
                   <div className={styles.moreInner}>
-                    <a
-                      href="https://www.linkedin.com/in/priyamwadapandey"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${styles.link} ${styles.item}`}
-                      style={{ "--i": 0 } as CSSProperties}
-                    >
-                      linkedin
-                    </a>
+                    <span className={styles.item} style={{ "--i": 0 } as CSSProperties}>
+                      <a href="https://www.linkedin.com/in/priyamwadapandey" target="_blank" rel="noopener noreferrer" className={styles.link}>
+                        linkedin
+                      </a>
+                    </span>
                     <span className={styles.item} style={{ "--i": 1 } as CSSProperties}>
                       <CopyEmailIcon
                         label="email"
@@ -164,15 +170,11 @@ export default function Nav() {
                         className={styles.link}
                       />
                     </span>
-                    <a
-                      href={siteHref("/resume")}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${styles.link} ${styles.item}`}
-                      style={{ "--i": 2 } as CSSProperties}
-                    >
-                      resume
-                    </a>
+                    <span className={styles.item} style={{ "--i": 2 } as CSSProperties}>
+                      <a href={siteHref("/resume")} target="_blank" rel="noopener noreferrer" className={styles.link}>
+                        resume
+                      </a>
+                    </span>
                   </div>
                 </div>
               </div>

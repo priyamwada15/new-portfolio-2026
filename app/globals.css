@@ -1004,7 +1004,9 @@ body {
   --cs-vt-blur: 8px;
 }
 
-.site-nav {
+/* On the pill itself, not the fixed wrapper: a view-transition-name on an
+   ancestor would stop the pill's backdrop blur from seeing the page. */
+.site-nav-pill {
   view-transition-name: site-nav;
 }
 

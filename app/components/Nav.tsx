@@ -50,7 +50,7 @@ export default function Nav() {
   const isHomeV2 = pathname === "/";
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const isPlayground =
-    pathname === "/playground" || (pathname?.startsWith("/playground/") ?? false);
+    pathname === "/fun" || (pathname?.startsWith("/fun/") ?? false);
   const caseStudyBg = isCaseStudy ? CASE_STUDY_CHROME_BG : null;
   const navIconColor = isPlayground ? PLAYGROUND_NAV_ICON_COLOR : "#555555";
   // Current page link is rose; Playground's dark page uses the lifted rose
@@ -121,12 +121,12 @@ export default function Nav() {
                   work
                 </Link>
                 <Link
-                  href={siteHref("/playground")}
+                  href={siteHref("/fun")}
                   className={navTextClass}
                   style={navTextStyle(isPlayground)}
                   aria-current={isPlayground ? "page" : undefined}
                 >
-                  playground
+                  fun
                 </Link>
                 <a
                   href="https://www.linkedin.com/in/priyamwadapandey"
@@ -184,9 +184,9 @@ export default function Nav() {
                     onMouseLeave={disco.onMouseLeave}
                   >
                     <Link
-                      href={siteHref("/playground")}
+                      href={siteHref("/fun")}
                       className="cursor-hover-pointer flex items-center justify-center w-8 h-8"
-                      aria-label="Playground"
+                      aria-label="Fun"
                       aria-current={isPlayground ? "page" : undefined}
                     >
                       <span style={disco.iconStyle}>
@@ -194,7 +194,7 @@ export default function Nav() {
                       </span>
                     </Link>
                   </TooltipTrigger>
-                  <TooltipContent>Playground</TooltipContent>
+                  <TooltipContent>Fun</TooltipContent>
                 </Tooltip>
 
                 <Tooltip side="bottom" sideOffset={8}>

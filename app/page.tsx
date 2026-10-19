@@ -85,7 +85,7 @@ export default function HomePage() {
               Outside of work, I build{" "}
               <FunThingsLink className={`cursor-hover-pointer ${styles.introLink}`} />.
               You can explore some of my recent experiments{" "}
-              <SiteAnchor href="/playground" className={`cursor-hover-pointer ${styles.introLink}`}>here</SiteAnchor>.
+              <SiteAnchor href="/fun" className={`cursor-hover-pointer ${styles.introLink}`}>here</SiteAnchor>.
             </p>
             <p className={styles.currentLabel}>
               <HcnCube />

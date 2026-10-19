@@ -10,13 +10,13 @@ const CARDS = [
 ] as const;
 
 /**
- * "fun things" link to the playground. On hover, three experiment screenshots fan out
+ * "fun things" link to the fun page. On hover, three experiment screenshots fan out
  * of a stack above the words as a sneak peek.
  */
 export function FunThingsLink({ className }: { className?: string }) {
   return (
     <span className={styles.wrap}>
-      <SiteAnchor href="/playground" className={className}>
+      <SiteAnchor href="/fun" className={className}>
         fun things
       </SiteAnchor>
       <span className={styles.fan} aria-hidden="true">

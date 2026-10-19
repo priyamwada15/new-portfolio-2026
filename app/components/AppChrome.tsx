@@ -37,7 +37,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     (pathname?.startsWith("/flip-board-test/") ?? false);
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const isPlayground =
-    pathname === "/playground" || pathname.startsWith("/playground/");
+    pathname === "/fun" || pathname.startsWith("/fun/");
   const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy || isPlayground;
 
   useEffect(() => {

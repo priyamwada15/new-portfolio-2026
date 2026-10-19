@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // The playground page was renamed to "fun".
+      { source: "/playground", destination: "/fun", permanent: true },
+      { source: "/dive/playground", destination: "/dive/fun", permanent: true },
       // the-intelligencer.vercel.app's root now falls through to this app
       // (unmatched paths on any project in the microfrontends group land
       // on the default app), so send it to the app's real home instead of

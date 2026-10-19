@@ -1004,6 +1004,17 @@ body {
   --cs-vt-blur: 8px;
 }
 
+/* Space the fixed nav pill reserves at the top of every page (Nav spacer) */
+:root {
+  --site-nav-space: 92px;
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --site-nav-space: 100px;
+  }
+}
+
 /* On the pill itself, not the fixed wrapper: a view-transition-name on an
    ancestor would stop the pill's backdrop blur from seeing the page. */
 .site-nav-pill {

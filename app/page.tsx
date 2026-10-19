@@ -8,7 +8,7 @@ import {
 } from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { CardLogos } from "./home-v2/CardLogos";
-import { HeroLicenseCard } from "./home-v2/HeroLicenseCard";
+import { HillsHero } from "./home-v2/HillsHero";
 import { LazyVideo } from "./home-v2/LazyVideo";
 import { GutterPixels } from "./home-v2/GutterPixels";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
@@ -91,22 +91,9 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
 export default function HomePage() {
   return (
     <div className={styles.page} style={{ backgroundColor: HOME_V2_PAGE_BG }}>
+      <HillsHero />
+      {/* The Adtua snapshot card (AdtuaSnapshot) is off the homepage for now; it'll move to a "currently working on" section. */}
       <div className={styles.layout}>
-        <section className={styles.hero}>
-          <div className={`${styles.heroCard} ${styles.heroIn}`} data-pixel-block>
-            <HeroLicenseCard />
-          </div>
-          <div className={`${styles.heroText} ${styles.heroIn} ${styles.heroInDelayed}`} data-pixel-block>
-            <h1 className={styles.heroTitle}>
-              <span>Designing complex</span> <span>products people</span> <span>can follow.</span>
-            </h1>
-            <p className={styles.heroSub}>
-              I design AI and B2B products for early-stage teams, usually as the first designer in the room.
-            </p>
-          </div>
-          {/* The Adtua snapshot card (AdtuaSnapshot) is off the homepage for now; it'll move to a "currently working on" section. */}
-        </section>
-
         <section id="work" className={styles.work} aria-label="Case studies" data-pixel-blocks>
           {CASE_STUDIES.map((study) => (
             <ScrollReveal key={study.href}>

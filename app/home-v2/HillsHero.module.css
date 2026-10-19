@@ -1,0 +1,160 @@
+/* Hills hero: full-bleed dithered hillside, card in the sky, headline planted on the ridge. */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  /* Below this the card and headline crowd each other; the meadow can run past the fold instead */
+  min-height: 700px;
+  max-height: 1200px;
+  /* Pull up under the fixed nav pill so the sky runs to the top of the page */
+  margin-top: calc(-1 * var(--site-nav-space));
+  overflow: hidden;
+  container-type: size;
+  /* Average sky colour, shown while the image loads */
+  background: rgb(184, 197, 164);
+  /* CSS px per image px, so the image covers the hero, anchored to the bottom */
+  --u: max(calc(100cqw / 1920), calc(100cqh / 1072));
+}
+
+/* Image-sized box: everything inside is laid out in the image's own coordinates.
+   Centred without a transform so its layers share the hero's stacking order with the clouds. */
+.stage {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - var(--u) * 960);
+  width: calc(var(--u) * 1920);
+  height: calc(var(--u) * 1072);
+}
+
+.hills,
+.front {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hills {
+  z-index: 0;
+}
+
+/* Front copy of the meadow, clipped just under the ridge (frontGrassClipPath) */
+.front {
+  z-index: 3;
+}
+
+/* ── Clouds ─────────────────────────────────────────────── */
+
+.clouds {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cloudDrift {
+  position: absolute;
+  left: 0;
+  width: calc(var(--cloud-w) * var(--cloud-scale, 1));
+  animation-name: cloudDrift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes cloudDrift {
+  from {
+    translate: -110% 0;
+  }
+  to {
+    translate: calc(100cqw + 10%) 0;
+  }
+}
+
+.cloud {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Parallax toward the cursor (--px / --py set on the hero) */
+  translate: calc(var(--px, 0) * var(--depth) * 1px) calc(var(--py, 0) * var(--depth) * 0.5px);
+  transition: translate 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 639px) {
+  .hero {
+    --cloud-scale: 0.55;
+  }
+}
+
+/* ── Headline planted on the ridge ─────────────────────── */
+
+.title {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  translate: -50% 0;
+  /* Starting guess; HillsHero moves it so the last line stands on the ridge */
+  bottom: calc(var(--u) * 267);
+  width: max-content;
+  max-width: min(calc(var(--u) * 1500), calc(100cqw - 32px));
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-hind), sans-serif;
+  font-size: min(calc(var(--u) * 84), calc(6cqw + 12px));
+  line-height: 1.04;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #f7edd2;
+  /* Thin teal outline all round, so cream letters stay legible on pale sky and grass */
+  -webkit-text-stroke: 0.028em #2c6660;
+  paint-order: stroke fill;
+  /* Teal edge on the letters' sides, so they read as standing objects */
+  text-shadow:
+    0.018em 0.016em 0 #2c6660,
+    0.036em 0.03em 0 #2c6660;
+  /* Soft shadow falling on the grass behind */
+  filter: drop-shadow(0.07em 0.05em 0.05em rgba(24, 54, 36, 0.35));
+  text-wrap: balance;
+}
+
+/* Two set lines on wider screens; phones wrap naturally */
+@media (min-width: 640px) {
+  .line {
+    display: block;
+  }
+}
+
+.word {
+  white-space: nowrap;
+}
+
+.letter {
+  display: inline-block;
+  transform-origin: 50% 100%;
+}
+
+/* ── Card in the sky ───────────────────────────────────── */
+
+.cardSlot {
+  position: absolute;
+  z-index: 4;
+  top: calc(var(--site-nav-space) + 3cqh);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: min(440px, 86cqw, calc(34cqh * 1.568));
+}
+
+/* Reduced motion: clouds rest in place */
+@media (prefers-reduced-motion: reduce) {
+  .cloudDrift {
+    animation: none;
+    left: var(--rest-x);
+  }
+
+  .cloud {
+    transition: none;
+  }
+}

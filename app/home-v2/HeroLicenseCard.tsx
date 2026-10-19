@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./HeroLicenseCard.module.css";
 
 /**
@@ -17,6 +18,10 @@ const DRIFT_Y_MAX = 10;
 const FOLLOW_EASE = 0.1;
 /** Horizontal drag distance, in px, that counts as a flip on touch. */
 const DRAG_FLIP_PX = 40;
+/** The "flip" cursor sits this far down-right of the pointer, so the pointer stays visible. */
+const CURSOR_OFFSET = 18;
+/** How quickly the "flip" cursor catches up with the pointer each frame (0–1). */
+const CURSOR_EASE = 0.28;
 
 const FRONT_ALT =
   "Creative license card for Priyamwada Pandey, Product Designer, license number ARPR115D, issued September 2021, renewed by curiosity, authorized to make it weirder.";
@@ -34,6 +39,53 @@ export function HeroLicenseCard() {
   const tiltRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{ x: number; flipped: boolean } | null>(null);
   const suppressClickRef = useRef(false);
+  // "flip" cursor (mouse) and "tap to flip" hint (touch, until the first flip)
+  const [cursorOn, setCursorOn] = useState(false);
+  const [touch, setTouch] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [everFlipped, setEverFlipped] = useState(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorTarget = useRef({ x: 0, y: 0 });
+  const cursorPos = useRef<{ x: number; y: number } | null>(null);
+  const cursorRaf = useRef<number | null>(null);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => {
+      setTouch(window.matchMedia("(hover: none)").matches);
+      setMounted(true);
+    });
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const moveCursor = () => {
+    const el = cursorRef.current;
+    const pos = cursorPos.current;
+    if (!el || !pos) {
+      cursorRaf.current = null;
+      return;
+    }
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const t = cursorTarget.current;
+    const ease = reduced ? 1 : CURSOR_EASE;
+    pos.x += (t.x - pos.x) * ease;
+    pos.y += (t.y - pos.y) * ease;
+    el.style.transform = `translate3d(${pos.x.toFixed(1)}px, ${pos.y.toFixed(1)}px, 0)`;
+    const settled = Math.abs(t.x - pos.x) < 0.2 && Math.abs(t.y - pos.y) < 0.2;
+    cursorRaf.current = settled ? null : requestAnimationFrame(moveCursor);
+  };
+  const trackCursor = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse") return;
+    cursorTarget.current = { x: e.clientX + CURSOR_OFFSET, y: e.clientY + CURSOR_OFFSET };
+    if (!cursorPos.current) cursorPos.current = { ...cursorTarget.current };
+    if (cursorRaf.current === null) cursorRaf.current = requestAnimationFrame(moveCursor);
+  };
+  useEffect(() => () => {
+    if (cursorRaf.current !== null) cancelAnimationFrame(cursorRaf.current);
+  }, []);
+  const flip = () => {
+    setFlipped((f) => !f);
+    setEverFlipped(true);
+  };
 
   useEffect(() => {
     const el = tiltRef.current;
@@ -79,12 +131,13 @@ export function HeroLicenseCard() {
     dragRef.current = { x: e.clientX, flipped: false };
   };
   const onPointerMove = (e: React.PointerEvent) => {
+    trackCursor(e);
     const drag = dragRef.current;
     if (!drag || drag.flipped) return;
     if (Math.abs(e.clientX - drag.x) > DRAG_FLIP_PX) {
       drag.flipped = true;
       suppressClickRef.current = true;
-      setFlipped((f) => !f);
+      flip();
     }
   };
   const onPointerEnd = () => {
@@ -96,7 +149,7 @@ export function HeroLicenseCard() {
       suppressClickRef.current = false;
       return;
     }
-    setFlipped((f) => !f);
+    flip();
   };
 
   return (
@@ -108,6 +161,15 @@ export function HeroLicenseCard() {
       onPointerMove={onPointerMove}
       onPointerUp={onPointerEnd}
       onPointerCancel={onPointerEnd}
+      onPointerEnter={(e) => {
+        if (e.pointerType !== "mouse") return;
+        cursorPos.current = null;
+        trackCursor(e);
+        setCursorOn(true);
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") setCursorOn(false);
+      }}
       aria-label={flipped ? "Creative license, back. Press to see the front." : "Creative license, front. Press to see the back."}
     >
       <div className={styles.float}>
@@ -132,6 +194,18 @@ export function HeroLicenseCard() {
           </div>
         </div>
       </div>
+      {touch && (
+        <span className={styles.hint} data-hidden={everFlipped || undefined} aria-hidden="true">
+          tap to flip
+        </span>
+      )}
+      {mounted &&
+        createPortal(
+          <div ref={cursorRef} className={styles.cursor} data-on={cursorOn || undefined} aria-hidden="true">
+            <span>{flipped ? "flip back" : "flip"}</span>
+          </div>,
+          document.body,
+        )}
     </button>
   );
 }

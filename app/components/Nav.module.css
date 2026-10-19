@@ -1,15 +1,10 @@
 /* Site nav: fixed blurred pill. Contact disperses LinkedIn, email and resume. */
 
-/* Holds the space the old in-flow nav took, so page layouts don't shift */
+/* Holds the space the old in-flow nav took, so page layouts don't shift.
+   --site-nav-space lives in globals.css so full-bleed sections can pull up under the pill. */
 .spacer {
-  height: 92px;
+  height: var(--site-nav-space);
   flex: none;
-}
-
-@media (min-width: 1280px) {
-  .spacer {
-    height: 100px;
-  }
 }
 
 .nav {

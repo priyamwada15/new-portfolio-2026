@@ -491,7 +491,7 @@
 .cardLogos img {
   height: 20px;
   width: auto;
-  /* Neutral gray at rest so logos don't compete with the title; brand colour on card hover. */
+  /* Neutral gray at rest so logos don't compete with the title; brand colour while the card is in view (CardLogos). */
   filter: grayscale(1);
   opacity: 0.55;
   transition:
@@ -499,8 +499,6 @@
     opacity 400ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.card:hover .cardLogos img,
-.card:focus-visible .cardLogos img,
 .cardLogos[data-in-view] img {
   filter: grayscale(0);
   opacity: 1;

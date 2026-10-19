@@ -3,10 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./HeroLicenseCard.module.css";
 
-/** Max tilt toward the cursor, in degrees. Kept small so the card never feels unsteady. */
-const TILT_MAX = 6;
-/** How quickly the tilt catches up with the cursor each frame (0–1). */
-const TILT_EASE = 0.12;
+/**
+ * Cursor follow, in the spirit of the creative license lightbox. Side-to-side
+ * tilt stays under 90° (where the card would turn edge-on and show its back)
+ * so it never fights the click-to-flip.
+ */
+const TILT_Y_MAX = 35;
+const TILT_X_MAX = 12;
+/** How far the card drifts toward the cursor, in px. */
+const DRIFT_X_MAX = 18;
+const DRIFT_Y_MAX = 10;
+/** How quickly the card catches up with the cursor each frame (0–1). */
+const FOLLOW_EASE = 0.1;
 /** Horizontal drag distance, in px, that counts as a flip on touch. */
 const DRAG_FLIP_PX = 40;
 
@@ -16,9 +24,9 @@ const BACK_ALT =
   "Back of the creative license: notes on what this designer is known for, and that she's open for full time roles and contract work.";
 
 /**
- * Priyamwada's creative license, front and centre in the hero. It tilts a few
- * degrees toward the cursor and flips to its back on click, tap, drag, Enter
- * or Space. No auto-spin. Reduced motion: no tilt, and the flip is a crossfade.
+ * Priyamwada's creative license, front and centre in the hero. It turns and
+ * drifts toward the cursor and flips to its back on click, tap, drag, Enter
+ * or Space. No auto-spin. Reduced motion: no follow, and the flip is a crossfade.
  */
 export function HeroLicenseCard() {
   const [flipped, setFlipped] = useState(false);
@@ -32,23 +40,30 @@ export function HeroLicenseCard() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!el || !fine || reduced) return;
 
-    let target = { x: 0, y: 0 };
-    const current = { x: 0, y: 0 };
+    // Measured on the untransformed button, so the drift doesn't feed back into itself.
+    const anchor = el.parentElement ?? el;
+    // dx/dy: cursor position around the card centre, -1 to 1.
+    let target = { dx: 0, dy: 0 };
+    const current = { dx: 0, dy: 0 };
     let raf: number | null = null;
 
     const tick = () => {
-      current.x += (target.x - current.x) * TILT_EASE;
-      current.y += (target.y - current.y) * TILT_EASE;
-      el.style.transform = `rotateX(${current.x.toFixed(2)}deg) rotateY(${current.y.toFixed(2)}deg)`;
-      const settled = Math.abs(target.x - current.x) < 0.01 && Math.abs(target.y - current.y) < 0.01;
+      current.dx += (target.dx - current.dx) * FOLLOW_EASE;
+      current.dy += (target.dy - current.dy) * FOLLOW_EASE;
+      const { dx, dy } = current;
+      el.style.transform =
+        `translate3d(${(dx * DRIFT_X_MAX).toFixed(2)}px, ${(dy * DRIFT_Y_MAX).toFixed(2)}px, 0) ` +
+        `rotateX(${(-dy * TILT_X_MAX).toFixed(2)}deg) rotateY(${(dx * TILT_Y_MAX).toFixed(2)}deg)`;
+      const settled = Math.abs(target.dx - dx) < 0.001 && Math.abs(target.dy - dy) < 0.001;
       raf = settled ? null : requestAnimationFrame(tick);
     };
     const onMove = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      // Normalised cursor position around the card centre, clamped so a far cursor doesn't over-tilt.
-      const dx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (window.innerWidth / 2)));
-      const dy = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (window.innerHeight / 2)));
-      target = { x: -dy * TILT_MAX, y: dx * TILT_MAX };
+      const r = anchor.getBoundingClientRect();
+      const clamp = (v: number) => Math.max(-1, Math.min(1, v));
+      target = {
+        dx: clamp((e.clientX - (r.left + r.width / 2)) / (window.innerWidth / 2)),
+        dy: clamp((e.clientY - (r.top + r.height / 2)) / (window.innerHeight / 2)),
+      };
       if (raf === null) raf = requestAnimationFrame(tick);
     };
     window.addEventListener("pointermove", onMove);

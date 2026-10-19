@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { TooltipProvider } from "./animate-ui/tooltip";
 import { CopyEmailIcon } from "./CopyEmailIcon";
 import { isCaseStudyPath } from "../lib/caseStudy";
 import { useSiteHref, useSitePathname } from "../lib/reviewPath";
+import { smoothScrollToElement } from "../lib/smoothScroll";
 import styles from "./Nav.module.css";
 
 /** Grace period before the contact links tuck away once the cursor leaves. */
@@ -20,8 +22,12 @@ const CLOSE_DELAY_MS = 220;
 export default function Nav() {
   const pathname = useSitePathname();
   const siteHref = useSiteHref();
-  const isHome = pathname === "/";
-  const isWork = pathname ? isCaseStudyPath(pathname) : false;
+  const router = useRouter();
+  const onHome = pathname === "/";
+  // On the homepage, "work" takes over from "home" once the case studies reach the upper part of the screen.
+  const [workInView, setWorkInView] = useState(false);
+  const isHome = onHome && !workInView;
+  const isWork = (onHome && workInView) || (pathname ? isCaseStudyPath(pathname) : false);
   const isFun = pathname === "/fun" || pathname.startsWith("/fun/");
 
   const [open, setOpen] = useState(false);
@@ -85,6 +91,45 @@ export default function Nav() {
 
   useEffect(() => () => cancelClose(), []);
 
+  useEffect(() => {
+    if (!onHome) return;
+    const work = document.getElementById("work");
+    if (!work) return;
+    const observer = new IntersectionObserver(([entry]) => setWorkInView(entry.isIntersecting), {
+      // A line 30% down the screen: below the nav, and below where the case studies start on load.
+      rootMargin: "-30% 0px -70% 0px",
+    });
+    observer.observe(work);
+    return () => {
+      observer.disconnect();
+      setWorkInView(false);
+    };
+  }, [onHome]);
+
+  // "work" glides to the case studies. From another page it goes home first, then glides.
+  const pendingWorkScroll = useRef(false);
+  const scrollToWork = () => {
+    const work = document.getElementById("work");
+    if (work) smoothScrollToElement(work);
+  };
+  useEffect(() => {
+    if (!onHome || !pendingWorkScroll.current) return;
+    pendingWorkScroll.current = false;
+    // Let the route-change scroll-to-top settle before gliding down.
+    const id = setTimeout(scrollToWork, 120);
+    return () => clearTimeout(id);
+  }, [onHome]);
+  const onWorkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    if (onHome) {
+      scrollToWork();
+    } else {
+      pendingWorkScroll.current = true;
+      router.push(siteHref("/"));
+    }
+  };
+
   // Route changes close the contact links.
   const [shownPath, setShownPath] = useState(pathname);
   if (shownPath !== pathname) {
@@ -117,7 +162,15 @@ export default function Nav() {
             </Link>
             <div className={styles.links}>
               {link(siteHref("/"), "home", isHome)}
-              {link(`${siteHref("/")}#work`, "work", isWork)}
+              <Link
+                href={`${siteHref("/")}#work`}
+                onClick={onWorkClick}
+                className={styles.link}
+                data-active={isWork || undefined}
+                aria-current={isWork ? "location" : undefined}
+              >
+                work
+              </Link>
               {link(siteHref("/fun"), "fun", isFun)}
               {/* "about" stays hidden until its page is ready. */}
               <div

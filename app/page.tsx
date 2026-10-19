@@ -8,7 +8,7 @@ import {
 } from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { CardLogos } from "./home-v2/CardLogos";
-import { HillsHero } from "./home-v2/HillsHero";
+import { CloudsHero } from "./home-v2/CloudsHero";
 import { LazyVideo } from "./home-v2/LazyVideo";
 import { GutterPixels } from "./home-v2/GutterPixels";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
@@ -91,7 +91,7 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
 export default function HomePage() {
   return (
     <div className={styles.page} style={{ backgroundColor: HOME_V2_PAGE_BG }}>
-      <HillsHero />
+      <CloudsHero />
       {/* The Adtua snapshot card (AdtuaSnapshot) is off the homepage for now; it'll move to a "currently working on" section. */}
       <div className={styles.layout}>
         <section id="work" className={styles.work} aria-label="Case studies" data-pixel-blocks>

@@ -1,0 +1,97 @@
+/* Clouds hero: card floating in the middle, headline under it, dithered clouds drifting behind. */
+
+.hero {
+  position: relative;
+  width: 100%;
+  /* Pull up under the fixed nav pill so the clouds can drift behind it too */
+  margin-top: calc(-1 * var(--site-nav-space));
+  padding: calc(var(--site-nav-space) + 56px) 16px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 56px;
+  text-align: center;
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: min(440px, 86cqw);
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(36px, 6.4vw, 72px);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ds-text-primary);
+  text-wrap: balance;
+}
+
+/* Two set lines on wider screens; phones wrap naturally */
+@media (min-width: 640px) {
+  .title span {
+    display: block;
+  }
+}
+
+/* ── Clouds ─────────────────────────────────────────────── */
+
+.clouds {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cloudDrift {
+  position: absolute;
+  left: 0;
+  width: calc(var(--cloud-w) * var(--cloud-scale, 1));
+  animation-name: cloudDrift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes cloudDrift {
+  from {
+    translate: -110% 0;
+  }
+  to {
+    translate: calc(100cqw + 10%) 0;
+  }
+}
+
+.cloud {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Parallax toward the cursor (--px / --py set on the hero) */
+  translate: calc(var(--px, 0) * var(--depth) * 1px) calc(var(--py, 0) * var(--depth) * 0.5px);
+  transition: translate 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 639px) {
+  .hero {
+    --cloud-scale: 0.55;
+    /* Room for the card's "tap to flip" hint between card and headline */
+    gap: 64px;
+  }
+}
+
+/* Reduced motion: clouds rest in place */
+@media (prefers-reduced-motion: reduce) {
+  .cloudDrift {
+    animation: none;
+    left: var(--rest-x);
+  }
+
+  .cloud {
+    transition: none;
+  }
+}

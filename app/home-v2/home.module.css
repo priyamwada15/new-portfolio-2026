@@ -540,25 +540,47 @@
   width: 100%;
   aspect-ratio: 1008 / 575;
   border-radius: var(--ds-radius-container);
-  /* Shows while the scene loads */
+  /* Matches the #fafafa baked into the case study videos */
   background: var(--ds-surface-page);
   overflow: hidden;
 }
 
-/* Solarpunk scene filling the card. The coded UI will sit in its calm centre. */
-.cardScene {
-  object-fit: cover;
-}
-
-/* Single video / preview, framed the same way the old homepage cards were (kept for Salesforce) */
+/* Single video / preview, framed the same way the old homepage cards were */
 .mediaInset {
   position: absolute;
   inset: 0;
   padding: 56px 56px 24px;
 }
 
+/* Screen recordings cropped to their app window, centered with even padding */
+.mediaCrop {
+  position: absolute;
+  inset: 0;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Matches the Asimov window's own rounded corners */
+.cropRounded {
+  border-radius: 12px;
+}
+
+/* Rocket Mortgage's three phone videos */
+.mediaTriple {
+  position: absolute;
+  inset: 0;
+  padding: 24px;
+}
+
 @media (max-width: 767px) {
   .mediaInset {
     padding: 20px 16px 12px;
+  }
+  .mediaTriple {
+    padding: 12px;
+  }
+  .mediaCrop {
+    padding: 16px;
   }
 }

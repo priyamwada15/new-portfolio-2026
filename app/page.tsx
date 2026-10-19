@@ -1,14 +1,34 @@
-import Image from "next/image";
-import { HOME_V2_PAGE_BG } from "@/design-system";
+import type { ReactNode } from "react";
+import {
+  ASIMOV_HERO_VIDEO,
+  HOME_V2_PAGE_BG,
+  TARS_DEBUG_MODE_HERO_VIDEO,
+  croppedVideoStyles,
+  type CroppedVideo,
+} from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { CardLogos } from "./home-v2/CardLogos";
 import { PriyamwadaNameLink } from "./home-v2/PriyamwadaNameLink";
+import { LazyVideo } from "./home-v2/LazyVideo";
 import { HcnCube } from "./home-v2/HcnCube";
 import { FunThingsLink } from "./home-v2/FunThingsLink";
 import { GutterPixels } from "./home-v2/GutterPixels";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
+import { RocketMortgageTripleVideos } from "@/app/components/RocketMortgageTripleVideos";
 import { SiteAnchor } from "@/app/components/SiteLink";
 import styles from "./home-v2/home.module.css";
+
+/** A screen recording cropped to its app window and fitted to the card's height. */
+function CroppedCardVideo({ video, ariaLabel, rounded }: { video: CroppedVideo; ariaLabel: string; rounded?: boolean }) {
+  const crop = croppedVideoStyles(video);
+  return (
+    <div className={styles.mediaCrop}>
+      <div className={rounded ? styles.cropRounded : undefined} style={{ ...crop.frame, height: "100%" }}>
+        <LazyVideo src={video.src} poster={video.poster} ariaLabel={ariaLabel} style={crop.video} />
+      </div>
+    </div>
+  );
+}
 
 type CaseStudy = {
   href: string;
@@ -16,8 +36,7 @@ type CaseStudy = {
   logos: { src: string; alt: string; tall?: boolean }[];
   title: string;
   tags: string[];
-  /** Solarpunk illustration behind the card, fine-dithered (lossless WebP). The coded UI will sit in its calm centre. */
-  scene: string;
+  media: ReactNode;
 };
 
 const CASE_STUDIES: CaseStudy[] = [
@@ -27,7 +46,11 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: [{ src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" }],
     title: "Personalizing AI guidance across 6.8M+ client conversations",
     tags: ["B2C Fintech", "AI Assistant", "Trust Design"],
-    scene: "/case-study-scenes/rocket-mortgage-scene.webp",
+    media: (
+      <div className={styles.mediaTriple}>
+        <RocketMortgageTripleVideos className="h-full aspect-auto sm:aspect-auto" />
+      </div>
+    ),
   },
   {
     href: "/tars-asimov",
@@ -35,7 +58,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
     title: "Designing the agent configuration platform and design system for Asimov",
     tags: ["B2B SaaS", "0→1", "Workflow Design"],
-    scene: "/case-study-scenes/asimov-scene.webp",
+    media: <CroppedCardVideo video={ASIMOV_HERO_VIDEO} ariaLabel="Asimov for Tars preview video" rounded />,
   },
   {
     href: "/tars-debug-mode",
@@ -43,7 +66,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: [{ src: "/logos/tars.svg", alt: "TARS" }],
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
     tags: ["B2B SaaS", "Complex Workflows", "Internal Tool"],
-    scene: "/case-study-scenes/debug-mode-scene.webp",
+    media: <CroppedCardVideo video={TARS_DEBUG_MODE_HERO_VIDEO} ariaLabel="Tars Debug Mode preview video" />,
   },
   // Salesforce is hidden until it's reworked; its page still lives at app/salesforce.
 ];
@@ -63,10 +86,7 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
         </div>
         <h3 className={styles.cardTitle}>{study.title}</h3>
       </div>
-      <div className={styles.cardMedia}>
-        {/* Unoptimized: re-encoding would blur the dither dots, so the lossless file is served as is. */}
-        <Image src={study.scene} alt="" fill unoptimized className={styles.cardScene} />
-      </div>
+      <div className={styles.cardMedia}>{study.media}</div>
     </HomeV2CardLink>
   );
 }

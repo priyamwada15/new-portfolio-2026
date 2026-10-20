@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { Fragment, useEffect, useRef, type CSSProperties } from "react";
 import { HeroLicenseCard } from "./HeroLicenseCard";
 import styles from "./CloudsHero.module.css";
 
@@ -14,6 +14,12 @@ const CLOUDS = [
   { src: "/hero/cloud-2.webp", w: 240, top: "8%", rest: "18%", duration: 230, delay: -60, depth: 6 },
   { src: "/hero/cloud-3.webp", w: 220, top: "44%", rest: "80%", duration: 170, delay: -110, depth: 8 },
 ] as const;
+
+/** Headline, one array per set line; each word rises in on load, in order. */
+const TITLE_LINES = [
+  ["Designing", "AI", "and", "B2B"],
+  ["products", "people", "can", "follow."],
+];
 
 /**
  * Homepage hero: the creative license card floating in the middle with the
@@ -58,7 +64,21 @@ export function CloudsHero() {
         <HeroLicenseCard />
       </div>
       <h1 className={styles.title}>
-        <span>Designing AI and B2B</span> <span>products people can follow.</span>
+        {TITLE_LINES.map((line, l) => (
+          <Fragment key={l}>
+            {l > 0 && " "}
+            <span className={styles.line}>
+              {line.map((word, w) => (
+                <Fragment key={word}>
+                  {w > 0 && " "}
+                  <span className={styles.word} style={{ "--i": TITLE_LINES[0].length * l + w } as CSSProperties}>
+                    {word}
+                  </span>
+                </Fragment>
+              ))}
+            </span>
+          </Fragment>
+        ))}
       </h1>
     </section>
   );

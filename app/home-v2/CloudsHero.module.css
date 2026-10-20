@@ -2,13 +2,14 @@
 
 .hero {
   /* The hero shrinks to the screen height so the first case study always peeks in below the headline */
-  --hero-space: clamp(24px, 6svh, 56px);
-  --title-size: clamp(36px, min(6.4vw, 9svh), 72px);
+  --hero-space: 32px;
+  --title-size: 56px;
+  --title-leading: 60px;
   --case-study-peek: 140px;
   /* Height left for the license card: screen minus nav, spacing, the two-line headline, the
      case studies' 56px top padding (home.module.css) and the peek */
   --card-h: calc(
-    100svh - var(--site-nav-space) - 2 * var(--hero-space) - 2.16 * var(--title-size) - 32px - 56px -
+    100svh - var(--site-nav-space) - 2 * var(--hero-space) - 2 * var(--title-leading) - 32px - 56px -
       var(--case-study-peek)
   );
   position: relative;
@@ -37,8 +38,8 @@
   z-index: 1;
   margin: 0;
   font-size: var(--title-size);
-  line-height: 1.08;
-  font-weight: 600;
+  line-height: var(--title-leading);
+  font-weight: 500;
   letter-spacing: -0.025em;
   color: var(--ds-text-primary);
   text-wrap: balance;
@@ -114,6 +115,14 @@
   /* Parallax toward the cursor (--px / --py set on the hero) */
   translate: calc(var(--px, 0) * var(--depth) * 1px) calc(var(--py, 0) * var(--depth) * 0.5px);
   transition: translate 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Headline steps down below the tablet breakpoint */
+@media (max-width: 743px) {
+  .hero {
+    --title-size: 32px;
+    --title-leading: 36px;
+  }
 }
 
 @media (max-width: 639px) {

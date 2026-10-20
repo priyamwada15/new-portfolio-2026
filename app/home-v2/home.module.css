@@ -328,8 +328,8 @@
 /* ── Case studies ─────────────────────────────────────── */
 
 .work {
-  /* With the hero's 32px bottom padding: 88px from the headline to the first case study */
-  padding-top: 56px;
+  /* With the hero's 32px bottom padding: 104px from the headline to the first case study */
+  padding-top: 72px;
   display: flex;
   flex-direction: column;
   gap: 88px;
@@ -404,19 +404,12 @@
 
 .cardTitle {
   margin: 0;
-  font-size: 24px;
-  line-height: 29px;
+  font-size: 20px;
+  line-height: 28px;
   font-weight: 500;
   letter-spacing: -0.28px;
   color: var(--ds-text-primary);
   text-wrap: pretty;
-}
-
-@media (max-width: 767px) {
-  .cardTitle {
-    font-size: 20px;
-    line-height: 26px;
-  }
 }
 
 .cardMedia {

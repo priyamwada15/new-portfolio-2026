@@ -7,9 +7,9 @@
   --title-leading: 60px;
   --case-study-peek: 140px;
   /* Height left for the license card: screen minus nav, spacing, the two-line headline, the
-     case studies' 56px top padding (home.module.css) and the peek */
+     case studies' 72px top padding (home.module.css) and the peek */
   --card-h: calc(
-    100svh - var(--site-nav-space) - 2 * var(--hero-space) - 2 * var(--title-leading) - 32px - 56px -
+    100svh - var(--site-nav-space) - 2 * var(--hero-space) - 2 * var(--title-leading) - 32px - 72px -
       var(--case-study-peek)
   );
   position: relative;

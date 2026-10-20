@@ -46,8 +46,37 @@
 
 /* Two set lines on wider screens; phones wrap naturally */
 @media (min-width: 640px) {
-  .title span {
+  .line {
     display: block;
+  }
+}
+
+/* ── Appear on load ─────────────────────────────────────── */
+
+/* The card rises and settles into place; its float and cursor tilt live on inner layers */
+.card {
+  animation: cardAppear 900ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.94) rotate(-2deg);
+  }
+}
+
+/* Then the headline, word by word, out of a soft blur */
+.word {
+  display: inline-block;
+  animation: wordAppear 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(380ms + var(--i) * 55ms);
+}
+
+@keyframes wordAppear {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+    filter: blur(6px);
   }
 }
 
@@ -104,5 +133,18 @@
 
   .cloud {
     transition: none;
+  }
+
+  /* Card and headline just fade in */
+  .card,
+  .word {
+    animation-name: fadeIn;
+    animation-duration: 400ms;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
 }

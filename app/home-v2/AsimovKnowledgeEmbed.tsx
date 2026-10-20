@@ -209,6 +209,7 @@ export function AsimovKnowledgeEmbed() {
           </Grow>
         </div>
 
+        <div className={styles.scrim} data-on={view.modal || undefined} />
         <Modal scene={view} />
       </div>
       {chrome}

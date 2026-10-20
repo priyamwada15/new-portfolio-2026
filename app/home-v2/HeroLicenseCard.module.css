@@ -4,7 +4,7 @@
   all: unset;
   position: relative;
   display: block;
-  width: min(440px, 100%);
+  width: min(560px, 100%);
   aspect-ratio: 1380 / 880;
   perspective: 1400px;
   cursor: pointer;

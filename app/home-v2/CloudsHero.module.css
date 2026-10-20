@@ -30,7 +30,7 @@
   position: relative;
   z-index: 1;
   /* 1.568 is the license card's width-to-height ratio */
-  width: min(86cqw, max(280px, min(440px, var(--card-h) * 1.568)));
+  width: min(86cqw, max(280px, min(560px, var(--card-h) * 1.568)));
 }
 
 .title {

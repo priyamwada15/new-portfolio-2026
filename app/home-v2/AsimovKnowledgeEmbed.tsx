@@ -26,9 +26,8 @@ type Scene = {
   answer: boolean;
   /** The answer alone with its source: everything else steps away */
   focus: boolean;
-  /** The source flies from its row into the answer, then lands as the chip */
-  fly: boolean;
-  chipIn: boolean;
+  /** A dotted trace runs from the answer's source line up to the row it came from */
+  trace: boolean;
 };
 
 const NAME = "Product Wiki";
@@ -50,8 +49,7 @@ const START: Scene = {
   syncedNow: false,
   answer: false,
   focus: false,
-  fly: false,
-  chipIn: false,
+  trace: false,
 };
 
 const FINAL: Scene = {
@@ -67,11 +65,11 @@ const FINAL: Scene = {
   pages: PAGES,
   syncedNow: true,
   answer: true,
-  chipIn: true,
 };
 
-/** How long the source takes to fly from its row into the answer. */
-const FLIGHT_MS = 900;
+/** How long the trace takes to draw, and the space between its dots. */
+const TRACE_MS = 1000;
+const TRACE_SPACING = 7;
 
 /** From the moment a source is added: it syncs, opens to show its details, then an answer cites it. */
 const SYNC_STEPS: Beat<Scene>[] = [
@@ -88,9 +86,8 @@ const SYNC_STEPS: Beat<Scene>[] = [
   { set: { status: "done", syncedNow: true }, wait: 1600 },
   // The answer takes centre stage with only its source beside it
   { set: { answer: true, focus: true, open: { product: false, sales: false, enterprise: false } }, wait: 1000 },
-  // Once the layout has settled, the source flies down into the answer
-  { set: { fly: true }, wait: FLIGHT_MS },
-  { set: { fly: false, chipIn: true }, wait: 3400 },
+  // Once the layout has settled, a dotted trace links the answer to its source
+  { set: { trace: true }, wait: TRACE_MS + 3300 },
 ];
 
 /** The scene right after a source is added, before it syncs. */
@@ -103,8 +100,7 @@ const ADDED: Partial<Scene> = {
   pages: 0,
   syncedNow: false,
   answer: false,
-  fly: false,
-  chipIn: false,
+  trace: false,
 };
 
 /** The loop, about 22s: add a Notion source, watch it sync, then see an answer cite it. */
@@ -191,7 +187,7 @@ export function AsimovKnowledgeEmbed() {
   });
 
   /** The list as it stands, or the finished one if the loop hadn't got that far. */
-  const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null, focus: false, fly: false, chipIn: s.answer } : { ...FINAL, open: s.open });
+  const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null, focus: false, trace: false } : { ...FINAL, open: s.open });
 
   const toggle = (id: RowId) => takeOver((s) => ({ ...settled(s), open: { ...settled(s).open, [id]: !settled(s).open[id] } }));
 
@@ -218,43 +214,72 @@ export function AsimovKnowledgeEmbed() {
   };
   const rowName = view.name.trim() || NAME;
 
-  // The flight: a copy of the row's name travels to where the chip will land
+  // The trace: a dotted line from the answer's source line, up and round to the row's icon
   const nameRef = useRef<HTMLSpanElement>(null);
-  const chipRef = useRef<HTMLSpanElement>(null);
-  const ghostRef = useRef<HTMLSpanElement>(null);
+  const sourceRef = useRef<HTMLParagraphElement>(null);
+  const traceRef = useRef<SVGSVGElement>(null);
   useEffect(() => {
-    const ghost = ghostRef.current;
-    const stage = ghost?.parentElement;
-    const from = nameRef.current;
-    const to = chipRef.current;
-    if (!view.fly || !ghost || !stage || !from || !to) return;
+    const svg = traceRef.current;
+    const stage = svg?.parentElement;
+    const icon = nameRef.current?.querySelector("img");
+    const row = nameRef.current?.closest("[data-row]");
+    const source = sourceRef.current;
+    const reply = source?.parentElement;
+    if (!view.trace || !svg || !stage || !icon || !row || !source || !reply) return;
     const box = stage.getBoundingClientRect();
     const k = box.width / STAGE_W;
-    const a = from.getBoundingClientRect();
-    const b = to.getBoundingClientRect();
-    // The ghost is a small pill (7px to its icon); start with its icon on the row's icon
-    const gh = ghost.offsetHeight;
-    const fx = (a.left - box.left) / k - GHOST_INSET;
-    const fy = (a.top - box.top) / k - (gh - a.height / k) / 2;
-    // Land with its icon on the chip's icon (4px in), shrunk to the chip's 12px type
-    const tx = (b.left - box.left) / k + 4 - GHOST_INSET * CHIP_SCALE;
-    const ty = (b.top - box.top) / k + (b.height / k - gh * CHIP_SCALE) / 2;
-    // Arc out past the right edge of the bubbles, so it never crosses their text
-    const bubbles = to.closest("[data-focus]")?.getBoundingClientRect() ?? b;
-    const mx = (bubbles.right - box.left) / k + 24;
-    const my = (fy + ty) / 2;
-    const flight = ghost.animate(
-      [
-        { transform: `translate(${fx}px, ${fy}px) scale(1)`, opacity: 0 },
-        { opacity: 1, offset: 0.12 },
-        { transform: `translate(${mx}px, ${my}px) scale(0.94)`, offset: 0.55 },
-        { opacity: 1, offset: 0.88 },
-        { transform: `translate(${tx}px, ${ty}px) scale(${CHIP_SCALE})`, opacity: 0 },
-      ],
-      { duration: FLIGHT_MS, easing: "cubic-bezier(0.45, 0, 0.2, 1)" },
+    const x = (v: number) => (v - box.left) / k;
+    const y = (v: number) => (v - box.top) / k;
+    const src = source.getBoundingClientRect();
+    const ic = icon.getBoundingClientRect();
+    // Starts just outside the reply bubble, level with "Source", and ends under the row's icon
+    const x0 = x(reply.getBoundingClientRect().left) - 8;
+    const y0 = y(src.top + src.height / 2);
+    const x1 = x(ic.left + ic.width / 2);
+    const y1 = y(row.getBoundingClientRect().bottom) + 8;
+    const d = `M ${x0} ${y0} C ${x1 + (x0 - x1) * 0.2} ${y0}, ${x1} ${y0 - (y0 - y1) * 0.25}, ${x1} ${y1}`;
+    const guide = svg.querySelector<SVGPathElement>("path");
+    const dots = svg.querySelector<SVGGElement>("g");
+    const [startDot, endDot] = svg.querySelectorAll<SVGCircleElement>(":scope > circle");
+    if (!guide || !dots || !startDot || !endDot) return;
+    guide.setAttribute("d", d);
+    startDot.setAttribute("cx", String(x0));
+    startDot.setAttribute("cy", String(y0));
+    endDot.setAttribute("cx", String(x1));
+    endDot.setAttribute("cy", String(y1));
+    // Dots every few px along the curve, each fading in after the one before, from the answer up to the source
+    const length = guide.getTotalLength();
+    const count = Math.floor(length / TRACE_SPACING);
+    const animations: Animation[] = [];
+    dots.replaceChildren();
+    for (let i = 1; i < count; i++) {
+      const p = guide.getPointAtLength((length * i) / count);
+      const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      dot.setAttribute("cx", String(p.x));
+      dot.setAttribute("cy", String(p.y));
+      dot.setAttribute("r", "1.75");
+      dots.appendChild(dot);
+      animations.push(
+        dot.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 160,
+          delay: (TRACE_MS * i) / count,
+          fill: "both",
+        }),
+      );
+    }
+    animations.push(
+      endDot.animate([{ opacity: 0, transform: "scale(0)" }, { opacity: 1, transform: "scale(1)" }], {
+        duration: 300,
+        delay: TRACE_MS - 100,
+        easing: "cubic-bezier(0.34, 1.4, 0.64, 1)",
+        fill: "both",
+      }),
     );
-    return () => flight.cancel();
-  }, [view.fly]);
+    return () => {
+      animations.forEach((a) => a.cancel());
+      dots.replaceChildren();
+    };
+  }, [view.trace]);
 
   // Hovering the chip lifts its row, and hovering the row lights up the chip
   const [linked, setLinked] = useState<"row" | "chip" | null>(null);
@@ -324,12 +349,10 @@ export function AsimovKnowledgeEmbed() {
               <p className={styles.question}>What did we ship in the last release?</p>
               <div className={styles.reply}>
                 <p>Release 4.2 added custom actions and faster syncs for Notion pages.</p>
-                <p className={styles.source}>
+                <p className={styles.source} ref={sourceRef}>
                   Source
                   <span
-                    ref={chipRef}
                     className={styles.sourceChip}
-                    data-in={view.chipIn || undefined}
                     data-linked={(linkable && linked === "row") || undefined}
                     onPointerEnter={linkable ? () => setLinked("chip") : undefined}
                     onPointerLeave={linkable ? () => setLinked(null) : undefined}
@@ -344,11 +367,12 @@ export function AsimovKnowledgeEmbed() {
           </Grow>
         </div>
 
-        <span ref={ghostRef} className={styles.ghost} aria-hidden="true">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/asimov-demo/notion.svg" alt="" width={20} height={20} />
-          {rowName}
-        </span>
+        <svg ref={traceRef} className={styles.trace} data-on={view.trace || undefined} aria-hidden="true">
+          <path className={styles.traceGuide} />
+          <g className={styles.traceDots} />
+          <circle className={styles.traceEnd} r="3" />
+          <circle className={styles.traceEnd} r="3" />
+        </svg>
 
         <div className={styles.scrim} data-on={view.modal || undefined} />
         <Modal
@@ -364,11 +388,6 @@ export function AsimovKnowledgeEmbed() {
     </div>
   );
 }
-
-/** The chip's 12px type against the row's 14px. */
-const CHIP_SCALE = 12 / 14;
-/** Ghost pill's left padding plus border, before its icon. */
-const GHOST_INSET = 7;
 
 /** Space between the list's parts, inside each part so it collapses with it. */
 const GAP = 12;
@@ -430,6 +449,7 @@ function Row({
   return (
     <div
       className={styles.row}
+      data-row
       data-open={open || undefined}
       data-quiet={quiet || undefined}
       data-linked={linked || undefined}

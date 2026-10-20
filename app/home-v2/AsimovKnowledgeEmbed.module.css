@@ -428,16 +428,9 @@
   background: rgba(79, 20, 141, 0.06);
   color: var(--tx-purple);
   font-weight: 500;
-  opacity: 0;
   transition:
-    opacity 200ms ease,
     background-color 300ms ease,
     border-color 300ms ease;
-}
-
-/* Lands as the flying copy arrives */
-.sourceChip[data-in] {
-  opacity: 1;
 }
 
 /* Hovering the row lights up its chip */
@@ -446,33 +439,37 @@
   background: rgba(79, 20, 141, 0.12);
 }
 
-/* The copy of the row's name that flies into the answer (moved by the Web Animations API) */
-.ghost {
+/* Dotted trace from the answer's source line up to the row it came from.
+   Its dots are placed along a curve and fade in one after another (see the effect). */
+.trace {
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 10px 4px 6px;
-  border: 1px solid rgba(79, 20, 141, 0.16);
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: var(--tx-shadow);
-  font-size: 14px;
-  line-height: 19.6px;
-  letter-spacing: -0.14px;
-  font-weight: 500;
-  color: var(--tx-purple);
-  white-space: nowrap;
-  transform-origin: 0 50%;
+  width: 1008px;
+  height: 575px;
+  overflow: visible;
   opacity: 0;
-  pointer-events: none;
+  transition: opacity 300ms ease;
 }
 
-.ghost img {
-  display: block;
-  flex: none;
+.trace[data-on] {
+  opacity: 1;
+}
+
+/* The curve the dots are placed along; not drawn itself */
+.traceGuide {
+  fill: none;
+  stroke: none;
+}
+
+.traceDots {
+  fill: rgba(79, 20, 141, 0.7);
+}
+
+.traceEnd {
+  fill: var(--tx-purple);
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 /* ── Add Knowledge modal ───────────────────────────────── */
@@ -790,7 +787,7 @@
 .root[data-interactive] .modal[data-open] button:not(:disabled) *,
 .root[data-interactive] .modal[data-open] .input,
 .root[data-interactive] .row,
-.root[data-interactive] .sourceChip[data-in] {
+.root[data-interactive] .answer[data-focus] .sourceChip {
   pointer-events: auto !important;
 }
 
@@ -836,6 +833,7 @@
   .status i,
   .row,
   .sourceChip,
+  .trace,
   .connect,
   .submit {
     transition: none;

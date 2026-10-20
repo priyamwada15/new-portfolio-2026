@@ -97,6 +97,9 @@ const BEATS: Beat<Scene>[] = [
   { set: { fading: true }, wait: 700 },
 ];
 
+/** Opening frame when the card scrolls into view: the question already answered, so the card says something at once. */
+const ENTRY = { scene: { ...START, intro: "top" as const, shown: 2 }, beat: BEATS.findIndex((b) => b.set.shown === 2) };
+
 /** Clear space beside the chat column (stage px) where the "Read" cursor stays off; the right side covers the next card's peek. */
 const SIDE_CLEAR_LEFT = 32;
 const SIDE_CLEAR_RIGHT = 64;
@@ -119,6 +122,7 @@ export function RocketAssistEmbed() {
     final: FINAL,
     beats: BEATS,
     sideClear: { left: SIDE_CLEAR_LEFT, right: SIDE_CLEAR_RIGHT },
+    entry: ENTRY,
   });
 
   /** A visitor took over: show the whole conversation, keeping the card they're on. */

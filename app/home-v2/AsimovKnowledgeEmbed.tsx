@@ -108,6 +108,22 @@ const BEATS: Beat<Scene>[] = [
   { set: { fading: true }, wait: 700 },
 ];
 
+/** Opening frame when the card scrolls into view: the new source already syncing, its details open. */
+const ENTRY = {
+  scene: {
+    ...START,
+    listIn: true,
+    connected: true,
+    name: NAME,
+    addReady: true,
+    ...ADDED,
+    status: "s2" as Status,
+    open: { product: true, sales: false, enterprise: false },
+    pages: 74,
+  },
+  beat: BEATS.findIndex((b) => b.set.pages === 74),
+};
+
 type Resource = {
   id: RowId;
   name: string;
@@ -153,6 +169,7 @@ export function AsimovKnowledgeEmbed() {
     beats: BEATS,
     sideClear: { left: 24, right: 24 },
     onReset: clearSync,
+    entry: ENTRY,
   });
 
   /** The list as it stands, or the finished one if the loop hadn't got that far. */

@@ -25,6 +25,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
   beats,
   sideClear = { left: 32, right: 32 },
   onReset,
+  entry,
 }: {
   start: S;
   final: S;
@@ -33,6 +34,12 @@ export function useCardDemo<S extends { fading?: boolean }>({
   sideClear?: { left: number; right: number };
   /** Called when the loop starts over (restart button, or the card leaving the screen), to clear any timers the demo runs itself */
   onReset?: () => void;
+  /**
+   * Where the loop opens when the card scrolls into view: a scene that already
+   * says something, and the beat to carry on from. Later passes, and the restart
+   * button, play the whole loop from the top.
+   */
+  entry?: { scene: S; beat: number };
 }) {
   const onResetRef = useRef(onReset);
   useEffect(() => {
@@ -41,7 +48,10 @@ export function useCardDemo<S extends { fading?: boolean }>({
   const rootRef = useRef<HTMLDivElement>(null);
   const uiRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
-  const [scene, setScene] = useState<S>(start);
+  const opening = entry?.scene ?? start;
+  const [scene, setScene] = useState<S>(opening);
+  // True until the loop has started from the entry point once since coming into view
+  const fromEntry = useRef(true);
   const [interactive, setInteractive] = useState(false);
   // Autoplay runs until a visitor takes over; it comes back after the card leaves the screen
   const [auto, setAuto] = useState(true);
@@ -85,22 +95,24 @@ export function useCardDemo<S extends { fading?: boolean }>({
         // Leaving the screen resets the loop, so it starts from the top next time
         if (!entry.isIntersecting) {
           onResetRef.current?.();
+          fromEntry.current = true;
           setAuto(true);
-          setScene(start);
+          setScene(opening);
         }
       },
       { threshold: 0.35 },
     );
     io.observe(root);
     return () => io.disconnect();
-    // start is a module constant
+    // opening is a module constant
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // The loop
   useEffect(() => {
     if (reduced || !inView || !auto) return;
-    let beat = 0;
+    let beat = fromEntry.current && entry ? entry.beat : 0;
+    fromEntry.current = false;
     let timer: number;
     const step = () => {
       const { set, wait } = beats[beat];
@@ -110,7 +122,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
     };
     step();
     return () => window.clearTimeout(timer);
-    // beats is a module constant
+    // beats and entry are module constants
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView, auto, reduced, run]);
 

@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 /** Review-only copy of the site (Dive Club) is served under this prefix. See `app/dive/`. */
 export const REVIEW_BASE = "/dive";
 
-/** Paths served by another app in the microfrontends group, so they can't be mirrored under `/dive`. */
+/** Paths rewritten to another app (see `next.config.ts`), so they can't be mirrored under `/dive`. */
 const UNMIRRORED_PREFIXES = ["/the-intelligencer"] as const;
 
 export function isReviewPath(pathname: string): boolean {

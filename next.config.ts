@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import path from "path";
-import { withMicrofrontends } from "@vercel/microfrontends/next/config";
 
 /**
  * Pin Turbopack to this repo. If another `package-lock.json` exists higher on
@@ -28,15 +27,20 @@ const nextConfig: NextConfig = {
       // The playground page was renamed to "fun".
       { source: "/playground", destination: "/fun", permanent: true },
       { source: "/dive/playground", destination: "/dive/fun", permanent: true },
-      // the-intelligencer.vercel.app's root now falls through to this app
-      // (unmatched paths on any project in the microfrontends group land
-      // on the default app), so send it to the app's real home instead of
-      // showing the portfolio.
+    ];
+  },
+  async rewrites() {
+    return [
+      // The Intelligencer is its own Vercel project, built with basePath
+      // "/the-intelligencer", so the full path (assets included) is
+      // forwarded unchanged.
       {
-        source: "/",
-        has: [{ type: "host", value: "the-intelligencer.vercel.app" }],
-        destination: "https://www.priyamwada.me/the-intelligencer",
-        permanent: true,
+        source: "/the-intelligencer",
+        destination: "https://the-intelligencer.vercel.app/the-intelligencer",
+      },
+      {
+        source: "/the-intelligencer/:path*",
+        destination: "https://the-intelligencer.vercel.app/the-intelligencer/:path*",
       },
     ];
   },
@@ -50,4 +54,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withMicrofrontends(nextConfig);
+export default nextConfig;

@@ -17,8 +17,8 @@ const CLOUDS = [
 
 /** Headline, one array per set line; each word rises in on load, in order. */
 const TITLE_LINES = [
-  ["Designing", "AI", "and", "B2B"],
-  ["products", "people", "can", "follow."],
+  ["I", "make", "complicated", "systems"],
+  ["clear", "enough", "to", "act", "on."],
 ];
 
 /**

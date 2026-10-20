@@ -2,15 +2,29 @@
 
 Started 2026-10-16 after Geoff Keehan's (ex-VP Design, Meta) review on `/dive`: the portfolio reads as generic, the hero says little, the Adtua thumbnail isn't a hook, the Asimov and Rocket Mortgage card videos are hard to read, and the page has too many similar text and button styles.
 
-## Locked hero copy (2026-10-16)
+## Locked hero headline (2026-10-19)
 
-> **I use AI every day and I still want to know how it got to an answer.**
+> **I make complicated systems clear enough to act on.**
+
+This is the only text in the hero, under the creative license card. Set as two lines on desktop: "I make complicated systems / clear enough to act on." It's 56px/60px medium, stepping down to 32px/36px below the tablet breakpoint (744px).
+
+Why this line:
+- It covers all four projects: Rocket Assist's sourced cards, Asimov's setup, controls and answer verification, Debug Mode stopping on the broken node, and the Heartland ad marketplace. The earlier "answer"-based options left out Asimov's setup side and the marketplace.
+- "AI" is left out on purpose, since it can read as gimmicky. The case study tags ("AI Assistant") carry it, and they're visible in the peek below the hero.
+- "B2B" is left out because the first case study, Rocket Mortgage, is B2C.
+- There's no proof line under it. That made the hero busy. The card gives her name and role, and the Rocket Mortgage card peeking in below gives the proof.
+
+Type rules for the homepage: use only design-system colours (`--ds-text-primary`, `--ds-text-secondary`), and keep every font size, line height, padding and gap a multiple of 4 or 8.
+
+## Earlier copy (2026-10-16, replaced)
+
+> I use AI every day and I still want to know how it got to an answer.
 >
 > Product designer building AI and complex products that show their reasoning, so people can understand what's happening and decide what to do next.
 >
 > Previously at Rocket Mortgage and Tars. Currently designing a two-sided ad marketplace at Heartland Community Network.
 
-Line 1 is the headline (set large). Line 2 says what she does. Line 3 is the proof line.
+The positioning behind it still holds. The headline above says the same thing without naming AI.
 
 ## Decisions
 

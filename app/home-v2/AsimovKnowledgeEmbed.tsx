@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
-import { DemoIcon, useCardDemo, type Beat } from "./useCardDemo";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
+import { DemoIcon, STAGE_W, useCardDemo, type Beat } from "./useCardDemo";
 import styles from "./AsimovKnowledgeEmbed.module.css";
 
 type Status = "not" | "s1" | "s2" | "s3" | "s4" | "done";
@@ -26,6 +26,9 @@ type Scene = {
   answer: boolean;
   /** The answer alone with its source: everything else steps away */
   focus: boolean;
+  /** The source flies from its row into the answer, then lands as the chip */
+  fly: boolean;
+  chipIn: boolean;
 };
 
 const NAME = "Product Wiki";
@@ -47,6 +50,8 @@ const START: Scene = {
   syncedNow: false,
   answer: false,
   focus: false,
+  fly: false,
+  chipIn: false,
 };
 
 const FINAL: Scene = {
@@ -62,7 +67,11 @@ const FINAL: Scene = {
   pages: PAGES,
   syncedNow: true,
   answer: true,
+  chipIn: true,
 };
+
+/** How long the source takes to fly from its row into the answer. */
+const FLIGHT_MS = 900;
 
 /** From the moment a source is added: it syncs, opens to show its details, then an answer cites it. */
 const SYNC_STEPS: Beat<Scene>[] = [
@@ -78,7 +87,10 @@ const SYNC_STEPS: Beat<Scene>[] = [
   { set: { pages: PAGES }, wait: 500 },
   { set: { status: "done", syncedNow: true }, wait: 1600 },
   // The answer takes centre stage with only its source beside it
-  { set: { answer: true, focus: true, open: { product: false, sales: false, enterprise: false } }, wait: 4200 },
+  { set: { answer: true, focus: true, open: { product: false, sales: false, enterprise: false } }, wait: 1000 },
+  // Once the layout has settled, the source flies down into the answer
+  { set: { fly: true }, wait: FLIGHT_MS },
+  { set: { fly: false, chipIn: true }, wait: 3400 },
 ];
 
 /** The scene right after a source is added, before it syncs. */
@@ -91,6 +103,8 @@ const ADDED: Partial<Scene> = {
   pages: 0,
   syncedNow: false,
   answer: false,
+  fly: false,
+  chipIn: false,
 };
 
 /** The loop, about 22s: add a Notion source, watch it sync, then see an answer cite it. */
@@ -177,7 +191,7 @@ export function AsimovKnowledgeEmbed() {
   });
 
   /** The list as it stands, or the finished one if the loop hadn't got that far. */
-  const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null, focus: false } : { ...FINAL, open: s.open });
+  const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null, focus: false, fly: false, chipIn: s.answer } : { ...FINAL, open: s.open });
 
   const toggle = (id: RowId) => takeOver((s) => ({ ...settled(s), open: { ...settled(s).open, [id]: !settled(s).open[id] } }));
 
@@ -204,6 +218,48 @@ export function AsimovKnowledgeEmbed() {
   };
   const rowName = view.name.trim() || NAME;
 
+  // The flight: a copy of the row's name travels to where the chip will land
+  const nameRef = useRef<HTMLSpanElement>(null);
+  const chipRef = useRef<HTMLSpanElement>(null);
+  const ghostRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const ghost = ghostRef.current;
+    const stage = ghost?.parentElement;
+    const from = nameRef.current;
+    const to = chipRef.current;
+    if (!view.fly || !ghost || !stage || !from || !to) return;
+    const box = stage.getBoundingClientRect();
+    const k = box.width / STAGE_W;
+    const a = from.getBoundingClientRect();
+    const b = to.getBoundingClientRect();
+    // The ghost is a small pill (7px to its icon); start with its icon on the row's icon
+    const gh = ghost.offsetHeight;
+    const fx = (a.left - box.left) / k - GHOST_INSET;
+    const fy = (a.top - box.top) / k - (gh - a.height / k) / 2;
+    // Land with its icon on the chip's icon (4px in), shrunk to the chip's 12px type
+    const tx = (b.left - box.left) / k + 4 - GHOST_INSET * CHIP_SCALE;
+    const ty = (b.top - box.top) / k + (b.height / k - gh * CHIP_SCALE) / 2;
+    // Arc out past the right edge of the bubbles, so it never crosses their text
+    const bubbles = to.closest("[data-focus]")?.getBoundingClientRect() ?? b;
+    const mx = (bubbles.right - box.left) / k + 24;
+    const my = (fy + ty) / 2;
+    const flight = ghost.animate(
+      [
+        { transform: `translate(${fx}px, ${fy}px) scale(1)`, opacity: 0 },
+        { opacity: 1, offset: 0.12 },
+        { transform: `translate(${mx}px, ${my}px) scale(0.94)`, offset: 0.55 },
+        { opacity: 1, offset: 0.88 },
+        { transform: `translate(${tx}px, ${ty}px) scale(${CHIP_SCALE})`, opacity: 0 },
+      ],
+      { duration: FLIGHT_MS, easing: "cubic-bezier(0.45, 0, 0.2, 1)" },
+    );
+    return () => flight.cancel();
+  }, [view.fly]);
+
+  // Hovering the chip lifts its row, and hovering the row lights up the chip
+  const [linked, setLinked] = useState<"row" | "chip" | null>(null);
+  const linkable = interactive && view.answer;
+
   return (
     <div
       ref={rootRef}
@@ -229,6 +285,9 @@ export function AsimovKnowledgeEmbed() {
           <Grow show={view.newRow} gap={view.focus ? 0 : GAP}>
             <Row
               name={rowName}
+              nameRef={nameRef}
+              linked={linkable && linked === "chip"}
+              onLink={linkable ? (on) => setLinked(on ? "row" : null) : undefined}
               status={view.status}
               open={view.open.product}
               interactive={interactive}
@@ -267,7 +326,14 @@ export function AsimovKnowledgeEmbed() {
                 <p>Release 4.2 added custom actions and faster syncs for Notion pages.</p>
                 <p className={styles.source}>
                   Source
-                  <span className={styles.sourceChip}>
+                  <span
+                    ref={chipRef}
+                    className={styles.sourceChip}
+                    data-in={view.chipIn || undefined}
+                    data-linked={(linkable && linked === "row") || undefined}
+                    onPointerEnter={linkable ? () => setLinked("chip") : undefined}
+                    onPointerLeave={linkable ? () => setLinked(null) : undefined}
+                  >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/asimov-demo/notion.svg" alt="" width={14} height={14} />
                     {rowName}
@@ -277,6 +343,12 @@ export function AsimovKnowledgeEmbed() {
             </div>
           </Grow>
         </div>
+
+        <span ref={ghostRef} className={styles.ghost} aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/asimov-demo/notion.svg" alt="" width={20} height={20} />
+          {rowName}
+        </span>
 
         <div className={styles.scrim} data-on={view.modal || undefined} />
         <Modal
@@ -292,6 +364,11 @@ export function AsimovKnowledgeEmbed() {
     </div>
   );
 }
+
+/** The chip's 12px type against the row's 14px. */
+const CHIP_SCALE = 12 / 14;
+/** Ghost pill's left padding plus border, before its icon. */
+const GHOST_INSET = 7;
 
 /** Space between the list's parts, inside each part so it collapses with it. */
 const GAP = 12;
@@ -327,6 +404,9 @@ function Location({ place }: { place: string }) {
 
 function Row({
   name,
+  nameRef,
+  linked,
+  onLink,
   status,
   open,
   quiet,
@@ -335,6 +415,10 @@ function Row({
   details,
 }: {
   name: string;
+  nameRef?: RefObject<HTMLSpanElement | null>;
+  /** Lifted while the answer's source chip is hovered */
+  linked?: boolean;
+  onLink?: (on: boolean) => void;
   status: Status;
   open: boolean;
   /** Older, already-synced rows sit back so the new one leads */
@@ -344,7 +428,14 @@ function Row({
   details: [string, ReactNode, string?][];
 }) {
   return (
-    <div className={styles.row} data-open={open || undefined} data-quiet={quiet || undefined}>
+    <div
+      className={styles.row}
+      data-open={open || undefined}
+      data-quiet={quiet || undefined}
+      data-linked={linked || undefined}
+      onPointerEnter={onLink ? () => onLink(true) : undefined}
+      onPointerLeave={onLink ? () => onLink(false) : undefined}
+    >
       <button
         type="button"
         className={styles.rowHeader}
@@ -352,7 +443,7 @@ function Row({
         aria-expanded={open}
         onClick={onToggle}
       >
-        <span className={styles.rowName}>
+        <span className={styles.rowName} ref={nameRef}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/asimov-demo/notion.svg" alt="" width={20} height={20} />
           {name}

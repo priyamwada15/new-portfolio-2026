@@ -113,7 +113,9 @@
 .row {
   display: flex;
   flex-direction: column;
-  transition: box-shadow 800ms ease;
+  transition:
+    box-shadow 300ms ease,
+    translate 300ms var(--tx-ease);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 8px;
   background: var(--tx-surface);
@@ -138,7 +140,16 @@
 }
 
 /* Older, already-synced rows sit back so the new one leads */
-.row[data-quiet] .rowName {
+.row[data-quiet] /* Hovering the answer's source chip lifts the row it came from */
+.row[data-linked] {
+  translate: 0 -2px;
+  box-shadow:
+    0 0 0 1px rgba(79, 20, 141, 0.16),
+    0 2px 4px rgba(17, 17, 17, 0.08),
+    0 12px 28px rgba(17, 17, 17, 0.12);
+}
+
+.rowName {
   color: var(--tx-secondary);
 }
 
@@ -417,6 +428,51 @@
   background: rgba(79, 20, 141, 0.06);
   color: var(--tx-purple);
   font-weight: 500;
+  opacity: 0;
+  transition:
+    opacity 200ms ease,
+    background-color 300ms ease,
+    border-color 300ms ease;
+}
+
+/* Lands as the flying copy arrives */
+.sourceChip[data-in] {
+  opacity: 1;
+}
+
+/* Hovering the row lights up its chip */
+.sourceChip[data-linked] {
+  border-color: rgba(79, 20, 141, 0.32);
+  background: rgba(79, 20, 141, 0.12);
+}
+
+/* The copy of the row's name that flies into the answer (moved by the Web Animations API) */
+.ghost {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 6px;
+  border: 1px solid rgba(79, 20, 141, 0.16);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--tx-shadow);
+  font-size: 14px;
+  line-height: 19.6px;
+  letter-spacing: -0.14px;
+  font-weight: 500;
+  color: var(--tx-purple);
+  white-space: nowrap;
+  transform-origin: 0 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ghost img {
+  display: block;
+  flex: none;
 }
 
 /* ── Add Knowledge modal ───────────────────────────────── */
@@ -732,7 +788,9 @@
 .root[data-interactive] .rowHeader *,
 .root[data-interactive] .modal[data-open] button:not(:disabled),
 .root[data-interactive] .modal[data-open] button:not(:disabled) *,
-.root[data-interactive] .modal[data-open] .input {
+.root[data-interactive] .modal[data-open] .input,
+.root[data-interactive] .row,
+.root[data-interactive] .sourceChip[data-in] {
   pointer-events: auto !important;
 }
 
@@ -777,6 +835,7 @@
   .status,
   .status i,
   .row,
+  .sourceChip,
   .connect,
   .submit {
     transition: none;

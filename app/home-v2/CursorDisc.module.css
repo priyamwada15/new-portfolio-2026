@@ -1,13 +1,13 @@
-/* Rose cursor disc ("Read", "Flip"): 44px, follows the pointer beside it rather
+/* Rose cursor disc ("Read", "Flip"): 48px, follows the pointer beside it rather
    than replacing it. The disc (::before) and label scale in together when it turns on. */
 .cursor {
   position: fixed;
   z-index: 60;
   top: 0;
   left: 0;
-  width: 44px;
-  height: 44px;
-  margin: -22px 0 0 -22px;
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
   padding: 8px;
   box-sizing: border-box;
   display: flex;

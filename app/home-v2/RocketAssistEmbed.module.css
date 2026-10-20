@@ -42,7 +42,7 @@
   height: 575px;
   transform: scale(var(--scale));
   transform-origin: 0 0;
-  transition: opacity 400ms ease;
+  transition: opacity 600ms ease;
 }
 
 .stage[data-fading] {
@@ -76,6 +76,20 @@
   font-weight: 500;
   line-height: 23.4px;
   white-space: nowrap;
+  transition:
+    opacity 800ms ease,
+    translate 1000ms var(--ra-ease);
+}
+
+/* Intro: it fades in at the centre of the card (about 244px below its resting
+   spot), then glides up before the conversation starts */
+.header[data-intro="hidden"],
+.header[data-intro="center"] {
+  translate: -50% 244px;
+}
+
+.header[data-intro="hidden"] {
+  opacity: 0;
 }
 
 .header img {
@@ -112,7 +126,7 @@
 .appear {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 500ms var(--ra-ease);
+  transition: grid-template-rows 900ms var(--ra-ease);
 }
 
 .appear[data-show] {
@@ -133,8 +147,8 @@
   opacity: 0;
   translate: 0 8px;
   transition:
-    opacity 400ms ease,
-    translate 500ms var(--ra-ease);
+    opacity 700ms ease,
+    translate 900ms var(--ra-ease);
 }
 
 .appear[data-show] .appearInner > * {
@@ -230,7 +244,7 @@
   display: flex;
   gap: 16px;
   transform: translateX(calc(var(--index) * -326px));
-  transition: transform 600ms var(--ra-ease);
+  transition: transform 1100ms var(--ra-ease);
 }
 
 .card {
@@ -247,8 +261,8 @@
   text-align: inherit;
   perspective: 1200px;
   transition:
-    scale 600ms var(--ra-ease),
-    opacity 600ms var(--ra-ease);
+    scale 1100ms var(--ra-ease),
+    opacity 1100ms var(--ra-ease);
 }
 
 .card:focus-visible {
@@ -278,7 +292,7 @@
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  transition: transform 700ms var(--ra-ease);
+  transition: transform 1000ms var(--ra-ease);
 }
 
 .card[data-flipped] .flip {
@@ -305,11 +319,26 @@
   transform: rotateY(180deg);
 }
 
+/* Profile, then 16px, then the stats row (the frame's "Header") */
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .profile {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+}
+
+/* Name block, then 4px, then location and certification */
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .photo {
@@ -360,7 +389,6 @@
 .stats {
   display: flex;
   gap: 8px;
-  margin-top: 8px;
 }
 
 .stat {
@@ -374,6 +402,7 @@
 
 .call {
   display: flex;
+  flex: none;
   align-items: center;
   justify-content: center;
   height: 40px;
@@ -425,7 +454,7 @@
   border-radius: 50%;
   background: rgba(17, 17, 17, 0.16);
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
-  animation: tap 450ms var(--ra-ease) both;
+  animation: tap 700ms var(--ra-ease) both;
   pointer-events: none;
 }
 
@@ -494,7 +523,7 @@
   height: 8px;
   border-radius: 50%;
   background: var(--ra-dot);
-  transition: background-color 300ms ease;
+  transition: background-color 500ms ease;
 }
 
 .dots i[data-on] {
@@ -520,6 +549,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .stage,
+  .header,
   .appear,
   .appearInner > *,
   .track,

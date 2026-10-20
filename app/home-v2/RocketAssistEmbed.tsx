@@ -15,7 +15,8 @@ type Inspector = {
   specialty: { icon: string; label: string };
   inspections: string;
   rating: string;
-  summary: [string, string];
+  /** AI-generated review summary on the back of the card */
+  summary: string;
 };
 
 const INSPECTORS: Inspector[] = [
@@ -27,10 +28,8 @@ const INSPECTORS: Inspector[] = [
     specialty: { icon: "home", label: "General Inspector" },
     inspections: "40+ inspections",
     rating: "4.5 (36 reviews)",
-    summary: [
-      "Clients consistently praise Sarah for her thoroughness, professionalism, and excellent communication throughout the inspection process. She explains the findings clearly and offers helpful suggestions without being pushy, ensuring clients feel comfortable and well-informed.",
-      "Her service includes same-day reports and a wide array of inspection options. Clients recommend Sarah for providing prompt and approachable service.",
-    ],
+    summary:
+      "Clients praise Sarah for thorough inspections and findings she explains clearly. Reports arrive the same day, and her suggestions are helpful without being pushy.",
   },
   {
     name: "John Cusack",
@@ -40,10 +39,8 @@ const INSPECTORS: Inspector[] = [
     specialty: { icon: "pool", label: "Pool Inspector" },
     inspections: "20+ inspections",
     rating: "4.3 (11 reviews)",
-    summary: [
-      "Clients consistently praise John for his thoroughness, professionalism, and excellent communication throughout the inspection process. He explains the findings clearly and offers helpful suggestions without being pushy, ensuring clients feel comfortable and well-informed.",
-      "His service includes same-day reports and a wide array of inspection options. Clients recommend John for providing prompt and approachable service.",
-    ],
+    summary:
+      "Clients praise John for thorough pool inspections and findings he explains clearly. Reports arrive the same day, and his suggestions are helpful without being pushy.",
   },
 ];
 
@@ -66,27 +63,41 @@ type Scene = {
   flipped: boolean;
   index: number;
   fading: boolean;
+  /** The Rocket Assist pill: hidden at the centre, shown at the centre, then up at the top */
+  intro: "hidden" | "center" | "top";
 };
 
-const START: Scene = { shown: 0, typing: false, cards: false, tap: false, flipped: false, index: 0, fading: false };
-const FINAL: Scene = { shown: 3, typing: false, cards: true, tap: false, flipped: false, index: 0, fading: false };
+const START: Scene = {
+  shown: 0,
+  typing: false,
+  cards: false,
+  tap: false,
+  flipped: false,
+  index: 0,
+  fading: false,
+  intro: "hidden",
+};
+const FINAL: Scene = { ...START, shown: 3, cards: true, intro: "top" };
 
-/** The loop: each beat sets part of the scene, then waits. About 13s in all. */
+/** The loop: each beat sets part of the scene, then waits. About 23s in all, slow enough to follow. */
 const BEATS: { set: Partial<Scene>; wait: number }[] = [
   // Reset while faded out, so the conversation clears out of sight
-  { set: { ...START, fading: true }, wait: 450 },
-  { set: { fading: false }, wait: 400 },
-  { set: { shown: 1 }, wait: 700 },
-  { set: { typing: true }, wait: 1100 },
-  { set: { typing: false, shown: 2 }, wait: 1500 },
-  { set: { typing: true }, wait: 800 },
-  { set: { typing: false, shown: 3 }, wait: 600 },
-  { set: { cards: true }, wait: 1300 },
-  { set: { tap: true }, wait: 450 },
-  { set: { tap: false, flipped: true }, wait: 2600 },
-  { set: { flipped: false }, wait: 900 },
-  { set: { index: 1 }, wait: 2200 },
-  { set: { fading: true }, wait: 500 },
+  { set: { ...START, fading: true }, wait: 700 },
+  { set: { fading: false }, wait: 200 },
+  // Rocket Assist fades in at the centre, then moves up to make room
+  { set: { intro: "center" }, wait: 1300 },
+  { set: { intro: "top" }, wait: 1100 },
+  { set: { shown: 1 }, wait: 1200 },
+  { set: { typing: true }, wait: 1600 },
+  { set: { typing: false, shown: 2 }, wait: 2800 },
+  { set: { typing: true }, wait: 1300 },
+  { set: { typing: false, shown: 3 }, wait: 1100 },
+  { set: { cards: true }, wait: 2000 },
+  { set: { tap: true }, wait: 700 },
+  { set: { tap: false, flipped: true }, wait: 3600 },
+  { set: { flipped: false }, wait: 1500 },
+  { set: { index: 1 }, wait: 3400 },
+  { set: { fading: true }, wait: 700 },
 ];
 
 /** Horizontal drag distance, in px, that swipes to the other card. */
@@ -226,7 +237,7 @@ export function RocketAssistEmbed() {
         data-fading={view.fading || undefined}
       >
         <div className={styles.column}>
-          <div className={styles.header}>
+          <div className={styles.header} data-intro={view.intro}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/rocket-assist/rocket-assist-avatar.svg" alt="" width={32} height={32} />
             <span>Rocket Assist</span>
@@ -423,31 +434,34 @@ function InspectorCard({
     >
       <span className={styles.flip}>
         <span className={`${styles.face} ${styles.front}`} aria-hidden={flipped || undefined}>
-          <span className={styles.profile}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={person.photo} alt="" width={64} height={64} className={styles.photo} draggable={false} />
-            <span className={styles.who}>
-              <span className={styles.name}>{person.name}</span>
-              <span className={styles.company}>{person.company}</span>
+          <span className={styles.details}>
+            <span className={styles.profile}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={person.photo} alt="" width={64} height={64} className={styles.photo} draggable={false} />
+              <span className={styles.info}>
+                <span className={styles.who}>
+                  <span className={styles.name}>{person.name}</span>
+                  <span className={styles.company}>{person.company}</span>
+                </span>
+                <span className={styles.meta}>
+                  <span>{person.location}</span>
+                  <span className={styles.dot}>•</span>
+                  <span>ASCHI Certified</span>
+                </span>
+              </span>
             </span>
-            <span className={styles.meta}>
-              <span>{person.location}</span>
-              <span className={styles.dot}>•</span>
-              <span>ASCHI Certified</span>
+            <span className={styles.stats}>
+              <Stat icon={person.specialty.icon} label={person.specialty.label} />
+              <Stat icon="task" label={person.inspections} />
+              <Stat icon="grade" label={person.rating} />
             </span>
-          </span>
-          <span className={styles.stats}>
-            <Stat icon={person.specialty.icon} label={person.specialty.label} />
-            <Stat icon="task" label={person.inspections} />
-            <Stat icon="grade" label={person.rating} />
           </span>
           <span className={styles.call}>Call now</span>
         </span>
 
         <span className={`${styles.face} ${styles.back}`} aria-hidden={!flipped || undefined}>
           <span className={styles.summary}>
-            <span>{person.summary[0]}</span>
-            <span>{person.summary[1]}</span>
+            <span>{person.summary}</span>
             <span className={styles.aiNote}>
               <RocketAssistMark />
               AI-generated summary from client reviews.
@@ -464,13 +478,13 @@ function InspectorCard({
 function Stat({ icon, label }: { icon: string; label: string }) {
   return (
     <span className={styles.stat}>
-      <Icon name={icon} size={16} />
+      <Icon name={icon} size={20} />
       <span>{label}</span>
     </span>
   );
 }
 
-/** Material Symbols Rounded (weight 500), tinted with the text colour. */
+/** Material Symbols Rounded, tinted with the text colour. Stat icons are weight 300 (1.25px at 20px); chevrons weight 500. */
 function Icon({ name, size }: { name: string; size: number }) {
   return (
     <span

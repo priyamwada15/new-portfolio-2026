@@ -92,7 +92,16 @@ These are Rocket's product colours, not the portfolio's, so they'd live as a sco
 8. **Swiping is desktop only:** drag or trackpad swipe between the two cards, plus arrow buttons (chevrons from Material Symbols, same style). Clicking a card flips it. **On phones** nothing inside the UI is interactive; the loop itself shows both cards.
 9. **Loop (desktop autoplay and phones):** the question arrives → typing dots → the answer → "Here are a few inspectors your realtor recommended:" → the cards slide in → a scripted tap flips Sarah's card → it flips back → the carousel slides to John's card → restart.
 
-**Floating layout (proposed 2026-10-20, to confirm at build time):**
+**Feedback round 1 (2026-10-20, after the first build):**
+- **Slower pace:** the loop is about 23s, with longer transitions (messages 0.9s, carousel slide 1.1s, flip 1s).
+- **Intro:** the Rocket Assist pill fades in at the centre of the card, then glides up before the first message.
+- **"Call now" is 40px tall** again (the card front had overflowed and squeezed it). The front now follows the frame's spacing: profile, then 16px, then the stats, then the button.
+- **Shorter AI summaries**, replacing the two-paragraph text (and the earlier copy fixes):
+  - Sarah: "Clients praise Sarah for thorough inspections and findings she explains clearly. Reports arrive the same day, and her suggestions are helpful without being pushy."
+  - John: "Clients praise John for thorough pool inspections and findings he explains clearly. Reports arrive the same day, and his suggestions are helpful without being pushy."
+- **Stat icons are 20px at weight 300** (1.25px stroke; the closest Material Symbols weight to the requested 1.2px). Chevrons stay at weight 500.
+
+**Floating layout (built as proposed):**
 - A small floating "Rocket Assist" header pill (avatar + name) above the conversation, so it's clear whose product this is.
 - Bubbles and cards get a soft shadow so the #F7F7F7 assistant bubbles hold up on the textured scene.
 - At full size the conversation is about 590px, taller than the card's 575px media area, so it behaves like a real chat: as new content arrives, earlier bubbles move up and fade out under a soft mask at the top edge.

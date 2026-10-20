@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { DemoIcon, useCardDemo, type Beat } from "./useCardDemo";
 import styles from "./AsimovKnowledgeEmbed.module.css";
 
@@ -61,6 +61,34 @@ const FINAL: Scene = {
   answer: true,
 };
 
+/** From the moment a source is added: it syncs, opens to show its details, then an answer cites it. */
+const SYNC_STEPS: Beat<Scene>[] = [
+  { set: { status: "s1" }, wait: 900 },
+  { set: { status: "s2", open: { product: true, sales: false, enterprise: false } }, wait: 700 },
+  // Pages count up while the pill fills
+  { set: { pages: 31 }, wait: 300 },
+  { set: { pages: 74 }, wait: 300 },
+  { set: { pages: 118, status: "s3" }, wait: 300 },
+  { set: { pages: 152 }, wait: 300 },
+  { set: { pages: 181, status: "s4" }, wait: 300 },
+  { set: { pages: 203 }, wait: 300 },
+  { set: { pages: PAGES }, wait: 500 },
+  { set: { status: "done", syncedNow: true }, wait: 1600 },
+  { set: { answer: true }, wait: 4200 },
+];
+
+/** The scene right after a source is added, before it syncs. */
+const ADDED: Partial<Scene> = {
+  tap: null,
+  modal: false,
+  count: 3,
+  newRow: true,
+  status: "not",
+  pages: 0,
+  syncedNow: false,
+  answer: false,
+};
+
 /** The loop, about 22s: add a Notion source, watch it sync, then see an answer cite it. */
 const BEATS: Beat<Scene>[] = [
   // Reset while faded out
@@ -75,19 +103,8 @@ const BEATS: Beat<Scene>[] = [
   ...Array.from(NAME, (_, i) => ({ set: { name: NAME.slice(0, i + 1) }, wait: i === NAME.length - 1 ? 500 : 90 })),
   { set: { addReady: true }, wait: 700 },
   { set: { tap: "submit" }, wait: 700 },
-  { set: { tap: null, modal: false, count: 3, newRow: true }, wait: 1400 },
-  { set: { status: "s1" }, wait: 900 },
-  { set: { status: "s2", open: { product: true, sales: false, enterprise: false } }, wait: 700 },
-  // Pages count up while the pill fills
-  { set: { pages: 31 }, wait: 300 },
-  { set: { pages: 74 }, wait: 300 },
-  { set: { pages: 118, status: "s3" }, wait: 300 },
-  { set: { pages: 152 }, wait: 300 },
-  { set: { pages: 181, status: "s4" }, wait: 300 },
-  { set: { pages: 203 }, wait: 300 },
-  { set: { pages: PAGES }, wait: 500 },
-  { set: { status: "done", syncedNow: true }, wait: 1600 },
-  { set: { answer: true }, wait: 4200 },
+  { set: ADDED, wait: 1400 },
+  ...SYNC_STEPS,
   { set: { fading: true }, wait: 700 },
 ];
 
@@ -117,22 +134,54 @@ const icon = (name: string) => `/asimov-demo/icon-${name}.svg`;
  * Notion source through the Add Knowledge modal, it syncs (the status pill
  * fills as pages are read), and an answer then cites it. Values come from the
  * Tars dashboard frames (see docs/superpowers/specs/2026-10-20-asimov-coded-ui-design.md).
- * Desktop: rows expand on click, and Add Resource replays the flow. Touch
- * screens get a non-interactive loop; reduced motion shows the finished list.
+ * Desktop: the whole flow is clickable (add, connect, name, add, expand rows),
+ * which stops the loop. Touch screens get a non-interactive loop; reduced
+ * motion shows the finished list.
  */
 export function AsimovKnowledgeEmbed() {
-  const { rootRef, uiRef, view, interactive, takeOver, restart, rootProps, rootClass, stageProps, chrome } = useCardDemo({
+  // Timers for a sync the visitor started themselves
+  const syncTimers = useRef<number[]>([]);
+  const clearSync = () => {
+    syncTimers.current.forEach((t) => window.clearTimeout(t));
+    syncTimers.current = [];
+  };
+  useEffect(() => clearSync, []);
+
+  const { rootRef, uiRef, view, interactive, takeOver, rootProps, rootClass, stageProps, chrome } = useCardDemo({
     start: START,
     final: FINAL,
     beats: BEATS,
     sideClear: { left: 24, right: 24 },
+    onReset: clearSync,
   });
 
-  const toggle = (id: RowId) =>
-    takeOver((s) => {
-      const base = s.listIn && s.newRow ? s : FINAL;
-      return { ...base, modal: false, tap: null, open: { ...base.open, [id]: !base.open[id] } };
-    });
+  /** The list as it stands, or the finished one if the loop hadn't got that far. */
+  const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null } : { ...FINAL, open: s.open });
+
+  const toggle = (id: RowId) => takeOver((s) => ({ ...settled(s), open: { ...settled(s).open, [id]: !settled(s).open[id] } }));
+
+  const openModal = () => {
+    clearSync();
+    takeOver((s) => ({ ...settled(s), modal: true, connected: false, name: "", addReady: false }));
+  };
+  const closeModal = () => takeOver((s) => ({ ...s, modal: false }));
+  const connect = () => takeOver((s) => ({ ...s, connected: true, addReady: s.name.trim().length > 0 }));
+  const rename = (name: string) => takeOver((s) => ({ ...s, name, addReady: s.connected && name.trim().length > 0 }));
+  const submit = () => {
+    clearSync();
+    takeOver((s) => ({ ...s, ...ADDED, open: { ...s.open, product: false } }));
+    let at = 1400;
+    for (const { set, wait } of SYNC_STEPS) {
+      syncTimers.current.push(
+        window.setTimeout(
+          () => takeOver((s) => ({ ...s, ...set, open: set.open ? { ...s.open, product: true } : s.open })),
+          at,
+        ),
+      );
+      at += wait;
+    }
+  };
+  const rowName = view.name.trim() || NAME;
 
   return (
     <div
@@ -147,13 +196,7 @@ export function AsimovKnowledgeEmbed() {
             <p className={styles.title}>
               Resources uploaded <span>({view.count})</span>
             </p>
-            <button
-              type="button"
-              className={styles.addButton}
-              disabled={!interactive}
-              onClick={restart}
-              aria-label="Add resource (replays the demo)"
-            >
+            <button type="button" className={styles.addButton} disabled={!interactive} onClick={openModal}>
               <DemoIcon src={icon("add")} size={16} />
               Add Resource
               {view.tap === "add" && <Tap />}
@@ -163,9 +206,10 @@ export function AsimovKnowledgeEmbed() {
           <div className={styles.rows}>
             <Grow show={view.newRow}>
               <Row
-                name={NAME}
+                name={rowName}
                 status={view.status}
                 open={view.open.product}
+                cited={view.answer}
                 interactive={interactive}
                 onToggle={() => toggle("product")}
                 details={[
@@ -181,6 +225,7 @@ export function AsimovKnowledgeEmbed() {
                 key={r.id}
                 name={r.name}
                 status="done"
+                quiet
                 open={view.open[r.id]}
                 interactive={interactive}
                 onToggle={() => toggle(r.id)}
@@ -200,9 +245,12 @@ export function AsimovKnowledgeEmbed() {
               <div className={styles.reply}>
                 <p>Release 4.2 added custom actions and faster syncs for Notion pages.</p>
                 <p className={styles.source}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/asimov-demo/notion.svg" alt="" width={14} height={14} />
-                  From Product Wiki · Notion
+                  Source
+                  <span className={styles.sourceChip}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/asimov-demo/notion.svg" alt="" width={14} height={14} />
+                    {rowName}
+                  </span>
                 </p>
               </div>
             </div>
@@ -210,7 +258,14 @@ export function AsimovKnowledgeEmbed() {
         </div>
 
         <div className={styles.scrim} data-on={view.modal || undefined} />
-        <Modal scene={view} />
+        <Modal
+          scene={view}
+          interactive={interactive}
+          onClose={closeModal}
+          onConnect={connect}
+          onRename={rename}
+          onSubmit={submit}
+        />
       </div>
       {chrome}
     </div>
@@ -244,6 +299,8 @@ function Row({
   name,
   status,
   open,
+  quiet,
+  cited,
   interactive,
   onToggle,
   details,
@@ -251,12 +308,16 @@ function Row({
   name: string;
   status: Status;
   open: boolean;
+  /** Older, already-synced rows sit back so the new one leads */
+  quiet?: boolean;
+  /** Glows when the answer cites this source */
+  cited?: boolean;
   interactive: boolean;
   onToggle: () => void;
   details: [string, ReactNode, string?][];
 }) {
   return (
-    <div className={styles.row} data-open={open || undefined}>
+    <div className={styles.row} data-open={open || undefined} data-quiet={quiet || undefined} data-cited={cited || undefined}>
       <button
         type="button"
         className={styles.rowHeader}
@@ -272,7 +333,6 @@ function Row({
         <span className={styles.rowRight}>
           <StatusPill status={status} />
           <DemoIcon src={icon("expand-more")} size={20} className={styles.chevron} />
-          <DemoIcon src={icon("more-vert")} size={20} />
         </span>
       </button>
       <div className={styles.details} aria-hidden={!open || undefined}>
@@ -308,12 +368,35 @@ function StatusPill({ status }: { status: Status }) {
   );
 }
 
-function Modal({ scene }: { scene: Scene }) {
+function Modal({
+  scene,
+  interactive,
+  onClose,
+  onConnect,
+  onRename,
+  onSubmit,
+}: {
+  scene: Scene;
+  interactive: boolean;
+  onClose: () => void;
+  onConnect: () => void;
+  onRename: (name: string) => void;
+  onSubmit: () => void;
+}) {
   return (
-    <div className={styles.modal} data-open={scene.modal || undefined} aria-hidden={!scene.modal || undefined} inert={!scene.modal}>
+    <div
+      className={styles.modal}
+      data-open={scene.modal || undefined}
+      role="dialog"
+      aria-label="Add Knowledge"
+      aria-hidden={!scene.modal || undefined}
+      inert={!scene.modal}
+    >
       <div className={styles.modalHeader}>
         <p>Add Knowledge</p>
-        <DemoIcon src={icon("close")} size={20} className={styles.close} />
+        <button type="button" className={styles.close} disabled={!interactive} onClick={onClose} aria-label="Close">
+          <DemoIcon src={icon("close")} size={20} />
+        </button>
       </div>
 
       <div className={styles.modalBody}>
@@ -325,38 +408,65 @@ function Modal({ scene }: { scene: Scene }) {
             <span>Notion</span>
             <DemoIcon src={icon("expand-more")} size={16} className={styles.selectCaret} />
           </span>
-          <span className={styles.workspace}>
+
+          {/* Workspace: a name and a status, with the action on the right */}
+          <span className={styles.workspace} data-on={scene.connected || undefined}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/asimov-demo/notion.svg" alt="" width={44} height={44} />
+            <img src="/asimov-demo/notion.svg" alt="" width={40} height={40} />
             <span className={styles.workspaceText}>
-              <span className={styles.indicator} data-on={scene.connected || undefined}>
+              <span className={styles.workspaceName}>{scene.connected ? "Acme workspace" : "Notion workspace"}</span>
+              <span className={styles.status}>
                 <i />
-                {scene.connected ? "Connected to Acme" : "Not connected to Notion"}
-              </span>
-              <span className={styles.connect} data-on={scene.connected || undefined}>
-                <DemoIcon src={icon(scene.connected ? "check" : "open-in-new")} size={16} />
-                {scene.connected ? "Connected" : "Connect Notion"}
-                {scene.tap === "connect" && <Tap />}
+                {scene.connected ? "Connected" : "Not connected"}
               </span>
             </span>
+            <button
+              type="button"
+              className={styles.connect}
+              disabled={!interactive || scene.connected}
+              onClick={onConnect}
+              tabIndex={scene.connected ? -1 : undefined}
+            >
+              <DemoIcon src={icon("open-in-new")} size={16} />
+              Connect
+              {scene.tap === "connect" && <Tap />}
+            </button>
           </span>
         </div>
 
-        <div className={styles.group}>
+        <label className={styles.group}>
           <span className={styles.fieldLabel}>Name</span>
-          <span className={styles.input}>
-            {scene.name}
-            <span className={styles.caretLine} data-on={(scene.modal && !scene.addReady) || undefined} />
-          </span>
-        </div>
+          {interactive ? (
+            <input
+              className={styles.input}
+              value={scene.name}
+              placeholder="e.g. Product Wiki"
+              onChange={(e) => onRename(e.target.value)}
+              maxLength={32}
+            />
+          ) : (
+            <span className={styles.input}>
+              {scene.name}
+              <span className={styles.caretLine} data-on={(scene.modal && !scene.addReady) || undefined} />
+            </span>
+          )}
+        </label>
       </div>
 
       <div className={styles.modalButtons}>
-        <span className={styles.cancel}>Cancel</span>
-        <span className={styles.submit} data-ready={scene.addReady || undefined}>
+        <button type="button" className={styles.cancel} disabled={!interactive} onClick={onClose}>
+          Cancel
+        </button>
+        <button
+          type="button"
+          className={styles.submit}
+          data-ready={scene.addReady || undefined}
+          disabled={!interactive || !scene.addReady}
+          onClick={onSubmit}
+        >
           Add
           {scene.tap === "submit" && <Tap />}
-        </span>
+        </button>
       </div>
     </div>
   );

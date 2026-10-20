@@ -24,13 +24,20 @@ export function useCardDemo<S extends { fading?: boolean }>({
   final,
   beats,
   sideClear = { left: 32, right: 32 },
+  onReset,
 }: {
   start: S;
   final: S;
   beats: Beat<S>[];
   /** Stage px beside the UI element where the "Read" cursor stays off */
   sideClear?: { left: number; right: number };
+  /** Called when the loop starts over (restart button, or the card leaving the screen), to clear any timers the demo runs itself */
+  onReset?: () => void;
 }) {
+  const onResetRef = useRef(onReset);
+  useEffect(() => {
+    onResetRef.current = onReset;
+  });
   const rootRef = useRef<HTMLDivElement>(null);
   const uiRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
@@ -77,6 +84,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
         setInView(entry.isIntersecting);
         // Leaving the screen resets the loop, so it starts from the top next time
         if (!entry.isIntersecting) {
+          onResetRef.current?.();
           setAuto(true);
           setScene(start);
         }
@@ -107,6 +115,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
   }, [inView, auto, reduced, run]);
 
   const restart = () => {
+    onResetRef.current?.();
     setAuto(true);
     setRun((n) => n + 1);
   };

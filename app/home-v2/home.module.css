@@ -347,6 +347,13 @@
   position: relative;
 }
 
+/* No hover lift on case study cards: the coded UI sits outside the link and
+   wouldn't move with it (overrides .home-v2-main-card:hover in globals.css) */
+.cardWrap .card,
+.cardWrap .card:hover {
+  transform: none;
+}
+
 .card {
   display: flex !important;
   flex-direction: column;

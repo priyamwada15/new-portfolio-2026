@@ -13,6 +13,10 @@
   --ra-red: var(--ds-color-brand-rocket);
   --ra-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
   --ra-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Frosted bubbles: the scene shows through softly */
+  --ra-bubble-glass: rgba(247, 247, 247, 0.8);
+  --ra-ink-glass: rgba(17, 17, 17, 0.82);
+  --ra-glass-blur: blur(12px) saturate(1.2);
 
   font-family: var(--font-inter), sans-serif;
   color: var(--ra-ink);
@@ -133,14 +137,18 @@
 .client {
   align-self: flex-end;
   border-radius: 12px 12px 4px 12px;
-  background: var(--ra-ink);
+  background: var(--ra-ink-glass);
+  -webkit-backdrop-filter: var(--ra-glass-blur);
+  backdrop-filter: var(--ra-glass-blur);
   color: #fff;
 }
 
 .assistant {
   align-self: flex-start;
   border-radius: 12px 12px 12px 4px;
-  background: var(--ra-bubble);
+  background: var(--ra-bubble-glass);
+  -webkit-backdrop-filter: var(--ra-glass-blur);
+  backdrop-filter: var(--ra-glass-blur);
 }
 
 /* Typing dots: 4px, 7px, 4px, the small ones at half strength */
@@ -151,7 +159,9 @@
   gap: 3px;
   padding: 12px;
   border-radius: 12px 12px 12px 4px;
-  background: var(--ra-bubble);
+  background: var(--ra-bubble-glass);
+  -webkit-backdrop-filter: var(--ra-glass-blur);
+  backdrop-filter: var(--ra-glass-blur);
   box-shadow: var(--ra-shadow);
 }
 

@@ -36,7 +36,7 @@ export function HeroLicenseCard() {
   const dragRef = useRef<{ x: number; flipped: boolean } | null>(null);
   const suppressClickRef = useRef(false);
   // "flip" cursor (mouse) and "tap to flip" hint (touch, until the first flip)
-  const cursor = useCursorDisc(flipped ? "flip back" : "flip");
+  const cursor = useCursorDisc(flipped ? "Flip back" : "Flip");
   const [touch, setTouch] = useState(false);
   const [everFlipped, setEverFlipped] = useState(false);
 

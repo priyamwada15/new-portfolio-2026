@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./CursorDisc.module.css";
 
-/** The 64px disc's centre sits this far down-right of the pointer, so the pointer
+/** The 44px disc's centre sits this far down-right of the pointer, so the pointer
     arrow (about 12×20px) ends just above its top-left edge and never covers the label. */
-const CURSOR_OFFSET_X = 44;
-const CURSOR_OFFSET_Y = 52;
+const CURSOR_OFFSET_X = 34;
+const CURSOR_OFFSET_Y = 42;
 /** How quickly the disc catches up with the pointer each frame (0–1). */
 const CURSOR_EASE = 0.28;
 

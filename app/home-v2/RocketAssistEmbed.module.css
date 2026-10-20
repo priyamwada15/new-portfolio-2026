@@ -414,9 +414,10 @@
   line-height: 16.9px;
 }
 
+/* Larger than the frame's 12/14.5 so the summary reads easily and fills the card back */
 .summary {
-  font-size: 12px;
-  line-height: 14.5px;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 /* AI note, then the button, at the bottom of the card back */

@@ -359,6 +359,10 @@
     translate 900ms var(--tx-ease);
 }
 
+.grow[data-from-top] .growInner > * {
+  translate: 0 -12px;
+}
+
 .grow[data-show] .growInner > * {
   opacity: 1;
   translate: 0 0;

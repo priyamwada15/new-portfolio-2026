@@ -61,10 +61,12 @@ const FINAL: Scene = {
   count: 3,
   newRow: true,
   status: "done",
-  open: { product: true, sales: false, enterprise: false },
+  open: { product: false, sales: false, enterprise: false },
   pages: PAGES,
   syncedNow: true,
   answer: true,
+  focus: true,
+  trace: true,
 };
 
 /** How long the trace takes to draw, and the space between its dots. */
@@ -187,7 +189,7 @@ export function AsimovKnowledgeEmbed() {
   });
 
   /** The list as it stands, or the finished one if the loop hadn't got that far. */
-  const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null, focus: false, trace: false } : { ...FINAL, open: s.open });
+  const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null, focus: false, trace: false } : { ...FINAL, open: s.open, focus: false, trace: false });
 
   const toggle = (id: RowId) => takeOver((s) => ({ ...settled(s), open: { ...settled(s).open, [id]: !settled(s).open[id] } }));
 
@@ -214,30 +216,30 @@ export function AsimovKnowledgeEmbed() {
   };
   const rowName = view.name.trim() || NAME;
 
-  // The trace: a dotted line from the answer's source line, up and round to the row's icon
+  // The trace: a straight dotted line from the answer's source chip down to the row it came from
   const nameRef = useRef<HTMLSpanElement>(null);
   const sourceRef = useRef<HTMLParagraphElement>(null);
   const traceRef = useRef<SVGSVGElement>(null);
   useEffect(() => {
     const svg = traceRef.current;
     const stage = svg?.parentElement;
-    const icon = nameRef.current?.querySelector("img");
     const row = nameRef.current?.closest("[data-row]");
     const source = sourceRef.current;
     const reply = source?.parentElement;
-    if (!view.trace || !svg || !stage || !icon || !row || !source || !reply) return;
+    if (!view.trace || !svg || !stage || !row || !source || !reply) return;
+    // Reduced motion: the dots are simply there
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const box = stage.getBoundingClientRect();
     const k = box.width / STAGE_W;
     const x = (v: number) => (v - box.left) / k;
     const y = (v: number) => (v - box.top) / k;
-    const src = source.getBoundingClientRect();
-    const ic = icon.getBoundingClientRect();
-    // Starts just outside the reply bubble, level with "Source", and ends under the row's icon
-    const x0 = x(reply.getBoundingClientRect().left) - 8;
-    const y0 = y(src.top + src.height / 2);
-    const x1 = x(ic.left + ic.width / 2);
-    const y1 = y(row.getBoundingClientRect().bottom) + 8;
-    const d = `M ${x0} ${y0} C ${x1 + (x0 - x1) * 0.2} ${y0}, ${x1} ${y0 - (y0 - y1) * 0.25}, ${x1} ${y1}`;
+    const chip = source.querySelector("span")?.getBoundingClientRect() ?? source.getBoundingClientRect();
+    // From just under the reply bubble, below the chip, to just above the row
+    const x0 = x(chip.left + chip.width / 2);
+    const y0 = y(reply.getBoundingClientRect().bottom) + 6;
+    const x1 = x0;
+    const y1 = y(row.getBoundingClientRect().top) - 6;
+    const d = `M ${x0} ${y0} L ${x1} ${y1}`;
     const guide = svg.querySelector<SVGPathElement>("path");
     const dots = svg.querySelector<SVGGElement>("g");
     const [startDot, endDot] = svg.querySelectorAll<SVGCircleElement>(":scope > circle");
@@ -261,16 +263,16 @@ export function AsimovKnowledgeEmbed() {
       dots.appendChild(dot);
       animations.push(
         dot.animate([{ opacity: 0 }, { opacity: 1 }], {
-          duration: 160,
-          delay: (TRACE_MS * i) / count,
+          duration: still ? 0 : 160,
+          delay: still ? 0 : (TRACE_MS * i) / count,
           fill: "both",
         }),
       );
     }
     animations.push(
       endDot.animate([{ opacity: 0, transform: "scale(0)" }, { opacity: 1, transform: "scale(1)" }], {
-        duration: 300,
-        delay: TRACE_MS - 100,
+        duration: still ? 0 : 300,
+        delay: still ? 0 : TRACE_MS - 100,
         easing: "cubic-bezier(0.34, 1.4, 0.64, 1)",
         fill: "both",
       }),
@@ -307,7 +309,30 @@ export function AsimovKnowledgeEmbed() {
             </div>
           </Grow>
 
-          <Grow show={view.newRow} gap={view.focus ? 0 : GAP}>
+          {/* The answer arrives from the top, above the row it cites */}
+          <Grow show={view.answer && view.focus} fromTop>
+            <div className={styles.answer} data-focus={view.focus || undefined}>
+              <p className={styles.question}>What did we ship in the last release?</p>
+              <div className={styles.reply}>
+                <p>Release 4.2 added custom actions and faster syncs for Notion pages.</p>
+                <p className={styles.source} ref={sourceRef}>
+                  Source
+                  <span
+                    className={styles.sourceChip}
+                    data-linked={(linkable && linked === "row") || undefined}
+                    onPointerEnter={linkable ? () => setLinked("chip") : undefined}
+                    onPointerLeave={linkable ? () => setLinked(null) : undefined}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/asimov-demo/notion.svg" alt="" width={14} height={14} />
+                    {rowName}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </Grow>
+
+          <Grow show={view.newRow} gap={view.focus ? TRACE_GAP : GAP}>
             <Row
               name={rowName}
               nameRef={nameRef}
@@ -344,27 +369,6 @@ export function AsimovKnowledgeEmbed() {
             </Grow>
           ))}
 
-          <Grow show={view.answer} gap={GAP}>
-            <div className={styles.answer} data-focus={view.focus || undefined}>
-              <p className={styles.question}>What did we ship in the last release?</p>
-              <div className={styles.reply}>
-                <p>Release 4.2 added custom actions and faster syncs for Notion pages.</p>
-                <p className={styles.source} ref={sourceRef}>
-                  Source
-                  <span
-                    className={styles.sourceChip}
-                    data-linked={(linkable && linked === "row") || undefined}
-                    onPointerEnter={linkable ? () => setLinked("chip") : undefined}
-                    onPointerLeave={linkable ? () => setLinked(null) : undefined}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/asimov-demo/notion.svg" alt="" width={14} height={14} />
-                    {rowName}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </Grow>
         </div>
 
         <svg ref={traceRef} className={styles.trace} data-on={view.trace || undefined} aria-hidden="true">
@@ -391,13 +395,27 @@ export function AsimovKnowledgeEmbed() {
 
 /** Space between the list's parts, inside each part so it collapses with it. */
 const GAP = 12;
+/** Room between the answer and its row for the trace. */
+const TRACE_GAP = 48;
 
 /** Grows in from zero height (and back), so the rest of the list makes room smoothly. */
-function Grow({ show, gap = 0, children }: { show: boolean; gap?: number; children: ReactNode }) {
+function Grow({
+  show,
+  gap = 0,
+  fromTop,
+  children,
+}: {
+  show: boolean;
+  gap?: number;
+  /** Slides in from above instead of below */
+  fromTop?: boolean;
+  children: ReactNode;
+}) {
   return (
     <div
       className={styles.grow}
       data-show={show || undefined}
+      data-from-top={fromTop || undefined}
       aria-hidden={!show || undefined}
       inert={!show}
       style={{ "--gap": `${gap}px` } as CSSProperties}

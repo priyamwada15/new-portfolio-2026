@@ -146,13 +146,6 @@
   opacity: 0.75;
 }
 
-/* The source the answer cites */
-.row[data-cited] {
-  box-shadow:
-    0 0 0 2px rgba(79, 20, 141, 0.28),
-    var(--tx-shadow);
-}
-
 .rowName {
   display: flex;
   align-items: center;
@@ -413,7 +406,7 @@
   color: var(--tx-secondary);
 }
 
-/* Matches the cited row's glow, so the eye goes from answer to source */
+/* Source chip: names the resource the answer came from */
 .sourceChip {
   display: inline-flex;
   align-items: center;

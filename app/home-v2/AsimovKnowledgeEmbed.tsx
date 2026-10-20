@@ -231,7 +231,6 @@ export function AsimovKnowledgeEmbed() {
               name={rowName}
               status={view.status}
               open={view.open.product}
-              cited={view.answer}
               interactive={interactive}
               onToggle={() => toggle("product")}
               details={[
@@ -331,7 +330,6 @@ function Row({
   status,
   open,
   quiet,
-  cited,
   interactive,
   onToggle,
   details,
@@ -341,14 +339,12 @@ function Row({
   open: boolean;
   /** Older, already-synced rows sit back so the new one leads */
   quiet?: boolean;
-  /** Glows when the answer cites this source */
-  cited?: boolean;
   interactive: boolean;
   onToggle: () => void;
   details: [string, ReactNode, string?][];
 }) {
   return (
-    <div className={styles.row} data-open={open || undefined} data-quiet={quiet || undefined} data-cited={cited || undefined}>
+    <div className={styles.row} data-open={open || undefined} data-quiet={quiet || undefined}>
       <button
         type="button"
         className={styles.rowHeader}

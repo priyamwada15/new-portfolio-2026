@@ -15,6 +15,12 @@
       "source": "jakubkrehel/make-interfaces-feel-better",
       "sourceType": "github",
       "computedHash": "2c3576e63d8c39d75ed327f1dcf6aab7aec0edf293a55f6cb3f7b8571974a01c"
+    },
+    "portfolio-audit": {
+      "source": "hey-stefan/portfolio-audit",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "b0bf37b4fe9f38f54a1b4c19b8f489e493558d114df8f436b03e873a9ecfcec8"
     }
   }
 }

@@ -58,7 +58,7 @@
   translate: -50% 0;
 }
 
-/* ── Header pill ─────────────────────────────────────────── */
+/* ── Rocket Assist avatar (intro, then pinned at the top) ── */
 
 .header {
   position: absolute;
@@ -66,16 +66,10 @@
   left: 50%;
   translate: -50% 0;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 16px 4px 4px;
+  padding: 4px;
   border-radius: 100px;
   background: #fff;
   box-shadow: var(--ra-shadow);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 20px;
-  white-space: nowrap;
   transition:
     opacity 800ms ease,
     translate 1000ms var(--ra-ease);

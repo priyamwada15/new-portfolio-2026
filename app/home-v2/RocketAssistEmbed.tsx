@@ -263,8 +263,7 @@ export function RocketAssistEmbed() {
         <div className={styles.column}>
           <div className={styles.header} data-intro={view.intro}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/rocket-assist/rocket-assist-avatar.svg" alt="" width={32} height={32} />
-            <span>Rocket Assist</span>
+            <img src="/rocket-assist/rocket-assist-avatar.svg" alt="Rocket Assist" width={32} height={32} />
           </div>
 
           <div className={styles.chat}>

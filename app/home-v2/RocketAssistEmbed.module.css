@@ -161,8 +161,9 @@
   margin: 0;
   max-width: 272px;
   padding: 8px 12px;
-  font-size: 16px;
-  line-height: 20.8px;
+  /* 14/20, down from the frame's 16/20.8, to sit lighter on the card */
+  font-size: 14px;
+  line-height: 20px;
   box-shadow: var(--ra-shadow);
 }
 

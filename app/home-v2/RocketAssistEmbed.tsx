@@ -29,7 +29,7 @@ const INSPECTORS: Inspector[] = [
     inspections: "40+ inspections",
     rating: "4.5 (36 reviews)",
     summary:
-      "Clients praise Sarah for thorough inspections and findings she explains clearly. Reports arrive the same day, and her suggestions are helpful without being pushy.",
+      "Clients praise Sarah for thorough inspections and clear explanations of what she finds. Her suggestions are practical and never pushy, so clients feel well-informed at every step. She sends same-day reports and offers a wide range of inspection options.",
   },
   {
     name: "John Cusack",
@@ -40,7 +40,7 @@ const INSPECTORS: Inspector[] = [
     inspections: "20+ inspections",
     rating: "4.3 (11 reviews)",
     summary:
-      "Clients praise John for thorough pool inspections and findings he explains clearly. Reports arrive the same day, and his suggestions are helpful without being pushy.",
+      "Clients praise John for thorough pool inspections and clear explanations of what he finds. His suggestions are practical and never pushy, so clients feel well-informed at every step. He sends same-day reports and offers a wide range of inspection options.",
   },
 ];
 
@@ -100,6 +100,10 @@ const BEATS: { set: Partial<Scene>; wait: number }[] = [
   { set: { fading: true }, wait: 700 },
 ];
 
+/** Clear space beside the chat column (stage px) where the "Read" cursor stays off; the right side covers the next card's peek. */
+const SIDE_CLEAR_LEFT = 32;
+const SIDE_CLEAR_RIGHT = 64;
+
 /** Horizontal drag distance, in px, that swipes to the other card. */
 const SWIPE_PX = 40;
 
@@ -123,7 +127,7 @@ export function RocketAssistEmbed() {
   const [run, setRun] = useState(0);
   const [inView, setInView] = useState(false);
   const [reduced, setReduced] = useState(false);
-  const cursor = useCursorDisc("read");
+  const cursor = useCursorDisc("Read");
 
   // Fit the full-size layout to the card
   useEffect(() => {
@@ -205,18 +209,31 @@ export function RocketAssistEmbed() {
     const link = root?.parentElement?.querySelector("a");
     const media = link?.querySelector<HTMLElement>("[data-card-media]");
     if (!interactive || !link || !media) return;
-    const inMedia = (e: PointerEvent) => {
+    const column = root?.querySelector<HTMLElement>(`.${styles.column}`);
+    /** The scene on either side of the chat: inside the media, outside the chat column and the carousel's peek. */
+    const inSides = (e: PointerEvent) => {
       const r = media.getBoundingClientRect();
-      return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return false;
+      if (!column) return true;
+      const c = column.getBoundingClientRect();
+      const s = r.width / STAGE_W;
+      return e.clientX < c.left - SIDE_CLEAR_LEFT * s || e.clientX > c.right + SIDE_CLEAR_RIGHT * s;
     };
+    let shown = false;
     const onMove = (e: PointerEvent) => {
-      if (inMedia(e)) {
-        cursor.show(e);
-      } else {
+      if (inSides(e)) {
+        if (shown) cursor.move(e);
+        else cursor.show(e);
+        shown = true;
+      } else if (shown) {
         cursor.hide();
+        shown = false;
       }
     };
-    const onLeave = () => cursor.hide();
+    const onLeave = () => {
+      cursor.hide();
+      shown = false;
+    };
     link.addEventListener("pointermove", onMove);
     link.addEventListener("pointerleave", onLeave);
     return () => {
@@ -472,14 +489,15 @@ function InspectorCard({
         </span>
 
         <span className={`${styles.face} ${styles.back}`} aria-hidden={!flipped || undefined}>
-          <span className={styles.summary}>
-            <span>{person.summary}</span>
+          <span className={styles.summary}>{person.summary}</span>
+          {/* Attribution sits with the button, so the summary reads top-down and the note labels it at the end */}
+          <span className={styles.backFooter}>
             <span className={styles.aiNote}>
               <RocketAssistMark />
               AI-generated summary from client reviews.
             </span>
+            <span className={styles.call}>Call now</span>
           </span>
-          <span className={styles.call}>Call now</span>
         </span>
       </span>
       {tap && <span className={styles.tap} aria-hidden="true" />}

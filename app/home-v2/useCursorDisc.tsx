@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./CursorDisc.module.css";
 
-/** The disc sits this far down-right of the pointer, so the pointer stays visible. */
-const CURSOR_OFFSET = 18;
+/** The 64px disc's centre sits this far down-right of the pointer, so the pointer
+    arrow (about 12×20px) ends just above its top-left edge and never covers the label. */
+const CURSOR_OFFSET_X = 44;
+const CURSOR_OFFSET_Y = 52;
 /** How quickly the disc catches up with the pointer each frame (0–1). */
 const CURSOR_EASE = 0.28;
 
@@ -49,7 +51,7 @@ export function useCursorDisc(label: string) {
 
   const move = (e: { clientX: number; clientY: number; pointerType?: string }) => {
     if (e.pointerType && e.pointerType !== "mouse") return;
-    target.current = { x: e.clientX + CURSOR_OFFSET, y: e.clientY + CURSOR_OFFSET };
+    target.current = { x: e.clientX + CURSOR_OFFSET_X, y: e.clientY + CURSOR_OFFSET_Y };
     if (!pos.current) pos.current = { ...target.current };
     if (raf.current === null) raf.current = requestAnimationFrame(step);
   };

@@ -415,11 +415,15 @@
 }
 
 .summary {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   font-size: 12px;
   line-height: 14.5px;
+}
+
+/* AI note, then the button, at the bottom of the card back */
+.backFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .aiNote {

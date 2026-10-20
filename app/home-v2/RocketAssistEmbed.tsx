@@ -119,6 +119,8 @@ export function RocketAssistEmbed() {
   const [interactive, setInteractive] = useState(false);
   // Autoplay runs until a visitor touches the cards; it comes back after the card leaves the screen
   const [auto, setAuto] = useState(true);
+  // Bumped by the restart button to start the loop over from the top
+  const [run, setRun] = useState(0);
   const [inView, setInView] = useState(false);
   const [reduced, setReduced] = useState(false);
   const cursor = useCursorDisc("read");
@@ -179,7 +181,12 @@ export function RocketAssistEmbed() {
     };
     run();
     return () => window.clearTimeout(timer);
-  }, [inView, auto, reduced]);
+  }, [inView, auto, reduced, run]);
+
+  const restart = () => {
+    setAuto(true);
+    setRun((n) => n + 1);
+  };
 
   /** A visitor took over: stop the loop and show the whole conversation. */
   const takeOver = useCallback((change: Partial<Scene>) => {
@@ -264,6 +271,11 @@ export function RocketAssistEmbed() {
           </div>
         </div>
       </div>
+      {interactive && !reduced && (
+        <button type="button" className={styles.restart} aria-label="Restart demo" onClick={restart}>
+          <Icon name="replay" size={20} />
+        </button>
+      )}
       {cursor.disc}
     </div>
   );

@@ -24,6 +24,8 @@ type Scene = {
   pages: number;
   syncedNow: boolean;
   answer: boolean;
+  /** The answer alone with its source: everything else steps away */
+  focus: boolean;
 };
 
 const NAME = "Product Wiki";
@@ -44,6 +46,7 @@ const START: Scene = {
   pages: 0,
   syncedNow: false,
   answer: false,
+  focus: false,
 };
 
 const FINAL: Scene = {
@@ -74,7 +77,8 @@ const SYNC_STEPS: Beat<Scene>[] = [
   { set: { pages: 203 }, wait: 300 },
   { set: { pages: PAGES }, wait: 500 },
   { set: { status: "done", syncedNow: true }, wait: 1600 },
-  { set: { answer: true }, wait: 4200 },
+  // The answer takes centre stage with only its source beside it
+  { set: { answer: true, focus: true, open: { product: false, sales: false, enterprise: false } }, wait: 4200 },
 ];
 
 /** The scene right after a source is added, before it syncs. */
@@ -173,7 +177,7 @@ export function AsimovKnowledgeEmbed() {
   });
 
   /** The list as it stands, or the finished one if the loop hadn't got that far. */
-  const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null } : { ...FINAL, open: s.open });
+  const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null, focus: false } : { ...FINAL, open: s.open });
 
   const toggle = (id: RowId) => takeOver((s) => ({ ...settled(s), open: { ...settled(s).open, [id]: !settled(s).open[id] } }));
 
@@ -191,7 +195,7 @@ export function AsimovKnowledgeEmbed() {
     for (const { set, wait } of SYNC_STEPS) {
       syncTimers.current.push(
         window.setTimeout(
-          () => takeOver((s) => ({ ...s, ...set, open: set.open ? { ...s.open, product: true } : s.open })),
+          () => takeOver((s) => ({ ...s, ...set, open: set.open ? { ...s.open, product: set.open.product } : s.open })),
           at,
         ),
       );
@@ -209,37 +213,38 @@ export function AsimovKnowledgeEmbed() {
     >
       <div {...stageProps}>
         <div className={styles.column} ref={uiRef} data-in={view.listIn || undefined} data-dim={view.modal || undefined}>
-          <div className={styles.header}>
-            <p className={styles.title}>
-              Resources uploaded <span>({view.count})</span>
-            </p>
-            <button type="button" className={styles.addButton} disabled={!interactive} onClick={openModal}>
-              <DemoIcon src={icon("add")} size={16} />
-              Add Resource
-              {view.tap === "add" && <Tap />}
-            </button>
-          </div>
+          <Grow show={!view.focus}>
+            <div className={styles.header}>
+              <p className={styles.title}>
+                Resources uploaded <span>({view.count})</span>
+              </p>
+              <button type="button" className={styles.addButton} disabled={!interactive} onClick={openModal}>
+                <DemoIcon src={icon("add")} size={16} />
+                Add Resource
+                {view.tap === "add" && <Tap />}
+              </button>
+            </div>
+          </Grow>
 
-          <div className={styles.rows}>
-            <Grow show={view.newRow}>
+          <Grow show={view.newRow} gap={view.focus ? 0 : GAP}>
+            <Row
+              name={rowName}
+              status={view.status}
+              open={view.open.product}
+              cited={view.answer}
+              interactive={interactive}
+              onToggle={() => toggle("product")}
+              details={[
+                ["Type", "Page"],
+                ["Location", <Location key="l" place="Product" />],
+                ["Pages synced", String(view.pages), "Includes subpages"],
+                view.syncedNow ? ["Last synced", "Just now", "Auto-sync on"] : ["Last synced", "In progress", "Started just now"],
+              ]}
+            />
+          </Grow>
+          {SYNCED.map((r) => (
+            <Grow key={r.id} show={!view.focus} gap={GAP}>
               <Row
-                name={rowName}
-                status={view.status}
-                open={view.open.product}
-                cited={view.answer}
-                interactive={interactive}
-                onToggle={() => toggle("product")}
-                details={[
-                  ["Type", "Page"],
-                  ["Location", <Location key="l" place="Product" />],
-                  ["Pages synced", String(view.pages), "Includes subpages"],
-                  view.syncedNow ? ["Last synced", "Just now", "Auto-sync on"] : ["Last synced", "In progress", "Started just now"],
-                ]}
-              />
-            </Grow>
-            {SYNCED.map((r) => (
-              <Row
-                key={r.id}
                 name={r.name}
                 status="done"
                 quiet
@@ -253,11 +258,11 @@ export function AsimovKnowledgeEmbed() {
                   ["Last synced", ...r.lastSynced],
                 ]}
               />
-            ))}
-          </div>
+            </Grow>
+          ))}
 
-          <Grow show={view.answer}>
-            <div className={styles.answer}>
+          <Grow show={view.answer} gap={GAP}>
+            <div className={styles.answer} data-focus={view.focus || undefined}>
               <p className={styles.question}>What did we ship in the last release?</p>
               <div className={styles.reply}>
                 <p>Release 4.2 added custom actions and faster syncs for Notion pages.</p>
@@ -289,10 +294,19 @@ export function AsimovKnowledgeEmbed() {
   );
 }
 
-/** Grows in from zero height, so what's below makes room smoothly. */
-function Grow({ show, children }: { show: boolean; children: ReactNode }) {
+/** Space between the list's parts, inside each part so it collapses with it. */
+const GAP = 12;
+
+/** Grows in from zero height (and back), so the rest of the list makes room smoothly. */
+function Grow({ show, gap = 0, children }: { show: boolean; gap?: number; children: ReactNode }) {
   return (
-    <div className={styles.grow} data-show={show || undefined} aria-hidden={!show || undefined} inert={!show}>
+    <div
+      className={styles.grow}
+      data-show={show || undefined}
+      aria-hidden={!show || undefined}
+      inert={!show}
+      style={{ "--gap": `${gap}px` } as CSSProperties}
+    >
       <div className={styles.growInner}>{children}</div>
     </div>
   );

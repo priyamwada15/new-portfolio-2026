@@ -34,7 +34,6 @@
   width: 584px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
   opacity: 0;
   translate: -50% calc(-50% + 16px);
   transition:
@@ -107,12 +106,6 @@
   font-weight: 500;
   line-height: 16.8px;
   letter-spacing: -0.12px;
-}
-
-.rows {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
 /* ── Resource row (accordion) ──────────────────────────── */
@@ -345,11 +338,13 @@
 }
 
 /* Room for shadows on every side */
+/* Room for shadows on every side, plus the gap above this part (--gap) */
 .growInner {
   min-height: 0;
   overflow: hidden;
-  padding: 8px 24px 16px;
+  padding: calc(8px + var(--gap, 0px)) 24px 16px;
   margin: -8px -24px -16px;
+  transition: padding-top 900ms var(--tx-ease);
 }
 
 .growInner > * {
@@ -371,6 +366,11 @@
   align-items: flex-end;
   gap: 8px;
   padding-top: 4px;
+}
+
+/* Alone with its source, the answer moves to the centre */
+.answer[data-focus] {
+  align-items: center;
 }
 
 .question,
@@ -778,6 +778,7 @@
   .pill,
   .pillFill,
   .grow,
+  .growInner,
   .growInner > *,
   .modal,
   .status,

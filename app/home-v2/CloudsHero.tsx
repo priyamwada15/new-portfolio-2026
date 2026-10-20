@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useRef, type CSSProperties } from "react";
 import { HeroLicenseCard } from "./HeroLicenseCard";
-import { HeroPixels } from "./HeroPixels";
+import { useHeadlinePush } from "./useHeadlinePush";
 import styles from "./CloudsHero.module.css";
 
 /** Clouds are hidden for now; set to true to bring them back. */
@@ -28,6 +28,7 @@ const TITLE_LINES = [
  */
 export function CloudsHero() {
   const heroRef = useRef<HTMLElement>(null);
+  useHeadlinePush(heroRef);
 
   // Clouds lean a little toward the cursor.
   useEffect(() => {
@@ -61,9 +62,7 @@ export function CloudsHero() {
       </div>
       )}
 
-      <HeroPixels />
-
-      <div className={styles.card} data-pixel-avoid>
+      <div className={styles.card}>
         <HeroLicenseCard />
       </div>
       <h1 className={styles.title}>

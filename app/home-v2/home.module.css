@@ -342,6 +342,11 @@
   }
 }
 
+/* Holds the card link and any coded UI layered over its scene */
+.cardWrap {
+  position: relative;
+}
+
 .card {
   display: flex !important;
   flex-direction: column;

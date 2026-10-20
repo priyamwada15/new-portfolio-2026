@@ -1,0 +1,558 @@
+/* Rocket Assist demo floating on the Rocket Mortgage card. Values come from the
+   Figma frame "13" (see docs/superpowers/specs/2026-10-20-rocket-mortgage-coded-ui-design.md).
+   These are Rocket's product colours, scoped to the embed, not portfolio tokens. */
+
+.root {
+  --ra-ink: #111111;
+  --ra-muted: #545454;
+  --ra-bubble: #f7f7f7;
+  --ra-border: #f2f2f2;
+  --ra-well: rgba(0, 0, 0, 0.04);
+  --ra-disabled: #949494;
+  --ra-dot: #c1c1c1;
+  --ra-red: var(--ds-color-brand-rocket);
+  --ra-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
+  --ra-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  aspect-ratio: 1008 / 575;
+  border-radius: var(--ds-radius-container);
+  overflow: hidden;
+  font-family: var(--font-inter), sans-serif;
+  color: var(--ra-ink);
+}
+
+/* Clicks on the scene and bubbles fall through to the card link underneath.
+   !important beats the site-wide `.site-scroll-layer__sheet-body *` rule that
+   turns pointer events back on for everything in the page body. */
+.root,
+.root * {
+  pointer-events: none !important;
+}
+
+/* Drawn at the card's full desktop size, scaled to the card */
+.stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1008px;
+  height: 575px;
+  transform: scale(var(--scale));
+  transform-origin: 0 0;
+  transition: opacity 400ms ease;
+}
+
+.stage[data-fading] {
+  opacity: 0;
+}
+
+.column {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 361px;
+  translate: -50% 0;
+}
+
+/* ── Header pill ─────────────────────────────────────────── */
+
+.header {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px 4px 4px;
+  border-radius: 100px;
+  background: #fff;
+  box-shadow: var(--ra-shadow);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 23.4px;
+  white-space: nowrap;
+}
+
+.header img {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+/* ── Conversation ────────────────────────────────────────── */
+
+/* Wider than the column, so bubble shadows and the carousel peek aren't clipped;
+   the top edge fades older messages out as new ones push them up */
+.chat {
+  position: absolute;
+  top: 72px;
+  bottom: 16px;
+  left: -24px;
+  right: -40px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 56px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 56px);
+}
+
+.thread {
+  position: absolute;
+  left: 24px;
+  right: 40px;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grows from zero height, so what's above glides up as it arrives */
+.appear {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 500ms var(--ra-ease);
+}
+
+.appear[data-show] {
+  grid-template-rows: 1fr;
+}
+
+.appearInner {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* 16px between messages, plus room for shadows on every side */
+  padding: 16px 24px 8px;
+  margin: 0 -24px -8px;
+}
+
+.appearInner > * {
+  opacity: 0;
+  translate: 0 8px;
+  transition:
+    opacity 400ms ease,
+    translate 500ms var(--ra-ease);
+}
+
+.appear[data-show] .appearInner > * {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.client,
+.assistant {
+  margin: 0;
+  max-width: 272px;
+  padding: 8px 12px;
+  font-size: 16px;
+  line-height: 20.8px;
+  box-shadow: var(--ra-shadow);
+}
+
+.client {
+  align-self: flex-end;
+  border-radius: 12px 12px 4px 12px;
+  background: var(--ra-ink);
+  color: #fff;
+}
+
+.assistant {
+  align-self: flex-start;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--ra-bubble);
+}
+
+/* Typing dots: 4px, 7px, 4px, the small ones at half strength */
+.typing {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 12px;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--ra-bubble);
+  box-shadow: var(--ra-shadow);
+}
+
+.typing i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ra-ink);
+  animation: typing 1s ease-in-out infinite;
+}
+
+.typing i:nth-child(2) {
+  animation-delay: 160ms;
+}
+
+.typing i:nth-child(3) {
+  animation-delay: 320ms;
+}
+
+@keyframes typing {
+  0%,
+  100% {
+    opacity: 0.5;
+    scale: 0.6;
+  }
+  50% {
+    opacity: 1;
+    scale: 1.1;
+  }
+}
+
+/* ── Inspector carousel ──────────────────────────────────── */
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 377px wide (16px past the column, like the frame), padded for shadows and
+   faded at the edges so the next card peeks in softly */
+.viewport {
+  width: 377px;
+  padding: 16px 24px;
+  margin: -16px -24px;
+  box-sizing: content-box;
+  overflow: hidden;
+  touch-action: pan-y;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent);
+}
+
+.track {
+  display: flex;
+  gap: 16px;
+  transform: translateX(calc(var(--index) * -326px));
+  transition: transform 600ms var(--ra-ease);
+}
+
+.card {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 310px;
+  height: 280px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  perspective: 1200px;
+  transition:
+    scale 600ms var(--ra-ease),
+    opacity 600ms var(--ra-ease);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--ra-ink);
+  outline-offset: 4px;
+  border-radius: 16px;
+}
+
+/* The card that isn't in focus sits at 85% and half strength, like the frame */
+.card[data-side="after"],
+.card[data-side="before"] {
+  scale: 0.85;
+  opacity: 0.5;
+}
+
+.card[data-side="after"] {
+  transform-origin: left center;
+}
+
+.card[data-side="before"] {
+  transform-origin: right center;
+}
+
+.flip {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 700ms var(--ra-ease);
+}
+
+.card[data-flipped] .flip {
+  transform: rotateY(180deg);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px;
+  border: 1px solid var(--ra-border);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--ra-shadow);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.photo {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1.37px #fff;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.company,
+.stat {
+  font-size: 10px;
+  line-height: 12.1px;
+  color: var(--ra-muted);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 14.5px;
+  color: var(--ra-muted);
+}
+
+.dot {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.stats {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.call {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: 100px;
+  background: var(--ra-ink);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.9px;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 14.5px;
+}
+
+.aiNote {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  line-height: 12.1px;
+  color: var(--ra-muted);
+}
+
+.mark {
+  flex: none;
+}
+
+.icon {
+  display: block;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+/* Scripted tap before the flip */
+.tap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  background: rgba(17, 17, 17, 0.16);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+  animation: tap 450ms var(--ra-ease) both;
+  pointer-events: none;
+}
+
+@keyframes tap {
+  from {
+    opacity: 0;
+    scale: 1.6;
+  }
+  60% {
+    opacity: 1;
+    scale: 0.9;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* Arrows and dots under the cards (the frame's carousel footer) */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 361px;
+}
+
+.arrow {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 100px;
+  background: var(--ra-ink);
+  color: #fff;
+  box-shadow: var(--ra-shadow);
+}
+
+.arrow:disabled {
+  background: #fff;
+  color: var(--ra-disabled);
+}
+
+.arrow:focus-visible {
+  outline: 2px solid var(--ra-ink);
+  outline-offset: 2px;
+}
+
+/* On a white pill so the small dots read on the scene */
+.dots {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 100px;
+  background: #fff;
+  box-shadow: var(--ra-shadow);
+}
+
+.dots i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ra-dot);
+  transition: background-color 300ms ease;
+}
+
+.dots i[data-on] {
+  background: var(--ra-red);
+}
+
+/* ── Desktop: the cards and arrows take the pointer ─────── */
+
+.root[data-interactive] .card,
+.root[data-interactive] .card *,
+.root[data-interactive] .arrow,
+.root[data-interactive] .arrow *,
+.root[data-interactive] .viewport {
+  pointer-events: auto !important;
+}
+
+.root[data-interactive] .card,
+.root[data-interactive] .arrow:not(:disabled) {
+  cursor: pointer;
+}
+
+/* ── Reduced motion: no movement, the flip is a crossfade ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .appear,
+  .appearInner > *,
+  .track,
+  .card {
+    transition: none;
+  }
+
+  .typing i {
+    animation: none;
+  }
+
+  .flip,
+  .card[data-flipped] .flip {
+    transform: none;
+    transition: none;
+  }
+
+  .face {
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+    transition: opacity 250ms ease-out;
+  }
+
+  .back {
+    transform: none;
+    opacity: 0;
+  }
+
+  .card[data-flipped] .front {
+    opacity: 0;
+  }
+
+  .card[data-flipped] .back {
+    opacity: 1;
+  }
+}

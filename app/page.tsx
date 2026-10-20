@@ -1,8 +1,10 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import { HOME_V2_PAGE_BG } from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { CardLogos } from "./home-v2/CardLogos";
 import { CloudsHero } from "./home-v2/CloudsHero";
+import { RocketAssistEmbed } from "./home-v2/RocketAssistEmbed";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
 import styles from "./home-v2/home.module.css";
 
@@ -12,8 +14,10 @@ type CaseStudy = {
   logos: { src: string; alt: string; tall?: boolean }[];
   title: string;
   tags: string[];
-  /** Solarpunk illustration behind the card, fine-dithered (lossless WebP). The coded UI will sit in its calm centre. */
+  /** Solarpunk illustration behind the card, fine-dithered (lossless WebP). The coded UI sits in its calm centre. */
   scene: string;
+  /** Coded UI floating on the scene. It sits outside the card link, so its controls aren't nested in the link. */
+  embed?: ReactNode;
 };
 
 const CASE_STUDIES: CaseStudy[] = [
@@ -24,6 +28,7 @@ const CASE_STUDIES: CaseStudy[] = [
     title: "Personalizing AI guidance across 6.8M+ client conversations",
     tags: ["B2C Fintech", "AI Assistant", "Trust Design"],
     scene: "/case-study-scenes/rocket-mortgage-scene.webp",
+    embed: <RocketAssistEmbed />,
   },
   {
     href: "/tars-asimov",
@@ -46,24 +51,27 @@ const CASE_STUDIES: CaseStudy[] = [
 
 function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
-    <HomeV2CardLink href={study.href} ariaLabel={`${study.title}. ${study.ariaLabel}`} className={`cursor-hover-dark ${styles.card}`}>
-      <div className={styles.cardHeader}>
-        <div className={styles.cardMeta}>
-          <CardLogos className={styles.cardLogos}>
-            {study.logos.map((logo) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={logo.src} src={logo.src} alt={logo.alt} className={logo.tall ? styles.logoTall : undefined} />
-            ))}
-          </CardLogos>
-          <p className={styles.cardTags}>{study.tags.join(", ")}</p>
+    <div className={styles.cardWrap}>
+      <HomeV2CardLink href={study.href} ariaLabel={`${study.title}. ${study.ariaLabel}`} className={`cursor-hover-dark ${styles.card}`}>
+        <div className={styles.cardHeader}>
+          <div className={styles.cardMeta}>
+            <CardLogos className={styles.cardLogos}>
+              {study.logos.map((logo) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={logo.src} src={logo.src} alt={logo.alt} className={logo.tall ? styles.logoTall : undefined} />
+              ))}
+            </CardLogos>
+            <p className={styles.cardTags}>{study.tags.join(", ")}</p>
+          </div>
+          <h3 className={styles.cardTitle}>{study.title}</h3>
         </div>
-        <h3 className={styles.cardTitle}>{study.title}</h3>
-      </div>
-      <div className={styles.cardMedia}>
-        {/* Unoptimized: re-encoding would blur the dither dots, so the lossless file is served as is. */}
-        <Image src={study.scene} alt="" fill unoptimized className={styles.cardScene} />
-      </div>
-    </HomeV2CardLink>
+        <div className={styles.cardMedia} data-card-media>
+          {/* Unoptimized: re-encoding would blur the dither dots, so the lossless file is served as is. */}
+          <Image src={study.scene} alt="" fill unoptimized className={styles.cardScene} />
+        </div>
+      </HomeV2CardLink>
+      {study.embed}
+    </div>
   );
 }
 

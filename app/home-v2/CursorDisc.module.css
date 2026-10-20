@@ -1,0 +1,60 @@
+/* Rose cursor disc: follows the pointer, beside it rather than replacing it.
+   The disc (::before) and label scale in together when it turns on. */
+.cursor {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: #fff;
+  font-family: var(--font-hind), sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+  pointer-events: none;
+}
+
+.cursor::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--ds-nav-active);
+  box-shadow: 0 6px 18px rgba(80, 20, 40, 0.25);
+}
+
+.cursor::before,
+.cursor > span {
+  opacity: 0;
+  scale: 0.4;
+  transition:
+    opacity 180ms ease-out,
+    scale 260ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.cursor > span {
+  position: relative;
+  display: block;
+  padding: 0 8px;
+}
+
+.cursor[data-on]::before,
+.cursor[data-on] > span {
+  opacity: 1;
+  scale: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor::before,
+  .cursor > span {
+    transition: opacity 120ms ease-out;
+    scale: 1;
+  }
+}

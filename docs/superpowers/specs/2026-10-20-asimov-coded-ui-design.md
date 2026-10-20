@@ -61,7 +61,7 @@ White, 1px #E9EAEB, r8, padding 12/16, 24px gap, clips content. Width 886.
 
 ### Assets (in `public/asimov-demo/`)
 - `notion.svg` — the user's Notion logo export (44px).
-- Icons: Material Symbols Rounded, **weight 400**, unfilled (matching Tars' Material "rounded" icons): hourglass-empty, check, info, add, sync, expand-more, more-vert, open-in-new, close.
+- Icons: Material Symbols Rounded, **weight 400**, unfilled (matching Tars' Material "rounded" icons): hourglass-empty, check, info, add, expand-more, more-vert, open-in-new, close.
 
 ## Decisions, round 2 (2026-10-20)
 

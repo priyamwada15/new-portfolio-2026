@@ -85,9 +85,11 @@ const SYNC_STEPS: Beat<Scene>[] = [
   { set: { pages: 181, status: "s4" }, wait: 300 },
   { set: { pages: 203 }, wait: 300 },
   { set: { pages: PAGES }, wait: 500 },
-  { set: { status: "done", syncedNow: true }, wait: 1600 },
-  // The answer takes centre stage with only its source beside it
-  { set: { answer: true, focus: true, open: { product: false, sales: false, enterprise: false } }, wait: 1000 },
+  { set: { status: "done", syncedNow: true }, wait: 1400 },
+  // Product Wiki folds closed on its own first, so each movement reads clearly
+  { set: { open: { product: false, sales: false, enterprise: false } }, wait: 900 },
+  // Then the rest of the list fades away and the answer comes down from the top
+  { set: { answer: true, focus: true }, wait: 1400 },
   // Once the layout has settled, a dotted trace links the answer to its source
   { set: { trace: true }, wait: TRACE_MS + 3300 },
 ];
@@ -310,7 +312,7 @@ export function AsimovKnowledgeEmbed() {
           </Grow>
 
           {/* The answer arrives from the top, above the row it cites */}
-          <Grow show={view.answer && view.focus} fromTop>
+          <Grow show={view.answer && view.focus} fromTop inDelay={300}>
             <div className={styles.answer} data-focus={view.focus || undefined}>
               <p className={styles.question}>What did we ship in the last release?</p>
               <div className={styles.reply}>
@@ -403,12 +405,15 @@ function Grow({
   show,
   gap = 0,
   fromTop,
+  inDelay = 0,
   children,
 }: {
   show: boolean;
   gap?: number;
   /** Slides in from above instead of below */
   fromTop?: boolean;
+  /** Holds the arrival back (ms), e.g. until other parts have faded out */
+  inDelay?: number;
   children: ReactNode;
 }) {
   return (
@@ -418,7 +423,7 @@ function Grow({
       data-from-top={fromTop || undefined}
       aria-hidden={!show || undefined}
       inert={!show}
-      style={{ "--gap": `${gap}px` } as CSSProperties}
+      style={{ "--gap": `${gap}px`, "--in-delay": `${inDelay}ms` } as CSSProperties}
     >
       <div className={styles.growInner}>{children}</div>
     </div>

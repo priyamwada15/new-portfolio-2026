@@ -331,41 +331,58 @@
 
 /* ── Answer ────────────────────────────────────────────── */
 
+/* Parts of the list grow in and out. Leaving: the content fades and shrinks
+   first, then its space closes. Arriving: the space opens, then the content
+   fades in. Space changes share one timing, so whatever stays (Product Wiki)
+   glides to its new place. --in-delay holds an arrival back until others have
+   faded (the answer waits for the rest of the list). */
 .grow {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 900ms var(--tx-ease);
+  transition: grid-template-rows 750ms var(--tx-ease) 300ms;
 }
 
 .grow[data-show] {
   grid-template-rows: 1fr;
+  transition: grid-template-rows 750ms var(--tx-ease) var(--in-delay, 0ms);
 }
 
-/* Room for shadows on every side */
 /* Room for shadows on every side, plus the gap above this part (--gap) */
 .growInner {
   min-height: 0;
   overflow: hidden;
   padding: calc(8px + var(--gap, 0px)) 24px 16px;
   margin: -8px -24px -16px;
-  transition: padding-top 900ms var(--tx-ease);
+  transition: padding-top 750ms var(--tx-ease) 300ms;
 }
 
+/* Leaving: fade and shrink quickly, before the space closes */
 .growInner > * {
   opacity: 0;
+  scale: 0.96;
   translate: 0 8px;
+  transform-origin: 50% 0;
   transition:
-    opacity 700ms ease,
-    translate 900ms var(--tx-ease);
+    opacity 300ms ease,
+    scale 300ms var(--tx-ease),
+    translate 300ms var(--tx-ease);
 }
 
+/* Arriving from above, like the answer, comes down into place */
 .grow[data-from-top] .growInner > * {
-  translate: 0 -12px;
+  scale: 1;
+  translate: 0 -24px;
 }
 
+/* Arriving: fade in as the space finishes opening */
 .grow[data-show] .growInner > * {
   opacity: 1;
+  scale: 1;
   translate: 0 0;
+  transition:
+    opacity 600ms ease calc(var(--in-delay, 0ms) + 250ms),
+    scale 800ms var(--tx-ease) calc(var(--in-delay, 0ms) + 150ms),
+    translate 800ms var(--tx-ease) calc(var(--in-delay, 0ms) + 150ms);
 }
 
 .answer {

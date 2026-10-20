@@ -5,6 +5,7 @@ import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { CardLogos } from "./home-v2/CardLogos";
 import { CloudsHero } from "./home-v2/CloudsHero";
 import { RocketAssistEmbed } from "./home-v2/RocketAssistEmbed";
+import { AsimovKnowledgeEmbed } from "./home-v2/AsimovKnowledgeEmbed";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
 import styles from "./home-v2/home.module.css";
 
@@ -37,6 +38,7 @@ const CASE_STUDIES: CaseStudy[] = [
     title: "Designing the agent configuration platform and design system for Asimov",
     tags: ["B2B SaaS", "0→1", "Workflow Design"],
     scene: "/case-study-scenes/asimov-scene.webp",
+    embed: <AsimovKnowledgeEmbed />,
   },
   {
     href: "/tars-debug-mode",

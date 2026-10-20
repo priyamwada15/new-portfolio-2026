@@ -1,11 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { useCursorDisc } from "./useCursorDisc";
+import { useCallback, useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { DemoIcon, useCardDemo, type Beat } from "./useCardDemo";
 import styles from "./RocketAssistEmbed.module.css";
-
-/** The layout is drawn at the card's full desktop size and scaled to fit. */
-const STAGE_W = 1008;
 
 type Inspector = {
   name: string;
@@ -80,7 +77,7 @@ const START: Scene = {
 const FINAL: Scene = { ...START, shown: 3, cards: true, intro: "top" };
 
 /** The loop: each beat sets part of the scene, then waits. About 23s in all, slow enough to follow. */
-const BEATS: { set: Partial<Scene>; wait: number }[] = [
+const BEATS: Beat<Scene>[] = [
   // Reset while faded out, so the conversation clears out of sight
   { set: { ...START, fading: true }, wait: 700 },
   { set: { fading: false }, wait: 200 },
@@ -117,150 +114,29 @@ const SWIPE_PX = 40;
  * state.
  */
 export function RocketAssistEmbed() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0);
-  const [scene, setScene] = useState<Scene>(START);
-  const [interactive, setInteractive] = useState(false);
-  // Autoplay runs until a visitor touches the cards; it comes back after the card leaves the screen
-  const [auto, setAuto] = useState(true);
-  // Bumped by the restart button to start the loop over from the top
-  const [run, setRun] = useState(0);
-  const [inView, setInView] = useState(false);
-  const [reduced, setReduced] = useState(false);
-  const cursor = useCursorDisc("Read");
+  const { rootRef, uiRef, view, interactive, takeOver, rootProps, rootClass, stageProps, chrome } = useCardDemo({
+    start: START,
+    final: FINAL,
+    beats: BEATS,
+    sideClear: { left: SIDE_CLEAR_LEFT, right: SIDE_CLEAR_RIGHT },
+  });
 
-  // Fit the full-size layout to the card
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const ro = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / STAGE_W));
-    ro.observe(root);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => {
-      setInteractive(fine.matches);
-      setReduced(motion.matches);
-    };
-    sync();
-    fine.addEventListener("change", sync);
-    motion.addEventListener("change", sync);
-    return () => {
-      fine.removeEventListener("change", sync);
-      motion.removeEventListener("change", sync);
-    };
-  }, []);
-
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        setInView(entry.isIntersecting);
-        // Leaving the screen resets the loop, so it starts from the question next time
-        if (!entry.isIntersecting) {
-          setAuto(true);
-          setScene(START);
-        }
-      },
-      { threshold: 0.35 },
-    );
-    io.observe(root);
-    return () => io.disconnect();
-  }, []);
-
-  // The loop
-  useEffect(() => {
-    if (reduced || !inView || !auto) return;
-    let beat = 0;
-    let timer: number;
-    const run = () => {
-      const { set, wait } = BEATS[beat];
-      setScene((s) => ({ ...s, ...set }));
-      beat = (beat + 1) % BEATS.length;
-      timer = window.setTimeout(run, wait);
-    };
-    run();
-    return () => window.clearTimeout(timer);
-  }, [inView, auto, reduced, run]);
-
-  const restart = () => {
-    setAuto(true);
-    setRun((n) => n + 1);
-  };
-
-  /** A visitor took over: stop the loop and show the whole conversation. */
-  const takeOver = useCallback((change: Partial<Scene>) => {
-    setAuto(false);
-    setScene((s) => ({ ...FINAL, flipped: s.flipped, index: s.index, ...change }));
-  }, []);
-
-  const goTo = useCallback(
-    (index: number) => takeOver({ index, flipped: false }),
+  /** A visitor took over: show the whole conversation, keeping the card they're on. */
+  const takeOverWith = useCallback(
+    (change: Partial<Scene>) => takeOver((s) => ({ ...FINAL, flipped: s.flipped, index: s.index, ...change })),
     [takeOver],
   );
-
-  // "read" cursor over the scene: the card link sits under this layer, so watch its media area
-  useEffect(() => {
-    const root = rootRef.current;
-    const link = root?.parentElement?.querySelector("a");
-    const media = link?.querySelector<HTMLElement>("[data-card-media]");
-    if (!interactive || !link || !media) return;
-    const column = root?.querySelector<HTMLElement>(`.${styles.column}`);
-    /** The scene on either side of the chat: inside the media, outside the chat column and the carousel's peek. */
-    const inSides = (e: PointerEvent) => {
-      const r = media.getBoundingClientRect();
-      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return false;
-      if (!column) return true;
-      const c = column.getBoundingClientRect();
-      const s = r.width / STAGE_W;
-      return e.clientX < c.left - SIDE_CLEAR_LEFT * s || e.clientX > c.right + SIDE_CLEAR_RIGHT * s;
-    };
-    let shown = false;
-    const onMove = (e: PointerEvent) => {
-      if (inSides(e)) {
-        if (shown) cursor.move(e);
-        else cursor.show(e);
-        shown = true;
-      } else if (shown) {
-        cursor.hide();
-        shown = false;
-      }
-    };
-    const onLeave = () => {
-      cursor.hide();
-      shown = false;
-    };
-    link.addEventListener("pointermove", onMove);
-    link.addEventListener("pointerleave", onLeave);
-    return () => {
-      link.removeEventListener("pointermove", onMove);
-      link.removeEventListener("pointerleave", onLeave);
-    };
-    // cursor's methods only touch refs and state setters
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [interactive]);
-
-  // Reduced motion shows the finished conversation until a visitor flips or swipes
-  const view = reduced && auto ? FINAL : scene;
+  const goTo = useCallback((index: number) => takeOverWith({ index, flipped: false }), [takeOverWith]);
 
   return (
     <div
       ref={rootRef}
-      className={styles.root}
-      data-interactive={interactive || undefined}
-      role="group"
+      className={`${rootClass} ${styles.root}`}
+      {...rootProps}
       aria-label="Rocket Assist demo: a client asks how to find a home inspector"
     >
-      <div
-        className={styles.stage}
-        style={{ "--scale": scale, opacity: scale ? undefined : 0 } as CSSProperties}
-        data-fading={view.fading || undefined}
-      >
-        <div className={styles.column}>
+      <div {...stageProps}>
+        <div className={styles.column} ref={uiRef}>
           <div className={styles.header} data-intro={view.intro}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/rocket-assist/rocket-assist-avatar.svg" alt="Rocket Assist" width={32} height={32} />
@@ -281,18 +157,13 @@ export function RocketAssistEmbed() {
                 </span>
               </Appear>
               <Appear show={view.cards}>
-                <Carousel scene={view} interactive={interactive} onFlip={takeOver} onGo={goTo} />
+                <Carousel scene={view} interactive={interactive} onFlip={takeOverWith} onGo={goTo} />
               </Appear>
             </div>
           </div>
         </div>
       </div>
-      {interactive && !reduced && (
-        <button type="button" className={styles.restart} aria-label="Restart demo" onClick={restart}>
-          <Icon name="replay" size={20} />
-        </button>
-      )}
-      {cursor.disc}
+      {chrome}
     </div>
   );
 }
@@ -515,13 +386,7 @@ function Stat({ icon, label }: { icon: string; label: string }) {
 
 /** Material Symbols Rounded, tinted with the text colour. Stat icons are weight 300 (1.25px at 20px); chevrons weight 500. */
 function Icon({ name, size }: { name: string; size: number }) {
-  return (
-    <span
-      className={styles.icon}
-      style={{ "--icon": `url(/rocket-assist/icon-${name}.svg)`, width: size, height: size } as CSSProperties}
-      aria-hidden="true"
-    />
-  );
+  return <DemoIcon src={`/rocket-assist/icon-${name}.svg`} size={size} />;
 }
 
 /** The Rocket Assist mark (from rocket-assist-avatar.svg, without its well). */

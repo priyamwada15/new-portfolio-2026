@@ -1,0 +1,675 @@
+/* Asimov knowledge base demo on the Asimov card. Values come from the Tars
+   dashboard frames (see docs/superpowers/specs/2026-10-20-asimov-coded-ui-design.md).
+   These are Tars' product colours, scoped to the embed, not portfolio tokens. */
+
+.root {
+  --tx-purple: #4f148d;
+  --tx-purple-soft: rgba(79, 20, 141, 0.1);
+  --tx-green: #15803d;
+  --tx-green-bg: #f0fdf4;
+  --tx-value: #404040;
+  --tx-name: #555555;
+  --tx-secondary: #717684;
+  --tx-label: #979797;
+  --tx-button-border: #c4c4c4;
+  --tx-border: #e9eaeb;
+  --tx-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
+  --tx-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  font-family: var(--font-inter), sans-serif;
+  color: var(--tx-value);
+}
+
+/* ── The list: header bar, resource rows, then the answer ── */
+
+.column {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  width: 584px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  translate: -50% 16px;
+  transition:
+    opacity 800ms ease,
+    translate 1000ms var(--tx-ease),
+    scale 600ms var(--tx-ease),
+    filter 600ms ease;
+}
+
+.column[data-in] {
+  opacity: 1;
+  translate: -50% 0;
+}
+
+/* Behind the modal: set back a little */
+.column[data-dim] {
+  opacity: 0.55;
+  scale: 0.98;
+  filter: saturate(0.6);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 8px 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--tx-shadow);
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22.4px;
+  letter-spacing: -0.16px;
+  color: var(--tx-name);
+}
+
+.title span {
+  color: var(--tx-label);
+}
+
+.addButton {
+  appearance: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--tx-button-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--tx-value);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.8px;
+  letter-spacing: -0.12px;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Resource row (accordion) ──────────────────────────── */
+
+.row {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--tx-border);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--tx-shadow);
+}
+
+.rowHeader {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 16px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+.rowName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 19.6px;
+  letter-spacing: -0.14px;
+  color: var(--tx-name);
+}
+
+.rowName img,
+.select img,
+.source img {
+  display: block;
+  flex: none;
+}
+
+.rowRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--tx-label);
+}
+
+.chevron {
+  transition: rotate 500ms var(--tx-ease);
+}
+
+.row[data-open] .chevron {
+  rotate: 180deg;
+}
+
+/* Details open from zero height */
+.details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 800ms var(--tx-ease);
+}
+
+.row[data-open] .details {
+  grid-template-rows: 1fr;
+}
+
+.detailsInner {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  gap: 24px;
+  padding: 0 16px;
+  opacity: 0;
+  transition:
+    opacity 600ms ease,
+    padding 800ms var(--tx-ease);
+}
+
+.row[data-open] .detailsInner {
+  padding: 12px 16px 20px;
+  opacity: 1;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+  flex: none;
+}
+
+.label {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.15px;
+  color: var(--tx-label);
+}
+
+.value {
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.15px;
+  color: var(--tx-value);
+  font-variant-numeric: tabular-nums;
+}
+
+.sub {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.15px;
+  color: var(--tx-secondary);
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.muted {
+  color: var(--tx-secondary);
+}
+
+.caret {
+  rotate: -90deg;
+  color: var(--tx-secondary);
+}
+
+/* ── Training status pill ──────────────────────────────── */
+
+.pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 101px;
+  height: 28px;
+  padding: 4px 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  transition:
+    width 600ms var(--tx-ease),
+    background-color 600ms ease,
+    box-shadow 600ms ease,
+    color 600ms ease;
+}
+
+.pill[data-kind="not"] {
+  width: 112px;
+  padding: 4px 12px;
+  background: #f5f5f5;
+  color: var(--tx-label);
+}
+
+.pill[data-kind="syncing"] {
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--tx-purple-soft);
+  color: var(--tx-purple);
+}
+
+.pill[data-kind="done"] {
+  background: var(--tx-green-bg);
+  box-shadow: inset 0 0 0 1px rgba(43, 174, 102, 0.2);
+  color: var(--tx-green);
+}
+
+/* Progress: a soft purple fill moves across the pill while it syncs */
+.pillFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--fill);
+  background: var(--tx-purple-soft);
+  opacity: 0;
+  transition:
+    width 900ms var(--tx-ease),
+    opacity 400ms ease;
+}
+
+.pill[data-kind="syncing"] .pillFill {
+  opacity: 1;
+}
+
+.pillIcon,
+.pillText {
+  position: relative;
+}
+
+/* ── Answer ────────────────────────────────────────────── */
+
+.grow {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 900ms var(--tx-ease);
+}
+
+.grow[data-show] {
+  grid-template-rows: 1fr;
+}
+
+/* Room for shadows on every side */
+.growInner {
+  min-height: 0;
+  overflow: hidden;
+  padding: 8px 24px 16px;
+  margin: -8px -24px -16px;
+}
+
+.growInner > * {
+  opacity: 0;
+  translate: 0 8px;
+  transition:
+    opacity 700ms ease,
+    translate 900ms var(--tx-ease);
+}
+
+.grow[data-show] .growInner > * {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.question,
+.reply {
+  margin: 0;
+  max-width: 320px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  box-shadow: var(--tx-shadow);
+}
+
+.question {
+  border-radius: 12px 12px 4px 12px;
+  background: var(--tx-purple);
+  color: #fff;
+}
+
+.reply {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 12px 12px 4px 12px;
+  background: #fff;
+  color: var(--tx-value);
+}
+
+.reply p {
+  margin: 0;
+}
+
+.source {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--tx-secondary);
+}
+
+/* ── Add Knowledge modal ───────────────────────────────── */
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(17, 17, 17, 0.06), 0 16px 40px rgba(17, 17, 17, 0.16);
+  translate: -50% -46%;
+  scale: 0.96;
+  opacity: 0;
+  transition:
+    opacity 500ms ease,
+    translate 800ms var(--tx-ease),
+    scale 800ms var(--tx-ease);
+}
+
+.modal[data-open] {
+  translate: -50% -50%;
+  scale: 1;
+  opacity: 1;
+}
+
+.modalHeader {
+  position: relative;
+  text-align: center;
+}
+
+.modalHeader p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 25.6px;
+}
+
+.close {
+  position: absolute;
+  top: 3px;
+  right: 0;
+  color: var(--tx-label);
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group .workspace {
+  margin-top: 4px;
+}
+
+.fieldLabel {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0.15px;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 1px solid var(--tx-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 19.3px;
+  letter-spacing: 0.15px;
+}
+
+.selectCaret {
+  margin-left: auto;
+  color: var(--tx-name);
+}
+
+.workspace {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--tx-border);
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.workspace img {
+  flex: none;
+}
+
+.workspaceText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0.4px;
+  color: var(--tx-name);
+}
+
+.indicator i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tx-label);
+  transition: background-color 500ms ease;
+}
+
+.indicator[data-on] i {
+  background: #22c55e;
+}
+
+.connect {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--tx-button-border);
+  border-radius: 37px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.8px;
+  letter-spacing: -0.12px;
+  transition:
+    color 500ms ease,
+    border-color 500ms ease,
+    background-color 500ms ease;
+}
+
+.connect[data-on] {
+  border-color: rgba(43, 174, 102, 0.3);
+  background: var(--tx-green-bg);
+  color: var(--tx-green);
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  min-height: 37px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border: 1px solid var(--tx-border);
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.15px;
+}
+
+/* Text caret while the name types in */
+.caretLine {
+  width: 1px;
+  height: 18px;
+  margin-left: 1px;
+  background: var(--tx-purple);
+  opacity: 0;
+}
+
+.caretLine[data-on] {
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+.cancel {
+  padding: 6px 24px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0.46px;
+  color: var(--tx-name);
+}
+
+.submit {
+  position: relative;
+  padding: 6px 24px;
+  border-radius: 8px;
+  background: var(--tx-purple);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  opacity: 0.5;
+  transition: opacity 500ms ease;
+}
+
+.submit[data-ready] {
+  opacity: 1;
+}
+
+/* ── Scripted tap ──────────────────────────────────────── */
+
+.tap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border-radius: 50%;
+  background: rgba(17, 17, 17, 0.16);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+  animation: tap 700ms var(--tx-ease) both;
+}
+
+@keyframes tap {
+  from {
+    opacity: 0;
+    scale: 1.6;
+  }
+  60% {
+    opacity: 1;
+    scale: 0.9;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* ── Desktop: the add button and rows take the pointer ─── */
+
+.root[data-interactive] .addButton,
+.root[data-interactive] .addButton *,
+.root[data-interactive] .rowHeader,
+.root[data-interactive] .rowHeader * {
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+.addButton:focus-visible,
+.rowHeader:focus-visible {
+  outline: 2px solid var(--tx-purple);
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion: no movement ───────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .column,
+  .chevron,
+  .details,
+  .detailsInner,
+  .pill,
+  .pillFill,
+  .grow,
+  .growInner > *,
+  .modal,
+  .indicator i,
+  .connect,
+  .submit {
+    transition: none;
+  }
+
+  .caretLine[data-on] {
+    animation: none;
+  }
+}

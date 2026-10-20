@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useRef, type CSSProperties } from "react";
 import { HeroLicenseCard } from "./HeroLicenseCard";
+import { HeroPixels } from "./HeroPixels";
 import styles from "./CloudsHero.module.css";
 
 /** Clouds are hidden for now; set to true to bring them back. */
@@ -60,7 +61,9 @@ export function CloudsHero() {
       </div>
       )}
 
-      <div className={styles.card}>
+      <HeroPixels />
+
+      <div className={styles.card} data-pixel-avoid>
         <HeroLicenseCard />
       </div>
       <h1 className={styles.title}>
@@ -71,7 +74,7 @@ export function CloudsHero() {
               {line.map((word, w) => (
                 <Fragment key={word}>
                   {w > 0 && " "}
-                  <span className={styles.word} style={{ "--i": TITLE_LINES[0].length * l + w } as CSSProperties}>
+                  <span className={styles.word} data-push-word style={{ "--i": TITLE_LINES[0].length * l + w } as CSSProperties}>
                     {word}
                   </span>
                 </Fragment>

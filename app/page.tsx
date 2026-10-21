@@ -6,6 +6,7 @@ import { CardLogos } from "./home-v2/CardLogos";
 import { CloudsHero } from "./home-v2/CloudsHero";
 import { RocketAssistEmbed } from "./home-v2/RocketAssistEmbed";
 import { AsimovKnowledgeEmbed } from "./home-v2/AsimovKnowledgeEmbed";
+import { DebugModeEmbed } from "./home-v2/DebugModeEmbed";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
 import styles from "./home-v2/home.module.css";
 
@@ -47,6 +48,7 @@ const CASE_STUDIES: CaseStudy[] = [
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
     tags: ["B2B SaaS", "Complex Workflows", "Internal Tool"],
     scene: "/case-study-scenes/debug-mode-scene.webp",
+    embed: <DebugModeEmbed />,
   },
   // Salesforce is hidden until it's reworked; its page still lives at app/salesforce.
 ];

@@ -193,7 +193,12 @@ export function AsimovKnowledgeEmbed() {
   /** The list as it stands, or the finished one if the loop hadn't got that far. */
   const settled = (s: Scene): Scene => (s.listIn ? { ...s, fading: false, tap: null, focus: false, trace: false } : { ...FINAL, open: s.open, focus: false, trace: false });
 
-  const toggle = (id: RowId) => takeOver((s) => ({ ...settled(s), open: { ...settled(s).open, [id]: !settled(s).open[id] } }));
+  // One row open at a time, so the list never outgrows the card
+  const toggle = (id: RowId) =>
+    takeOver((s) => {
+      const base = settled(s);
+      return { ...base, open: { product: false, sales: false, enterprise: false, [id]: !base.open[id] } };
+    });
 
   const openModal = () => {
     clearSync();

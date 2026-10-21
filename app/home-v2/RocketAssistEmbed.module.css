@@ -14,8 +14,8 @@
   --ra-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
   --ra-ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* Frosted bubbles: the scene shows through softly */
-  --ra-bubble-glass: rgba(247, 247, 247, 0.8);
-  --ra-ink-glass: rgba(17, 17, 17, 0.82);
+  --ra-bubble-glass: rgba(247, 247, 247, 0.92);
+  --ra-ink-glass: rgba(17, 17, 17, 0.9);
   --ra-glass-blur: blur(12px) saturate(1.2);
 
   font-family: var(--font-inter), sans-serif;
@@ -76,8 +76,8 @@
   left: -24px;
   right: -40px;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 56px);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 56px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 12px, #000 104px);
+  mask-image: linear-gradient(to bottom, transparent 0, transparent 12px, #000 104px);
 }
 
 .thread {
@@ -245,11 +245,21 @@
   border-radius: 16px;
 }
 
-/* The card that isn't in focus sits at 85% and half strength, like the frame */
+/* The card that isn't in focus sits at 85%. In the frame it's at half opacity on
+   white; on the dark scene that reads as a grey smudge, so the card stays white
+   and only its contents fade back. */
 .card[data-side="after"],
 .card[data-side="before"] {
   scale: 0.85;
-  opacity: 0.5;
+}
+
+.face > * {
+  transition: opacity 1100ms var(--ra-ease);
+}
+
+.card[data-side="after"] .face > *,
+.card[data-side="before"] .face > * {
+  opacity: 0.4;
 }
 
 .card[data-side="after"] {
@@ -467,9 +477,49 @@
   box-shadow: var(--ra-shadow);
 }
 
+.arrow {
+  transition:
+    background-color 200ms ease,
+    scale 200ms var(--ra-ease);
+}
+
+.arrow:not(:disabled):hover {
+  background: #333;
+}
+
+.arrow:not(:disabled):active {
+  scale: 0.92;
+}
+
 .arrow:disabled {
   background: #fff;
   color: var(--ra-disabled);
+}
+
+/* Inspector cards lift a little under the pointer and press in on click */
+.root[data-interactive] .card[data-side="current"]:hover .face {
+  box-shadow:
+    0 2px 4px rgba(17, 17, 17, 0.08),
+    0 12px 28px rgba(17, 17, 17, 0.14);
+}
+
+.root[data-interactive] .card:active .flip {
+  scale: 0.98;
+}
+
+.root[data-interactive] .card[data-side="before"]:hover .face > *,
+.root[data-interactive] .card[data-side="after"]:hover .face > * {
+  opacity: 0.65;
+}
+
+.face {
+  transition: box-shadow 250ms ease;
+}
+
+.flip {
+  transition:
+    transform 1000ms var(--ra-ease),
+    scale 200ms var(--ra-ease);
 }
 
 .arrow:focus-visible {

@@ -1,0 +1,487 @@
+/* Debug Mode demo on the Debug Mode card: the Tars gambit canvas floating on
+   the telephone-exchange scene. Node values come from the Debug Mode test-run
+   prototype (see docs/superpowers/specs/2026-10-20-debug-mode-coded-ui-design.md).
+   Tars' product colours are scoped to the embed, not portfolio tokens. */
+
+.root {
+  --dm-blue: #65baff;
+  --dm-blue-line: #7cc4ff;
+  --dm-red: #cb2a2f;
+  --dm-ink: #373e43;
+  --dm-muted: #717684;
+  --dm-surface: rgba(255, 255, 255, 0.92);
+  --dm-surface-blur: blur(12px) saturate(1.2);
+  --dm-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
+  --dm-camera: 1400ms cubic-bezier(0.65, 0, 0.35, 1);
+  --dm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  font-family: var(--font-inter), sans-serif;
+  color: var(--dm-ink);
+}
+
+/* The middle of the card, for the "Read" cursor's sides */
+.uiZone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 184px;
+  width: 640px;
+}
+
+/* The canvas fades out toward the card's edges so it reads as part of a larger flow */
+.viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 900ms ease;
+  -webkit-mask-image: radial-gradient(ellipse 62% 70% at 50% 50%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 62% 70% at 50% 50%, #000 55%, transparent 100%);
+}
+
+.viewport[data-in] {
+  opacity: 1;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2150px;
+  height: 1120px;
+  transform-origin: 0 0;
+  transition: transform var(--dm-camera);
+}
+
+/* ── Connectors ────────────────────────────────────────── */
+
+.edges {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+}
+
+.edge {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.4);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 600ms ease;
+}
+
+.edge[data-lit] {
+  stroke: var(--dm-blue-line);
+}
+
+/* The connector the run is travelling along */
+.edge[data-flow] {
+  stroke-dasharray: 8 6;
+  animation: flow 500ms linear infinite;
+}
+
+@keyframes flow {
+  from {
+    stroke-dashoffset: 28;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ── Nodes ─────────────────────────────────────────────── */
+
+.node {
+  position: absolute;
+  width: 132px;
+  height: 92px;
+}
+
+/* Not reached yet: a solid card with quiet content, so the map stays crisp on the photo */
+.nodeId,
+.nodeLabel {
+  transition: opacity 600ms ease;
+}
+
+.node[data-status="untested"] .nodeId,
+.node[data-status="untested"] .nodeLabel {
+  opacity: 0.4;
+}
+
+.notch {
+  position: absolute;
+  top: -2px;
+  left: 61.3px;
+  width: 9.4px;
+  height: 5.6px;
+  border-radius: 2px 2px 0 0;
+  background: #e7e7e7;
+  transition: background-color 600ms ease;
+}
+
+.nodeCard {
+  appearance: none;
+  position: absolute;
+  top: 6.6px;
+  left: 0;
+  width: 132px;
+  height: 85.4px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0.9px solid #efefef;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--dm-shadow);
+  font: inherit;
+  color: inherit;
+  transition:
+    border-color 600ms ease,
+    box-shadow 500ms ease,
+    scale 200ms var(--dm-ease);
+}
+
+.nodeId {
+  padding: 2px 11px;
+  border-radius: 4px;
+  background: #f8f8f8;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 14px;
+  color: #333333;
+}
+
+.nodeLabel {
+  font-size: 12.5px;
+  line-height: 16px;
+  text-align: center;
+  color: var(--dm-ink);
+}
+
+.tab {
+  position: absolute;
+  top: 91px;
+  width: 8.5px;
+  height: 9.4px;
+  border-radius: 0 0 2px 2px;
+  background: #e7e7e7;
+  transition: background-color 600ms ease;
+}
+
+/* Passed and active: the single blue signal */
+.node[data-status="passed"] .nodeCard,
+.node[data-status="active"] .nodeCard {
+  border-color: var(--dm-blue);
+}
+
+.node[data-status="passed"] .notch,
+.node[data-status="passed"] .tab,
+.node[data-status="active"] .notch,
+.node[data-status="active"] .tab {
+  background: var(--dm-blue);
+}
+
+/* The node under test glows softly */
+.node[data-status="active"] .nodeCard {
+  animation: pulse 1600ms ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow:
+      var(--dm-shadow),
+      0 0 0 0 rgba(101, 186, 255, 0.5);
+  }
+  50% {
+    box-shadow:
+      var(--dm-shadow),
+      0 0 18px 4px rgba(101, 186, 255, 0.55);
+  }
+}
+
+/* Failed: red, with one small shake as the run stops on it */
+.node[data-status="error"] .nodeCard {
+  border-color: var(--dm-red);
+  box-shadow:
+    var(--dm-shadow),
+    0 0 0 3px rgba(203, 42, 47, 0.18),
+    0 0 22px 2px rgba(203, 42, 47, 0.35);
+  animation: shake 420ms var(--dm-ease);
+}
+
+.node[data-status="error"] .notch,
+.node[data-status="error"] .tab {
+  background: var(--dm-red);
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  20% {
+    translate: -4px 0;
+  }
+  45% {
+    translate: 4px 0;
+  }
+  70% {
+    translate: -2px 0;
+  }
+}
+
+/* ── Error detail ──────────────────────────────────────── */
+
+.panel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px 14px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  background: var(--dm-surface);
+  -webkit-backdrop-filter: var(--dm-surface-blur);
+  backdrop-filter: var(--dm-surface-blur);
+  box-shadow:
+    0 2px 4px rgba(17, 17, 17, 0.08),
+    0 16px 36px rgba(17, 17, 17, 0.18);
+  translate: -12px -50%;
+  opacity: 0;
+  /* Moves with the camera, so it stays beside the node */
+  transition:
+    left var(--dm-camera),
+    top var(--dm-camera),
+    opacity 400ms ease,
+    translate 700ms var(--dm-ease);
+}
+
+.panel[data-open] {
+  translate: 0 -50%;
+  opacity: 1;
+  transition:
+    left var(--dm-camera),
+    top var(--dm-camera),
+    opacity 600ms ease 500ms,
+    translate 900ms var(--dm-ease) 500ms;
+}
+
+/* Points back at the failed node */
+.pointer {
+  position: absolute;
+  top: 50%;
+  left: -7px;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  rotate: 45deg;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+  border-left: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0 0 0 3px;
+  background: var(--dm-surface);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.errorDot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dm-red);
+  box-shadow: 0 0 0 3px rgba(203, 42, 47, 0.16);
+}
+
+.panelTitle {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.panelBody {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: #555555;
+}
+
+.code {
+  display: block;
+  padding: 6px 8px;
+  border: 1px solid rgba(203, 42, 47, 0.14);
+  border-radius: 6px;
+  background: rgba(203, 42, 47, 0.05);
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 18px;
+  color: #a32126;
+  white-space: nowrap;
+}
+
+.panelFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.step {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dm-muted);
+}
+
+.runAgain {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: 1px solid rgba(203, 42, 47, 0.3);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--dm-red);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    scale 200ms var(--dm-ease);
+}
+
+/* ── Zoom controls ─────────────────────────────────────── */
+
+.zoom {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  background: var(--dm-surface);
+  -webkit-backdrop-filter: var(--dm-surface-blur);
+  backdrop-filter: var(--dm-surface-blur);
+  box-shadow: var(--dm-shadow);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+
+.zoom[data-in] {
+  opacity: 1;
+}
+
+/* Phones only watch the loop, so controls they can't use stay hidden */
+.root:not([data-interactive]) .zoom {
+  display: none;
+}
+
+.zoom button {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #555555;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.zoom button + button {
+  border-top: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+/* ── Desktop: the failed node, Run again and zoom take the pointer ── */
+
+.root[data-interactive] .node[data-status="error"] .nodeCard,
+.root[data-interactive] .node[data-status="error"] .nodeCard *,
+.root[data-interactive] .panel[data-open] .runAgain,
+.root[data-interactive] .panel[data-open] .runAgain *,
+.root[data-interactive] .zoom button,
+.root[data-interactive] .zoom button * {
+  pointer-events: auto !important;
+}
+
+.root[data-interactive] .node[data-status="error"] .nodeCard,
+.root[data-interactive] .runAgain,
+.root[data-interactive] .zoom button {
+  cursor: pointer;
+}
+
+.root[data-interactive] .node[data-status="error"] .nodeCard:hover {
+  box-shadow:
+    var(--dm-shadow),
+    0 0 0 4px rgba(203, 42, 47, 0.22),
+    0 0 28px 4px rgba(203, 42, 47, 0.42);
+}
+
+.root[data-interactive] .node[data-status="error"] .nodeCard:active,
+.root[data-interactive] .runAgain:active {
+  scale: 0.96;
+}
+
+.root[data-interactive] .runAgain:hover {
+  border-color: rgba(203, 42, 47, 0.5);
+  background: #fff5f5;
+}
+
+.root[data-interactive] .zoom button:hover {
+  background: rgba(17, 17, 17, 0.05);
+  color: #111111;
+}
+
+.root[data-interactive] .zoom button:active {
+  background: rgba(17, 17, 17, 0.09);
+}
+
+.nodeCard:focus-visible,
+.runAgain:focus-visible,
+.zoom button:focus-visible {
+  outline: 2px solid var(--dm-blue);
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion: no movement ───────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .viewport,
+  .canvas,
+  .edge,
+  .nodeId,
+  .nodeLabel,
+  .notch,
+  .tab,
+  .nodeCard,
+  .panel,
+  .panel[data-open],
+  .zoom {
+    transition: none;
+  }
+
+  .edge[data-flow],
+  .node[data-status="active"] .nodeCard,
+  .node[data-status="error"] .nodeCard {
+    animation: none;
+  }
+}

@@ -16,7 +16,7 @@
   --tx-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
   --tx-ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* Frosted surfaces: the scene shows through softly instead of stark white */
-  --tx-surface: rgba(255, 255, 255, 0.82);
+  --tx-surface: rgba(255, 255, 255, 0.92);
   --tx-surface-blur: blur(12px) saturate(1.2);
 
   font-family: var(--font-inter), sans-serif;
@@ -834,6 +834,58 @@
 .rowHeader:focus-visible {
   outline: 2px solid var(--tx-purple);
   outline-offset: 2px;
+}
+
+/* ── Hover and press states (desktop) ──────────────────── */
+
+.addButton,
+.connect,
+.cancel,
+.submit,
+.close {
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    opacity 500ms ease,
+    scale 200ms var(--tx-ease);
+}
+
+.root[data-interactive] .addButton:hover,
+.root[data-interactive] .connect:not(:disabled):hover {
+  border-color: #a8a8a8;
+  background: #f7f7f7;
+}
+
+.root[data-interactive] .addButton:active,
+.root[data-interactive] .connect:not(:disabled):active,
+.root[data-interactive] .cancel:active,
+.root[data-interactive] .submit:not(:disabled):active {
+  scale: 0.96;
+}
+
+.root[data-interactive] .cancel:hover {
+  background: rgba(17, 17, 17, 0.05);
+}
+
+.root[data-interactive] .submit[data-ready]:not(:disabled):hover {
+  background: #3d0f6e;
+}
+
+.root[data-interactive] .close:hover {
+  color: var(--tx-name);
+}
+
+/* A row brightens a little under the pointer */
+.root[data-interactive] .row:has(.rowHeader:hover) {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 2px 4px rgba(17, 17, 17, 0.08),
+    0 12px 28px rgba(17, 17, 17, 0.12);
+}
+
+.root[data-interactive] .rowHeader:hover .chevron {
+  color: var(--tx-name);
 }
 
 /* ── Reduced motion: no movement ───────────────────────── */

@@ -4,15 +4,16 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from "re
 import { useCursorDisc } from "./useCursorDisc";
 import shared from "./CardDemo.module.css";
 
-/** Demos are drawn at the card's full desktop size and scaled to fit (keep in step with CardDemo.module.css). */
-export const STAGE_W = 752;
+/** Demos are drawn at the card's desktop size (keep in step with CardDemo.module.css). Smaller cards scale the
+ *  stage down; larger ones centre it at true size, so the UI never grows past its designed size. */
+export const STAGE_W = 704;
 export const STAGE_H = 520;
 
 export type Beat<S> = { set: Partial<S>; wait: number };
 
 /**
  * Shared behaviour for the coded demos on the homepage case study cards:
- * scaling the 752×520 stage to the card, playing the loop only while the card
+ * fitting the 704×520 stage to the card, playing the loop only while the card
  * is on screen (and resetting it when it leaves), a visitor taking over (which
  * stops the loop), a restart button, reduced motion (the final scene, no loop)
  * and the "Read" cursor over the scene on either side of the demo's UI.
@@ -48,7 +49,8 @@ export function useCardDemo<S extends { fading?: boolean }>({
   });
   const rootRef = useRef<HTMLDivElement>(null);
   const uiRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0);
+  const [fit, setFit] = useState({ scale: 0, x: 0, y: 0 });
+  const scale = fit.scale;
   const opening = entry?.scene ?? start;
   const [scene, setScene] = useState<S>(opening);
   // True until the loop has started from the entry point once since coming into view
@@ -66,7 +68,11 @@ export function useCardDemo<S extends { fading?: boolean }>({
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    const ro = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / STAGE_W));
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      const s = Math.min(1, width / STAGE_W, height / STAGE_H);
+      setFit({ scale: s, x: (width - STAGE_W * s) / 2, y: (height - STAGE_H * s) / 2 });
+    });
     ro.observe(root);
     return () => ro.disconnect();
   }, []);
@@ -142,7 +148,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
   // "Read" cursor over the scene: the card link sits under the demo, so watch its media area
   useEffect(() => {
     const root = rootRef.current;
-    const link = root?.parentElement?.querySelector("a");
+    const link = root?.closest("[data-study-row]")?.querySelector("a");
     const media = link?.querySelector<HTMLElement>("[data-card-media]");
     if (!interactive || !link || !media) return;
     /** The scene on either side of the UI: inside the media, outside the UI and its clearance. */
@@ -152,8 +158,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
       const ui = uiRef.current;
       if (!ui) return true;
       const c = ui.getBoundingClientRect();
-      const s = r.width / STAGE_W;
-      return e.clientX < c.left - sideClear.left * s || e.clientX > c.right + sideClear.right * s;
+      return e.clientX < c.left - sideClear.left * scale || e.clientX > c.right + sideClear.right * scale;
     };
     let shown = false;
     const onMove = (e: PointerEvent) => {
@@ -178,7 +183,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
     };
     // cursor's methods only touch refs and state setters; sideClear is a constant per demo
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [interactive]);
+  }, [interactive, scale]);
 
   // Reduced motion shows the final scene until a visitor takes over
   const view = reduced && auto ? final : scene;
@@ -197,7 +202,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
     rootClass: shared.root,
     stageProps: {
       className: shared.stage,
-      style: { "--scale": scale, opacity: scale ? undefined : 0 } as CSSProperties,
+      style: { "--scale": scale, "--x": `${fit.x}px`, "--y": `${fit.y}px`, opacity: scale ? undefined : 0 } as CSSProperties,
       "data-fading": view.fading || undefined,
     },
     /** Restart button and "Read" disc; render inside the demo's root, after the stage */

@@ -6,7 +6,7 @@
   left: 0;
   right: 0;
   top: 0;
-  aspect-ratio: 752 / 520;
+  aspect-ratio: 704 / 520;
   border-radius: var(--ds-radius-container);
   overflow: hidden;
 }
@@ -20,14 +20,14 @@
   pointer-events: none !important;
 }
 
-/* Drawn at the card's full desktop size, scaled to the card */
+/* Drawn at the card's desktop size: scaled down on smaller cards, centred at true size on larger ones */
 .stage {
   position: absolute;
   top: 0;
   left: 0;
-  width: 752px;
+  width: 704px;
   height: 520px;
-  transform: scale(var(--scale));
+  transform: translate(var(--x), var(--y)) scale(var(--scale));
   transform-origin: 0 0;
   transition: opacity 600ms ease;
 }

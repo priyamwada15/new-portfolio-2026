@@ -27,7 +27,7 @@ export function CaseStudyHero({
   backdrop: CaseBackdrop;
 }) {
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} data-hides-nav>
       {/* Runs past the bottom of the screen and fades out there, so there's no edge */}
       <div className={`${styles.backdrop} ${backdrop.backdrop}`} style={backdropStyle(look, { screenTall: true })} />
       <div className={styles.heading}>

@@ -72,7 +72,7 @@ export const caseStudyCardText =
 
 /** Big impact number (e.g. "92%"), shared by every case study's stats. 28px on phones. */
 export const caseStudyStatNumber =
-  "font-label text-[32px] font-bold leading-none text-ink max-md:text-[28px]" as const;
+  "font-label text-[32px] font-semibold leading-none text-ink max-md:text-[28px]" as const;
 
 /** Visual caption under media. */
 export const visualCaption =

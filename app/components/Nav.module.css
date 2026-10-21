@@ -25,8 +25,9 @@
   }
 }
 
-/* Hidden while a full-bleed case study hero covers the top of the screen
-   (HideNavWhileVisible); it slides back in once the hero scrolls away */
+/* Hidden on pages with a full-bleed case study hero ([data-hides-nav]) from the
+   first paint, so it never flashes in; it slides in once the hero has scrolled
+   away (HideNavWhileVisible sets data-nav-shown) */
 .nav {
   transition:
     opacity 300ms ease,
@@ -34,7 +35,7 @@
     visibility 0s linear 0s;
 }
 
-:global(html[data-nav-hidden]) .nav {
+:global(html:has([data-hides-nav]):not([data-nav-shown])) .nav {
   opacity: 0;
   translate: 0 -16px;
   visibility: hidden;

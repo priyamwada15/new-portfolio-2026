@@ -63,7 +63,7 @@ export function SectionHeader({
 /**
  * Row of equal-width cards, each with a small label above its text.
  * `dark`: brand-filled cards with one line of medium text.
- * `stat`: light bordered cards with a large brand-coloured number above muted text.
+ * `stat`: open columns, a large number above a line of body text (like the stats on the Rocket and Debug Mode pages).
  * `light`: pale brand cards with one or more paragraphs of body text.
  */
 export function CardRow({
@@ -89,7 +89,7 @@ export function CardRow({
           key={card.label}
           className={`flex min-w-0 flex-1 flex-col ${wrap ? "md:max-lg:basis-[calc(50%-12px)]" : ""} ${
             stat
-              ? "gap-6 rounded-[var(--ds-radius-container)] border border-border bg-surface-case-study px-[23px] py-[39px] max-md:py-[23px]"
+              ? "gap-6"
               : `gap-3 rounded-[var(--ds-radius-container)] ${
                   dark
                     ? "border border-[var(--accent-dark)] bg-[var(--accent-dark)] px-[23px] py-[39px] max-md:py-[23px]"
@@ -120,7 +120,7 @@ export function CardRow({
                 key={paragraph}
                 className={
                   stat
-                    ? `${caseStudyCardText} text-tertiary`
+                    ? caseStudyText
                     : dark
                     ? `${caseStudyCardText} text-surface-page`
                     : "font-label text-[16px] leading-[28px] text-secondary"

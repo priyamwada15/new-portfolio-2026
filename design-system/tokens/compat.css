@@ -1,10 +1,4 @@
-/* Raw CSS var aliases for brand colors — mirrors the @theme mappings in theme.css so they're also usable outside Tailwind utilities (e.g. inline styles). Prefer --ds-* tokens in new code. */
+/* Legacy aliases kept for older stylesheets. Prefer --ds-* tokens in new code. */
 :root {
-  --color-rocket-dark: var(--ds-color-brand-rocket);
-  --color-rocket-light: var(--ds-color-brand-rocket-light);
-  --color-tars-dark: var(--ds-color-brand-tars);
-  --color-tars-light: var(--ds-color-brand-tars-light);
-  --color-salesforce: var(--ds-color-brand-salesforce);
-
   --color-page-bg: var(--ds-surface-page);
 }

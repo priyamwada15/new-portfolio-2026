@@ -3,7 +3,6 @@ export { brands, type BrandKey } from "./brands";
 export { fontFamily, fontStyle } from "./fonts";
 export {
   caseStudyH2,
-  caseStudySectionH2,
   caseStudySectionTag,
   caseStudyMetaLabel,
   caseStudyBody,
@@ -21,31 +20,12 @@ export {
   caseStudyStatNumber,
   visualCaption,
   iterationLabel,
-  salesforceH2,
-  salesforceH3,
-  salesforceBody,
   mediaPanel,
 } from "./typography";
 export { BREAKPOINTS } from "./breakpoints";
 export {
   HOME_V2_ROW_GAP_PX,
-  HOME_V2_FOOTER_SAFE_SPACE_PX,
-  HOME_V2_SECTION_GAP_PX,
-  homeCardShellStyle,
-  homeCardMediaBgStyle,
-  homeIntroCopyStyle,
   homeBentoTileLabelStyle,
-  homeCardFooterFont,
-  homeCardFooterTitleStyle,
-  homeCardFooterTagsStyle,
-  homeHeroHeadlineClass,
-  homeWorkCardDescriptionClass,
-  homeWorkMetaTagStyle,
-  homePlayLinkLabelClass,
-  homePlayLinkUnderlineClass,
-  homeFrostedControlShellStyle,
-  homeStripNavButtonClass,
-  homeStripNavButtonStateClass,
 } from "./home";
 export {
   CASE_STUDY_PAGE_BG,
@@ -61,9 +41,5 @@ export {
   isRocketMortgagePath,
   caseStudyUsesSiteDefaultSurface,
   SALESFORCE_HERO_VIDEO,
-  TARS_DEBUG_MODE_HERO_VIDEO,
-  ASIMOV_HERO_VIDEO,
-  croppedVideoStyles,
-  type CroppedVideo,
   ROCKET_MORTGAGE_CARD_VIDEOS,
 } from "./layout";

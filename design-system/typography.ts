@@ -23,16 +23,10 @@ export const caseStudySectionBody = "text-[16px]" as const;
 export const caseStudyHeadline =
   "text-2xl md:text-[40px] font-normal leading-tight text-ink" as const;
 
-/**
- * Section H2 used on Salesforce & Rocket Mortgage (Figtree medium, not the
- * bold/font-label caseStudyH2 above) — 32px desktop, 24px below 744px.
- */
-export const caseStudySectionH2 =
-  "text-[32px] font-medium leading-[140%] text-[#333333] max-tablet:text-[24px]" as const;
-
 /*
  * Sept 2026 case study type scale — shared by every case study page.
- * Accent-coloured roles read `--accent-dark`, which CaseStudyLayout sets per brand.
+ * Accent-coloured roles read `--accent-dark`, which CaseStudyLayout sets per page;
+ * every case study passes the shared rose (--ds-case-study-accent).
  */
 
 /** Case study H1 — 32px Medium (28px on phones). */
@@ -80,16 +74,6 @@ export const visualCaption =
 
 /** Iteration / version label above media. */
 export const iterationLabel = "text-[12px] font-semibold" as const;
-
-/** Salesforce case study — Figtree body typography. */
-export const salesforceH2 =
-  "text-[32px] font-bold leading-[48px] text-primary" as const;
-
-export const salesforceH3 =
-  "text-[24px] font-bold leading-[140%] text-primary" as const;
-
-export const salesforceBody =
-  "text-[16px] font-normal leading-[160%] text-primary" as const;
 
 /** Shared media panel shell (#FAFAFA fill, 1px border, 24px radius). */
 export const mediaPanel =

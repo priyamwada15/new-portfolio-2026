@@ -7,6 +7,8 @@ import {
   caseStudyHeadline,
   caseStudyH2,
   caseStudyBody,
+  caseStudySectionTagCaps,
+  caseStudyStatNumber,
   CASE_STUDY_TOC_GRID_CLASS,
 } from "@/design-system";
 
@@ -314,9 +316,22 @@ export default function DesignSystemPage() {
               <ColorSwatch name="Slate Text" hex="#555555" note="Captions, metadata, icons." />
             </ColorGroup>
 
-            <ColorGroup label="Tertiary — borrowed project colors" columns={3}>
-              <ColorSwatch name="Rocket Red" hex="#de3341" note="Rocket Mortgage only." />
-              <ColorSwatch name="TARS Purple" hex="#6d33aa" note="TARS Debug Mode & Asimov only." />
+            <ColorGroup label="Site accent" columns={2}>
+              <ColorSwatch
+                name="Rose"
+                hex="#c02b53"
+                note="The one case study accent (section tags, markers, highlights), the active nav link, the cursor and the backdrop's edge."
+              />
+              <ColorSwatch
+                name="Olive"
+                hex="#bfb74c"
+                note="The backdrop's centre behind the coded demos, and the license card."
+              />
+            </ColorGroup>
+
+            <ColorGroup label="Tertiary — project brand colors" columns={3}>
+              <ColorSwatch name="Rocket Red" hex="#de3341" note="Rocket Mortgage logo and product UI only." />
+              <ColorSwatch name="TARS Purple" hex="#6d33aa" note="TARS product UI only." />
               <ColorSwatch name="Salesforce Navy" hex="#032c5f" note="Salesforce / Galileo only." />
             </ColorGroup>
 
@@ -379,11 +394,19 @@ export default function DesignSystemPage() {
                 their place.
               </TypeSpecimen>
               <TypeSpecimen
-                role="Label"
-                meta="Figtree · 600 · 14px"
-                className="font-label text-[14px] font-semibold text-ink"
+                role="Section tag"
+                meta="Figtree · 600 · 14px · caps, 0.06em"
+                className={caseStudySectionTagCaps}
+                style={{ color: "var(--ds-case-study-accent)" }}
               >
-                Section tag
+                Problem space
+              </TypeSpecimen>
+              <TypeSpecimen
+                role="Stat"
+                meta="Figtree · 600 · 32px"
+                className={caseStudyStatNumber}
+              >
+                ~70%
               </TypeSpecimen>
               <TypeSpecimen
                 role="Mono"

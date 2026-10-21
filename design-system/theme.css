@@ -36,19 +36,11 @@
   --color-faint: var(--ds-text-faint);
   --color-on-dark: var(--ds-text-on-dark);
   --color-border: var(--ds-border-default);
-  --color-border-media: var(--ds-border-media);
   --color-surface-chip: var(--ds-surface-chip);
   --color-surface-playground: var(--ds-surface-playground);
   --color-card: var(--ds-surface-card);
 
-  /* Brand */
-  --color-rocket-dark: var(--ds-color-brand-rocket);
-  --color-rocket-light: var(--ds-color-brand-rocket-light);
-  --color-rocket-darker: var(--ds-color-brand-rocket-dark);
-  --color-tars-dark: var(--ds-color-brand-tars);
-  --color-tars-light: var(--ds-color-brand-tars-light);
-  --color-salesforce: var(--ds-color-brand-salesforce);
-  --color-nav-glow: var(--ds-color-brand-nav-glow);
+  /* Nav */
   --color-nav-active: var(--ds-nav-active);
   --color-nav-active-on-dark: var(--ds-nav-active-on-dark);
 

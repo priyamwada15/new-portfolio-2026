@@ -8,16 +8,18 @@ Single source of truth for visual tokens, typography, and layout constants in th
 design-system/
 ├── tokens/           # CSS custom properties (imported by app/globals.css)
 │   ├── primitives.css   # Raw color values — never use directly in components
-│   ├── semantic.css     # Semantic roles (--ds-text-ink, --ds-surface-page, …)
-│   ├── compat.css       # Legacy aliases (--bg-light, --color-page-bg, …)
-│   ├── motion.css       # Easings and durations
+│   ├── semantic.css     # Semantic roles (--ds-text-ink, --ds-surface-page, --ds-case-study-accent, …)
+│   ├── compat.css       # Legacy alias (--color-page-bg)
+│   ├── motion.css       # Easing (--ds-ease-out-strong)
 │   └── shadcn.css       # shadcn/ui oklch tokens (separate from portfolio semantics)
 ├── theme.css         # Tailwind v4 @theme inline → utilities (text-ink, bg-surface-media, …)
-├── typography.ts     # Tailwind class compositions (caseStudyH2, salesforceBody, …)
+├── typography.ts     # Tailwind class compositions (caseStudyTitle, caseStudySectionTagCaps, …)
 ├── surfaces.ts       # CSS var references for inline styles
-├── brands.ts         # Per-client accent colors
+├── brands.ts         # Per-client brand colors (logos and product UI only; see "Case study accent")
 ├── fonts.ts          # Font role inline styles
-├── layout.ts         # Page surfaces, case study shell, route helpers
+├── home.ts           # Homepage widget constants
+├── layout.ts         # Page surfaces, case study shell, route helpers, video sources
+├── breakpoints.ts    # Breakpoints as numbers for JS (mirrors theme.css)
 └── index.ts          # Barrel export — import from `@/design-system`
 ```
 
@@ -26,14 +28,14 @@ design-system/
 ### In components (Tailwind)
 
 ```tsx
-import { caseStudyH2, caseStudyBody, mediaPanel } from "@/design-system";
+import { caseStudyHeading, caseStudyText, mediaPanel } from "@/design-system";
 
-<h2 className={caseStudyH2}>Section title</h2>
-<p className={caseStudyBody}>Body copy</p>
+<h2 className={caseStudyHeading}>Section title</h2>
+<p className={caseStudyText}>Body copy</p>
 <div className={mediaPanel}>…</div>
 ```
 
-Prefer semantic utilities: `text-ink`, `text-primary`, `text-secondary`, `bg-surface-media`, `border-border-media`.
+Prefer semantic utilities: `text-ink`, `text-primary`, `text-secondary`, `bg-surface-media`, `border-border`.
 
 ### Font roles
 
@@ -47,10 +49,9 @@ Prefer semantic utilities: `text-ink`, `text-primary`, `text-secondary`, `bg-sur
 ### Inline styles
 
 ```tsx
-import { surfaces, brands, fontStyle } from "@/design-system";
+import { surfaces, fontStyle } from "@/design-system";
 
 <div style={{ backgroundColor: surfaces.caseStudy }} />
-<CaseStudyLayout accentDark={brands.salesforce.accentDark} />
 <p style={fontStyle.figtree}>…</p>
 ```
 
@@ -60,6 +61,35 @@ import { surfaces, brands, fontStyle } from "@/design-system";
 2. Add a semantic alias in `tokens/semantic.css` if it has a role
 3. Expose as a Tailwind utility in `theme.css` if used in class names
 4. Add TS helpers in `typography.ts` / `surfaces.ts` / `brands.ts` only when needed in JavaScript
+
+Remove a token when nothing uses it any more. Before you do, search for it as a whole name **and** as a name built at runtime (e.g. `ResearchAreas.tsx` reads `var(--ds-research-${category})`).
+
+## Case study pages
+
+### Type scale (`typography.ts`)
+
+| Style | Use |
+|---|---|
+| `caseStudyTitle` | Page title (32px medium; white on the demo hero) |
+| `caseStudyHeading` | Section heading (24px semibold) |
+| `caseStudySubheading` | Heading inside a section (18px medium) |
+| `caseStudySectionTagCaps` | Section, release and testimonial tags: the eyebrow in caps, lightly tracked (e.g. "PROBLEM SPACE") |
+| `caseStudyEyebrow` | Small accent labels that aren't section tags (stat labels, names) |
+| `caseStudyText` | Body copy, including the line under a stat |
+| `caseStudyRowTitle` | Title above a text + media row |
+| `caseStudyStatNumber` | Big impact number (32px semibold, ink) |
+
+Stats are open (no card border or fill): a number in `caseStudyStatNumber` above a line of `caseStudyText`, the same on every case study. `CardRow variant="stat"` follows this.
+
+### Case study accent
+
+Every case study uses one accent, the site's rose: `--ds-case-study-accent` (and `--ds-case-study-accent-light` for tints). Pass them to `CaseStudyLayout` as `accentDark` / `accentLight`; they drive section tags, numbered markers and highlights through `--accent-dark`. Brand colors (`brands.ts`) stay in logos and inside the product demos, not in the page chrome.
+
+### Backdrop and demo hero
+
+- **Backdrop** (`app/components/CaseBackdrop.module.css`): the olive → rose radial gradient (`--ds-card-backdrop-center` / `--ds-card-backdrop-edge`) with a speckle texture. Light flecks, plus darker flecks multiplied in so they're a deeper shade of the color beneath. Each study shifts its centre and reach (`CASE_BACKDROPS` in `app/components/caseBackdrop.ts`); the homepage card and that study's hero use the same values.
+- **Demo hero** (`CaseStudyHero`, via `CaseStudyLayout`'s `heroDemo` prop): one screen tall and full bleed, with the white logo and title and the study's live coded demo. The backdrop runs past the screen and fades into the page. The nav is hidden while the hero is on screen. Logos can pass a `lightSrc` for it; otherwise they're whitened. The meta row below it is ink.
+- **Coded demos** (`app/home-v2/*Embed`) scope their product's own colors to the embed (e.g. `--ra-*`, `--dm-*`). Those are the products' colors, not portfolio tokens.
 
 ## Responsive breakpoints
 

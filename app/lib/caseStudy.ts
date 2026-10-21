@@ -11,8 +11,6 @@ export {
   isRocketMortgagePath,
   caseStudyUsesSiteDefaultSurface,
   SALESFORCE_HERO_VIDEO,
-  TARS_DEBUG_MODE_HERO_VIDEO,
-  ROCKET_MORTGAGE_CARD_VIDEOS,
   caseStudyBody as CASE_STUDY_BODY_CLASS,
   caseStudySectionBody as CASE_STUDY_SECTION_BODY_CLASS,
   caseStudyH2 as CASE_STUDY_H2_CLASS,

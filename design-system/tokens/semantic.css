@@ -7,7 +7,6 @@
   --ds-text-tertiary: var(--ds-color-tertiary);
   --ds-text-muted: var(--ds-color-muted);
   --ds-text-faint: var(--ds-color-faint);
-  --ds-text-quiet: var(--ds-color-quiet);
   --ds-text-on-dark: var(--ds-color-on-dark);
 
   /* Surfaces */
@@ -23,8 +22,6 @@
   /* Borders */
   --ds-border-default: var(--ds-color-border);
   --ds-border-media: var(--ds-color-border-media);
-  --ds-border-subtle: var(--ds-color-gray-subtle);
-  --ds-border-faint: var(--ds-color-border-faint);
 
   /* Research-area categories */
   --ds-research-academic: var(--ds-color-research-academic);
@@ -62,17 +59,14 @@
   --ds-case-study-accent: var(--ds-color-brand-hcn-rose);
   --ds-case-study-accent-light: color-mix(in srgb, var(--ds-color-brand-hcn-rose) 7%, var(--ds-surface-case-study));
 
-  /* Homepage case study cards — olive centre fading to rose edges behind the coded UI */
+  /* Case study backdrop (homepage cards and case study heroes, CaseBackdrop.module.css) —
+     olive centre fading to rose edges behind the coded UI */
   --ds-card-backdrop-center: var(--ds-color-brand-hcn-olive);
   --ds-card-backdrop-edge: var(--ds-color-brand-hcn-rose);
 
   /* Nav — active link (current page) */
   --ds-nav-active: var(--ds-color-brand-hcn-rose);
   --ds-nav-active-on-dark: var(--ds-color-brand-hcn-rose-light);
-
-  /* Nav logo disc, matching the logo SVG's circle (shown when the glyph fades while rolling) */
-  --ds-nav-logo-disc: var(--ds-color-ink);
-  --ds-nav-logo-disc-on-dark: var(--ds-color-logo-disc-light);
 
   /* Case study accent defaults (overridable per page via --accent-dark) */
   --ds-accent-default: var(--ds-color-primary);

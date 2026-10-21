@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { HOME_V2_PAGE_BG } from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { CompanyLogos } from "./home-v2/CompanyLogos";
@@ -7,6 +7,8 @@ import { RocketAssistEmbed } from "./home-v2/RocketAssistEmbed";
 import { AsimovKnowledgeEmbed } from "./home-v2/AsimovKnowledgeEmbed";
 import { DebugModeEmbed } from "./home-v2/DebugModeEmbed";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
+import { backdropStyle, CASE_BACKDROPS, type CaseBackdrop } from "@/app/components/caseBackdrop";
+import backdrop from "@/app/components/CaseBackdrop.module.css";
 import styles from "./home-v2/home.module.css";
 
 type CaseStudy = {
@@ -15,7 +17,7 @@ type CaseStudy = {
   logos: { src: string; alt: string }[];
   title: string;
   /** Where the backdrop's olive centre sits and how far its rose reaches, varied a little per card */
-  backdrop: { at: string; reach: string };
+  backdrop: CaseBackdrop;
   /** Coded UI floating on the card. It sits outside the card link, so its controls aren't nested in the link. */
   embed: ReactNode;
 };
@@ -30,7 +32,7 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Rocket Mortgage case study",
     logos: ROCKET,
     title: "Personalizing AI guidance across 6.8M+ client conversations",
-    backdrop: { at: "50% 46%", reach: "100%" },
+    backdrop: CASE_BACKDROPS.rocket,
     embed: <RocketAssistEmbed />,
   },
   {
@@ -38,7 +40,7 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Asimov for Tars case study",
     logos: TARS,
     title: "Designing the agent configuration platform and design system for Asimov",
-    backdrop: { at: "40% 36%", reach: "110%" },
+    backdrop: CASE_BACKDROPS.asimov,
     embed: <AsimovKnowledgeEmbed />,
   },
   {
@@ -46,7 +48,7 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Tars Debug Mode case study",
     logos: TARS,
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
-    backdrop: { at: "60% 60%", reach: "94%" },
+    backdrop: CASE_BACKDROPS.debugMode,
     embed: <DebugModeEmbed />,
   },
 ];
@@ -67,9 +69,9 @@ function CaseStudyRow({ study }: { study: CaseStudy }) {
         </div>
         {/* Olive and rose backdrop for the coded UI */}
         <div
-          className={styles.cardMedia}
+          className={`${styles.cardMedia} ${backdrop.backdrop}`}
           data-card-media
-          style={{ "--backdrop-at": study.backdrop.at, "--backdrop-reach": study.backdrop.reach } as CSSProperties}
+          style={backdropStyle(study.backdrop)}
         />
       </HomeV2CardLink>
       <div className={styles.embed}>{study.embed}</div>

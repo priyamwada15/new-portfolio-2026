@@ -1,0 +1,73 @@
+/* Edge to edge and a screen tall. It pulls up under the nav's spacer, so the
+   gradient starts at the top of the screen; the nav itself is hidden while the
+   hero is in view (HideNavWhileVisible). */
+.hero {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100svh;
+  margin-top: calc(-1 * var(--site-nav-space));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding: 64px 24px 48px;
+}
+
+/* The bottom edge melts into the page instead of ending in a hard line */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 200px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--ds-surface-case-study) 18%, transparent) 30%,
+    color-mix(in srgb, var(--ds-surface-case-study) 55%, transparent) 60%,
+    color-mix(in srgb, var(--ds-surface-case-study) 88%, transparent) 85%,
+    var(--ds-surface-case-study) 100%
+  );
+  pointer-events: none;
+}
+
+.heading {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 760px;
+  text-align: center;
+}
+
+.logos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* White logos and title on the gradient */
+.logos img {
+  filter: brightness(0) invert(1);
+}
+
+.title {
+  margin: 0;
+  color: var(--ds-text-on-dark);
+  text-wrap: balance;
+}
+
+/* The demo at its designed size (704×520), smaller when the screen is narrow or
+   short, so the title and demo always fit in the first screen. Above the fade. */
+.demo {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  width: min(704px, 100%, calc((100svh - 280px) * 704 / 520));
+  aspect-ratio: 704 / 520;
+  margin-block: auto;
+}

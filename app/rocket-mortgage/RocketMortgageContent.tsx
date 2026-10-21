@@ -1,6 +1,7 @@
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import SolutionShowcase from "../components/SolutionShowcase";
-import { RocketMortgageTripleVideos } from "../components/RocketMortgageTripleVideos";
+import { CASE_BACKDROPS } from "../components/caseBackdrop";
+import { RocketAssistEmbed } from "../home-v2/RocketAssistEmbed";
 import { SectionHeader, Testimonials } from "../components/CaseStudySections";
 import {
   brands,
@@ -115,7 +116,7 @@ function ProblemSpace() {
   );
 }
 
-/** Same clips as the hero (RocketMortgageTripleVideos): [0] onboarding, [1] inspector, [2] escalation. */
+/** The three Rocket Assist clips: [0] onboarding, [1] inspector, [2] escalation. */
 const CORE_FLOWS = [
   {
     title: "Move 1: Turning walls of text into answers clients could act on",
@@ -269,8 +270,7 @@ export default function RocketMortgageContent() {
         { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
       ]}
       headline="Personalizing AI guidance across 6.8M+ client conversations"
-      reverseHeaderOrder
-      heroVisual={<RocketMortgageTripleVideos framed className="rounded-[var(--ds-radius-container)]" />}
+      heroDemo={{ demo: <RocketAssistEmbed />, backdrop: CASE_BACKDROPS.rocket }}
       meta={{
         timelineLabel: "Handed off",
         timeline: "Aug 2025",

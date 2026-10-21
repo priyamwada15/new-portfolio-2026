@@ -7,6 +7,8 @@ import { CoreFeatureVideo } from "./CoreFeatureVideo";
 import KnowledgeSourcesDemo from "./KnowledgeSourcesDemo";
 import ProblemSpaceVisual from "./ProblemSpaceVisual";
 import AgentMentionVisual from "./AgentMentionVisual";
+import { CASE_BACKDROPS } from "../components/caseBackdrop";
+import { AsimovKnowledgeEmbed } from "../home-v2/AsimovKnowledgeEmbed";
 import { CardRow, SectionHeader } from "../components/CaseStudySections";
 import {
   brands,
@@ -17,11 +19,7 @@ import {
   caseStudyTitle,
   mediaPanel,
   CASE_STUDY_PAGE_BG,
-  ASIMOV_HERO_VIDEO,
-  croppedVideoStyles,
 } from "@/design-system";
-
-const asimovHeroCrop = croppedVideoStyles(ASIMOV_HERO_VIDEO);
 
 const ABOUT_STATS = [
   {
@@ -416,26 +414,8 @@ export default function AsimovPage() {
       logos={[
         { src: "/logos/tars.svg", alt: "TARS" },
       ]}
-      headline="Designing the agent configuration platform and design system for Asimov as its founding designer"
-      reverseHeaderOrder={true}
-      heroVisual={
-        // Cropped to the app window; rounded to match the window's own corners
-        <div className="w-full rounded-[var(--ds-radius-container)] bg-surface-page p-6">
-          <div className="w-full rounded-[12px]" style={asimovHeroCrop.frame}>
-            <AutoPauseVideo
-              src={ASIMOV_HERO_VIDEO.src}
-              poster={ASIMOV_HERO_VIDEO.poster}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-label="Asimov knowledge dashboard, adding a Slack channel as a knowledge resource"
-              style={asimovHeroCrop.video}
-            />
-          </div>
-        </div>
-      }
+      headline="Designing the agent configuration platform and design system for Asimov"
+      heroDemo={{ demo: <AsimovKnowledgeEmbed />, backdrop: CASE_BACKDROPS.asimov }}
       meta={{
         timelineLabel: "Shipped",
         timeline: "Dec 2023 – Apr 2024 · 5 releases",

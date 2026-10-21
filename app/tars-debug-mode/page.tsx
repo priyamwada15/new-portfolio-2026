@@ -3,6 +3,8 @@ import CaseStudyLayout from "../components/CaseStudyLayout";
 import AutoPauseVideo from "../components/AutoPauseVideo";
 import { DebugChatPreview } from "../components/DebugChatPreview";
 import ScaleToFit from "../components/ScaleToFit";
+import { CASE_BACKDROPS } from "../components/caseBackdrop";
+import { DebugModeEmbed } from "../home-v2/DebugModeEmbed";
 import { SectionHeader } from "../components/CaseStudySections";
 import {
   brands,
@@ -13,11 +15,7 @@ import {
   caseStudyText,
   caseStudyTitle,
   CASE_STUDY_PAGE_BG,
-  TARS_DEBUG_MODE_HERO_VIDEO,
-  croppedVideoStyles,
 } from "@/design-system";
-
-const debugHeroCrop = croppedVideoStyles(TARS_DEBUG_MODE_HERO_VIDEO);
 
 export const metadata: Metadata = {
   title: "Debug Mode for Tars | Internal Tools Design Case Study | Priyamwada Pandey",
@@ -97,25 +95,7 @@ export default function DebugModePage() {
       headlineClassName={caseStudyTitle}
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       headline="Designing an internal debugger that cut troubleshooting time by ~70%"
-      reverseHeaderOrder={true}
-      heroVisual={
-        // Cropped to the app window so the 24px padding is the only space around it.
-        <div className="w-full rounded-[var(--ds-radius-container)] bg-surface-page p-6">
-          <div className="w-full" style={debugHeroCrop.frame}>
-            <AutoPauseVideo
-              src={TARS_DEBUG_MODE_HERO_VIDEO.src}
-              poster={TARS_DEBUG_MODE_HERO_VIDEO.poster}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-label="Debug Mode canvas highlighting the active gambit as it steps through the flow"
-              style={debugHeroCrop.video}
-            />
-          </div>
-        </div>
-      }
+      heroDemo={{ demo: <DebugModeEmbed />, backdrop: CASE_BACKDROPS.debugMode }}
       meta={{
         timeline: "Oct 2022",
         industry: "B2B SaaS",

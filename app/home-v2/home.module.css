@@ -411,23 +411,13 @@
   text-wrap: pretty;
 }
 
-/* Backdrop for the coded UI: olive in the middle under the UI, rose at the
-   edges, with a fine speckle on top: crisp light flecks, plus darker flecks
-   multiplied in so they're a deeper shade of the colour beneath, not gray
-   (each layer keeps only the brightest or darkest points of a noise field).
-   Each card shifts the olive centre and how far the rose reaches (--backdrop-at,
-   --backdrop-reach, set per case study), so the three read as related prints, not copies.
-   The demo stage (704×520) sits in it at true size, so the UI never grows with the card. */
+/* The card the coded UI sits on; its backdrop is CaseBackdrop.module.css. The demo
+   stage (704×520) sits in it at true size, so the UI never grows with the card. */
 .cardMedia {
   position: relative;
   width: 100%;
   aspect-ratio: 1008 / 575;
   border-radius: var(--ds-radius-container);
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  5 0 0 0 -2.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)' opacity='0.45'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.6  0 0 0 0 0.6  -5 0 0 0 2.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23d)' opacity='0.6'/%3E%3C/svg%3E"),
-    radial-gradient(var(--backdrop-reach, 100.5%) var(--backdrop-reach, 100.5%) at var(--backdrop-at, 50% 50%), var(--ds-card-backdrop-center) 0%, var(--ds-card-backdrop-edge) 100%);
-  background-blend-mode: normal, multiply, normal;
   overflow: hidden;
 }
 

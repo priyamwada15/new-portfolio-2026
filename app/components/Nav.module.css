@@ -25,6 +25,26 @@
   }
 }
 
+/* Hidden while a full-bleed case study hero covers the top of the screen
+   (HideNavWhileVisible); it slides back in once the hero scrolls away */
+.nav {
+  transition:
+    opacity 300ms ease,
+    translate 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0s;
+}
+
+:global(html[data-nav-hidden]) .nav {
+  opacity: 0;
+  translate: 0 -16px;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 300ms ease,
+    translate 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 400ms;
+}
+
 /* Dark "fun" page */
 .nav[data-dark] {
   --nav-text: #f6f6fb;

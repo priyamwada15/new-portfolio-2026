@@ -3,6 +3,8 @@ import { CaseStudySideToc, type SideTocItem } from "./CaseStudySideToc";
 
 const CASE_STUDY_HEADER_ANCHOR_ID = "case-study-header-anchor";
 import CaseStudyPageStyle from "./CaseStudyPageStyle";
+import { CaseStudyHero } from "./CaseStudyHero";
+import type { CaseBackdrop } from "./caseBackdrop";
 import SectionLabel from "./SectionLabel";
 import {
   brands,
@@ -51,6 +53,11 @@ interface Props {
   sidePanel?: React.ReactNode;
   contextVisual?: React.ReactNode;
   heroVisual?: React.ReactNode;
+  /**
+   * Full-bleed opening screen with the study's live coded demo on its homepage-card
+   * backdrop. The logos and headline move into it; the header keeps only the meta row.
+   */
+  heroDemo?: { demo: React.ReactNode; backdrop: CaseBackdrop };
   reverseHeaderOrder?: boolean;
   hideContextLabel?: boolean;
   headlineInHeader?: boolean;
@@ -136,6 +143,7 @@ export default function CaseStudyLayout({
   sidePanel,
   contextVisual,
   heroVisual,
+  heroDemo,
   reverseHeaderOrder = false,
   hideContextLabel = false,
   headlineInHeader = false,
@@ -274,7 +282,9 @@ export default function CaseStudyLayout({
   // ── header content ────────────────────────────────────────────────────
   // When toc is provided, H1 moves to the right column, header only has logos + meta.
   // mb-14 = 56px gap between meta and H1.
-  const headerContent = toc ? (
+  const headerContent = heroDemo ? (
+    <MetaGrid meta={meta} accentDark={accentDark} sept2026Layout={sept2026Layout} />
+  ) : toc ? (
     reverseHeaderOrder ? (
       /* logos → H1 → heroVisual → meta */
       <>
@@ -330,6 +340,16 @@ export default function CaseStudyLayout({
   return (
     <>
     <CaseStudyPageStyle backgroundColor={bodyBackgroundColor} />
+    {heroDemo && (
+      <CaseStudyHero
+        logos={logos}
+        headline={headline}
+        headlineClassName={h1ClassName}
+        headlineStyle={{ ...headlineFontStyle, ...headlineStyle }}
+        demo={heroDemo.demo}
+        backdrop={heroDemo.backdrop}
+      />
+    )}
     <article
       className={CASE_STUDY_COLUMN_CLASS}
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}

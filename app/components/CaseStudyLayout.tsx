@@ -373,7 +373,9 @@ export default function CaseStudyLayout({
       {/* Header, mt-12 (48px) below the nav */}
       {/* Untransformed marker at the header's top edge (the header itself animates in),
           used to keep the side TOC level with the logos row */}
-      <div id={CASE_STUDY_HEADER_ANCHOR_ID} aria-hidden="true" className="mt-12" />
+      {/* With a demo hero the meta row starts right where the hero ends, while the
+          backdrop behind it is still at full colour, not 48px lower into the fade */}
+      <div id={CASE_STUDY_HEADER_ANCHOR_ID} aria-hidden="true" className={heroDemo ? undefined : "mt-12"} />
       <header className={`${toc ? "mb-14" : sept2026Layout ? "mb-[120px]" : "mb-16"} hero-intro hero-intro--bento`}>
         {headerContent}
       </header>

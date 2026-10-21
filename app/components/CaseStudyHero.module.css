@@ -46,28 +46,6 @@
   );
 }
 
-/* Below 1080px the meta row wraps onto two to four rows, so the backdrop stays
-   solid under all of it (its labels are white) and fades out after */
-@media (max-width: 1079px) {
-  .backdrop {
-    height: calc(100% + 640px);
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      #000 calc(100% - 260px),
-      rgba(0, 0, 0, 0.6) calc(100% - 160px),
-      rgba(0, 0, 0, 0.2) calc(100% - 70px),
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      #000 calc(100% - 260px),
-      rgba(0, 0, 0, 0.6) calc(100% - 160px),
-      rgba(0, 0, 0, 0.2) calc(100% - 70px),
-      transparent 100%
-    );
-  }
-}
-
 .heading {
   position: relative;
   z-index: 1;

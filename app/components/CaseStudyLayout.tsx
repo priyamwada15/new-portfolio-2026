@@ -100,7 +100,7 @@ const MetaGrid = ({
   meta: Meta;
   accentDark: string;
   sept2026Layout?: boolean;
-  /** On the demo hero's fading backdrop: labels and values in white */
+  /** On the demo hero's fading backdrop: labels in ink rather than the accent */
   onBackdrop?: boolean;
 }) => (
   <div
@@ -119,13 +119,11 @@ const MetaGrid = ({
           <>
             <p
               className="font-label text-[14px] font-semibold leading-[21px]"
-              style={{ color: onBackdrop ? "var(--ds-text-on-dark)" : accentDark }}
+              style={{ color: onBackdrop ? "var(--ds-text-ink)" : accentDark }}
             >
               {item.label}
             </p>
-            <p className={`pt-1 font-label text-[14px] leading-[20px] ${onBackdrop ? "text-on-dark" : "text-primary"}`}>
-              {item.value}
-            </p>
+            <p className="pt-1 font-label text-[14px] leading-[20px] text-primary">{item.value}</p>
           </>
         ) : (
           <>
@@ -291,7 +289,7 @@ export default function CaseStudyLayout({
   // When toc is provided, H1 moves to the right column, header only has logos + meta.
   // mb-14 = 56px gap between meta and H1.
   const headerContent = heroDemo ? (
-    // Sits on the hero's fading backdrop, in white like the hero's title
+    // Sits on the hero's fading backdrop; dark like the page text, so only the hero's title is white
     <MetaGrid meta={meta} accentDark={accentDark} sept2026Layout={sept2026Layout} onBackdrop />
   ) : toc ? (
     reverseHeaderOrder ? (

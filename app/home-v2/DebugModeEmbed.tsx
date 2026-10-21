@@ -1,7 +1,7 @@
 "use client";
 
 import { type CSSProperties } from "react";
-import { DemoIcon, useCardDemo, type Beat } from "./useCardDemo";
+import { DemoIcon, STAGE_H, STAGE_W, useCardDemo, type Beat } from "./useCardDemo";
 import styles from "./DebugModeEmbed.module.css";
 
 /*
@@ -18,8 +18,6 @@ const NODE_GAP = 96;
 const STEP = NODE_H + NODE_GAP;
 const TRACK_SCALE = 1.5;
 
-const STAGE_W = 1008;
-const STAGE_H = 575;
 const PANEL_W = 300;
 const PANEL_GAP = 28;
 /** With the error detail open, the failed node shifts left so the pair sits centred. */

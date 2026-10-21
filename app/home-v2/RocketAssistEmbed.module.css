@@ -48,11 +48,11 @@
     translate 1000ms var(--ra-ease);
 }
 
-/* Intro: it fades in at the centre of the card (about 244px below its resting
+/* Intro: it fades in at the centre of the card (216px below its resting
    spot), then glides up before the conversation starts */
 .header[data-intro="hidden"],
 .header[data-intro="center"] {
-  translate: -50% 244px;
+  translate: -50% 216px;
 }
 
 .header[data-intro="hidden"] {

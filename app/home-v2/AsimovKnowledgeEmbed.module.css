@@ -466,8 +466,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 1008px;
-  height: 575px;
+  width: 752px;
+  height: 520px;
   overflow: visible;
   opacity: 0;
   transition: opacity 300ms ease;

@@ -56,6 +56,10 @@
   --ds-tag-gray-bg: var(--ds-color-tag-gray-bg);
   --ds-tag-gray-fg: var(--ds-color-tag-gray-fg);
 
+  /* Homepage case study cards — olive centre fading to rose edges behind the coded UI */
+  --ds-card-backdrop-center: var(--ds-color-brand-hcn-olive);
+  --ds-card-backdrop-edge: var(--ds-color-brand-hcn-rose);
+
   /* Nav — active link (current page) */
   --ds-nav-active: var(--ds-color-brand-hcn-rose);
   --ds-nav-active-on-dark: var(--ds-color-brand-hcn-rose-light);

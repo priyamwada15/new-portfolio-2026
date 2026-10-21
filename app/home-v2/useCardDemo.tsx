@@ -4,14 +4,15 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from "re
 import { useCursorDisc } from "./useCursorDisc";
 import shared from "./CardDemo.module.css";
 
-/** Demos are drawn at the card's full desktop size and scaled to fit. */
-export const STAGE_W = 1008;
+/** Demos are drawn at the card's full desktop size and scaled to fit (keep in step with CardDemo.module.css). */
+export const STAGE_W = 752;
+export const STAGE_H = 520;
 
 export type Beat<S> = { set: Partial<S>; wait: number };
 
 /**
  * Shared behaviour for the coded demos on the homepage case study cards:
- * scaling the 1008×575 stage to the card, playing the loop only while the card
+ * scaling the 752×520 stage to the card, playing the loop only while the card
  * is on screen (and resetting it when it leaves), a visitor taking over (which
  * stops the loop), a restart button, reduced motion (the final scene, no loop)
  * and the "Read" cursor over the scene on either side of the demo's UI.

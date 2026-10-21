@@ -283,7 +283,8 @@ export default function CaseStudyLayout({
   // When toc is provided, H1 moves to the right column, header only has logos + meta.
   // mb-14 = 56px gap between meta and H1.
   const headerContent = heroDemo ? (
-    <MetaGrid meta={meta} accentDark={accentDark} sept2026Layout={sept2026Layout} />
+    // Sits on the hero's fading backdrop, so its labels use ink rather than the brand accent
+    <MetaGrid meta={meta} accentDark="var(--ds-text-ink)" sept2026Layout={sept2026Layout} />
   ) : toc ? (
     reverseHeaderOrder ? (
       /* logos → H1 → heroVisual → meta */
@@ -356,7 +357,10 @@ export default function CaseStudyLayout({
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
 
-      {sideToc && <CaseStudySideToc items={sideToc} alignToId={CASE_STUDY_HEADER_ANCHOR_ID} />}
+      {/* With a demo hero the TOC starts level with the first section, not the meta row */}
+      {sideToc && (
+        <CaseStudySideToc items={sideToc} alignToId={heroDemo ? sideToc[0].id : CASE_STUDY_HEADER_ANCHOR_ID} />
+      )}
 
       {/* Header, mt-12 (48px) below the nav */}
       {/* Untransformed marker at the header's top edge (the header itself animates in),

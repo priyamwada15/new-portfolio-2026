@@ -14,7 +14,6 @@ type CaseStudy = {
   ariaLabel: string;
   title: string;
   outcome: string;
-  tags: string[];
   /** Coded UI floating on the card. It sits outside the card link, so its controls aren't nested in the link. */
   embed: ReactNode;
 };
@@ -42,7 +41,6 @@ const COMPANIES: Company[] = [
         ariaLabel: "Read Rocket Mortgage case study",
         title: "Personalizing AI guidance across 6.8M+ client conversations",
         outcome: "In usability testing, 92% of clients found the redesign more helpful and 75% found it more trustworthy.",
-        tags: ["B2C Fintech", "AI Assistant", "Trust Design"],
         embed: <RocketAssistEmbed />,
       },
     ],
@@ -60,7 +58,6 @@ const COMPANIES: Company[] = [
         ariaLabel: "Read Asimov for Tars case study",
         title: "Designing the agent configuration platform and design system for Asimov",
         outcome: "~74% fewer repeat questions landing on teammates, with 86% of Asimov's answers rated helpful.",
-        tags: ["B2B SaaS", "0→1", "Workflow Design"],
         embed: <AsimovKnowledgeEmbed />,
       },
       {
@@ -68,7 +65,6 @@ const COMPANIES: Company[] = [
         ariaLabel: "Read Tars Debug Mode case study",
         title: "Designing an internal debugger that cut troubleshooting time by ~70%",
         outcome: "One place for the CS team and developers to see where an agent's flow broke, and why.",
-        tags: ["B2B SaaS", "Complex Workflows", "Internal Tool"],
         embed: <DebugModeEmbed />,
       },
     ],
@@ -84,7 +80,6 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
         <div className={styles.cardText}>
           <h4 className={styles.cardTitle}>{study.title}</h4>
           <p className={styles.cardOutcome}>{study.outcome}</p>
-          <p className={styles.cardTags}>{study.tags.join(", ")}</p>
         </div>
       </HomeV2CardLink>
       {study.embed}

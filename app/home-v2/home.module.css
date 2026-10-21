@@ -485,15 +485,6 @@
   text-wrap: pretty;
 }
 
-/* Case study tags as one plain line, e.g. "B2C Fintech, AI Assistant, Trust Design" */
-.cardTags {
-  margin: 16px 0 0;
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 500;
-  color: var(--ds-text-tertiary);
-}
-
 /* Backdrop for the coded UI (same proportions as the demo stage in CardDemo.module.css):
    olive in the middle under the UI, rose at the edges, with a fine grain on top. */
 .cardMedia {

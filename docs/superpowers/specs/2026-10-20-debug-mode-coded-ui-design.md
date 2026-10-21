@@ -19,32 +19,35 @@ Started 2026-10-20 on branch `case-study-coded-ui`. A live slice of the Tars gam
 3. **Add an error detail** (the prototype never said what broke). It's designed here, in the same visual language.
 4. **Craft bar for all three demos:** nothing looks half-worked. Every visible control works and has hover, press and focus states, every surface holds up on the dark scenes, and nothing clips or ghosts.
 
-## Storyboard (about 22s)
+## One node at a time (revised 2026-10-20)
 
-- **Opening frame** (scrolled into view): the camera already close on the run, with Greeting Node passed (blue) and the connector to Preferences lit.
+The first build showed the whole canvas (43 nodes). It made the card busy and broke consistency with Rocket and Asimov, which each show one compact piece of UI in the middle of the card. So the run is now shown **one node at a time**: the node under test sits centred at 1.5×, with its incoming connector above and a stub of the next one below, both fading out toward the card's top and bottom. There's no overview, camera or zoom controls.
+
+## Storyboard (about 18s)
+
+- **Opening frame** (scrolled into view): mid-run on Preferences (114), active, with the connector into it flowing blue.
 - **Full loop:**
-  1. Overview: a calm slice of the canvas fades in on the scene (about 12–15 nodes in view, the rest beyond the edges, so it reads as a large flow).
-  2. The run starts at **Greeting Node**. The active node gets the blue border and a soft pulse, and the camera glides to follow.
-  3. Greeting Node → Preferences → Credit Limit Increase. Each connector fills blue with the dash flow as the run travels it, and passed nodes stay blue.
-  4. Credit Limit Increase → **Rewards Card fails**. The node turns red with a single small shake, the camera eases in, and the **error detail** slides out beside it.
+  1. **Greeting Node** (113) fades in, active: blue border, soft pulse, and the connector into it flows.
+  2. It passes (stays blue), then hands off: it slides up and fades while the next node rises in from below, along the connector.
+  3. Greeting Node → Preferences → Credit Limit Increase → **Rewards Card**.
+  4. Rewards Card fails: it turns red with a single small shake. Then it shifts left and the **error detail** opens beside it, the pair centred.
   5. Hold on the error, then fade and start over.
-- **Desktop:** clicking the red node toggles the error detail. **Run again** in the error detail replays the run, and the zoom controls work (+ / − / fit). All of these stop the loop. Plus the shared restart button and the "Read" disc beside the canvas.
-- **Phones:** a non-interactive loop. **Reduced motion:** the finished state (path in blue, Rewards Card red, error detail open).
+- **Desktop:** clicking the red node toggles the error detail, and **Run again** replays the run. Both stop the loop. Plus the shared restart button and the "Read" disc at the sides.
+- **Phones:** a non-interactive loop; taps open the case study. **Reduced motion:** the finished state (Rewards Card red, error detail open).
 
 ## Error detail (new design)
 
 A frosted white panel (same surface as the Asimov rows), about 280px wide, r12, soft shadow, beside the failed node with a short pointer toward it:
 - Header: red dot + **"Error at Rewards Card"** (Inter 500 14/20, #373E43) and the node ID chip (117).
 - Body (Inter 400 12/18, #555): "The API call that checks rewards eligibility didn't respond as expected."
-- A code line in DM Mono 12px: `GET /rewards/eligibility → 404 Not Found`
+- A code line in DM Mono 12px: `GET /rewards/eligibility → 404` (Not Found dropped so it fits on one line)
 - Footer: "Step 4 of the test run" (12px, #717684) and a **Run again** button (Inter 500 12px, red-tinted outline).
 
 ## Floating treatment
 
 - No canvas panel or border: nodes and connectors sit directly on the scene.
-- Untested connectors are white at about 35% so they read on the dark scene; the run path is blue (#7CC4FF) and brighter.
-- Nodes keep their white cards with the soft shared shadow; untested nodes are slightly dimmed so the run stands out.
-- The zoom controls are frosted, like the Asimov surfaces.
+- Connectors not yet travelled are white at about 40%; travelled ones are blue (#7CC4FF).
+- Nodes keep their white cards with the soft shared shadow.
 
 ## Craft fixes to make on Rocket and Asimov at the same time
 

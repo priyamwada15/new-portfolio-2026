@@ -1,6 +1,6 @@
-/* Debug Mode demo on the Debug Mode card: the Tars gambit canvas floating on
-   the telephone-exchange scene. Node values come from the Debug Mode test-run
-   prototype (see docs/superpowers/specs/2026-10-20-debug-mode-coded-ui-design.md).
+/* Debug Mode demo on the Debug Mode card: a test run on the Tars gambit canvas,
+   one node at a time, floating on the telephone-exchange scene. Node values come
+   from the Debug Mode test-run prototype (see docs/superpowers/specs/2026-10-20-debug-mode-coded-ui-design.md).
    Tars' product colours are scoped to the embed, not portfolio tokens. */
 
 .root {
@@ -28,28 +28,38 @@
   width: 640px;
 }
 
-/* The canvas fades out toward the card's edges so it reads as part of a larger flow */
+/* Connectors fade out toward the top and bottom, so the node reads as part of a longer flow */
 .viewport {
   position: absolute;
   inset: 0;
   overflow: hidden;
   opacity: 0;
-  transition: opacity 900ms ease;
-  -webkit-mask-image: radial-gradient(ellipse 62% 70% at 50% 50%, #000 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse 62% 70% at 50% 50%, #000 55%, transparent 100%);
+  transition: opacity 600ms ease;
+  -webkit-mask-image: linear-gradient(transparent 4%, #000 34%, #000 66%, transparent 96%);
+  mask-image: linear-gradient(transparent 4%, #000 34%, #000 66%, transparent 96%);
 }
 
 .viewport[data-in] {
   opacity: 1;
 }
 
-.canvas {
+/* Centred on the card; shifts left when the error detail opens */
+.track {
   position: absolute;
   top: 0;
   left: 0;
-  width: 2150px;
-  height: 1120px;
+  width: 0;
+  height: 0;
   transform-origin: 0 0;
+  transition: transform 900ms var(--dm-ease);
+}
+
+/* The run's nodes in a column; it slides up a step at each hand-off */
+.rail {
+  position: absolute;
+  top: 0;
+  left: -66px;
+  width: 132px;
   transition: transform var(--dm-camera);
 }
 
@@ -57,7 +67,6 @@
 
 .edges {
   position: absolute;
-  top: 0;
   left: 0;
   overflow: visible;
 }
@@ -92,21 +101,25 @@
 
 /* ── Nodes ─────────────────────────────────────────────── */
 
+/* Only the node under test shows. The one handing off leaves first, then the next arrives. */
 .node {
   position: absolute;
+  left: 0;
   width: 132px;
   height: 92px;
+  opacity: 0;
+  scale: 0.94;
+  transition:
+    opacity 350ms ease,
+    scale 450ms var(--dm-ease);
 }
 
-/* Not reached yet: a solid card with quiet content, so the map stays crisp on the photo */
-.nodeId,
-.nodeLabel {
-  transition: opacity 600ms ease;
-}
-
-.node[data-status="untested"] .nodeId,
-.node[data-status="untested"] .nodeLabel {
-  opacity: 0.4;
+.node[data-current] {
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity 500ms ease 450ms,
+    scale 700ms var(--dm-ease) 450ms;
 }
 
 .notch {
@@ -166,6 +179,7 @@
 .tab {
   position: absolute;
   top: 91px;
+  left: 61.75px;
   width: 8.5px;
   height: 9.4px;
   border-radius: 0 0 2px 2px;
@@ -255,22 +269,18 @@
     0 16px 36px rgba(17, 17, 17, 0.18);
   translate: -12px -50%;
   opacity: 0;
-  /* Moves with the camera, so it stays beside the node */
   transition:
-    left var(--dm-camera),
-    top var(--dm-camera),
-    opacity 400ms ease,
-    translate 700ms var(--dm-ease);
+    opacity 300ms ease,
+    translate 500ms var(--dm-ease);
 }
 
+/* Opens once the node has made room for it */
 .panel[data-open] {
   translate: 0 -50%;
   opacity: 1;
   transition:
-    left var(--dm-camera),
-    top var(--dm-camera),
-    opacity 600ms ease 500ms,
-    translate 900ms var(--dm-ease) 500ms;
+    opacity 500ms ease 450ms,
+    translate 800ms var(--dm-ease) 450ms;
 }
 
 /* Points back at the failed node */
@@ -364,68 +374,17 @@
     scale 200ms var(--dm-ease);
 }
 
-/* ── Zoom controls ─────────────────────────────────────── */
-
-.zoom {
-  position: absolute;
-  left: 20px;
-  bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 10px;
-  background: var(--dm-surface);
-  -webkit-backdrop-filter: var(--dm-surface-blur);
-  backdrop-filter: var(--dm-surface-blur);
-  box-shadow: var(--dm-shadow);
-  overflow: hidden;
-  opacity: 0;
-  transition: opacity 900ms ease;
-}
-
-.zoom[data-in] {
-  opacity: 1;
-}
-
-/* Phones only watch the loop, so controls they can't use stay hidden */
-.root:not([data-interactive]) .zoom {
-  display: none;
-}
-
-.zoom button {
-  appearance: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: #555555;
-  transition:
-    background-color 200ms ease,
-    color 200ms ease;
-}
-
-.zoom button + button {
-  border-top: 1px solid rgba(17, 17, 17, 0.08);
-}
-
-/* ── Desktop: the failed node, Run again and zoom take the pointer ── */
+/* ── Desktop: the failed node and Run again take the pointer ── */
 
 .root[data-interactive] .node[data-status="error"] .nodeCard,
 .root[data-interactive] .node[data-status="error"] .nodeCard *,
 .root[data-interactive] .panel[data-open] .runAgain,
-.root[data-interactive] .panel[data-open] .runAgain *,
-.root[data-interactive] .zoom button,
-.root[data-interactive] .zoom button * {
+.root[data-interactive] .panel[data-open] .runAgain * {
   pointer-events: auto !important;
 }
 
 .root[data-interactive] .node[data-status="error"] .nodeCard,
-.root[data-interactive] .runAgain,
-.root[data-interactive] .zoom button {
+.root[data-interactive] .runAgain {
   cursor: pointer;
 }
 
@@ -446,18 +405,8 @@
   background: #fff5f5;
 }
 
-.root[data-interactive] .zoom button:hover {
-  background: rgba(17, 17, 17, 0.05);
-  color: #111111;
-}
-
-.root[data-interactive] .zoom button:active {
-  background: rgba(17, 17, 17, 0.09);
-}
-
 .nodeCard:focus-visible,
-.runAgain:focus-visible,
-.zoom button:focus-visible {
+.runAgain:focus-visible {
   outline: 2px solid var(--dm-blue);
   outline-offset: 2px;
 }
@@ -466,16 +415,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   .viewport,
-  .canvas,
+  .track,
+  .rail,
   .edge,
-  .nodeId,
-  .nodeLabel,
+  .node,
+  .node[data-current],
   .notch,
   .tab,
   .nodeCard,
   .panel,
-  .panel[data-open],
-  .zoom {
+  .panel[data-open] {
     transition: none;
   }
 

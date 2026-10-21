@@ -77,11 +77,6 @@
   --ds-color-tag-gray-bg: #ededed;
   --ds-color-tag-gray-fg: #4d4d4d;
 
-  /* Brand — Nav accent */
-
-  /* Spotify "currently playing" widget hover ring */
-  --ds-color-accent-terminal: #d6336c;
-
   /* UI chrome */
   --ds-color-selection-bg: #111111;
   --ds-color-selection-fg: #fdfdfd;

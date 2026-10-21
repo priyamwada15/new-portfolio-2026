@@ -3,6 +3,8 @@ import type { CSSProperties } from "react";
 import TableOfContents, { TocItem } from "../components/TableOfContents";
 import SectionLabel from "../components/SectionLabel";
 import { LiquidButton } from "../components/animate-ui/liquid-button";
+import { backdropStyle, CASE_BACKDROPS } from "../components/caseBackdrop";
+import backdrop from "../components/CaseBackdrop.module.css";
 import {
   caseStudyHeadline,
   caseStudyH2,
@@ -15,7 +17,7 @@ import {
 export const metadata: Metadata = {
   title: "Design System | Priyamwada Pandey",
   description:
-    "The Workbench, a quiet grayscale base that borrows one committed color per project, never its own.",
+    "The Workbench: the tokens, type, elevation and components behind priyamwada.me, built from the same design system it describes.",
 };
 
 const TOC_ITEMS: TocItem[] = [
@@ -229,25 +231,27 @@ function GuidelineList({
 }
 
 const DOS = [
-  "Keep the base chrome (nav, footer, global page background) strictly grayscale — ink, charcoal, off-white only.",
-  "Let exactly one borrowed color own each case study or section, applied with commitment rather than a single timid swatch.",
-  "Keep Figtree as the one load-bearing voice across headlines, body, and labels; reserve DM Mono strictly for code and terminal contexts.",
-  "Keep shadows at or below 5% opacity at rest; let motion carry interactivity instead of heavier shadows or color swaps.",
-  "Cap body copy at 65–75ch and get to the point fast — assume a reader with under two minutes per case study.",
-  "Show problem complexity before showing UI screens in a case study.",
-  "Hold the creative-coding side quests to the same craft bar as case study components.",
+  "Keep the base chrome (nav, footer, page background) in ink, charcoal and off-white.",
+  "Use rose for anything on a case study page that should pull the eye: section tags, markers and highlights.",
+  "Keep project brand colors inside their logos and product UI.",
+  "Let Figtree carry headlines, body and labels. Save DM Mono for code and terminal text.",
+  "Keep shadows at 5% opacity or less at rest, and let motion carry the interactivity.",
+  "Cap body copy at 65 to 75 characters a line and get to the point fast, since most readers give a case study under two minutes.",
+  "Show the problem before the UI in a case study.",
+  "Hold the side projects to the same craft bar as the case studies.",
 ];
 
 const DONTS = [
-  "Use border-left / border-right stripes greater than 1px as a colored accent on cards or callouts.",
-  "Use gradient text for emphasis — use ink weight or size instead.",
-  "Default to glassmorphism; the homepage nav's 15% white tint is deliberate and singular.",
-  "Build a generic hero-metric block (big number, small label, gradient accent).",
-  "Repeat identical icon-plus-heading card grids.",
+  "Use border-left or border-right stripes thicker than 1px as a colored accent on cards or callouts.",
+  "Use gradient text for emphasis.",
+  "Reach for glass effects outside the nav and the demo surfaces.",
+  "Build a hero-metric block with a gradient accent.",
+  "Repeat identical icon and heading card grids.",
   "Reach for a modal as the first solution.",
-  "Mix two borrowed project colors on the same screen.",
+  "Bring a project's brand color into my headings, tags or page chrome.",
+  "Add a third site color before trying rose or olive.",
   "Let a case study run long and text-heavy.",
-  "Frame AI or conversational work with cute chat-bubble iconography.",
+  "Frame AI or conversational work with cute chat-bubble icons.",
 ];
 
 export default function DesignSystemPage() {
@@ -260,10 +264,10 @@ export default function DesignSystemPage() {
         <SectionLabel>Design System</SectionLabel>
         <h1 className={caseStudyHeadline}>The Workbench</h1>
         <p className="mt-6 max-w-[560px] text-[16px] leading-relaxed text-secondary">
-          A quiet grayscale base that borrows one committed color per project,
-          never its own. This page documents the tokens, type, elevation, and
-          components behind priyamwada.me — built from the same design system
-          it describes.
+          A quiet grayscale base with two colors of its own, a rose and an
+          olive, that show up wherever my work does. This page documents the
+          tokens, type, elevation and components behind priyamwada.me, and
+          it&rsquo;s built from the same design system it describes.
         </p>
       </header>
 
@@ -271,21 +275,23 @@ export default function DesignSystemPage() {
         <TableOfContents items={TOC_ITEMS} linkFontFamily="var(--font-hind), sans-serif" />
 
         <div className="flex flex-col gap-24 md:gap-28">
-          <Section id="overview" tag="01 — Overview" title="A workbench, not a showroom">
+          <Section id="overview" tag="01 · Overview" title="Built around the work">
             <p className={caseStudyBody}>
-              The base surface carries no color of its own. Color shows up
-              only when a specific piece of work is on the table — Rocket
-              Mortgage&rsquo;s red, TARS&rsquo;s purple, Salesforce&rsquo;s
-              navy — and when it shows up, it commits to that one context
-              fully rather than bleeding into the chrome around it.
+              Most of the site is ink and off-white. The two colors I keep for
+              myself sit around the work: olive behind the live demos, and rose
+              wherever I want you to look next, like a section tag, the active
+              link in the nav or the edge of a demo&rsquo;s backdrop. The
+              products I worked on keep their own colors, but only inside their
+              logos and their UI.
             </p>
             <ul className="flex flex-col gap-3">
               {[
-                "Grayscale-first: text and chrome live entirely in ink, charcoal, off-white; color is contextual, not ambient.",
-                "One committed accent per surface: each case study or interactive moment picks a single color and uses it with intent.",
-                "Paper-thin depth: shadows are felt, not seen.",
-                "One type voice: Figtree carries headlines, body, and labels; DM Mono steps in only for code and terminal contexts.",
-                "Motion favors physical fill and spring response over fades and gradients.",
+                "Grayscale first: text and chrome live in ink, charcoal and off-white.",
+                "One accent across every case study: rose, used the same way on every page so it starts to mean something.",
+                "Olive and rose belong to the backdrop behind the coded demos, the one place the site gets colorful.",
+                "Paper-thin depth: shadows sit at 5% opacity or less, so you feel them before you see them.",
+                "Figtree carries headlines, body and labels. DM Mono only shows up for code and terminal text.",
+                "Motion leans on physical fill and spring response.",
               ].map((line, i) => (
                 <li key={line} className="flex gap-4 text-[15px] leading-relaxed text-primary">
                   <span className="font-mono text-[12px] text-faint pt-[3px]">
@@ -297,10 +303,11 @@ export default function DesignSystemPage() {
             </ul>
           </Section>
 
-          <Section id="colors" tag="02 — Colors" title="Borrowed, never owned">
+          <Section id="colors" tag="02 · Colors" title="Two colors of my own">
             <p className={caseStudyBody}>
-              The palette is grayscale-first with contextual accents borrowed
-              per project. No single hex is &ldquo;the&rdquo; brand color.
+              The palette starts in grayscale. Rose and olive are the only
+              colors the site owns, and each one has a fixed job. Project brand
+              colors stay inside the work they belong to.
             </p>
 
             <ColorGroup label="Primary" columns={2}>
@@ -316,31 +323,23 @@ export default function DesignSystemPage() {
               <ColorSwatch name="Slate Text" hex="#555555" note="Captions, metadata, icons." />
             </ColorGroup>
 
-            <ColorGroup label="Site accent" columns={2}>
+            <ColorGroup label="Site colors" columns={2}>
               <ColorSwatch
                 name="Rose"
                 hex="#c02b53"
-                note="The one case study accent (section tags, markers, highlights), the active nav link, the cursor and the backdrop's edge."
+                note="The case study accent for section tags, markers and highlights. Also the active nav link, the cursor, the hover ring on interactive widgets and the edge of the demo backdrop."
               />
               <ColorSwatch
                 name="Olive"
                 hex="#bfb74c"
-                note="The backdrop's centre behind the coded demos, and the license card."
+                note="The center of the demo backdrop, and the license card in the hero."
               />
             </ColorGroup>
 
-            <ColorGroup label="Tertiary — project brand colors" columns={3}>
+            <ColorGroup label="Project brand colors" columns={3}>
               <ColorSwatch name="Rocket Red" hex="#de3341" note="Rocket Mortgage logo and product UI only." />
               <ColorSwatch name="TARS Purple" hex="#6d33aa" note="TARS product UI only." />
               <ColorSwatch name="Salesforce Navy" hex="#032c5f" note="Salesforce / Galileo only." />
-            </ColorGroup>
-
-            <ColorGroup label="Interaction accent" columns={2}>
-              <ColorSwatch
-                name="Terminal Pink"
-                hex="#d6336c"
-                note="Spotify “currently playing” widget hover ring only."
-              />
             </ColorGroup>
 
             <ColorGroup label="Neutral">
@@ -355,11 +354,15 @@ export default function DesignSystemPage() {
             </ColorGroup>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <RuleCallout name="The Borrowed Color Rule">
-                The base UI never carries a project&rsquo;s brand color. A
-                color only appears inside the boundary of the case study,
-                section, or component it belongs to — one accent per
-                context, not several diluted ones.
+              <RuleCallout name="The Two Color Rule">
+                Rose and olive are the only colors the site uses on its own
+                chrome. Rose marks where to look and olive sits behind the
+                work. If something new needs color, it uses one of these two
+                before I add a third.
+              </RuleCallout>
+              <RuleCallout name="The Product Color Rule">
+                A product&rsquo;s brand color stays inside its logo and its own
+                UI. It doesn&rsquo;t color a section tag or a heading on my page.
               </RuleCallout>
               <RuleCallout name="The One Ink Rule">
                 There is exactly one near-black across the whole system
@@ -369,11 +372,11 @@ export default function DesignSystemPage() {
             </div>
           </Section>
 
-          <Section id="typography" tag="03 — Typography" title="One voice, plainly stated">
+          <Section id="typography" tag="03 · Typography" title="One voice, plainly stated">
             <p className={caseStudyBody}>
-              Figtree carries the whole system — case study headline down to
-              a chip label. DM Mono is reserved strictly for code, terminal,
-              and cursor contexts, never for anything decorative.
+              Figtree carries the whole system, from a case study title down to
+              a chip label. DM Mono only appears for code, terminal and cursor
+              text.
             </p>
 
             <div className="flex flex-col gap-8">
@@ -413,24 +416,22 @@ export default function DesignSystemPage() {
                 meta="DM Mono · 400 · 14px"
                 className="font-mono text-[14px] text-secondary"
               >
-                const accent = borrowed(project);
+                {'const accent = "var(--ds-case-study-accent)";'}
               </TypeSpecimen>
             </div>
 
             <RuleCallout name="The One Voice Rule">
-              Figtree is the only load-bearing typeface across the system —
-              headlines, body, and labels alike. DM Mono is a second voice
-              reserved strictly for literal code or terminal contexts — never
-              decorative.
+              Figtree is the only typeface doing real work across the site, in
+              headlines, body and labels. DM Mono is a second voice for literal
+              code and terminal text.
             </RuleCallout>
           </Section>
 
-          <Section id="elevation" tag="04 — Elevation" title="Paper-thin layering">
+          <Section id="elevation" tag="04 · Elevation" title="Paper-thin layering">
             <p className={caseStudyBody}>
-              Surfaces feel like thin sheets of paper barely lifted off the
-              one beneath, not objects floating with drama. Shadows exist
-              only as ambient hover feedback, never as a permanent
-              structural cue.
+              Surfaces sit like thin sheets of paper barely lifted off the one
+              below. Shadows show up as hover feedback and stay out of the
+              structure.
             </p>
 
             <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
@@ -462,17 +463,16 @@ export default function DesignSystemPage() {
             </div>
 
             <RuleCallout name="The Paper-Thin Rule">
-              If a shadow reads as &ldquo;a shadow&rdquo; rather than
-              &ldquo;a piece of paper barely lifted,&rdquo; it&rsquo;s too
-              strong. Opacity stays at or below 5% except for focus rings,
-              which exist to be seen.
+              If you can point to a shadow, it&rsquo;s too strong. Opacity
+              stays at 5% or below, except for focus rings, which need to be
+              seen.
             </RuleCallout>
           </Section>
 
-          <Section id="components" tag="05 — Components" title="Playful precision">
+          <Section id="components" tag="05 · Components" title="Playful precision">
             <p className={caseStudyBody}>
-              Exact, restrained shapes that reveal personality only through
-              motion, never through decoration sitting still.
+              Shapes stay exact and plain. The personality comes through when
+              they move.
             </p>
 
             <div>
@@ -484,10 +484,9 @@ export default function DesignSystemPage() {
                 <LiquidButton>Say hello</LiquidButton>
               </div>
               <p className="mt-3 text-[13px] leading-relaxed text-muted">
-                Ink fills the pill from the bottom on hover via spring
-                physics; the label flips to off-white. A liquid-fill reveal,
-                not a color crossfade — the system&rsquo;s signature
-                interactive moment.
+                Ink fills the pill from the bottom on hover with spring
+                physics, and the label flips to off-white. It&rsquo;s the
+                site&rsquo;s signature interactive moment.
               </p>
             </div>
 
@@ -500,14 +499,13 @@ export default function DesignSystemPage() {
                   #agentdesign
                 </span>
                 <div
-                  className="h-16 w-16 shrink-0 rounded-[8px] border-[1.6px] border-white bg-surface-media shadow-[0px_8px_22px_rgba(0,0,0,0.14)] transition-shadow duration-200 hover:shadow-[0px_8px_22px_rgba(0,0,0,0.14),0_0_0_1.5px_#fff,0_0_0_3px_#d6336c]"
+                  className="h-16 w-16 shrink-0 rounded-[8px] border-[1.6px] border-white bg-surface-media shadow-[0px_8px_22px_rgba(0,0,0,0.14)] transition-shadow duration-200 hover:shadow-[0px_8px_22px_rgba(0,0,0,0.14),0_0_0_1.5px_#fff,0_0_0_3px_var(--ds-interaction-ring)]"
                   aria-hidden
                 />
               </div>
               <p className="mt-3 text-[13px] leading-relaxed text-muted">
-                The square is the currently-playing widget&rsquo;s album art —
-                hover to see its terminal-pink ring, the system&rsquo;s only
-                interaction accent.
+                The square is the currently playing widget&rsquo;s album art.
+                Hover it to see the rose ring interactive widgets use.
               </p>
             </div>
 
@@ -519,9 +517,26 @@ export default function DesignSystemPage() {
                 rounded-[24px] · bg-surface-media
               </div>
             </div>
+
+            <div>
+              <p className="font-label text-[11px] font-semibold uppercase tracking-[0.08em] text-muted mb-4">
+                Demo backdrop
+              </p>
+              <div
+                className={`h-56 rounded-[24px] ${backdrop.backdrop}`}
+                style={backdropStyle(CASE_BACKDROPS.rocket)}
+                aria-hidden
+              />
+              <p className="mt-3 text-[13px] leading-relaxed text-muted">
+                The live demos on the homepage cards and case study heroes sit
+                on an olive to rose gradient with a fine speckle. The dark flecks
+                take the color beneath them. Each case study shifts the olive
+                center a little, so the three read as a set.
+              </p>
+            </div>
           </Section>
 
-          <Section id="guidelines" tag="06 — Do's & Don'ts" title="Concrete guardrails">
+          <Section id="guidelines" tag="06 · Do's & Don'ts" title="Concrete guardrails">
             <div className="grid gap-12 sm:grid-cols-2">
               <GuidelineList type="do" items={DOS} />
               <GuidelineList type="dont" items={DONTS} />

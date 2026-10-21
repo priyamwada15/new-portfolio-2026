@@ -513,7 +513,7 @@ function ListeningTile({
               borderRadius: hovered ? "8px" : "10.64px",
               overflow: "hidden",
               boxShadow: hovered
-                ? "0px 8px 22px rgba(0,0,0,0.14), 0 0 0 1.5px #fff, 0 0 0 3px var(--ds-color-accent-terminal)"
+                ? "0px 8px 22px rgba(0,0,0,0.14), 0 0 0 1.5px #fff, 0 0 0 3px var(--ds-interaction-ring)"
                 : "0px 10.64px 29.25px rgba(0,0,0,0.14)",
               transition: `left ${HOVER_DURATION} ${HOVER_EASE}, top ${HOVER_DURATION} ${HOVER_EASE}, width ${HOVER_DURATION} ${HOVER_EASE}, height ${HOVER_DURATION} ${HOVER_EASE}, border ${HOVER_DURATION} ${HOVER_EASE}, border-radius ${HOVER_DURATION} ${HOVER_EASE}, box-shadow ${HOVER_DURATION} ${HOVER_EASE}`,
             }}

@@ -64,6 +64,9 @@
   --ds-card-backdrop-center: var(--ds-color-brand-hcn-olive);
   --ds-card-backdrop-edge: var(--ds-color-brand-hcn-rose);
 
+  /* Hover ring on interactive widgets (e.g. the currently playing album art) */
+  --ds-interaction-ring: var(--ds-color-brand-hcn-rose);
+
   /* Nav — active link (current page) */
   --ds-nav-active: var(--ds-color-brand-hcn-rose);
   --ds-nav-active-on-dark: var(--ds-color-brand-hcn-rose-light);

@@ -9,7 +9,7 @@ import { HideNavWhileVisible } from "./HideNavWhileVisible";
  * same speckled backdrop as the study's card, edge to edge and a screen tall,
  * with the white logo and title at the top and the live coded demo below at its
  * designed size (it scales down on smaller screens). The nav hides while it's in
- * view, and its bottom edge fades into the page.
+ * view, and the backdrop carries on past the screen and fades into the page.
  */
 export function CaseStudyHero({
   logos,
@@ -27,7 +27,9 @@ export function CaseStudyHero({
   backdrop: CaseBackdrop;
 }) {
   return (
-    <section className={`${styles.hero} ${backdrop.backdrop}`} style={backdropStyle(look)}>
+    <section className={styles.hero}>
+      {/* Runs past the bottom of the screen and fades out there, so there's no edge */}
+      <div className={`${styles.backdrop} ${backdrop.backdrop}`} style={backdropStyle(look, { screenTall: true })} />
       <div className={styles.heading}>
         <div className={styles.logos}>
           {logos.map((logo) => (

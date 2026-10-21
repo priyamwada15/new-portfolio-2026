@@ -15,23 +15,35 @@
   padding: 64px 24px 48px;
 }
 
-/* The bottom edge melts into the page instead of ending in a hard line */
-.hero::after {
-  content: "";
+/* The backdrop runs on below the screen and fades out over that stretch, so the
+   gradient meets the page with no edge at all. The page content after the hero
+   sits above it (CaseStudyLayout gives the article its own layer). */
+.backdrop {
   position: absolute;
+  z-index: 0;
+  top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: 200px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    color-mix(in srgb, var(--ds-surface-case-study) 18%, transparent) 30%,
-    color-mix(in srgb, var(--ds-surface-case-study) 55%, transparent) 60%,
-    color-mix(in srgb, var(--ds-surface-case-study) 88%, transparent) 85%,
-    var(--ds-surface-case-study) 100%
-  );
+  height: calc(100% + 360px);
   pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - 480px),
+    rgba(0, 0, 0, 0.82) calc(100% - 380px),
+    rgba(0, 0, 0, 0.5) calc(100% - 260px),
+    rgba(0, 0, 0, 0.2) calc(100% - 140px),
+    rgba(0, 0, 0, 0.05) calc(100% - 50px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - 480px),
+    rgba(0, 0, 0, 0.82) calc(100% - 380px),
+    rgba(0, 0, 0, 0.5) calc(100% - 260px),
+    rgba(0, 0, 0, 0.2) calc(100% - 140px),
+    rgba(0, 0, 0, 0.05) calc(100% - 50px),
+    transparent 100%
+  );
 }
 
 .heading {

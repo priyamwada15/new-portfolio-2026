@@ -351,7 +351,8 @@ export default function CaseStudyLayout({
       />
     )}
     <article
-      className={CASE_STUDY_COLUMN_CLASS}
+      // Above the hero's backdrop, which runs on behind the top of the page
+      className={heroDemo ? `${CASE_STUDY_COLUMN_CLASS} relative z-[1]` : CASE_STUDY_COLUMN_CLASS}
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
 

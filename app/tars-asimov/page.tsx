@@ -411,7 +411,7 @@ export default function AsimovPage() {
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
       logos={[
-        { src: "/logos/tars.svg", alt: "TARS" },
+        { src: "/logos/tars.svg", lightSrc: "/logos/tars-light.svg", alt: "TARS" },
       ]}
       headline="Designing the agent configuration platform and design system for Asimov"
       heroDemo={{ demo: <AsimovKnowledgeEmbed />, backdrop: CASE_BACKDROPS.asimov }}

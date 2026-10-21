@@ -92,7 +92,7 @@ export default function DebugModePage() {
       accentLight="var(--ds-case-study-accent-light)"
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
-      logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
+      logos={[{ src: "/logos/tars.svg", lightSrc: "/logos/tars-light.svg", alt: "TARS" }]}
       headline="Designing an internal debugger that cut troubleshooting time by ~70%"
       heroDemo={{ demo: <DebugModeEmbed />, backdrop: CASE_BACKDROPS.debugMode }}
       meta={{

@@ -38,6 +38,8 @@ interface Logo {
   src: string;
   alt: string;
   cls?: string;
+  /** Version for dark or colourful backgrounds (the demo hero); without one the hero whitens `src` */
+  lightSrc?: string;
 }
 
 interface Props {

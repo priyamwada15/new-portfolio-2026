@@ -19,7 +19,7 @@ export function CaseStudyHero({
   demo,
   backdrop: look,
 }: {
-  logos: { src: string; alt: string; cls?: string }[];
+  logos: { src: string; alt: string; cls?: string; lightSrc?: string }[];
   headline: string;
   headlineClassName: string;
   headlineStyle?: React.CSSProperties;
@@ -34,7 +34,12 @@ export function CaseStudyHero({
         <div className={styles.logos}>
           {logos.map((logo) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={logo.alt} src={logo.src} alt={logo.alt} className={logo.cls ?? "h-6 w-auto"} />
+            <img
+              key={logo.alt}
+              src={logo.lightSrc ?? logo.src}
+              alt={logo.alt}
+              className={`${logo.cls ?? "h-6 w-auto"} ${logo.lightSrc ? "" : styles.whitened}`}
+            />
           ))}
         </div>
         <h1 className={`${headlineClassName} ${styles.title}`} style={headlineStyle}>

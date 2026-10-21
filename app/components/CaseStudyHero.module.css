@@ -63,8 +63,8 @@
   gap: 12px;
 }
 
-/* White logos and title on the gradient */
-.logos img {
+/* White logos and title on the gradient: a logo without its own light version is whitened */
+.whitened {
   filter: brightness(0) invert(1);
 }
 

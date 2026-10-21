@@ -5,7 +5,8 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  min-height: 100svh;
+  /* Exactly one screen, whatever its size; the demo takes the room the title leaves */
+  height: 100svh;
   margin-top: calc(-1 * var(--site-nav-space));
   display: flex;
   flex-direction: column;
@@ -61,13 +62,12 @@
   text-wrap: balance;
 }
 
-/* The demo at its designed size (704×520), smaller when the screen is narrow or
-   short, so the title and demo always fit in the first screen. Above the fade. */
+/* All the height the title leaves. The demo sits centred in it at its designed
+   size (704×520), scaling down when the space is smaller (useCardDemo). Above the fade. */
 .demo {
   position: relative;
   z-index: 1;
-  flex: none;
-  width: min(704px, 100%, calc((100svh - 280px) * 704 / 520));
-  aspect-ratio: 704 / 520;
-  margin-block: auto;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
 }

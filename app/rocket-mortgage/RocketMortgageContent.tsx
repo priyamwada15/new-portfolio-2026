@@ -264,10 +264,7 @@ export default function RocketMortgageContent() {
       accentLight="var(--ds-case-study-accent-light)"
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
-      logos={[
-        { src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" },
-        { src: "/logos/rocket-assist-full.svg", alt: "Rocket Assist" },
-      ]}
+      logos={[{ src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" }]}
       headline="Personalizing AI guidance across 6.8M+ client conversations"
       heroDemo={{ demo: <RocketAssistEmbed />, backdrop: CASE_BACKDROPS.rocket }}
       meta={{

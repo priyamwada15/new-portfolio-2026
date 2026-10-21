@@ -56,6 +56,12 @@
   --ds-tag-gray-bg: var(--ds-color-tag-gray-bg);
   --ds-tag-gray-fg: var(--ds-color-tag-gray-fg);
 
+  /* Case study pages — one accent across all studies (section tags, markers,
+     highlights): the site's rose, as on the cursor, the active nav link and the
+     backdrop's edge. Brand colours stay in logos and product UI. */
+  --ds-case-study-accent: var(--ds-color-brand-hcn-rose);
+  --ds-case-study-accent-light: color-mix(in srgb, var(--ds-color-brand-hcn-rose) 7%, var(--ds-surface-case-study));
+
   /* Homepage case study cards — olive centre fading to rose edges behind the coded UI */
   --ds-card-backdrop-center: var(--ds-color-brand-hcn-olive);
   --ds-card-backdrop-edge: var(--ds-color-brand-hcn-rose);

@@ -4,7 +4,6 @@ import { CASE_BACKDROPS } from "../components/caseBackdrop";
 import { RocketAssistEmbed } from "../home-v2/RocketAssistEmbed";
 import { SectionHeader, Testimonials } from "../components/CaseStudySections";
 import {
-  brands,
   caseStudyEyebrow,
   caseStudyRowTitle,
   caseStudyStatNumber,
@@ -261,8 +260,8 @@ export default function RocketMortgageContent() {
         { id: "testimonials", label: "Testimonials" },
         { id: "reflections", label: "Reflections" },
       ]}
-      accentDark={brands.rocket.dark}
-      accentLight={brands.rocket.light}
+      accentDark="var(--ds-case-study-accent)"
+      accentLight="var(--ds-case-study-accent-light)"
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
       logos={[

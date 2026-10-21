@@ -11,7 +11,6 @@ import { CASE_BACKDROPS } from "../components/caseBackdrop";
 import { AsimovKnowledgeEmbed } from "../home-v2/AsimovKnowledgeEmbed";
 import { CardRow, SectionHeader } from "../components/CaseStudySections";
 import {
-  brands,
   caseStudyEyebrow,
   caseStudyRowTitle,
   caseStudySubheading,
@@ -407,8 +406,8 @@ export default function AsimovPage() {
         { id: "design-system", label: "Design system" },
         { id: "reflections", label: "Reflections" },
       ]}
-      accentDark={brands.tars.dark}
-      accentLight={brands.tars.light}
+      accentDark="var(--ds-case-study-accent)"
+      accentLight="var(--ds-case-study-accent-light)"
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
       logos={[

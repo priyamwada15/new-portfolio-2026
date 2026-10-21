@@ -53,11 +53,12 @@
   scale: 0.98;
 }
 
-/* Reaches past the stage, which sits centred at true size in larger cards; the card clips it */
+/* A soft dim around the modal that fades out on every side, so it has no edge
+   wherever the demo sits: in a card (which clips it) or a case study hero (which doesn't) */
 .scrim {
   position: absolute;
-  inset: -50%;
-  background: rgba(17, 17, 17, 0.14);
+  inset: -45%;
+  background: radial-gradient(closest-side, rgba(17, 17, 17, 0.18) 45%, rgba(17, 17, 17, 0.1) 72%, transparent 100%);
   opacity: 0;
   transition: opacity 600ms ease;
 }

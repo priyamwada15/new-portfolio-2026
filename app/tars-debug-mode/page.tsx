@@ -7,7 +7,6 @@ import { CASE_BACKDROPS } from "../components/caseBackdrop";
 import { DebugModeEmbed } from "../home-v2/DebugModeEmbed";
 import { SectionHeader } from "../components/CaseStudySections";
 import {
-  brands,
   caseStudyEyebrow,
   caseStudyRowTitle,
   caseStudyStatNumber,
@@ -89,8 +88,8 @@ export default function DebugModePage() {
         { id: "iterations", label: "Iterations" },
         { id: "reflections", label: "Reflections" },
       ]}
-      accentDark={brands.tars.dark}
-      accentLight={brands.tars.light}
+      accentDark="var(--ds-case-study-accent)"
+      accentLight="var(--ds-case-study-accent-light)"
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
       logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}

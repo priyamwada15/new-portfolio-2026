@@ -46,6 +46,28 @@
   );
 }
 
+/* Below 1080px the meta row wraps onto two to four rows, so the backdrop stays
+   solid under all of it (its labels are white) and fades out after */
+@media (max-width: 1079px) {
+  .backdrop {
+    height: calc(100% + 640px);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 calc(100% - 260px),
+      rgba(0, 0, 0, 0.6) calc(100% - 160px),
+      rgba(0, 0, 0, 0.2) calc(100% - 70px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 calc(100% - 260px),
+      rgba(0, 0, 0, 0.6) calc(100% - 160px),
+      rgba(0, 0, 0, 0.2) calc(100% - 70px),
+      transparent 100%
+    );
+  }
+}
+
 .heading {
   position: relative;
   z-index: 1;
@@ -82,4 +104,10 @@
   flex: 1 1 0;
   min-height: 0;
   width: 100%;
+}
+
+/* The demo's frame clips to its box on the homepage cards; here it sits on an
+   open backdrop, so soft effects (like Asimov's modal dim) can spread past it */
+.demo > div {
+  overflow: visible !important;
 }

@@ -3,10 +3,7 @@
 
 .root {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  aspect-ratio: 704 / 520;
+  inset: 0;
   border-radius: var(--ds-radius-container);
   overflow: hidden;
 }

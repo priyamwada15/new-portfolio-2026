@@ -14,7 +14,7 @@
 
 .layout {
   width: 86%;
-  max-width: 1200px;
+  max-width: 1008px;
   margin: 0 auto;
   /* No top padding: the hero sits above this column now and sets the gap.
      No bottom padding on desktop: the flip-board footer gap follows directly. */
@@ -327,13 +327,12 @@
 
 /* ── Case studies ─────────────────────────────────────── */
 
-/* One row per case study: logo, title and outcome on the left, the coded demo on the right */
 .work {
   /* With the hero's 32px bottom padding: 104px from the headline to the first case study */
   padding-top: 72px;
   display: flex;
   flex-direction: column;
-  gap: 120px;
+  gap: 88px;
 }
 
 @media (max-width: 1023px) {
@@ -343,8 +342,9 @@
   }
 }
 
-/* The row's grid is shared with its link (subgrid), so the demo can sit in the
-   media cell outside the link while clicks anywhere in the row open the study. */
+/* One case study: logo, title, then the card. The row's grid is shared with its
+   link (subgrid), so the demo can sit over the card outside the link while
+   clicks anywhere on the case study open it. */
 .row {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -352,19 +352,10 @@
   row-gap: 24px;
 }
 
-@media (min-width: 1024px) {
-  .row {
-    grid-template-columns: 256px minmax(0, 1fr);
-    grid-template-rows: auto;
-    column-gap: 48px;
-  }
-}
-
 .card {
-  grid-column: 1 / -1;
+  grid-column: 1;
   grid-row: 1 / -1;
   display: grid !important;
-  grid-template-columns: subgrid;
   grid-template-rows: subgrid;
   overflow: visible !important;
 }
@@ -385,13 +376,13 @@
 .cardText {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
 .cardLogos {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 16px;
 }
 
 .cardLogos img {
@@ -420,38 +411,33 @@
   text-wrap: pretty;
 }
 
-.cardOutcome {
-  margin: 8px 0 0;
-  max-width: 62ch;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--ds-text-secondary);
-  text-wrap: pretty;
-}
-
 /* Backdrop for the coded UI: olive in the middle under the UI, rose at the
-   edges, with a fine grain on top. Same proportions as the demo stage (useCardDemo). */
+   edges, with a fine speckle on top: crisp light flecks, plus darker flecks
+   multiplied in so they're a deeper shade of the colour beneath, not gray
+   (each layer keeps only the brightest or darkest points of a noise field).
+   Each card shifts the olive centre and how far the rose reaches (--backdrop-at,
+   --backdrop-reach, set per case study), so the three read as related prints, not copies.
+   The demo stage (704×520) sits in it at true size, so the UI never grows with the card. */
 .cardMedia {
   position: relative;
-  align-self: start;
   width: 100%;
-  aspect-ratio: 704 / 520;
+  aspect-ratio: 1008 / 575;
   border-radius: var(--ds-radius-container);
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"),
-    radial-gradient(100.5% 100.5% at 50% 50.08%, var(--ds-card-backdrop-center) 0%, var(--ds-card-backdrop-edge) 100%);
-  background-blend-mode: overlay, normal;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  5 0 0 0 -2.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)' opacity='0.45'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.6  0 0 0 0 0.6  -5 0 0 0 2.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23d)' opacity='0.6'/%3E%3C/svg%3E"),
+    radial-gradient(var(--backdrop-reach, 100.5%) var(--backdrop-reach, 100.5%) at var(--backdrop-at, 50% 50%), var(--ds-card-backdrop-center) 0%, var(--ds-card-backdrop-edge) 100%);
+  background-blend-mode: normal, multiply, normal;
   overflow: hidden;
 }
 
-/* The coded demo, over the media cell. !important beats the site-wide rule that
+/* The coded demo, over the card. !important beats the site-wide rule that
    turns pointer events on in the page body, so clicks fall through to the link. */
 .embed {
   position: relative;
-  grid-column: -2;
-  grid-row: -2;
-  align-self: start;
-  aspect-ratio: 704 / 520;
+  grid-column: 1;
+  grid-row: 2;
+  aspect-ratio: 1008 / 575;
   pointer-events: none !important;
 }
 

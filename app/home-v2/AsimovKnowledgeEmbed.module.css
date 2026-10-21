@@ -53,9 +53,10 @@
   scale: 0.98;
 }
 
+/* Reaches past the stage, which sits centred at true size in larger cards; the card clips it */
 .scrim {
   position: absolute;
-  inset: 0;
+  inset: -50%;
   background: rgba(17, 17, 17, 0.14);
   opacity: 0;
   transition: opacity 600ms ease;

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { HOME_V2_PAGE_BG } from "@/design-system";
 import { HomeV2CardLink } from "./home-v2/HomeV2CardLink";
 import { CompanyLogos } from "./home-v2/CompanyLogos";
@@ -14,7 +14,8 @@ type CaseStudy = {
   ariaLabel: string;
   logos: { src: string; alt: string }[];
   title: string;
-  outcome: string;
+  /** Where the backdrop's olive centre sits and how far its rose reaches, varied a little per card */
+  backdrop: { at: string; reach: string };
   /** Coded UI floating on the card. It sits outside the card link, so its controls aren't nested in the link. */
   embed: ReactNode;
 };
@@ -29,7 +30,7 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Rocket Mortgage case study",
     logos: ROCKET,
     title: "Personalizing AI guidance across 6.8M+ client conversations",
-    outcome: "In usability testing, 92% of clients found the redesign more helpful and 75% found it more trustworthy.",
+    backdrop: { at: "50% 46%", reach: "100%" },
     embed: <RocketAssistEmbed />,
   },
   {
@@ -37,7 +38,7 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Asimov for Tars case study",
     logos: TARS,
     title: "Designing the agent configuration platform and design system for Asimov",
-    outcome: "~74% fewer repeat questions landing on teammates, with 86% of Asimov's answers rated helpful.",
+    backdrop: { at: "40% 36%", reach: "110%" },
     embed: <AsimovKnowledgeEmbed />,
   },
   {
@@ -45,12 +46,12 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Tars Debug Mode case study",
     logos: TARS,
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
-    outcome: "One place for the CS team and developers to see where an agent's flow broke, and why.",
+    backdrop: { at: "60% 60%", reach: "94%" },
     embed: <DebugModeEmbed />,
   },
 ];
 
-/** One case study: logo, title and outcome on the left, the coded demo on the right. The whole row is the link. */
+/** One case study: logo, title, then the card with its coded demo. The whole case study is the link. */
 function CaseStudyRow({ study }: { study: CaseStudy }) {
   return (
     <div className={styles.row} data-study-row>
@@ -63,10 +64,13 @@ function CaseStudyRow({ study }: { study: CaseStudy }) {
             ))}
           </CompanyLogos>
           <h3 className={styles.cardTitle}>{study.title}</h3>
-          <p className={styles.cardOutcome}>{study.outcome}</p>
         </div>
         {/* Olive and rose backdrop for the coded UI */}
-        <div className={styles.cardMedia} data-card-media />
+        <div
+          className={styles.cardMedia}
+          data-card-media
+          style={{ "--backdrop-at": study.backdrop.at, "--backdrop-reach": study.backdrop.reach } as CSSProperties}
+        />
       </HomeV2CardLink>
       <div className={styles.embed}>{study.embed}</div>
     </div>

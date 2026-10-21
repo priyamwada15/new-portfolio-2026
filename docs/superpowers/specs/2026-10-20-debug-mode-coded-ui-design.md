@@ -19,21 +19,16 @@ Started 2026-10-20 on branch `case-study-coded-ui`. A live slice of the Tars gam
 3. **Add an error detail** (the prototype never said what broke). It's designed here, in the same visual language.
 4. **Craft bar for all three demos:** nothing looks half-worked. Every visible control works and has hover, press and focus states, every surface holds up on the dark scenes, and nothing clips or ghosts.
 
-## One node at a time (revised 2026-10-20)
+## Branching flow with a following camera (revised 2026-10-21)
 
-The first build showed the whole canvas (43 nodes). It made the card busy and broke consistency with Rocket and Asimov, which each show one compact piece of UI in the middle of the card. So the run is now shown **one node at a time**: the node under test sits centred at 1.5×, with its incoming connector above and a stub of the next one below, both fading out toward the card's top and bottom. There's no overview, camera or zoom controls.
+The one-node-at-a-time version had three problems the user called out: a blank moment between nodes (one faded out before the next faded in), a start-stop rhythm (each hop eased, moved, parked), and a straight vertical line that read as a list, not a flow. It now shows a **branching slice of a flow** (10 nodes) with a camera that follows the run:
 
-## Storyboard (about 18s)
-
-- **Opening frame** (scrolled into view): mid-run on Preferences (114), active, with the connector into it flowing blue.
-- **Full loop:**
-  1. **Greeting Node** (113) fades in, active: blue border, soft pulse, and the connector into it flows.
-  2. It passes (stays blue), then hands off: it slides up and fades while the next node rises in from below, along the connector.
-  3. Greeting Node → Preferences → Credit Limit Increase → **Rewards Card**.
-  4. Rewards Card fails: it turns red with a single small shake. Then it shifts left and the **error detail** opens beside it, the pair centred.
-  5. Hold on the error, then fade and start over.
-- **Desktop:** clicking the red node toggles the error detail, and **Run again** replays the run. Both stop the loop. Plus the shared restart button and the "Read" disc at the sides.
-- **Phones:** a non-interactive loop; taps open the case study. **Reduced motion:** the finished state (Rewards Card red, error detail open).
+- **Branches:** every node on the run has two outgoing connectors; the run takes one (lit blue), the other leads to a node it never visits (Language, Add-ons, Notifications, Options; Features and Controls under Rewards Card). The path zig-zags left and right.
+- **Depth of field, not disappearing:** the node in focus is sharp; every other node stays visible, blurred (3px) and translucent (42%), and the flow fades out toward the card's edges. Focus moves with the camera, so one node softens as the next sharpens. Nothing vanishes.
+- **Continuous motion:** when a node passes, a bright signal dot runs its lit connector (950ms) and the camera sets off after it in one long glide (1600ms), still easing in as the next node lights up. It rests about half a second per node until the run breaks.
+- **The break:** Rewards Card turns red and shakes once; the other nodes step back further (26%); the camera shifts left and the error detail opens beside the node.
+- **Loop restart:** a short fade; the camera and focus jump back to Greeting while the flow is invisible, so there's no swoop.
+- **Opening frame:** on Preferences, active. **Desktop:** click the red node to toggle the detail, Run again. **Phones:** loop only. **Reduced motion:** the final state.
 
 ## Error detail (new design)
 

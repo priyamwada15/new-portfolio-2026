@@ -1,5 +1,5 @@
-/* Debug Mode demo on the Debug Mode card: a test run on the Tars gambit canvas,
-   one node at a time, floating on the telephone-exchange scene. Node values come
+/* Debug Mode demo on the Debug Mode card: a test run through a branching slice of a
+   Tars flow, the node under test in focus and its neighbours blurred. Node values come
    from the Debug Mode test-run prototype (see docs/superpowers/specs/2026-10-20-debug-mode-coded-ui-design.md).
    Tars' product colours are scoped to the embed, not portfolio tokens. */
 
@@ -12,7 +12,7 @@
   --dm-surface: rgba(255, 255, 255, 0.92);
   --dm-surface-blur: blur(12px) saturate(1.2);
   --dm-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
-  --dm-camera: 1400ms cubic-bezier(0.65, 0, 0.35, 1);
+  --dm-camera: 1600ms cubic-bezier(0.45, 0, 0.2, 1);
   --dm-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   font-family: var(--font-inter), sans-serif;
@@ -24,50 +24,52 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 184px;
-  width: 640px;
+  left: 72px;
+  width: 560px;
 }
 
-/* Connectors fade out toward the top and bottom, so the node reads as part of a longer flow */
+/* The flow fades out toward the card's edges, so it reads as part of a larger one */
 .viewport {
   position: absolute;
   inset: 0;
   overflow: hidden;
   opacity: 0;
   transition: opacity 600ms ease;
-  -webkit-mask-image: linear-gradient(transparent 4%, #000 34%, #000 66%, transparent 96%);
-  mask-image: linear-gradient(transparent 4%, #000 34%, #000 66%, transparent 96%);
+  -webkit-mask-image: radial-gradient(ellipse 58% 62% at 50% 50%, #000 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse 58% 62% at 50% 50%, #000 50%, transparent 100%);
 }
 
 .viewport[data-in] {
   opacity: 1;
 }
 
-/* Centred on the card; shifts left when the error detail opens */
-.track {
+/* The camera: one long, gentle glide per hop, set off as the signal leaves */
+.canvas {
   position: absolute;
   top: 0;
   left: 0;
   width: 0;
   height: 0;
   transform-origin: 0 0;
-  transition: transform 900ms var(--dm-ease);
+  transition: transform var(--dm-camera);
 }
 
-/* The run's nodes in a column; it slides up a step at each hand-off */
-.rail {
-  position: absolute;
-  top: 0;
-  left: -66px;
-  width: 132px;
-  transition: transform var(--dm-camera);
+/* While the flow is faded out between loops, the camera and focus jump back to
+   the start instead of swooping there */
+.viewport:not([data-in]) .canvas,
+.viewport:not([data-in]) .node,
+.viewport:not([data-in]) .edge {
+  transition: none;
 }
 
 /* ── Connectors ────────────────────────────────────────── */
 
 .edges {
   position: absolute;
+  top: 0;
   left: 0;
+  width: 1px;
+  height: 1px;
   overflow: visible;
 }
 
@@ -84,8 +86,9 @@
   stroke: var(--dm-blue-line);
 }
 
-/* The connector the run is travelling along */
+/* The connector the signal is on */
 .edge[data-flow] {
+  stroke: var(--dm-blue-line);
   stroke-dasharray: 8 6;
   animation: flow 500ms linear infinite;
 }
@@ -99,27 +102,62 @@
   }
 }
 
-/* ── Nodes ─────────────────────────────────────────────── */
-
-/* Only the node under test shows. The one handing off leaves first, then the next arrives. */
-.node {
+/* The signal: a bright dot that runs the lit connector to the next node */
+.signal {
   position: absolute;
+  top: 0;
   left: 0;
-  width: 132px;
-  height: 92px;
-  opacity: 0;
-  scale: 0.94;
-  transition:
-    opacity 350ms ease,
-    scale 450ms var(--dm-ease);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 0 3px var(--dm-blue),
+    0 0 14px 4px rgba(101, 186, 255, 0.7);
+  offset-rotate: 0deg;
+  animation: travel 950ms cubic-bezier(0.45, 0, 0.3, 1) both;
 }
 
-.node[data-current] {
-  opacity: 1;
-  scale: 1;
+@keyframes travel {
+  from {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  to {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+/* ── Nodes ─────────────────────────────────────────────── */
+
+/* Depth of field: the node in focus is sharp, the rest blurred and translucent.
+   Focus moves with the camera, so one node softens as the next sharpens. */
+.node {
+  position: absolute;
+  width: 132px;
+  height: 92px;
+  opacity: 0.42;
+  filter: blur(3px);
   transition:
-    opacity 500ms ease 450ms,
-    scale 700ms var(--dm-ease) 450ms;
+    opacity 900ms ease,
+    filter 900ms ease;
+}
+
+.node[data-focus] {
+  opacity: 1;
+  filter: none;
+}
+
+/* When the run breaks, the rest steps back further so the error owns the moment */
+.viewport[data-error] .node:not([data-focus]) {
+  opacity: 0.26;
 }
 
 .notch {
@@ -279,8 +317,8 @@
   translate: 0 -50%;
   opacity: 1;
   transition:
-    opacity 500ms ease 450ms,
-    translate 800ms var(--dm-ease) 450ms;
+    opacity 500ms ease 700ms,
+    translate 800ms var(--dm-ease) 700ms;
 }
 
 /* Points back at the failed node */
@@ -415,11 +453,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .viewport,
-  .track,
-  .rail,
+  .canvas,
   .edge,
   .node,
-  .node[data-current],
   .notch,
   .tab,
   .nodeCard,
@@ -429,6 +465,7 @@
   }
 
   .edge[data-flow],
+  .signal,
   .node[data-status="active"] .nodeCard,
   .node[data-status="error"] .nodeCard {
     animation: none;

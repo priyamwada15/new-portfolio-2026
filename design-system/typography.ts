@@ -51,6 +51,9 @@ export const caseStudySubheading =
 export const caseStudyEyebrow =
   "font-label text-[14px] font-semibold leading-[21px] text-[var(--accent-dark)]" as const;
 
+/** Section tag above a section or release heading (e.g. "PROBLEM SPACE"): the eyebrow in caps, lightly tracked. */
+export const caseStudySectionTagCaps = `${caseStudyEyebrow} uppercase tracking-[0.06em]` as const;
+
 /** Section body copy — 16px. */
 export const caseStudyText =
   "font-label text-[16px] font-normal leading-[1.6] text-secondary" as const;

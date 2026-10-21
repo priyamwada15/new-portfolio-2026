@@ -6,6 +6,7 @@ import {
   caseStudyCardLabel,
   caseStudyCardText,
   caseStudyEyebrow,
+  caseStudySectionTagCaps,
   caseStudyHeading,
   caseStudyRowTitle,
   caseStudyStatNumber,
@@ -41,7 +42,7 @@ export function SectionHeader({
   const Heading = level === 3 ? "h3" : "h2";
   return (
     <div className="flex w-full flex-col gap-2">
-      {eyebrow && <p className={caseStudyEyebrow}>{eyebrow}</p>}
+      {eyebrow && <p className={caseStudySectionTagCaps}>{eyebrow}</p>}
       <div className="flex w-full items-start gap-12 max-md:flex-col max-md:items-stretch max-md:gap-4">
         <div className="relative min-w-0 flex-1">
           <Heading className={subheading ? caseStudySubheading : caseStudyHeading}>{title}</Heading>
@@ -239,7 +240,7 @@ export function Testimonials({
   return (
     <section id="testimonials" className="flex w-full flex-col gap-12">
       <div className="flex flex-col gap-2">
-        <p className={caseStudyEyebrow}>Testimonials</p>
+        <p className={caseStudySectionTagCaps}>Testimonials</p>
         <h2 className={caseStudyHeading}>{title}</h2>
       </div>
       <div className="flex w-full items-stretch gap-[58px] px-10 max-md:flex-col max-md:gap-4 max-md:px-0">

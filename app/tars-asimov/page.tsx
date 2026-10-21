@@ -11,7 +11,7 @@ import { CASE_BACKDROPS } from "../components/caseBackdrop";
 import { AsimovKnowledgeEmbed } from "../home-v2/AsimovKnowledgeEmbed";
 import { CardRow, SectionHeader } from "../components/CaseStudySections";
 import {
-  caseStudyEyebrow,
+  caseStudySectionTagCaps,
   caseStudyRowTitle,
   caseStudySubheading,
   caseStudyText,
@@ -494,7 +494,7 @@ export default function AsimovPage() {
             <div key={release.number} className="flex flex-col gap-12">
             <div className="flex w-full items-start gap-12 max-md:flex-col max-md:items-stretch max-md:gap-6">
               <div className="flex min-w-0 flex-1 flex-col gap-2">
-                <p className={caseStudyEyebrow}>{release.label ?? `Release ${release.number}`}</p>
+                <p className={caseStudySectionTagCaps}>{release.label ?? `Release ${release.number}`}</p>
                 <div className="flex flex-col gap-4">
                   <h3 className={caseStudySubheading}>{release.title}</h3>
                   <div className={`${caseStudyText} flex flex-col gap-4`}>{release.body}</div>

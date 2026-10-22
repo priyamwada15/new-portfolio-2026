@@ -112,14 +112,15 @@ export const metadata: Metadata = {
   title: "Priyamwada Pandey | Product Designer",
   description:
     "Hi, I'm Priyamwada. I'm a 0→1 product designer for B2B SaaS, AI and marketplace products, currently designing Adtua, a two-sided ad marketplace.",
+  // ?v= busts browsers' favicon cache; bump it whenever the favicon changes
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "48x48 32x32 16x16" },
-      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon.svg?v=2", type: "image/svg+xml" },
+      { url: "/favicon.ico?v=2", sizes: "48x48 32x32 16x16" },
+      { url: "/favicon.png?v=2", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
-    apple: "/favicon.png",
+    shortcut: "/favicon.ico?v=2",
+    apple: "/favicon.png?v=2",
   },
 };
 

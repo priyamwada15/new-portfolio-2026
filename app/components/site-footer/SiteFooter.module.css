@@ -1,0 +1,365 @@
+/* Site footer (SiteFooter.tsx). Fixed under the page; the page sheet scrolls
+   up to uncover it. Positions are in px of the Figma frame (1440×650, or
+   375×620 on phones) times --u, so the layout scales with the screen. */
+.footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.footer[data-visible] {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.panel {
+  --u: min(1px, 100cqw / 1440);
+  --inset: calc(32 * var(--u));
+  --stage-h: 650;
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+  /* The top of the panel sits behind the page sheet's rounded bottom */
+  padding-top: var(--overlap);
+  background-color: var(--ds-footer-bg);
+  color: var(--ds-footer-ink);
+}
+
+/* Olive speckle (Figma: mono noise, size 1, 100% density, #7A841D at 20%) */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--ds-footer-grain);
+  opacity: 0.2;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -1.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -1.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 200px 200px;
+  mask-size: 200px 200px;
+  pointer-events: none;
+}
+
+/* "Department of Design ⁘ अभिकल्पना विभाग" around the edge, like a printed border */
+.frame {
+  position: absolute;
+  inset: calc(var(--overlap) + var(--inset)) var(--inset) var(--inset);
+  pointer-events: none;
+}
+
+.strip {
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--font-hind), sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  /* --footer-border-opacity comes from the dev-only FooterDial */
+  opacity: var(--footer-border-opacity, 0.3);
+}
+
+.top,
+.bottom {
+  left: 0;
+  right: 0;
+  height: 16px;
+}
+
+.top {
+  top: 0;
+}
+
+.bottom {
+  bottom: 0;
+  transform: rotate(180deg);
+}
+
+.left,
+.right {
+  top: 24px;
+  bottom: 24px;
+  width: 16px;
+  writing-mode: vertical-rl;
+}
+
+.right {
+  right: 0;
+}
+
+/* Reads bottom to top */
+.left {
+  left: 0;
+  transform: rotate(180deg);
+}
+
+.stage {
+  position: relative;
+  width: min(100%, 1440px);
+  height: calc(var(--stage-h) * var(--u));
+  margin: 0 auto;
+}
+
+.headline {
+  position: absolute;
+  top: calc(233 * var(--u));
+  left: 50%;
+  width: calc(1120 * var(--u));
+  margin: 0;
+  transform: translateX(-50%);
+  font-family: var(--font-hind), sans-serif;
+  font-size: calc(56 * var(--u));
+  font-weight: 600;
+  line-height: calc(68 * var(--u));
+  text-align: center;
+  text-wrap: balance;
+  opacity: 0.8;
+}
+
+/* One line each on desktop: the thanks, then the ask */
+.headline span {
+  display: block;
+}
+
+/* Stickers: a slow float like the creative license; hover or focus pauses it
+   and turns the sticker back to straight */
+.sticker {
+  position: absolute;
+  left: calc(var(--x) * var(--u));
+  top: calc(var(--y) * var(--u));
+  width: calc(var(--w) * var(--u));
+  display: block;
+  transform: rotate(0deg);
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sticker img,
+.mailboxButton img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+/* A soft olive-tinted shadow under each sticker, like the hero's creative license,
+   so they read as floating above the panel */
+.sticker img {
+  filter: drop-shadow(0 10px 16px rgba(40, 44, 20, 0.22)) drop-shadow(0 2px 4px rgba(40, 44, 20, 0.14));
+}
+
+.float {
+  display: block;
+  animation: stickerFloat 6s ease-in-out infinite;
+  /* Each sticker starts at a different point in the bob, so they don't move in step */
+  animation-delay: calc(var(--i) * -1.7s);
+}
+
+@keyframes stickerFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-0.8deg);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sticker:hover {
+    transform: rotate(calc(-1 * var(--tilt)));
+  }
+
+  .sticker:hover .float {
+    animation-play-state: paused;
+  }
+}
+
+.sticker:focus-visible {
+  outline: none;
+  transform: rotate(calc(-1 * var(--tilt)));
+}
+
+.sticker:focus-visible .float {
+  animation-play-state: paused;
+}
+
+.sticker:focus-visible img,
+.mailboxButton:focus-visible img {
+  outline: 2px solid var(--ds-footer-ink);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+/* The mailbox stands on the bottom edge, so it rises a little on hover
+   instead of floating; its post runs past the edge to leave room for that */
+.mailbox {
+  position: absolute;
+  left: calc(var(--x) * var(--u));
+  bottom: -16px;
+  width: calc(var(--w) * var(--u));
+}
+
+.mailboxButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mailboxButton:focus-visible {
+  outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mailboxButton:hover {
+    transform: translateY(-8px);
+  }
+}
+
+/* Closed and open art share one canvas, so they stack exactly. The closed art
+   stays put underneath while the open art fades over it, and the mailbox gives a
+   small wobble from its base as the door swings, open as the footer comes into
+   view and shut as it scrolls away. */
+.mailboxArt {
+  position: relative;
+  display: block;
+  transform-origin: 50% 100%;
+}
+
+.mailboxClosed {
+  display: block;
+}
+
+.mailboxOpen {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 420ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer[data-open] .mailboxOpen {
+  opacity: 1;
+}
+
+.footer[data-open] .mailboxArt {
+  animation: mailboxOpen 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer[data-visible]:not([data-open]) .mailboxArt {
+  animation: mailboxShut 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes mailboxOpen {
+  0% {
+    transform: none;
+  }
+  35% {
+    transform: translateY(-3px) rotate(-1.5deg);
+  }
+  70% {
+    transform: rotate(0.6deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes mailboxShut {
+  0% {
+    transform: none;
+  }
+  40% {
+    transform: rotate(1deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* Touch screens have no hover tooltip, so the mailbox says what it does */
+.mailboxHint {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 8px;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--ds-tooltip-bg);
+  color: var(--ds-tooltip-fg);
+  font-family: var(--font-hind), sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+@media (hover: none) {
+  .mailboxHint {
+    display: block;
+  }
+}
+
+/* Phones: the 375×620 layout */
+@media (max-width: 743px) {
+  .panel {
+    --u: calc(100cqw / 375);
+    --inset: 16px;
+    --stage-h: 620;
+  }
+
+  .strip {
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  .top,
+  .bottom {
+    height: 12px;
+  }
+
+  .left,
+  .right {
+    width: 12px;
+  }
+
+  .headline {
+    top: calc(168 * var(--u));
+    width: calc(311 * var(--u));
+    font-size: calc(34 * var(--u));
+    line-height: calc(42 * var(--u));
+  }
+
+  .headline span {
+    display: inline;
+  }
+
+  .sticker {
+    left: calc(var(--px) * var(--u));
+    top: calc(var(--py) * var(--u));
+    width: calc(var(--pw) * var(--u));
+  }
+
+  .mailbox {
+    left: calc(var(--px) * var(--u));
+    width: calc(var(--pw) * var(--u));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float,
+  .footer .mailboxArt {
+    animation: none;
+  }
+
+  .sticker,
+  .mailboxButton {
+    transition: none;
+  }
+}

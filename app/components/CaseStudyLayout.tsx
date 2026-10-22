@@ -3,8 +3,6 @@ import { CaseStudySideToc, type SideTocItem } from "./CaseStudySideToc";
 
 const CASE_STUDY_HEADER_ANCHOR_ID = "case-study-header-anchor";
 import CaseStudyPageStyle from "./CaseStudyPageStyle";
-import { CaseStudyHero } from "./CaseStudyHero";
-import type { CaseBackdrop } from "./caseBackdrop";
 import SectionLabel from "./SectionLabel";
 import {
   brands,
@@ -38,8 +36,6 @@ interface Logo {
   src: string;
   alt: string;
   cls?: string;
-  /** Version for dark or colourful backgrounds (the demo hero); without one the hero whitens `src` */
-  lightSrc?: string;
 }
 
 interface Props {
@@ -55,11 +51,6 @@ interface Props {
   sidePanel?: React.ReactNode;
   contextVisual?: React.ReactNode;
   heroVisual?: React.ReactNode;
-  /**
-   * Full-bleed opening screen with the study's live coded demo on its homepage-card
-   * backdrop. The logos and headline move into it; the header keeps only the meta row.
-   */
-  heroDemo?: { demo: React.ReactNode; backdrop: CaseBackdrop };
   reverseHeaderOrder?: boolean;
   hideContextLabel?: boolean;
   headlineInHeader?: boolean;
@@ -97,13 +88,10 @@ const MetaGrid = ({
   meta,
   accentDark,
   sept2026Layout = false,
-  onBackdrop = false,
 }: {
   meta: Meta;
   accentDark: string;
   sept2026Layout?: boolean;
-  /** On the demo hero's fading backdrop: labels in ink rather than the accent */
-  onBackdrop?: boolean;
 }) => (
   <div
     className={`grid grid-cols-1 min-[400px]:grid-cols-2 ${
@@ -119,9 +107,10 @@ const MetaGrid = ({
       <div key={item.label}>
         {sept2026Layout ? (
           <>
+            {/* All caps, like the section tags */}
             <p
-              className="font-label text-[14px] font-semibold leading-[21px]"
-              style={{ color: onBackdrop ? "var(--ds-text-ink)" : accentDark }}
+              className="font-label text-[14px] font-semibold uppercase leading-[21px] tracking-[0.06em]"
+              style={{ color: accentDark }}
             >
               {item.label}
             </p>
@@ -129,7 +118,7 @@ const MetaGrid = ({
           </>
         ) : (
           <>
-            <p className={caseStudyMetaLabel} style={{ color: accentDark }}>
+            <p className={`${caseStudyMetaLabel} uppercase tracking-[0.06em]`} style={{ color: accentDark }}>
               {item.label}
             </p>
             <p className="text-sm text-ink">{item.value}</p>
@@ -151,7 +140,6 @@ export default function CaseStudyLayout({
   sidePanel,
   contextVisual,
   heroVisual,
-  heroDemo,
   reverseHeaderOrder = false,
   hideContextLabel = false,
   headlineInHeader = false,
@@ -290,10 +278,7 @@ export default function CaseStudyLayout({
   // ── header content ────────────────────────────────────────────────────
   // When toc is provided, H1 moves to the right column, header only has logos + meta.
   // mb-14 = 56px gap between meta and H1.
-  const headerContent = heroDemo ? (
-    // Sits on the hero's fading backdrop; dark like the page text, so only the hero's title is white
-    <MetaGrid meta={meta} accentDark={accentDark} sept2026Layout={sept2026Layout} onBackdrop />
-  ) : toc ? (
+  const headerContent = toc ? (
     reverseHeaderOrder ? (
       /* logos → H1 → heroVisual → meta */
       <>
@@ -349,33 +334,18 @@ export default function CaseStudyLayout({
   return (
     <>
     <CaseStudyPageStyle backgroundColor={bodyBackgroundColor} />
-    {heroDemo && (
-      <CaseStudyHero
-        logos={logos}
-        headline={headline}
-        headlineClassName={h1ClassName}
-        headlineStyle={{ ...headlineFontStyle, ...headlineStyle }}
-        demo={heroDemo.demo}
-        backdrop={heroDemo.backdrop}
-      />
-    )}
     <article
-      // Above the hero's backdrop, which runs on behind the top of the page
-      className={heroDemo ? `${CASE_STUDY_COLUMN_CLASS} relative z-[1]` : CASE_STUDY_COLUMN_CLASS}
+      className={CASE_STUDY_COLUMN_CLASS}
       style={{ "--accent-dark": accentDark, "--accent-light": accentLight } as React.CSSProperties}
     >
 
-      {/* With a demo hero the TOC starts level with the first section, not the meta row */}
-      {sideToc && (
-        <CaseStudySideToc items={sideToc} alignToId={heroDemo ? sideToc[0].id : CASE_STUDY_HEADER_ANCHOR_ID} />
-      )}
+      {/* The TOC starts level with the first section */}
+      {sideToc && <CaseStudySideToc items={sideToc} alignToId={sideToc[0].id} />}
 
       {/* Header, mt-12 (48px) below the nav */}
       {/* Untransformed marker at the header's top edge (the header itself animates in),
           used to keep the side TOC level with the logos row */}
-      {/* With a demo hero the meta row starts right where the hero ends, while the
-          backdrop behind it is still at full colour, not 48px lower into the fade */}
-      <div id={CASE_STUDY_HEADER_ANCHOR_ID} aria-hidden="true" className={heroDemo ? undefined : "mt-12"} />
+      <div id={CASE_STUDY_HEADER_ANCHOR_ID} aria-hidden="true" className="mt-12" />
       <header className={`${toc ? "mb-14" : sept2026Layout ? "mb-[120px]" : "mb-16"} hero-intro hero-intro--bento`}>
         {headerContent}
       </header>

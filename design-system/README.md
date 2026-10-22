@@ -70,10 +70,10 @@ Remove a token when nothing uses it any more. Before you do, search for it as a 
 
 | Style | Use |
 |---|---|
-| `caseStudyTitle` | Page title (32px medium; white on the demo hero) |
+| `caseStudyTitle` | Page title (32px medium) |
 | `caseStudyHeading` | Section heading (24px semibold) |
 | `caseStudySubheading` | Heading inside a section (18px medium) |
-| `caseStudySectionTagCaps` | Section, release and testimonial tags: the eyebrow in caps, lightly tracked (e.g. "PROBLEM SPACE") |
+| `caseStudySectionTagCaps` | Section, release and testimonial tags: the eyebrow in caps, lightly tracked (e.g. "PROBLEM SPACE"). The meta row labels use the same caps and tracking |
 | `caseStudyEyebrow` | Small accent labels that aren't section tags (stat labels, names) |
 | `caseStudyText` | Body copy, including the line under a stat |
 | `caseStudyRowTitle` | Title above a text + media row |
@@ -85,11 +85,15 @@ Stats are open (no card border or fill): a number in `caseStudyStatNumber` above
 
 Every case study uses one accent, the site's rose: `--ds-case-study-accent` (and `--ds-case-study-accent-light` for tints). Pass them to `CaseStudyLayout` as `accentDark` / `accentLight`; they drive section tags, numbered markers and highlights through `--accent-dark`. Brand colors (`brands.ts`) stay in logos and inside the product demos, not in the page chrome.
 
-### Backdrop and demo hero
+### Demo cards
 
-- **Backdrop** (`app/components/CaseBackdrop.module.css`): the olive → rose radial gradient (`--ds-card-backdrop-center` / `--ds-card-backdrop-edge`) with a speckle texture. Light flecks, plus darker flecks multiplied in so they're a deeper shade of the color beneath. Each study shifts its centre and reach (`CASE_BACKDROPS` in `app/components/caseBackdrop.ts`); the homepage card and that study's hero use the same values.
-- **Demo hero** (`CaseStudyHero`, via `CaseStudyLayout`'s `heroDemo` prop): one screen tall and full bleed, with the white logo and title and the study's live coded demo. The backdrop runs past the screen and fades into the page. The nav is hidden while the hero is on screen. Logos can pass a `lightSrc` for it; otherwise they're whitened. The meta row below it is ink.
+- **Demo card**: the homepage case study cards and each case study's hero visual (`CaseStudyDemoCard`, passed as `CaseStudyLayout`'s `heroVisual`) are the same plain card: a `--ds-surface-demo-card` fill with a `--ds-border-card` stroke, with the study's live coded demo at its designed size.
 - **Coded demos** (`app/home-v2/*Embed`) scope their product's own colors to the embed (e.g. `--ra-*`, `--dm-*`). Those are the products' colors, not portfolio tokens.
+
+## Tooltips and footer
+
+- **Tooltips** are rose with light text everywhere: `--ds-tooltip-bg` / `--ds-tooltip-fg` (`app/components/animate-ui/tooltip.tsx`, `CopyEmailIcon`).
+- **Site footer** (`app/components/site-footer/SiteFooter.tsx`): the olive panel the page lifts away to reveal, on the homepage, case studies and playground. `--ds-footer-bg` (olive), `--ds-footer-ink` (deep olive type) and `--ds-footer-grain` (the speckle). Sticker positions are in px of the Figma frame (1440×650, or 375×620 on phones) and scale with the screen.
 
 ## Responsive breakpoints
 

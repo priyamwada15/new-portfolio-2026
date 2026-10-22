@@ -1,6 +1,6 @@
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import SolutionShowcase from "../components/SolutionShowcase";
-import { CASE_BACKDROPS } from "../components/caseBackdrop";
+import { CaseStudyDemoCard } from "../components/CaseStudyDemoCard";
 import { RocketAssistEmbed } from "../home-v2/RocketAssistEmbed";
 import { SectionHeader, Testimonials } from "../components/CaseStudySections";
 import {
@@ -266,7 +266,12 @@ export default function RocketMortgageContent() {
       headlineClassName={caseStudyTitle}
       logos={[{ src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" }]}
       headline="Personalizing AI guidance across 6.8M+ client conversations"
-      heroDemo={{ demo: <RocketAssistEmbed />, backdrop: CASE_BACKDROPS.rocket }}
+      reverseHeaderOrder
+      heroVisual={
+        <CaseStudyDemoCard>
+          <RocketAssistEmbed />
+        </CaseStudyDemoCard>
+      }
       meta={{
         timelineLabel: "Handed off",
         timeline: "Aug 2025",

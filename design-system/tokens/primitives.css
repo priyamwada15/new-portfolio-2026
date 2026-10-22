@@ -10,6 +10,7 @@
   --ds-color-on-dark: #ffffff;
   --ds-color-border: #e8e8e8;
   --ds-color-border-media: #e6e6e6;
+  --ds-color-border-card: #f2f2f2;
   --ds-color-gray-subtle: #e5e2dc;
   --ds-color-gray-200: #f1f1f1;
   --ds-color-gray-300: #ededed;
@@ -20,6 +21,7 @@
   --ds-color-surface-page: #fafafa;
   --ds-color-surface-home: #fefefe;
   --ds-color-surface-media: #f5f5f5;
+  --ds-color-surface-demo-card: #f7f7f7;
   --ds-color-surface-chip: #f3f5f6;
   --ds-color-surface-playground: #0a0a0a;
 
@@ -45,6 +47,9 @@
   --ds-color-brand-hcn-rose-light: #ef7a98;
   --ds-color-brand-hcn-amber: #f4af30;
   --ds-color-brand-hcn-olive: #bfb74c;
+  /* Deep olive for type on olive, and the olive speckle (site footer) */
+  --ds-color-brand-hcn-olive-ink: #45421f;
+  --ds-color-brand-hcn-olive-grain: #7a841d;
   --ds-color-brand-hcn-teal: #1289b1;
 
   /* Research-area categories (Salesforce problem-space grid) */

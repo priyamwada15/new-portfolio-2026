@@ -50,7 +50,7 @@ export function KineticFacadeApp() {
         ))}
       </div>
       <Link
-        href={siteHref("/fun")}
+        href={`${siteHref("/")}#fun`}
         className="absolute bottom-6 left-6 z-10 text-sm text-white/70 transition-colors duration-200 ease-out hover:text-nav-active-on-dark"
       >
         Back Home

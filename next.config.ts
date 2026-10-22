@@ -24,9 +24,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // The playground page was renamed to "fun".
-      { source: "/playground", destination: "/fun", permanent: true },
-      { source: "/dive/playground", destination: "/dive/fun", permanent: true },
+      // The fun page is now a section on the homepage (FunWheel); old links land there.
+      { source: "/fun", destination: "/#fun", permanent: false },
+      { source: "/dive/fun", destination: "/dive#fun", permanent: false },
+      { source: "/playground", destination: "/#fun", permanent: false },
+      { source: "/dive/playground", destination: "/dive#fun", permanent: false },
     ];
   },
   async rewrites() {

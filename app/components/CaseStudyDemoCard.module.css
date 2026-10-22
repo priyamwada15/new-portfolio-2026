@@ -1,0 +1,10 @@
+/* Same card as the homepage case study cards (.cardMedia in home-v2/home.module.css) */
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1008 / 575;
+  border-radius: var(--ds-radius-container);
+  overflow: hidden;
+  background: var(--ds-surface-demo-card);
+  border: 1px solid var(--ds-border-card);
+}

@@ -7,7 +7,7 @@ import { CoreFeatureVideo } from "./CoreFeatureVideo";
 import KnowledgeSourcesDemo from "./KnowledgeSourcesDemo";
 import ProblemSpaceVisual from "./ProblemSpaceVisual";
 import AgentMentionVisual from "./AgentMentionVisual";
-import { CASE_BACKDROPS } from "../components/caseBackdrop";
+import { CaseStudyDemoCard } from "../components/CaseStudyDemoCard";
 import { AsimovKnowledgeEmbed } from "../home-v2/AsimovKnowledgeEmbed";
 import { CardRow, SectionHeader } from "../components/CaseStudySections";
 import {
@@ -411,10 +411,15 @@ export default function AsimovPage() {
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
       logos={[
-        { src: "/logos/tars.svg", lightSrc: "/logos/tars-light.svg", alt: "TARS" },
+        { src: "/logos/tars.svg", alt: "TARS" },
       ]}
       headline="Designing the agent configuration platform and design system for Asimov"
-      heroDemo={{ demo: <AsimovKnowledgeEmbed />, backdrop: CASE_BACKDROPS.asimov }}
+      reverseHeaderOrder
+      heroVisual={
+        <CaseStudyDemoCard>
+          <AsimovKnowledgeEmbed />
+        </CaseStudyDemoCard>
+      }
       meta={{
         timelineLabel: "Shipped",
         timeline: "Dec 2023 – Apr 2024 · 5 releases",

@@ -47,7 +47,6 @@ export type PlayPortfolioItem = {
   mediaAlt: string;
 };
 
-const PROFILE_X_HREF = "https://x.com/PriymwadaPandey";
 
 export const SUNLIGHT_SHADER_GITHUB_HREF =
   "https://github.com/priyamwada15/sunlight-effect";
@@ -127,7 +126,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
       "Two people each control one arm from a laptop touchpad, left, right, up, down. Built the entire system across three environments, Arduino handling the hardware, Python bridging the communication and audio output, Processing handling the touch input.",
     filledCta: {
       label: "Chat with me about it",
-      href: PROFILE_X_HREF,
+      href: "https://x.com/priymwadapandey/status/2037651635199979667?s=20",
       ariaLabel: "Chat on X about Robot Arm Duet",
       icon: "x",
     },

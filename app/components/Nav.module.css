@@ -25,32 +25,21 @@
   }
 }
 
-/* Hidden on pages with a full-bleed case study hero ([data-hides-nav]) from the
-   first paint, so it never flashes in; it slides in once the hero has scrolled
-   away (HideNavWhileVisible sets data-nav-shown) */
+/* Slides with the scroll direction (data-hidden, from useHideOnScroll) */
 .nav {
-  transition:
-    opacity 300ms ease,
-    translate 400ms cubic-bezier(0.22, 1, 0.36, 1),
-    visibility 0s linear 0s;
+  transition: translate 400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-:global(html:has([data-hides-nav]):not([data-nav-shown])) .nav {
-  opacity: 0;
-  translate: 0 -16px;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    opacity 300ms ease,
-    translate 400ms cubic-bezier(0.22, 1, 0.36, 1),
-    visibility 0s linear 400ms;
+/* Scrolling down slides it up out of view; scrolling up brings it back. Keyboard
+   focus inside it keeps it in view. */
+.nav[data-hidden]:not(:focus-within) {
+  translate: 0 calc(-100% - 48px);
 }
 
-/* Dark "fun" page */
-.nav[data-dark] {
-  --nav-text: #f6f6fb;
-  --nav-active: var(--ds-nav-active-on-dark);
-  --nav-surface: rgba(24, 24, 24, 0.55);
+@media (prefers-reduced-motion: reduce) {
+  .nav {
+    transition: none;
+  }
 }
 
 .pill {

@@ -5,7 +5,7 @@
 .root {
   --ra-ink: #111111;
   --ra-muted: #545454;
-  --ra-bubble: #f7f7f7;
+  --ra-bubble: #ffffff;
   --ra-border: #f2f2f2;
   --ra-well: rgba(0, 0, 0, 0.04);
   --ra-disabled: #949494;
@@ -13,8 +13,10 @@
   --ra-red: var(--ds-color-brand-rocket);
   --ra-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
   --ra-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  /* Frosted bubbles: the scene shows through softly */
-  --ra-bubble-glass: rgba(247, 247, 247, 0.92);
+  /* Ease in and out for the inspector card flip */
+  --ra-flip-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  /* White bubbles, so they stand out from the light grey card they sit on */
+  --ra-bubble-glass: rgba(255, 255, 255, 0.96);
   --ra-ink-glass: rgba(17, 17, 17, 0.9);
   --ra-glass-blur: blur(12px) saturate(1.2);
 
@@ -147,6 +149,7 @@
   align-self: flex-start;
   border-radius: 12px 12px 12px 4px;
   background: var(--ra-bubble-glass);
+  box-shadow: var(--ra-shadow);
   -webkit-backdrop-filter: var(--ra-glass-blur);
   backdrop-filter: var(--ra-glass-blur);
 }
@@ -233,7 +236,8 @@
   font: inherit;
   color: inherit;
   text-align: inherit;
-  perspective: 1200px;
+  /* A flatter perspective, so the card turns without stretching at the edges */
+  perspective: 1600px;
   transition:
     scale 1100ms var(--ra-ease),
     opacity 1100ms var(--ra-ease);
@@ -276,11 +280,42 @@
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  transition: transform 1000ms var(--ra-ease);
+  /* Kept on its own layer so the text doesn't re-render mid-turn */
+  will-change: transform;
 }
 
 .card[data-flipped] .flip {
   transform: rotateY(180deg);
+}
+
+/* The turn eases in and out, and the card lifts toward you a little at its
+   midpoint, like a card picked up and turned over */
+.card[data-flipped] .flip {
+  animation: flipLiftOver 900ms var(--ra-flip-ease);
+}
+
+.card:not([data-flipped]) .flip {
+  animation: flipLiftBack 900ms var(--ra-flip-ease);
+}
+
+@keyframes flipLiftOver {
+  0%,
+  100% {
+    translate: 0 0 0;
+  }
+  50% {
+    translate: 0 0 40px;
+  }
+}
+
+@keyframes flipLiftBack {
+  0%,
+  100% {
+    translate: 0 0 0;
+  }
+  50% {
+    translate: 0 0 40px;
+  }
 }
 
 .face {
@@ -518,7 +553,7 @@
 
 .flip {
   transition:
-    transform 1000ms var(--ra-ease),
+    transform 900ms var(--ra-flip-ease),
     scale 200ms var(--ra-ease);
 }
 
@@ -581,7 +616,9 @@
   }
 
   .flip,
-  .card[data-flipped] .flip {
+  .card[data-flipped] .flip,
+  .card:not([data-flipped]) .flip {
+    animation: none;
     transform: none;
     transition: none;
   }

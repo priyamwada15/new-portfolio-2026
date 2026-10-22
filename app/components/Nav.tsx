@@ -8,6 +8,7 @@ import { CopyEmailIcon } from "./CopyEmailIcon";
 import { isCaseStudyPath } from "../lib/caseStudy";
 import { useSiteHref, useSitePathname } from "../lib/reviewPath";
 import { smoothScrollToElement } from "../lib/smoothScroll";
+import { useHideOnScroll } from "./useHideOnScroll";
 import styles from "./Nav.module.css";
 
 /** Grace period before the contact links tuck away once the cursor leaves. */
@@ -25,12 +26,16 @@ export default function Nav() {
   const router = useRouter();
   const onHome = pathname === "/";
   // On the homepage, "work" takes over from "home" once the case studies reach the upper part of the screen.
+  // "fun" takes over in the same way once the fun projects reach it.
   const [workInView, setWorkInView] = useState(false);
-  const isHome = onHome && !workInView;
-  const isWork = (onHome && workInView) || (pathname ? isCaseStudyPath(pathname) : false);
-  const isFun = pathname === "/fun" || pathname.startsWith("/fun/");
+  const [funInView, setFunInView] = useState(false);
+  const isHome = onHome && !workInView && !funInView;
+  const isWork = (onHome && workInView && !funInView) || (pathname ? isCaseStudyPath(pathname) : false);
+  const isFun = onHome && funInView;
 
   const [open, setOpen] = useState(false);
+  // Slides up out of the way while scrolling down, and back while scrolling up (stays while contact is open)
+  const scrolledAway = useHideOnScroll() && !open;
   const moreId = useId();
   const pillRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -99,39 +104,47 @@ export default function Nav() {
 
   useEffect(() => {
     if (!onHome) return;
-    const work = document.getElementById("work");
-    if (!work) return;
-    const observer = new IntersectionObserver(([entry]) => setWorkInView(entry.isIntersecting), {
-      // A line 30% down the screen: below the nav, and below where the case studies start on load.
-      rootMargin: "-30% 0px -70% 0px",
+    const sections: [string, (inView: boolean) => void][] = [
+      ["work", setWorkInView],
+      ["fun", setFunInView],
+    ];
+    const observers = sections.map(([id, setInView]) => {
+      const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+        // A line 30% down the screen: below the nav, and below where the case studies start on load.
+        rootMargin: "-30% 0px -70% 0px",
+      });
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+      return observer;
     });
-    observer.observe(work);
     return () => {
-      observer.disconnect();
+      observers.forEach((observer) => observer.disconnect());
       setWorkInView(false);
+      setFunInView(false);
     };
   }, [onHome]);
 
-  // "work" glides to the case studies. From another page it goes home first, then glides.
-  const pendingWorkScroll = useRef(false);
-  const scrollToWork = () => {
-    const work = document.getElementById("work");
-    if (work) smoothScrollToElement(work);
+  // "work" and "fun" glide to their homepage sections. From another page they go home first, then glide.
+  const pendingScroll = useRef<string | null>(null);
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) smoothScrollToElement(section);
   };
   useEffect(() => {
-    if (!onHome || !pendingWorkScroll.current) return;
-    pendingWorkScroll.current = false;
+    const id = pendingScroll.current;
+    if (!onHome || !id) return;
+    pendingScroll.current = null;
     // Let the route-change scroll-to-top settle before gliding down.
-    const id = setTimeout(scrollToWork, 120);
-    return () => clearTimeout(id);
+    const timer = setTimeout(() => scrollToSection(id), 120);
+    return () => clearTimeout(timer);
   }, [onHome]);
-  const onWorkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const onSectionClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
     if (onHome) {
-      scrollToWork();
+      scrollToSection(id);
     } else {
-      pendingWorkScroll.current = true;
+      pendingScroll.current = id;
       router.push(siteHref("/"));
     }
   };
@@ -159,7 +172,7 @@ export default function Nav() {
     <>
       {/* Keeps page content clear of the fixed nav, at the height the old in-flow nav took. */}
       <div className={styles.spacer} aria-hidden="true" />
-      <nav ref={navRef} className={`site-nav ${styles.nav}`} data-dark={isFun || undefined} aria-label="Main">
+      <nav ref={navRef} className={`site-nav ${styles.nav}`} data-hidden={scrolledAway || undefined} aria-label="Main">
         <TooltipProvider openDelay={150} closeDelay={150}>
           <div ref={pillRef} className={`site-nav-pill ${styles.pill} hero-intro hero-intro--nav-top`}>
             <Link href={siteHref("/")} className={styles.mark} aria-label="Priyamwada Pandey, home">
@@ -170,14 +183,22 @@ export default function Nav() {
               {link(siteHref("/"), "home", isHome)}
               <Link
                 href={`${siteHref("/")}#work`}
-                onClick={onWorkClick}
+                onClick={(e) => onSectionClick(e, "work")}
                 className={styles.link}
                 data-active={isWork || undefined}
                 aria-current={isWork ? "location" : undefined}
               >
                 work
               </Link>
-              {link(siteHref("/fun"), "fun", isFun)}
+              <Link
+                href={`${siteHref("/")}#fun`}
+                onClick={(e) => onSectionClick(e, "fun")}
+                className={styles.link}
+                data-active={isFun || undefined}
+                aria-current={isFun ? "location" : undefined}
+              >
+                fun
+              </Link>
               {/* "about" stays hidden until its page is ready. */}
               <div
                 ref={contactRef}

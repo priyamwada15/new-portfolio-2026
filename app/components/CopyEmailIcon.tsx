@@ -31,6 +31,10 @@ type CopyEmailIconProps = {
   labelStyle?: React.CSSProperties;
   /** Text of the tooltip shown after copying. */
   copiedText?: string;
+  /** Renders this instead of the icon, unstyled (the footer's mailbox sticker). */
+  children?: React.ReactNode;
+  /** Text of the hover tooltip. */
+  hoverText?: string;
 };
 
 const COPIED_TOOLTIP_MS = 2500;
@@ -40,12 +44,12 @@ function CopiedTooltipBody({ text }: { text: string }) {
     <>
       <motion.div
         className="overflow-hidden px-3 py-1.5 text-xs text-balance"
-        style={{ fontFamily: "var(--font-hind), sans-serif", color: "#fafafa" }}
+        style={{ fontFamily: "var(--font-hind), sans-serif", color: "var(--ds-tooltip-fg)" }}
       >
         <motion.div layout="preserve-aspect">{text}</motion.div>
       </motion.div>
       <TooltipArrow
-        className="fill-[#111111] size-3 data-[side='bottom']:translate-y-[1px] data-[side='right']:translate-x-[1px] data-[side='left']:translate-x-[-1px] data-[side='top']:translate-y-[-1px]"
+        className="fill-[var(--ds-tooltip-bg)] size-3 data-[side='bottom']:translate-y-[1px] data-[side='right']:translate-x-[1px] data-[side='left']:translate-x-[-1px] data-[side='top']:translate-y-[-1px]"
         tipRadius={2}
       />
     </>
@@ -65,6 +69,8 @@ export function CopyEmailIcon({
   label,
   labelStyle,
   copiedText = "Copied",
+  children,
+  hoverText = "Email",
 }: CopyEmailIconProps) {
   const [isCopied, setIsCopied] = useControlledState({ defaultValue: false });
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -88,7 +94,7 @@ export function CopyEmailIcon({
     setReferenceEl(el);
     showTooltip({
       contentProps: {
-        className: "z-50 w-fit bg-[#111111] text-white rounded-md",
+        className: "z-50 w-fit bg-[var(--ds-tooltip-bg)] text-[var(--ds-tooltip-fg)] rounded-md",
         children: <CopiedTooltipBody text={copiedText} />,
       },
       contentAsChild: false,
@@ -137,17 +143,20 @@ export function CopyEmailIcon({
       type="button"
       data-slot="copy-email-button"
       className={cn(
-        "flex items-center justify-center h-8 rounded-md cursor-pointer",
-        !label && "w-8",
+        !children && "flex items-center justify-center h-8 rounded-md",
+        "cursor-pointer",
+        !label && !children && "w-8",
         className,
       )}
       // Text label matches the other nav links: opacity hover only, no scale
-      whileHover={label ? undefined : { scale: 1.05 }}
-      whileTap={label ? undefined : { scale: 0.95 }}
+      whileHover={label || children ? undefined : { scale: 1.05 }}
+      whileTap={label || children ? undefined : { scale: 0.95 }}
       onClick={handleCopy}
       aria-label={isCopied ? "Email copied" : "Copy email address"}
     >
-      {label ? (
+      {children ? (
+        children
+      ) : label ? (
         <span style={labelStyle}>{label}</span>
       ) : (
       <span style={iconStyle}>
@@ -185,7 +194,7 @@ export function CopyEmailIcon({
       >
         {button}
       </TooltipTrigger>
-      <TooltipContent>Email</TooltipContent>
+      <TooltipContent>{hoverText}</TooltipContent>
     </Tooltip>
   );
 }

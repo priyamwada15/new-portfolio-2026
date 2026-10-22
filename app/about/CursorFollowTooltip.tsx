@@ -99,7 +99,7 @@ export function CursorFollowTooltip({ label, children }: CursorFollowTooltipProp
           <div
             id={tooltipId}
             role="tooltip"
-            className="pointer-events-none fixed z-[100] w-fit rounded-md bg-[#111111] px-3 py-1.5 text-xs text-[#fafafa] shadow-md"
+            className="pointer-events-none fixed z-[100] w-fit rounded-md bg-[var(--ds-tooltip-bg)] px-3 py-1.5 text-xs text-[var(--ds-tooltip-fg)] shadow-md"
             style={{
               left: coords.x,
               top: coords.y,

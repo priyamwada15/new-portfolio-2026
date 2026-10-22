@@ -7,15 +7,13 @@ import Footer from "./Footer";
 import { CASE_STUDY_PAGE_BG, HOME_V2_PAGE_BG, PLAYGROUND_PAGE_BG, SITE_DEFAULT_PAGE_BG } from "@/design-system";
 import { isCaseStudyPath } from "../lib/caseStudy";
 import dynamic from "next/dynamic";
-import { FLIP_BOARD_REVEAL_IMAGE_OVERLAP_PX } from "./flip-board/constants";
 import { HOME_SCROLL_REVEAL_CSS_DEFAULTS } from "../home-v2/homeScrollRevealDial.config";
 import DevAgentation from "./DevAgentation";
+import { FOOTER_REVEAL_OVERLAP_PX } from "./site-footer/constants";
 import CaseStudyTransition from "./CaseStudyTransition";
 
-const FlipBoardFooter = dynamic(
-  () => import("./flip-board/FlipBoardFooter"),
-  { ssr: false },
-);
+// The olive sticker footer, revealed as the page lifts away (it replaced the flip-board footer)
+const SiteFooter = dynamic(() => import("./site-footer/SiteFooter"), { ssr: false });
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = useSitePathname();
   const isHomeV2 = pathname === "/";
@@ -120,12 +118,12 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
             <div
               className="site-scroll-layer__reveal-spacer pointer-events-none w-full shrink-0"
               style={{
-                height: `max(0px, calc(var(--flip-footer-height, 540px) - var(--flip-footer-reveal-image-overlap, ${FLIP_BOARD_REVEAL_IMAGE_OVERLAP_PX}px)))`,
+                height: `max(0px, calc(var(--footer-reveal-height, 694px) - ${FOOTER_REVEAL_OVERLAP_PX}px))`,
               }}
               aria-hidden
             />
           </div>
-          <FlipBoardFooter layout="scroll-reveal" />
+          <SiteFooter />
         </>
       ) : (
         <div className="site-scroll-layer relative z-10 flex min-h-screen flex-1 flex-col">

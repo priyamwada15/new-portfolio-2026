@@ -6,9 +6,8 @@ import { CloudsHero } from "./home-v2/CloudsHero";
 import { RocketAssistEmbed } from "./home-v2/RocketAssistEmbed";
 import { AsimovKnowledgeEmbed } from "./home-v2/AsimovKnowledgeEmbed";
 import { DebugModeEmbed } from "./home-v2/DebugModeEmbed";
+import { FunWheel } from "./home-v2/FunWheel";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
-import { backdropStyle, CASE_BACKDROPS, type CaseBackdrop } from "@/app/components/caseBackdrop";
-import backdrop from "@/app/components/CaseBackdrop.module.css";
 import styles from "./home-v2/home.module.css";
 
 type CaseStudy = {
@@ -16,8 +15,6 @@ type CaseStudy = {
   ariaLabel: string;
   logos: { src: string; alt: string }[];
   title: string;
-  /** Where the backdrop's olive centre sits and how far its rose reaches, varied a little per card */
-  backdrop: CaseBackdrop;
   /** Coded UI floating on the card. It sits outside the card link, so its controls aren't nested in the link. */
   embed: ReactNode;
 };
@@ -32,7 +29,6 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Rocket Mortgage case study",
     logos: ROCKET,
     title: "Personalizing AI guidance across 6.8M+ client conversations",
-    backdrop: CASE_BACKDROPS.rocket,
     embed: <RocketAssistEmbed />,
   },
   {
@@ -40,7 +36,6 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Asimov for Tars case study",
     logos: TARS,
     title: "Designing the agent configuration platform and design system for Asimov",
-    backdrop: CASE_BACKDROPS.asimov,
     embed: <AsimovKnowledgeEmbed />,
   },
   {
@@ -48,7 +43,6 @@ const CASE_STUDIES: CaseStudy[] = [
     ariaLabel: "Read Tars Debug Mode case study",
     logos: TARS,
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
-    backdrop: CASE_BACKDROPS.debugMode,
     embed: <DebugModeEmbed />,
   },
 ];
@@ -67,12 +61,8 @@ function CaseStudyRow({ study }: { study: CaseStudy }) {
           </CompanyLogos>
           <h3 className={styles.cardTitle}>{study.title}</h3>
         </div>
-        {/* Olive and rose backdrop for the coded UI */}
-        <div
-          className={`${styles.cardMedia} ${backdrop.backdrop}`}
-          data-card-media
-          style={backdropStyle(study.backdrop)}
-        />
+        {/* Plain card the coded UI sits on */}
+        <div className={styles.cardMedia} data-card-media />
       </HomeV2CardLink>
       <div className={styles.embed}>{study.embed}</div>
     </div>
@@ -93,7 +83,14 @@ export default function HomePage() {
           ))}
         </section>
       </div>
-      {/* The gutter pixel trail (home-v2/GutterPixels) is switched off for now. */}
+      <section id="fun" className={styles.fun} aria-labelledby="fun-heading">
+        <h2 id="fun-heading" className={`font-label text-primary ${styles.funHeading}`}>
+          Things I’ve built for fun
+        </h2>
+        <FunWheel />
+      </section>
+      {/* The gutter pixel trail (home-v2/GutterPixels) is switched off for now.
+          The card fill dial (home-v2/CardFillDial) is hidden; render it here to bring it back. */}
     </div>
   );
 }

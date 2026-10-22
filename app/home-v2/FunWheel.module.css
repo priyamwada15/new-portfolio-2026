@@ -1,0 +1,145 @@
+/* The fun-projects wheel (FunWheel.tsx). Cards are absolutely placed at the
+   top centre of the stage; FunWheel moves each one along the wheel's rim. */
+.stage {
+  --card-w: min(480px, 72vw);
+  /* Gap between neighbouring cards at the top of the wheel (about 176px between a
+     card and its tilted neighbour, as in the reference); tighter on phones so the
+     neighbours peek in */
+  --card-gap: 240px;
+  position: relative;
+  /* The top card, its title row and room for the side cards dropping lower */
+  height: calc(var(--card-w) + 160px);
+  /* Vertical swipes still scroll the page; horizontal ones turn the wheel */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Open hand over the wheel, closed while it's held (set by FunWheel) */
+.stage,
+.stage * {
+  cursor: grab;
+}
+
+.stage[data-grabbing],
+.stage[data-grabbing] * {
+  cursor: grabbing;
+}
+
+.card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--card-w);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: inherit;
+  text-decoration: none;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card:focus-visible {
+  outline: none;
+}
+
+.card:focus-visible .media {
+  outline: 2px solid var(--ds-text-ink);
+  outline-offset: 4px;
+}
+
+.media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 24px;
+  /* Same stroke as the case study cards */
+  border: 1px solid var(--ds-border-card);
+  background: var(--ds-surface-demo-card);
+  box-shadow:
+    0 1px 2px rgba(17, 17, 17, 0.06),
+    0 12px 32px rgba(17, 17, 17, 0.08);
+  pointer-events: none;
+}
+
+/* Title and tags, only on the card at the top: they fade in as it arrives */
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  opacity: var(--focus, 0);
+  transform: translateY(calc((1 - var(--focus, 0)) * 6px));
+}
+
+.title {
+  font-family: var(--font-hind), sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ds-text-ink);
+}
+
+.tags {
+  display: flex;
+  flex: none;
+  gap: 8px;
+}
+
+.tag {
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ds-footer-bg) 28%, var(--ds-surface-home));
+  color: var(--ds-footer-ink);
+  font-family: var(--font-hind), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+/* Announces the project at the top to screen readers */
+.status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 743px) {
+  .stage {
+    --card-gap: 32px;
+    height: calc(var(--card-w) + 128px);
+  }
+
+  .card {
+    gap: 16px;
+  }
+
+  .meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+/* Reduced motion: no rise or growth, the wheel fades in the first time it's on screen */
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+
+  .stage[data-entered] {
+    opacity: 1;
+  }
+}

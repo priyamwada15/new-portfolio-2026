@@ -360,11 +360,14 @@
   overflow: visible !important;
 }
 
-/* No hover lift: the coded UI sits outside the link and wouldn't move with it
-   (overrides .home-v2-main-card:hover in globals.css) */
+/* No hover lift: the coded UI sits outside the link and wouldn't move with it.
+   No hover z-index either: the link is a grid item, so z-index applies, and it
+   would lift the card's fill over the demo (both override .home-v2-main-card:hover
+   in globals.css) */
 .card,
 .card:hover {
   transform: none;
+  z-index: auto;
 }
 
 .card:focus-visible {
@@ -411,14 +414,17 @@
   text-wrap: pretty;
 }
 
-/* The card the coded UI sits on; its backdrop is CaseBackdrop.module.css. The demo
-   stage (704×520) sits in it at true size, so the UI never grows with the card. */
+/* The plain card the coded UI sits on. The demo stage (704×520) sits in it at
+   true size, so the UI never grows with the card. */
 .cardMedia {
   position: relative;
   width: 100%;
   aspect-ratio: 1008 / 575;
   border-radius: var(--ds-radius-container);
   overflow: hidden;
+  /* --home-card-* come from the dev-only CardFillDial */
+  background: var(--home-card-fill, var(--ds-surface-demo-card));
+  border: 1px solid var(--home-card-stroke, var(--ds-border-card));
 }
 
 /* The coded demo, over the card. !important beats the site-wide rule that
@@ -441,5 +447,54 @@
 @media (max-width: 767px) {
   .mediaInset {
     padding: 20px 16px 12px;
+  }
+}
+
+/* "Things I've built for fun" (FunWheel): full width, so the side cards on the
+   wheel run off the edges of the screen */
+.fun {
+  padding: 160px 0 40px;
+  overflow-x: clip;
+}
+
+.funHeading {
+  margin: 0 0 56px;
+  padding: 0 24px;
+  /* A step below the hero headline (56px), so it reads as a section of the homepage */
+  font-size: 48px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* The headline rises and grows in with the cards, the first time the section is on
+   screen (FunWheel sets data-entered on the section) */
+.funHeading {
+  transition:
+    opacity 700ms ease-out,
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fun:not([data-entered]) .funHeading {
+  opacity: 0;
+  transform: translateY(40px) scale(0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fun:not([data-entered]) .funHeading {
+    transform: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .fun {
+    padding-top: 120px;
+  }
+
+  .funHeading {
+    margin-bottom: 40px;
+    font-size: 32px;
   }
 }

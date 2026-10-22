@@ -17,6 +17,11 @@
   --tx-ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* Frosted surfaces: the scene shows through softly instead of stark white */
   --tx-surface: rgba(255, 255, 255, 0.92);
+  /* One radius per kind of shape: cards and panels, controls (buttons, fields),
+     and the modal, whose 16px wraps its 8px fields */
+  --tx-radius: 12px;
+  --tx-radius-control: 8px;
+  --tx-radius-modal: 16px;
   --tx-surface-blur: blur(12px) saturate(1.2);
 
   font-family: var(--font-inter), sans-serif;
@@ -72,7 +77,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 8px 8px 16px;
-  border-radius: 12px;
+  border-radius: var(--tx-radius);
   background: var(--tx-surface);
   -webkit-backdrop-filter: var(--tx-surface-blur);
   backdrop-filter: var(--tx-surface-blur);
@@ -100,7 +105,7 @@
   gap: 8px;
   padding: 8px 16px;
   border: 1px solid var(--tx-button-border);
-  border-radius: 8px;
+  border-radius: var(--tx-radius-control);
   background: #fff;
   color: var(--tx-value);
   font: inherit;
@@ -119,7 +124,7 @@
     box-shadow 300ms ease,
     translate 300ms var(--tx-ease);
   border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
+  border-radius: var(--tx-radius);
   background: var(--tx-surface);
   -webkit-backdrop-filter: var(--tx-surface-blur);
   backdrop-filter: var(--tx-surface-blur);
@@ -420,7 +425,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-radius: 12px 12px 4px 12px;
+  border-radius: var(--tx-radius);
   background: var(--tx-surface);
   -webkit-backdrop-filter: var(--tx-surface-blur);
   backdrop-filter: var(--tx-surface-blur);
@@ -508,7 +513,7 @@
   padding: 24px;
   box-sizing: border-box;
   border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 16px;
+  border-radius: var(--tx-radius-modal);
   background: rgba(255, 255, 255, 0.92);
   -webkit-backdrop-filter: blur(20px) saturate(1.2);
   backdrop-filter: blur(20px) saturate(1.2);
@@ -587,7 +592,7 @@
   gap: 4px;
   padding: 8px 12px;
   border: 1px solid var(--tx-border);
-  border-radius: 8px;
+  border-radius: var(--tx-radius-control);
   font-size: 14px;
   font-weight: 500;
   line-height: 19.3px;
@@ -605,7 +610,7 @@
   gap: 12px;
   padding: 16px;
   border: 1px solid var(--tx-border);
-  border-radius: 8px;
+  border-radius: var(--tx-radius-control);
   background: #fafafa;
 }
 
@@ -665,7 +670,7 @@
   gap: 8px;
   padding: 8px 16px;
   border: 1px solid var(--tx-button-border);
-  border-radius: 37px;
+  border-radius: var(--tx-radius-control);
   background: #fff;
   color: var(--tx-value);
   font: inherit;
@@ -692,7 +697,7 @@
   padding: 8px 12px;
   box-sizing: border-box;
   border: 1px solid var(--tx-border);
-  border-radius: 8px;
+  border-radius: var(--tx-radius-control);
   background: #fff;
   color: var(--tx-value);
   font: inherit;
@@ -744,7 +749,7 @@
 .cancel {
   background: none;
   padding: 6px 24px;
-  border-radius: 24px;
+  border-radius: var(--tx-radius-control);
   font-size: 14px;
   font-weight: 500;
   line-height: 22px;
@@ -755,7 +760,7 @@
 .submit {
   position: relative;
   padding: 6px 24px;
-  border-radius: 8px;
+  border-radius: var(--tx-radius-control);
   background: var(--tx-purple);
   color: #fff;
   font-size: 14px;

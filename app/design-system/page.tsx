@@ -3,8 +3,6 @@ import type { CSSProperties } from "react";
 import TableOfContents, { TocItem } from "../components/TableOfContents";
 import SectionLabel from "../components/SectionLabel";
 import { LiquidButton } from "../components/animate-ui/liquid-button";
-import { backdropStyle, CASE_BACKDROPS } from "../components/caseBackdrop";
-import backdrop from "../components/CaseBackdrop.module.css";
 import {
   caseStudyHeadline,
   caseStudyH2,
@@ -265,7 +263,7 @@ export default function DesignSystemPage() {
         <h1 className={caseStudyHeadline}>The Workbench</h1>
         <p className="mt-6 max-w-[560px] text-[16px] leading-relaxed text-secondary">
           A quiet grayscale base with two colors of its own, a rose and an
-          olive, that show up wherever my work does. This page documents the
+          olive, each with its own job. This page documents the
           tokens, type, elevation and components behind priyamwada.me, and
           it&rsquo;s built from the same design system it describes.
         </p>
@@ -277,10 +275,11 @@ export default function DesignSystemPage() {
         <div className="flex flex-col gap-24 md:gap-28">
           <Section id="overview" tag="01 · Overview" title="Built around the work">
             <p className={caseStudyBody}>
-              Most of the site is ink and off-white. The two colors I keep for
-              myself sit around the work: olive behind the live demos, and rose
-              wherever I want you to look next, like a section tag, the active
-              link in the nav or the edge of a demo&rsquo;s backdrop. The
+              Most of the site is ink and off-white, and the work sits on plain
+              cards so the product UI does the talking. Olive is where the
+              site shows some personality, on the license card up top and the
+              footer at the bottom. Rose marks wherever I want you to look
+              next, like a section tag or the active link in the nav. The
               products I worked on keep their own colors, but only inside their
               logos and their UI.
             </p>
@@ -288,7 +287,7 @@ export default function DesignSystemPage() {
               {[
                 "Grayscale first: text and chrome live in ink, charcoal and off-white.",
                 "One accent across every case study: rose, used the same way on every page so it starts to mean something.",
-                "Olive and rose belong to the backdrop behind the coded demos, the one place the site gets colorful.",
+                "Olive belongs to the license card and the footer, the parts of the page that are just me.",
                 "Paper-thin depth: shadows sit at 5% opacity or less, so you feel them before you see them.",
                 "Figtree carries headlines, body and labels. DM Mono only shows up for code and terminal text.",
                 "Motion leans on physical fill and spring response.",
@@ -327,12 +326,12 @@ export default function DesignSystemPage() {
               <ColorSwatch
                 name="Rose"
                 hex="#c02b53"
-                note="The case study accent for section tags, markers and highlights. Also the active nav link, the cursor, the hover ring on interactive widgets and the edge of the demo backdrop."
+                note="The case study accent for section tags, markers and highlights. Also the active nav link, the cursor, tooltips and the hover ring on interactive widgets."
               />
               <ColorSwatch
                 name="Olive"
                 hex="#bfb74c"
-                note="The center of the demo backdrop, and the license card in the hero."
+                note="The license card in the hero and the site footer."
               />
             </ColorGroup>
 
@@ -356,8 +355,8 @@ export default function DesignSystemPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               <RuleCallout name="The Two Color Rule">
                 Rose and olive are the only colors the site uses on its own
-                chrome. Rose marks where to look and olive sits behind the
-                work. If something new needs color, it uses one of these two
+                chrome. Rose marks where to look and olive carries the
+                personality. If something new needs color, it uses one of these two
                 before I add a third.
               </RuleCallout>
               <RuleCallout name="The Product Color Rule">
@@ -520,18 +519,16 @@ export default function DesignSystemPage() {
 
             <div>
               <p className="font-label text-[11px] font-semibold uppercase tracking-[0.08em] text-muted mb-4">
-                Demo backdrop
+                Demo card
               </p>
               <div
-                className={`h-56 rounded-[24px] ${backdrop.backdrop}`}
-                style={backdropStyle(CASE_BACKDROPS.rocket)}
+                className="h-56 rounded-[24px] border border-[var(--ds-border-card)] bg-[var(--ds-surface-demo-card)]"
                 aria-hidden
               />
               <p className="mt-3 text-[13px] leading-relaxed text-muted">
-                The live demos on the homepage cards and case study heroes sit
-                on an olive to rose gradient with a fine speckle. The dark flecks
-                take the color beneath them. Each case study shifts the olive
-                center a little, so the three read as a set.
+                The live demos on the homepage and at the top of each case study
+                sit on this plain card, a light gray fill with a hairline
+                stroke, so the product UI is the only thing with color.
               </p>
             </div>
           </Section>

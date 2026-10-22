@@ -38,14 +38,14 @@ type TooltipContentProps = Omit<TooltipContentPrimitiveProps, "asChild"> & {
 function TooltipContent({ className, children, layout = "preserve-aspect", ...props }: TooltipContentProps) {
   return (
     <TooltipContentPrimitive
-      className={cn("z-50 w-fit bg-[#111111] text-white rounded-md", className)}
+      className={cn("z-50 w-fit bg-[var(--ds-tooltip-bg)] text-[var(--ds-tooltip-fg)] rounded-md", className)}
       {...props}
     >
-      <motion.div className="overflow-hidden px-3 py-1.5 text-xs text-balance" style={{ fontFamily: "var(--font-hind), sans-serif", color: "#fafafa" }}>
+      <motion.div className="overflow-hidden px-3 py-1.5 text-xs text-balance" style={{ fontFamily: "var(--font-hind), sans-serif", color: "var(--ds-tooltip-fg)" }}>
         <motion.div layout={layout}>{children}</motion.div>
       </motion.div>
       <TooltipArrowPrimitive
-        className="fill-[#111111] size-3 data-[side='bottom']:translate-y-[1px] data-[side='right']:translate-x-[1px] data-[side='left']:translate-x-[-1px] data-[side='top']:translate-y-[-1px]"
+        className="fill-[var(--ds-tooltip-bg)] size-3 data-[side='bottom']:translate-y-[1px] data-[side='right']:translate-x-[1px] data-[side='left']:translate-x-[-1px] data-[side='top']:translate-y-[-1px]"
         tipRadius={2}
       />
     </TooltipContentPrimitive>

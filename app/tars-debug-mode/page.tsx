@@ -3,7 +3,7 @@ import CaseStudyLayout from "../components/CaseStudyLayout";
 import AutoPauseVideo from "../components/AutoPauseVideo";
 import { DebugChatPreview } from "../components/DebugChatPreview";
 import ScaleToFit from "../components/ScaleToFit";
-import { CASE_BACKDROPS } from "../components/caseBackdrop";
+import { CaseStudyDemoCard } from "../components/CaseStudyDemoCard";
 import { DebugModeEmbed } from "../home-v2/DebugModeEmbed";
 import { SectionHeader } from "../components/CaseStudySections";
 import {
@@ -92,9 +92,14 @@ export default function DebugModePage() {
       accentLight="var(--ds-case-study-accent-light)"
       bodyBackgroundColor={CASE_STUDY_PAGE_BG}
       headlineClassName={caseStudyTitle}
-      logos={[{ src: "/logos/tars.svg", lightSrc: "/logos/tars-light.svg", alt: "TARS" }]}
+      logos={[{ src: "/logos/tars.svg", alt: "TARS" }]}
       headline="Designing an internal debugger that cut troubleshooting time by ~70%"
-      heroDemo={{ demo: <DebugModeEmbed />, backdrop: CASE_BACKDROPS.debugMode }}
+      reverseHeaderOrder
+      heroVisual={
+        <CaseStudyDemoCard>
+          <DebugModeEmbed />
+        </CaseStudyDemoCard>
+      }
       meta={{
         timeline: "Oct 2022",
         industry: "B2B SaaS",

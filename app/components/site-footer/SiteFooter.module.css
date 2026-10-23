@@ -18,6 +18,30 @@
   visibility: visible;
 }
 
+/* Where scroll-driven animations are supported, the footer's opacity follows the scroll
+   itself instead of script, which always runs a beat behind a fast scroll in either
+   direction. It's fully transparent until the page's bottom edge is about to reach the
+   screen (96px early, so the sheet's 80px rounded corners already show olive through their
+   cut-outs), then opaque, frame-accurate. A scroll that outruns the browser's drawing of
+   the page then shows white, never the footer. */
+@supports (animation-timeline: view()) {
+  .footer {
+    visibility: visible;
+    animation: footerUncover linear both;
+    animation-timeline: --footer-reveal;
+    animation-range: entry -96px entry -95px;
+  }
+}
+
+@keyframes footerUncover {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .panel {
   --u: min(1px, 100cqw / 1440);
   --inset: calc(32 * var(--u));

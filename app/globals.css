@@ -862,6 +862,13 @@ body {
   position: relative;
   z-index: 0;
   pointer-events: none;
+  /* The site footer's opacity follows this strip entering the screen (SiteFooter.module.css) */
+  view-timeline: --footer-reveal block;
+}
+
+/* The footer is fixed outside the scroll layer, so the reveal timeline is shared from body */
+body {
+  timeline-scope: --footer-reveal;
 }
 
 /* ─── Creative License lightbox ─────────────────────────────────────────── */

@@ -1,11 +1,16 @@
 /* The fun-projects wheel (FunWheel.tsx). Cards are absolutely placed at the
    top centre of the stage; FunWheel moves each one along the wheel's rim. */
 .stage {
-  --card-w: min(480px, 72vw);
-  /* Gap between neighbouring cards at the top of the wheel (about 176px between a
-     card and its tilted neighbour, as in the reference); tighter on phones so the
-     neighbours peek in */
-  --card-gap: 240px;
+  /* Fluid: 480px on desktop, no taller than 60% of a short laptop screen, and 64% of the
+     width on phones (below) */
+  --card-w: min(480px, 72vw, 60svh);
+  /* Gap between neighbouring cards at the top of the wheel: half a card (about 176px between
+     a card and its tilted neighbour, as in the reference), but never so wide that the
+     neighbours lose a 24px sliver at the screen edge, so the wheel still reads as swipeable
+     on tablets and phones */
+  --card-gap: min(var(--card-w) / 2, (100vw - var(--card-w)) / 2 - 24px);
+  /* Resolves --card-gap to px for FunWheel.tsx to read (no visual effect on this block) */
+  column-gap: var(--card-gap);
   position: relative;
   /* The top card, its title row and room for the side cards dropping lower */
   height: calc(var(--card-w) + 160px);
@@ -111,9 +116,10 @@
   white-space: nowrap;
 }
 
+/* Phones: a slightly smaller card with more room around it */
 @media (max-width: 743px) {
   .stage {
-    --card-gap: 32px;
+    --card-w: 64vw;
     height: calc(var(--card-w) + 128px);
   }
 

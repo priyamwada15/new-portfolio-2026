@@ -66,12 +66,12 @@ export function FunWheel() {
   // Entrance progress, 0 (cards below, small and hidden) to 1 (in place)
   const enter = useRef(1);
 
-  /** Width of a card plus the gap to the next one (--card-gap in FunWheel.module.css), in px. */
+  /** Width of a card plus the gap to the next one (--card-gap in FunWheel.module.css, resolved to px through column-gap). */
   const slotWidth = () => {
     const stage = stageRef.current;
     if (!stage) return 600;
     const cardW = stage.querySelector<HTMLElement>(`.${styles.card}`)?.offsetWidth ?? 520;
-    return cardW + (parseFloat(getComputedStyle(stage).getPropertyValue("--card-gap")) || 0);
+    return cardW + (parseFloat(getComputedStyle(stage).columnGap) || 0);
   };
 
   /** Places every card for the current wheel position. */

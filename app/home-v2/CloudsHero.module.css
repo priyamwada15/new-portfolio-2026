@@ -4,15 +4,19 @@
   /* The hero shrinks to the screen height so the first case study always peeks in below the headline */
   /* Space between the nav and the card, and between the card and the headline; the --hero-* values come from the dev-only HeroDial */
   --hero-space: var(--hero-top-gap, 48px);
-  --card-gap: var(--hero-card-gap, 56px);
-  /* Each headline line has its own size, weight and colour */
-  --title-size-1: 52px;
-  --title-leading-1: 40px;
+  /* 48px plus the first line's extra leading reads as the 56px gap it was at 52/40 */
+  --card-gap: var(--hero-card-gap, 48px);
+  /* Each headline line has its own size, weight and colour. Sizes are fluid (cqw is the hero's
+     width): the first line is about 15.3em wide, so it scales to fit the content width on one
+     line, from 28px on phones (where it wraps to two) up to 52px; the second goes 16px to 20px. */
+  --title-size-1: clamp(28px, (100cqw - 32px) / 15.6, 52px);
+  --title-leading-1: calc(var(--title-size-1) * 1.1);
   /* --hero-title-size-2 / --hero-title-color-2 come from the dev-only HeroDial */
-  --title-size-2: var(--hero-title-size-2, 20px);
+  --title-size-2: var(--hero-title-size-2, clamp(16px, 12px + 1.05cqw, 20px));
   --title-color-2: var(--hero-title-color-2, var(--ds-text-tertiary));
-  --title-leading-2: 28px;
-  --title-gap: 24px;
+  --title-leading-2: calc(var(--title-size-2) * 1.4);
+  /* 16px plus the extra leading reads as the 24px it was at 52/40 */
+  --title-gap: 16px;
   /* How many lines each sentence wraps to (set per breakpoint below). The headline's height is
      worked out here, not measured, so the card is the right size on the first paint. */
   --title-lines-1: 1;
@@ -68,15 +72,13 @@
   color: var(--ds-text-primary);
 }
 
-/* Two set lines on wider screens; phones wrap naturally */
-@media (min-width: 640px) {
-  .line {
-    display: block;
-  }
+/* Two set lines at every size: the first says what, the second gives the evidence */
+.line {
+  display: block;
+}
 
-  .line + .line {
-    margin-top: var(--title-gap);
-  }
+.line + .line {
+  margin-top: var(--title-gap);
 }
 
 /* ── Appear on load ─────────────────────────────────────── */
@@ -144,34 +146,38 @@
   transition: translate 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* The 52px first line needs 828px of screen to fit on one line */
-@media (max-width: 827px) {
+/* Phones: the second sentence wraps to three lines, and the first line hits its 28px floor and
+   wraps to two (widths measured in headless Chrome) */
+@media (max-width: 457px) {
+  .hero {
+    --title-lines-2: 3;
+  }
+}
+
+@media (max-width: 455px) {
   .hero {
     --title-lines-1: 2;
   }
 }
 
-/* Headline steps down below the tablet breakpoint; the second sentence wraps to about three lines */
-@media (max-width: 743px) {
+/* The smallest phones (320px): the second sentence takes four lines */
+@media (max-width: 359px) {
   .hero {
-    --title-size-1: 24px;
-    --title-leading-1: 32px;
-    --title-size-2: 24px;
-    --title-leading-2: 32px;
-    --title-lines-1: 1;
-    --title-lines-2: 3;
+    --title-lines-2: 4;
   }
 }
 
 @media (max-width: 639px) {
   .hero {
     --cloud-scale: 0.55;
-    /* Room for the card's "tap to flip" hint between card and headline */
-    --card-gap: 64px;
-    /* Phones run both sentences as one paragraph of about six lines, with no gap between them */
-    --title-gap: 0px;
-    --title-lines-1: 0;
-    --title-lines-2: 6;
+  }
+}
+
+/* Touch screens show the card's "tap to flip" hint (HeroLicenseCard), so leave room for it
+   between the card and the headline */
+@media (hover: none) {
+  .hero {
+    --card-gap: var(--hero-card-gap, 64px);
   }
 }
 

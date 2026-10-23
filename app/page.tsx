@@ -90,7 +90,7 @@ export default function HomePage() {
         <FunWheel />
       </section>
       {/* The gutter pixel trail (home-v2/GutterPixels) is switched off for now.
-          The card fill dial (home-v2/CardFillDial) is hidden; render it here to bring it back. */}
+          The card fill dial (home-v2/CardFillDial) and hero dial (home-v2/HeroDial) are hidden; render them here to bring them back. */}
     </div>
   );
 }

@@ -2,13 +2,23 @@
 
 Started 2026-10-16 after Geoff Keehan's (ex-VP Design, Meta) review on `/dive`: the portfolio reads as generic, the hero says little, the Adtua thumbnail isn't a hook, the Asimov and Rocket Mortgage card videos are hard to read, and the page has too many similar text and button styles.
 
-## Locked hero headline (2026-10-19)
+## Locked hero headline (2026-10-23)
 
-> **I make complicated systems clear enough to act on.**
+> **I design agentic and B2B products. Lately that’s meant AI assistants for mortgage clients, agent builders for enterprise teams and a multi-role ad marketplace.**
 
-This is the only text in the hero, under the creative license card. Set as two lines on desktop: "I make complicated systems / clear enough to act on." It's 56px/60px medium, stepping down to 32px/36px below the tablet breakpoint (744px).
+This is the only text in the hero, under the creative license card. Each sentence starts its own line on desktop, and the second wraps within a 1008px measure. On desktop the first line is 52px/40px medium in `--ds-text-primary`, the second is 20px/28px regular in `--ds-text-secondary`, with a 24px gap between them. Both step down to 24px/32px below the tablet breakpoint (744px). The license card sits 48px below the nav's reserved space and 56px above the headline. It fits itself to the screen height so the first case study peeks in, up to 560px wide. A dev-only DialKit panel (`home-v2/HeroDial`, hidden; render it in `app/page.tsx` to bring it back) tunes the card width and both gaps.
 
 Why this line:
+- The Oct 19 line said how she works but gave no context about what she designs. The first sentence names it, and the second backs it up with the actual projects, the way the reference portfolios (Tushar, Yutong) pair a role line with evidence.
+- "Agentic" stands in for "AI", which reads as keyword-stuffy on its own.
+- "Agentic and B2B" are two separate words so every project fits one of them: Rocket Assist is agentic but B2C, Adtua is B2B with no agents, and Asimov and Debug Mode are both.
+- "Usually the only designer in the room" from her elevator pitch belongs on the About page.
+
+## Previous headline (2026-10-19, replaced)
+
+> I make complicated systems clear enough to act on.
+
+Set as two lines at 56px/60px. Why it was chosen then:
 - It covers all four projects: Rocket Assist's sourced cards, Asimov's setup, controls and answer verification, Debug Mode stopping on the broken node, and the Heartland ad marketplace. The earlier "answer"-based options left out Asimov's setup side and the marketplace.
 - "AI" is left out on purpose, since it can read as gimmicky. The case study tags ("AI Assistant") carry it, and they're visible in the peek below the hero.
 - "B2B" is left out because the first case study, Rocket Mortgage, is B2C.

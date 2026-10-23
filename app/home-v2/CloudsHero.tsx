@@ -18,8 +18,8 @@ const CLOUDS = [
 
 /** Headline, one array per set line; each word rises in on load, in order. */
 const TITLE_LINES = [
-  ["I", "make", "complicated", "systems"],
-  ["clear", "enough", "to", "act", "on."],
+  ["I", "design", "agentic", "and", "B2B", "products."],
+  "Lately that’s meant AI assistants for mortgage clients, agent builders for enterprise teams and a multi-role ad marketplace.".split(" "),
 ];
 
 /**
@@ -29,6 +29,16 @@ const TITLE_LINES = [
 export function CloudsHero() {
   const heroRef = useRef<HTMLElement>(null);
   useHeadlinePush(heroRef);
+
+  // The card's height leaves room for the headline, however many lines it wraps to.
+  useEffect(() => {
+    const hero = heroRef.current;
+    const title = hero?.querySelector("h1");
+    if (!hero || !title) return;
+    const observer = new ResizeObserver(() => hero.style.setProperty("--title-h", `${title.offsetHeight}px`));
+    observer.observe(title);
+    return () => observer.disconnect();
+  }, []);
 
   // Clouds lean a little toward the cursor.
   useEffect(() => {
@@ -71,7 +81,7 @@ export function CloudsHero() {
             {l > 0 && " "}
             <span className={styles.line}>
               {line.map((word, w) => (
-                <Fragment key={word}>
+                <Fragment key={w}>
                   {w > 0 && " "}
                   <span className={styles.word} data-push-word style={{ "--i": TITLE_LINES[0].length * l + w } as CSSProperties}>
                     {word}

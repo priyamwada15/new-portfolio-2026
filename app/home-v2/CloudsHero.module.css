@@ -2,15 +2,21 @@
 
 .hero {
   /* The hero shrinks to the screen height so the first case study always peeks in below the headline */
-  --hero-space: 32px;
-  --title-size: 56px;
-  --title-leading: 60px;
+  /* Space between the nav and the card, and between the card and the headline; the --hero-* values come from the dev-only HeroDial */
+  --hero-space: var(--hero-top-gap, 48px);
+  --card-gap: var(--hero-card-gap, 56px);
+  /* Each headline line has its own size, weight and colour */
+  --title-size-1: 52px;
+  --title-leading-1: 40px;
+  --title-size-2: 20px;
+  --title-leading-2: 28px;
+  --title-gap: 24px;
   --case-study-peek: 140px;
-  /* Height left for the license card: screen minus nav, spacing, the two-line headline, the
-     case studies' 72px top padding (home.module.css) and the peek */
+  /* Height left for the license card: screen minus nav, spacing, the headline (--title-h is
+     measured in CloudsHero), the case studies' 72px top padding (home.module.css) and the peek */
   --card-h: calc(
-    100svh - var(--site-nav-space) - 2 * var(--hero-space) - 2 * var(--title-leading) - 32px - 72px -
-      var(--case-study-peek)
+    100svh - var(--site-nav-space) - var(--hero-space) - var(--card-gap) - var(--title-h, 3 * var(--title-leading-2)) -
+      32px - 72px - var(--case-study-peek)
   );
   position: relative;
   width: 100%;
@@ -20,7 +26,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--hero-space);
+  gap: var(--card-gap);
   text-align: center;
   overflow: hidden;
   container-type: inline-size;
@@ -29,26 +35,38 @@
 .card {
   position: relative;
   z-index: 1;
-  /* 1.568 is the license card's width-to-height ratio */
-  width: min(86cqw, max(280px, min(560px, var(--card-h) * 1.568)));
+  /* 1.568 is the license card's width-to-height ratio. --hero-card-w (dev-only HeroDial) replaces the fit to the screen height. */
+  width: min(86cqw, var(--hero-card-w, max(280px, min(560px, var(--card-h) * 1.568))));
 }
 
 .title {
   position: relative;
   z-index: 1;
+  max-width: 1008px;
   margin: 0;
-  font-size: var(--title-size);
-  line-height: var(--title-leading);
-  font-weight: 500;
+  font-size: var(--title-size-2);
+  line-height: var(--title-leading-2);
+  font-weight: 400;
   letter-spacing: -0.025em;
-  color: var(--ds-text-primary);
+  color: var(--ds-text-secondary);
   text-wrap: balance;
+}
+
+.line:first-child {
+  font-size: var(--title-size-1);
+  line-height: var(--title-leading-1);
+  font-weight: 500;
+  color: var(--ds-text-primary);
 }
 
 /* Two set lines on wider screens; phones wrap naturally */
 @media (min-width: 640px) {
   .line {
     display: block;
+  }
+
+  .line + .line {
+    margin-top: var(--title-gap);
   }
 }
 
@@ -120,8 +138,10 @@
 /* Headline steps down below the tablet breakpoint */
 @media (max-width: 743px) {
   .hero {
-    --title-size: 32px;
-    --title-leading: 36px;
+    --title-size-1: 24px;
+    --title-leading-1: 32px;
+    --title-size-2: 24px;
+    --title-leading-2: 32px;
   }
 }
 
@@ -129,7 +149,7 @@
   .hero {
     --cloud-scale: 0.55;
     /* Room for the card's "tap to flip" hint between card and headline */
-    gap: 64px;
+    --card-gap: 64px;
   }
 }
 

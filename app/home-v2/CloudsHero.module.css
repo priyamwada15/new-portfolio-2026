@@ -8,7 +8,9 @@
   /* Each headline line has its own size, weight and colour */
   --title-size-1: 52px;
   --title-leading-1: 40px;
-  --title-size-2: 20px;
+  /* --hero-title-size-2 / --hero-title-color-2 come from the dev-only HeroDial */
+  --title-size-2: var(--hero-title-size-2, 20px);
+  --title-color-2: var(--hero-title-color-2, var(--ds-text-tertiary));
   --title-leading-2: 28px;
   --title-gap: 24px;
   /* How many lines each sentence wraps to (set per breakpoint below). The headline's height is
@@ -55,7 +57,7 @@
   line-height: var(--title-leading-2);
   font-weight: 400;
   letter-spacing: -0.025em;
-  color: var(--ds-text-secondary);
+  color: var(--title-color-2);
   text-wrap: balance;
 }
 

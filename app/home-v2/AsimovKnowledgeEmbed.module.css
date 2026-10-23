@@ -22,7 +22,10 @@
   --tx-radius: 12px;
   --tx-radius-control: 8px;
   --tx-radius-modal: 16px;
-  --tx-surface-blur: blur(12px) saturate(1.2);
+  /* No backdrop blur on the header, rows and reply: they only sit on the flat card, where a
+     blur changes no pixels but still costs GPU work. Was blur(12px) saturate(1.2). The modal
+     keeps its own blur, since it sits over the rows. */
+  --tx-surface-blur: none;
 
   font-family: var(--font-inter), sans-serif;
   color: var(--tx-value);

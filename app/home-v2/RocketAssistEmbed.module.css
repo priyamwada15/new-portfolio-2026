@@ -18,7 +18,9 @@
   /* White bubbles, so they stand out from the light grey card they sit on */
   --ra-bubble-glass: rgba(255, 255, 255, 0.96);
   --ra-ink-glass: rgba(17, 17, 17, 0.9);
-  --ra-glass-blur: blur(12px) saturate(1.2);
+  /* No backdrop blur: the bubbles only ever sit on the flat card, where a blur changes no
+     pixels but still costs GPU work on every frame. Was blur(12px) saturate(1.2). */
+  --ra-glass-blur: none;
 
   font-family: var(--font-inter), sans-serif;
   color: var(--ra-ink);

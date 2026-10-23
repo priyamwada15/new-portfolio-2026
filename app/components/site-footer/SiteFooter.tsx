@@ -107,7 +107,8 @@ export default function SiteFooter() {
     };
   }, []);
 
-  // Hidden (and out of the tab order) until the end of the page is on screen
+  // Painted once the end of the page is within a screen of view, and inert (no clicks, out of
+  // the tab order and the accessibility tree) until it's on screen
   useEffect(() => {
     const footer = footerRef.current;
     const sentinel = document.getElementById(REVEAL_SENTINEL_ID);
@@ -116,7 +117,10 @@ export default function SiteFooter() {
     const sync = () => {
       raf = 0;
       const top = sentinel.getBoundingClientRect().top;
-      footer.toggleAttribute("data-visible", top <= window.innerHeight);
+      const visible = top <= window.innerHeight;
+      footer.toggleAttribute("data-painted", top <= window.innerHeight * 2);
+      footer.toggleAttribute("data-visible", visible);
+      footer.inert = !visible;
       // How much of the footer the page has uncovered, 0 to 1
       const uncovered = (window.innerHeight - top) / footer.offsetHeight;
       if (uncovered >= OPEN_AT) footer.setAttribute("data-open", "");
@@ -143,6 +147,7 @@ export default function SiteFooter() {
       <footer
         ref={footerRef}
         className={styles.footer}
+        inert
         style={{ "--overlap": `${FOOTER_REVEAL_OVERLAP_PX}px` } as CSSProperties}
         aria-label="Site footer"
       >

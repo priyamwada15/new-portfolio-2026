@@ -826,6 +826,17 @@ body {
   box-shadow: var(--home-scroll-sheet-shadow);
 }
 
+/* Smooth (squircle) corners where the browser supports corner-shape; the curve eases in
+   from the straight edges instead of meeting them abruptly. A squircle reads smaller than
+   a circle of the same radius, so the radius scales up (48px → 80px) to keep the corner about the same size. */
+@supports (corner-shape: squircle) {
+  .site-scroll-layer--flip-footer .site-scroll-layer__sheet-surface {
+    corner-shape: squircle;
+    border-bottom-left-radius: calc(var(--home-scroll-sheet-radius-bl) * 5 / 3);
+    border-bottom-right-radius: calc(var(--home-scroll-sheet-radius-br) * 5 / 3);
+  }
+}
+
 .site-scroll-layer--flip-footer .site-scroll-layer__sheet-body,
 .site-scroll-layer--flip-footer .site-scroll-layer__sheet-body * {
   pointer-events: auto;

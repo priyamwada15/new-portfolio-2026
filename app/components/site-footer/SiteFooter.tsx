@@ -161,7 +161,7 @@ export default function SiteFooter() {
 
           <div className={styles.stage}>
             <p className={styles.headline}>
-              <span>Thanks for stopping by!</span> <span>my mailbox is open if you’re hiring.</span>
+              <span>Thanks for stopping by!</span> <span>My mailbox is open if you’re hiring.</span>
             </p>
 
             {STICKERS.map((s, i) => (

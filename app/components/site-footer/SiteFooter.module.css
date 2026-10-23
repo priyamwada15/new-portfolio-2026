@@ -43,7 +43,9 @@
 }
 
 .panel {
-  --u: min(1px, 100cqw / 1440);
+  /* The frame scales to whichever runs out first, the width or the screen height (less the
+     strip hidden under the page sheet), so the whole footer always fits on one screen */
+  --u: min(1px, 100cqw / 1440, (100svh - var(--overlap)) / 650);
   --inset: calc(32 * var(--u));
   --stage-h: 650;
   position: relative;
@@ -122,9 +124,10 @@
   transform: rotate(180deg);
 }
 
+/* The frame, centred: narrower than the panel when the screen height is what limits it */
 .stage {
   position: relative;
-  width: min(100%, 1440px);
+  width: calc(1440 * var(--u));
   height: calc(var(--stage-h) * var(--u));
   margin: 0 auto;
 }
@@ -314,15 +317,16 @@
   position: absolute;
   bottom: 100%;
   left: 50%;
-  margin-bottom: 8px;
+  /* Scales with the frame, so it never runs into the headline on a small one */
+  margin-bottom: calc(8 * var(--u));
   transform: translateX(-50%);
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: calc(4 * var(--u)) calc(10 * var(--u));
+  border-radius: calc(6 * var(--u));
   background: var(--ds-tooltip-bg);
   color: var(--ds-tooltip-fg);
   font-family: var(--font-hind), sans-serif;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: max(10px, calc(12 * var(--u)));
+  line-height: 1.33;
   white-space: nowrap;
 }
 
@@ -332,12 +336,18 @@
   }
 }
 
-/* Phones: the 375×620 layout */
-@media (max-width: 743px) {
+/* Portrait screens up to tablets: the 375×620 layout, scaled to fit the width or the height,
+   whichever runs out first, and at most 1.25× so a tablet's headline stays below the desktop
+   one. Landscape phones keep the wide layout, which suits their shape. */
+@media (max-width: 1023px) and (max-aspect-ratio: 1 / 1) {
   .panel {
-    --u: calc(100cqw / 375);
+    --u: min(1.25px, 100cqw / 375, (100svh - var(--overlap)) / 620);
     --inset: 16px;
     --stage-h: 620;
+  }
+
+  .stage {
+    width: calc(375 * var(--u));
   }
 
   .strip {

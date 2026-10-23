@@ -30,16 +30,6 @@ export function CloudsHero() {
   const heroRef = useRef<HTMLElement>(null);
   useHeadlinePush(heroRef);
 
-  // The card's height leaves room for the headline, however many lines it wraps to.
-  useEffect(() => {
-    const hero = heroRef.current;
-    const title = hero?.querySelector("h1");
-    if (!hero || !title) return;
-    const observer = new ResizeObserver(() => hero.style.setProperty("--title-h", `${title.offsetHeight}px`));
-    observer.observe(title);
-    return () => observer.disconnect();
-  }, []);
-
   // Clouds lean a little toward the cursor.
   useEffect(() => {
     const hero = heroRef.current;

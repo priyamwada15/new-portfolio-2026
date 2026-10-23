@@ -11,12 +11,19 @@
   --title-size-2: 20px;
   --title-leading-2: 28px;
   --title-gap: 24px;
+  /* How many lines each sentence wraps to (set per breakpoint below). The headline's height is
+     worked out here, not measured, so the card is the right size on the first paint. */
+  --title-lines-1: 1;
+  --title-lines-2: 2;
+  --title-h: calc(
+    var(--title-lines-1) * var(--title-leading-1) + var(--title-gap) + var(--title-lines-2) * var(--title-leading-2)
+  );
   --case-study-peek: 140px;
-  /* Height left for the license card: screen minus nav, spacing, the headline (--title-h is
-     measured in CloudsHero), the case studies' 72px top padding (home.module.css) and the peek */
+  /* Height left for the license card: screen minus nav, spacing, the headline, the case
+     studies' 72px top padding (home.module.css) and the peek */
   --card-h: calc(
-    100svh - var(--site-nav-space) - var(--hero-space) - var(--card-gap) - var(--title-h, 3 * var(--title-leading-2)) -
-      32px - 72px - var(--case-study-peek)
+    100svh - var(--site-nav-space) - var(--hero-space) - var(--card-gap) - var(--title-h) - 32px - 72px -
+      var(--case-study-peek)
   );
   position: relative;
   width: 100%;
@@ -135,13 +142,22 @@
   transition: translate 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Headline steps down below the tablet breakpoint */
+/* The 52px first line needs 828px of screen to fit on one line */
+@media (max-width: 827px) {
+  .hero {
+    --title-lines-1: 2;
+  }
+}
+
+/* Headline steps down below the tablet breakpoint; the second sentence wraps to about three lines */
 @media (max-width: 743px) {
   .hero {
     --title-size-1: 24px;
     --title-leading-1: 32px;
     --title-size-2: 24px;
     --title-leading-2: 32px;
+    --title-lines-1: 1;
+    --title-lines-2: 3;
   }
 }
 
@@ -150,6 +166,10 @@
     --cloud-scale: 0.55;
     /* Room for the card's "tap to flip" hint between card and headline */
     --card-gap: 64px;
+    /* Phones run both sentences as one paragraph of about six lines, with no gap between them */
+    --title-gap: 0px;
+    --title-lines-1: 0;
+    --title-lines-2: 6;
   }
 }
 

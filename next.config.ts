@@ -29,6 +29,9 @@ const nextConfig: NextConfig = {
       { source: "/dive/fun", destination: "/dive#fun", permanent: false },
       { source: "/playground", destination: "/#fun", permanent: false },
       { source: "/dive/playground", destination: "/dive#fun", permanent: false },
+      // Salesforce is hidden until it's reworked (app/salesforce still exists); not permanent, so it can come back.
+      { source: "/salesforce", destination: "/", permanent: false },
+      { source: "/dive/salesforce", destination: "/dive", permanent: false },
     ];
   },
   async rewrites() {

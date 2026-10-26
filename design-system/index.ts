@@ -18,6 +18,7 @@ export {
   caseStudyCardLabel,
   caseStudyCardText,
   caseStudyStatNumber,
+  caseStudyVisualTitle,
   visualCaption,
   iterationLabel,
   mediaPanel,

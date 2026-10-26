@@ -15,10 +15,12 @@ const PAINS = [
   },
 ] as const;
 
+/* Visual assets stay neutral (design-system greys), so they don't compete with the page's rose. */
+
 /** Numbered badge tying a spot in the thread to its pain in the list. */
 function Marker({ n }: { n: number }) {
   return (
-    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[var(--accent-dark)] font-label text-[12px] font-semibold text-surface-page">
+    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary font-label text-[12px] font-semibold text-surface-page">
       {n}
     </span>
   );
@@ -85,7 +87,7 @@ export default function ProblemSpaceVisual() {
             <Message person="eng" name="Eng lead" time="10:58 AM" marker={2}>
               <span>Yes, back in March. Let me find the thread&hellip;</span>
               <span className="mt-2 flex w-fit items-center gap-2 rounded-md bg-surface-page px-2 py-1 text-[12px] leading-[18px] text-tertiary">
-                <span className="font-semibold text-[var(--accent-dark)]">64 replies</span>
+                <span className="font-semibold text-primary">64 replies</span>
                 Last reply 5 months ago
               </span>
             </Message>
@@ -113,7 +115,7 @@ export default function ProblemSpaceVisual() {
 
       {/* How might we */}
       <figcaption className={`px-8 text-center max-md:px-0 ${caseStudySubheading}`}>
-        <span className="text-[var(--accent-dark)]">How might we</span>{" "}give startup teams an AI
+        <span className="text-tertiary">How might we</span>{" "}give startup teams an AI
         assistant in Slack that can find answers across their conversations and docs and act in
         their other tools, while they decide what it can see and do?
       </figcaption>

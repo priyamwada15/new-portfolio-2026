@@ -74,6 +74,7 @@ Remove a token when nothing uses it any more. Before you do, search for it as a 
 | `caseStudyHeading` | Section heading (24px semibold) |
 | `caseStudySubheading` | Heading inside a section (18px medium) |
 | `caseStudySectionTagCaps` | Section, release and testimonial tags: the eyebrow in caps, lightly tracked (e.g. "PROBLEM SPACE"). The meta row labels use the same caps and tracking |
+| `caseStudyVisualTitle` | Title on a visual asset (carousel slides, "Early direction / What shipped"): 14px Medium in primary. Visual assets stay neutral, with no rose and no brand colour, so they don't compete with the page accent |
 | `caseStudyEyebrow` | Small accent labels that aren't section tags (stat labels, names) |
 | `caseStudyText` | Body copy, including the line under a stat |
 | `caseStudyRowTitle` | Title above a text + media row |

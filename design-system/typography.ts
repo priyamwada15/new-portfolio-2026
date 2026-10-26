@@ -45,8 +45,9 @@ export const caseStudySubheading =
 export const caseStudyEyebrow =
   "font-label text-[14px] font-semibold leading-[21px] text-[var(--accent-dark)]" as const;
 
-/** Section tag above a section or release heading (e.g. "PROBLEM SPACE"): the eyebrow in caps, lightly tracked. */
-export const caseStudySectionTagCaps = `${caseStudyEyebrow} uppercase tracking-[0.06em]` as const;
+/** Section tag above a section or release heading (e.g. "PROBLEM SPACE"): 12px SemiBold caps, lightly tracked, in the accent. The meta row labels match it. */
+export const caseStudySectionTagCaps =
+  "font-label text-[12px] font-semibold leading-[16px] text-[var(--accent-dark)] uppercase tracking-[0.06em]" as const;
 
 /** Section body copy — 16px. */
 export const caseStudyText =
@@ -67,6 +68,10 @@ export const caseStudyCardText =
 /** Big impact number (e.g. "92%"), shared by every case study's stats. 28px on phones. */
 export const caseStudyStatNumber =
   "font-label text-[32px] font-semibold leading-none text-ink max-md:text-[28px]" as const;
+
+/** Title on a visual asset (e.g. "Knowledge dashboard", "Early direction") — 14px Medium, neutral, the same in every case study. */
+export const caseStudyVisualTitle =
+  "font-label text-[14px] font-medium leading-[22.4px] text-primary" as const;
 
 /** Visual caption under media. */
 export const visualCaption =

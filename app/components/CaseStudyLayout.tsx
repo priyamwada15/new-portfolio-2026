@@ -109,7 +109,7 @@ const MetaGrid = ({
           <>
             {/* All caps, like the section tags */}
             <p
-              className="font-label text-[14px] font-semibold uppercase leading-[21px] tracking-[0.06em]"
+              className="font-label text-[12px] font-semibold uppercase leading-[16px] tracking-[0.06em]"
               style={{ color: accentDark }}
             >
               {item.label}

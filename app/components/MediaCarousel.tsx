@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { caseStudyVisualTitle } from "@/design-system";
 
 /** Salesforce carousel sizes: 790px slides, 24px apart, inside a 1008 column. Full width on phones. */
 const SLIDE_WIDTH = "78.37%";
@@ -82,7 +83,7 @@ export default function MediaCarousel({ slides, label }: { slides: MediaSlide[];
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${slides.length}: ${slide.title}`}
           >
-            <p className="px-6 pb-2 pt-8 max-md:px-4 max-md:pt-4 font-label text-[14px] font-medium leading-[22.4px] text-primary">
+            <p className={`px-6 pb-2 pt-8 max-md:px-4 max-md:pt-4 ${caseStudyVisualTitle}`}>
               {slide.title}
             </p>
             <div className="relative w-full overflow-hidden" style={{ aspectRatio: MEDIA_ASPECT }}>

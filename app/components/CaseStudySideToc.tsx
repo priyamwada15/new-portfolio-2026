@@ -20,9 +20,15 @@ const MIN_TOP_PX = 128;
 /** Marks where the flip-board footer starts revealing (AppChrome). */
 const FOOTER_SENTINEL_ID = "flip-board-reveal-sentinel";
 
+/** The page sheet that lifts away to uncover the footer (AppChrome). */
+const PAGE_SHEET_SELECTOR = ".site-scroll-layer__sheet-surface";
+
+/** The side TOC fades out once the page's bottom edge is this close to its own bottom. */
+const FOOTER_CLEARANCE_PX = 48;
+
 /**
  * Back button + table of contents fixed in the left margin, outside the content column.
- * Slides in when the page loads and stays. Its top follows the element `alignToId` (the
+ * Slides in when the page loads, and out again once the footer reaches it. Its top follows the element `alignToId` (the
  * logos row) until that scrolls above MIN_TOP_PX, then it holds there. A section is
  * active once its top crosses the vertical midpoint of the viewport.
  *
@@ -36,6 +42,8 @@ export function CaseStudySideToc({ items, alignToId }: { items: SideTocItem[]; a
   const [visible, setVisible] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [atFooter, setAtFooter] = useState(false);
+  // The side TOC hides once the page's bottom edge rises past it, so it never sits over the footer
+  const [overFooter, setOverFooter] = useState(false);
   const [contentsOpen, setContentsOpen] = useState(false);
   const asideRef = useRef<HTMLElement>(null);
   const labelBoxRef = useRef<HTMLSpanElement>(null);
@@ -67,6 +75,10 @@ export function CaseStudySideToc({ items, alignToId }: { items: SideTocItem[]; a
       if (anchor && asideRef.current) {
         const top = Math.max(MIN_TOP_PX, anchor.getBoundingClientRect().top);
         asideRef.current.style.top = `${Math.round(top)}px`;
+      }
+      const sheet = document.querySelector(PAGE_SHEET_SELECTOR);
+      if (sheet && asideRef.current) {
+        setOverFooter(sheet.getBoundingClientRect().bottom < asideRef.current.getBoundingClientRect().bottom + FOOTER_CLEARANCE_PX);
       }
       setActiveId(active);
       // Set after the first frame so the slide-in transition plays on load
@@ -123,17 +135,18 @@ export function CaseStudySideToc({ items, alignToId }: { items: SideTocItem[]; a
   if (!isClient) return null;
 
   const barVisible = visible && !atFooter;
+  const sideVisible = visible && !overFooter;
 
   return createPortal(
     <>
       <aside
         ref={asideRef}
         className={styles.root}
-        data-visible={visible || undefined}
+        data-visible={sideVisible || undefined}
         // Fades with the page content during the case study transition (globals.css)
         data-cs-fade
         aria-label="Case study navigation"
-        inert={!visible}
+        inert={!sideVisible}
       >
         <SiteLink href="/" className={`cursor-hover-pointer ${styles.back}`}>
           <ArrowLeft size={14} weight="bold" aria-hidden="true" />

@@ -43,11 +43,11 @@ export const caseStudySubheading =
 
 /** Eyebrow above a section heading (e.g. "Problem Space"). */
 export const caseStudyEyebrow =
-  "font-label text-[14px] font-semibold leading-[21px] text-[var(--accent-dark)]" as const;
+  "font-label text-[14px] font-semibold leading-[21px] text-tertiary" as const;
 
-/** Section tag above a section or release heading (e.g. "PROBLEM SPACE"): 12px SemiBold caps, lightly tracked, in the accent. The meta row labels match it. */
+/** Section tag above a section or release heading (e.g. "PROBLEM SPACE"): 12px SemiBold caps, lightly tracked, in tertiary grey. The meta row labels match it. */
 export const caseStudySectionTagCaps =
-  "font-label text-[12px] font-semibold leading-[16px] text-[var(--accent-dark)] uppercase tracking-[0.06em]" as const;
+  "font-label text-[12px] font-semibold leading-[16px] text-tertiary uppercase tracking-[0.06em]" as const;
 
 /** Section body copy — 16px. */
 export const caseStudyText =

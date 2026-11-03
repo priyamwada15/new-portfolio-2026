@@ -5,7 +5,6 @@
 import {
   caseStudyCardLabel,
   caseStudyCardText,
-  caseStudyEyebrow,
   caseStudySectionTagCaps,
   caseStudyHeading,
   caseStudyRowTitle,
@@ -254,7 +253,7 @@ export function Testimonials({
             </blockquote>
             <figcaption className="flex flex-col gap-1">
               <span className="flex items-center gap-2">
-                <span className={`min-w-0 flex-1 ${caseStudyEyebrow}`}>
+                <span className="min-w-0 flex-1 font-label text-[14px] font-semibold leading-[21px] text-primary">
                   {item.name}
                 </span>
                 <a

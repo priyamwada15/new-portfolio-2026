@@ -399,7 +399,6 @@ export default function DesignSystemPage() {
                 role="Section tag"
                 meta="Figtree · 600 · 14px · caps, 0.06em"
                 className={caseStudySectionTagCaps}
-                style={{ color: "var(--ds-case-study-accent)" }}
               >
                 Problem space
               </TypeSpecimen>

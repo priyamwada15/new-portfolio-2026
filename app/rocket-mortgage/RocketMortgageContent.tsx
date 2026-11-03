@@ -21,7 +21,7 @@ function ProblemCardText({ number, title, text }: { number: string; title: strin
   return (
     <div className="flex w-full flex-col gap-3">
       <p className={`flex gap-2 ${caseStudySubheading}`}>
-        <span className="font-semibold text-[var(--accent-dark)]">{number}</span>
+        <span className="font-semibold text-tertiary">{number}</span>
         <span>{title}</span>
       </p>
       <p className={caseStudyText}>{text}</p>

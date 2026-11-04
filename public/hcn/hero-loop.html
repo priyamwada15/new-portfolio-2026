@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero loop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --tint: #E3E4F9;
+  --tint-card: #F8F8FE;
+  --tint-line: #DADCF5;
+  --avail: #D2D4F6;
+  --accent: #4C4FD1;
+  --wait: #F5BE5B;
+  --ink: #1D1D1F;
+  --muted: #6E6E73;
+  --skel: #E8E8ED;
+  --skel-2: #D2D2D7;
+  --ease: cubic-bezier(.23, 1, .32, 1);
+  --font: "Figtree", -apple-system, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: #fafafa; font-family: var(--font); color: var(--ink); padding: 64px 24px; }
+.hero { max-width: 1008px; margin: 0 auto; }
+
+/* Container: crops the windows at the bottom edge */
+.stage {
+  position: relative;
+  height: 440px;
+  background: #F7F7F7;
+  border: 1px solid #F2F2F2;
+  border-radius: 24px;
+  padding: 32px 32px 0;
+  overflow: hidden;
+}
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+
+/* Windows: tinted outer, white inner */
+.card { height: 520px; display: flex; flex-direction: column; background: var(--tint-card); border: 1px solid #F0F1FF; border-radius: 16px; padding: 8px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.06); transform-origin: 50% 0; }
+.card-head { padding: 8px 16px 12px; font-size: 14px; line-height: 24px; color: var(--muted); }
+.card-body { position: relative; flex: 1; background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.08); overflow: hidden; }
+.live { display: flex; flex-direction: column; gap: 16px; }
+
+/* Skeleton parts */
+.row { display: flex; align-items: center; gap: 12px; }
+.av { width: 32px; height: 32px; border-radius: 6px; background: var(--skel); flex: none; }
+.av.round { border-radius: 999px; }
+.bars { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
+.b { display: block; height: 8px; border-radius: 4px; background: var(--skel); }
+.b.d { background: var(--skel-2); }
+.w80 { width: 80%; } .w60 { width: 60%; } .w40 { width: 40%; }
+.filler { opacity: .6; }
+.chip-budget { background: #F1F1FC; color: var(--accent); font-size: 14px; line-height: 24px; font-weight: 500; padding: 0 12px; border-radius: 999px; flex: none; }
+
+/* Wallet */
+.well { background: var(--tint-card); border: 1px solid #E6E7FA; border-radius: 8px; padding: 12px 16px; display: flex; flex-direction: column; gap: 12px; }
+.micro { font-size: 14px; line-height: 20px; color: var(--muted); }
+.track { position: relative; height: 16px; border-radius: 8px; background: #fff; border: 1px solid var(--tint-line); }
+.fill { position: absolute; inset: 0; overflow: hidden; border-radius: 7px; }
+.avail { position: absolute; inset: 0; background: var(--avail); clip-path: inset(0 0 0 0); }
+.escrow { position: absolute; top: 0; bottom: 0; left: 72%; right: 0; background: var(--accent); opacity: 0; }
+.tied { position: absolute; top: 0; bottom: 0; left: 72%; right: 0; background: var(--wait); border-radius: 0 7px 7px 0; opacity: 0; }
+.legend { list-style: none; padding: 0; display: flex; gap: 16px; font-size: 14px; line-height: 20px; color: var(--muted); }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.sw { width: 12px; height: 12px; border-radius: 4px; flex: none; }
+.sw.a { background: var(--avail); }
+.sw.t { background: var(--wait); }
+.sw.e { background: var(--accent); }
+.lg-tied, .lg-escrow { opacity: 0; }
+
+/* Pills */
+.pill { position: relative; height: 44px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; color: #fff; background: var(--ink); }
+.pill.outline { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1px var(--tint-line); }
+.pill .t { position: absolute; }
+.t-sent { opacity: 0; color: var(--muted); }
+.t-live { opacity: 0; color: var(--accent); }
+
+/* Broadcaster */
+.slot { position: relative; height: 196px; flex: none; }
+.idle { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 16px; }
+.offer { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 12px; opacity: 0; }
+.status { position: relative; width: 120px; height: 24px; flex: none; font-family: var(--mono); font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; }
+.status span { position: absolute; right: 0; top: 0; display: flex; align-items: center; gap: 8px; line-height: 24px; white-space: nowrap; }
+.status i { width: 8px; height: 8px; border-radius: 999px; background: #A1A1A6; }
+.st-offer { color: var(--muted); }
+.st-ok { color: var(--accent); opacity: 0; }
+.st-ok i { background: var(--accent); }
+.ad { position: relative; height: 96px; border-radius: 8px; background: var(--tint); display: flex; align-items: flex-end; padding: 16px; }
+.ad .bars { width: 50%; flex: none; }
+.ad .b { background: #fff; opacity: .8; }
+.ad-info { position: absolute; left: 16px; right: 16px; top: 16px; display: flex; flex-direction: column; gap: 12px; opacity: 0; }
+.mini { display: flex; align-items: center; gap: 12px; }
+.mini .bars { flex: 1; }
+.sq { width: 24px; height: 24px; border-radius: 4px; background: #fff; opacity: .8; flex: none; }
+.ring { position: absolute; inset: -4px; border-radius: 12px; box-shadow: 0 0 0 2px var(--accent); opacity: 0; pointer-events: none; }
+.actions { position: relative; }
+.act-btns { display: flex; gap: 12px; }
+.act-btns .pill { flex: 1; }
+.booked { position: absolute; inset: 0; background: var(--accent); opacity: 0; }
+
+/* Flying request and cursor */
+.fly, .cursor { display: none; position: absolute; top: 0; left: 0; pointer-events: none; opacity: 0; }
+.fly { width: 112px; height: 48px; padding: 12px; border-radius: 8px; background: #fff; box-shadow: 0 2px 8px rgba(29, 29, 31, 0.12); flex-direction: column; gap: 8px; justify-content: center; z-index: 2; }
+.cursor { width: 20px; height: 24px; margin: -1.5px 0 0 -2px; z-index: 3; transform-origin: 2px 1.5px; }
+.hero.js .fly { display: flex; }
+.hero.js .cursor { display: block; }
+
+/* Caption + replay, below the container */
+.foot { position: relative; margin-top: 16px; min-height: 32px; }
+.captions { position: relative; height: 24px; }
+.captions p { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-size: 14px; line-height: 24px; color: var(--muted); opacity: 0; }
+.replay { position: absolute; right: 0; top: -4px; font: inherit; font-size: 14px; line-height: 24px; color: var(--ink); background: #fff; border: 0; border-radius: 999px; padding: 4px 16px; box-shadow: inset 0 0 0 1px #E8E8E8; cursor: pointer; }
+.replay:hover { background: #F7F7F7; }
+.replay:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Timeline: 15.6s loop */
+.slot, .ad, .ad-info, .live, .win-a, .win-b, .btn-request, .t-send, .t-sent, .t-live, .act-btns, .booked, .avail, .tied, .escrow, .lg-tied, .lg-escrow,
+.fly, .cursor, .idle, .offer, .ring, .btn-approve, .st-offer, .st-ok, .c0, .c1, .c2, .c3 {
+  animation-duration: 14.59s; animation-iteration-count: infinite; animation-fill-mode: both; animation-timing-function: var(--ease);
+}
+.live { animation-name: live; }
+.win-a { animation-name: winA; } .win-b { animation-name: winB; }
+.btn-request { animation-name: btnReq; }
+.t-send { animation-name: tSend; } .t-sent { animation-name: tSent; } .t-live { animation-name: tLive; }
+.act-btns { animation-name: actBtns; } .booked { animation-name: booked; }
+.avail { animation-name: avail; }
+.tied { animation-name: tied; } .escrow { animation-name: escrow; }
+.lg-tied { animation-name: lgTied; } .lg-escrow { animation-name: lgEscrow; }
+.fly { animation-name: fly; } .cursor-a { animation-name: curA; } .cursor-b { animation-name: curB; }
+.idle { animation-name: idle; } .offer { animation-name: offer; }
+.ring { animation-name: ring; }
+.slot { animation-name: slotGrow; } .ad { animation-name: adGrow; } .ad-info { animation-name: adInfo; }
+.btn-approve { animation-name: approve; }
+.st-offer { animation-name: stOffer; } .st-ok { animation-name: stOk; }
+.c0 { animation-name: c0; } .c1 { animation-name: c1; } .c2 { animation-name: c2; } .c3 { animation-name: c3; }
+.hero.paused * { animation-play-state: paused !important; }
+.hero.reset *, .hero.measuring * { animation: none !important; }
+
+@keyframes live { 0% { opacity: 0 } 2.13% { opacity: 1 } 95.12% { opacity: 1 } 98.72%, 100% { opacity: 0 } }
+@keyframes winA { 0%, 29.11% { opacity: 1; transform: scale(1) } 37.23%, 71.56% { opacity: .45; transform: scale(.96) } 78.93%, 100% { opacity: 1; transform: scale(1) } }
+@keyframes winB { 0%, 29.11% { opacity: .45; transform: scale(.96) } 37.23%, 71.56% { opacity: 1; transform: scale(1) } 78.93%, 100% { opacity: .45; transform: scale(.96) } }
+@keyframes btnReq { 0%, 11.74% { background: #1D1D1F; transform: scale(1) } 12.28% { background: #1D1D1F; transform: scale(.97) } 13.88% { background: #1D1D1F; transform: scale(1) } 18.48%, 78.93% { background: #E8E8ED; transform: scale(1) } 86.31%, 100% { background: #E3E4F9; transform: scale(1) } }
+@keyframes tSend { 0%, 12.06% { opacity: 1 } 13.88%, 100% { opacity: 0 } }
+@keyframes tSent { 0%, 15.27% { opacity: 0 } 18.48%, 78.93% { opacity: 1 } 83.85%, 100% { opacity: 0 } }
+@keyframes tLive { 0%, 81.39% { opacity: 0 } 86.31%, 100% { opacity: 1 } }
+@keyframes actBtns { 0%, 69.1% { opacity: 1 } 72.84%, 100% { opacity: 0 } }
+@keyframes booked { 0%, 69.1% { opacity: 0 } 72.84%, 100% { opacity: 1 } }
+@keyframes avail { 0%, 71.56% { clip-path: inset(0 0 0 0) } 83.85%, 100% { clip-path: inset(0 28% 0 0) } }
+@keyframes tied { 0%, 16.23% { opacity: 0 } 23.73%, 71.56% { opacity: 1 } 78.93%, 100% { opacity: 0 } }
+@keyframes escrow { 0%, 71.56% { opacity: 0 } 78.93%, 100% { opacity: 1 } }
+@keyframes lgTied { 0%, 21.15% { opacity: 0 } 25.42%, 71.56% { opacity: 1 } 78.93%, 100% { opacity: 0 } }
+@keyframes lgEscrow { 0%, 71.56% { opacity: 0 } 78.93%, 100% { opacity: 1 } }
+@keyframes fly {
+  0%, 25.42% { opacity: 0; transform: translate(var(--f0x, 0px), var(--f0y, 0px)) }
+  25.69% { opacity: 1; transform: translate(var(--f0x, 0px), var(--f0y, 0px)) }
+  37.23% { opacity: 1; transform: translate(var(--f1x, 0px), var(--f1y, 0px)) }
+  41.08%, 100% { opacity: 0; transform: translate(var(--f1x, 0px), var(--f1y, 0px)) }
+}
+@keyframes curA {
+  0% { opacity: 0; transform: translate(var(--c0x, 0px), var(--c0y, 0px)) scale(1) }
+  2.13% { opacity: 1; transform: translate(var(--c0x, 0px), var(--c0y, 0px)) scale(1) }
+  5.54% { opacity: 1; transform: translate(var(--c0x, 0px), var(--c0y, 0px)) scale(1) }
+  12.28% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(1) }
+  13.77% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(.88) }
+  16.23% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(1) }
+  22.43%, 100% { opacity: 0; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(1) }
+}
+@keyframes curB {
+  0%, 37.23% { opacity: 0; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(1) }
+  41.4%, 53.7% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(1) }
+  57.23%, 59.37% { opacity: 1; transform: translate(var(--c2bx, 0px), var(--c2by, 0px)) scale(1) }
+  65.14% { opacity: 1; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(1) }
+  66.64% { opacity: 1; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(.88) }
+  68.99% { opacity: 1; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(1) }
+  74.02%, 100% { opacity: 0; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(1) }
+}
+@keyframes idle { 0%, 37.23% { opacity: 1 } 44.93%, 100% { opacity: 0 } }
+@keyframes offer { 0%, 37.23% { opacity: 0 } 44.93%, 100% { opacity: 1 } }
+@keyframes ring { 0%, 44.93% { opacity: 0 } 47.61%, 60.54% { opacity: 1 } 63.11%, 100% { opacity: 0 } }
+@keyframes slotGrow { 0%, 48.78% { height: 196px } 54.98%, 100% { height: 268px } }
+@keyframes adGrow { 0%, 48.78% { height: 96px } 54.98%, 100% { height: 168px } }
+@keyframes adInfo { 0%, 51.24% { opacity: 0 } 56.48%, 100% { opacity: 1 } }
+@keyframes approve { 0%, 65.14% { background: #1D1D1F; transform: scale(1) } 66.64% { background: #4C4FD1; transform: scale(.97) } 68.99%, 100% { background: #4C4FD1; transform: scale(1) } }
+@keyframes stOffer { 0%, 66.64% { opacity: 1 } 69.1%, 100% { opacity: 0 } }
+@keyframes stOk { 0%, 66.64% { opacity: 0 } 71.56%, 100% { opacity: 1 } }
+@keyframes c0 { 0% { opacity: 0 } 2.68%, 5.31% { opacity: 1 } 7.36%, 100% { opacity: 0 } }
+@keyframes c1 { 0%, 16.23% { opacity: 0 } 19.98%, 30.28% { opacity: 1 } 34.03%, 100% { opacity: 0 } }
+@keyframes c2 { 0%, 37.66% { opacity: 0 } 41.4%, 61.61% { opacity: 1 } 63.86%, 100% { opacity: 0 } }
+@keyframes c3 { 0%, 71.56% { opacity: 0 } 75.3%, 94.21% { opacity: 1 } 97.54%, 100% { opacity: 0 } }
+
+/* Reduced motion: the payoff frame with its caption */
+@media (prefers-reduced-motion: reduce) {
+  .slot, .ad, .ad-info, .live, .win-a, .win-b, .btn-request, .t-send, .t-sent, .t-live, .act-btns, .booked, .avail, .tied, .escrow, .lg-tied, .lg-escrow,
+  .fly, .cursor, .idle, .offer, .ring, .btn-approve, .st-offer, .st-ok, .c0, .c1, .c2, .c3 { animation: none; }
+  .win-b { opacity: .45; transform: scale(.96); }
+  .btn-request { background: #E3E4F9; }
+  .t-send { opacity: 0; } .t-sent { opacity: 0; } .t-live { opacity: 1; }
+  .act-btns { opacity: 0; } .booked { opacity: 1; }
+  .avail { clip-path: inset(0 28% 0 0); }
+  .escrow { opacity: 1; } .lg-escrow { opacity: 1; }
+  .hero.js .fly, .hero.js .cursor { display: none; }
+  .idle { opacity: 0; } .offer { opacity: 1; }
+  .slot { height: 268px; } .ad { height: 168px; } .ad-info { opacity: 1; }
+  .btn-approve { background: #4C4FD1; }
+  .st-offer { opacity: 0; } .st-ok { opacity: 1; }
+  .c3 { opacity: 1; }
+  .replay { display: none; }
+}
+
+@media (max-width: 719px) {
+  body { padding: 32px 16px; }
+  .stage { height: auto; padding: 16px; }
+  .cols { grid-template-columns: 1fr; gap: 16px; }
+  .card { height: auto; }
+  .card-body { flex: none; }
+  .filler { display: none; }
+}
+</style>
+<style>html,body{background:transparent!important;padding:0!important}.hero,.fig{max-width:none!important}</style><style>.stage{height:520px!important;padding:0 32px!important;background:transparent!important;border:0!important;border-radius:0!important}</style><style>.foot,.replay{display:none!important}</style></head>
+<body>
+
+<figure class="hero" id="hero">
+  <div class="stage" id="stage" role="img" aria-label="A looping diagram. An advertiser sends a request and nothing leaves the wallet. The broadcaster reviews the ad and approves. The money then moves from available to escrow.">
+    <div class="cols" aria-hidden="true">
+
+      <section class="card win-a">
+        <div class="card-head">Advertiser</div>
+        <div class="card-body">
+          <div class="live">
+            <div class="row">
+              <span class="av"></span>
+              <span class="bars"><i class="b d w60"></i><i class="b w40"></i></span>
+              <span class="chip-budget">Budget</span>
+            </div>
+            <div class="well">
+              <span class="micro">Wallet</span>
+              <div class="track">
+                <div class="fill"><span class="avail"></span><span class="escrow"></span></div>
+                <span class="tied"></span>
+              </div>
+              <ul class="legend">
+                <li><i class="sw a"></i>Available</li>
+                <li class="lg-tied"><i class="sw t"></i>Waiting</li>
+                <li class="lg-escrow"><i class="sw e"></i>Escrow</li>
+              </ul>
+            </div>
+            <div class="pill btn-request"><span class="t t-send">Send request</span><span class="t t-sent">Request sent</span><span class="t t-live">Campaign live on Nov 10</span></div>
+            <div class="row filler"><span class="av"></span><span class="bars"><i class="b w80"></i><i class="b w40"></i></span></div>
+            <div class="row filler"><span class="av"></span><span class="bars"><i class="b w60"></i><i class="b w40"></i></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card win-b">
+        <div class="card-head">Broadcaster</div>
+        <div class="card-body">
+          <div class="live">
+            <div class="slot">
+              <div class="idle">
+                <div class="row"><span class="av round"></span><span class="bars"><i class="b w60"></i><i class="b w40"></i></span></div>
+                <div class="row"><span class="av round"></span><span class="bars"><i class="b w80"></i><i class="b w40"></i></span></div>
+                <div class="row"><span class="av round"></span><span class="bars"><i class="b w60"></i><i class="b w40"></i></span></div>
+              </div>
+              <div class="offer">
+                <div class="row">
+                  <span class="av round"></span>
+                  <span class="bars"><i class="b d w60"></i><i class="b w40"></i></span>
+                  <span class="status"><span class="st-offer"><i></i>Offer</span><span class="st-ok"><i></i>Approved</span></span>
+                </div>
+                <div class="ad">
+                  <span class="ad-info">
+                    <span class="mini"><i class="sq"></i><span class="bars"><i class="b w80"></i><i class="b w40"></i></span></span>
+                    <span class="mini"><i class="sq"></i><span class="bars"><i class="b w60"></i><i class="b w40"></i></span></span>
+                  </span>
+                  <span class="bars"><i class="b"></i><i class="b w60"></i></span>
+                  <span class="ring"></span>
+                </div>
+                <div class="actions">
+                  <div class="act-btns">
+                    <div class="pill btn-approve">Approve</div>
+                    <div class="pill outline">Decline</div>
+                  </div>
+                  <div class="pill booked">2 screens booked</div>
+                </div>
+              </div>
+            </div>
+            <div class="row filler"><span class="av round"></span><span class="bars"><i class="b w80"></i><i class="b w40"></i></span></div>
+            <div class="row filler"><span class="av round"></span><span class="bars"><i class="b w60"></i><i class="b w40"></i></span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="fly" aria-hidden="true"><i class="b d w80"></i><i class="b w60"></i></div>
+    <svg class="cursor cursor-a" width="20" height="24" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 1.5v17l4.6-4.1 3.2 7.2 3-1.4-3.2-7.1h6.4z" fill="#1D1D1F" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <svg class="cursor cursor-b" width="20" height="24" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 1.5v17l4.6-4.1 3.2 7.2 3-1.4-3.2-7.1h6.4z" fill="#1D1D1F" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  </div>
+
+  <div class="foot">
+    <div class="captions">
+      <p class="c0">The budget stays in view.</p>
+      <p class="c1">Request sent. Nothing leaves the wallet.</p>
+      <p class="c2">The broadcaster reviews the actual ad.</p>
+      <p class="c3">Approved. Money moves to escrow and the campaign goes live.</p>
+    </div>
+    <button class="replay" id="replay" type="button">Replay</button>
+  </div>
+</figure>
+
+<script>
+(function () {
+  var hero = document.getElementById('hero');
+  var stage = document.getElementById('stage');
+  var fly = stage.querySelector('.fly');
+  hero.classList.add('js');
+
+  function pt(el, fx, fy, s) {
+    var r = el.getBoundingClientRect();
+    return { x: r.left - s.left + r.width * fx, y: r.top - s.top + r.height * fy };
+  }
+  function set(name, p, dx, dy) {
+    hero.style.setProperty('--' + name + 'x', (p.x - (dx || 0)) + 'px');
+    hero.style.setProperty('--' + name + 'y', (p.y - (dy || 0)) + 'px');
+  }
+  function measure() {
+    hero.classList.add('measuring');
+    var s = stage.getBoundingClientRect();
+    var q = function (sel) { return stage.querySelector(sel); };
+    set('c0', pt(q('.chip-budget'), 0.5, 0.6, s));
+    set('c1', pt(q('.btn-request'), 0.55, 0.5, s));
+    set('c2', pt(q('.ad'), 0.6, 0.55, s));
+    var rd = pt(q('.ad'), 0.4, 0, s); rd.y += 76; set('c2b', rd);
+    var ap = pt(q('.btn-approve'), 0.55, 0.5, s); ap.y += 72; set('c3', ap);
+    var w = fly.offsetWidth / 2, h = fly.offsetHeight / 2;
+    set('f0', pt(q('.btn-request'), 0.5, 0.5, s), w, h);
+    var slot = pt(q('.slot'), 0.5, 0, s);
+    set('f1', { x: slot.x, y: slot.y + 36 }, w, h);
+    hero.classList.remove('measuring');
+  }
+  measure();
+  window.addEventListener('resize', measure);
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(stage);
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      hero.classList.toggle('paused', !e[0].isIntersecting);
+    }, { threshold: 0.2 }).observe(stage);
+  }
+
+  document.getElementById('replay').addEventListener('click', function () {
+    hero.classList.add('reset');
+    void hero.offsetWidth;
+    hero.classList.remove('reset');
+  });
+})();
+</script>
+</body>
+</html>

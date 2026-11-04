@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visual 1: sidebars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --tint: #E3E4F9;
+  --tint-card: #F8F8FE;
+  --tint-line: #DADCF5;
+  --accent: #4C4FD1;
+  --ink: #1D1D1F;
+  --muted: #6E6E73;
+  --skel: #E8E8ED;
+  --skel-2: #D2D2D7;
+  --ease: cubic-bezier(.23, 1, .32, 1);
+  --font: "Figtree", -apple-system, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: #fafafa; font-family: var(--font); color: var(--ink); padding: 64px 24px; }
+.fig { max-width: 1008px; margin: 0 auto; }
+
+.stage { position: relative; height: 480px; background: #F7F7F7; border: 1px solid #F2F2F2; border-radius: 24px; padding: 32px 32px 0; overflow: hidden; }
+.cols { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 24px; align-items: start; }
+
+/* Windows: tinted outer, white inner */
+.card { height: 520px; display: flex; flex-direction: column; background: var(--tint-card); border: 1px solid #F0F1FF; border-radius: 16px; padding: 8px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.06); transform-origin: 50% 0; }
+.card-head { padding: 8px 16px 12px; font-size: 14px; line-height: 24px; color: var(--muted); }
+.card-body { flex: 1; display: flex; gap: 12px; background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.08); overflow: hidden; }
+
+/* Sidebar */
+.side { width: 100px; flex: none; background: #F8F8FB; border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 12px; }
+.card.both .side { width: 124px; }
+.who { display: flex; align-items: center; gap: 8px; padding: 0 4px; }
+.av { width: 24px; height: 24px; border-radius: 999px; background: var(--skel); flex: none; }
+.nav { display: flex; flex-direction: column; gap: 12px; }
+.grp { position: relative; display: flex; flex-direction: column; gap: 2px; }
+.grp > * { position: relative; }
+.grp::before { content: ""; position: absolute; inset: -4px; border-radius: 8px; background: #E3E4F9; opacity: 0; }
+.win-b .grp::before, .grp2::before { background: #FBEBC8; }
+.win-c .grp2::before { opacity: 1; }
+.card.both .nav { gap: 16px; }
+.gh { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--muted); padding: 0 6px; margin-bottom: 4px; }
+.it { display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 6px; border-radius: 6px; }
+.it.on { background: #fff; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.08); }
+.ic { width: 12px; height: 12px; border-radius: 4px; background: #CFCFD6; flex: none; }
+.ic.alt { background: #F0C260; }
+.win-b .it.on .ic { background: #E0A53A; }
+.it.on .ic { background: var(--accent); }
+.b { display: block; height: 8px; border-radius: 4px; background: var(--skel); flex: none; }
+.b.d { background: var(--skel-2); }
+.w32 { width: 32px; } .w36 { width: 36px; } .w40 { width: 40px; } .w44 { width: 44px; } .w46 { width: 46px; } .w48 { width: 48px; } .w52 { width: 52px; }
+
+/* Main area: filler, cropped at the foot */
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.main .b.title { width: 60%; height: 10px; background: var(--skel-2); }
+.blk { height: 64px; border-radius: 8px; background: #EEEFFC; }
+.blk.t { background: #FBF0D6; }
+.pair { display: flex; gap: 12px; }
+.pair .blk { flex: 1; }
+.frow { display: flex; align-items: center; gap: 12px; opacity: .6; }
+.fav { width: 28px; height: 28px; border-radius: 6px; background: var(--skel); flex: none; }
+.fbars { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
+.fbars .b { width: 80%; } .fbars .b + .b { width: 40%; }
+
+/* Caption + replay */
+.foot { display: flex; justify-content: flex-end; margin-top: 16px; }
+.replay { font: inherit; font-size: 14px; line-height: 24px; color: var(--ink); background: #fff; border: 0; border-radius: 999px; padding: 4px 16px; box-shadow: inset 0 0 0 1px #E8E8E8; cursor: pointer; }
+.replay:hover { background: #F7F7F7; }
+.replay:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Timeline: 15s loop. Advertiser starts in frame, the other two come up one by one. */
+.win-a, .win-b, .win-c, .grp2, .win-a .grp::before, .win-b .grp::before, .win-c .grp:first-child::before { animation-duration: 9.5s; animation-iteration-count: infinite; animation-fill-mode: both; animation-timing-function: var(--ease); }
+.win-a { animation-name: winA; } .win-b { animation-name: winB; } .win-c { animation-name: winC; }
+.grp2 { animation-name: grp2; }
+.win-a .grp::before { animation-name: washA1; } .win-b .grp::before { animation-name: washB1; } .win-c .grp:first-child::before { animation-name: washA3; }
+.fig.paused * { animation-play-state: paused !important; }
+.fig.reset * { animation: none !important; }
+@keyframes winA {
+  0% { opacity: 0; transform: translateX(var(--ax, 0px)) scale(1) }
+  5.263%, 24.211% { opacity: 1; transform: translateX(var(--ax, 0px)) scale(1) }
+  33.684%, 92.632% { opacity: 1; transform: translateX(0) scale(1) }
+  97.895%, 100% { opacity: 0; transform: translateX(0) scale(1) }
+}
+@keyframes winB {
+  0%, 26.316% { opacity: 0; transform: translateY(48px) }
+  35.789%, 92.632% { opacity: 1; transform: translateY(0) }
+  97.895%, 100% { opacity: 0; transform: translateY(0) }
+}
+@keyframes winC {
+  0%, 48.421% { opacity: 0; transform: translateY(48px) }
+  57.895%, 92.632% { opacity: 1; transform: translateY(0) }
+  97.895%, 100% { opacity: 0; transform: translateY(0) }
+}
+@keyframes grp2 {
+  0%, 65.263% { opacity: 0; transform: translateY(8px) }
+  71.579%, 92.632% { opacity: 1; transform: translateY(0) }
+  97.895%, 100% { opacity: 0; transform: translateY(0) }
+}
+@keyframes washA1 {
+  0%, 6.316% { opacity: 0 }
+  10.526%, 24.211% { opacity: 1 }
+  28.421%, 100% { opacity: 0 }
+}
+@keyframes washB1 {
+  0%, 34.737% { opacity: 0 }
+  38.947%, 47.368% { opacity: 1 }
+  51.579%, 100% { opacity: 0 }
+}
+@keyframes washA3 {
+  0%, 56.842% { opacity: 0 }
+  61.053%, 92.632% { opacity: 1 }
+  97.895%, 100% { opacity: 0 }
+}
+
+/* Reduced motion: the payoff frame with its caption */
+@media (prefers-reduced-motion: reduce) {
+  .win-a, .win-b, .win-c, .grp2, .grp::before { animation: none; }
+  .win-c .grp::before { opacity: 1; }
+  .win-a { transform: none; }
+  .replay { display: none; }
+}
+@media (max-width: 719px) {
+  body { padding: 32px 16px; }
+  .stage { height: auto; padding: 16px; }
+  .cols { grid-template-columns: 1fr; gap: 16px; }
+  .card { height: auto; }
+  .card-body { flex: none; }
+    .win-a { --ax: 0px; }
+}
+</style>
+<style>html,body{background:transparent!important;padding:0!important}.hero,.fig{max-width:none!important}</style><style>.foot,.replay{display:none!important}</style><style>.stage{background:transparent!important;border:0!important;border-radius:0!important}</style></head>
+<body>
+
+<figure class="fig" id="fig">
+  <div class="stage" id="stage" role="img" aria-label="A looping diagram of three sidebars. The advertiser sidebar shows one set of sections. The broadcaster sidebar shows another. The sidebar for people who do both groups the two sets together.">
+    <div class="cols" aria-hidden="true">
+
+      <section class="card win-a">
+        <div class="card-head">Advertiser</div>
+        <div class="card-body">
+          <div class="side">
+            <div class="who"><span class="av"></span><i class="b d w32"></i></div>
+            <div class="nav"><div class="grp">
+              <div class="it on"><i class="ic"></i><i class="b w44"></i></div>
+              <div class="it"><i class="ic"></i><i class="b w52"></i></div>
+              <div class="it"><i class="ic"></i><i class="b w36"></i></div>
+              <div class="it"><i class="ic"></i><i class="b w48"></i></div>
+            </div></div>
+          </div>
+          <div class="main">
+            <i class="b title"></i>
+            <div class="blk"></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card win-b">
+        <div class="card-head">Broadcaster</div>
+        <div class="card-body">
+          <div class="side">
+            <div class="who"><span class="av"></span><i class="b d w32"></i></div>
+            <div class="nav"><div class="grp">
+              <div class="it on"><i class="ic alt"></i><i class="b w40"></i></div>
+              <div class="it"><i class="ic alt"></i><i class="b w52"></i></div>
+              <div class="it"><i class="ic alt"></i><i class="b w32"></i></div>
+              <div class="it"><i class="ic alt"></i><i class="b w46"></i></div>
+            </div></div>
+          </div>
+          <div class="main">
+            <i class="b title"></i>
+            <div class="blk t"></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card both win-c">
+        <div class="card-head">Both</div>
+        <div class="card-body">
+          <div class="side">
+            <div class="who"><span class="av"></span><i class="b d w32"></i></div>
+            <div class="nav">
+              <div class="grp">
+                <div class="gh">Advertiser</div>
+                <div class="it on"><i class="ic"></i><i class="b w44"></i></div>
+                <div class="it"><i class="ic"></i><i class="b w52"></i></div>
+                <div class="it"><i class="ic"></i><i class="b w36"></i></div>
+                <div class="it"><i class="ic"></i><i class="b w48"></i></div>
+              </div>
+              <div class="grp grp2">
+                <div class="gh">Broadcaster</div>
+                <div class="it"><i class="ic alt"></i><i class="b w40"></i></div>
+                <div class="it"><i class="ic alt"></i><i class="b w52"></i></div>
+                <div class="it"><i class="ic alt"></i><i class="b w32"></i></div>
+                <div class="it"><i class="ic alt"></i><i class="b w46"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="main">
+            <i class="b title"></i>
+            <div class="pair"><div class="blk"></div><div class="blk t"></div></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+            <div class="frow"><span class="fav"></span><span class="fbars"><i class="b"></i><i class="b"></i></span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    <button class="replay" id="replay" type="button">Replay</button>
+  </div>
+</figure>
+
+<script>
+(function () {
+  var fig = document.getElementById('fig');
+  var stage = document.getElementById('stage');
+  var cols = fig.querySelector('.cols');
+  var winA = fig.querySelector('.win-a');
+  function measure() { fig.style.setProperty('--ax', Math.max(0, (cols.clientWidth - winA.offsetWidth) / 2) + 'px'); }
+  measure();
+  window.addEventListener('resize', measure);
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(stage);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      fig.classList.toggle('paused', !e[0].isIntersecting);
+    }, { threshold: 0.2 }).observe(stage);
+  }
+  document.getElementById('replay').addEventListener('click', function () {
+    fig.classList.add('reset');
+    void fig.offsetWidth;
+    fig.classList.remove('reset');
+  });
+})();
+</script>
+</body>
+</html>

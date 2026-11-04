@@ -6,6 +6,8 @@ import { CloudsHero } from "./home-v2/CloudsHero";
 import { RocketAssistEmbed } from "./home-v2/RocketAssistEmbed";
 import { AsimovKnowledgeEmbed } from "./home-v2/AsimovKnowledgeEmbed";
 import { DebugModeEmbed } from "./home-v2/DebugModeEmbed";
+import { CaseStudyStatusPills } from "./components/CaseStudyStatusPills";
+import { HcnMarketplaceEmbed } from "./home-v2/HcnMarketplaceEmbed";
 import { FunWheel } from "./home-v2/FunWheel";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
 import styles from "./home-v2/home.module.css";
@@ -13,14 +15,17 @@ import styles from "./home-v2/home.module.css";
 type CaseStudy = {
   href: string;
   ariaLabel: string;
-  logos: { src: string; alt: string }[];
+  logos: { src: string; alt: string; /** Overrides the 20px logo height when a mark reads small. */ height?: number }[];
   title: string;
   /** Coded UI floating on the card. It sits outside the card link, so its controls aren't nested in the link. */
   embed: ReactNode;
+  /** Status pills at the right of the logo row (in-progress work under NDA). */
+  pills?: ReactNode;
 };
 
 const ROCKET = [{ src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" }];
 const TARS = [{ src: "/logos/tars.svg", alt: "Tars" }];
+const HCN = [{ src: "/logos/hcn.avif", alt: "HCN", height: 28 }];
 
 // Salesforce is hidden until it's reworked; its page still lives at app/salesforce.
 const CASE_STUDIES: CaseStudy[] = [
@@ -45,6 +50,14 @@ const CASE_STUDIES: CaseStudy[] = [
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
     embed: <DebugModeEmbed />,
   },
+  {
+    href: "/hcn-advertising-marketplace",
+    ariaLabel: "Read the HCN advertising marketplace case study",
+    logos: HCN,
+    title: "Designing the foundations of a digital advertising marketplace",
+    embed: <HcnMarketplaceEmbed />,
+    pills: <CaseStudyStatusPills />,
+  },
 ];
 
 /** One case study: logo, title, then the card with its coded demo. The whole case study is the link. */
@@ -53,12 +66,15 @@ function CaseStudyRow({ study }: { study: CaseStudy }) {
     <div className={styles.row} data-study-row>
       <HomeV2CardLink href={study.href} ariaLabel={`${study.title}. ${study.ariaLabel}`} className={`cursor-hover-dark ${styles.card}`}>
         <div className={styles.cardText}>
-          <CompanyLogos className={styles.cardLogos}>
-            {study.logos.map((logo) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={logo.src} src={logo.src} alt={logo.alt} />
-            ))}
-          </CompanyLogos>
+          <div className={styles.cardTop}>
+            <CompanyLogos className={styles.cardLogos}>
+              {study.logos.map((logo) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={logo.src} src={logo.src} alt={logo.alt} style={logo.height ? { height: logo.height } : undefined} />
+              ))}
+            </CompanyLogos>
+            {study.pills}
+          </div>
           <h3 className={styles.cardTitle}>{study.title}</h3>
         </div>
         {/* Plain card the coded UI sits on */}

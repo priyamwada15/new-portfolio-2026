@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visual 3: wallet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --tint: #E3E4F9;
+  --tint-card: #F8F8FE;
+  --tint-line: #DADCF5;
+  --avail: #D2D4F6;
+  --accent: #4C4FD1;
+  --wait: #F5BE5B;
+  --ink: #1D1D1F;
+  --muted: #6E6E73;
+  --skel: #E8E8ED;
+  --skel-2: #D2D2D7;
+  --ease: cubic-bezier(.23, 1, .32, 1);
+  --font: "Figtree", -apple-system, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: #fafafa; font-family: var(--font); color: var(--ink); padding: 64px 24px; }
+.fig { max-width: 1008px; margin: 0 auto; }
+
+.stage { position: relative; background: #F7F7F7; border: 1px solid #F2F2F2; border-radius: 24px; padding: 32px; overflow: hidden; }
+.cols { display: grid; grid-template-columns: 1.35fr 1fr; gap: 24px; align-items: center; }
+
+/* Windows: tinted outer, white inner */
+.card { height: auto; display: flex; flex-direction: column; background: var(--tint-card); border: 1px solid #F0F1FF; border-radius: 16px; padding: 8px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.06); }
+.card-head { padding: 8px 16px 12px; font-size: 14px; line-height: 24px; color: var(--muted); }
+.card-body { flex: 1; background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.08); overflow: hidden; display: flex; flex-direction: column; gap: 12px; }
+
+.wal .card-body { flex: none; }
+
+/* Campaign rows */
+.row { display: flex; align-items: center; gap: 12px; height: 56px; flex: none; }
+.th { width: 40px; height: 40px; border-radius: 8px; background: var(--tint); flex: none; }
+.bars { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
+.b { display: block; height: 8px; border-radius: 4px; background: var(--skel); }
+.b.d { background: var(--skel-2); }
+.w60 { width: 60%; } .w40 { width: 40%; } .w80 { width: 80%; } .w50 { width: 50%; }
+.price { width: 48px; text-align: right; font-size: 16px; line-height: 24px; font-weight: 500; flex: none; }
+.send { position: relative; width: 128px; height: 36px; flex: none; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; line-height: 20px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
+.send .t { position: absolute; }
+.t-sent { opacity: 0; color: var(--muted); }
+.filler { opacity: .6; }
+.filler .th { background: var(--skel); }
+
+/* Wallet */
+.well { background: var(--tint-card); border: 1px solid #E6E7FA; border-radius: 8px; padding: 12px 16px; display: flex; flex-direction: column; gap: 12px; flex: none; }
+.line { display: flex; align-items: baseline; justify-content: space-between; }
+.micro { font-size: 14px; line-height: 20px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.amt { font-size: 20px; line-height: 28px; font-weight: 500; }
+.track { position: relative; height: 16px; border-radius: 8px; background: #fff; border: 1px solid var(--tint-line); }
+.fill { position: absolute; inset: 0; overflow: hidden; border-radius: 7px; }
+.avail { position: absolute; inset: 0; background: var(--avail); }
+.seg { position: absolute; top: 0; bottom: 0; background: var(--wait); clip-path: inset(0 0 0 100%); }
+.s1 { left: 70%; right: 0; }
+.s2 { left: 30%; right: 0; }
+.s3 { left: 5%; right: 0; }
+.legend { list-style: none; padding: 0; display: flex; gap: 16px; font-size: 14px; line-height: 20px; color: var(--muted); }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.sw { width: 12px; height: 12px; border-radius: 4px; flex: none; }
+.sw.a { background: var(--avail); }
+.sw.t { background: var(--wait); }
+
+.tally { display: flex; flex-direction: column; gap: 4px; flex: none; padding: 0 4px; }
+.trow { display: flex; align-items: center; justify-content: space-between; }
+.strip { display: block; overflow: hidden; text-align: right; }
+.strip.c { height: 24px; }
+.strip.s { height: 28px; }
+.strip > div { display: flex; flex-direction: column; }
+.strip.c span { height: 24px; line-height: 24px; font-size: 16px; font-weight: 500; }
+.strip.s span { height: 28px; line-height: 28px; font-size: 20px; font-weight: 500; }
+.formula { font-size: 14px; line-height: 20px; color: var(--muted); display: flex; gap: 6px; justify-content: flex-end; }
+.formula span { display: block; }
+.note { flex: none; border-radius: 8px; background: #FFF6E3; padding: 12px 16px; font-size: 14px; line-height: 20px; color: var(--ink); opacity: 0; }
+
+/* Cursor */
+.cursor { display: none; position: absolute; top: 0; left: 0; width: 20px; height: 24px; margin: -1.5px 0 0 -2px; pointer-events: none; opacity: 0; z-index: 3; transform-origin: 2px 1.5px; }
+.fig.js .cursor { display: block; }
+
+.foot { display: flex; justify-content: flex-end; margin-top: 16px; }
+.replay { font: inherit; font-size: 14px; line-height: 24px; color: var(--ink); background: #fff; border: 0; border-radius: 999px; padding: 4px 16px; box-shadow: inset 0 0 0 1px #E8E8E8; cursor: pointer; }
+.replay:hover { background: #F7F7F7; }
+.replay:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Timeline: 16s loop */
+.live, .cursor, .b1, .b2, .b3, .b4, .ts1, .ts2, .ts3, .tn1, .tn2, .tn3, .t4, .s1, .s2, .s3, .f1, .f2, .f3, .cnt, .sum, .note, .c0, .c1, .c2 {
+  animation-duration: 13.53s; animation-iteration-count: infinite; animation-fill-mode: both; animation-timing-function: var(--ease);
+}
+.live { animation-name: live; }
+.cursor { animation-name: cur; }
+.b4 { animation-name: b4; } .t4 { animation-name: t4; }
+.cnt { animation-name: cnt; } .sum { animation-name: sum; }
+.note { animation-name: note; }
+.c0 { animation-name: c0; } .c1 { animation-name: c1; } .c2 { animation-name: c2; }
+.fig.paused * { animation-play-state: paused !important; }
+.fig.reset * { animation: none !important; }
+@keyframes live { 0% { opacity: 0 } 2.61%, 92.9% { opacity: 1 } 97.04%, 100% { opacity: 0 } }
+@keyframes cur {
+  0% { opacity: 0; transform: translate(var(--c0x, 0px), var(--c0y, 0px)) scale(1) }
+  2.37%, 5.32% { opacity: 1; transform: translate(var(--c0x, 0px), var(--c0y, 0px)) scale(1) }
+  14.78%, 17.38% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(1) }
+  18.57% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(.88) }
+  20.93%, 27.64% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(1) }
+  32.96%, 35.68% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(1) }
+  36.87% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(.88) }
+  39.23%, 45.75% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(1) }
+  51.66%, 54.38% { opacity: 1; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(1) }
+  55.57% { opacity: 1; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(.88) }
+  57.93%, 67.04% { opacity: 1; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(1) }
+  74.43%, 77.38% { opacity: 1; transform: translate(var(--c4x, 0px), var(--c4y, 0px)) scale(1) }
+  78.57% { opacity: 1; transform: translate(var(--c4x, 0px), var(--c4y, 0px)) scale(.88) }
+  80.93%, 90.54% { opacity: 1; transform: translate(var(--c4x, 0px), var(--c4y, 0px)) scale(1) }
+  94.09%, 100% { opacity: 0; transform: translate(var(--c4x, 0px), var(--c4y, 0px)) scale(1) }
+}
+@keyframes b4 { 0%, 60.53% { background: #1D1D1F } 64.67%, 100% { background: #EFEFF2 } }
+@keyframes t4 { 0%, 60.53% { color: #fff } 64.67%, 100% { color: #86868B } }
+@keyframes note { 0%, 61.12% { opacity: 0; transform: translateY(6px) } 65.85%, 100% { opacity: 1; transform: translateY(0) } }
+@keyframes c0 { 0%, 2.37% { opacity: 0 } 3.6%, 14.78% { opacity: 1 } 18.33%, 100% { opacity: 0 } }
+@keyframes c1 { 0%, 20.69% { opacity: 0 } 24.24%, 51.66% { opacity: 1 } 55.21%, 100% { opacity: 0 } }
+@keyframes c2 { 0%, 59.94% { opacity: 0 } 63.49%, 76.2% { opacity: 1 } 79.16%, 100% { opacity: 0 } }
+.b1 { animation-name: b1; } .ts1 { animation-name: ts1; } .tn1 { animation-name: tn1; } .s1 { animation-name: s1; } .f1 { animation-name: f1; }
+.b2 { animation-name: b2; } .ts2 { animation-name: ts2; } .tn2 { animation-name: tn2; } .s2 { animation-name: s2; } .f2 { animation-name: f2; }
+.b3 { animation-name: b3; } .ts3 { animation-name: ts3; } .tn3 { animation-name: tn3; } .s3 { animation-name: s3; } .f3 { animation-name: f3; }
+@keyframes b1 { 0%, 17.38% { background: #1D1D1F; transform: scale(1) } 18.57% { background: #1D1D1F; transform: scale(.97) } 20.34% { background: #1D1D1F; transform: scale(1) } 23.3%, 100% { background: #E8E8ED; transform: scale(1) } }
+@keyframes ts1 { 0%, 18.33% { opacity: 1 } 20.34%, 100% { opacity: 0 } }
+@keyframes tn1 { 0%, 21.52% { opacity: 0; color: #6E6E73 } 23.89%, 100% { opacity: 1; color: #6E6E73 } }
+@keyframes s1 { 0%, 19.16% { clip-path: inset(0 0 0 100%) } 25.12%, 100% { clip-path: inset(0 0 0 0) } }
+@keyframes f1 { 0%, 19.75% { opacity: 0; transform: translateY(4px) } 23.89%, 100% { opacity: 1; transform: translateY(0) } }
+@keyframes b2 { 0%, 35.68% { background: #1D1D1F; transform: scale(1) } 36.87% { background: #1D1D1F; transform: scale(.97) } 38.64% { background: #1D1D1F; transform: scale(1) } 41.6%, 100% { background: #E8E8ED; transform: scale(1) } }
+@keyframes ts2 { 0%, 36.63% { opacity: 1 } 38.64%, 100% { opacity: 0 } }
+@keyframes tn2 { 0%, 39.82% { opacity: 0; color: #6E6E73 } 42.19%, 100% { opacity: 1; color: #6E6E73 } }
+@keyframes s2 { 0%, 37.46% { clip-path: inset(0 0 0 100%) } 43.36%, 100% { clip-path: inset(0 0 0 0) } }
+@keyframes f2 { 0%, 38.05% { opacity: 0; transform: translateY(4px) } 42.19%, 100% { opacity: 1; transform: translateY(0) } }
+@keyframes b3 { 0%, 54.38% { background: #1D1D1F; transform: scale(1) } 55.57% { background: #1D1D1F; transform: scale(.97) } 57.34% { background: #1D1D1F; transform: scale(1) } 60.3%, 100% { background: #E8E8ED; transform: scale(1) } }
+@keyframes ts3 { 0%, 55.33% { opacity: 1 } 57.34%, 100% { opacity: 0 } }
+@keyframes tn3 { 0%, 58.52% { opacity: 0; color: #6E6E73 } 60.89%, 100% { opacity: 1; color: #6E6E73 } }
+@keyframes s3 { 0%, 56.16% { clip-path: inset(0 0 0 100%) } 62.66%, 100% { clip-path: inset(0 0 0 0) } }
+@keyframes f3 { 0%, 56.75% { opacity: 0; transform: translateY(4px) } 60.89%, 100% { opacity: 1; transform: translateY(0) } }
+@keyframes cnt { 0%, 20.34% { transform: translateY(0) } 24.48%, 38.64% { transform: translateY(-24px) } 42.78%, 57.34% { transform: translateY(-48px) } 61.48%, 100% { transform: translateY(-72px) } }
+@keyframes sum { 0%, 20.34% { transform: translateY(0) } 24.48%, 38.64% { transform: translateY(-28px) } 42.78%, 57.34% { transform: translateY(-56px) } 61.48%, 100% { transform: translateY(-84px) } }
+
+/* Reduced motion: the payoff frame with its caption */
+@media (prefers-reduced-motion: reduce) {
+  .live, .cursor, .b1, .b2, .b3, .b4, .ts1, .ts2, .ts3, .tn1, .tn2, .tn3, .t4, .s1, .s2, .s3, .f1, .f2, .f3, .cnt, .sum, .note, .c0, .c1, .c2 { animation: none; }
+  .b1, .b2, .b3 { background: #E8E8ED; }
+  .ts1, .ts2, .ts3 { opacity: 0; } .tn1, .tn2, .tn3 { opacity: 1; }
+  .b4 { background: #EFEFF2; } .t4 { color: #86868B; }
+  .seg { clip-path: inset(0 0 0 0); }
+  .cnt { transform: translateY(-72px); } .sum { transform: translateY(-84px); }
+  .note { opacity: 1; }
+  .c2 { opacity: 1; }
+  .fig.js .cursor { display: none; }
+  .replay { display: none; }
+}
+@media (max-width: 719px) {
+  body { padding: 32px 16px; }
+  .stage { height: auto; padding: 16px; }
+  .cols { grid-template-columns: 1fr; gap: 16px; }
+  .card { height: auto; }
+  .card-body { flex: none; }
+    .filler { display: none; }
+}
+</style>
+<style>html,body{background:transparent!important;padding:0!important}.hero,.fig{max-width:none!important}</style><style>.foot,.replay{display:none!important}</style><style>.stage{background:transparent!important;border:0!important;border-radius:0!important}</style></head>
+<body>
+
+<figure class="fig" id="fig">
+  <div class="stage" id="stage" role="img" aria-label="A looping diagram. An advertiser sends request after request. Each one adds an amber Waiting segment to the wallet bar while Available stays full. When the next request would pass the balance, Send disables and a note appears.">
+
+    <div class="live">
+      <div class="cols" aria-hidden="true">
+
+        <section class="card">
+          <div class="card-head">Campaigns</div>
+          <div class="card-body">
+            <div class="row"><span class="th"></span><span class="bars"><i class="b d w60"></i><i class="b w40"></i></span><span class="price">$60</span><div class="send b1"><span class="t ts1">Send request</span><span class="t t-sent tn1">Request sent</span></div></div>
+            <div class="row"><span class="th"></span><span class="bars"><i class="b d w50"></i><i class="b w40"></i></span><span class="price">$80</span><div class="send b2"><span class="t ts2">Send request</span><span class="t t-sent tn2">Request sent</span></div></div>
+            <div class="row"><span class="th"></span><span class="bars"><i class="b d w60"></i><i class="b w50"></i></span><span class="price">$50</span><div class="send b3"><span class="t ts3">Send request</span><span class="t t-sent tn3">Request sent</span></div></div>
+            <div class="row"><span class="th"></span><span class="bars"><i class="b d w50"></i><i class="b w40"></i></span><span class="price">$70</span><div class="send b4"><span class="t t4">Send request</span></div></div>
+            <div class="note">Another request would pass your balance by $60.</div>
+          </div>
+        </section>
+
+        <section class="card wal">
+          <div class="card-head">Wallet</div>
+          <div class="card-body">
+            <div class="well">
+              <div class="line"><span class="micro">Available</span><span class="amt">$200</span></div>
+              <div class="track"><div class="fill"><span class="avail"></span><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div></div>
+              <ul class="legend"><li><i class="sw a"></i>Available</li><li><i class="sw t"></i>Waiting</li></ul>
+            </div>
+            <div class="tally">
+              <div class="trow"><span class="micro">Requests sent</span><span class="strip c"><div class="cnt"><span>0</span><span>1</span><span>2</span><span>3</span></div></span></div>
+              <div class="trow"><span class="micro"><i class="sw t"></i>Waiting</span><span class="strip s"><div class="sum"><span>$0</span><span>$60</span><span>$140</span><span>$190</span></div></span></div>
+              <div class="formula"><span class="f1">$60</span><span class="f2">+ $80</span><span class="f3">+ $50</span></div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <svg class="cursor" width="20" height="24" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 1.5v17l4.6-4.1 3.2 7.2 3-1.4-3.2-7.1h6.4z" fill="#1D1D1F" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  </div>
+
+  <div class="foot"><button class="replay" id="replay" type="button">Replay</button></div>
+</figure>
+
+<script>
+(function () {
+  var fig = document.getElementById('fig');
+  var stage = document.getElementById('stage');
+  fig.classList.add('js');
+
+  function pt(el, fx, fy, s) {
+    var r = el.getBoundingClientRect();
+    return { x: r.left - s.left + r.width * fx, y: r.top - s.top + r.height * fy };
+  }
+  function set(name, p) {
+    fig.style.setProperty('--' + name + 'x', p.x + 'px');
+    fig.style.setProperty('--' + name + 'y', p.y + 'px');
+  }
+  function measure() {
+    var s = stage.getBoundingClientRect();
+    var sends = stage.querySelectorAll('.send');
+    var well = stage.querySelector('.well');
+    set('c0', pt(well, 0.7, 0.3, s));
+    for (var i = 0; i < 4; i++) set('c' + (i + 1), pt(sends[i], 0.55, 0.5, s));
+  }
+  measure();
+  window.addEventListener('resize', measure);
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(stage);
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      fig.classList.toggle('paused', !e[0].isIntersecting);
+    }, { threshold: 0.2 }).observe(stage);
+  }
+  document.getElementById('replay').addEventListener('click', function () {
+    fig.classList.add('reset');
+    void fig.offsetWidth;
+    fig.classList.remove('reset');
+  });
+})();
+</script>
+</body>
+</html>

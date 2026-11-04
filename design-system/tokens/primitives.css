@@ -5,6 +5,8 @@
   --ds-color-primary: #333333;
   --ds-color-secondary: #555555;
   --ds-color-tertiary: #767676;
+  /* "In progress" pill text on the homepage card */
+  --ds-color-status-progress: #15803d;
   --ds-color-muted: #888888;
   --ds-color-faint: #989898;
   --ds-color-on-dark: #ffffff;

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visual 2: booking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --tint: #E3E4F9;
+  --tint-card: #F8F8FE;
+  --tint-line: #DADCF5;
+  --accent: #4C4FD1;
+  --ink: #1D1D1F;
+  --muted: #6E6E73;
+  --skel: #E8E8ED;
+  --skel-2: #D2D2D7;
+  --ease: cubic-bezier(.23, 1, .32, 1);
+  --font: "Figtree", -apple-system, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: #fafafa; font-family: var(--font); color: var(--ink); padding: 64px 24px; }
+.fig { max-width: 1008px; margin: 0 auto; }
+
+.stage { position: relative; height: 496px; background: #F7F7F7; border: 1px solid #F2F2F2; border-radius: 24px; padding: 32px 32px 0; overflow: hidden; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+
+/* Windows: tinted outer, white inner */
+.card { height: 520px; transform-origin: 50% 0; display: flex; flex-direction: column; background: var(--tint-card); border: 1px solid #F0F1FF; border-radius: 16px; padding: 8px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.06); }
+.card-head { padding: 8px 16px 12px; font-size: 14px; line-height: 24px; color: var(--muted); }
+.card-body { flex: 1; background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.08); overflow: hidden; display: flex; flex-direction: column; gap: 12px; }
+
+/* Budget, pinned at the top of every window */
+.budget { flex: none; display: flex; align-items: center; justify-content: space-between; height: 40px; padding: 0 12px; border-radius: 8px; background: #F1F1FC; }
+.micro { font-size: 14px; line-height: 20px; color: var(--muted); }
+.bamt { font-size: 16px; line-height: 24px; font-weight: 500; color: var(--accent); }
+
+.b { display: block; height: 8px; border-radius: 4px; background: var(--skel); }
+.b.d { background: var(--skel-2); }
+.w80 { width: 80%; } .w60 { width: 60%; } .w50 { width: 50%; } .w40 { width: 40%; } .w30 { width: 30%; }
+.bars { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
+.th { width: 40px; height: 40px; border-radius: 8px; background: var(--tint); flex: none; }
+
+/* Browse */
+.scrs { flex: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.scr { position: relative; flex: none; display: flex; flex-direction: column; gap: 8px; padding: 8px 8px 16px; border: 1px solid #EEEEF2; border-radius: 8px; background: #fff; }
+.scr .img { height: 96px; border-radius: 6px; background: #F0F0F3; }
+.scr .bars { flex: none; padding: 0 4px; }
+.pick { position: absolute; top: 16px; right: 16px; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 999px; background: var(--accent); opacity: 0; }
+.filler { opacity: .6; }
+
+/* Time slots */
+.slot { flex: none; display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 12px; border: 1px solid #EEEEF2; border-radius: 8px; }
+.cb { position: relative; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: none; border-radius: 6px; border: 1.5px solid #C7C7CC; background: #fff; }
+.cb svg, .pick svg { width: 12px; height: 12px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.cb svg { opacity: 0; }
+.slot .amt { width: 28px; flex: none; }
+.slot-gap { gap: 8px; }
+.tot { flex: none; display: flex; flex-direction: column; gap: 4px; padding: 0 4px; }
+.trow { display: flex; align-items: center; justify-content: space-between; }
+.strip { display: block; overflow: hidden; text-align: right; }
+.strip.s { height: 28px; } .strip.a { height: 24px; }
+.strip > div { display: flex; flex-direction: column; }
+.strip.s span { height: 28px; line-height: 28px; font-size: 20px; font-weight: 500; }
+.strip.a span { height: 24px; line-height: 24px; font-size: 16px; font-weight: 500; }
+.pill { position: relative; flex: none; height: 40px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 20px; font-weight: 500; color: #fff; background: var(--ink); }
+.pill .t { position: absolute; }
+.t-sent { opacity: 0; color: var(--muted); }
+
+/* Review */
+.camp { flex: none; display: flex; align-items: center; gap: 12px; height: 56px; }
+.tbl { flex: none; border: 1px solid #EEEEF2; border-radius: 8px; }
+.tr { display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; }
+.tr + .tr { border-top: 1px solid #EEEEF2; }
+.tr .price { font-size: 16px; line-height: 24px; font-weight: 500; }
+.sum { flex: none; display: flex; flex-direction: column; gap: 8px; padding: 12px 16px; border-radius: 8px; background: var(--tint-card); border: 1px solid #E6E7FA; }
+.srow { display: flex; align-items: center; justify-content: space-between; }
+.srow .v { font-size: 16px; line-height: 24px; font-weight: 500; }
+.srow.big .v { font-size: 20px; line-height: 28px; }
+.sum .pill { margin-top: 8px; }
+
+/* Cursor */
+.cursor { display: none; position: absolute; top: 0; left: 0; width: 20px; height: 24px; margin: -1.5px 0 0 -2px; pointer-events: none; opacity: 0; z-index: 3; transform-origin: 2px 1.5px; }
+.fig.js .cursor { display: block; }
+
+.foot { display: flex; justify-content: flex-end; margin-top: 16px; }
+.replay { font: inherit; font-size: 14px; line-height: 24px; color: var(--ink); background: #fff; border: 0; border-radius: 999px; padding: 4px 16px; box-shadow: inset 0 0 0 1px #E8E8E8; cursor: pointer; }
+.replay:hover { background: #F7F7F7; }
+.replay:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Timeline: 16s loop */
+.win-a, .win-b, .cursor, .scr1, .pick, .cb2, .cb3, .ck2, .ck3, .tot-s, .aft-s, .b-send, .ts, .tn {
+  animation-duration: 10.3s; animation-iteration-count: infinite; animation-fill-mode: both; animation-timing-function: var(--ease);
+}
+.win-a { animation-name: winA; } .win-b { animation-name: winB; }
+.cursor { animation-name: cur; }
+.scr1 { animation-name: sel; } .pick { animation-name: pick; }
+.cb2 { animation-name: cb2; } .cb3 { animation-name: cb3; }
+.cb2 svg { animation: ck2 10.3s var(--ease) infinite both; } .cb3 svg { animation: ck3 10.3s var(--ease) infinite both; }
+.tot-s { animation-name: tot; } .aft-s { animation-name: aft; }
+.b-send { animation-name: bsend; }
+.ts { animation-name: tsend; } .tn { animation-name: tsent; }
+.fig.paused * { animation-play-state: paused !important; }
+.fig.reset *, .fig.measuring * { animation: none !important; }
+@keyframes winA {
+  0% { opacity: 0; transform: translateX(var(--ax, 0px)) scale(1) }
+  4.369%, 25.243% { opacity: 1; transform: translateX(var(--ax, 0px)) scale(1) }
+  33.981% { opacity: 1; transform: translateX(0) scale(1) }
+  39.806%, 93.204% { opacity: 0.45; transform: translateX(0) scale(0.96) }
+  98.058%, 100% { opacity: 0; transform: translateX(0) scale(0.96) }
+}
+@keyframes winB {
+  0%, 27.184% { opacity: 0; transform: translateY(48px) }
+  35.922%, 93.204% { opacity: 1; transform: translateY(0) }
+  98.058%, 100% { opacity: 0; transform: translateY(0) }
+}
+@keyframes cur {
+  0% { opacity: 0; transform: translate(var(--c0x, 0px), var(--c0y, 0px)) scale(1) }
+  4.369%, 7.282% { opacity: 1; transform: translate(var(--c0x, 0px), var(--c0y, 0px)) scale(1) }
+  16.99% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(1) }
+  17.961% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(0.88) }
+  19.903%, 28.641% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(1) }
+  40.777% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(1) }
+  41.748% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(0.88) }
+  43.689%, 46.117% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(1) }
+  53.398% { opacity: 1; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(1) }
+  54.369% { opacity: 1; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(0.88) }
+  56.311%, 60.194% { opacity: 1; transform: translate(var(--c3x, 0px), var(--c3y, 0px)) scale(1) }
+  68.447% { opacity: 1; transform: translate(var(--c4x, 0px), var(--c4y, 0px)) scale(1) }
+  69.417% { opacity: 1; transform: translate(var(--c4x, 0px), var(--c4y, 0px)) scale(0.88) }
+  71.359%, 93.204% { opacity: 1; transform: translate(var(--c4x, 0px), var(--c4y, 0px)) scale(1) }
+  98.058%, 100% { opacity: 0; transform: translate(var(--c4x, 0px), var(--c4y, 0px)) scale(1) }
+}
+@keyframes sel {
+  0%, 17.961% { box-shadow: 0 0 0 rgba(29, 29, 31, 0); transform: translateY(0) }
+  21.359%, 100% { box-shadow: 0 4px 12px rgba(29, 29, 31, 0.10); transform: translateY(-2px) }
+}
+@keyframes pick {
+  0%, 17.961% { opacity: 0; transform: scale(.6) }
+  21.845%, 100% { opacity: 1; transform: scale(1) }
+}
+@keyframes cb2 {
+  0%, 41.748% { background: #fff; border-color: #C7C7CC }
+  43.689%, 100% { background: #4C4FD1; border-color: #4C4FD1 }
+}
+@keyframes ck2 {
+  0%, 41.748% { opacity: 0 }
+  43.689%, 100% { opacity: 1 }
+}
+@keyframes cb3 {
+  0%, 54.369% { background: #fff; border-color: #C7C7CC }
+  56.311%, 100% { background: #4C4FD1; border-color: #4C4FD1 }
+}
+@keyframes ck3 {
+  0%, 54.369% { opacity: 0 }
+  56.311%, 100% { opacity: 1 }
+}
+@keyframes tot {
+  0%, 42.718% { transform: translateY(0) }
+  46.602%, 55.34% { transform: translateY(-28px) }
+  59.223%, 100% { transform: translateY(-56px) }
+}
+@keyframes aft {
+  0%, 42.718% { transform: translateY(0) }
+  46.602%, 55.34% { transform: translateY(-24px) }
+  59.223%, 100% { transform: translateY(-48px) }
+}
+@keyframes bsend {
+  0%, 69.417% { background: #1D1D1F; transform: scale(1) }
+  70.874% { background: #1D1D1F; transform: scale(.97) }
+  72.816% { background: #1D1D1F; transform: scale(1) }
+  76.699%, 100% { background: #E8E8ED; transform: scale(1) }
+}
+@keyframes tsend {
+  0%, 69.903% { opacity: 1 }
+  72.816%, 100% { opacity: 0 }
+}
+@keyframes tsent {
+  0%, 74.757% { opacity: 0; color: #6E6E73 }
+  77.67%, 100% { opacity: 1; color: #6E6E73 }
+}
+
+/* Reduced motion: the payoff frame with its caption */
+@media (prefers-reduced-motion: reduce) {
+  .win-a, .win-b, .cursor, .scr1, .pick, .cb2, .cb3, .tot-s, .aft-s, .b-send, .ts, .tn { animation: none; }
+  .cb2 svg, .cb3 svg { animation: none; opacity: 1; }
+  .scr1 { box-shadow: 0 4px 12px rgba(29, 29, 31, 0.10); transform: translateY(-2px); } .pick { opacity: 1; }
+  .cb2, .cb3 { background: var(--accent); border-color: var(--accent); }
+  .tot-s { transform: translateY(-56px); } .aft-s { transform: translateY(-48px); }
+  .b-send { background: #E8E8ED; } .ts { opacity: 0; } .tn { opacity: 1; }
+  .win-a { opacity: .45; transform: scale(.96); }
+  .fig.js .cursor { display: none; }
+  .replay { display: none; }
+}
+@media (max-width: 719px) {
+  body { padding: 32px 16px; }
+  .stage { height: auto; padding: 16px; }
+  .cols { grid-template-columns: 1fr; gap: 16px; }
+  .card { height: auto; }
+  .card-body { flex: none; }
+    .win-a { --ax: 0px; }
+  .filler { display: none; }
+}
+</style>
+<style>html,body{background:transparent!important;padding:0!important}.hero,.fig{max-width:none!important}</style><style>.foot,.replay{display:none!important}</style><style>.stage{background:transparent!important;border:0!important;border-radius:0!important}</style></head>
+<body>
+
+<figure class="fig" id="fig">
+  <div class="stage" id="stage" role="img" aria-label="A looping diagram of a booking in two windows. A budget bar stays at the top of every window. The advertiser picks a screen, picks two time slots while the total and what is left update, then sends the request.">
+
+    <div class="cols" id="cols" aria-hidden="true">
+
+      <section class="card win-a">
+        <div class="card-head">Browse</div>
+        <div class="card-body">
+          <div class="budget"><span class="micro">Left to spend</span><span class="bamt">$500</span></div>
+          <div class="scrs">
+            <div class="scr scr1" id="scr1"><div class="img"></div><span class="bars"><i class="b d w60"></i><i class="b w40"></i></span><span class="pick"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.4l2.4 2.4 4.6-5.4"/></svg></span></div>
+            <div class="scr"><div class="img"></div><span class="bars"><i class="b d w50"></i><i class="b w40"></i></span></div>
+            <div class="scr filler"><div class="img"></div><span class="bars"><i class="b d w60"></i><i class="b w30"></i></span></div>
+            <div class="scr filler"><div class="img"></div><span class="bars"><i class="b d w50"></i><i class="b w30"></i></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card win-b">
+        <div class="card-head">Time slots</div>
+        <div class="card-body slot-gap">
+          <div class="budget"><span class="micro">Left to spend</span><span class="bamt">$500</span></div>
+          <div class="slot"><span class="cb"></span><span class="bars"><i class="b d w50"></i><i class="b w40"></i></span><i class="b amt"></i></div>
+          <div class="slot"><span class="cb cb2" id="cb2"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.4l2.4 2.4 4.6-5.4"/></svg></span><span class="bars"><i class="b d w60"></i><i class="b w40"></i></span><i class="b amt"></i></div>
+          <div class="slot"><span class="cb cb3" id="cb3"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.4l2.4 2.4 4.6-5.4"/></svg></span><span class="bars"><i class="b d w50"></i><i class="b w30"></i></span><i class="b amt"></i></div>
+          <div class="sum">
+            <div class="srow big"><span class="micro">Total</span><span class="strip s"><div class="tot-s"><span>$0</span><span>$60</span><span>$100</span></div></span></div>
+            <div class="srow"><span class="micro">After this request</span><span class="strip a"><div class="aft-s"><span>$500</span><span>$440</span><span>$400</span></div></span></div>
+            <div class="pill b-send" id="bsend"><span class="t ts">Send request</span><span class="t t-sent tn">Request sent</span></div>
+          </div>
+        </div>
+      </section>
+
+
+    </div>
+
+    <svg class="cursor" width="20" height="24" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 1.5v17l4.6-4.1 3.2 7.2 3-1.4-3.2-7.1h6.4z" fill="#1D1D1F" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  </div>
+
+  <div class="foot"><button class="replay" id="replay" type="button">Replay</button></div>
+</figure>
+
+<script>
+(function () {
+  var fig = document.getElementById('fig');
+  var stage = document.getElementById('stage');
+  var cols = document.getElementById('cols');
+  var winA = stage.querySelector('.win-a');
+  fig.classList.add('js');
+
+  function pt(el, fx, fy, s) {
+    var r = el.getBoundingClientRect();
+    return { x: r.left - s.left + r.width * fx, y: r.top - s.top + r.height * fy };
+  }
+  function set(name, p) {
+    fig.style.setProperty('--' + name + 'x', p.x + 'px');
+    fig.style.setProperty('--' + name + 'y', p.y + 'px');
+  }
+  function measure() {
+    fig.classList.add('measuring');
+    var ax = Math.max(0, (cols.clientWidth - winA.offsetWidth) / 2);
+    if (window.matchMedia('(max-width: 719px)').matches) ax = 0;
+    fig.style.setProperty('--ax', ax + 'px');
+    var s = stage.getBoundingClientRect();
+    var card = pt(document.getElementById('scr1'), 0.5, 0.45, s);
+    set('c0', { x: card.x + 120, y: card.y - 70 });
+    set('c1', { x: card.x + ax, y: card.y });
+    set('c2', pt(document.getElementById('cb2'), 0.5, 0.5, s));
+    set('c3', pt(document.getElementById('cb3'), 0.5, 0.5, s));
+    set('c4', pt(document.getElementById('bsend'), 0.55, 0.5, s));
+    fig.classList.remove('measuring');
+  }
+  measure();
+  window.addEventListener('resize', measure);
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(stage);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      fig.classList.toggle('paused', !e[0].isIntersecting);
+    }, { threshold: 0.2 }).observe(stage);
+  }
+  document.getElementById('replay').addEventListener('click', function () {
+    fig.classList.add('reset');
+    void fig.offsetWidth;
+    fig.classList.remove('reset');
+  });
+})();
+</script>
+</body>
+</html>

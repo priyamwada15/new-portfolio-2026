@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visual 4: adding a space</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --tint: #E3E4F9;
+  --tint-card: #F8F8FE;
+  --tint-line: #DADCF5;
+  --accent: #4C4FD1;
+  --ink: #1D1D1F;
+  --muted: #6E6E73;
+  --skel: #E8E8ED;
+  --skel-2: #D2D2D7;
+  --ease: cubic-bezier(.23, 1, .32, 1);
+  --font: "Figtree", -apple-system, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: #fafafa; font-family: var(--font); color: var(--ink); padding: 64px 24px; }
+.fig { max-width: 1008px; margin: 0 auto; }
+
+.stage { position: relative; background: #F7F7F7; border: 1px solid #F2F2F2; border-radius: 24px; padding: 32px; overflow: hidden; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+
+/* Windows: tinted outer, white inner */
+.card { display: flex; flex-direction: column; background: var(--tint-card); border: 1px solid #F0F1FF; border-radius: 16px; padding: 8px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.06); transform-origin: 50% 0; }
+.card-head { padding: 8px 16px 12px; font-size: 14px; line-height: 24px; color: var(--muted); }
+.card-body { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 2px rgba(29, 29, 31, 0.08); display: flex; flex-direction: column; gap: 12px; }
+
+.b { display: block; height: 8px; border-radius: 4px; background: var(--skel); }
+.b.d { background: var(--skel-2); }
+.w80 { width: 80%; } .w60 { width: 60%; } .w50 { width: 50%; } .w40 { width: 40%; } .w30 { width: 30%; }
+.bars { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
+.micro { font-size: 14px; line-height: 20px; color: var(--muted); }
+.th { width: 40px; height: 40px; border-radius: 8px; background: var(--tint); flex: none; }
+
+/* Add a space */
+.photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ph { height: 64px; border-radius: 6px; background: #F0F0F3; }
+.ph:first-child { background: var(--tint); }
+.field { height: 40px; display: flex; align-items: center; padding: 0 12px; border: 1px solid #E8E8ED; border-radius: 8px; }
+.field .b { width: 40%; }
+.sched { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: 8px; background: var(--tint-card); border: 1px solid #E6E7FA; }
+.sline { display: flex; align-items: center; justify-content: space-between; }
+.sline .h { font-size: 14px; line-height: 24px; font-weight: 500; }
+.sline .v { font-size: 16px; line-height: 24px; font-weight: 500; }
+.scount { display: flex; align-items: center; justify-content: space-between; padding: 0 4px; }
+.scount .v { font-size: 16px; line-height: 24px; font-weight: 500; }
+.btns { display: flex; gap: 12px; }
+.pill { position: relative; height: 40px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 20px; font-weight: 500; color: #fff; background: var(--ink); flex: 1; }
+.pill .t { position: absolute; }
+.t-done { opacity: 0; color: var(--muted); }
+.pill.outline { flex: none; width: 112px; background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1px var(--tint-line); }
+.pill.sm { flex: none; height: 36px; width: 104px; }
+
+/* Screens */
+.top { display: flex; align-items: center; gap: 12px; height: 48px; }
+.scr { display: flex; align-items: center; gap: 12px; height: 64px; padding: 0 12px; border: 1px solid #EEEEF2; border-radius: 8px; }
+.stat { position: relative; width: 112px; height: 24px; flex: none; }
+.st { position: absolute; right: 0; top: 0; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 14px; line-height: 24px; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; color: var(--muted); }
+.st i { width: 8px; height: 8px; border-radius: 999px; background: #A1A1A6; }
+.st-ok { color: var(--accent); opacity: 0; }
+.st-ok i { background: var(--accent); }
+
+/* Cursor */
+.cursor { display: none; position: absolute; top: 0; left: 0; width: 20px; height: 24px; margin: -1.5px 0 0 -2px; pointer-events: none; opacity: 0; z-index: 3; transform-origin: 2px 1.5px; }
+.fig.js .cursor { display: block; }
+
+.foot { display: flex; justify-content: flex-end; margin-top: 16px; }
+.replay { font: inherit; font-size: 14px; line-height: 24px; color: var(--ink); background: #fff; border: 0; border-radius: 999px; padding: 4px 16px; box-shadow: inset 0 0 0 1px #E8E8E8; cursor: pointer; }
+.replay:hover { background: #F7F7F7; }
+.replay:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Timeline: 16s loop */
+.win-a, .win-b, .cursor, .b-add, .ts-add, .tn-add, .b-pair, .ts-pair, .tn-pair, .st-no, .st-ok {
+  animation-duration: 8.6s; animation-iteration-count: infinite; animation-fill-mode: both; animation-timing-function: var(--ease);
+}
+.win-a { animation-name: winA; } .win-b { animation-name: winB; }
+.cursor { animation-name: cur; }
+.b-add { animation-name: badd; } .ts-add { animation-name: tsadd; } .tn-add { animation-name: tnadd; }
+.b-pair { animation-name: bpair; } .ts-pair { animation-name: tspair; } .tn-pair { animation-name: tnpair; }
+.st-no { animation-name: stno; } .st-ok { animation-name: stok; }
+.fig.paused * { animation-play-state: paused !important; }
+.fig.reset *, .fig.measuring * { animation: none !important; }
+@keyframes winA {
+  0% { opacity: 0; transform: translateX(var(--ax, 0px)) scale(1) }
+  5.814%, 32.558% { opacity: 1; transform: translateX(var(--ax, 0px)) scale(1) }
+  43.023% { opacity: 1; transform: translateX(0) scale(1) }
+  50%, 90.698% { opacity: 0.45; transform: translateX(0) scale(0.96) }
+  96.512%, 100% { opacity: 0; transform: translateX(0) scale(0.96) }
+}
+@keyframes winB {
+  0%, 34.884% { opacity: 0; transform: translateY(48px) }
+  45.349%, 90.698% { opacity: 1; transform: translateY(0) }
+  96.512%, 100% { opacity: 0; transform: translateY(0) }
+}
+@keyframes cur {
+  0% { opacity: 0; transform: translate(var(--c0x, 0px), var(--c0y, 0px)) scale(1) }
+  4.651%, 10.465% { opacity: 1; transform: translate(var(--c0x, 0px), var(--c0y, 0px)) scale(1) }
+  22.093% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(1) }
+  24.419% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(0.88) }
+  26.744%, 37.209% { opacity: 1; transform: translate(var(--c1x, 0px), var(--c1y, 0px)) scale(1) }
+  51.163% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(1) }
+  53.488% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(0.88) }
+  55.814%, 90.698% { opacity: 1; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(1) }
+  96.512%, 100% { opacity: 0; transform: translate(var(--c2x, 0px), var(--c2y, 0px)) scale(1) }
+}
+@keyframes badd {
+  0%, 24.419% { background: #1D1D1F; transform: scale(1) }
+  26.163% { background: #1D1D1F; transform: scale(.97) }
+  28.488% { background: #1D1D1F; transform: scale(1) }
+  32.558%, 100% { background: #E8E8ED; transform: scale(1) }
+}
+@keyframes tsadd {
+  0%, 25% { opacity: 1 }
+  28.488%, 100% { opacity: 0 }
+}
+@keyframes tnadd {
+  0%, 30.233% { opacity: 0 }
+  34.302%, 100% { opacity: 1 }
+}
+@keyframes bpair {
+  0%, 53.488% { background: #1D1D1F; transform: scale(1) }
+  55.233% { background: #1D1D1F; transform: scale(.97) }
+  57.558% { background: #1D1D1F; transform: scale(1) }
+  61.628%, 100% { background: #E8E8ED; transform: scale(1) }
+}
+@keyframes tspair {
+  0%, 54.07% { opacity: 1 }
+  57.558%, 100% { opacity: 0 }
+}
+@keyframes tnpair {
+  0%, 59.302% { opacity: 0 }
+  63.372%, 100% { opacity: 1 }
+}
+@keyframes stno {
+  0%, 56.977% { opacity: 1 }
+  61.047%, 100% { opacity: 0 }
+}
+@keyframes stok {
+  0%, 58.14% { opacity: 0 }
+  62.209%, 100% { opacity: 1 }
+}
+
+/* Reduced motion: the payoff frame with its caption */
+@media (prefers-reduced-motion: reduce) {
+  .win-a, .win-b, .cursor, .b-add, .ts-add, .tn-add, .b-pair, .ts-pair, .tn-pair, .st-no, .st-ok { animation: none; }
+  .win-a { opacity: .45; transform: scale(.96); }
+  .b-add, .b-pair { background: #E8E8ED; }
+  .ts-add, .ts-pair { opacity: 0; } .tn-add, .tn-pair { opacity: 1; }
+  .st-no { opacity: 0; } .st-ok { opacity: 1; }
+  .fig.js .cursor { display: none; }
+  .replay { display: none; }
+}
+@media (max-width: 719px) {
+  body { padding: 32px 16px; }
+  .stage { padding: 16px; }
+  .cols { grid-template-columns: 1fr; gap: 16px; }
+    .win-a { --ax: 0px; }
+}
+</style>
+<style>html,body{background:transparent!important;padding:0!important}.hero,.fig{max-width:none!important}</style><style>.foot,.replay{display:none!important}</style><style>.stage{background:transparent!important;border:0!important;border-radius:0!important}</style></head>
+<body>
+
+<figure class="fig" id="fig">
+  <div class="stage" id="stage" role="img" aria-label="A looping diagram of adding a space. A short form takes a name, photos and one price for every screen. After Add space, the screens appear with details and photos but marked not paired. Later, pairing a device marks one screen ready.">
+
+    <div class="cols" id="cols" aria-hidden="true">
+
+      <section class="card win-a">
+        <div class="card-head">Add a space</div>
+        <div class="card-body">
+          <div class="photos"><span class="ph"></span><span class="ph"></span><span class="ph"></span></div>
+          <div class="field"><i class="b d"></i></div>
+          <div class="sched">
+            <div class="sline"><span class="h">Price</span><span class="v">$0.50</span></div>
+            <span class="micro">Applies to every screen</span>
+          </div>
+          <div class="scount"><span class="micro">Screens</span><span class="v">2</span></div>
+          <div class="btns">
+            <div class="pill b-add" id="badd"><span class="t ts-add">Add space</span><span class="t t-done tn-add">Space added</span></div>
+            <div class="pill outline">Save draft</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card win-b">
+        <div class="card-head">Screens</div>
+        <div class="card-body">
+          <div class="top"><span class="th"></span><span class="bars"><i class="b d w60"></i><i class="b w40"></i></span></div>
+          <div class="scr">
+            <span class="th"></span><span class="bars"><i class="b d w60"></i><i class="b w40"></i></span>
+            <span class="stat"><span class="st st-no"><i></i>Not paired</span><span class="st st-ok"><i></i>Ready</span></span>
+            <div class="pill sm b-pair" id="bpair"><span class="t ts-pair">Pair device</span><span class="t t-done tn-pair">Paired</span></div>
+          </div>
+          <div class="scr">
+            <span class="th"></span><span class="bars"><i class="b d w50"></i><i class="b w40"></i></span>
+            <span class="stat"><span class="st"><i></i>Not paired</span></span>
+            <div class="pill sm">Pair device</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <svg class="cursor" width="20" height="24" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 1.5v17l4.6-4.1 3.2 7.2 3-1.4-3.2-7.1h6.4z" fill="#1D1D1F" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  </div>
+
+  <div class="foot"><button class="replay" id="replay" type="button">Replay</button></div>
+</figure>
+
+<script>
+(function () {
+  var fig = document.getElementById('fig');
+  var stage = document.getElementById('stage');
+  var cols = document.getElementById('cols');
+  var winA = stage.querySelector('.win-a');
+  fig.classList.add('js');
+
+  function pt(el, fx, fy, s) {
+    var r = el.getBoundingClientRect();
+    return { x: r.left - s.left + r.width * fx, y: r.top - s.top + r.height * fy };
+  }
+  function set(name, p) {
+    fig.style.setProperty('--' + name + 'x', p.x + 'px');
+    fig.style.setProperty('--' + name + 'y', p.y + 'px');
+  }
+  function measure() {
+    fig.classList.add('measuring');
+    var ax = Math.max(0, (cols.clientWidth - winA.offsetWidth) / 2);
+    if (window.matchMedia('(max-width: 719px)').matches) ax = 0;
+    fig.style.setProperty('--ax', ax + 'px');
+    var s = stage.getBoundingClientRect();
+    var add = pt(document.getElementById('badd'), 0.5, 0.5, s);
+    set('c0', { x: add.x - 120 + ax, y: add.y - 80 });
+    set('c1', { x: add.x + ax, y: add.y });
+    set('c2', pt(document.getElementById('bpair'), 0.55, 0.5, s));
+    fig.classList.remove('measuring');
+  }
+  measure();
+  window.addEventListener('resize', measure);
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(stage);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      fig.classList.toggle('paused', !e[0].isIntersecting);
+    }, { threshold: 0.2 }).observe(stage);
+  }
+  document.getElementById('replay').addEventListener('click', function () {
+    fig.classList.add('reset');
+    void fig.offsetWidth;
+    fig.classList.remove('reset');
+  });
+})();
+</script>
+</body>
+</html>

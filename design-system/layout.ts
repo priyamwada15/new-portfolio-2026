@@ -40,6 +40,7 @@ const CASE_STUDY_PREFIXES = [
   "/salesforce",
   "/tars-debug-mode",
   "/tars-asimov",
+  "/hcn-advertising-marketplace",
 ] as const;
 
 export function isCaseStudyPath(pathname: string): boolean {
@@ -56,6 +57,7 @@ export function caseStudyUsesSiteDefaultSurface(pathname: string): boolean {
   return (
     pathname === "/tars-debug-mode" ||
     pathname.startsWith("/tars-debug-mode/") ||
+    pathname === "/hcn-advertising-marketplace" ||
     pathname === "/salesforce" ||
     pathname.startsWith("/salesforce/")
   );

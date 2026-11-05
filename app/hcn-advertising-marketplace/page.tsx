@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import { CaseStudyStatusPills } from "../components/CaseStudyStatusPills";
+import { WordReveal } from "../components/WordReveal";
 import { HtmlEmbed } from "../components/HtmlEmbed";
 import { SectionHeader } from "../components/CaseStudySections";
 import { HcnMarketplaceEmbed } from "../home-v2/HcnMarketplaceEmbed";
@@ -66,6 +67,13 @@ export default function HcnAdvertisingMarketplacePage() {
             the design system flow by flow.
           </p>
         </SectionHeader>
+      </section>
+
+      <section aria-label="About the visuals">
+        <WordReveal
+          className="mx-auto max-w-[760px] text-balance text-center font-label text-[24px] font-medium leading-[1.45] tracking-[-0.01em] text-secondary max-md:text-[20px]"
+          text="The screens that follow are *conceptual walkthroughs*. The product is under NDA and pre-launch, so I show the thinking behind *four decisions* and leave the final design out."
+        />
       </section>
 
       <section id="accounts" className="flex flex-col gap-12">

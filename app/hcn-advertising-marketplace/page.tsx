@@ -14,15 +14,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const SKILLS = [
-  "Information Architecture",
-  "Systems Design",
-  "Financial UX",
-  "Workflow Design",
-  "Design System",
-  "Visual Direction",
-];
-
 const lead = "font-semibold text-primary";
 
 export default function HcnAdvertisingMarketplacePage() {
@@ -75,16 +66,6 @@ export default function HcnAdvertisingMarketplacePage() {
             the design system flow by flow.
           </p>
         </SectionHeader>
-        <ul className="flex flex-wrap gap-2">
-          {SKILLS.map((skill) => (
-            <li
-              key={skill}
-              className="rounded-full border border-border px-3 py-1 font-label text-[14px] text-primary"
-            >
-              {skill}
-            </li>
-          ))}
-        </ul>
       </section>
 
       <section id="accounts" className="flex flex-col gap-12">

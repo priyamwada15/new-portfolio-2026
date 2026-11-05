@@ -383,9 +383,9 @@ const RELEASES: {
 export const metadata: Metadata = {
   title: "Asimov for Tars | AI Agent Configuration Platform Case Study | Priyamwada Pandey",
   description:
-    "How I owned design for Asimov, Tars' Slack AI agent, as its founding designer: 20 user interviews, five releases in five months and a design system Tars' main product later adopted.",
+    "How I led design for Asimov, Tars' Slack AI agent and a new product line built with Tars' founders: 20 user interviews, five releases in five months and a design system Tars' main product later adopted.",
   keywords: [
-    "founding designer",
+    "0 to 1 product design",
     "AI product design",
     "AI agent UX designer",
     "Slack AI agent design",
@@ -424,11 +424,11 @@ export default function AsimovPage() {
         timelineLabel: "Shipped",
         timeline: "Dec 2023 – Apr 2024 · 5 releases",
         industry: "B2B SaaS",
-        role: "Product Designer · Founding designer, Asimov",
+        role: "Product Designer · Led design, Asimov",
         team: "CTO · Eng lead · 4 developers · QA · Designer (me)",
         items: [
           { label: "Shipped", value: "Dec 2023 – Apr 2024 · 5 releases" },
-          { label: "Role", value: "Product Designer · Founding designer, Asimov" },
+          { label: "Role", value: "Product Designer · Led design, Asimov" },
           { label: "Team", value: "CTO · Eng lead · 4 developers · QA · Designer (me)" },
           { label: "Key contributions", value: "Research, product design, design system, design QA" },
         ],
@@ -452,7 +452,7 @@ export default function AsimovPage() {
       <section id="my-role">
         <SectionHeader eyebrow="My role" title="I owned design for a new AI product line at Tars">
           <p>
-            As Asimov&rsquo;s founding designer, my scope went well past just UI design. I ran the
+            As the designer leading Asimov, my scope went well past just UI design. I ran the
             research the PRD evolved from, designed the platform teams used to configure Asimov and
             built the design system behind it, which cut handoff-to-release time by ~60%.
           </p>

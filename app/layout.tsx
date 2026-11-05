@@ -129,11 +129,11 @@ const PERSON_JSON_LD = {
   "@type": "Person",
   name: "Priyamwada Pandey",
   url: "https://www.priyamwada.me",
-  jobTitle: "Product Designer",
+  jobTitle: "Senior Consultant (Product Design)",
   description:
-    "0→1 Product Designer with 3+ years turning complex business and technical requirements into usable B2B SaaS, AI and marketplace products, often as an early or sole designer working with founders. Currently designing Adtua, a two-sided ad marketplace at Heartland Community Network. Previously founding designer on Asimov, Tars' AI agent for Slack, and Conversational AI Design Intern at Rocket Mortgage.",
+    "0→1 Product Designer with 3+ years turning complex business and technical requirements into usable B2B SaaS, AI and marketplace products, often as an early or sole designer working with founders. Currently the sole designer on Adtua, a two-sided ad marketplace at Heartland Community Network. Previously led the design of Asimov, a new product line at Tars, and was a Conversational AI Design Intern at Rocket Mortgage.",
   worksFor: { "@type": "Organization", name: "Heartland Community Network" },
-  address: { "@type": "PostalAddress", addressLocality: "New York", addressRegion: "NY", addressCountry: "US" },
+  address: { "@type": "PostalAddress", addressLocality: "Bloomington", addressRegion: "IN", addressCountry: "US" },
   knowsAbout: [
     "AI Product Design",
     "Agentic Interfaces",
@@ -142,8 +142,6 @@ const PERSON_JSON_LD = {
     "Human-in-the-Loop",
     "AI Transparency",
     "Internal Tools Design",
-    "Developer Tools UX",
-    "Fintech Product Design",
     "Enterprise SaaS UX",
     "Marketplace Design",
     "Design Systems",
@@ -151,6 +149,9 @@ const PERSON_JSON_LD = {
     "Data Visualization",
     "Permissions & Access Control",
     "Payment Flows",
+    "Monetization and Pricing",
+    "User Research and Usability Testing",
+    "Design QA",
     "Product Strategy",
   ],
   alumniOf: [

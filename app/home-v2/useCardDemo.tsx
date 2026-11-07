@@ -107,7 +107,8 @@ export function useCardDemo<S extends { fading?: boolean }>({
           setScene(opening);
         }
       },
-      { threshold: 0.35 },
+      // Start (and reset) a little beyond the screen edge, so a demo is already moving by the time it arrives
+      { threshold: 0.1, rootMargin: "20% 0px" },
     );
     io.observe(root);
     return () => io.disconnect();

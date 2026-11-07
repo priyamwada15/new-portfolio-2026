@@ -63,6 +63,7 @@ export function HcnMarketplaceEmbed() {
         src="/hcn/hero-loop.html"
         title="Advertiser and broadcaster booking flow"
         scrolling="no"
+        loading="lazy"
         className="pointer-events-none! absolute left-1/2 top-1/2 block -translate-x-1/2 -translate-y-1/2 border-0"
         style={{ width: W, height: H, zoom: scale }}
       />

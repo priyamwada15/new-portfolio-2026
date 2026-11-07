@@ -29,7 +29,7 @@ const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 const figtree = Figtree({
   variable: "--font-hind",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const inter = Inter({
@@ -39,12 +39,14 @@ const inter = Inter({
 });
 
 const ibmPlexDevanagari = IBM_Plex_Sans_Devanagari({
+  preload: false,
   variable: "--font-devanagari",
   subsets: ["devanagari"],
   weight: ["500"],
 });
 
 const kalam = Kalam({
+  preload: false,
   variable: "--font-kalam",
   subsets: ["latin", "devanagari"],
   weight: ["400", "700"],
@@ -57,6 +59,7 @@ const dmMono = DM_Mono({
 });
 
 const festive = Festive({
+  preload: false,
   variable: "--font-festive",
   subsets: ["latin"],
   weight: "400",
@@ -64,30 +67,35 @@ const festive = Festive({
 
 // Temporary: only used by the Asimov page's dialkit font tester.
 const ovo = Ovo({
+  preload: false,
   variable: "--font-ovo",
   subsets: ["latin"],
   weight: "400",
 });
 
 const youngSerif = Young_Serif({
+  preload: false,
   variable: "--font-young-serif",
   subsets: ["latin"],
   weight: "400",
 });
 
 const frankRuhlLibre = Frank_Ruhl_Libre({
+  preload: false,
   variable: "--font-frank-ruhl-libre",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 const forum = Forum({
+  preload: false,
   variable: "--font-forum",
   subsets: ["latin"],
   weight: "400",
 });
 
 const sreeKrushnadevaraya = Sree_Krushnadevaraya({
+  preload: false,
   variable: "--font-sree-krushnadevaraya",
   subsets: ["latin"],
   weight: "400",
@@ -95,6 +103,7 @@ const sreeKrushnadevaraya = Sree_Krushnadevaraya({
 
 // Temporary: only used by the Arcade EffWon game page's pixel-art HUD.
 const pressStart2P = Press_Start_2P({
+  preload: false,
   variable: "--font-press-start-2p",
   subsets: ["latin"],
   weight: "400",
@@ -102,6 +111,7 @@ const pressStart2P = Press_Start_2P({
 
 // Temporary: only used by the homepage bento's Intelligencer card.
 const sora = Sora({
+  preload: false,
   variable: "--font-sora",
   subsets: ["latin"],
   weight: ["400", "700"],

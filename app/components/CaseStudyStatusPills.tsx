@@ -1,5 +1,4 @@
 import { LockSimple } from "@phosphor-icons/react/dist/ssr";
-import styles from "./CaseStudyStatusPills.module.css";
 
 /*
  * Status of a case study under NDA: shared by the homepage card and the case
@@ -13,7 +12,6 @@ export function CaseStudyStatusPills() {
   return (
     <div className="flex items-center gap-2">
       <span className={`${pill} pl-2.5`}>
-        <span className={styles.dot} aria-hidden="true" />
         In progress
       </span>
       <span className={`${pill} pl-2`}>

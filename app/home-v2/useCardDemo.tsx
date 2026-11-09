@@ -15,7 +15,7 @@ export type Beat<S> = { set: Partial<S>; wait: number };
  * Shared behaviour for the coded demos on the homepage case study cards:
  * fitting the 704×520 stage to the card, playing the loop only while the card
  * is on screen (and resetting it when it leaves), a visitor taking over (which
- * stops the loop), a restart button, reduced motion (the final scene, no loop)
+ * stops the loop), reduced motion (the final scene, no loop)
  * and the "Read" cursor over the scene on either side of the demo's UI.
  *
  * Put `rootRef` and `rootProps` on the demo's root, `stageProps` on its stage,
@@ -206,17 +206,8 @@ export function useCardDemo<S extends { fading?: boolean }>({
       style: { "--scale": scale, "--x": `${fit.x}px`, "--y": `${fit.y}px`, opacity: scale ? undefined : 0 } as CSSProperties,
       "data-fading": view.fading || undefined,
     },
-    /** Restart button and "Read" disc; render inside the demo's root, after the stage */
-    chrome: (
-      <>
-        {interactive && !reduced && (
-          <button type="button" className={shared.restart} aria-label="Restart demo" onClick={restart}>
-            <DemoIcon src="/card-demo/icon-replay.svg" size={20} />
-          </button>
-        )}
-        {cursor.disc}
-      </>
-    ),
+    /** "Read" disc; render inside the demo's root, after the stage */
+    chrome: <>{cursor.disc}</>,
   };
 }
 

@@ -19,7 +19,7 @@ const CLOUDS = [
 /** Headline, one array per set line; each word rises in on load, in order. */
 const TITLE_LINES = [
   ["I", "design", "agentic", "and", "B2B", "products."],
-  "Lately that’s meant AI assistants for mortgage clients, agent builders for enterprise teams and a multi-role ad marketplace.".split(" "),
+  "Lately that’s meant agent builders for enterprise teams, AI assistants for mortgage clients and a multi-role ad marketplace.".split(" "),
 ];
 
 /**

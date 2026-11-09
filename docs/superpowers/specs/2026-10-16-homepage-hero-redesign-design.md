@@ -2,9 +2,11 @@
 
 Started 2026-10-16 after Geoff Keehan's (ex-VP Design, Meta) review on `/dive`: the portfolio reads as generic, the hero says little, the Adtua thumbnail isn't a hook, the Asimov and Rocket Mortgage card videos are hard to read, and the page has too many similar text and button styles.
 
-## Locked hero headline (2026-10-23)
+## Locked hero headline (2026-10-23, second sentence reordered 2026-11-09)
 
-> **I design agentic and B2B products. Lately that’s meant AI assistants for mortgage clients, agent builders for enterprise teams and a multi-role ad marketplace.**
+> **I design agentic and B2B products. Lately that’s meant agent builders for enterprise teams, AI assistants for mortgage clients and a multi-role ad marketplace.**
+
+Reordered 2026-11-09 after a portfolio review: Asimov now leads the work list, so the hero names it first and the two stay in the same order (Asimov, Rocket Mortgage, then the ad marketplace).
 
 This is the only text in the hero, under the creative license card. Each sentence starts its own line on desktop, and the second wraps within a 1008px measure. On desktop the first line is 52px/40px medium in `--ds-text-primary`, the second is 20px/28px regular in `--ds-text-tertiary`, with a 24px gap between them. Both step down to 24px/32px below the tablet breakpoint (744px). The license card sits 48px below the nav's reserved space and 56px above the headline. It fits itself to the screen height so the first case study peeks in, up to 560px wide. A dev-only DialKit panel (`home-v2/HeroDial`, hidden; render it in `app/page.tsx` to bring it back) tunes the card width and both gaps.
 
@@ -47,7 +49,7 @@ The positioning behind it still holds. The headline above says the same thing wi
 
 ## Homepage decisions (2026-10-16 to 10-17)
 
-- Project order: Rocket Mortgage, Asimov, Debug Mode. Adtua moves to a smaller "what I'm working on now" block below them.
+- Project order: Asimov, Rocket Mortgage, Debug Mode, HCN (changed 2026-11-09; was Rocket Mortgage, Asimov, Debug Mode). Adtua moves to a smaller "what I'm working on now" block below them.
 - No university projects on the homepage.
 - Interactive over static. Per feedback from another designer, static images and video walkthroughs read as early 2025. Coded versions of the designs should be the visual assets for thumbnails and case studies.
 - The hero and the thumbnails have to read as one site.

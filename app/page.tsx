@@ -30,18 +30,18 @@ const HCN = [{ src: "/logos/hcn.avif", alt: "HCN", height: 28 }];
 // Salesforce is hidden until it's reworked; its page still lives at app/salesforce.
 const CASE_STUDIES: CaseStudy[] = [
   {
-    href: "/rocket-mortgage",
-    ariaLabel: "Read Rocket Mortgage case study",
-    logos: ROCKET,
-    title: "Personalizing AI guidance across 6.8M+ client conversations",
-    embed: <RocketAssistEmbed />,
-  },
-  {
     href: "/tars-asimov",
     ariaLabel: "Read Asimov for Tars case study",
     logos: TARS,
     title: "Designing the agent configuration platform and design system for Asimov",
     embed: <AsimovKnowledgeEmbed />,
+  },
+  {
+    href: "/rocket-mortgage",
+    ariaLabel: "Read Rocket Mortgage case study",
+    logos: ROCKET,
+    title: "Personalizing AI guidance across 6.8M+ client conversations",
+    embed: <RocketAssistEmbed />,
   },
   {
     href: "/tars-debug-mode",

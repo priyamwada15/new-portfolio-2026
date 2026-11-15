@@ -1,9 +1,11 @@
 /* Primitive color values — do not use directly in components. */
 :root {
   /* Neutrals */
-  --ds-color-ink: #111111;
-  --ds-color-primary: #333333;
-  --ds-color-secondary: #555555;
+  /* Three text levels with real gaps between them: near-black for anything that leads
+     (ink and primary), a lighter body grey, and one meta grey that keeps 4.5:1. */
+  --ds-color-ink: #0a0a0a;
+  --ds-color-primary: #0a0a0a;
+  --ds-color-secondary: #5e5e5e;
   --ds-color-tertiary: #767676;
   /* "In progress" pill text on the homepage card */
   --ds-color-status-progress: #15803d;

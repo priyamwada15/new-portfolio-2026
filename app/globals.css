@@ -12,9 +12,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Shared container radius — 24px everywhere, 12px on mobile. */
+/* Shared container radius — 16px everywhere, 12px on mobile. Screens inside a container are 10px. */
 :root {
-  --ds-radius-container: 24px;
+  --ds-radius-container: 16px;
 }
 
 @media (max-width: 767px) {

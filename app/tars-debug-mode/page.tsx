@@ -4,6 +4,7 @@ import AutoPauseVideo from "../components/AutoPauseVideo";
 import { DebugChatPreview } from "../components/DebugChatPreview";
 import ScaleToFit from "../components/ScaleToFit";
 import { CaseStudyDemoCard } from "../components/CaseStudyDemoCard";
+import { MediaWash, WASH_SCREEN_EDGE, washShadow } from "../components/MediaWash";
 import { DebugModeEmbed } from "../home-v2/DebugModeEmbed";
 import { SectionHeader } from "../components/CaseStudySections";
 import {
@@ -39,10 +40,6 @@ const CORE_FEATURES = [
     text: "When a connection breaks, the run pauses on that node and the canvas zooms straight to it in red.",
   },
 ];
-
-/** Figma image panel: page-colored fill, 1px border, 24px corners. */
-const imagePanel =
-  "overflow-hidden rounded-[var(--ds-radius-container)] border border-border bg-surface-page";
 
 /**
  * Text column (fixed Figma width) beside a media panel that fills the rest of the
@@ -136,10 +133,13 @@ export default function DebugModePage() {
         </SectionHeader>
 
         {/* The 16:9 video has its own #FAFAFA margins baked in. The inner box crops the
-            frame to just the app window (x 167–1760, y 37–1045 of 1920×1080), so the
-            panel's 24px padding is the only space around it. */}
-        <div className="w-full rounded-[var(--ds-radius-container)] border border-border bg-surface-page p-6">
-          <div className="relative aspect-[1593/1008] w-full overflow-hidden">
+            frame to just the app window (x 167–1760, y 37–1045 of 1920×1080), which sits on
+            the wash with space above and at the sides and runs flush to the bottom. */}
+        <MediaWash tone="tars" className="px-12 pt-12 max-md:px-4 max-md:pt-4">
+          <div
+            className="relative aspect-[1593/1008] w-full overflow-hidden rounded-t-[10px]"
+            style={{ boxShadow: washShadow(), border: WASH_SCREEN_EDGE, borderBottom: 0 }}
+          >
             <AutoPauseVideo
               src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1784081146/New_Debug_Video_uscsz1.mp4"
               autoPlay
@@ -151,7 +151,7 @@ export default function DebugModePage() {
               className="absolute left-[-10.48%] top-[-3.67%] aspect-video w-[120.53%] max-w-none"
             />
           </div>
-        </div>
+        </MediaWash>
 
         <div className="flex flex-col gap-12 md:flex-row">
           <div className="flex min-w-0 flex-1 flex-col gap-4">
@@ -161,13 +161,13 @@ export default function DebugModePage() {
               background could use it once Debug Mode shipped for them.
             </p>
           </div>
-          <div className={`${imagePanel} relative aspect-[480/460] min-w-0 flex-1`}>
+          <MediaWash tone="tars" className="aspect-[480/460] min-w-0 flex-1">
             <div className="absolute inset-x-[8.33%] top-10 bottom-0">
               <ScaleToFit width={368} height={760}>
                 <DebugChatPreview autoPlay />
               </ScaleToFit>
             </div>
-          </div>
+          </MediaWash>
         </div>
       </section>
 
@@ -201,12 +201,15 @@ export default function DebugModePage() {
           </SectionHeader>
 
           <IterationRow title="Before" textWidth={300} media={
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src="/new-debug-mode/Before%20Gambit%20Canvas.avif"
-              alt="Tars gambit canvas with 500+ nodes, all in the same blue"
-              className="block h-auto w-full rounded-[var(--ds-radius-container)] border border-border"
-            />
+            <MediaWash tone="tars" className="px-8 pt-8 max-md:px-4 max-md:pt-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/new-debug-mode/Before%20Gambit%20Canvas.avif"
+                alt="Tars gambit canvas with 500+ nodes, all in the same blue"
+                className="block h-auto w-full rounded-t-[10px]"
+                style={{ boxShadow: washShadow(), border: WASH_SCREEN_EDGE, borderBottom: 0 }}
+              />
+            </MediaWash>
           }>
             <p>
               The canvas I was designing for had 500+ nodes and all of them had the same visual
@@ -215,12 +218,15 @@ export default function DebugModePage() {
           </IterationRow>
 
           <IterationRow title="Design Iteration" textWidth={300} mediaSide="left" media={
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src="/new-debug-mode/Color%20Coded%20States.avif"
-              alt="Color-coded gambit states prototype with yellow, green and red status colors"
-              className="block h-auto w-full rounded-[var(--ds-radius-container)] border border-border"
-            />
+            <MediaWash tone="tars" className="px-8 pt-8 max-md:px-4 max-md:pt-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/new-debug-mode/Color%20Coded%20States.avif"
+                alt="Color-coded gambit states prototype with yellow, green and red status colors"
+                className="block h-auto w-full rounded-t-[10px]"
+                style={{ boxShadow: washShadow(), border: WASH_SCREEN_EDGE, borderBottom: 0 }}
+              />
+            </MediaWash>
           }>
             <p>
               My first idea was to color code every node by status. I soon realized while testing
@@ -233,7 +239,11 @@ export default function DebugModePage() {
           </IterationRow>
 
           <IterationRow title="Shipped Design" textWidth={300} media={
-            <div className={`${imagePanel} aspect-[668/526]`}>
+            <MediaWash tone="tars" className="aspect-[668/526]">
+              <div
+                className="absolute bottom-0 left-8 right-8 top-8 overflow-hidden rounded-t-[10px] max-md:left-4 max-md:right-4 max-md:top-4"
+                style={{ boxShadow: washShadow(), border: WASH_SCREEN_EDGE, borderBottom: 0 }}
+              >
               <AutoPauseVideo
                 src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1775950124/Shipped_Details_nilvsq.mp4"
                 autoPlay
@@ -244,7 +254,8 @@ export default function DebugModePage() {
                 aria-label="Debug Mode canvas showing the single-signal active state and connector animation"
                 className="h-full w-full object-cover"
               />
-            </div>
+              </div>
+            </MediaWash>
           }>
             <p>
               I dropped the status colors and made the active node the only thing that stands
@@ -263,14 +274,14 @@ export default function DebugModePage() {
           </SectionHeader>
 
           <IterationRow title="Design Iteration" textWidth={420} media={
-            <div className={`${imagePanel} relative aspect-[548/447]`}>
+            <MediaWash tone="tars" className="aspect-[548/447]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/new-debug-mode/Complex%20Controls.avif"
                 alt="First debugger prototype with six code-editor style controls"
                 className="absolute left-1/2 top-[8.95%] h-auto w-[85.04%] -translate-x-1/2 rounded-t-[30px] shadow-[0_0_12px_2.25px_rgba(0,0,0,0.04)]"
               />
-            </div>
+            </MediaWash>
           }>
             <p>
               My first version borrowed from code editors: play/pause, stop, step into, step out,
@@ -283,13 +294,13 @@ export default function DebugModePage() {
           </IterationRow>
 
           <IterationRow title="Shipped Design" textWidth={420} mediaSide="left" media={
-            <div className={`${imagePanel} relative aspect-[548/447]`}>
+            <MediaWash tone="tars" className="aspect-[548/447]">
               <div className="absolute inset-x-[7.48%] top-[8.95%] bottom-0">
                 <ScaleToFit width={368} height={760}>
                   <DebugChatPreview autoPlay />
                 </ScaleToFit>
               </div>
-            </div>
+            </MediaWash>
           }>
             <p>
               I kept play/pause, stop and restart, with a status line that says what the debugger
@@ -303,14 +314,14 @@ export default function DebugModePage() {
           </IterationRow>
 
           <IterationRow title="Shelved Design" textWidth={472} media={
-            <div className={`${imagePanel} relative aspect-[496/506]`}>
+            <MediaWash tone="tars" className="aspect-[496/506]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/new-debug-mode/ChatbotPreview%20Console%20Window.avif"
                 alt="Shelved debug console prototype showing detailed error logs and API responses"
                 className="absolute bottom-[7.91%] left-1/2 h-auto w-[83.47%] max-w-none -translate-x-1/2"
               />
-            </div>
+            </MediaWash>
           }>
             <p>
               The debugging console was never shipped. I had designed it as a way to surface

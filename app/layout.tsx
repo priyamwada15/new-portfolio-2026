@@ -26,10 +26,11 @@ import { SITE_DEFAULT_PAGE_BG } from "@/design-system";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
+// Figtree is a variable font, so every weight lives in one file. Listing weights makes Turbopack see the
+// same file under several entries and fail on a cold build ("next/font/google queries have exactly one entry").
 const figtree = Figtree({
   variable: "--font-hind",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 const inter = Inter({

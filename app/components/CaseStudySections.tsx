@@ -7,6 +7,7 @@ import {
   caseStudyCardText,
   caseStudySectionTagCaps,
   caseStudyHeading,
+  caseStudyLead,
   caseStudyRowTitle,
   caseStudyStatNumber,
   caseStudySubheading,
@@ -55,6 +56,28 @@ export function SectionHeader({
           {children}
         </div>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Opening statement of a case study: a quiet label, the statement set large at regular weight, and an optional
+ * body paragraph under it. Size and colour carry the hierarchy, so the label and the statement never compete.
+ */
+export function LeadOverview({
+  label,
+  lead,
+  children,
+}: {
+  label: string;
+  lead: React.ReactNode;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <p className={caseStudySectionTagCaps}>{label}</p>
+      <p className={`${caseStudyLead} max-w-[880px]`}>{lead}</p>
+      {children && <div className={`${caseStudyText} mt-5 flex max-w-[720px] flex-col gap-4`}>{children}</div>}
     </div>
   );
 }
@@ -157,7 +180,7 @@ export function MediaTile({
   alt: string;
   className?: string;
   frame: { width: number; height: number };
-  /** `radius` defaults to 16px. */
+  /** `radius` defaults to 10px, the screen radius inside a 16px container. */
   image: { width: number; height: number; top: number; left?: number; right?: number; radius?: number };
 }) {
   const innerW = frame.width - TILE_BORDER;
@@ -175,7 +198,7 @@ export function MediaTile({
         style={{
           width: pct(image.width, innerW),
           height: pct(image.height, innerH),
-          borderRadius: image.radius ?? 16,
+          borderRadius: image.radius ?? 10,
           top: pct(image.top, innerH),
           left: centred ? "50%" : image.left === undefined ? undefined : pct(image.left, innerW),
           right: image.right === undefined ? undefined : pct(image.right, innerW),

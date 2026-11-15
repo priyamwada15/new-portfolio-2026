@@ -109,11 +109,13 @@ const MetaGrid = ({
       <div key={item.label}>
         {sept2026Layout ? (
           <>
-            {/* All caps, like the section tags */}
-            <p className="font-label text-[12px] font-semibold uppercase leading-[16px] tracking-[0.06em] text-tertiary">
+            {/* The quiet label, like the section tags */}
+            <p className="font-label text-[14px] font-normal leading-[20px] tracking-[-0.01em] text-tertiary">
               {item.label}
             </p>
-            <p className="pt-1 font-label text-[14px] leading-[20px] text-primary">{item.value}</p>
+            <p className="pt-1 font-label text-[16px] font-medium leading-[24px] tracking-[-0.01em] text-primary">
+              {item.value}
+            </p>
           </>
         ) : (
           <>

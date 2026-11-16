@@ -154,22 +154,26 @@ export default function AsimovPage() {
                   src={`${IMG}/actions-gallery-full.avif`}
                   alt="Actions gallery with search and filters, and cards showing each action's command, owner and run count."
                 />
-                <ShowcaseTile
-                  title="Most teammates should never have to write a schema"
-                  text="Templates built from real examples let a teammate publish an action without touching a schema. Developers can still start from a blank one."
-                  size={FULL(700)}
-                  src={`${IMG}/actions-new-action-dialog.avif`}
-                  alt="New action dialog with a blank action option and four templates."
-                  dialog={{ width: 800, imageSize: [1600, 1150], radius: 24 }}
-                />
-                <ShowcaseTile
-                  title="Anyone picking a template needs to know what it can change"
-                  text="Each template says how many endpoints it calls, whether it asks before writing and who can run it. A preview shows the command in a Slack thread."
-                  size={FULL(640)}
-                  src={`${IMG}/actions-template-dialog.avif`}
-                  alt="Daily work log template dialog with an About section, three endpoints, asks before writing, and a Slack preview of the command."
-                  dialog={{ width: 800, imageSize: [1600, 915], radius: 24 }}
-                />
+                <Pair>
+                  <ShowcaseTile
+                    subgrid
+                    title="Most teammates should never have to write a schema"
+                    text="Templates built from real examples let a teammate publish an action without touching a schema. Developers can still start from a blank one."
+                    size={HALF(392)}
+                    src={`${IMG}/actions-new-action-dialog.avif`}
+                    alt="New action dialog with a blank action option and four templates."
+                    dialog={{ width: 444, imageSize: [888, 638], radius: 16 }}
+                  />
+                  <ShowcaseTile
+                    subgrid
+                    title="Anyone picking a template needs to know what it can change"
+                    text="Each template says how many endpoints it calls, whether it asks before writing and who can run it. A preview shows the command in a Slack thread."
+                    size={HALF(392)}
+                    src={`${IMG}/actions-template-dialog.avif`}
+                    alt="Daily work log template dialog with an About section, three endpoints, asks before writing, and a Slack preview of the command."
+                    dialog={{ width: 444, imageSize: [888, 508], radius: 16 }}
+                  />
+                </Pair>
                 <ShowcaseTile
                   title="A name only works if it reads well in Slack"
                   text="As the name and the when-to-use text change, the slash menu on the right updates to show how the command will look in Slack."

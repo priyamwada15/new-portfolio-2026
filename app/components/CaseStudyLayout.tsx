@@ -113,7 +113,7 @@ const MetaGrid = ({
             <p className="font-label text-[14px] font-normal leading-[20px] tracking-[-0.01em] text-tertiary">
               {item.label}
             </p>
-            <p className="pt-1 font-label text-[16px] font-medium leading-[24px] tracking-[-0.01em] text-primary">
+            <p className="pt-1 font-label text-[16px] font-normal leading-[24px] tracking-[-0.01em] text-primary">
               {item.value}
             </p>
           </>

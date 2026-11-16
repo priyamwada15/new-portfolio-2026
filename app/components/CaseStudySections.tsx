@@ -7,7 +7,6 @@ import {
   caseStudyCardText,
   caseStudySectionTagCaps,
   caseStudyHeading,
-  caseStudyLead,
   caseStudyRowTitle,
   caseStudyStatNumber,
   caseStudySubheading,
@@ -56,28 +55,6 @@ export function SectionHeader({
           {children}
         </div>
       </div>
-    </div>
-  );
-}
-
-/**
- * Opening statement of a case study: a quiet label, the statement set large at regular weight, and an optional
- * body paragraph under it. Size and colour carry the hierarchy, so the label and the statement never compete.
- */
-export function LeadOverview({
-  label,
-  lead,
-  children,
-}: {
-  label: string;
-  lead: React.ReactNode;
-  children?: React.ReactNode;
-}) {
-  return (
-    <div className="flex w-full flex-col gap-3">
-      <p className={caseStudySectionTagCaps}>{label}</p>
-      <p className={`${caseStudyLead} max-w-[880px]`}>{lead}</p>
-      {children && <div className={`${caseStudyText} mt-5 flex max-w-[720px] flex-col gap-4`}>{children}</div>}
     </div>
   );
 }

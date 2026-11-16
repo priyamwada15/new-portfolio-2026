@@ -57,10 +57,6 @@ export const caseStudyEyebrow =
 export const caseStudySectionTagCaps =
   "font-label text-[16px] font-normal leading-[24px] tracking-[-0.01em] text-tertiary" as const;
 
-/** Opening statement under a quiet label, set large at regular weight so size and colour do the work (20px on phones). */
-export const caseStudyLead =
-  "font-label text-[24px] font-normal leading-[1.45] tracking-[-0.025em] text-ink max-md:text-[20px]" as const;
-
 /** Section body copy — 16px. */
 export const caseStudyText =
   "font-label text-[16px] font-normal leading-[1.6] tracking-[-0.01em] text-secondary" as const;

@@ -2,7 +2,6 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
   useLayoutEffect,
   useMemo,
@@ -16,9 +15,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export type StoryTab = "showcase" | "case-study";
 
 const TABS_ID = "story-tabs";
-
-/** Where the tab group lands when a button elsewhere on the page switches it (clears the nav). */
-const SCROLL_OFFSET_PX = 96;
 
 const SHOWCASE_TOC: SideTocItem[] = [
   { id: "overview", label: "Overview" },
@@ -39,58 +35,14 @@ const CASE_STUDY_TOC: SideTocItem[] = [
 
 const StoryTabsContext = createContext<{
   value: StoryTab;
-  /** Switches the tab where it is (a click on the tab itself). */
   setValue: (tab: StoryTab) => void;
-  /** Switches the tab and scrolls the tab group into view (buttons elsewhere on the page). */
-  select: (tab: StoryTab) => void;
 } | null>(null);
 
-/**
- * Holds which tab is showing, so buttons elsewhere on the page (the closing
- * lines) can switch it while the page itself stays a server component.
- */
+/** Holds which tab is showing, so the side contents and the tabs agree while the page stays a server component. */
 export function StoryTabsProvider({ children }: { children: ReactNode }) {
   const [value, setValue] = useState<StoryTab>("showcase");
-
-  const select = useCallback((tab: StoryTab) => {
-    setValue(tab);
-    const target = document.getElementById(TABS_ID);
-    if (!target) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({
-      top: target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET_PX,
-      behavior: reduce ? "auto" : "smooth",
-    });
-  }, []);
-
-  const context = useMemo(() => ({ value, setValue, select }), [value, select]);
+  const context = useMemo(() => ({ value, setValue }), [value]);
   return <StoryTabsContext.Provider value={context}>{children}</StoryTabsContext.Provider>;
-}
-
-/** Switches the tab group. `ghost` is the quieter style for the closing lines. */
-export function SwitchTabButton({
-  to,
-  variant = "primary",
-  children,
-}: {
-  to: StoryTab;
-  variant?: "primary" | "ghost";
-  children: ReactNode;
-}) {
-  const tabs = useContext(StoryTabsContext);
-  return (
-    <button
-      type="button"
-      onClick={() => tabs?.select(to)}
-      className={`inline-flex h-10 w-fit cursor-pointer items-center justify-center rounded-[8px] px-4 font-label text-[14px] font-medium transition-colors ${
-        variant === "primary"
-          ? "bg-[var(--accent-dark)] text-white hover:opacity-90"
-          : "border border-border bg-transparent text-primary hover:bg-black/[0.04]"
-      }`}
-    >
-      {children}
-    </button>
-  );
 }
 
 type Box = { left: number; right: number };
@@ -106,14 +58,14 @@ const EASE_SPRING = "cubic-bezier(0.34, 1.2, 0.64, 1)";
 const GOO_FILTER = "url(#story-tabs-goo)";
 
 /**
- * Two tabs on a neutral tray. The dark fill is three shapes under a goo
+ * Two tabs in a hairline outline. The pale fill (black at 8%) is three shapes under a goo
  * filter: a head and a tail, each a pill the size of a tab, joined by a thin
  * bridge. On a switch the head runs ahead to the new tab while the tail waits a
  * beat, so the bridge stretches thin between them and the filter pulls it into
  * a neck, like paste squeezed out of a tube. Then the tail springs after it
  * and the shape pools back into one pill on the new tab.
  */
-export function StoryTabs({ showcase, caseStudy }: { showcase: ReactNode; caseStudy: ReactNode }) {
+export function StoryTabs({ showcase, caseStudy }: { showcase: ReactNode; caseStudy?: ReactNode }) {
   const tabs = useContext(StoryTabsContext);
   const [localValue, setLocalValue] = useState<StoryTab>("showcase");
   const value = tabs?.value ?? localValue;
@@ -202,10 +154,20 @@ export function StoryTabs({ showcase, caseStudy }: { showcase: ReactNode; caseSt
   }, [value]);
 
   const triggerClass =
-    "relative z-10 h-10 flex-none rounded-full border-transparent px-5 font-label text-[14px] font-medium text-secondary " +
-    "transition-[color,opacity] duration-300 ease-out hover:text-secondary hover:opacity-70 " +
-    "data-active:bg-transparent data-active:text-white data-active:opacity-100 data-active:delay-100 data-active:hover:text-white " +
+    "relative z-10 h-8 flex-none rounded-full border-transparent px-4 font-label text-[14px] font-medium text-tertiary " +
+    "transition-[color] duration-300 ease-out hover:text-primary " +
+    "data-active:bg-transparent data-active:text-primary data-active:delay-100 data-active:hover:text-primary " +
     "group-data-[variant=default]/tabs-list:data-active:shadow-none dark:data-active:border-transparent dark:data-active:bg-transparent";
+
+  // With no case study to switch to there is nothing to tab between: just the screens and their contents.
+  if (!caseStudy) {
+    return (
+      <>
+        <CaseStudySideToc items={SHOWCASE_TOC} alignToId="overview" />
+        {showcase}
+      </>
+    );
+  }
 
   return (
     <>
@@ -223,12 +185,12 @@ export function StoryTabs({ showcase, caseStudy }: { showcase: ReactNode; caseSt
         <TabsList
           ref={listRef}
           aria-label="Page view"
-          className="relative h-12 gap-0 rounded-full bg-black/[0.05] p-1 group-data-horizontal/tabs:h-12"
+          className="relative h-10 gap-0 rounded-full border border-black/[0.08] bg-transparent p-[3px] group-data-horizontal/tabs:h-10"
         >
-          <div ref={gooRef} aria-hidden="true" className="pointer-events-none absolute inset-0">
-            <span ref={bridgeRef} className="absolute bottom-[17px] top-[17px] rounded-full bg-primary" style={{ left: 4, width: 147 }} />
-            <span ref={tailRef} className="absolute bottom-1 top-1 rounded-full bg-primary" style={{ left: 4, width: 147 }} />
-            <span ref={headRef} className="absolute bottom-1 top-1 rounded-full bg-primary" style={{ left: 4, width: 147 }} />
+          <div ref={gooRef} aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ opacity: 0.08 }}>
+            <span ref={bridgeRef} className="absolute bottom-[12px] top-[12px] rounded-full bg-primary" style={{ left: 3, width: 140 }} />
+            <span ref={tailRef} className="absolute bottom-[3px] top-[3px] rounded-full bg-primary" style={{ left: 3, width: 140 }} />
+            <span ref={headRef} className="absolute bottom-[3px] top-[3px] rounded-full bg-primary" style={{ left: 3, width: 140 }} />
           </div>
           <TabsTrigger value="showcase" className={triggerClass}>
             Visual Showcase

@@ -33,17 +33,17 @@
 
 /* ── The list: header bar, resource rows, then the answer ── */
 
-/* Centred on the card. As rows and the answer grow in, the centre holds, so the
-   whole list glides up to make room. */
+/* Pinned to a fixed top, so the header stays put while rows and the answer grow in below it.
+   (Centring it made the whole list drift up and down with every change in height.) */
 .column {
   position: absolute;
-  top: 50%;
+  top: 112px;
   left: 50%;
   width: 584px;
   display: flex;
   flex-direction: column;
   opacity: 0;
-  translate: -50% calc(-50% + 16px);
+  translate: -50% 16px;
   transition:
     opacity 800ms ease,
     translate 1000ms var(--tx-ease),
@@ -52,7 +52,7 @@
 
 .column[data-in] {
   opacity: 1;
-  translate: -50% -50%;
+  translate: -50% 0;
 }
 
 /* Behind the modal: set back a little (a scrim does the dimming, so the

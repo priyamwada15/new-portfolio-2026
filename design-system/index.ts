@@ -13,7 +13,6 @@ export {
   caseStudySubheading,
   caseStudyEyebrow,
   caseStudySectionTagCaps,
-  caseStudyLead,
   caseStudyText,
   caseStudyRowTitle,
   caseStudyCardLabel,

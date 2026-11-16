@@ -12,11 +12,12 @@ const KIND_LABEL = {
 const PAD = 48;
 
 /**
- * The full-height crops are 1232 by 982 frame px, exported at twice that (native 2x) as high-quality AVIF.
- * They are served untouched (`unoptimized`): Next's optimizer would re-encode them at quality 75, and thin
- * UI text turns soft and blocky after a second lossy pass.
+ * The full-height crops are 1232 by 982 frame px, pre-scaled with Lanczos to twice the 846px a screen shows
+ * at full width, as full-colour (4:4:4) AVIF. A larger file made the browser shrink it by 2.5x or more, which
+ * aliases thin UI text; 2x shrinks cleanly and is 1:1 on a retina screen. They are served untouched
+ * (`unoptimized`): Next's optimizer would re-encode them at quality 75 and blur the text.
  */
-const FULL_CROP = { width: 2464, height: 1964 } as const;
+const FULL_CROP = { width: 1692, height: 1349 } as const;
 
 /**
  * One visual on the showcase page: a bold title and one grey sentence above a
@@ -27,7 +28,8 @@ const FULL_CROP = { width: 2464, height: 1964 } as const;
  * - `src`: a full-height crop of a screen. It shows its top and sides and runs
  *   off the bottom of the wash, so only its top corners are rounded.
  * - `dialog`: a dialog cut to its own edges, floating whole in the middle of
- *   the wash at this width (in tile px).
+ *   the wash at this width (in tile px). `radius` rounds it past any dark corner
+ *   pixels left from the dimmed app behind it.
  * - neither: the empty wash, until the screen exists.
  * - `subgrid`: set on both tiles of a pair so their titles and tiles line up
  *   even when the text wraps differently.
@@ -48,7 +50,7 @@ export function ShowcaseTile({
   size: readonly [number, number];
   src?: string;
   alt?: string;
-  dialog?: { width: number; imageSize: readonly [number, number] };
+  dialog?: { width: number; imageSize: readonly [number, number]; radius?: number };
   kind?: keyof typeof KIND_LABEL;
   subgrid?: boolean;
 }) {
@@ -94,7 +96,7 @@ export function ShowcaseTile({
               className="h-auto"
               style={{
                 width: `${(dialog.width / width) * 100}%`,
-                borderRadius: 10,
+                borderRadius: dialog.radius ?? 10,
                 boxShadow: washShadow(),
                 border: WASH_SCREEN_EDGE,
               }}

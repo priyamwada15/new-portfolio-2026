@@ -635,6 +635,7 @@ export default function ArcadeEffWonGame() {
   if (isTouchOrNarrow) {
     return (
       <div
+        data-on-dark
         className="flex h-dvh w-full flex-col items-center justify-center gap-4 bg-[#0a0a0a] p-8 text-center text-white"
         style={{ fontFamily: "var(--font-press-start-2p), monospace" }}
       >
@@ -648,6 +649,7 @@ export default function ArcadeEffWonGame() {
 
   return (
     <div
+      data-on-dark
       className="flex h-dvh w-full overflow-hidden bg-[#0a0a0a] text-white"
       style={{ fontFamily: "var(--font-press-start-2p), monospace" }}
     >

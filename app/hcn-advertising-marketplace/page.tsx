@@ -3,7 +3,7 @@ import CaseStudyLayout from "../components/CaseStudyLayout";
 import { CaseStudyStatusPills } from "../components/CaseStudyStatusPills";
 import { WordReveal } from "../components/WordReveal";
 import { HtmlEmbed } from "../components/HtmlEmbed";
-import { SectionHeader } from "../components/CaseStudySections";
+import { CaseStudySummary, SectionHeader } from "../components/CaseStudySections";
 import { HcnMarketplaceEmbed } from "../home-v2/HcnMarketplaceEmbed";
 import { caseStudyTitle, CASE_STUDY_PAGE_BG, mediaPanel } from "@/design-system";
 
@@ -48,12 +48,29 @@ export default function HcnAdvertisingMarketplacePage() {
         team: "Client, PM, Developers",
         items: [
           { label: "Started", value: "June 2026" },
-          { label: "Status", value: "Pre-launch" },
-          { label: "Role", value: "Sole product designer" },
-          { label: "Team", value: "Client, PM, Developers" },
+          { label: "Type of work", value: "0 to 1, Two-sided Marketplace, Complex Workflows" },
+          { label: "Team", value: "Client, PM, Developers, Me" },
+          { label: "Contribution", value: "Product Design, Product Strategy, Information Architecture, Financial UX, Design System" },
         ],
       }}
     >
+      <CaseStudySummary
+        rows={[
+          {
+            label: "Goal",
+            text: "Launch a self-serve MVP with every major function, so first-time advertisers and broadcasters can onboard and set up quickly.",
+          },
+          {
+            label: "My role",
+            text: "Sole product designer building 0 to 1: the product strategy, the workflows that move money from advertisers to broadcasters, and the design system.",
+          },
+          {
+            label: "Where it stands",
+            text: "Pre-launch. I’ve defined success measures for each flow, so launch can be measured.",
+          },
+        ]}
+      />
+
       <section id="about" className="flex flex-col gap-12">
         <SectionHeader title="Three kinds of users share a new marketplace">
           <p>
@@ -61,10 +78,7 @@ export default function HcnAdvertisingMarketplacePage() {
             book screens, broadcasters own them, and some businesses do both.
           </p>
           <p>
-            The goal right now is supply: enough broadcasters that advertisers have varied
-            inventory to choose from, so every flow has to be quick to finish. I&rsquo;m the only
-            product designer, owning accounts, booking, the wallet and space setup, and building
-            the design system flow by flow.
+            Supply comes first: the MVP needs enough broadcasters that advertisers have varied inventory to choose from, so every flow has to be quick to finish.
           </p>
         </SectionHeader>
       </section>

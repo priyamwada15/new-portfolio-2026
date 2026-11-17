@@ -25,6 +25,7 @@
   --color-surface: var(--ds-surface-default);
   --color-surface-page: var(--ds-surface-page);
   --color-surface-home: var(--ds-surface-home);
+  --color-surface-site: var(--ds-surface-site);
   --color-surface-case-study: var(--ds-surface-case-study);
   --color-surface-card: var(--ds-surface-card);
   --color-surface-media: var(--ds-surface-media);

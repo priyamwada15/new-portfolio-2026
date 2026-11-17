@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import CaseStudyLayout from "../components/CaseStudyLayout";
 import { CaseStudyDemoCard } from "../components/CaseStudyDemoCard";
-import { SectionHeader } from "../components/CaseStudySections";
+import { CaseStudySummary, SectionHeader } from "../components/CaseStudySections";
 import { AsimovKnowledgeEmbed } from "../home-v2/AsimovKnowledgeEmbed";
 import {
   caseStudyHeading,
@@ -83,40 +83,45 @@ export default function AsimovPage() {
         }
         meta={{
           timelineLabel: "Shipped",
-          timeline: "Dec 2023 – Apr 2024 · 5 Releases",
+          timeline: "Dec 2023 – Apr 2024",
           industry: "B2B SaaS",
           role: "Product Designer",
           team: "CTO, Engineers, Me",
           items: [
-            { label: "Shipped", value: "Dec 2023 – Apr 2024 · 5 Releases" },
+            { label: "Shipped", value: "Dec 2023 – Apr 2024" },
             { label: "Type of work", value: "0 to 1, Complex Workflows" },
             { label: "Team", value: "CTO, Engineers, Me" },
             { label: "Contribution", value: "Product Design, Product Strategy & Research, Design System, Design QA" },
           ],
         }}
       >
-        {/* Shared by both tabs, so it sits above them. */}
-        <div className="flex flex-col gap-[88px]">
+        {/* Shared by both tabs. Direct layout children, so they get the page's standard section gap. */}
+        <>
+          <CaseStudySummary
+            rows={[
+              {
+                label: "Goal",
+                text: "Take Asimov from a Slack thread summarizer to a platform teams configure themselves.",
+              },
+              {
+                label: "My role",
+                text: "I led design end to end, alongside the founders: the research behind the PRD, the configuration platform and the design system.",
+              },
+              {
+                label: "Impact",
+                text: "5 releases in 5 months that took the product from a simple app within Slack to an end-to-end product. The design system cut handoff-to-release time by about 60%, and its core components moved into Tars’ main product.",
+              },
+            ]}
+          />
           <section id="overview">
-            <SectionHeader title="What is Asimov?">
+            <SectionHeader title="Asimov is Tars&rsquo; AI agent for startup teams working in Slack">
               <p>
-                Asimov is Tars&rsquo; AI agent in Slack. It started as a thread summarizer for startups. Over five
-                releases in five months it learned to answer from company docs and to run actions in other tools.
-              </p>
-            </SectionHeader>
-          </section>
-
-          <section id="my-role">
-            <SectionHeader eyebrow="My role" title="I owned design for a new AI product line at Tars">
-              <p>
-                I joined Tars as one of its first two designers and led design for Asimov alongside the founders. I ran
-                the research behind the PRD, designed the platform teams use to configure Asimov and built the design
-                system that cut handoff-to-release time by about 60%.
+                It started as a thread summarizer. Over five releases in five months it learned to answer from company docs and to run actions in other tools.
               </p>
               <p>The screens on this page are reworked designs, with the focus on design and user experience.</p>
             </SectionHeader>
           </section>
-        </div>
+        </>
 
         <StoryTabs
           showcase={

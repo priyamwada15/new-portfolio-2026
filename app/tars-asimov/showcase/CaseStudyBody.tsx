@@ -23,7 +23,7 @@ import {
 const REFLECTIONS = [
   {
     title: "Ship a first version of the future, even a small one",
-    text: "I parked access to private sources, with roles deciding who could see what, as future scope, and every required update pushed it further back. Next time I'd put a first version of that layer into the release cycle, even one that simply mirrored Slack's permissions, so it already had a place in the product.",
+    text: "Private sources stayed future scope, and every required update pushed them further back. Next time I'd put a first version of that layer into the release cycle, even one that simply mirrored Slack's permissions, so it already had a place in the product.",
   },
 ] as const;
 
@@ -126,12 +126,11 @@ const RELEASES: {
   {
     number: 1,
     split: true,
-    title: "Summaries and answers pulled from long Slack threads",
+    title: "A pilot entirely inside Slack, with no setup beyond adding Asimov to a channel",
     body: (
       <>
         <p>
-          <Lead>Why:</Lead>{" "}people had to scroll through long threads to find one detail,
-          because Slack&rsquo;s search couldn&rsquo;t surface it.
+          <Lead>Why:</Lead>{" "}that was the pain a Slack-only tool could solve first.
         </p>
         <p>
           <Lead>My approach:</Lead>{" "}the problem was already too many tools, so I kept the pilot
@@ -158,7 +157,7 @@ const RELEASES: {
   },
   {
     number: 2,
-    title: "Admin-only setup and rules for what Asimov could reveal",
+    title: "Only workspace admins change Asimov, and it never reveals what the asker can’t see",
     body: (
       <>
         <p>
@@ -199,7 +198,7 @@ const RELEASES: {
   },
   {
     number: 3,
-    title: "Connecting company docs as knowledge sources",
+    title: "Admins decide which company docs Asimov can read",
     body: (
       <>
         <p>
@@ -306,7 +305,7 @@ const RELEASES: {
   },
   {
     number: 5,
-    title: "Custom actions to trigger work in other tools from Slack",
+    title: "Teams write their own actions first, so we could test whether Asimov acts safely",
     body: (
       <>
         <p>
@@ -398,10 +397,9 @@ export function CaseStudyBody() {
 
       <section id="story-releases" className="flex flex-col gap-[88px]">
         <div className="flex flex-col gap-12">
-          <SectionHeader eyebrow="Five releases" title="How Asimov grew, one release at a time">
+          <SectionHeader eyebrow="Five releases" title="Five releases in five months, each widening what admins control">
             <p>
-              Each release took two and a half to three weeks from MVP design to launch. Of the four
-              that came after the pilot in Release 1, I pushed for three.
+              Each release took two and a half to three weeks from MVP design to launch.
             </p>
           </SectionHeader>
         </div>
@@ -468,7 +466,7 @@ export function CaseStudyBody() {
       <section id="story-reflections">
         <SectionHeader
           eyebrow="Reflections"
-          title="What I'd take into the next project"
+          title="I'd ship a rough version of roles earlier"
           bodyClassName="gap-12 pt-2"
         >
           {REFLECTIONS.map((item) => (

@@ -3,14 +3,14 @@
 /** Body / surface fill for all case study routes. */
 export const CASE_STUDY_PAGE_BG = "var(--ds-surface-case-study)";
 
-/** Nav shell + footer on case study routes (same #FEFEFE surface as the page). */
+/** Nav shell + footer on case study routes (same white surface as the page). */
 export const CASE_STUDY_CHROME_BG = "var(--ds-surface-case-study)";
 
 /** Root marketing surface (matches layout body background). */
-export const SITE_DEFAULT_PAGE_BG = "var(--ds-surface-page)";
+export const SITE_DEFAULT_PAGE_BG = "var(--ds-surface-site)";
 
 /** Homepage surface. */
-export const HOME_V2_PAGE_BG = "var(--ds-surface-home)";
+export const HOME_V2_PAGE_BG = "var(--ds-surface-site)";
 
 /** Playground page surface. */
 export const PLAYGROUND_PAGE_BG = "var(--ds-surface-playground)";

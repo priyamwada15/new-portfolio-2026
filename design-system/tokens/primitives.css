@@ -22,6 +22,7 @@
   /* Surfaces */
   --ds-color-surface-base: #fdfdfd;
   --ds-color-surface-card: #fbfbfb;
+  --ds-color-surface-white: #ffffff;
   --ds-color-surface-page: #fafafa;
   --ds-color-surface-home: #fefefe;
   --ds-color-surface-media: #f5f5f5;
@@ -89,4 +90,7 @@
   /* UI chrome */
   --ds-color-selection-bg: #111111;
   --ds-color-selection-fg: #fdfdfd;
+  /* Text selection on near-black surfaces, where the default would vanish */
+  --ds-color-selection-on-dark-bg: #ffffff;
+  --ds-color-selection-on-dark-fg: #0a0a0a;
 }

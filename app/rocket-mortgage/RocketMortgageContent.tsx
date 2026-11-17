@@ -2,7 +2,7 @@ import CaseStudyLayout from "../components/CaseStudyLayout";
 import SolutionShowcase from "../components/SolutionShowcase";
 import { CaseStudyDemoCard } from "../components/CaseStudyDemoCard";
 import { RocketAssistEmbed } from "../home-v2/RocketAssistEmbed";
-import { SectionHeader, Testimonials } from "../components/CaseStudySections";
+import { CaseStudySummary, SectionHeader, Testimonials } from "../components/CaseStudySections";
 import {
   caseStudyEyebrow,
   caseStudyRowTitle,
@@ -129,7 +129,7 @@ const CORE_FLOWS = [
   {
     title: "Move 2: Using what Rocket already knew about each client",
     body: [
-      "By the time clients reached Rocket Assist, they had already shared their documents, pre-approval and home details with Rocket. The chat still answered like a stranger, so clients stopped trusting it and called their specialist even for basic questions.",
+      "By the time clients reached Rocket Assist, they had already shared their documents, pre-approval and home details with Rocket. That left clients doubting the chat, so they called their specialist even for basic questions.",
       "I sat with engineers and found a live API already feeding each client's loan stage and home details to their dashboard, which made it the lowest-friction way to personalize the chat. Routine questions could now stay in the chat, leaving specialists more time for the sensitive ones.",
     ],
     videoSrc: ROCKET_MORTGAGE_CARD_VIDEOS[0],
@@ -138,7 +138,7 @@ const CORE_FLOWS = [
   {
     title: "Move 3: Handing clients to their specialist without making them start over",
     body: [
-      "Asking for a person got clients a phone number, and the specialist on the other end couldn't see the chat. One client wrote, “I already talked about this in chat, why do I have to repeat it everywhere.”",
+      "The specialist on the other end of that call couldn't see the chat. One client wrote, “I already talked about this in chat, why do I have to repeat it everywhere.”",
       "I routed a request for help straight to the client's purchase specialist inside the chat, with the conversation carried over. If the specialist was busy, the client could wait in the chat or get notified when they were free. Handing off early also helped with trust, since the research reports showed clients grew suspicious when the AI claimed it could help with everything.",
     ],
     videoSrc: ROCKET_MORTGAGE_CARD_VIDEOS[2],
@@ -152,8 +152,7 @@ function CoreFlows() {
     <section id="core-flows" className="flex flex-col gap-28 max-md:gap-16">
       <SectionHeader eyebrow="Core Flows" title="What I changed to keep clients in the chat">
         <p>
-          I wanted more clients to get their answers in the chat and leave satisfied with it. That
-          meant making Rocket Assist personal enough to trust, and giving it interactions such as
+          I made Rocket Assist personal enough to trust, and gave it interactions such as
           inspector cards and a handoff wait timer, so it felt like a mature Rocket product.
         </p>
       </SectionHeader>
@@ -187,27 +186,27 @@ function CoreFlows() {
 
 const IMPACT_STATS = [
   {
-    value: "92%",
+    value: "88%",
     label: "Improved Experience",
-    text: "of clients found the tailored responses were more helpful than the current guidance.",
+    text: "of clients (7 of 8) found the tailored responses were more helpful than the current guidance.",
   },
   {
     value: "75%",
     label: "Increased Trust",
-    text: "of clients found sourced recommendations by AI more trustworthy.",
+    text: "of clients (6 of 8) found sourced recommendations by AI more trustworthy.",
   },
   {
-    value: "96%",
+    value: "100%",
     label: "Reduced Frustration",
-    text: "of clients noted the proposed handoff flow would reduce frustration.",
+    text: "of clients (all 8) noted the proposed handoff flow would reduce frustration.",
   },
 ];
 
 function Impact() {
   return (
     <section id="impact">
-      <SectionHeader eyebrow="Impact" title="Validating the new experience with the clients" bodyClassName="gap-12 pt-2">
-        <p>We ran usability testing on the redesign with 8 Rocket clients.</p>
+      <SectionHeader eyebrow="Impact" title="Clients in testing found the redesign better on all three measures I set" bodyClassName="gap-12 pt-2">
+        <p>The research team tested the concept with 8 Rocket clients.</p>
         {/* Same stat layout as Debug Mode: label, then the number reading straight into its sentence. */}
         {IMPACT_STATS.map((stat) => (
           <div key={stat.label} className="flex flex-col gap-4">
@@ -274,12 +273,35 @@ export default function RocketMortgageContent() {
       }
       meta={{
         timelineLabel: "Handed off",
-        timeline: "Aug 2025",
+        timeline: "Aug 2025 · Proof of concept",
         industry: "B2C Fintech",
         role: "Conversational AI Design Intern",
         team: "Conversational AI Designers, Product Designers",
+        items: [
+          { label: "Handed off", value: "Aug 2025 (Proof of concept)" },
+          { label: "Type of work", value: "Conversational AI, Agentic UX, Warm Handoff" },
+          { label: "Team", value: "Engineers, Researchers, Conversational AI Designers, Me" },
+          { label: "Contribution", value: "Conversational AI Design Intern: Conversational Design, Interaction Design" },
+        ],
       }}
     >
+      <CaseStudySummary
+        rows={[
+          {
+            label: "Goal",
+            text: "Keep more clients in the chat by making Rocket Assist personal, trustworthy and able to hand off to a specialist.",
+          },
+          {
+            label: "My role",
+            text: "I designed the three flows, worked with engineers and researchers, and defined the success metrics for the concept.",
+          },
+          {
+            label: "Impact",
+            text: "In usability testing run by the research team against my metrics, clients found the redesign better on all three measures. My director said the work influenced product roadmap priorities.",
+          },
+        ]}
+      />
+
       <ProblemSpace />
 
 

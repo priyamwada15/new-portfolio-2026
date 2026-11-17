@@ -25,7 +25,7 @@
 
 /* ── Base ────────────────────────────────────────────────── */
 body {
-  background-color: var(--ds-surface-page);
+  background-color: var(--ds-surface-site);
   color: var(--ds-text-primary);
   font-family: var(--font-hind), 'Hind', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -42,6 +42,17 @@ body {
 ::selection {
   background: var(--ds-color-selection-bg);
   color: var(--ds-color-selection-fg);
+}
+
+/* Near-black surfaces (mark them data-on-dark): the default selection is near-black too, so flip it. */
+[data-on-dark] ::selection {
+  background: var(--ds-color-selection-on-dark-bg);
+  color: var(--ds-color-selection-on-dark-fg);
+}
+
+[data-on-dark]::selection {
+  background: var(--ds-color-selection-on-dark-bg);
+  color: var(--ds-color-selection-on-dark-fg);
 }
 
 /* ── Badge fade-in (page load) ───────────────────────────── */

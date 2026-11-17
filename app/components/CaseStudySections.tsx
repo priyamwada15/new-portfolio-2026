@@ -3,6 +3,7 @@
  * Brand colour comes from `--accent-dark`, which CaseStudyLayout sets per page.
  */
 import {
+  caseStudyEyebrow,
   caseStudyCardLabel,
   caseStudyCardText,
   caseStudySectionTagCaps,
@@ -56,6 +57,30 @@ export function SectionHeader({
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Goal, role and impact as three equal cards at the top of a case study, so a skimmer gets
+ * the answers before the story starts. Filled with the primary text colour (rose stays for
+ * actions). The label is grey at the 18px sub-heading size, the text is white 16px, so the two never read as one block.
+ */
+export function CaseStudySummary({ rows }: { rows: { label: string; text: React.ReactNode }[] }) {
+  return (
+    <dl className="grid w-full grid-cols-3 items-stretch gap-4 max-lg:grid-cols-1">
+      {rows.map((row) => (
+        <div
+          key={row.label}
+          data-on-dark
+          className="flex min-w-0 flex-col gap-4 rounded-[var(--ds-radius-container)] bg-primary p-8 max-md:p-6"
+        >
+          <dt className="font-label text-[18px] font-medium leading-[1.45] tracking-[-0.02em] text-faint max-md:text-[16px]">{row.label}</dt>
+          <dd className="font-label text-[16px] leading-[1.6] tracking-[-0.01em] text-on-dark text-pretty">
+            {row.text}
+          </dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
@@ -246,7 +271,7 @@ export function Testimonials({
         {items.map((item) => (
           <figure
             key={item.name}
-            className="flex min-w-0 flex-1 flex-col justify-center gap-4 rounded-[var(--ds-radius-container)] border border-border bg-surface-home p-6"
+            className="flex min-w-0 flex-1 flex-col justify-center gap-4 rounded-[var(--ds-radius-container)] border border-border bg-surface-page p-6"
           >
             <blockquote className="font-label text-[14px] leading-[22px] text-secondary">
               &ldquo;{item.quote}&rdquo;

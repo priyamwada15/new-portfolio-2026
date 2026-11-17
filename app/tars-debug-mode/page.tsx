@@ -6,7 +6,7 @@ import ScaleToFit from "../components/ScaleToFit";
 import { CaseStudyDemoCard } from "../components/CaseStudyDemoCard";
 import { MediaWash, WASH_SCREEN_EDGE, washShadow } from "../components/MediaWash";
 import { DebugModeEmbed } from "../home-v2/DebugModeEmbed";
-import { SectionHeader } from "../components/CaseStudySections";
+import { CaseStudySummary, SectionHeader } from "../components/CaseStudySections";
 import {
   caseStudyEyebrow,
   caseStudyRowTitle,
@@ -102,8 +102,31 @@ export default function DebugModePage() {
         industry: "B2B SaaS",
         role: "Product Designer",
         team: "CS Team, CTO, CEO, Developers",
+        items: [
+          { label: "Shipped", value: "Oct 2022" },
+          { label: "Type of work", value: "Internal Tools, Complex Workflows" },
+          { label: "Team", value: "CS Team, CTO, CEO, Developers, Me" },
+          { label: "Contribution", value: "Product Design, Interaction Design" },
+        ],
       }}
     >
+      <CaseStudySummary
+        rows={[
+          {
+            label: "Goal",
+            text: "Cut the CS team’s turnaround on troubleshooting enterprise client agents.",
+          },
+          {
+            label: "My role",
+            text: "I designed and shipped Debug Mode in a month, working with the CS team, CTO, CEO and developers.",
+          },
+          {
+            label: "Impact",
+            text: "About 70% less troubleshooting time on enterprise client agents, and the CS team can start a run and work on something else while it goes.",
+          },
+        ]}
+      />
+
       <section id="about">
         <SectionHeader title="What is Debug Mode?">
           <p>
@@ -112,8 +135,7 @@ export default function DebugModePage() {
             breaks.
           </p>
           <p>
-            Before it, the CS team traced 500+ nodes by hand to find one broken link. I designed
-            and shipped it within a month.
+            Before it, the CS team traced 500+ nodes by hand to find one broken link. 
           </p>
         </SectionHeader>
       </section>
@@ -133,22 +155,23 @@ export default function DebugModePage() {
         </SectionHeader>
 
         {/* The 16:9 video has its own #FAFAFA margins baked in. The inner box crops the
-            frame to just the app window (x 167–1760, y 37–1045 of 1920×1080), which sits on
-            the wash with space above and at the sides and runs flush to the bottom. */}
-        <MediaWash tone="tars" className="px-12 pt-12 max-md:px-4 max-md:pt-4">
+            frame to just the app window (x 167–1760, y 37–1049 of 1920×1080), which sits
+            on the wash with space on every side. The poster is the video's first frame,
+            so the card shows the window while the video loads. */}
+        <MediaWash tone="tars" className="p-12 max-md:p-4">
           <div
-            className="relative aspect-[1593/1008] w-full overflow-hidden rounded-t-[10px]"
-            style={{ boxShadow: washShadow(), border: WASH_SCREEN_EDGE, borderBottom: 0 }}
+            className="relative aspect-[1593/1012] w-full overflow-hidden rounded-[10px]"
+            style={{ boxShadow: washShadow(), border: WASH_SCREEN_EDGE }}
           >
             <AutoPauseVideo
-              src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1784081146/New_Debug_Video_uscsz1.mp4"
-              autoPlay
+              src="https://res.cloudinary.com/dh9rvf2hh/video/upload/q_auto:good,w_1920/v1784081146/New_Debug_Video_uscsz1.mp4"
+              poster="https://res.cloudinary.com/dh9rvf2hh/video/upload/so_0,q_auto,w_1920/v1784081146/New_Debug_Video_uscsz1.jpg"
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="none"
               aria-label="Debug Mode canvas highlighting the active gambit as it steps through the flow"
-              className="absolute left-[-10.48%] top-[-3.67%] aspect-video w-[120.53%] max-w-none"
+              className="absolute left-[-10.48%] top-[-3.66%] aspect-video w-[120.53%] max-w-none"
             />
           </div>
         </MediaWash>
@@ -178,6 +201,10 @@ export default function DebugModePage() {
           bodyClassName="gap-6 pt-2"
         >
           <p>
+            Troubleshooting an enterprise client&rsquo;s agent used to take the CS team 2&ndash;3 hours
+            of active debugging. With Debug Mode it takes about 0.5 hours of testing.
+          </p>
+          <p>
             On the release call, Tars&rsquo; CEO described a CS team member starting a run and
             moving on to other work.
           </p>
@@ -195,12 +222,12 @@ export default function DebugModePage() {
         <div className="flex flex-col gap-14">
           <SectionHeader
             eyebrow="Iterations"
-            title="Iteration 1: Three status colors down to one signal"
+            title="Iteration 1: One signal beat three status colors"
           >
             {null}
           </SectionHeader>
 
-          <IterationRow title="Before" textWidth={300} media={
+          <IterationRow title="500+ nodes, all treated the same" textWidth={300} media={
             <MediaWash tone="tars" className="px-8 pt-8 max-md:px-4 max-md:pt-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -217,7 +244,7 @@ export default function DebugModePage() {
             </p>
           </IterationRow>
 
-          <IterationRow title="Design Iteration" textWidth={300} mediaSide="left" media={
+          <IterationRow title="My first idea: color-code every status" textWidth={300} mediaSide="left" media={
             <MediaWash tone="tars" className="px-8 pt-8 max-md:px-4 max-md:pt-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -238,19 +265,19 @@ export default function DebugModePage() {
             </p>
           </IterationRow>
 
-          <IterationRow title="Shipped Design" textWidth={300} media={
+          <IterationRow title="Shipped: only the active node stands out" textWidth={300} media={
             <MediaWash tone="tars" className="aspect-[668/526]">
               <div
                 className="absolute bottom-0 left-8 right-8 top-8 overflow-hidden rounded-t-[10px] max-md:left-4 max-md:right-4 max-md:top-4"
                 style={{ boxShadow: washShadow(), border: WASH_SCREEN_EDGE, borderBottom: 0 }}
               >
               <AutoPauseVideo
-                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/v1775950124/Shipped_Details_nilvsq.mp4"
-                autoPlay
+                src="https://res.cloudinary.com/dh9rvf2hh/video/upload/q_auto/v1775950124/Shipped_Details_nilvsq.mp4"
+                poster="https://res.cloudinary.com/dh9rvf2hh/video/upload/so_0,q_auto/v1775950124/Shipped_Details_nilvsq.jpg"
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="none"
                 aria-label="Debug Mode canvas showing the single-signal active state and connector animation"
                 className="h-full w-full object-cover"
               />
@@ -273,7 +300,7 @@ export default function DebugModePage() {
             {null}
           </SectionHeader>
 
-          <IterationRow title="Design Iteration" textWidth={420} media={
+          <IterationRow title="My first version borrowed code-editor controls" textWidth={420} media={
             <MediaWash tone="tars" className="aspect-[548/447]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -293,7 +320,7 @@ export default function DebugModePage() {
             </p>
           </IterationRow>
 
-          <IterationRow title="Shipped Design" textWidth={420} mediaSide="left" media={
+          <IterationRow title="Shipped: play/pause, stop and restart" textWidth={420} mediaSide="left" media={
             <MediaWash tone="tars" className="aspect-[548/447]">
               <div className="absolute inset-x-[7.48%] top-[8.95%] bottom-0">
                 <ScaleToFit width={368} height={760}>
@@ -303,8 +330,7 @@ export default function DebugModePage() {
             </MediaWash>
           }>
             <p>
-              I kept play/pause, stop and restart, with a status line that says what the debugger
-              is doing at any moment.
+              The three controls stayed, with a status line that says what the debugger is doing at any moment.
             </p>
             <p>
               Within a couple of months, 90% of the errors the CS team ran into came from small
@@ -313,7 +339,7 @@ export default function DebugModePage() {
             </p>
           </IterationRow>
 
-          <IterationRow title="Shelved Design" textWidth={472} media={
+          <IterationRow title="Shelved: the debug console, because the simple version was enough" textWidth={472} media={
             <MediaWash tone="tars" className="aspect-[496/506]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -325,8 +351,7 @@ export default function DebugModePage() {
           }>
             <p>
               The debugging console was never shipped. I had designed it as a way to surface
-              deeper error reports, but once V1 launched, the CS team found the simpler interface
-              handled nearly every issue.
+              deeper error reports, but the three controls turned out to be enough.
             </p>
             <p>Since engineering support was rarely needed, the console was shelved.</p>
           </IterationRow>

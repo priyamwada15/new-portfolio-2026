@@ -18,7 +18,6 @@ const TABS_ID = "story-tabs";
 
 const SHOWCASE_TOC: SideTocItem[] = [
   { id: "overview", label: "Overview" },
-  { id: "my-role", label: "My role" },
   { id: "knowledge-management", label: "Knowledge" },
   { id: "actions", label: "Actions" },
   { id: "integrations", label: "Integrations" },
@@ -26,7 +25,6 @@ const SHOWCASE_TOC: SideTocItem[] = [
 
 const CASE_STUDY_TOC: SideTocItem[] = [
   { id: "overview", label: "Overview" },
-  { id: "my-role", label: "My role" },
   { id: "story-problem", label: "Problem" },
   { id: "story-releases", label: "Releases" },
   { id: "story-design-system", label: "Design system" },

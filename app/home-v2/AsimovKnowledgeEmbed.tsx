@@ -185,7 +185,6 @@ export function AsimovKnowledgeEmbed() {
     start: START,
     final: FINAL,
     beats: BEATS,
-    sideClear: { left: 24, right: 24 },
     onReset: clearSync,
     entry: ENTRY,
   });

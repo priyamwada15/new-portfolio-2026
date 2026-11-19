@@ -100,10 +100,6 @@ const BEATS: Beat<Scene>[] = [
 /** Opening frame when the card scrolls into view: the question already answered, so the card says something at once. */
 const ENTRY = { scene: { ...START, intro: "top" as const, shown: 2 }, beat: BEATS.findIndex((b) => b.set.shown === 2) };
 
-/** Clear space beside the chat column (stage px) where the "Read" cursor stays off; the right side covers the next card's peek. */
-const SIDE_CLEAR_LEFT = 32;
-const SIDE_CLEAR_RIGHT = 64;
-
 /** Horizontal drag distance, in px, that swipes to the other card. */
 const SWIPE_PX = 40;
 
@@ -121,7 +117,6 @@ export function RocketAssistEmbed() {
     start: START,
     final: FINAL,
     beats: BEATS,
-    sideClear: { left: SIDE_CLEAR_LEFT, right: SIDE_CLEAR_RIGHT },
     entry: ENTRY,
   });
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { useCursorDisc } from "./useCursorDisc";
 import shared from "./CardDemo.module.css";
 
 /** Demos are drawn at the card's desktop size (keep in step with CardDemo.module.css). Smaller cards scale the
@@ -15,25 +14,21 @@ export type Beat<S> = { set: Partial<S>; wait: number };
  * Shared behaviour for the coded demos on the homepage case study cards:
  * fitting the 704×520 stage to the card, playing the loop only while the card
  * is on screen (and resetting it when it leaves), a visitor taking over (which
- * stops the loop), reduced motion (the final scene, no loop)
- * and the "Read" cursor over the scene on either side of the demo's UI.
+ * stops the loop) and reduced motion (the final scene, no loop). The demos
+ * aren't interactive: the card link sits under them and takes every click.
  *
- * Put `rootRef` and `rootProps` on the demo's root, `stageProps` on its stage,
- * and `uiRef` on the element whose sides get the "Read" cursor.
+ * Put `rootRef` and `rootProps` on the demo's root and `stageProps` on its stage.
  */
 export function useCardDemo<S extends { fading?: boolean }>({
   start,
   final,
   beats,
-  sideClear = { left: 32, right: 32 },
   onReset,
   entry,
 }: {
   start: S;
   final: S;
   beats: Beat<S>[];
-  /** Stage px beside the UI element where the "Read" cursor stays off */
-  sideClear?: { left: number; right: number };
   /** Called when the loop starts over (restart button, or the card leaving the screen), to clear any timers the demo runs itself */
   onReset?: () => void;
   /**
@@ -55,14 +50,14 @@ export function useCardDemo<S extends { fading?: boolean }>({
   const [scene, setScene] = useState<S>(opening);
   // True until the loop has started from the entry point once since coming into view
   const fromEntry = useRef(true);
-  const [interactive, setInteractive] = useState(false);
+  // Demos are display-only; the embeds still branch on this from when they were clickable
+  const interactive = false;
   // Autoplay runs until a visitor takes over; it comes back after the card leaves the screen
   const [auto, setAuto] = useState(true);
   // Bumped by the restart button to start the loop over from the top
   const [run, setRun] = useState(0);
   const [inView, setInView] = useState(false);
   const [reduced, setReduced] = useState(false);
-  const cursor = useCursorDisc("Read");
 
   // Fit the full-size layout to the card
   useEffect(() => {
@@ -78,19 +73,11 @@ export function useCardDemo<S extends { fading?: boolean }>({
   }, []);
 
   useEffect(() => {
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => {
-      setInteractive(fine.matches);
-      setReduced(motion.matches);
-    };
+    const sync = () => setReduced(motion.matches);
     sync();
-    fine.addEventListener("change", sync);
     motion.addEventListener("change", sync);
-    return () => {
-      fine.removeEventListener("change", sync);
-      motion.removeEventListener("change", sync);
-    };
+    return () => motion.removeEventListener("change", sync);
   }, []);
 
   useEffect(() => {
@@ -146,46 +133,6 @@ export function useCardDemo<S extends { fading?: boolean }>({
     setScene(update);
   }, []);
 
-  // "Read" cursor over the scene: the card link sits under the demo, so watch its media area
-  useEffect(() => {
-    const root = rootRef.current;
-    const link = root?.closest("[data-study-row]")?.querySelector("a");
-    const media = link?.querySelector<HTMLElement>("[data-card-media]");
-    if (!interactive || !link || !media) return;
-    /** The scene on either side of the UI: inside the media, outside the UI and its clearance. */
-    const inSides = (e: PointerEvent) => {
-      const r = media.getBoundingClientRect();
-      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return false;
-      const ui = uiRef.current;
-      if (!ui) return true;
-      const c = ui.getBoundingClientRect();
-      return e.clientX < c.left - sideClear.left * scale || e.clientX > c.right + sideClear.right * scale;
-    };
-    let shown = false;
-    const onMove = (e: PointerEvent) => {
-      if (inSides(e)) {
-        if (shown) cursor.move(e);
-        else cursor.show(e);
-        shown = true;
-      } else if (shown) {
-        cursor.hide();
-        shown = false;
-      }
-    };
-    const onLeave = () => {
-      cursor.hide();
-      shown = false;
-    };
-    link.addEventListener("pointermove", onMove);
-    link.addEventListener("pointerleave", onLeave);
-    return () => {
-      link.removeEventListener("pointermove", onMove);
-      link.removeEventListener("pointerleave", onLeave);
-    };
-    // cursor's methods only touch refs and state setters; sideClear is a constant per demo
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [interactive, scale]);
-
   // Reduced motion shows the final scene until a visitor takes over
   const view = reduced && auto ? final : scene;
 
@@ -206,8 +153,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
       style: { "--scale": scale, "--x": `${fit.x}px`, "--y": `${fit.y}px`, opacity: scale ? undefined : 0 } as CSSProperties,
       "data-fading": view.fading || undefined,
     },
-    /** "Read" disc; render inside the demo's root, after the stage */
-    chrome: <>{cursor.disc}</>,
+    chrome: null,
   };
 }
 

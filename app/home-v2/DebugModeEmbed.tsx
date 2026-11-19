@@ -134,7 +134,6 @@ export function DebugModeEmbed() {
     start: START,
     final: FINAL,
     beats: BEATS,
-    sideClear: { left: 0, right: 0 },
     entry: ENTRY,
   });
 

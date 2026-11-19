@@ -64,7 +64,7 @@ const CASE_STUDIES: CaseStudy[] = [
 function CaseStudyRow({ study }: { study: CaseStudy }) {
   return (
     <div className={styles.row} data-study-row>
-      <HomeV2CardLink href={study.href} ariaLabel={`${study.title}. ${study.ariaLabel}`} className={`cursor-hover-dark ${styles.card}`}>
+      <HomeV2CardLink href={study.href} ariaLabel={`${study.title}. ${study.ariaLabel}`} className={`cursor-hover-pointer ${styles.card}`}>
         <div className={styles.cardText}>
           <div className={styles.cardTop}>
             <CompanyLogos className={styles.cardLogos}>

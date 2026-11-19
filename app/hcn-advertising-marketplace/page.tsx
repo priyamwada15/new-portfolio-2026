@@ -65,8 +65,8 @@ export default function HcnAdvertisingMarketplacePage() {
             text: "Sole product designer building 0 to 1: the product strategy, the workflows that move money from advertisers to broadcasters, and the design system.",
           },
           {
-            label: "Where it stands",
-            text: "Pre-launch. I’ve defined success measures for each flow, so launch can be measured.",
+            label: "Status",
+            text: "In flight. End-to-end flows are being designed and shipped to staging incrementally ahead of the full MVP launch, each with success measures defined so launch can be measured.",
           },
         ]}
       />

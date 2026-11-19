@@ -143,8 +143,6 @@ export function CaseStudySideToc({ items, alignToId }: { items: SideTocItem[]; a
         ref={asideRef}
         className={styles.root}
         data-visible={sideVisible || undefined}
-        // Fades with the page content during the case study transition (globals.css)
-        data-cs-fade
         aria-label="Case study navigation"
         inert={!sideVisible}
       >
@@ -178,7 +176,6 @@ export function CaseStudySideToc({ items, alignToId }: { items: SideTocItem[]; a
           <div
             className={styles.bar}
             data-visible={barVisible || undefined}
-            data-cs-fade
             inert={!barVisible}
           >
             <SiteLink href="/" className={styles.barBack}>

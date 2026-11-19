@@ -10,7 +10,6 @@ import dynamic from "next/dynamic";
 import { HOME_SCROLL_REVEAL_CSS_DEFAULTS } from "../home-v2/homeScrollRevealDial.config";
 import DevAgentation from "./DevAgentation";
 import { FOOTER_REVEAL_OVERLAP_PX } from "./site-footer/constants";
-import CaseStudyTransition from "./CaseStudyTransition";
 
 // The olive sticker footer, revealed as the page lifts away (it replaced the flip-board footer)
 const SiteFooter = dynamic(() => import("./site-footer/SiteFooter"), { ssr: false });
@@ -70,7 +69,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen flex-1 flex-col">
       <Nav />
       <main className="flex-1 overflow-visible">
-        <CaseStudyTransition isCaseStudy={isCaseStudy}>{children}</CaseStudyTransition>
+        {children}
       </main>
       {!useFlipBoardFooter ? <Footer /> : null}
     </div>

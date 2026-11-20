@@ -132,19 +132,32 @@ export default function AsimovPage() {
                 headline="Admins decide what Asimov reads and check where each source stands."
               >
                 <ShowcaseTile
-                  title="A source with hundreds of pages needs a list an admin can scan"
-                  text="A card grid breaks down at that size, so each page is a table row with its sync status. Admins can search and filter the list."
-                  size={FULL(580)}
-                  src={`${IMG}/knowledge-detail-full.avif`}
-                  alt="Knowledge detail for Acme Notion: a table of resources with search, filters, status and citations, and a Details panel on the right."
-                />
-                <ShowcaseTile
                   title="A sync failure has to be seen before anything else on the screen"
                   text="After a week the table shows how often Asimov cited each page. One banner names the page that failed to sync, with Retry and Reconnect."
                   size={FULL(580)}
                   src={`${IMG}/knowledge-week-later-full.avif`}
                   alt="Knowledge detail a week later: a banner about one page that failed to sync, and a table with a citations column."
                 />
+                <Pair>
+                  <ShowcaseTile
+                    subgrid
+                    title="Connecting an app and adding a folder happen in the same place"
+                    text="Apps that are already connected say so in the list, and only Notion asks to connect. Website, documents and folders sit below."
+                    size={HALF(632)}
+                    src={`${IMG}/knowledge-add-dialog.avif`}
+                    alt="Add Knowledge dialog listing Slack and HubSpot as connected, Notion with a Connect button, and Website, Documents and Folders under Content."
+                    dialog={{ width: 400, imageSize: [888, 840], radius: 16 }}
+                  />
+                  <ShowcaseTile
+                    subgrid
+                    title="Admins see how many pages they are adding before they commit"
+                    text="The total updates as folders are ticked, and auto-sync is set in the same step."
+                    size={HALF(632)}
+                    src={`${IMG}/knowledge-select-dialog.avif`}
+                    alt="Select resources dialog with six resources ticked, an auto-sync toggle set to every 6 hours, and a footer reading 6 selected, 578 pages."
+                    dialog={{ width: 400, imageSize: [888, 1192], radius: 16 }}
+                  />
+                </Pair>
               </Showcase>
 
               <Showcase

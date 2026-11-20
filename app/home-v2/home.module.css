@@ -444,6 +444,18 @@
   pointer-events: none !important;
 }
 
+/* The card's stroke, drawn again above the demo. The demo covers the whole card, so a screen that
+   fills it (the zoomed Asimov Knowledge screen) would otherwise paint over the stroke and leave the
+   card without an edge. Where nothing covers the card it lands exactly on the card's own stroke. */
+.embed::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--home-card-stroke, var(--ds-border-card));
+  border-radius: var(--ds-radius-container);
+  pointer-events: none;
+}
+
 /* Hovering a case study shrinks its card and the demo over it together (same
    size, same centre, so they stay lined up). Fine pointers only. */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {

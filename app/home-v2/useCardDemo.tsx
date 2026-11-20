@@ -25,10 +25,22 @@ export function useCardDemo<S extends { fading?: boolean }>({
   beats,
   onReset,
   entry,
+  stage,
+  startRatio,
+  startMargin,
 }: {
   start: S;
   final: S;
   beats: Beat<S>[];
+  /** The size the demo is drawn at, when it isn't the default 704×520 (e.g. a screen that fills the whole card) */
+  stage?: { w: number; h: number };
+  /**
+   * For a demo with an opening to watch: start only once this much of the card (0 to 1) is on screen, and
+   * measure against the screen edge itself (`startMargin`). By default the loop starts early, a little before
+   * the card arrives, so it is already moving when it appears.
+   */
+  startRatio?: number;
+  startMargin?: string;
   /** Called when the loop starts over (restart button, or the card leaving the screen), to clear any timers the demo runs itself */
   onReset?: () => void;
   /**
@@ -38,6 +50,8 @@ export function useCardDemo<S extends { fading?: boolean }>({
    */
   entry?: { scene: S; beat: number };
 }) {
+  const stageW = stage?.w ?? STAGE_W;
+  const stageH = stage?.h ?? STAGE_H;
   const onResetRef = useRef(onReset);
   useEffect(() => {
     onResetRef.current = onReset;
@@ -65,12 +79,12 @@ export function useCardDemo<S extends { fading?: boolean }>({
     if (!root) return;
     const ro = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
-      const s = Math.min(1, width / STAGE_W, height / STAGE_H);
-      setFit({ scale: s, x: (width - STAGE_W * s) / 2, y: (height - STAGE_H * s) / 2 });
+      const s = Math.min(1, width / stageW, height / stageH);
+      setFit({ scale: s, x: (width - stageW * s) / 2, y: (height - stageH * s) / 2 });
     });
     ro.observe(root);
     return () => ro.disconnect();
-  }, []);
+  }, [stageW, stageH]);
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -85,17 +99,20 @@ export function useCardDemo<S extends { fading?: boolean }>({
     if (!root) return;
     const io = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
-        // Leaving the screen resets the loop, so it starts from the top next time
-        if (!entry.isIntersecting) {
+        if (entry.isIntersecting) {
+          // Starts once enough of the card shows, then keeps playing until it leaves the screen
+          if (entry.intersectionRatio >= (startRatio ?? 0)) setInView(true);
+        } else {
+          setInView(false);
+          // Leaving the screen resets the loop, so it starts from the top next time
           onResetRef.current?.();
           fromEntry.current = true;
           setAuto(true);
           setScene(opening);
         }
       },
-      // Start (and reset) a little beyond the screen edge, so a demo is already moving by the time it arrives
-      { threshold: 0.1, rootMargin: "20% 0px" },
+      // By default, start (and reset) a little beyond the screen edge, so a demo is already moving by the time it arrives
+      { threshold: startRatio ? [0, startRatio] : 0.1, rootMargin: startMargin ?? "20% 0px" },
     );
     io.observe(root);
     return () => io.disconnect();
@@ -150,7 +167,13 @@ export function useCardDemo<S extends { fading?: boolean }>({
     rootClass: shared.root,
     stageProps: {
       className: shared.stage,
-      style: { "--scale": scale, "--x": `${fit.x}px`, "--y": `${fit.y}px`, opacity: scale ? undefined : 0 } as CSSProperties,
+      style: {
+        "--scale": scale,
+        "--x": `${fit.x}px`,
+        "--y": `${fit.y}px`,
+        ...(stage ? { "--stage-w": `${stage.w}px`, "--stage-h": `${stage.h}px` } : {}),
+        opacity: scale ? undefined : 0,
+      } as CSSProperties,
       "data-fading": view.fading || undefined,
     },
     chrome: null,

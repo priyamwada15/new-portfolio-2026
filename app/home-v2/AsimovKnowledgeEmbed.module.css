@@ -1,280 +1,438 @@
-/* Asimov knowledge base demo on the Asimov card. Values come from the Tars
-   dashboard frames (see docs/superpowers/specs/2026-10-20-asimov-coded-ui-design.md).
-   These are Tars' product colours, scoped to the embed, not portfolio tokens. */
+/* Asimov's Knowledge screen on the Asimov card and the case study hero. Every size comes from the Tars
+   "Knowledge Detail" frame (1512 by 982, side nav cropped away: 1232 by 982). The screen is drawn at that
+   size and scaled to fill the card (--k). These are Tars' product colours, scoped to the embed, not
+   portfolio tokens. Its hairlines match the product. */
 
 .root {
   --tx-purple: #4f148d;
   --tx-purple-soft: rgba(79, 20, 141, 0.1);
   --tx-green: #15803d;
   --tx-green-bg: #f0fdf4;
+  --tx-ink: #333333;
   --tx-value: #404040;
   --tx-name: #555555;
   --tx-secondary: #717684;
   --tx-label: #979797;
-  --tx-button-border: #c4c4c4;
   --tx-border: #e9eaeb;
-  --tx-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
+  --tx-line: #eeeeee;
+  --tx-check: #c7c3cf;
+  --tx-chip: #cfcbd6;
   --tx-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  /* Frosted surfaces: the scene shows through softly instead of stark white */
-  --tx-surface: rgba(255, 255, 255, 0.92);
-  /* One radius per kind of shape: cards and panels, controls (buttons, fields),
-     and the modal, whose 16px wraps its 8px fields */
-  --tx-radius: 12px;
-  --tx-radius-control: 8px;
-  --tx-radius-modal: 16px;
-  /* No backdrop blur on the header, rows and reply: they only sit on the flat card, where a
-     blur changes no pixels but still costs GPU work. Was blur(12px) saturate(1.2). The modal
-     keeps its own blur, since it sits over the rows. */
-  --tx-surface-blur: none;
+  --lh: 17px;
 
   font-family: var(--font-inter), sans-serif;
   color: var(--tx-value);
 }
 
-/* ── The list: header bar, resource rows, then the answer ── */
+/* ── Camera and screen ─────────────────────────────────── */
 
-/* Pinned to a fixed top, so the header stays put while rows and the answer grow in below it.
-   (Centring it made the whole list drift up and down with every change in height.) */
-.column {
+/* The push-in. The screen is drawn at its pushed-in size, and the camera shrinks it for the full view
+   (scale 1 / zoom) and grows it back to 1:1 for the push-in, so a move only ever scales the picture down,
+   never up. The move is a CSS transition, so it runs on the compositor: smooth even when the page is busy.
+   Never add will-change here: it pins the picture of the screen at the size it was first drawn (the small
+   full view), and the pushed-in view is then that picture stretched, which is what made the text blurry.
+   Without it the browser redraws the screen at its true size whenever a move ends. */
+.camera {
   position: absolute;
-  top: 112px;
-  left: 50%;
-  width: 584px;
+  inset: 0;
+  transform-origin: 0 0;
+  transition: transform 1100ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.screen {
+  position: absolute;
+  left: var(--pad);
+  top: var(--pad);
+  width: 1232px;
+  height: 982px;
   display: flex;
   flex-direction: column;
-  opacity: 0;
-  translate: -50% 16px;
-  transition:
-    opacity 800ms ease,
-    translate 1000ms var(--tx-ease),
-    scale 600ms var(--tx-ease);
-}
-
-.column[data-in] {
-  opacity: 1;
-  translate: -50% 0;
-}
-
-/* Behind the modal: set back a little (a scrim does the dimming, so the
-   surfaces keep their backdrop blur) */
-.column[data-dim] {
-  scale: 0.98;
-}
-
-/* A soft dim around the modal that fades out on every side, so it has no edge
-   wherever the demo sits: in a card (which clips it) or a case study hero (which doesn't) */
-.scrim {
-  position: absolute;
-  inset: -45%;
-  background: radial-gradient(closest-side, rgba(17, 17, 17, 0.18) 45%, rgba(17, 17, 17, 0.1) 72%, transparent 100%);
+  overflow: hidden;
+  background: #ffffff;
+  /* Top corners only: it runs off the bottom of the card */
+  border-radius: 14px 14px 0 0;
+  /* Soft and wide: a faint edge and a long, low shadow */
+  box-shadow:
+    0 0 0 1px rgba(17, 17, 17, 0.03),
+    0 4px 20px rgba(17, 17, 17, 0.03),
+    0 20px 56px rgba(17, 17, 17, 0.05);
+  transform: scale(var(--k));
+  transform-origin: 0 0;
+  /* The frame only fades: the parts inside it do the moving, once each, so nothing moves twice */
   opacity: 0;
   transition: opacity 600ms ease;
 }
 
-.scrim[data-on] {
+.screen[data-in] {
   opacity: 1;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 8px 8px 16px;
-  border-radius: var(--tx-radius);
-  background: var(--tx-surface);
-  -webkit-backdrop-filter: var(--tx-surface-blur);
-  backdrop-filter: var(--tx-surface-blur);
-  box-shadow: var(--tx-shadow);
-}
-
-.title {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 22.4px;
-  letter-spacing: -0.16px;
-  color: var(--tx-name);
-}
-
-.title span {
-  color: var(--tx-label);
-}
-
-.addButton {
-  appearance: none;
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border: 1px solid var(--tx-button-border);
-  border-radius: var(--tx-radius-control);
-  background: #fff;
-  color: var(--tx-value);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16.8px;
-  letter-spacing: -0.12px;
-}
-
-/* ── Resource row (accordion) ──────────────────────────── */
-
-.row {
-  display: flex;
-  flex-direction: column;
+/* Parts of the screen land from above, one after another (--i sets the order). The ease stops
+   decisively: a long tail would crawl the last fraction of a pixel and read as a shift. */
+.drop {
+  opacity: 0;
+  translate: 0 -16px;
   transition:
-    box-shadow 300ms ease,
-    translate 300ms var(--tx-ease);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: var(--tx-radius);
-  background: var(--tx-surface);
-  -webkit-backdrop-filter: var(--tx-surface-blur);
-  backdrop-filter: var(--tx-surface-blur);
-  box-shadow: var(--tx-shadow);
+    opacity 360ms ease,
+    translate 480ms cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-.rowHeader {
-  appearance: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 52px;
-  padding: 12px 16px;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
+.drop[data-in] {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: calc(var(--i, 0) * 90ms);
 }
 
-/* Older, already-synced rows sit back so the new one leads */
-.row[data-quiet] /* Hovering the answer's source chip lifts the row it came from */
-.row[data-linked] {
-  translate: 0 -2px;
-  box-shadow:
-    0 0 0 1px rgba(79, 20, 141, 0.16),
-    0 2px 4px rgba(17, 17, 17, 0.08),
-    0 12px 28px rgba(17, 17, 17, 0.12);
+/* A frame that holds other moving parts (the table) fades in place, so they aren't moving inside
+   something that is also moving */
+.fade {
+  opacity: 0;
+  transition: opacity 360ms ease;
 }
 
-.rowName {
-  color: var(--tx-secondary);
+.fade[data-in] {
+  opacity: 1;
+  transition-delay: calc(var(--i, 0) * 90ms);
 }
 
-.row[data-quiet] .pill {
-  opacity: 0.75;
-}
+/* ── Header and layout ─────────────────────────────────── */
 
-.rowName {
+.header {
+  flex: none;
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
-  line-height: 19.6px;
-  letter-spacing: -0.14px;
-  color: var(--tx-name);
+  height: 88px;
+  padding: 24px 32px;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--tx-border);
 }
 
-.rowName img,
-.select img,
-.source img {
+.header img {
   display: block;
   flex: none;
 }
 
-.rowRight {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.crumb,
+.crumbHere {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 38px;
+}
+
+.crumb {
   color: var(--tx-label);
 }
 
-.chevron {
-  transition: rotate 500ms var(--tx-ease);
+.crumbArrow,
+.crumbHere {
+  color: var(--tx-ink);
 }
 
-.row[data-open] .chevron {
-  rotate: 180deg;
+.crumbArrow {
+  margin-right: 8px;
 }
 
-/* Details open from zero height */
-.details {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 800ms var(--tx-ease);
-}
-
-.row[data-open] .details {
-  grid-template-rows: 1fr;
-}
-
-.detailsInner {
-  min-height: 0;
-  overflow: hidden;
+.body {
+  flex: 1;
   display: flex;
-  gap: 24px;
-  padding: 0 16px;
-  opacity: 0;
-  transition:
-    opacity 600ms ease,
-    padding 800ms var(--tx-ease);
+  min-height: 0;
 }
 
-.row[data-open] .detailsInner {
-  padding: 12px 16px 20px;
-  opacity: 1;
-}
-
-.field {
+.section {
+  width: 936px;
+  flex: none;
   display: flex;
   flex-direction: column;
-  width: 120px;
-  flex: none;
+  gap: 24px;
+  padding: 24px 32px 32px;
+  box-sizing: border-box;
 }
 
-.label {
-  margin-bottom: 8px;
+/* ── Toolbar ───────────────────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+}
+
+.tools,
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 248px;
+  height: 36px;
+  margin-right: 8px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border: 0.8px solid var(--tx-border);
+  border-radius: 8px;
+  background: #ffffff;
   font-size: 13px;
-  font-weight: 500;
-  line-height: 18px;
-  letter-spacing: 0.15px;
-  color: var(--tx-label);
-}
-
-.value {
-  font-size: 14px;
-  line-height: 21px;
-  letter-spacing: 0.15px;
-  color: var(--tx-value);
-  font-variant-numeric: tabular-nums;
-}
-
-.sub {
-  margin-top: 4px;
-  font-size: 13px;
-  line-height: 18px;
-  letter-spacing: 0.15px;
+  line-height: 16px;
   color: var(--tx-secondary);
 }
 
-.location {
+.search > span:first-child {
+  color: var(--tx-secondary);
+}
+
+.chip {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
+  height: 32px;
+  /* The design's 0.8px border sits inside the box, so the padding carries it */
+  padding: 0 12.8px 0 10.8px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--tx-name);
 }
 
-.muted {
+/* The chip's dashed outline, drawn as one closed rounded rectangle. A CSS dashed border on a pill, which
+   is curved all the way round, is drawn side by side, and at this scale its top side drops out. */
+.chipStroke {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.chipStroke rect {
+  x: 0.4px;
+  y: 0.4px;
+  width: calc(100% - 0.8px);
+  height: calc(100% - 0.8px);
+  rx: 15.6px;
+  fill: none;
+  stroke: var(--tx-chip);
+  stroke-width: 0.8px;
+  stroke-dasharray: 2.4 2.4;
+}
+
+.sync {
+  display: flex;
+  height: 33px;
+  box-sizing: border-box;
+  border: 1px solid var(--tx-border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--tx-value);
+}
+
+.syncMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.syncMore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  border-left: 1px solid rgba(79, 20, 141, 0.1);
+}
+
+.add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 33px;
+  padding: 8px 12px 8px 8px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: var(--tx-purple);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 17px;
+  letter-spacing: -0.12px;
+}
+
+/* ── Table ─────────────────────────────────────────────── */
+
+.tableFrame {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.table {
+  width: 872px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 0.8px solid var(--tx-border);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.thead {
+  position: relative;
+  height: 40px;
+  background: #fcfcfd;
+}
+
+.row {
+  position: relative;
+  height: 56px;
+  box-sizing: border-box;
+  border-top: 0.8px solid var(--tx-line);
+}
+
+/* Cells sit at the frame's own offsets */
+.thead > *,
+.row > * {
+  position: absolute;
+}
+
+.cName {
+  left: 52px;
+}
+.cLoc {
+  left: 300.8px;
+}
+.cPages {
+  left: 436.8px;
+}
+.cCite {
+  left: 520.8px;
+}
+.cStatus {
+  left: 596.8px;
+}
+.cLast {
+  left: 700.8px;
+}
+
+.th {
+  top: 12.4px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 15px;
   color: var(--tx-secondary);
 }
 
-.caret {
-  rotate: -90deg;
+.check {
+  left: 16px;
+  top: 19.4px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: 0.8px solid var(--tx-check);
+  border-radius: 5px;
+  background: #ffffff;
+}
+
+.check[data-head] {
+  top: 11px;
+}
+
+.name {
+  top: 12.4px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 32px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--tx-ink);
+  white-space: nowrap;
+}
+
+.fileTile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  border: 1px solid #f8f8f9;
+  border-radius: 8px;
+  background: #fafafb;
   color: var(--tx-secondary);
 }
 
-/* ── Training status pill ──────────────────────────────── */
+.place {
+  top: 20.4px;
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--tx-secondary);
+  white-space: nowrap;
+}
+
+.pages,
+.dash,
+.last {
+  top: 19.9px;
+  display: flex;
+  font-size: 14px;
+  line-height: var(--lh);
+  white-space: pre;
+}
+
+.pages {
+  color: var(--tx-value);
+}
+
+.of,
+.dash {
+  color: var(--tx-label);
+}
+
+.last {
+  color: var(--tx-secondary);
+}
+
+.statusCell {
+  top: 14.4px;
+  display: flex;
+  align-items: center;
+  width: 92px;
+  height: 28px;
+}
+
+.rowEnd {
+  left: 800.8px;
+  top: 14.4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 52px;
+  height: 28px;
+  color: var(--tx-label);
+}
+
+.more {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+}
+
+/* ── Status pill ───────────────────────────────────────── */
 
 .pill {
   position: relative;
@@ -282,43 +440,40 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  width: 101px;
+  width: 85px;
   height: 28px;
-  padding: 4px 16px;
   box-sizing: border-box;
   overflow: hidden;
+  border: 1px solid var(--tx-purple-soft);
   border-radius: 24px;
+  background: #ffffff;
+  color: var(--tx-purple);
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;
-  white-space: nowrap;
+  /* Only the width changes between states. The height is the same in all three (Queued, Syncing, Synced),
+     so a status change never makes the pill, or anything near it, move up or down. */
   transition:
-    width 600ms var(--tx-ease),
-    background-color 600ms ease,
-    box-shadow 600ms ease,
-    color 600ms ease;
+    width 450ms cubic-bezier(0.45, 0, 0.2, 1),
+    background-color 450ms ease,
+    border-color 450ms ease,
+    color 450ms ease;
 }
 
-.pill[data-kind="not"] {
-  width: 112px;
-  padding: 4px 12px;
-  background: #f5f5f5;
-  color: var(--tx-label);
-}
-
-.pill[data-kind="syncing"] {
-  background: #fff;
-  box-shadow: inset 0 0 0 1px var(--tx-purple-soft);
-  color: var(--tx-purple);
+.pill[data-kind="queued"] {
+  width: 84px;
+  border: 1px dashed var(--tx-label);
+  color: var(--tx-name);
 }
 
 .pill[data-kind="done"] {
+  width: 91px;
+  border-color: transparent;
   background: var(--tx-green-bg);
-  box-shadow: inset 0 0 0 1px rgba(43, 174, 102, 0.2);
   color: var(--tx-green);
 }
 
-/* Progress: a soft purple fill moves across the pill while it syncs */
+/* Progress: a soft fill moves across the pill as pages are read */
 .pillFill {
   position: absolute;
   inset: 0 auto 0 0;
@@ -326,7 +481,7 @@
   background: var(--tx-purple-soft);
   opacity: 0;
   transition:
-    width 900ms var(--tx-ease),
+    width 400ms ease,
     opacity 400ms ease;
 }
 
@@ -334,595 +489,223 @@
   opacity: 1;
 }
 
-.pillIcon,
+.pillIcon {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.pillIcon > span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.pillIcon > span[data-on] {
+  opacity: 1;
+}
+
+/* Queued: the loader turns in eight steps, one per spoke */
+.spin {
+  animation: spin 900ms steps(8) infinite;
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
 .pillText {
   position: relative;
 }
 
-/* ── Answer ────────────────────────────────────────────── */
+/* ── Rolling numbers and sliding text ──────────────────── */
 
-/* Parts of the list grow in and out. Leaving: the content fades and shrinks
-   first, then its space closes. Arriving: the space opens, then the content
-   fades in. Space changes share one timing, so whatever stays (Product Wiki)
-   glides to its new place. --in-delay holds an arrival back until others have
-   faded (the answer waits for the rest of the list). */
-.grow {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 750ms var(--tx-ease) 300ms;
-}
-
-.grow[data-show] {
-  grid-template-rows: 1fr;
-  transition: grid-template-rows 750ms var(--tx-ease) var(--in-delay, 0ms);
-}
-
-/* Room for shadows on every side, plus the gap above this part (--gap) */
-.growInner {
-  min-height: 0;
-  overflow: hidden;
-  padding: calc(8px + var(--gap, 0px)) 24px 16px;
-  margin: -8px -24px -16px;
-  transition: padding-top 750ms var(--tx-ease) 300ms;
-}
-
-/* Leaving: fade and shrink quickly, before the space closes */
-.growInner > * {
-  opacity: 0;
-  scale: 0.96;
-  translate: 0 8px;
-  transform-origin: 50% 0;
-  transition:
-    opacity 300ms ease,
-    scale 300ms var(--tx-ease),
-    translate 300ms var(--tx-ease);
-}
-
-/* Arriving from above, like the answer, comes down into place */
-.grow[data-from-top] .growInner > * {
-  scale: 1;
-  translate: 0 -24px;
-}
-
-/* Arriving: fade in as the space finishes opening */
-.grow[data-show] .growInner > * {
-  opacity: 1;
-  scale: 1;
-  translate: 0 0;
-  transition:
-    opacity 600ms ease calc(var(--in-delay, 0ms) + 250ms),
-    scale 800ms var(--tx-ease) calc(var(--in-delay, 0ms) + 150ms),
-    translate 800ms var(--tx-ease) calc(var(--in-delay, 0ms) + 150ms);
-}
-
-.answer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-  padding-top: 4px;
-}
-
-/* Alone with its source, the answer moves to the centre */
-.answer[data-focus] {
-  align-items: center;
-}
-
-.question,
-.reply {
-  margin: 0;
-  max-width: 320px;
-  padding: 8px 12px;
-  font-size: 14px;
-  line-height: 20px;
-  box-shadow: var(--tx-shadow);
-}
-
-.question {
-  border-radius: 12px 12px 4px 12px;
-  background: var(--tx-purple);
-  color: #fff;
-}
-
-.reply {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border-radius: var(--tx-radius);
-  background: var(--tx-surface);
-  -webkit-backdrop-filter: var(--tx-surface-blur);
-  backdrop-filter: var(--tx-surface-blur);
-  color: var(--tx-value);
-}
-
-.reply p {
-  margin: 0;
-}
-
-.source {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  line-height: 18px;
-  color: var(--tx-secondary);
-}
-
-/* Source chip: names the resource the answer came from */
-.sourceChip {
+.roll {
   display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px 2px 4px;
-  border: 1px solid rgba(79, 20, 141, 0.16);
-  border-radius: 100px;
-  background: rgba(79, 20, 141, 0.06);
-  color: var(--tx-purple);
-  font-weight: 500;
+  height: var(--lh);
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+  vertical-align: top;
+}
+
+.rollCol {
+  display: block;
+  width: 1ch;
+  height: var(--lh);
+  overflow: hidden;
   transition:
-    background-color 300ms ease,
-    border-color 300ms ease;
+    width 450ms var(--tx-ease),
+    opacity 300ms ease;
 }
 
-/* Hovering the row lights up its chip */
-.sourceChip[data-linked] {
-  border-color: rgba(79, 20, 141, 0.32);
-  background: rgba(79, 20, 141, 0.12);
-}
-
-/* Dotted trace from the answer's source line up to the row it came from.
-   Its dots are placed along a curve and fade in one after another (see the effect). */
-.trace {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 704px;
-  height: 520px;
-  overflow: visible;
+.rollCol[data-empty] {
+  width: 0;
   opacity: 0;
-  transition: opacity 300ms ease;
 }
 
-.trace[data-on] {
-  opacity: 1;
-}
-
-/* The curve the dots are placed along; not drawn itself */
-.traceGuide {
-  fill: none;
-  stroke: none;
-}
-
-.traceDots {
-  fill: rgba(79, 20, 141, 0.7);
-}
-
-.traceEnd {
-  fill: var(--tx-purple);
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-/* ── Add Knowledge modal ───────────────────────────────── */
-
-.modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 460px;
+.rollStrip {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 24px;
+  transform: translateY(calc(var(--d) * var(--lh) * -1));
+  transition: transform 500ms var(--tx-ease);
+}
+
+.rollStrip > span {
+  height: var(--lh);
+  line-height: var(--lh);
+}
+
+.slide {
+  display: block;
+  height: var(--h);
+  overflow: hidden;
+}
+
+.slideStrip {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc(var(--n) * var(--h) * -1));
+  transition: transform 600ms var(--tx-ease);
+}
+
+.slideStrip > span {
+  height: var(--h);
+  line-height: var(--h);
+  white-space: nowrap;
+}
+
+/* ── Details panel ─────────────────────────────────────── */
+
+.panel {
+  flex: none;
+  width: 296px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px 24px 24px;
   box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: var(--tx-radius-modal);
-  background: rgba(255, 255, 255, 0.92);
-  -webkit-backdrop-filter: blur(20px) saturate(1.2);
-  backdrop-filter: blur(20px) saturate(1.2);
-  box-shadow: 0 2px 4px rgba(17, 17, 17, 0.06), 0 16px 40px rgba(17, 17, 17, 0.16);
-  translate: -50% -46%;
-  scale: 0.96;
-  opacity: 0;
-  transition:
-    opacity 500ms ease,
-    translate 800ms var(--tx-ease),
-    scale 800ms var(--tx-ease);
-}
-
-.modal[data-open] {
-  translate: -50% -50%;
-  scale: 1;
-  opacity: 1;
-}
-
-.modalHeader {
-  position: relative;
-  text-align: center;
-}
-
-.modalHeader p {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 25.6px;
-}
-
-.close,
-.cancel,
-.submit {
-  appearance: none;
-  border: 0;
-  font: inherit;
-}
-
-.close {
-  display: flex;
-  padding: 0;
-  background: none;
-  position: absolute;
-  top: 3px;
-  right: 0;
-  color: var(--tx-label);
-}
-
-.modalBody {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  border-left: 0.8px solid var(--tx-border);
+  background: #fcfcfc;
+  transition-delay: 0ms;
 }
 
 .group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
-.group .workspace {
-  margin-top: 4px;
+.groupTitle {
+  margin: 0;
+  height: 28px;
+  padding-bottom: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--tx-value);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  font-size: 14px;
+  line-height: var(--lh);
+}
+
+.field[data-first] {
+  height: 44px;
+  padding-top: 8px;
+  box-sizing: border-box;
 }
 
 .fieldLabel {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 21px;
-  letter-spacing: 0.15px;
+  flex: none;
+  width: 132px;
+  color: var(--tx-secondary);
 }
 
-.select {
+.fieldValue {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 8px 12px;
-  border: 1px solid var(--tx-border);
-  border-radius: var(--tx-radius-control);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 19.3px;
-  letter-spacing: 0.15px;
-}
-
-.selectCaret {
-  margin-left: auto;
-  color: var(--tx-name);
+  color: var(--tx-value);
+  white-space: pre;
 }
 
 .workspace {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
-  border: 1px solid var(--tx-border);
-  border-radius: var(--tx-radius-control);
-  background: #fafafa;
+  gap: 8px;
 }
 
-.workspace img {
+.workspaceMark {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: #4cc86e;
+  color: #ffffff;
+}
+
+.avatar {
+  display: block;
   flex: none;
-}
-
-.workspaceText {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.workspaceName {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.15px;
-  color: var(--tx-value);
-}
-
-.status {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  line-height: 18px;
-  letter-spacing: 0.15px;
-  color: var(--tx-secondary);
-  transition: color 500ms ease;
-}
-
-.status i {
-  width: 8px;
-  height: 8px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: var(--tx-label);
-  transition: background-color 500ms ease;
+  object-fit: cover;
 }
 
-.workspace[data-on] .status {
-  color: var(--tx-green);
-  font-weight: 500;
-}
-
-.workspace[data-on] .status i {
-  background: #22c55e;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
-}
-
-.connect {
-  appearance: none;
-  position: relative;
+.content {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border: 1px solid var(--tx-button-border);
-  border-radius: var(--tx-radius-control);
-  background: #fff;
+  height: 36px;
+  font-size: 14px;
+  line-height: var(--lh);
   color: var(--tx-value);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16.8px;
-  letter-spacing: -0.12px;
-  transition:
-    opacity 400ms ease,
-    scale 400ms var(--tx-ease);
 }
 
-/* Once connected, the status says it all */
-.workspace[data-on] .connect {
-  opacity: 0;
-  scale: 0.9;
-}
-
-.input {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-height: 37px;
-  padding: 8px 12px;
+.content[data-first] {
+  height: 44px;
+  padding-top: 8px;
   box-sizing: border-box;
-  border: 1px solid var(--tx-border);
-  border-radius: var(--tx-radius-control);
-  background: #fff;
-  color: var(--tx-value);
-  font: inherit;
-  font-size: 14px;
-  line-height: 21px;
-  letter-spacing: 0.15px;
 }
 
-.input::placeholder {
-  color: var(--tx-label);
-}
-
-.input:focus-visible {
-  outline: 2px solid rgba(79, 20, 141, 0.35);
-  outline-offset: 0;
-  border-color: rgba(79, 20, 141, 0.5);
-}
-
-/* Text caret while the name types in */
-.caretLine {
-  width: 1px;
-  height: 18px;
-  margin-left: 1px;
-  background: var(--tx-purple);
-  opacity: 0;
-}
-
-.caretLine[data-on] {
-  animation: blink 1s steps(1) infinite;
-}
-
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-.modalButtons {
+.contentLabel {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  width: 124px;
 }
 
-.cancel {
-  background: none;
-  padding: 6px 24px;
-  border-radius: var(--tx-radius-control);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 22px;
-  letter-spacing: 0.46px;
-  color: var(--tx-name);
+.contentLabel > span:first-child {
+  color: var(--tx-secondary);
 }
 
-.submit {
-  position: relative;
-  padding: 6px 24px;
-  border-radius: var(--tx-radius-control);
-  background: var(--tx-purple);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0.4px;
-  opacity: 0.5;
-  transition: opacity 500ms ease;
-}
-
-.submit[data-ready] {
-  opacity: 1;
-}
-
-/* ── Scripted tap ──────────────────────────────────────── */
-
-.tap {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 32px;
-  height: 32px;
-  margin: -16px 0 0 -16px;
-  border-radius: 50%;
-  background: rgba(17, 17, 17, 0.16);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
-  animation: tap 700ms var(--tx-ease) both;
-}
-
-@keyframes tap {
-  from {
-    opacity: 0;
-    scale: 1.6;
-  }
-  60% {
-    opacity: 1;
-    scale: 0.9;
-  }
-  to {
-    opacity: 1;
-    scale: 1;
-  }
-}
-
-/* ── Desktop: the add button and rows take the pointer ─── */
-
-.root[data-interactive] .addButton,
-.root[data-interactive] .addButton *,
-.root[data-interactive] .rowHeader,
-.root[data-interactive] .rowHeader *,
-.root[data-interactive] .modal[data-open] button:not(:disabled),
-.root[data-interactive] .modal[data-open] button:not(:disabled) *,
-.root[data-interactive] .modal[data-open] .input,
-.root[data-interactive] .row,
-.root[data-interactive] .answer[data-focus] .sourceChip {
-  pointer-events: auto !important;
-}
-
-.root[data-interactive] .addButton,
-.root[data-interactive] .rowHeader,
-.root[data-interactive] .modal button:not(:disabled) {
-  cursor: pointer;
-}
-
-.root[data-interactive] .modal .input {
-  cursor: text;
-}
-
-.close:focus-visible,
-.cancel:focus-visible,
-.submit:focus-visible,
-.connect:focus-visible {
-  outline: 2px solid var(--tx-purple);
-  outline-offset: 2px;
-}
-
-.addButton:focus-visible,
-.rowHeader:focus-visible {
-  outline: 2px solid var(--tx-purple);
-  outline-offset: 2px;
-}
-
-/* ── Hover and press states (desktop) ──────────────────── */
-
-.addButton,
-.connect,
-.cancel,
-.submit,
-.close {
-  transition:
-    background-color 200ms ease,
-    border-color 200ms ease,
-    color 200ms ease,
-    opacity 500ms ease,
-    scale 200ms var(--tx-ease);
-}
-
-.root[data-interactive] .addButton:hover,
-.root[data-interactive] .connect:not(:disabled):hover {
-  border-color: #a8a8a8;
-  background: #f7f7f7;
-}
-
-.root[data-interactive] .addButton:active,
-.root[data-interactive] .connect:not(:disabled):active,
-.root[data-interactive] .cancel:active,
-.root[data-interactive] .submit:not(:disabled):active {
-  scale: 0.96;
-}
-
-.root[data-interactive] .cancel:hover {
-  background: rgba(17, 17, 17, 0.05);
-}
-
-.root[data-interactive] .submit[data-ready]:not(:disabled):hover {
-  background: #3d0f6e;
-}
-
-.root[data-interactive] .close:hover {
-  color: var(--tx-name);
-}
-
-/* A row brightens a little under the pointer */
-.root[data-interactive] .row:has(.rowHeader:hover) {
-  border-color: rgba(255, 255, 255, 0.9);
-  box-shadow:
-    0 2px 4px rgba(17, 17, 17, 0.08),
-    0 12px 28px rgba(17, 17, 17, 0.12);
-}
-
-.root[data-interactive] .rowHeader:hover .chevron {
-  color: var(--tx-name);
-}
-
-/* ── Reduced motion: no movement ───────────────────────── */
+/* ── Reduced motion: the finished screen, nothing moves ── */
 
 @media (prefers-reduced-motion: reduce) {
-  .column,
-  .scrim,
-  .chevron,
-  .details,
-  .detailsInner,
+  .camera,
+  .screen,
+  .drop,
+  .fade,
   .pill,
   .pillFill,
-  .grow,
-  .growInner,
-  .growInner > *,
-  .modal,
-  .status,
-  .status i,
-  .row,
-  .sourceChip,
-  .trace,
-  .connect,
-  .submit {
+  .pillIcon > span,
+  .rollCol,
+  .rollStrip,
+  .slideStrip {
     transition: none;
   }
 
-  .caretLine[data-on] {
+  .spin {
     animation: none;
   }
 }

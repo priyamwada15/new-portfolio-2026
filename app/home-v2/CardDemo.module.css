@@ -22,8 +22,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 704px;
-  height: 520px;
+  width: var(--stage-w, 704px);
+  height: var(--stage-h, 520px);
   transform: translate(var(--x), var(--y)) scale(var(--scale));
   transform-origin: 0 0;
   transition: opacity 600ms ease;

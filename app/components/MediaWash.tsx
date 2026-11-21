@@ -14,11 +14,12 @@ import type { CSSProperties, ReactNode } from "react";
  */
 
 /**
- * Which wash. Only Tars (and so Asimov and Debug Mode) has one so far. A
- * Rocket Mortgage wash and an HCN wash were tried and dropped: neither suited its page.
+ * Which wash. Tars (and so Asimov and Debug Mode) and HCN have one. A Rocket
+ * Mortgage wash was tried and dropped: it didn't suit its page. HCN's is built
+ * from the indigo of its demos, not from the brand rose.
  * To add one, derive a palette from the brand colour the same way and add it here.
  */
-export type WashTone = "tars";
+export type WashTone = "tars" | "hcn";
 
 type Palette = {
   /** Soft highlight, top left. */
@@ -38,6 +39,8 @@ type Palette = {
 const PALETTES: Record<WashTone, Palette> = {
   // Tars and Asimov: purple #6D33AA (Asimov's UI is #4F148D).
   tars: { pale: "#F5EEFC", warm: "#EEDDF4", deep: "#B496E6", cool: "#CBD6F6", base: "#DDD0F1", shadow: "40,16,80" },
+  // HCN: the indigo of its demos, #4C4FD1.
+  hcn: { pale: "#F1F2FC", warm: "#EBDDF6", deep: "#A9ABEB", cool: "#C7D8F6", base: "#D3D5F3", shadow: "30,32,100" },
 };
 
 const layers = (p: Palette) =>

@@ -5,7 +5,8 @@ import { WordReveal } from "../components/WordReveal";
 import { HtmlEmbed } from "../components/HtmlEmbed";
 import { CaseStudySummary, SectionHeader } from "../components/CaseStudySections";
 import { HcnMarketplaceEmbed } from "../home-v2/HcnMarketplaceEmbed";
-import { caseStudyTitle, CASE_STUDY_PAGE_BG, mediaPanel } from "@/design-system";
+import { MediaWash } from "../components/MediaWash";
+import { caseStudyTitle, CASE_STUDY_PAGE_BG } from "@/design-system";
 
 /* Client is under NDA: no client name in the copy or metadata, and the page stays out of search. */
 export const metadata: Metadata = {
@@ -17,6 +18,8 @@ export const metadata: Metadata = {
 
 const lead = "font-semibold text-primary";
 
+const SHOW_SYSTEMS_DESIGN = false;
+
 export default function HcnAdvertisingMarketplacePage() {
   return (
     <CaseStudyLayout
@@ -24,7 +27,6 @@ export default function HcnAdvertisingMarketplacePage() {
       sideToc={[
         { id: "about", label: "Overview" },
         { id: "accounts", label: "Information Architecture" },
-        { id: "booking", label: "Systems Design" },
         { id: "wallet", label: "Financial UX" },
         { id: "space", label: "Workflow Design" },
       ]}
@@ -37,9 +39,9 @@ export default function HcnAdvertisingMarketplacePage() {
       logosAside={<CaseStudyStatusPills />}
       reverseHeaderOrder
       heroVisual={
-        <div className={`${mediaPanel} relative aspect-[1008/575] w-full overflow-hidden`}>
+        <MediaWash tone="hcn" className="aspect-[1008/575] w-full">
           <HcnMarketplaceEmbed />
-        </div>
+        </MediaWash>
       }
       meta={{
         timeline: "June 2026",
@@ -54,60 +56,60 @@ export default function HcnAdvertisingMarketplacePage() {
         ],
       }}
     >
-      <CaseStudySummary
-        rows={[
-          {
-            label: "Goal",
-            text: "Launch a self-serve MVP with every major function, so first-time advertisers and broadcasters can onboard and set up quickly.",
-          },
-          {
-            label: "My role",
-            text: "Sole product designer building 0 to 1: the product strategy, the workflows that move money from advertisers to broadcasters, and the design system.",
-          },
-          {
-            label: "Status",
-            text: "In flight. End-to-end flows are being designed and shipped to staging incrementally ahead of the full MVP launch, each with success measures defined so launch can be measured.",
-          },
-        ]}
-      />
-
-      <section id="about" className="flex flex-col gap-12">
-        <SectionHeader title="Three kinds of users share a new marketplace">
+      <section id="about" className="flex flex-col gap-8">
+        <SectionHeader eyebrow="Context" title="A marketplace where advertisers run campaigns on screens that businesses rent out">
           <p>
-            A new marketplace where businesses rent out their screens to advertisers. Advertisers
-            book screens, broadcasters own them, and some businesses do both.
+            I&rsquo;m designing a self-serve marketplace for advertising on digital screens. Advertisers
+            set up an account, create campaigns, run them and analyze how they perform.
           </p>
           <p>
-            Supply comes first: the MVP needs enough broadcasters that advertisers have varied inventory to choose from, so every flow has to be quick to finish.
+            Broadcasters rent out their screen space and earn from it. A business can do both,
+            running campaigns for itself and, if it&rsquo;s an in-person venue, renting out its own screens.
           </p>
         </SectionHeader>
+        <CaseStudySummary
+          rows={[
+            {
+              label: "Goal",
+              text: "Launch a self-serve MVP with every major function, so first-time advertisers and broadcasters can onboard and set up quickly.",
+            },
+            {
+              label: "My role",
+              text: "Sole product designer building 0 to 1: the product strategy, the workflows that move money from advertisers to broadcasters, and the design system.",
+            },
+            {
+              label: "Status",
+              text: "In flight. End-to-end flows are being designed and shipped to staging incrementally ahead of the full MVP launch, each with success measures defined so launch can be measured.",
+            },
+          ]}
+        />
       </section>
 
       <section aria-label="About the visuals">
         <WordReveal
           className="mx-auto max-w-[760px] text-balance text-center font-label text-[24px] font-medium leading-[1.45] tracking-[-0.01em] text-secondary max-md:text-[20px]"
-          text="The screens that follow are *conceptual walkthroughs*. The product is under NDA and pre-launch, so I show the thinking behind *four decisions* and leave the final design out."
+          text="The demos that follow are *conceptual walkthroughs*, since the product is under NDA and still in flight. They cover the *product decisions* I made and the metrics I&rsquo;m designing toward."
         />
       </section>
 
       <section id="accounts" className="flex flex-col gap-12">
         <SectionHeader
           eyebrow="Information Architecture"
-          title="Bringing different user roles into one account"
+          title="Eliminating task switching for dual user personas"
         >
           <p>
-            <span className={lead}>Why:</span>{" "}People who both advertise and own screens would have their work split
-            across two experiences if they had to switch roles.
+            <span className={lead}>Why:</span>{" "}A business that advertises and owns screens does both jobs in one day,
+            and two experiences means switching roles each time.
           </p>
           <p>
-            <span className={lead}>My approach:</span>{" "}I gave them one combined account with a grouped sidebar that
-            brings both roles&rsquo; sections together, and removed the role switch. They can compare
-            what they spend with what they earn in one place. The sidebar gets longer, and usage
-            will show whether that&rsquo;s worth it.
+            <span className={lead}>My approach:</span>{" "}I combined both roles into one account with a grouped
+            sidebar and removed the role switch. A tradeoff is that the sidebar is longer and usage
+            data will show whether this bet worked in our favor.
           </p>
           <p>
             <span className={lead}>Metrics I designed toward:</span>{" "}
-            task success rate for each role, and cross-role usage rate among dual-role accounts.
+            Task Success Rate (TSR) and Time on Task (ToT) on cross-role tasks, like checking
+            earnings before setting a budget.
           </p>
         </SectionHeader>
         <HtmlEmbed
@@ -116,42 +118,45 @@ export default function HcnAdvertisingMarketplacePage() {
         />
       </section>
 
-      <section id="booking" className="flex flex-col gap-12">
-        <SectionHeader
-          eyebrow="Systems Design"
-          title="Booking starts with a budget, so spend stays in view"
-        >
-          <p>
-            <span className={lead}>Why:</span>{" "}Most advertisers are small businesses buying screen ads for the first time, so a first booking is a bet on a channel they haven&rsquo;t tried.
-          </p>
-          <p>
-            <span className={lead}>My approach:</span>{" "}I made the bet feel small by starting every booking inside a campaign with its own budget. Money set aside for one purpose feels safer to spend than money from a general pot, and the budget moves nothing out of the wallet. It stays visible on every screen and updates as slots are added. Requiring an ad before sending lets broadcasters judge the actual campaign, and a public library can decline one that doesn&rsquo;t suit its visitors.
-          </p>
-          <p>
-            <span className={lead}>Metrics I designed toward:</span>{" "}
-            time on task to first booking, and Single Ease Question (SEQ) rating for booking.
-          </p>
-        </SectionHeader>
-        <HtmlEmbed
-          src="/hcn/visual-2-booking.html"
-          title="The campaign budget staying visible on each step of the booking flow"
-        />
-      </section>
+      {/* Systems Design is hidden while its framing is reworked. Flip SHOW_SYSTEMS_DESIGN to bring it back. */}
+      {SHOW_SYSTEMS_DESIGN && (
+        <section id="booking" className="flex flex-col gap-12">
+          <SectionHeader
+            eyebrow="Systems Design"
+            title="Booking starts with a budget, so spend stays in view"
+          >
+            <p>
+              <span className={lead}>Why:</span>{" "}Most advertisers are small businesses buying screen ads for the first time, so a first booking is a bet on a channel they haven&rsquo;t tried.
+            </p>
+            <p>
+              <span className={lead}>My approach:</span>{" "}I made the bet feel small by starting every booking inside a campaign with its own budget. Money set aside for one purpose feels safer to spend than money from a general pot, and the budget moves nothing out of the wallet. It stays visible on every screen and updates as slots are added. Requiring an ad before sending lets broadcasters judge the actual campaign, and a public library can decline one that doesn&rsquo;t suit its visitors.
+            </p>
+            <p>
+              <span className={lead}>Metrics I designed toward:</span>{" "}
+              time on task to first booking, and Single Ease Question (SEQ) rating for booking.
+            </p>
+          </SectionHeader>
+          <HtmlEmbed
+            src="/hcn/visual-2-booking.html"
+            title="The campaign budget staying visible on each step of the booking flow"
+          />
+        </section>
+      )}
 
       <section id="wallet" className="flex flex-col gap-12">
         <SectionHeader
           eyebrow="Financial UX"
-          title="Money moves only when a broadcaster approves"
+          title="Designing for transparent payment cycles"
         >
           <p>
-            <span className={lead}>Why:</span>{" "}A stored balance avoids card fees on small bookings, but advertisers won&rsquo;t prepay a marketplace they haven&rsquo;t tried unless they trust it with their money.
+            <span className={lead}>Why:</span>{" "}If money were deducted on every request, each decline would mean paying the broadcaster and then refunding the advertiser. That cycle is slow and erodes trust in the product and in broadcasters, so advertisers would hesitate to send requests at all.
           </p>
           <p>
-            <span className={lead}>My approach:</span>{" "}Money moves only when a broadcaster approves, so an advertiser never pays for a screen that doesn&rsquo;t run. The wallet shows what&rsquo;s tied up in requests next to what&rsquo;s available. Holding nothing leaves a gap: someone could send many requests and drop some after approval, so the review screen disables sending once pending requests exceed the balance.
+            <span className={lead}>My approach:</span>{" "}I made money move only when a broadcaster approves, and refund the difference if a campaign doesn&rsquo;t play its full period. The wallet shows what&rsquo;s tied up in requests next to what&rsquo;s available. Since nothing is held when a request goes out, someone could over-send and drop some after approval, so the review screen disables sending once pending requests exceed the balance.
           </p>
           <p>
             <span className={lead}>Metrics I designed toward:</span>{" "}
-            top-up-to-booking conversion rate, and balance-related support contacts.
+            top-up-to-booking conversion rate (CVR) and balance-related support tickets.
           </p>
         </SectionHeader>
         <HtmlEmbed
@@ -163,17 +168,17 @@ export default function HcnAdvertisingMarketplacePage() {
       <section id="space" className="flex flex-col gap-12">
         <SectionHeader
           eyebrow="Workflow Design"
-          title="Adding a space asks for little, and device pairing can wait"
+          title="Reducing friction in space setup for screen owners"
         >
           <p>
-            <span className={lead}>Why:</span>{" "}Adding a space is a broadcaster&rsquo;s first task, and a long flow gives them a reason to put it off.
+            <span className={lead}>Why:</span>{" "}Adding a space is a broadcaster&rsquo;s first task, and the marketplace needs supply first. A long flow gives them a reason to put it off.
           </p>
           <p>
-            <span className={lead}>My approach:</span>{" "}I put speed first. Setup asks only for what an advertiser needs to see, and device pairing, which connects the physical screen, comes after the space is added. Owners set one schedule and price for every screen, with optional per-screen prices and higher peak-hour rates. They can browse campaigns right away, an unpaired screen shows its details and photos but can&rsquo;t be booked yet, and owners who need more time can save a draft.
+            <span className={lead}>My approach:</span>{" "}I split setup in two. The first stage asks only for what an advertiser needs to see, and device pairing (connecting the physical screen) waits until after the space is added. An unpaired screen shows its details but can&rsquo;t be booked yet.
           </p>
           <p>
             <span className={lead}>Metrics I designed toward:</span>{" "}
-            time on task to add a first space, and Single Ease Question (SEQ) rating for setup.
+            setup completion rate and Single Ease Question (SEQ) rating for setup.
           </p>
         </SectionHeader>
         <HtmlEmbed

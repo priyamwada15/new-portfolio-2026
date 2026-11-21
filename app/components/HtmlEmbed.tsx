@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { mediaPanel } from "@/design-system";
+import { MediaWash } from "./MediaWash";
 
 /**
  * A self-contained, same-origin HTML visual (public/hcn/*.html) shown in an
@@ -31,7 +31,7 @@ export function HtmlEmbed({ src, title }: { src: string; title: string }) {
   }, []);
 
   return (
-    <div className={`${mediaPanel} overflow-hidden`}>
+    <MediaWash tone="hcn">
       <iframe
         ref={ref}
         src={src}
@@ -39,9 +39,9 @@ export function HtmlEmbed({ src, title }: { src: string; title: string }) {
         onLoad={track}
         scrolling="no"
         loading="lazy"
-        className="block w-full border-0"
+        className="relative block w-full border-0"
         style={{ height }}
       />
-    </div>
+    </MediaWash>
   );
 }

@@ -204,12 +204,17 @@ const IMPACT_STATS = [
 
 function Impact() {
   return (
-    <section id="impact">
-      <SectionHeader eyebrow="Impact" title="Clients in testing found the redesign better on all three measures I set" bodyClassName="gap-12 pt-2">
-        <p>The research team tested the concept with 8 Rocket clients.</p>
-        {/* Same stat layout as Debug Mode: label, then the number reading straight into its sentence. */}
+    <section id="impact" className="flex flex-col gap-8">
+      <SectionHeader eyebrow="Impact" title="Clients in testing found the redesign better on all three measures I set">
+        {null}
+      </SectionHeader>
+      {/* The three measures side by side, with the same spacing as the Goal, My role and Impact row */}
+      <div className="grid w-full grid-cols-3 items-stretch max-lg:grid-cols-1">
         {IMPACT_STATS.map((stat) => (
-          <div key={stat.label} className="flex flex-col gap-4">
+          <div
+            key={stat.label}
+            className={`${caseStudyText} flex min-w-0 flex-col gap-4 rounded-[var(--ds-radius-container)] px-8 py-8 max-lg:px-0 max-md:py-6 lg:first:pl-0 lg:last:pr-0`}
+          >
             <h3 className={caseStudyEyebrow}>{stat.label}</h3>
             <div className="flex flex-col gap-2">
               <p className={caseStudyStatNumber}>{stat.value}</p>
@@ -217,7 +222,7 @@ function Impact() {
             </div>
           </div>
         ))}
-      </SectionHeader>
+      </div>
     </section>
   );
 }
@@ -235,15 +240,22 @@ const REFLECTIONS = [
 
 function Reflections() {
   return (
-    <section id="reflections">
-      <SectionHeader eyebrow="Reflections" title="What I'm taking with me from Rocket" bodyClassName="gap-12 pt-2">
+    <section id="reflections" className="flex flex-col gap-8">
+      <SectionHeader eyebrow="Reflections" title="What I'm taking with me from Rocket">
+        {null}
+      </SectionHeader>
+      {/* Side by side, with the same spacing as the Goal, My role and Impact row */}
+      <div className="grid w-full grid-cols-2 items-stretch max-lg:grid-cols-1">
         {REFLECTIONS.map((item) => (
-          <div key={item.title} className="flex flex-col gap-3">
+          <div
+            key={item.title}
+            className={`${caseStudyText} flex min-w-0 flex-col gap-3 rounded-[var(--ds-radius-container)] px-8 py-8 max-lg:px-0 max-md:py-6 lg:first:pl-0 lg:last:pr-0`}
+          >
             <h3 className={caseStudyRowTitle}>{item.title}</h3>
             <p>{item.text}</p>
           </div>
         ))}
-      </SectionHeader>
+      </div>
     </section>
   );
 }

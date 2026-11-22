@@ -5,6 +5,7 @@
 import {
   caseStudyEyebrow,
   caseStudyCardLabel,
+  caseStudyVisualTitle,
   caseStudyCardText,
   caseStudySectionTagCaps,
   caseStudyHeading,
@@ -267,14 +268,14 @@ export function Testimonials({
         {items.map((item) => (
           <figure
             key={item.name}
-            className="flex min-w-0 flex-1 flex-col justify-center gap-4 rounded-[var(--ds-radius-container)] border border-border bg-surface-page p-6"
+            className="flex min-w-0 flex-1 flex-col justify-center gap-4 rounded-[var(--ds-radius-container)] p-6"
           >
-            <blockquote className="font-label text-[14px] leading-[22px] text-secondary">
+            <blockquote className={caseStudyText}>
               &ldquo;{item.quote}&rdquo;
             </blockquote>
             <figcaption className="flex flex-col gap-1">
               <span className="flex items-center gap-2">
-                <span className="min-w-0 flex-1 font-label text-[14px] font-semibold leading-[21px] text-primary">
+                <span className={`${caseStudyVisualTitle} min-w-0`}>
                   {item.name}
                 </span>
                 <a
@@ -288,7 +289,7 @@ export function Testimonials({
                   <img src="/logos/LinkedIn_icon.svg" alt="" width={16} height={16} className="size-4" />
                 </a>
               </span>
-              <span className="font-label text-[12px] leading-[1.5] text-secondary">{item.title}</span>
+              <span className={`${caseStudyCardLabel} text-tertiary`}>{item.title}</span>
             </figcaption>
           </figure>
         ))}

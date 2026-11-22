@@ -281,7 +281,7 @@ export default function RocketMortgageContent() {
           { label: "Handed off", value: "Aug 2025 (Proof of concept)" },
           { label: "Scope", value: "Conversational AI, Agentic UX, Warm Handoff" },
           { label: "Team", value: "Engineers, Researchers, Conversational AI Designers, Me" },
-          { label: "Contribution", value: "Conversational AI Design Intern: Conversational Design, Interaction Design" },
+          { label: "Contribution", value: "Intern: Conversational & Interaction Design" },
         ],
       }}
     >

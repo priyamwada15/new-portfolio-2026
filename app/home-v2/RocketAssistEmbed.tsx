@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { DemoIcon, useCardDemo, type Beat } from "./useCardDemo";
 import styles from "./RocketAssistEmbed.module.css";
 
@@ -100,6 +100,9 @@ const BEATS: Beat<Scene>[] = [
 /** Opening frame when the card scrolls into view: the question already answered, so the card says something at once. */
 const ENTRY = { scene: { ...START, intro: "top" as const, shown: 2 }, beat: BEATS.findIndex((b) => b.set.shown === 2) };
 
+/** Where the typing dots end, from the top of a message's space: 16px of padding and the 30px bubble */
+const TYPING_END = 46;
+
 /** Horizontal drag distance, in px, that swipes to the other card. */
 const SWIPE_PX = 40;
 
@@ -127,6 +130,38 @@ export function RocketAssistEmbed() {
   );
   const goTo = useCallback((index: number) => takeOverWith({ index, flipped: false }), [takeOverWith]);
 
+  // The thread is laid out at full size from the start and slid up by transform, so the page never reflows
+  const threadRef = useRef<HTMLDivElement>(null);
+  const slots = useRef<(HTMLDivElement | null)[]>([]);
+  useLayoutEffect(() => {
+    const thread = threadRef.current;
+    if (!thread) return;
+    const place = () => {
+      const slot = (i: number) => slots.current[i];
+      let end = 0;
+      if (view.cards) {
+        const s = slot(MESSAGES.length);
+        if (s) end = s.offsetTop + s.offsetHeight;
+      } else if (view.typing) {
+        const s = slot(view.shown);
+        if (s) end = s.offsetTop + TYPING_END;
+      } else if (view.shown > 0) {
+        const s = slot(view.shown - 1);
+        if (s) end = s.offsetTop + s.offsetHeight;
+      }
+      thread.style.setProperty("--shift", `${end ? Math.max(0, thread.offsetHeight - end) : 0}px`);
+    };
+    place();
+    // From the second placement on, the move is animated
+    const ready = requestAnimationFrame(() => thread.setAttribute("data-ready", ""));
+    const ro = new ResizeObserver(place);
+    ro.observe(thread);
+    return () => {
+      cancelAnimationFrame(ready);
+      ro.disconnect();
+    };
+  }, [view.shown, view.typing, view.cards]);
+
   return (
     <div
       ref={rootRef}
@@ -142,20 +177,27 @@ export function RocketAssistEmbed() {
           </div>
 
           <div className={styles.chat}>
-            <div className={styles.thread}>
+            <div className={styles.thread} ref={threadRef}>
               {MESSAGES.map((m, i) => (
-                <Appear key={i} show={view.shown > i}>
+                <Appear
+                  key={i}
+                  show={view.shown > i}
+                  slotRef={(el) => (slots.current[i] = el)}
+                  // The dots wait where this message is about to land
+                  overlay={
+                    <span className={styles.typingSlot} data-show={(view.typing && view.shown === i) || undefined} aria-hidden="true">
+                      <span className={styles.typing}>
+                        <i />
+                        <i />
+                        <i />
+                      </span>
+                    </span>
+                  }
+                >
                   <p className={m.from === "client" ? styles.client : styles.assistant}>{m.text}</p>
                 </Appear>
               ))}
-              <Appear show={view.typing}>
-                <span className={styles.typing} aria-label="Rocket Assist is typing">
-                  <i />
-                  <i />
-                  <i />
-                </span>
-              </Appear>
-              <Appear show={view.cards}>
+              <Appear show={view.cards} slotRef={(el) => (slots.current[MESSAGES.length] = el)}>
                 <Carousel scene={view} interactive={interactive} onFlip={takeOverWith} onGo={goTo} />
               </Appear>
             </div>
@@ -167,11 +209,22 @@ export function RocketAssistEmbed() {
   );
 }
 
-/** Grows in from zero height, so earlier messages glide up as it arrives. */
-function Appear({ show, children }: { show: boolean; children: ReactNode }) {
+/** A message's reserved space: it fades in place, and the thread slides up around it. */
+function Appear({
+  show,
+  children,
+  overlay,
+  slotRef,
+}: {
+  show: boolean;
+  children: ReactNode;
+  overlay?: ReactNode;
+  slotRef: (el: HTMLDivElement | null) => void;
+}) {
   return (
-    <div className={styles.appear} data-show={show || undefined} aria-hidden={!show || undefined} inert={!show}>
+    <div ref={slotRef} className={styles.appear} data-show={show || undefined} aria-hidden={!show || undefined} inert={!show}>
       <div className={styles.appearInner}>{children}</div>
+      {overlay}
     </div>
   );
 }

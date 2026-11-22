@@ -76,7 +76,7 @@
 .chat {
   position: absolute;
   top: 72px;
-  bottom: 16px;
+  bottom: 8px;
   left: -24px;
   right: -40px;
   overflow: hidden;
@@ -84,29 +84,28 @@
   mask-image: linear-gradient(to bottom, transparent 0, transparent 12px, #000 104px);
 }
 
+/* Every message is laid out at its full size from the start, so nothing in the page ever reflows.
+   The thread slides up by transform (--shift, set from the demo) to keep the newest message at the bottom. */
 .thread {
   position: absolute;
   left: 24px;
   right: 40px;
-  bottom: 0;
+  /* The pager runs 8px below the thread: the chat's clip is 8px taller, and the thread sits 8px up, so nothing else moves */
+  bottom: 8px;
   display: flex;
   flex-direction: column;
+  transform: translateY(var(--shift, 0px));
 }
 
-/* Grows from zero height, so what's above glides up as it arrives */
+.thread[data-ready] {
+  transition: transform 900ms var(--ra-ease);
+}
+
 .appear {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 900ms var(--ra-ease);
-}
-
-.appear[data-show] {
-  grid-template-rows: 1fr;
+  position: relative;
 }
 
 .appearInner {
-  min-height: 0;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   /* 16px between messages, plus room for shadows on every side */
@@ -157,6 +156,19 @@
 }
 
 /* Typing dots: 4px, 7px, 4px, the small ones at half strength */
+/* The typing dots sit where the next message will land, in that message's reserved space */
+.typingSlot {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.typingSlot[data-show] {
+  opacity: 1;
+}
+
 .typing {
   align-self: flex-start;
   display: flex;
@@ -606,7 +618,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .header,
-  .appear,
+  .thread[data-ready],
+  .typingSlot,
   .appearInner > *,
   .track,
   .card {

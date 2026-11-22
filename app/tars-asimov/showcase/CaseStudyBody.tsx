@@ -311,7 +311,7 @@ const RELEASES: {
         <p>
           <Lead>Why:</Lead>{" "}research surfaced one clear automation opportunity: with a
           situation&rsquo;s full context, Asimov could let teams trigger every related task from
-          Slack. The CTO pushed for Actions next.
+          Slack. The founders pushed for Actions next.
         </p>
         <p>
           <Lead>My approach:</Lead>{" "}letting an AI act in other tools raised the stakes, so we

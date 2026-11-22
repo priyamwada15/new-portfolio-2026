@@ -69,13 +69,9 @@ export function CaseStudySummary({ rows }: { rows: { label: string; text: React.
   return (
     <dl className="grid w-full grid-cols-3 items-stretch gap-4 max-lg:grid-cols-1">
       {rows.map((row) => (
-        <div
-          key={row.label}
-          data-on-dark
-          className="flex min-w-0 flex-col gap-4 rounded-[var(--ds-radius-container)] bg-primary p-8 max-md:p-6"
-        >
-          <dt className="font-label text-[18px] font-medium leading-[1.45] tracking-[-0.02em] text-faint max-md:text-[16px]">{row.label}</dt>
-          <dd className="font-label text-[16px] leading-[1.6] tracking-[-0.01em] text-on-dark text-pretty">
+        <div key={row.label} className="flex min-w-0 flex-col gap-4 rounded-[var(--ds-radius-container)] px-8 py-8 max-lg:px-0 max-md:py-6 lg:first:pl-0 lg:last:pr-0">
+          <dt className={caseStudySubheading}>{row.label}</dt>
+          <dd className={`${caseStudyText} text-pretty`}>
             {row.text}
           </dd>
         </div>

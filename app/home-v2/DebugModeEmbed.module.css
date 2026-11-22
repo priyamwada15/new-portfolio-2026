@@ -1,95 +1,307 @@
-/* Debug Mode demo on the Debug Mode card: a test run through a branching slice of a
-   Tars flow, the node under test in focus and its neighbours blurred. Node values come
-   from the Debug Mode test-run prototype (see docs/superpowers/specs/2026-10-20-debug-mode-coded-ui-design.md).
-   Tars' product colours are scoped to the embed, not portfolio tokens. */
+/* Debug Mode's screen on the Debug Mode card and the case study hero. Every size comes from the Tars
+   "Digital Banking Chatbot" frame (1512 by 960, side nav cropped away: 1429 by 960). The screen is drawn at
+   that size and scaled to fill the card (--k), the same way the Asimov demo is. These are Tars' product
+   colours, scoped to the embed, not portfolio tokens. Neutrals, hairlines, radii, shadows and the motion
+   primitives (drop, fade, roll, slide) are the Asimov demo's, so the two read as one family. */
 
 .root {
-  --dm-blue: #65baff;
-  --dm-blue-line: #7cc4ff;
-  --dm-red: #cb2a2f;
-  --dm-ink: #373e43;
-  --dm-muted: #717684;
-  --dm-surface: rgba(255, 255, 255, 0.92);
-  --dm-surface-blur: blur(12px) saturate(1.2);
-  --dm-shadow: 0 1px 2px rgba(17, 17, 17, 0.06), 0 4px 16px rgba(17, 17, 17, 0.08);
-  --dm-camera: 1600ms cubic-bezier(0.45, 0, 0.2, 1);
-  --dm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --tx-purple: #6d33aa;
+  --tx-purple-soft: rgba(109, 51, 170, 0.1);
+  --tx-blue: #65baff;
+  --tx-red: #ff6565;
+  --tx-ink: #333333;
+  --tx-value: #404040;
+  --tx-name: #555555;
+  --tx-secondary: #717684;
+  --tx-label: #979797;
+  --tx-border: #e9eaeb;
+  --tx-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   font-family: var(--font-inter), sans-serif;
-  color: var(--dm-ink);
+  color: var(--tx-value);
 }
 
-/* The middle of the card, for the "Read" cursor's sides */
-.uiZone {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 72px;
-  width: 560px;
-}
+/* ── Screen ────────────────────────────────────────────── */
 
-/* The flow fades out toward the card's edges, so it reads as part of a larger one */
-.viewport {
+.screen {
   position: absolute;
-  inset: 0;
+  left: var(--pad);
+  top: var(--pad);
+  width: 1429px;
+  height: 960px;
+  display: flex;
   overflow: hidden;
+  background: #ffffff;
+  /* Top corners only: it runs off the bottom of the card */
+  border-radius: 14px 14px 0 0;
+  /* Soft and wide: a faint edge and a long, low shadow */
+  box-shadow:
+    0 0 0 1px rgba(17, 17, 17, 0.03),
+    0 4px 20px rgba(17, 17, 17, 0.03),
+    0 20px 56px rgba(17, 17, 17, 0.05);
+  transform: scale(var(--k));
+  transform-origin: 0 0;
+  /* The frame only fades: the parts inside it do the moving, once each, so nothing moves twice */
   opacity: 0;
   transition: opacity 600ms ease;
-  -webkit-mask-image: radial-gradient(ellipse 58% 62% at 50% 50%, #000 50%, transparent 100%);
-  mask-image: radial-gradient(ellipse 58% 62% at 50% 50%, #000 50%, transparent 100%);
 }
 
-.viewport[data-in] {
+.screen[data-in] {
   opacity: 1;
 }
 
-/* The camera: one long, gentle glide per hop, set off as the signal leaves */
-.canvas {
+/* Parts of the screen land from above, one after another (--i sets the order). The ease stops
+   decisively: a long tail would crawl the last fraction of a pixel and read as a shift. */
+.drop {
+  opacity: 0;
+  translate: 0 -16px;
+  transition:
+    opacity 360ms ease,
+    translate 480ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.drop[data-in] {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* A frame that holds other moving parts (the board) fades in place, so they aren't moving inside
+   something that is also moving */
+.fade {
+  opacity: 0;
+  transition: opacity 360ms ease;
+}
+
+.fade[data-in] {
+  opacity: 1;
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px 0;
+  box-sizing: border-box;
+}
+
+/* ── Header ────────────────────────────────────────────── */
+
+.header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 32px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 38px;
+  color: var(--tx-ink);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.publish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 141px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid var(--tx-purple);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #7b43b8, var(--tx-purple));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 1px 2px rgba(109, 51, 170, 0.3),
+    0 6px 14px rgba(109, 51, 170, 0.18);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #ffffff;
+}
+
+.previewBtn,
+.openBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.previewBtn {
+  border: 1px solid var(--tx-purple-soft);
+  background: var(--tx-purple-soft);
+  color: var(--tx-purple);
+}
+
+.openBtn {
+  border: 1px solid #d5d7da;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, 0.05);
+  color: var(--tx-name);
+}
+
+/* ── Toolbar ───────────────────────────────────────────── */
+
+.section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 32px;
+}
+
+.filters {
+  flex: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+}
+
+.addGambit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 140px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid #d5d7da;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, 0.05);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--tx-name);
+}
+
+.viewLabel {
   position: absolute;
-  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--tx-name);
+  white-space: nowrap;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--tx-name);
+}
+
+.work {
+  flex: none;
+  display: flex;
+  gap: 32px;
+  height: 760px;
+}
+
+/* ── The canvas ────────────────────────────────────────── */
+
+.board {
+  position: relative;
+  flex: none;
+  width: 965px;
+  height: 760px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid var(--tx-border);
+  border-radius: 12px;
+  background: #f8f8f6;
+  box-shadow: inset 0 1px 3px rgba(17, 17, 17, 0.04);
+}
+
+/* The dots and gambits fade toward the edges, as if the canvas carries on past them */
+.board::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(ellipse 78% 72% at 50% 46%, rgba(248, 248, 246, 0) 55%, rgba(248, 248, 246, 0.85) 100%);
+}
+
+/* The camera: zoomed out until Debug Mode starts, then it zooms in and travels with the signal. It runs on the
+   signal's own curve and length, so the canvas moves along with the circle. Between loops it jumps back instead of
+   swooping. */
+.world {
+  position: absolute;
   left: 0;
+  top: 0;
   width: 0;
   height: 0;
-  transform-origin: 0 0;
-  transition: transform var(--dm-camera);
 }
 
-/* While the flow is faded out between loops, the camera and focus jump back to
-   the start instead of swooping there */
-.viewport:not([data-in]) .canvas,
-.viewport:not([data-in]) .node,
-.viewport:not([data-in]) .edge {
-  transition: none;
+.world[data-live] {
+  transition: transform 1000ms cubic-bezier(0.45, 0, 0.3, 1);
 }
 
-/* ── Connectors ────────────────────────────────────────── */
+/* Dots every 30px, as in the product's canvas */
+.grid {
+  position: absolute;
+  left: -330px;
+  top: -330px;
+  width: 2600px;
+  height: 2600px;
+  opacity: 0.4;
+  background-image: radial-gradient(circle, #bfbfbf 1.5px, transparent 1.7px);
+  background-size: 30px 30px;
+  background-position: 0 0;
+}
 
 .edges {
   position: absolute;
-  top: 0;
   left: 0;
+  top: 0;
   width: 1px;
   height: 1px;
   overflow: visible;
 }
 
-/* Gray so the connectors show on the light demo card */
 .edge {
   fill: none;
-  stroke: #c4c4c4;
-  stroke-width: 2;
+  stroke: var(--tx-blue);
+  stroke-width: 2.34;
   stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: stroke 600ms ease;
+  opacity: 0.4;
+  transition: opacity 500ms ease;
 }
 
 .edge[data-lit] {
-  stroke: var(--dm-blue-line);
+  opacity: 1;
 }
 
 /* The connector the signal is on */
 .edge[data-flow] {
-  stroke: var(--dm-blue-line);
+  opacity: 1;
   stroke-dasharray: 8 6;
   animation: flow 500ms linear infinite;
 }
@@ -103,7 +315,7 @@
   }
 }
 
-/* The signal: a bright dot that runs the lit connector to the next node */
+/* The signal: a bright dot that runs the connector to the next gambit */
 .signal {
   position: absolute;
   top: 0;
@@ -111,12 +323,12 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #fff;
+  background: #ffffff;
   box-shadow:
-    0 0 0 3px var(--dm-blue),
+    0 0 0 3px var(--tx-blue),
     0 0 14px 4px rgba(101, 186, 255, 0.7);
   offset-rotate: 0deg;
-  animation: travel 950ms cubic-bezier(0.45, 0, 0.3, 1) both;
+  animation: travel 1000ms cubic-bezier(0.45, 0, 0.3, 1) both;
 }
 
 @keyframes travel {
@@ -136,141 +348,96 @@
   }
 }
 
-/* ── Nodes ─────────────────────────────────────────────── */
+/* ── Gambits ───────────────────────────────────────────── */
 
-/* Depth of field: the node in focus is sharp, the rest blurred and translucent.
-   Focus moves with the camera, so one node softens as the next sharpens. */
-.node {
+.place {
   position: absolute;
-  width: 132px;
-  height: 92px;
-  opacity: 0.42;
-  filter: blur(3px);
-  transition:
-    opacity 900ms ease,
-    filter 900ms ease;
+  width: 218.33px;
+  height: 168.42px;
 }
 
-.node[data-focus] {
-  opacity: 1;
-  filter: none;
+.gambit {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: opacity 500ms ease;
 }
 
-/* When the run breaks, the rest steps back further so the error owns the moment */
-.viewport[data-error] .node:not([data-focus]) {
-  opacity: 0.26;
+/* While debugging only the gambit under test is at full strength, as in the product */
+.gambit[data-dim] {
+  opacity: 0.4;
 }
 
 .notch {
   position: absolute;
-  top: -2px;
-  left: 61.3px;
-  width: 9.4px;
-  height: 5.6px;
-  border-radius: 2px 2px 0 0;
+  left: 101.37px;
+  top: 0;
+  width: 15.59px;
+  height: 9.36px;
+  border-radius: 3.12px 3.12px 0 0;
   background: #e7e7e7;
-  transition: background-color 600ms ease;
 }
 
-.nodeCard {
-  appearance: none;
+.glow {
   position: absolute;
-  top: 6.6px;
   left: 0;
-  width: 132px;
-  height: 85.4px;
-  padding: 0 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: 0.9px solid #efefef;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: var(--dm-shadow);
-  font: inherit;
-  color: inherit;
-  transition:
-    border-color 600ms ease,
-    box-shadow 500ms ease,
-    scale 200ms var(--dm-ease);
+  top: 10.92px;
+  width: 218.33px;
+  height: 140.35px;
+  border-radius: 19px;
+  box-shadow: 0 0 37.3px 10px rgba(101, 186, 255, 0.2);
+  opacity: 0;
+  transition: opacity 500ms ease;
 }
 
-.nodeId {
-  padding: 2px 11px;
-  border-radius: 4px;
-  background: #f8f8f8;
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 14px;
-  color: #333333;
+.gambit[data-active] .glow {
+  opacity: 1;
 }
 
-.nodeLabel {
-  font-size: 12.5px;
-  line-height: 16px;
-  text-align: center;
-  color: var(--dm-ink);
+.gambit[data-failed] .glow {
+  opacity: 1;
+  box-shadow: 0 0 37.3px 10px rgba(255, 101, 101, 0.26);
 }
 
-.tab {
+.card {
   position: absolute;
-  top: 91px;
-  left: 61.75px;
-  width: 8.5px;
-  height: 9.4px;
-  border-radius: 0 0 2px 2px;
-  background: #e7e7e7;
-  transition: background-color 600ms ease;
-}
-
-/* Passed and active: the single blue signal */
-.node[data-status="passed"] .nodeCard,
-.node[data-status="active"] .nodeCard {
-  border-color: var(--dm-blue);
-}
-
-.node[data-status="passed"] .notch,
-.node[data-status="passed"] .tab,
-.node[data-status="active"] .notch,
-.node[data-status="active"] .tab {
-  background: var(--dm-blue);
-}
-
-/* The node under test glows softly */
-.node[data-status="active"] .nodeCard {
-  animation: pulse 1600ms ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    box-shadow:
-      var(--dm-shadow),
-      0 0 0 0 rgba(101, 186, 255, 0.5);
-  }
-  50% {
-    box-shadow:
-      var(--dm-shadow),
-      0 0 18px 4px rgba(101, 186, 255, 0.55);
-  }
-}
-
-/* Failed: red, with one small shake as the run stops on it */
-.node[data-status="error"] .nodeCard {
-  border-color: var(--dm-red);
+  left: 0;
+  top: 10.92px;
+  width: 218.33px;
+  height: 140.35px;
+  box-sizing: border-box;
+  border: 1.56px solid #efefef;
+  border-radius: 12.48px;
+  background: linear-gradient(180deg, #ffffff, #fcfcfd);
   box-shadow:
-    var(--dm-shadow),
-    0 0 0 3px rgba(203, 42, 47, 0.18),
-    0 0 22px 2px rgba(203, 42, 47, 0.35);
-  animation: shake 420ms var(--dm-ease);
+    0 1px 2px rgba(17, 17, 17, 0.05),
+    0 8px 18px rgba(17, 17, 17, 0.045);
+  transition:
+    border-color 500ms ease,
+    transform 600ms var(--tx-ease),
+    box-shadow 600ms var(--tx-ease);
 }
 
-.node[data-status="error"] .notch,
-.node[data-status="error"] .tab {
-  background: var(--dm-red);
+.gambit[data-active] .card {
+  border-color: var(--tx-blue);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 2px 4px rgba(17, 17, 17, 0.05),
+    0 18px 36px rgba(60, 150, 230, 0.25);
+}
+
+/* Tested gambits stay a little clearer than the rest, so the trail of the run still reads */
+.gambit[data-passed] {
+  opacity: 0.7;
+}
+
+.gambit[data-failed] .card {
+  border-color: var(--tx-red);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 2px 4px rgba(17, 17, 17, 0.05),
+    0 18px 36px rgba(255, 101, 101, 0.28);
+  animation: shake 420ms ease both;
 }
 
 @keyframes shake {
@@ -289,186 +456,794 @@
   }
 }
 
-/* ── Error detail ──────────────────────────────────────── */
-
-.panel {
+.ring {
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 14px 16px 14px;
+  left: 0;
+  top: 10.92px;
+  width: 218.33px;
+  height: 140.35px;
   box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 12px;
-  background: var(--dm-surface);
-  -webkit-backdrop-filter: var(--dm-surface-blur);
-  backdrop-filter: var(--dm-surface-blur);
-  box-shadow:
-    0 2px 4px rgba(17, 17, 17, 0.08),
-    0 16px 36px rgba(17, 17, 17, 0.18);
-  translate: -12px -50%;
+  border: 2px solid var(--tx-blue);
+  border-radius: 12.48px;
   opacity: 0;
-  transition:
-    opacity 300ms ease,
-    translate 500ms var(--dm-ease);
+  pointer-events: none;
 }
 
-/* Opens once the node has made room for it */
-.panel[data-open] {
-  translate: 0 -50%;
-  opacity: 1;
-  transition:
-    opacity 500ms ease 700ms,
-    translate 800ms var(--dm-ease) 700ms;
+/* A ring spreads from a gambit the moment the run reaches it */
+.gambit[data-active] .ring {
+  animation: ripple 1100ms ease-out both;
 }
 
-/* Points back at the failed node */
-.pointer {
+.gambit[data-failed] .ring {
+  border-color: var(--tx-red);
+  animation: rippleRed 1100ms ease-out both;
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.14);
+  }
+}
+
+@keyframes rippleRed {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.16);
+  }
+}
+
+.num {
   position: absolute;
-  top: 50%;
-  left: -7px;
-  width: 12px;
-  height: 12px;
-  margin-top: -6px;
-  rotate: 45deg;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-  border-left: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 0 0 0 3px;
-  background: var(--dm-surface);
+  left: 11.5px;
+  top: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64.43px;
+  height: 28.24px;
+  border-radius: 6.24px;
+  background: #f8f8f8;
+  box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.03);
+  font-size: 15.59px;
+  font-weight: 500;
+  line-height: 22px;
+  color: var(--tx-ink);
 }
 
-.panelHeader {
+/* What the run found at this gambit: a tick once tested, a live dot while it runs, a warning on failure */
+.state {
+  position: absolute;
+  right: 12px;
+  top: 15px;
+  width: 20px;
+  height: 20px;
+}
+
+.stateIcon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  scale: 0.4;
+  transition:
+    opacity 250ms ease,
+    scale 450ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stateIcon[data-on] {
+  opacity: 1;
+  scale: 1;
+}
+
+.stateIcon[data-kind="passed"] {
+  color: #59b655;
+}
+
+.stateIcon[data-kind="failed"] {
+  color: #e5484d;
+}
+
+.stateIcon i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tx-blue);
+  box-shadow: 0 0 0 0 rgba(101, 186, 255, 0.6);
+  animation: live 1400ms ease-out infinite;
+}
+
+@keyframes live {
+  to {
+    box-shadow: 0 0 0 9px rgba(101, 186, 255, 0);
+  }
+}
+
+.label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 12.6px;
+  font-size: 15.59px;
+  line-height: 22px;
+  text-align: center;
+  color: #373e43;
+}
+
+.tab {
+  position: absolute;
+  top: 151.27px;
+  width: 14.04px;
+  height: 15.59px;
+  border-radius: 0 0 3.12px 3.12px;
+  background: var(--tx-blue);
+}
+
+/* The gambit that failed has red tabs */
+.gambit[data-failed] .tab {
+  background: var(--tx-red);
+}
+
+/* ── Badge and zoom controls ───────────────────────────── */
+
+.badge {
+  z-index: 2;
+  position: absolute;
+  left: 16px;
+  top: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid rgba(101, 182, 118, 0.2);
+  border-radius: 80px;
+  background: #ebfaeb;
+  opacity: 0;
+  translate: 0 -8px;
+  transition:
+    opacity 360ms ease,
+    translate 480ms cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-.errorDot {
+.badge[data-in] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.badgeDot {
   flex: none;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--dm-red);
-  box-shadow: 0 0 0 3px rgba(203, 42, 47, 0.16);
+  background: #59b655;
 }
 
-.panelTitle {
-  flex: 1;
-  font-size: 14px;
+.badgeText {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
   font-weight: 500;
-  line-height: 20px;
-}
-
-.panelBody {
-  margin: 0;
-  font-size: 12px;
   line-height: 18px;
-  color: #555555;
-}
-
-.code {
-  display: block;
-  padding: 6px 8px;
-  border: 1px solid rgba(203, 42, 47, 0.14);
-  border-radius: 6px;
-  background: rgba(203, 42, 47, 0.05);
-  font-family: var(--font-dm-mono), ui-monospace, monospace;
-  font-size: 12px;
-  line-height: 18px;
-  color: #a32126;
+  color: #297a3a;
   white-space: nowrap;
 }
 
-.panelFooter {
+.zoom {
+  z-index: 2;
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 30px;
+  filter: drop-shadow(0 0 28px rgba(0, 0, 0, 0.05));
+}
+
+.zoomBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  box-sizing: border-box;
+  margin: -0.5px 0;
+  border: 1px solid #d5d7da;
+  background: #ffffff;
+  color: var(--tx-name);
+}
+
+.zoomBtn[data-first] {
+  border-radius: 8px 8px 0 0;
+}
+
+.zoomBtn[data-last] {
+  border-radius: 0 0 8px 8px;
+}
+
+/* ── Chatbot Preview ───────────────────────────────────── */
+
+.chat {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  width: 368px;
+  height: 760px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(17, 17, 17, 0.04),
+    0 12px 32px rgba(17, 17, 17, 0.06);
+}
+
+.chatHead {
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 72px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border: 1px solid var(--tx-border);
+  border-radius: 12px 12px 0 0;
+}
+
+.chatTitle {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-transform: capitalize;
+  color: #373e43;
+}
+
+.chatBtns {
+  display: flex;
+  align-items: center;
+}
+
+.debugBtn,
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+}
+
+.debugBtn {
+  border: 1px solid var(--tx-purple-soft);
+  border-radius: 8px;
+  background: var(--tx-purple-soft);
+  color: var(--tx-purple);
+  transition:
+    scale 160ms ease,
+    box-shadow 300ms ease;
+}
+
+/* The tap: it dips and a ring spreads from it */
+.debugBtn[data-pressed] {
+  scale: 0.9;
+  box-shadow: 0 0 0 6px rgba(109, 51, 170, 0.14);
+}
+
+.closeBtn {
+  color: #5f5f5f;
+}
+
+/* The status bar opens under the header when Debug Mode starts */
+.barWrap {
+  flex: none;
+  height: 0;
+  overflow: hidden;
+  transition: height 500ms var(--tx-ease);
+}
+
+.barWrap[data-open] {
+  height: 60px;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border: 1px solid var(--tx-border);
+  border-top: 0;
+}
+
+.status {
+  min-width: 0;
+  display: flex;
+  align-items: center;
   gap: 8px;
-  padding-top: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #5f5f5f;
 }
 
-.step {
-  font-size: 12px;
-  line-height: 18px;
-  color: var(--dm-muted);
+.statusDot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: #59b655;
+  transition: background 400ms ease;
 }
 
-.runAgain {
-  appearance: none;
+/* Only the failure line is red, so the lines sliding past it keep their own colour */
+.status .slideStrip > span:nth-child(3) {
+  color: #cb2a2f;
+}
+
+.status[data-kind="failed"] .statusDot {
+  background: #cb2a2f;
+}
+
+.controls {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 28px;
+  box-sizing: border-box;
+  border: 1px solid #e2e4e6;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ctl {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 26px;
+  background: #f9f9f9;
+  color: #878787;
+  transition:
+    background 300ms ease,
+    color 300ms ease,
+    scale 160ms ease;
+}
+
+.ctl + .ctl {
+  border-left: 1px solid #e2e4e6;
+}
+
+.ctl[data-main] {
+  background: #ffffff;
+  color: #3e85ca;
+}
+
+/* When the run fails there is nothing to pause: Restart becomes the way on */
+.controls[data-kind="failed"] .ctl[data-main] {
+  background: #f9f9f9;
+  color: #b8b8b8;
+}
+
+.controls[data-kind="failed"] .ctl[data-restart] {
+  background: #ffffff;
+  color: #3e85ca;
+}
+
+.area {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  padding: 44px 44px 8px;
+  box-sizing: border-box;
+  border: 1px solid var(--tx-border);
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+}
+
+.widget {
+  position: relative;
+  flex: none;
+  width: 280px;
+  height: 476px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid var(--tx-border);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(17, 17, 17, 0.04),
+    0 10px 26px rgba(109, 51, 170, 0.09);
+}
+
+.widgetHead {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 14px 8px;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--tx-border);
+  background: linear-gradient(180deg, rgba(109, 51, 170, 0.06), rgba(109, 51, 170, 0.02)), #ffffff;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 14px;
+  padding: 0 7px;
+  border-radius: 0 0 5px 5px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, 0.05);
+  font-size: 6.3px;
+  font-weight: 500;
+  line-height: 9px;
+  letter-spacing: 0.02em;
+  color: #979797;
+}
+
+.widgetRow {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #7a7a85;
+}
+
+.widgetWho {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.whoName {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 13px;
+  color: var(--tx-ink);
+}
+
+.whoMeta {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 5px 10px;
-  border: 1px solid rgba(203, 42, 47, 0.3);
-  border-radius: 8px;
-  background: #fff;
-  color: var(--dm-red);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  transition:
-    background-color 200ms ease,
-    border-color 200ms ease,
-    scale 200ms var(--dm-ease);
+  font-size: 8.5px;
+  line-height: 11px;
+  color: var(--tx-label);
 }
 
-/* ── Desktop: the failed node and Run again take the pointer ── */
-
-.root[data-interactive] .node[data-status="error"] .nodeCard,
-.root[data-interactive] .node[data-status="error"] .nodeCard *,
-.root[data-interactive] .panel[data-open] .runAgain,
-.root[data-interactive] .panel[data-open] .runAgain * {
-  pointer-events: auto !important;
+.whoMeta i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #59b655;
 }
 
-.root[data-interactive] .node[data-status="error"] .nodeCard,
-.root[data-interactive] .runAgain {
-  cursor: pointer;
-}
-
-.root[data-interactive] .node[data-status="error"] .nodeCard:hover {
+.mark {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(160deg, #7b43b8, #6d33aa);
   box-shadow:
-    var(--dm-shadow),
-    0 0 0 4px rgba(203, 42, 47, 0.22),
-    0 0 28px 4px rgba(203, 42, 47, 0.42);
+    0 1px 3px rgba(10, 13, 18, 0.1),
+    0 1px 2px rgba(10, 13, 18, 0.06);
 }
 
-.root[data-interactive] .node[data-status="error"] .nodeCard:active,
-.root[data-interactive] .runAgain:active {
-  scale: 0.96;
+/* Messages sit on a 14px margin from the widget's edge, with one 10px rhythm between them */
+.thread {
+  position: absolute;
+  left: 14px;
+  top: 70px;
+  width: 252px;
+  display: flex;
+  flex-direction: column;
 }
 
-.root[data-interactive] .runAgain:hover {
-  border-color: rgba(203, 42, 47, 0.5);
-  background: #fff5f5;
+.botRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
 }
 
-.nodeCard:focus-visible,
-.runAgain:focus-visible {
-  outline: 2px solid var(--dm-blue);
-  outline-offset: 2px;
+.botRow[data-top] {
+  align-items: flex-start;
 }
 
-/* ── Reduced motion: no movement ───────────────────────── */
+.botCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.bubble {
+  box-sizing: border-box;
+  max-width: 196px;
+  padding: 7px 11px;
+  border: 1px solid #ede6f6;
+  border-radius: 12px 12px 12px 4px;
+  background: #f7f3fb;
+  font-size: 10px;
+  line-height: 14.5px;
+  color: var(--tx-ink);
+}
+
+.userRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.userBubble {
+  box-sizing: border-box;
+  max-width: 196px;
+  padding: 7px 11px;
+  border-radius: 12px 12px 4px 12px;
+  background: linear-gradient(180deg, #7b43b8, #6d33aa);
+  box-shadow: 0 2px 6px rgba(109, 51, 170, 0.22);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 14.5px;
+  color: #ffffff;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cardChip {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 11px;
+  box-sizing: border-box;
+  border: 1px solid #dccfeb;
+  border-radius: 999px;
+  background: #ffffff;
+  font-size: 9.5px;
+  font-weight: 500;
+  line-height: 12px;
+  color: var(--tx-purple);
+  transition:
+    background 400ms ease,
+    color 400ms ease,
+    border-color 400ms ease;
+}
+
+.cardChip[data-picked] {
+  border-color: var(--tx-purple);
+  background: var(--tx-purple);
+  color: #ffffff;
+}
+
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 26px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border: 1px solid #ede6f6;
+  border-radius: 12px 12px 12px 4px;
+  background: #f7f3fb;
+}
+
+.typing i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(109, 51, 170, 0.6);
+  animation: bounce 1000ms ease-in-out infinite;
+}
+
+.typing i:nth-child(2) {
+  animation-delay: 150ms;
+}
+
+.typing i:nth-child(3) {
+  animation-delay: 300ms;
+}
+
+/* The bot's reply never arrives: the dots stop and fade */
+.typing[data-stalled] i {
+  animation: none;
+  background: rgba(109, 51, 170, 0.25);
+}
+
+@keyframes bounce {
+  0%,
+  60%,
+  100% {
+    translate: 0 0;
+    opacity: 0.5;
+  }
+  30% {
+    translate: 0 -3px;
+    opacity: 1;
+  }
+}
+
+/* A message opens its own space, then rises into it, so the ones above never move */
+.msg {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 450ms var(--tx-ease),
+    opacity 300ms ease;
+}
+
+.msg[data-in] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.msgInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.msgPad {
+  padding-top: 10px;
+  translate: 0 8px;
+  transition: translate 450ms var(--tx-ease);
+}
+
+.msg[data-in] .msgPad {
+  translate: 0 0;
+}
+
+.input {
+  position: absolute;
+  left: 14px;
+  top: 426px;
+  width: 252px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid #ece8f1;
+  border-radius: 18px;
+  background: #f8f6fb;
+  font-size: 9px;
+  line-height: 12px;
+  color: var(--tx-label);
+}
+
+.send {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #7b43b8, #6d33aa);
+  box-shadow: 0 2px 6px rgba(109, 51, 170, 0.25);
+  color: #ffffff;
+}
+
+/* ── Odometer and sliding text ─────────────────────────── */
+
+.roll {
+  display: inline-flex;
+  height: var(--lh);
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+  vertical-align: top;
+}
+
+.rollCol {
+  display: block;
+  width: 1ch;
+  height: var(--lh);
+  overflow: hidden;
+  transition:
+    width 450ms var(--tx-ease),
+    opacity 300ms ease;
+}
+
+.rollCol[data-empty] {
+  width: 0;
+  opacity: 0;
+}
+
+.rollStrip {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc(var(--d) * var(--lh) * -1));
+  transition: transform 500ms var(--tx-ease);
+}
+
+.rollStrip > span {
+  height: var(--lh);
+  line-height: var(--lh);
+}
+
+.slide {
+  display: block;
+  height: var(--h);
+  overflow: hidden;
+}
+
+.slideStrip {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc(var(--n) * var(--h) * -1));
+  transition: transform 600ms var(--tx-ease);
+}
+
+.slideStrip > span {
+  height: var(--h);
+  line-height: var(--h);
+  white-space: nowrap;
+}
+
+/* ── Reduced motion: the finished screen, nothing moves ── */
 
 @media (prefers-reduced-motion: reduce) {
-  .viewport,
-  .canvas,
+  .screen,
+  .drop,
+  .fade,
+  .world[data-live],
+  .gambit,
+  .glow,
+  .card,
+  .badge,
+  .barWrap,
+  .ctl,
+  .cardChip,
+  .msg,
+  .msgPad,
+  .rollCol,
+  .rollStrip,
+  .slideStrip,
   .edge,
-  .node,
-  .notch,
-  .tab,
-  .nodeCard,
-  .panel,
-  .panel[data-open] {
+  .debugBtn,
+  .stateIcon {
     transition: none;
   }
 
+  .typing i,
   .edge[data-flow],
-  .signal,
-  .node[data-status="active"] .nodeCard,
-  .node[data-status="error"] .nodeCard {
+  .gambit[data-failed] .card,
+  .gambit[data-active] .ring,
+  .gambit[data-failed] .ring,
+  .stateIcon i {
     animation: none;
   }
 }

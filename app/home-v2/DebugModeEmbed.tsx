@@ -1,266 +1,613 @@
 "use client";
 
-import { type CSSProperties } from "react";
-import { DemoIcon, STAGE_H, STAGE_W, useCardDemo, type Beat } from "./useCardDemo";
+import type { CSSProperties, ReactNode } from "react";
+import {
+  ArrowSquareOut,
+  CheckCircle,
+  CornersOut,
+  DotsThreeVertical,
+  Eye,
+  LockKeyOpen,
+  Minus,
+  PaperPlaneRight,
+  Plus,
+  WarningCircle,
+} from "@phosphor-icons/react";
+import { DemoIcon, useCardDemo, type Beat } from "./useCardDemo";
 import styles from "./DebugModeEmbed.module.css";
 
-/*
- * Node styling comes from the Tars Debug Mode test-run prototype (formerly
- * app/components/DebugFlowPreview.tsx). The run follows a branching slice of a
- * flow: the node under test is in focus, its neighbours blurred around it.
- * See docs/superpowers/specs/2026-10-20-debug-mode-coded-ui-design.md.
+/** The chat panel's controls are Material icons in the Figma frame (bug_report, pause, refresh, stop, close) */
+const icon = (name: string) => `/debug-demo/icon-${name}.svg`;
+
+/** The card's size: the screen fills it, the way the showcase tiles and the Asimov demo do. */
+const STAGE = { w: 1008, h: 575 } as const;
+/** Space around the screen's top and sides; it runs off the bottom of the card. */
+const PAD = 48;
+/** Figma's Digital Banking Chatbot frame without its side nav is 1429 wide and 960 tall. */
+const SCREEN_W = 1429;
+const K = (STAGE.w - PAD * 2) / SCREEN_W;
+
+/* The canvas, in Figma px. Gambit positions are the frame's own, moved into the board's coordinates. */
+const BOARD = { w: 965, h: 760 } as const;
+const CARD_W = 218.33;
+const CARD_H = 140.35;
+const TAB_W = 14.04;
+const TAB_STEP = 23.39;
+const TAB_TOP = 151.27;
+const TAB_H = 15.59;
+
+type Gambit = { id: string; label: string; x: number; y: number; to: string[] };
+
+/** Figma positions are in a frame 328px right of and 8px above the board's corner. */
+const at = (id: string, label: string, fx: number, fy: number, to: string[] = []): Gambit => ({
+  id,
+  label,
+  x: fx - 328,
+  y: fy + 8,
+  to,
+});
+
+/**
+ * A slice of the Digital Banking Chatbot's flow, from the Tars frame. Each gambit's tabs run to its children,
+ * left to right. The test run takes the Credit Limit Increase branch.
  */
-
-/** Node size as in the product; the camera draws the flow at CAMERA_SCALE */
-const NODE_W = 132;
-const NODE_H = 92;
-const TAB_W = 8.5;
-const TAB_GAP = 3.5;
-const CAMERA_SCALE = 1.3;
-
-const PANEL_W = 300;
-const PANEL_GAP = 28;
-/** With the error detail open, the camera shifts left so the failed node and the detail sit centred together. */
-const ERROR_SHIFT = (PANEL_GAP + PANEL_W) / 2;
-
-type FlowNode = { id: string; label: string; x: number; y: number };
-
-/** A slice of the credit-card assistant's flow. Each node branches; the run takes one branch at a time. */
-const NODES: FlowNode[] = [
-  { id: "113", label: "Greeting Node", x: 0, y: 0 },
-  { id: "114", label: "Preferences", x: -180, y: 190 },
-  { id: "155", label: "Language", x: 180, y: 190 },
-  { id: "122", label: "Add-ons", x: -360, y: 380 },
-  { id: "115", label: "Credit Limit Increase", x: 0, y: 380 },
-  { id: "156", label: "Notifications", x: 360, y: 380 },
-  { id: "117", label: "Rewards Card", x: -180, y: 570 },
-  { id: "112", label: "Options", x: 180, y: 570 },
-  { id: "118", label: "Features", x: -360, y: 760 },
-  { id: "119", label: "Controls", x: 0, y: 760 },
+const GAMBITS: Gambit[] = [
+  at("113", "Greeting Gambit", 650.3, 51.46, ["115", "114", "122", "128"]),
+  at("114", "Preferences", 601.81, 300.69, ["117", "112"]),
+  at("122", "Add-ons", 841.15, 314.59, ["124", "126"]),
+  at("115", "Credit Limit Increase", 380.04, 412.28, ["118", "119", "155"]),
+  at("128", "Dashboards", 1100.11, 410.27, ["127"]),
+  at("124", "Extensions", 776.76, 623.45),
+  at("126", "APIs", 1038.59, 630.61),
+  at("117", "Utilities", 343.55, 722.55),
+  at("112", "Options", 968, 942.71),
+  at("127", "Widgets", 1300.42, 597.7, ["154"]),
+  at("154", "Reviews", 1329.03, 850.94),
+  at("118", "Platinum Eligibility", 107, 968.64),
+  at("119", "Rewards Eligibility", 380.04, 968.64, ["120", "136", "135"]),
+  at("155", "Business Eligibility", 653, 968.64),
+  at("120", "Tools", 107, 1252),
+  at("136", "Alerts", 380.04, 1252, ["137"]),
+  at("135", "Notifications", 653, 1252),
+  at("137", "Reminders", 380.04, 1510),
 ];
 
-const EDGES: [string, string][] = [
-  ["113", "114"], ["113", "155"],
-  ["114", "122"], ["114", "115"],
-  ["155", "156"],
-  ["115", "117"], ["115", "112"],
-  ["117", "118"], ["117", "119"],
-];
+const byId: Record<string, Gambit> = Object.fromEntries(GAMBITS.map((g) => [g.id, g]));
 
-/** The test run: Greeting Node → Preferences → Credit Limit Increase → Rewards Card (fails). */
-const PATH = ["113", "114", "115", "117"];
+/** The test run: Greeting Gambit, then Credit Limit Increase, then Rewards Eligibility, which fails. */
+const PATH = ["113", "115", "119"];
 const FAILED = PATH.length - 1;
 
-const byId: Record<string, FlowNode> = Object.fromEntries(NODES.map((n) => [n.id, n]));
+const R = 6.24;
 
-function outX(nodeId: string, edge: [string, string]) {
-  const node = byId[nodeId];
-  const siblings = EDGES.filter(([a]) => a === nodeId);
-  const i = siblings.findIndex(([, b]) => b === edge[1]);
-  const totalW = TAB_W * siblings.length + TAB_GAP * (siblings.length - 1);
-  return node.x + (NODE_W - totalW) / 2 + i * (TAB_W + TAB_GAP) + TAB_W / 2;
+/** A connector from a tab under the parent to the notch on top of the child, with rounded elbows */
+function elbow(parentId: string, childId: string) {
+  const parent = byId[parentId];
+  const child = byId[childId];
+  const i = parent.to.indexOf(childId);
+  const n = parent.to.length;
+  const first = parent.x + (CARD_W - (n * TAB_W + (n - 1) * (TAB_STEP - TAB_W))) / 2;
+  const x1 = first + i * TAB_STEP + TAB_W / 2;
+  const y1 = parent.y + TAB_TOP + TAB_H;
+  const x2 = child.x + CARD_W / 2;
+  const y2 = child.y;
+  const mid = Math.min(y1 + 30 + i * 12, y2 - 14);
+  const dx = x2 - x1;
+  if (Math.abs(dx) < 1) return `M ${x1} ${y1} V ${y2}`;
+  const r = Math.min(R, Math.abs(dx) / 2);
+  const d = Math.sign(dx);
+  return `M ${x1} ${y1} V ${mid - r} Q ${x1} ${mid} ${x1 + d * r} ${mid} H ${x2 - d * r} Q ${x2} ${mid} ${x2} ${mid + r} V ${y2}`;
 }
 
-/** Connector from a tab under the parent to the notch on top of the child */
-function elbowPath(edge: [string, string]) {
-  const a = byId[edge[0]];
-  const b = byId[edge[1]];
-  const x1 = outX(edge[0], edge);
-  const y1 = a.y + NODE_H;
-  const x2 = b.x + NODE_W / 2;
-  const y2 = b.y;
-  const midY = (y1 + y2) / 2;
-  return `M ${x1} ${y1} L ${x1} ${midY} L ${x2} ${midY} L ${x2} ${y2}`;
+const EDGES = GAMBITS.flatMap((g) => g.to.map((c) => ({ from: g.id, to: c, d: elbow(g.id, c) })));
+
+/** Before Debug Mode starts the whole flow is in view, zoomed out: the Greeting Gambit near the top, the rest running off the edges */
+const OVERVIEW = { x: 197, y: 17, s: 0.66 };
+
+/** The gambit under test sits at the top of the canvas, centred across it, so what branches off it is in view below */
+const TOP_GAP = 64;
+
+/** Once Debug Mode starts the camera is at 1:1, following the run from gambit to gambit */
+function cameraFor(zoomed: boolean, index: number) {
+  if (!zoomed) return OVERVIEW;
+  const g = byId[PATH[index]];
+  return {
+    s: 1,
+    x: Math.round(BOARD.w / 2 - (g.x + CARD_W / 2)),
+    y: Math.round(TOP_GAP - g.y),
+  };
 }
+
+type Pressed = "debug" | null;
 
 type Scene = {
   fading: boolean;
-  /** Index in PATH of the node the run has reached */
+  /** The screen's frame is up */
+  shell: boolean;
+  /** Title and toolbar have landed */
+  head: boolean;
+  /** The canvas and its gambits have landed */
+  board: boolean;
+  /** The Chatbot Preview panel has landed */
+  chat: boolean;
+  /** Which control is being tapped */
+  pressed: Pressed;
+  /** Debug Mode is on: the status bar opens and every gambit but the one under test dims */
+  debug: boolean;
+  /** Index in PATH of the gambit the run has reached */
   at: number;
-  /** The node at `at` has passed and the signal is travelling to the next one */
+  /** The gambit the camera is centred on: it sets off with the signal, so the canvas moves along with it */
+  cam: number;
+  /** The signal is travelling to the next gambit */
   travel: boolean;
-  error: boolean;
-  /** The error detail beside the failed node */
-  panel: boolean;
+  /** Gambits tested so far */
+  tested: number;
+  /** Chat messages shown after the greeting: 1 user asks, 2 bot offers cards, 3 user picks one, 4 bot checks */
+  msgs: number;
+  typing: boolean;
+  failed: boolean;
 };
 
-const START: Scene = { fading: false, at: 0, travel: false, error: false, panel: false };
-const FINAL: Scene = { ...START, at: FAILED, error: true, panel: true };
+const START: Scene = {
+  fading: false,
+  shell: false,
+  head: false,
+  board: false,
+  chat: false,
+  pressed: null,
+  debug: false,
+  at: 0,
+  cam: 0,
+  travel: false,
+  tested: 0,
+  msgs: 0,
+  typing: false,
+  failed: false,
+};
+
+/** The screen once it has assembled, zoomed out with nothing run: where later passes begin */
+const BUILT: Scene = { ...START, shell: true, head: true, board: true, chat: true };
+
+/** The finished screen, for reduced motion: the run has failed on Rewards Eligibility. */
+const FINAL: Scene = {
+  ...START,
+  shell: true,
+  head: true,
+  board: true,
+  chat: true,
+  debug: true,
+  at: FAILED,
+  cam: FAILED,
+  tested: 3,
+  msgs: 4,
+  typing: true,
+  failed: true,
+};
 
 /**
- * The loop, about 17s. Each hop overlaps: the signal leaves along the connector
- * and the camera sets off after it, so the camera is still easing in as the next
- * node lights up and never parks until the run breaks.
+ * The first pass assembles the screen from the top, zoomed out. Debug Mode is then switched on and the camera
+ * zooms in. The customer asks for a higher credit limit and the signal runs to Credit Limit Increase, with the
+ * camera travelling alongside it and the chat answering in step. The customer picks a card, the run moves on
+ * to Rewards Eligibility and fails there: the gambit turns red, the status line says so and the bot's reply
+ * never arrives. The loop then fades out and starts over from the zoomed-out view; the screen is not rebuilt.
  */
 const BEATS: Beat<Scene>[] = [
-  // Reset while faded out
-  { set: { ...START, fading: true }, wait: 600 },
-  { set: { fading: false }, wait: 1400 },
-  { set: { travel: true }, wait: 1000 },
-  { set: { at: 1, travel: false }, wait: 900 },
-  { set: { travel: true }, wait: 1000 },
-  { set: { at: 2, travel: false }, wait: 900 },
-  { set: { travel: true }, wait: 1000 },
-  { set: { at: 3, travel: false }, wait: 1100 },
-  // Rewards Card fails: the run stops on it in red
-  { set: { error: true }, wait: 900 },
-  { set: { panel: true }, wait: 5200 },
-  { set: { fading: true }, wait: 600 },
+  // The assembly: plays on the first pass only
+  { set: { shell: true }, wait: 350 },
+  { set: { head: true }, wait: 450 },
+  { set: { board: true, chat: true }, wait: 1300 },
+
+  // Debug Mode switches on: the camera zooms in on the Greeting Gambit and the run begins
+  { set: { pressed: "debug" }, wait: 350 },
+  { set: { pressed: null, debug: true, tested: 1 }, wait: 1500 },
+  { set: { msgs: 1 }, wait: 800 },
+
+  // The signal runs to Credit Limit Increase and the camera travels with it
+  { set: { travel: true, cam: 1 }, wait: 1050 },
+  { set: { at: 1, travel: false, tested: 2, typing: true }, wait: 1100 },
+  { set: { typing: false, msgs: 2 }, wait: 1300 },
+
+  // The customer picks a card and the run reaches Rewards Eligibility, which fails
+  { set: { msgs: 3 }, wait: 800 },
+  { set: { travel: true, cam: 2 }, wait: 1050 },
+  { set: { at: 2, travel: false, tested: 3, msgs: 4, typing: true }, wait: 800 },
+  { set: { failed: true }, wait: 3800 },
+
+  // The seam: fade out, zoom back out and clear the run, fade in. The screen stays built
+  { set: { fading: true }, wait: 700 },
+  { set: { ...BUILT, fading: true }, wait: 250 },
+  { set: { fading: false }, wait: 1100 },
 ];
 
-/** Opening frame when the card scrolls into view: the run already under way, on Preferences. */
-const ENTRY = { scene: { ...START, at: 1 }, beat: BEATS.findIndex((b) => b.set.at === 1) };
+/** Later passes start here, past the assembly, which only plays the first time */
+const LOOP_FROM = 4;
 
-type Status = "untested" | "active" | "passed" | "error";
-
-function statusOf(id: string, scene: Scene): Status {
-  const i = PATH.indexOf(id);
-  if (i < 0 || i > scene.at) return "untested";
-  if (i < scene.at || scene.travel) return "passed";
-  return scene.error && i === FAILED ? "error" : "active";
-}
-
-const icon = (name: string) => `/debug-demo/icon-${name}.svg`;
+const STATUS = ["Debugging ongoing", "Failed: Rewards Eligibility"];
 
 /**
- * Debug Mode on the Debug Mode card: a test run through a branching slice of a
- * Tars flow. A signal travels each lit connector and the camera glides after it;
- * the node under test is in focus, its neighbours blurred and translucent around
- * it. The run stops in red at Rewards Card, with an error detail saying what broke.
- * Desktop: click the failed node to toggle the detail, or Run again.
+ * Debug Mode's screen, drawn from the Tars "Digital Banking Chatbot" frame and sized to fill the card the way
+ * the Asimov demo is: the side nav is cropped away and the screen runs off the bottom edge. It assembles from
+ * the top, then a test run steps through the flow while the chatbot answers in the panel beside it. Display-only:
+ * the card link sits under it. Reduced motion shows the finished screen.
  */
 export function DebugModeEmbed() {
-  const { rootRef, uiRef, view, interactive, takeOver, restart, rootProps, rootClass, stageProps, chrome } = useCardDemo({
+  const { rootRef, view, rootProps, rootClass, stageProps } = useCardDemo({
     start: START,
     final: FINAL,
     beats: BEATS,
-    entry: ENTRY,
+    loopFrom: LOOP_FROM,
+    stage: STAGE,
+    // The assembly only plays once the card is properly on screen, never early offscreen
+    startRatio: 0.6,
+    startMargin: "0px",
   });
 
-  const showPanel = view.panel && view.error;
-  // In focus: the node under test, or the one the signal is heading for
-  const focusId = PATH[view.travel ? Math.min(view.at + 1, FAILED) : view.at];
-  const focus = byId[focusId];
-  const camX = STAGE_W / 2 - (showPanel ? ERROR_SHIFT : 0) - (focus.x + NODE_W / 2) * CAMERA_SCALE;
-  const camY = STAGE_H / 2 - (focus.y + NODE_H / 2) * CAMERA_SCALE;
-  // The connector the signal is on
-  const hop: [string, string] | null = view.travel && view.at < FAILED ? [PATH[view.at], PATH[view.at + 1]] : null;
-
-  const togglePanel = () =>
-    takeOver((s) => ({ ...s, fading: false, at: FAILED, travel: false, error: true, panel: !s.panel }));
+  const cam = cameraFor(view.debug, view.cam);
+  const focusId = view.debug ? PATH[view.at] : null;
+  const hop = view.travel && view.at < FAILED ? { from: PATH[view.at], to: PATH[view.at + 1] } : null;
+  const hopEdge = hop ? EDGES.find((e) => e.from === hop.from && e.to === hop.to) : null;
+  const statusAt = view.failed ? 1 : 0;
+  const statusKind = view.failed ? "failed" : "running";
 
   return (
     <div
       ref={rootRef}
       className={`${rootClass} ${styles.root}`}
       {...rootProps}
-      aria-label="Debug Mode demo: a test run stops at the node that fails"
+      aria-label="Debug Mode demo: a test run steps through a chatbot flow and fails at the Rewards Eligibility gambit"
     >
       <div {...stageProps}>
-        {/* Sides of the card show the "Read" cursor; the middle is the run */}
-        <div className={styles.uiZone} ref={uiRef} />
-
-        <div className={styles.viewport} data-in={!view.fading || undefined} data-error={view.error || undefined}>
-          <div
-            className={styles.canvas}
-            style={{ transform: `translate(${camX}px, ${camY}px) scale(${CAMERA_SCALE})` }}
-          >
-            <svg className={styles.edges} aria-hidden="true">
-              {EDGES.map(([a, b]) => {
-                const ai = PATH.indexOf(a);
-                const onRun = ai >= 0 && PATH[ai + 1] === b;
-                const lit = onRun && ai < view.at;
-                const flowing = onRun && hop?.[0] === a;
-                return (
-                  <path
-                    key={`${a}-${b}`}
-                    d={elbowPath([a, b])}
-                    className={styles.edge}
-                    data-lit={lit || undefined}
-                    data-flow={flowing || undefined}
-                  />
-                );
-              })}
-            </svg>
-
-            {/* The signal travelling to the next node */}
-            {hop && (
-              <span
-                key={hop.join("-")}
-                className={styles.signal}
-                style={{ offsetPath: `path("${elbowPath(hop)}")` } as CSSProperties}
-                aria-hidden="true"
-              />
-            )}
-
-            {NODES.map((node) => {
-              const status = statusOf(node.id, view);
-              const branches = Math.max(1, EDGES.filter(([a]) => a === node.id).length);
-              const tabsLeft = (NODE_W - (TAB_W * branches + TAB_GAP * (branches - 1))) / 2;
-              const clickable = interactive && status === "error";
-              return (
-                <div
-                  key={node.id}
-                  className={styles.node}
-                  data-status={status}
-                  data-focus={node.id === focusId || undefined}
-                  style={{ left: node.x, top: node.y } as CSSProperties}
-                  aria-hidden={node.id !== focusId || undefined}
-                >
-                  <span className={styles.notch} />
-                  <button
-                    type="button"
-                    className={styles.nodeCard}
-                    disabled={!clickable}
-                    onClick={clickable ? togglePanel : undefined}
-                    aria-label={status === "error" ? `${node.label}, failed. Show what broke.` : undefined}
-                    tabIndex={clickable ? 0 : -1}
-                  >
-                    <span className={styles.nodeId}>{node.id}</span>
-                    <span className={styles.nodeLabel}>{node.label}</span>
-                  </button>
-                  {Array.from({ length: branches }, (_, i) => (
-                    <span key={i} className={styles.tab} style={{ left: tabsLeft + i * (TAB_W + TAB_GAP) }} />
-                  ))}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* What broke */}
         <div
-          className={styles.panel}
-          data-open={showPanel || undefined}
-          style={
-            {
-              left: STAGE_W / 2 - ERROR_SHIFT + (NODE_W / 2) * CAMERA_SCALE + PANEL_GAP,
-              top: STAGE_H / 2,
-              width: PANEL_W,
-            } as CSSProperties
-          }
-          role="status"
-          aria-hidden={!showPanel || undefined}
-          inert={!showPanel}
+          className={styles.screen}
+          data-in={view.shell || undefined}
+          style={{ "--k": K, "--pad": `${PAD}px` } as CSSProperties}
         >
-          <span className={styles.pointer} aria-hidden="true" />
-          <div className={styles.panelHeader}>
-            <span className={styles.errorDot} aria-hidden="true" />
-            <span className={styles.panelTitle}>Error at Rewards Card</span>
-            <span className={styles.nodeId}>117</span>
-          </div>
-          <p className={styles.panelBody}>The API call that checks rewards eligibility didn&rsquo;t respond as expected.</p>
-          <code className={styles.code}>GET /rewards/eligibility → 404</code>
-          <div className={styles.panelFooter}>
-            <span className={styles.step}>Step 4 of the test run</span>
-            <button type="button" className={styles.runAgain} disabled={!interactive} onClick={restart}>
-              <DemoIcon src={icon("replay")} size={14} />
-              Run again
-            </button>
+          <div className={styles.main}>
+            <div className={`${styles.header} ${styles.drop}`} data-in={view.head || undefined}>
+              <span className={styles.title}>
+                <Bank />
+                Digital Banking Chatbot
+              </span>
+              <span className={styles.actions}>
+                <span className={styles.publish}>Publish Chatbot</span>
+                <span className={styles.previewBtn}>
+                  <Eye size={20} />
+                </span>
+                <span className={styles.openBtn}>
+                  <ArrowSquareOut size={20} />
+                </span>
+              </span>
+            </div>
+
+            <div className={styles.section}>
+              <div className={`${styles.filters} ${styles.drop}`} data-in={view.head || undefined} style={{ "--i": 1 } as CSSProperties}>
+                <span className={styles.addGambit}>
+                  <Plus size={20} />
+                  Add Gambit
+                </span>
+                <span className={styles.viewLabel}>Build View: 253 Gambits</span>
+                <span className={styles.dots}>
+                  <DotsThreeVertical size={20} weight="bold" />
+                </span>
+              </div>
+
+              <div className={styles.work}>
+                <div className={`${styles.board} ${styles.fade}`} data-in={view.board || undefined} style={{ "--i": 2 } as CSSProperties}>
+                  <div
+                    className={styles.world}
+                    data-live={view.debug || undefined}
+                    style={{ transform: `translate(${cam.x}px, ${cam.y}px) scale(${cam.s})` }}
+                  >
+                    <div className={styles.grid} />
+                    <svg className={styles.edges} aria-hidden="true">
+                      {EDGES.map((e) => {
+                        const k = PATH.indexOf(e.from);
+                        const onRun = k >= 0 && PATH[k + 1] === e.to;
+                        const lit = view.debug && onRun && k < view.at;
+                        const flowing = onRun && hop?.from === e.from;
+                        return (
+                          <path
+                            key={`${e.from}-${e.to}`}
+                            d={e.d}
+                            className={styles.edge}
+                            data-lit={lit || undefined}
+                            data-flow={flowing || undefined}
+                          />
+                        );
+                      })}
+                    </svg>
+
+                    {hopEdge && (
+                      <span
+                        key={`${hopEdge.from}-${hopEdge.to}`}
+                        className={styles.signal}
+                        style={{ offsetPath: `path("${hopEdge.d}")` } as CSSProperties}
+                        aria-hidden="true"
+                      />
+                    )}
+
+                    {GAMBITS.map((g, i) => {
+                      const tabs = g.to.length;
+                      const first = (CARD_W - (tabs * TAB_W + (tabs - 1) * (TAB_STEP - TAB_W))) / 2;
+                      const active = focusId === g.id;
+                      const failed = view.failed && g.id === PATH[FAILED];
+                      const k = PATH.indexOf(g.id);
+                      const passed = view.debug && k >= 0 && k < view.at;
+                      return (
+                        <div
+                          key={g.id}
+                          className={`${styles.place} ${styles.drop}`}
+                          data-in={view.board || undefined}
+                          style={{ left: g.x, top: g.y, "--i": 3 + i * 0.45 } as CSSProperties}
+                        >
+                          <div
+                            className={styles.gambit}
+                            data-dim={(view.debug && !active) || undefined}
+                            data-passed={passed || undefined}
+                            data-active={(active && !failed) || undefined}
+                            data-failed={failed || undefined}
+                          >
+                            <span className={styles.notch} />
+                            <span className={styles.glow} />
+                            <span className={styles.ring} />
+                            <span className={styles.card}>
+                              <span className={styles.num}>{g.id}</span>
+                              <span className={styles.label}>{g.label}</span>
+                              {k >= 0 && (
+                                <span className={styles.state}>
+                                  <span className={styles.stateIcon} data-kind="passed" data-on={passed || undefined}>
+                                    <CheckCircle size={18} weight="fill" />
+                                  </span>
+                                  <span className={styles.stateIcon} data-kind="active" data-on={(active && !failed) || undefined}>
+                                    <i />
+                                  </span>
+                                  <span className={styles.stateIcon} data-kind="failed" data-on={failed || undefined}>
+                                    <WarningCircle size={18} weight="fill" />
+                                  </span>
+                                </span>
+                              )}
+                            </span>
+                            {Array.from({ length: tabs }, (_, t) => (
+                              <span key={t} className={styles.tab} style={{ left: first + t * TAB_STEP }} />
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <span className={styles.badge} data-in={view.debug || undefined}>
+                    <span className={styles.badgeDot} />
+                    <span className={styles.badgeText}>
+                      <Roll value={view.tested} digits={1} height={18} />
+                      /253 Gambits Tested
+                    </span>
+                  </span>
+
+                  <span className={styles.zoom}>
+                    <span className={styles.zoomBtn} data-first>
+                      <Plus size={10} />
+                    </span>
+                    <span className={styles.zoomBtn}>
+                      <Minus size={10} />
+                    </span>
+                    <span className={styles.zoomBtn}>
+                      <CornersOut size={10} />
+                    </span>
+                    <span className={styles.zoomBtn} data-last>
+                      <LockKeyOpen size={10} />
+                    </span>
+                  </span>
+                </div>
+
+                <aside className={`${styles.chat} ${styles.drop}`} data-in={view.chat || undefined} style={{ "--i": 1 } as CSSProperties}>
+                  <div className={styles.chatHead}>
+                    <span className={styles.chatTitle}>Chatbot Preview</span>
+                    <span className={styles.chatBtns}>
+                      <span className={styles.debugBtn} data-pressed={view.pressed === "debug" || undefined}>
+                        <DemoIcon src={icon("bug-report")} size={22} />
+                      </span>
+                      <span className={styles.closeBtn}>
+                        <DemoIcon src="/asimov-demo/icon-close.svg" size={20} />
+                      </span>
+                    </span>
+                  </div>
+
+                  <div className={styles.barWrap} data-open={view.debug || undefined}>
+                    <div className={styles.bar}>
+                      <span className={styles.status} data-kind={statusKind}>
+                        <span className={styles.statusDot} />
+                        <Slide items={STATUS} at={statusAt} height={21} />
+                      </span>
+                      <span className={styles.controls} data-kind={statusKind}>
+                        <span className={styles.ctl} data-main>
+                          <DemoIcon src={icon("pause-circle")} size={20} />
+                        </span>
+                        <span className={styles.ctl} data-restart>
+                          <DemoIcon src={icon("refresh")} size={20} />
+                        </span>
+                        <span className={styles.ctl}>
+                          <DemoIcon src={icon("stop")} size={20} />
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className={styles.area}>
+                    <div className={styles.widget}>
+                      <div className={styles.widgetHead}>
+                        <span className={styles.brand}>
+                          Chatbot
+                          <Bolt />
+                          TARS
+                        </span>
+                        <span className={styles.widgetRow}>
+                          <span className={styles.widgetWho}>
+                            <TarsMark size={26} />
+                            <span className={styles.who}>
+                              <span className={styles.whoName}>Tars Technologies</span>
+                              <span className={styles.whoMeta}>
+                                <i />
+                                Online
+                              </span>
+                            </span>
+                          </span>
+                          <DotsThreeVertical size={16} weight="bold" />
+                        </span>
+                      </div>
+
+                      <div className={styles.thread}>
+                        <div className={styles.botRow}>
+                          <TarsMark size={22} />
+                          <span className={styles.bubble}>
+                            Hi! I can help you with your credit card requests. What would you like to do today?
+                          </span>
+                        </div>
+
+                        <Msg show={view.msgs >= 1}>
+                          <div className={styles.userRow}>
+                            <span className={styles.userBubble}>Increase my credit limit</span>
+                          </div>
+                        </Msg>
+
+                        <Msg show={view.msgs >= 2}>
+                          <div className={styles.botRow} data-top>
+                            <TarsMark size={22} />
+                            <div className={styles.botCol}>
+                              <span className={styles.bubble}>Sure, I can help with that. Please select your card:</span>
+                              <div className={styles.chips}>
+                                <span className={styles.cardChip}>Platinum Card</span>
+                                <span className={styles.cardChip} data-picked={view.msgs >= 3 || undefined}>
+                                  Rewards Card
+                                </span>
+                                <span className={styles.cardChip}>Business Card</span>
+                              </div>
+                            </div>
+                          </div>
+                        </Msg>
+
+                        <Msg show={view.msgs >= 3}>
+                          <div className={styles.userRow}>
+                            <span className={styles.userBubble}>Rewards Card</span>
+                          </div>
+                        </Msg>
+
+                        <Msg show={view.msgs >= 4}>
+                          <div className={styles.botRow}>
+                            <TarsMark size={22} />
+                            <span className={styles.bubble}>Got it. Let me check your eligibility.</span>
+                          </div>
+                        </Msg>
+
+                        <Msg show={view.typing}>
+                          <div className={styles.botRow}>
+                            <TarsMark size={22} />
+                            <span className={styles.typing} data-stalled={view.failed || undefined}>
+                              <i />
+                              <i />
+                              <i />
+                            </span>
+                          </div>
+                        </Msg>
+                      </div>
+
+                      <div className={styles.input}>
+                        <span className={styles.field}>Type your message</span>
+                        <span className={styles.send}>
+                          <PaperPlaneRight size={15} weight="fill" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      {chrome}
     </div>
+  );
+}
+
+/** A chat message that opens its space and rises in, so the ones above stay where they are */
+function Msg({ show, children }: { show: boolean; children: ReactNode }) {
+  return (
+    <div className={styles.msg} data-in={show || undefined}>
+      <div className={styles.msgInner}>
+        <div className={styles.msgPad}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+/** A number whose digits roll like an odometer */
+function Roll({ value, digits, height }: { value: number; digits: number; height: number }) {
+  const text = String(value).padStart(digits, " ");
+  return (
+    <span className={styles.roll} style={{ "--lh": `${height}px` } as CSSProperties} aria-label={String(value)}>
+      {Array.from(text, (ch, i) => {
+        const place = digits - 1 - i;
+        const empty = ch === " ";
+        return (
+          <span key={place} className={styles.rollCol} data-empty={empty || undefined} aria-hidden="true">
+            <span className={styles.rollStrip} style={{ "--d": empty ? 0 : Number(ch) } as CSSProperties}>
+              {Array.from({ length: 10 }, (_, d) => (
+                <span key={d}>{d}</span>
+              ))}
+            </span>
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+/** Lines of text stacked in a window; the shown one slides up and the next comes in from below. */
+function Slide({ items, at: shown, height }: { items: string[]; at: number; height: number }) {
+  return (
+    <span className={styles.slide} style={{ "--h": `${height}px` } as CSSProperties}>
+      <span className={styles.slideStrip} style={{ "--n": shown } as CSSProperties}>
+        {items.map((t) => (
+          <span key={t}>{t}</span>
+        ))}
+      </span>
+    </span>
+  );
+}
+
+/** Tars' mark: a purple disc with the document glyph */
+function TarsMark({ size }: { size: number }) {
+  return (
+    <span className={styles.mark} style={{ width: size, height: size }}>
+      <svg width={size * 0.42} height={size * 0.46} viewBox="0 0 10 11" aria-hidden="true">
+        <rect x="0" y="0" width="10" height="2.4" rx="1.2" fill="#fff" />
+        <rect x="0" y="4.3" width="10" height="2.4" rx="1.2" fill="#fff" />
+        <rect x="0" y="8.6" width="6" height="2.4" rx="1.2" fill="#fff" />
+      </svg>
+    </span>
+  );
+}
+
+function Bolt() {
+  return (
+    <svg width="6" height="8" viewBox="0 0 6 8" aria-hidden="true">
+      <path d="M3.6 0.4 0.6 4.4h2L2.2 7.6l3.2-4.2h-2.1z" fill="#ffc83d" stroke="#ffc83d" strokeWidth="0.4" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** The bank emoji beside the chatbot's name */
+function Bank() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 1.4 1 8.2h22z" fill="#66757f" />
+      <rect x="2.3" y="9" width="19.4" height="1.6" fill="#aab8c2" />
+      <rect x="3.7" y="10.6" width="2.6" height="9" fill="#ccd6dd" />
+      <rect x="8.2" y="10.6" width="2.6" height="9" fill="#ccd6dd" />
+      <rect x="13.2" y="10.6" width="2.6" height="9" fill="#ccd6dd" />
+      <rect x="17.7" y="10.6" width="2.6" height="9" fill="#ccd6dd" />
+      <rect x="1.4" y="19.6" width="21.2" height="2" fill="#aab8c2" />
+      <rect x="0.4" y="21.6" width="23.2" height="1.6" fill="#ccd6dd" />
+    </svg>
   );
 }

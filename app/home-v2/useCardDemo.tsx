@@ -25,6 +25,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
   beats,
   onReset,
   entry,
+  loopFrom,
   stage,
   startRatio,
   startMargin,
@@ -41,6 +42,8 @@ export function useCardDemo<S extends { fading?: boolean }>({
    */
   startRatio?: number;
   startMargin?: string;
+  /** The beat later passes start from, once the first pass is over (default 0, the whole loop). A demo whose opening assembles the screen sets this past the assembly, so it only plays the first time. */
+  loopFrom?: number;
   /** Called when the loop starts over (restart button, or the card leaving the screen), to clear any timers the demo runs itself */
   onReset?: () => void;
   /**
@@ -129,7 +132,7 @@ export function useCardDemo<S extends { fading?: boolean }>({
     const step = () => {
       const { set, wait } = beats[beat];
       setScene((s) => ({ ...s, ...set }));
-      beat = (beat + 1) % beats.length;
+      beat = beat + 1 < beats.length ? beat + 1 : (loopFrom ?? 0);
       timer = window.setTimeout(step, wait);
     };
     step();

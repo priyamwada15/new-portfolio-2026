@@ -78,6 +78,9 @@ const START: Scene = {
   panelNow: false,
 };
 
+/** The screen once it has assembled, with every row back where it began: where later passes begin */
+const BUILT: Scene = { ...START, shell: true, head: true, rows: true, panel: true };
+
 /** The finished screen, for reduced motion: everything has synced. */
 const FINAL: Scene = {
   ...START,
@@ -138,11 +141,14 @@ const BEATS: Beat<Scene>[] = [
   // Everything has synced: the panel says so, and the screen holds
   { set: { panelNow: true }, wait: 1500 },
 
-  // The seam: fade out, empty the screen, fade in and assemble again
+  // The seam: fade out, put every row back to where it began, fade in. The screen stays built
   { set: { fading: true }, wait: 700 },
-  { set: { ...START, fading: true }, wait: 250 },
-  { set: { fading: false }, wait: 300 },
+  { set: { ...BUILT, fading: true }, wait: 250 },
+  { set: { fading: false }, wait: 800 },
 ];
+
+/** Later passes start here, past the assembly, which only plays the first time */
+const LOOP_FROM = 4;
 
 const icon = (name: string) => `/asimov-demo/icon-${name}.svg`;
 
@@ -183,6 +189,7 @@ export function AsimovKnowledgeEmbed() {
     start: START,
     final: FINAL,
     beats: BEATS,
+    loopFrom: LOOP_FROM,
     stage: STAGE,
     // The assembly only plays once the card is properly on screen, never early offscreen
     startRatio: 0.6,

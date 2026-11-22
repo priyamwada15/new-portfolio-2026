@@ -3,14 +3,11 @@ import CaseStudyLayout from "../components/CaseStudyLayout";
 import AutoPauseVideo from "../components/AutoPauseVideo";
 import { DebugChatPreview } from "../components/DebugChatPreview";
 import ScaleToFit from "../components/ScaleToFit";
-import { CaseStudyDemoCard } from "../components/CaseStudyDemoCard";
 import { MediaWash, WASH_SCREEN_EDGE, washShadow } from "../components/MediaWash";
 import { DebugModeEmbed } from "../home-v2/DebugModeEmbed";
 import { CaseStudySummary, SectionHeader } from "../components/CaseStudySections";
 import {
-  caseStudyEyebrow,
   caseStudyRowTitle,
-  caseStudyStatNumber,
   caseStudySubheading,
   caseStudyText,
   caseStudyTitle,
@@ -81,7 +78,6 @@ export default function DebugModePage() {
       sideToc={[
         { id: "about", label: "Overview" },
         { id: "core-features", label: "Core features" },
-        { id: "impact", label: "Impact" },
         { id: "iterations", label: "Iterations" },
         { id: "reflections", label: "Reflections" },
       ]}
@@ -93,41 +89,24 @@ export default function DebugModePage() {
       headline="Designing an internal debugger that cut troubleshooting time by ~70%"
       reverseHeaderOrder
       heroVisual={
-        <CaseStudyDemoCard>
+        <MediaWash tone="tars" className="aspect-[1008/575] w-full">
           <DebugModeEmbed />
-        </CaseStudyDemoCard>
+        </MediaWash>
       }
       meta={{
         timeline: "Oct 2022",
         industry: "B2B SaaS",
         role: "Product Designer",
-        team: "CS Team, CTO, CEO, Developers",
+        team: "CS Team, Founders, Developers",
         items: [
           { label: "Shipped", value: "Oct 2022" },
-          { label: "Type of work", value: "Internal Tools, Complex Workflows" },
-          { label: "Team", value: "CS Team, CTO, CEO, Developers, Me" },
-          { label: "Contribution", value: "Product Design, Interaction Design" },
+          { label: "Scope", value: "Internal Tools, Complex Workflows" },
+          { label: "Team", value: "CS Team, Founders, Developers, Me" },
+          { label: "Contribution", value: "Product & Interaction Design" },
         ],
       }}
     >
-      <CaseStudySummary
-        rows={[
-          {
-            label: "Goal",
-            text: "Cut the CS team’s turnaround on troubleshooting enterprise client agents.",
-          },
-          {
-            label: "My role",
-            text: "I designed and shipped Debug Mode in a month, working with the CS team, CTO, CEO and developers.",
-          },
-          {
-            label: "Impact",
-            text: "About 70% less troubleshooting time on enterprise client agents, and the CS team can start a run and work on something else while it goes.",
-          },
-        ]}
-      />
-
-      <section id="about">
+      <section id="about" className="flex flex-col gap-8">
         <SectionHeader title="What is Debug Mode?">
           <p>
             Debug Mode is a testing tool inside Tars, where teams build AI agents as visual
@@ -138,6 +117,22 @@ export default function DebugModePage() {
             Before it, the CS team traced 500+ nodes by hand to find one broken link. 
           </p>
         </SectionHeader>
+        <CaseStudySummary
+          rows={[
+            {
+              label: "Goal",
+              text: "Cut the CS team’s turnaround on troubleshooting enterprise client agents.",
+            },
+            {
+              label: "My role",
+              text: "I designed and shipped Debug Mode in a month, working with the CS team, founders and developers.",
+            },
+            {
+              label: "Impact",
+              text: "About 70% less troubleshooting time: 2–3 hours of active debugging became 0.5 hours of testing, and the CS team can start a run and work on something else.",
+            },
+          ]}
+        />
       </section>
 
       <section id="core-features" className="flex flex-col gap-12">
@@ -153,28 +148,6 @@ export default function DebugModePage() {
             </div>
           ))}
         </SectionHeader>
-
-        {/* The 16:9 video has its own #FAFAFA margins baked in. The inner box crops the
-            frame to just the app window (x 167–1760, y 37–1049 of 1920×1080), which sits
-            on the wash with space on every side. The poster is the video's first frame,
-            so the card shows the window while the video loads. */}
-        <MediaWash tone="tars" className="p-12 max-md:p-4">
-          <div
-            className="relative aspect-[1593/1012] w-full overflow-hidden rounded-[10px]"
-            style={{ boxShadow: washShadow(), border: WASH_SCREEN_EDGE }}
-          >
-            <AutoPauseVideo
-              src="https://res.cloudinary.com/dh9rvf2hh/video/upload/q_auto:good,w_1920/v1784081146/New_Debug_Video_uscsz1.mp4"
-              poster="https://res.cloudinary.com/dh9rvf2hh/video/upload/so_0,q_auto,w_1920/v1784081146/New_Debug_Video_uscsz1.jpg"
-              muted
-              loop
-              playsInline
-              preload="none"
-              aria-label="Debug Mode canvas highlighting the active gambit as it steps through the flow"
-              className="absolute left-[-10.48%] top-[-3.66%] aspect-video w-[120.53%] max-w-none"
-            />
-          </div>
-        </MediaWash>
 
         <div className="flex flex-col gap-12 md:flex-row">
           <div className="flex min-w-0 flex-1 flex-col gap-4">
@@ -192,30 +165,6 @@ export default function DebugModePage() {
             </div>
           </MediaWash>
         </div>
-      </section>
-
-      <section id="impact">
-        <SectionHeader
-          eyebrow="Impact"
-          title="Debug Mode became part of every chatbot update"
-          bodyClassName="gap-6 pt-2"
-        >
-          <p>
-            Troubleshooting an enterprise client&rsquo;s agent used to take the CS team 2&ndash;3 hours
-            of active debugging. With Debug Mode it takes about 0.5 hours of testing.
-          </p>
-          <p>
-            On the release call, Tars&rsquo; CEO described a CS team member starting a run and
-            moving on to other work.
-          </p>
-          <div className="flex flex-col gap-4">
-            <p className={caseStudyEyebrow}>Troubleshooting Time</p>
-            <div className="flex flex-col gap-2">
-              <p className={caseStudyStatNumber}>~70%</p>
-              <p>Time that used to go into tracing broken flows by hand.</p>
-            </div>
-          </div>
-        </SectionHeader>
       </section>
 
       <section id="iterations" className="flex flex-col gap-[120px] max-md:gap-20">
@@ -302,12 +251,17 @@ export default function DebugModePage() {
 
           <IterationRow title="My first version borrowed code-editor controls" textWidth={420} media={
             <MediaWash tone="tars" className="aspect-[548/447]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/new-debug-mode/Complex%20Controls.avif"
-                alt="First debugger prototype with six code-editor style controls"
-                className="absolute left-1/2 top-[8.95%] h-auto w-[85.04%] -translate-x-1/2 rounded-t-[30px] shadow-[0_0_12px_2.25px_rgba(0,0,0,0.04)]"
-              />
+              <div
+                className="absolute inset-x-[7.48%] top-[8.95%] bottom-0 overflow-hidden rounded-t-[10px]"
+                style={{ boxShadow: washShadow(), border: WASH_SCREEN_EDGE, borderBottom: 0 }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/new-debug-mode/Borrowed%20Controls.avif"
+                  alt="First debugger prototype with six code-editor style controls above the chat preview"
+                  className="block h-auto w-full"
+                />
+              </div>
             </MediaWash>
           }>
             <p>

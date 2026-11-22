@@ -50,7 +50,7 @@ export default function HcnAdvertisingMarketplacePage() {
         team: "Client, PM, Developers",
         items: [
           { label: "Started", value: "June 2026" },
-          { label: "Type of work", value: "0 to 1, Two-sided Marketplace, Complex Workflows" },
+          { label: "Scope", value: "0 to 1, Two-sided Marketplace, Complex Workflows" },
           { label: "Team", value: "Client, PM, Developers, Me" },
           { label: "Contribution", value: "Product Design, Product Strategy, Information Architecture, Financial UX, Design System" },
         ],

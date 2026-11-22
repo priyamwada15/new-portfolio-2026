@@ -171,12 +171,12 @@ function CoreFlows() {
               ))}
             </div>
           </div>
-          {/* Figma: 480×747 container, 323×667 phone with 41.94px corners; styled like the problem cards. */}
+          {/* Figma: 480×747 container, 323×667 screen with 10px corners; styled like the problem cards. */}
           <SolutionShowcase
             videoSrc={flow.videoSrc}
             videoAlt={flow.videoAlt}
             className="aspect-[480/747] min-w-0 flex-1 border border-border bg-surface-page max-md:w-full max-md:flex-none"
-            videoClassName="h-[89.29%] w-[67.29%] rounded-[41.94px] object-cover"
+            videoClassName="h-[89.29%] w-[67.29%] rounded-[10px] object-cover"
           />
         </div>
       ))}
@@ -279,7 +279,7 @@ export default function RocketMortgageContent() {
         team: "Conversational AI Designers, Product Designers",
         items: [
           { label: "Handed off", value: "Aug 2025 (Proof of concept)" },
-          { label: "Type of work", value: "Conversational AI, Agentic UX, Warm Handoff" },
+          { label: "Scope", value: "Conversational AI, Agentic UX, Warm Handoff" },
           { label: "Team", value: "Engineers, Researchers, Conversational AI Designers, Me" },
           { label: "Contribution", value: "Conversational AI Design Intern: Conversational Design, Interaction Design" },
         ],

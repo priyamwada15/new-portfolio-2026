@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import CaseStudyLayout from "../components/CaseStudyLayout";
-import { CaseStudyDemoCard } from "../components/CaseStudyDemoCard";
+import { MediaWash } from "../components/MediaWash";
 import { CaseStudySummary, SectionHeader } from "../components/CaseStudySections";
 import { AsimovKnowledgeEmbed } from "../home-v2/AsimovKnowledgeEmbed";
 import {
@@ -77,20 +77,20 @@ export default function AsimovPage() {
         headline="Designing the agent configuration platform and design system for Asimov"
         reverseHeaderOrder
         heroVisual={
-          <CaseStudyDemoCard>
+          <MediaWash tone="tars" className="aspect-[1008/575] w-full">
             <AsimovKnowledgeEmbed />
-          </CaseStudyDemoCard>
+          </MediaWash>
         }
         meta={{
           timelineLabel: "Shipped",
           timeline: "Dec 2023 – Apr 2024",
           industry: "B2B SaaS",
           role: "Product Designer",
-          team: "CTO, Engineers, Me",
+          team: "Founders, Engineers, Me",
           items: [
             { label: "Shipped", value: "Dec 2023 – Apr 2024" },
-            { label: "Type of work", value: "0 to 1, Complex Workflows" },
-            { label: "Team", value: "CTO, Engineers, Me" },
+            { label: "Scope", value: "0 to 1, Complex Workflows" },
+            { label: "Team", value: "Founders, Engineers, Me" },
             { label: "Contribution", value: "Product Design, Product Strategy & Research, Design System, Design QA" },
           ],
         }}

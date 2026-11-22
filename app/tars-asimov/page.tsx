@@ -97,29 +97,29 @@ export default function AsimovPage() {
       >
         {/* Shared by both tabs. Direct layout children, so they get the page's standard section gap. */}
         <>
-          <CaseStudySummary
-            rows={[
-              {
-                label: "Goal",
-                text: "Take Asimov from a Slack thread summarizer to a platform teams configure themselves.",
-              },
-              {
-                label: "My role",
-                text: "I led design end to end, alongside the founders: the research behind the PRD, the configuration platform and the design system.",
-              },
-              {
-                label: "Impact",
-                text: "5 releases in 5 months that took the product from a simple app within Slack to an end-to-end product. The design system cut handoff-to-release time by about 60%, and its core components moved into Tars’ main product.",
-              },
-            ]}
-          />
-          <section id="overview">
+          <section id="overview" className="flex flex-col gap-8">
             <SectionHeader title="Asimov is Tars&rsquo; AI agent for startup teams working in Slack">
               <p>
                 It started as a thread summarizer. Over five releases in five months it learned to answer from company docs and to run actions in other tools.
               </p>
               <p>The screens on this page are reworked designs, with the focus on design and user experience.</p>
             </SectionHeader>
+            <CaseStudySummary
+              rows={[
+                {
+                  label: "Goal",
+                  text: "Take Asimov from a Slack thread summarizer to a platform teams configure themselves.",
+                },
+                {
+                  label: "My role",
+                  text: "I led design end to end, alongside the founders: the research behind the PRD, the configuration platform and the design system.",
+                },
+                {
+                  label: "Impact",
+                  text: "5 releases in 5 months that took the product from a simple app within Slack to an end-to-end product. The design system cut handoff-to-release time by about 60%, and its core components moved into Tars’ main product.",
+                },
+              ]}
+            />
           </section>
         </>
 

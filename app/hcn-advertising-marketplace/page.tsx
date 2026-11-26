@@ -8,12 +8,11 @@ import { HcnMarketplaceEmbed } from "../home-v2/HcnMarketplaceEmbed";
 import { MediaWash } from "../components/MediaWash";
 import { caseStudyTitle, CASE_STUDY_PAGE_BG } from "@/design-system";
 
-/* Client is under NDA: no client name in the copy or metadata, and the page stays out of search. */
+/* Client is under NDA: no client name in the copy or metadata. */
 export const metadata: Metadata = {
   title: "Digital Advertising Marketplace | Product Design Case Study | Priyamwada Pandey",
   description:
     "Designing the foundations of a two-sided digital advertising marketplace: accounts, booking, wallet and space setup.",
-  robots: { index: false, follow: false },
 };
 
 const lead = "font-semibold text-primary";

@@ -20,6 +20,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/hcn-advertising-marketplace`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/rocket-mortgage`,
       changeFrequency: "monthly",
       priority: 0.7,

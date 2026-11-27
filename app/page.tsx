@@ -7,6 +7,7 @@ import { RocketAssistEmbed } from "./home-v2/RocketAssistEmbed";
 import { AsimovKnowledgeEmbed } from "./home-v2/AsimovKnowledgeEmbed";
 import { DebugModeEmbed } from "./home-v2/DebugModeEmbed";
 import { CaseStudyStatusPills } from "./components/CaseStudyStatusPills";
+import { CardTags } from "./components/CardTags";
 import { HcnMarketplaceEmbed } from "./home-v2/HcnMarketplaceEmbed";
 import { FunWheel } from "./home-v2/FunWheel";
 import { ScrollReveal } from "@/app/components/ScrollReveal";
@@ -19,8 +20,8 @@ type CaseStudy = {
   title: string;
   /** Coded UI floating on the card. It sits outside the card link, so its controls aren't nested in the link. */
   embed: ReactNode;
-  /** Status pills at the right of the logo row (in-progress work under NDA). */
-  pills?: ReactNode;
+  /** Tags at the right of the logo row: the study's scope, or its status for in-progress work under NDA. */
+  tags: ReactNode;
 };
 
 const ROCKET = [{ src: "/logos/rocket-mortgage.svg", alt: "Rocket Mortgage" }];
@@ -35,6 +36,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: TARS,
     title: "Designing the agent configuration platform and design system for Asimov",
     embed: <AsimovKnowledgeEmbed />,
+    tags: <CardTags tags={["0 to 1", "Complex Workflows"]} />,
   },
   {
     href: "/rocket-mortgage",
@@ -42,6 +44,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: ROCKET,
     title: "Personalizing AI guidance across 6.8M+ client conversations",
     embed: <RocketAssistEmbed />,
+    tags: <CardTags tags={["Conversational AI", "Agentic UX", "Warm Handoff"]} />,
   },
   {
     href: "/tars-debug-mode",
@@ -49,6 +52,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: TARS,
     title: "Designing an internal debugger that cut troubleshooting time by ~70%",
     embed: <DebugModeEmbed />,
+    tags: <CardTags tags={["Internal Tools", "Complex Workflows"]} />,
   },
   {
     href: "/hcn-advertising-marketplace",
@@ -56,7 +60,7 @@ const CASE_STUDIES: CaseStudy[] = [
     logos: HCN,
     title: "Designing the foundations of a digital advertising marketplace",
     embed: <HcnMarketplaceEmbed />,
-    pills: <CaseStudyStatusPills />,
+    tags: <CaseStudyStatusPills />,
   },
 ];
 
@@ -73,7 +77,7 @@ function CaseStudyRow({ study }: { study: CaseStudy }) {
                 <img key={logo.src} src={logo.src} alt={logo.alt} style={logo.height ? { height: logo.height } : undefined} />
               ))}
             </CompanyLogos>
-            {study.pills}
+            {study.tags}
           </div>
           <h3 className={styles.cardTitle}>{study.title}</h3>
         </div>

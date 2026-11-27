@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { PLAY_PORTFOLIO_ITEMS, type PlayPortfolioItem } from "@/app/lib/playPortfolio";
 import { useSiteHref } from "@/app/lib/reviewPath";
+import { CardTags } from "@/app/components/CardTags";
 import styles from "./FunWheel.module.css";
 
-const PROJECT_IDS = ["stellar-scan", "the-intelligencer", "robot-duet"];
+const PROJECT_IDS = ["the-intelligencer", "stellar-scan", "robot-duet"];
 const PROJECTS = PROJECT_IDS.map((id) => PLAY_PORTFOLIO_ITEMS.find((item) => item.id === id)).filter(
   (item): item is PlayPortfolioItem => Boolean(item),
 );
@@ -288,7 +289,7 @@ export function FunWheel() {
             onDragStart={(e) => e.preventDefault()}
             aria-hidden={!visible || undefined}
             tabIndex={visible ? undefined : -1}
-            aria-label={isTop ? `${item.title}, opens in a new tab` : `Show ${item.title}`}
+            aria-label={isTop ? `${item.title}. ${item.cardLine} Opens in a new tab` : `Show ${item.title}`}
             style={{ "--focus": isTop ? 1 : 0 } as CSSProperties}
           >
             <video
@@ -306,14 +307,11 @@ export function FunWheel() {
               preload={isTop ? "metadata" : "none"}
             />
             <span className={styles.meta} aria-hidden={!isTop || undefined}>
-              <span className={styles.title}>{item.title}</span>
-              <span className={styles.tags}>
-                {tags.map((tag) => (
-                  <span key={tag} className={styles.tag}>
-                    {tag}
-                  </span>
-                ))}
+              <span className={styles.head}>
+                <span className={styles.title}>{item.title}</span>
+                <CardTags tags={tags} />
               </span>
+              <span className={styles.line}>{item.cardLine}</span>
             </span>
           </a>
         );

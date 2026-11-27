@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import CaseStudyLayout from "../components/CaseStudyLayout";
-import { CaseStudyStatusPills } from "../components/CaseStudyStatusPills";
 import { WordReveal } from "../components/WordReveal";
 import { HtmlEmbed } from "../components/HtmlEmbed";
 import { CaseStudySummary, SectionHeader } from "../components/CaseStudySections";
@@ -35,7 +34,6 @@ export default function HcnAdvertisingMarketplacePage() {
       headlineClassName={caseStudyTitle}
       logos={[{ src: "/logos/hcn.avif", alt: "HCN", cls: "h-8" }]}
       headline="Designing the foundations of a digital advertising marketplace"
-      logosAside={<CaseStudyStatusPills />}
       reverseHeaderOrder
       heroVisual={
         <MediaWash tone="hcn" className="aspect-[1008/575] w-full">

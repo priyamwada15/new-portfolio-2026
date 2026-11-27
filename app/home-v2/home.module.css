@@ -384,6 +384,7 @@
 
 .cardTop {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -498,9 +499,9 @@
 .funHeading {
   margin: 0 0 56px;
   padding: 0 24px;
-  /* A step below the hero headline (56px), so it reads as a section of the homepage */
-  font-size: 48px;
-  line-height: 1.2;
+  /* Kept well under the hero headline so the side projects don't compete with the case studies */
+  font-size: 32px;
+  line-height: 40px;
   font-weight: 500;
   letter-spacing: -0.025em;
   text-align: center;
@@ -533,6 +534,7 @@
 
   .funHeading {
     margin-bottom: 40px;
-    font-size: 32px;
+    font-size: 24px;
+    line-height: 32px;
   }
 }

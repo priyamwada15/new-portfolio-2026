@@ -12,7 +12,7 @@
   /* Resolves --card-gap to px for FunWheel.tsx to read (no visual effect on this block) */
   column-gap: var(--card-gap);
   position: relative;
-  /* The top card, its title row and room for the side cards dropping lower */
+  /* The top card, its title and line, and room for the side cards dropping lower */
   height: calc(var(--card-w) + 160px);
   /* Vertical swipes still scroll the page; horizontal ones turn the wheel */
   touch-action: pan-y;
@@ -73,37 +73,37 @@
   pointer-events: none;
 }
 
-/* Title and tags, only on the card at the top: they fade in as it arrives */
+/* Title, tags and line, only on the card at the top: they fade in as it arrives */
 .meta {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  flex-direction: column;
+  gap: 12px;
   opacity: var(--focus, 0);
   transform: translateY(calc((1 - var(--focus, 0)) * 6px));
 }
 
+/* Title on the left, tags on the right; the tags drop below it when the card is too narrow */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+
 .title {
+  flex: 1 0 auto;
   font-family: var(--font-hind), sans-serif;
   font-size: 16px;
   line-height: 24px;
   color: var(--ds-text-primary);
 }
 
-/* Plain text tags, no fill: they line up with the card's right edge */
-.tags {
-  display: flex;
-  flex: none;
-  gap: 12px;
-}
-
-.tag {
-  color: var(--ds-text-tertiary);
+.line {
   font-family: var(--font-hind), sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  white-space: nowrap;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ds-text-tertiary);
+  text-wrap: pretty;
 }
 
 /* Announces the project at the top to screen readers */
@@ -120,7 +120,7 @@
 @media (max-width: 743px) {
   .stage {
     --card-w: 64vw;
-    height: calc(var(--card-w) + 128px);
+    height: calc(var(--card-w) + 192px);
   }
 
   .card {
@@ -128,9 +128,13 @@
   }
 
   .meta {
-    flex-direction: column;
-    align-items: flex-start;
     gap: 8px;
+  }
+
+  /* Tags first, so the title and its line sit together */
+  .head {
+    flex-direction: column-reverse;
+    align-items: flex-start;
   }
 
   .title {

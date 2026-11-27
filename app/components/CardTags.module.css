@@ -1,0 +1,22 @@
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  /* 6px top and bottom is a deliberate exception to the 4/8 spacing rule: 30px tall tags */
+  padding: 6px 12px;
+  background: var(--ds-surface-page);
+  border: 1px solid var(--ds-border-card);
+  border-radius: 8px;
+  font-family: var(--font-hind), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--ds-text-secondary);
+  white-space: nowrap;
+}

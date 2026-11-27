@@ -7,6 +7,8 @@ export type PlayPortfolioItem = {
   description: string;
   /** When set, the home Play tab uses this longer body instead of `description`. */
   homeDescription?: string;
+  /** One line under the title on the homepage fun-projects wheel. */
+  cardLine?: string;
   /** Meta row on home Play cards only (chips + * separators). */
   tagParts: readonly string[];
   /** Filled liquid pill (arrow or X icon). */
@@ -87,6 +89,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
     id: "stellar-scan",
     title: "Stellar Scan",
+    cardLine: "Enter a date and city to find its dominant constellation.",
     tagParts: ["Gemini API", "React", "Tailwind", "Mar 2026"],
     description:
       "A retro-futuristic star map from one line in Stitch—enter a date, see the dominant constellation, export a playing card.",
@@ -105,6 +108,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
     id: "the-intelligencer",
     title: "The Intelligencer",
+    cardLine: "A daily AI news briefing. Best suited for mobile viewing.",
     tagParts: ["Next.js", "NewsData.io", "Vercel Blob", "Aug 2026"],
     description:
       "A daily AI news briefing in a single-card, swipe-through format for mobile — real headlines, sorted by category, never rewritten.",
@@ -121,6 +125,7 @@ export const PLAY_PORTFOLIO_ITEMS: PlayPortfolioItem[] = [
   {
     id: "robot-duet",
     title: "Robot Arm Duet",
+    cardLine: "Two people each steer one robot arm from a laptop touchpad.",
     tagParts: ["Arduino", "Python", "Processing", "Apr 2025"],
     description:
       "Two people each control one arm from a laptop touchpad, left, right, up, down. Built the entire system across three environments, Arduino handling the hardware, Python bridging the communication and audio output, Processing handling the touch input.",

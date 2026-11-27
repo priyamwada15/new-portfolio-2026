@@ -52,8 +52,6 @@ interface Props {
   sidePanel?: React.ReactNode;
   contextVisual?: React.ReactNode;
   heroVisual?: React.ReactNode;
-  /** Sits at the far right of the logo row (e.g. status pills). */
-  logosAside?: React.ReactNode;
   reverseHeaderOrder?: boolean;
   hideContextLabel?: boolean;
   headlineInHeader?: boolean;
@@ -142,7 +140,6 @@ export default function CaseStudyLayout({
   sidePanel,
   contextVisual,
   heroVisual,
-  logosAside,
   reverseHeaderOrder = false,
   hideContextLabel = false,
   headlineInHeader = false,
@@ -192,7 +189,6 @@ export default function CaseStudyLayout({
           className={`${logo.cls ?? "h-6"} w-auto object-contain`}
         />
       ))}
-      {logosAside && <div className="ml-auto">{logosAside}</div>}
     </div>
   );
 

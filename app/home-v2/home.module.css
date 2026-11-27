@@ -430,7 +430,7 @@
   border-radius: var(--ds-radius-container);
   overflow: hidden;
   /* --home-card-* come from the dev-only CardFillDial */
-  background: var(--home-card-fill, var(--ds-surface-demo-card));
+  background: var(--home-card-fill, var(--ds-surface-page));
   border: 1px solid var(--home-card-stroke, var(--ds-border-card));
 }
 

@@ -18,8 +18,6 @@
   --ds-surface-home: var(--ds-color-surface-home);
   --ds-surface-card: var(--ds-color-surface-card);
   --ds-surface-media: var(--ds-color-surface-media);
-  /* Fill of the homepage case study cards the coded demos sit on */
-  --ds-surface-demo-card: var(--ds-color-surface-demo-card);
   --ds-surface-chip: var(--ds-color-surface-chip);
   --ds-surface-playground: var(--ds-color-surface-playground);
 

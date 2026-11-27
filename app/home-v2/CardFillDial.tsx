@@ -11,7 +11,7 @@ import { useEffect } from "react";
  */
 export function CardFillDial() {
   const dial = useDialKit("Case study cards", {
-    fill: "#f7f7f7",
+    fill: "#fafafa",
     stroke: "#f2f2f2",
   });
 

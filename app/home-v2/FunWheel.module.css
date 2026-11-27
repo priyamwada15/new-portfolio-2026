@@ -69,7 +69,7 @@
   /* Same radius and stroke as the case study cards */
   border-radius: var(--ds-radius-container);
   border: 1px solid var(--ds-border-card);
-  background: var(--ds-surface-demo-card);
+  background: var(--ds-surface-page);
   pointer-events: none;
 }
 

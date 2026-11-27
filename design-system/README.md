@@ -89,7 +89,7 @@ Every case study uses one accent, the site's rose: `--ds-case-study-accent` (and
 
 ### Demo cards
 
-- **Demo card**: the homepage case study cards and each case study's hero visual (`CaseStudyDemoCard`, passed as `CaseStudyLayout`'s `heroVisual`) are the same plain card: a `--ds-surface-demo-card` fill with a `--ds-border-card` stroke, with the study's live coded demo at its designed size.
+- **Demo card**: the homepage case study cards and each case study's hero visual (`CaseStudyDemoCard`, passed as `CaseStudyLayout`'s `heroVisual`) are the same plain card: a `--ds-surface-page` fill with a `--ds-border-card` stroke, with the study's live coded demo at its designed size.
 - **Coded demos** (`app/home-v2/*Embed`) scope their product's own colors to the embed (e.g. `--ra-*`, `--dm-*`). Those are the products' colors, not portfolio tokens.
 
 ## Tooltips and footer

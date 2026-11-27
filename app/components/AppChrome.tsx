@@ -35,7 +35,8 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
   const isCaseStudy = pathname ? isCaseStudyPath(pathname) : false;
   const isPlayground =
     pathname === "/fun" || pathname.startsWith("/fun/");
-  const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy || isPlayground;
+  const isDesignSystem = pathname === "/design-system";
+  const useFlipBoardFooter = isHomeV2 || isFlipBoardTest || isCaseStudy || isPlayground || isDesignSystem;
 
   useEffect(() => {
     if (isBarePage) return;

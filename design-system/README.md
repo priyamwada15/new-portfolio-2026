@@ -70,15 +70,16 @@ Remove a token when nothing uses it any more. Before you do, search for it as a 
 
 | Style | Use |
 |---|---|
-| `caseStudyTitle` | Page title (32px medium) |
-| `caseStudyHeading` | Section heading (24px semibold) |
-| `caseStudySubheading` | Heading inside a section (18px medium) |
-| `caseStudySectionTagCaps` | Section, release and testimonial tags: the eyebrow in caps, lightly tracked (e.g. "PROBLEM SPACE"). The meta row labels use the same caps and tracking |
+| `caseStudyTitle` | Page title (32px medium, 28px on phones) |
+| `caseStudyHeading` | Section heading (24/32 medium, 20/28 on phones) |
+| `caseStudySubheading` | Heading inside a section (16/24 medium) |
+| `caseStudySectionTagCaps` | Section, release, testimonial and meta row labels: 12/16 medium caps, tracked 0.08em (e.g. "PROBLEM SPACE") |
 | `caseStudyVisualTitle` | Title on a visual asset (carousel slides, "Early direction / What shipped"): 14px Medium in primary. Visual assets stay neutral, with no rose and no brand colour, so they don't compete with the page accent |
-| `caseStudyEyebrow` | Small accent labels that aren't section tags (stat labels, names) |
-| `caseStudyText` | Body copy, including the line under a stat |
-| `caseStudyRowTitle` | Title above a text + media row |
-| `caseStudyStatNumber` | Big impact number (32px semibold, ink) |
+| `caseStudyEyebrow` | Same style as the section tag, for stat labels |
+| `caseStudyText` | Body copy (16/28), including the line under a stat |
+| `caseStudyRowTitle` | Title above a text + media row (16/24 medium) |
+| `caseStudySummaryLabel` / `caseStudySummaryText` | The Goal / My role / Impact row (18px medium label, 16px text) |
+| `caseStudyStatNumber` | Big impact number (32px medium, ink) |
 
 Stats are open (no card border or fill): a number in `caseStudyStatNumber` above a line of `caseStudyText`, the same on every case study. `CardRow variant="stat"` follows this.
 

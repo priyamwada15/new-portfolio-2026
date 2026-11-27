@@ -19,7 +19,7 @@ const PROBLEM_IMAGE_DIR = "/new-rocket-mortgage-case-page";
 /** Number, title and one-line description under each old-UI screenshot. */
 function ProblemCardText({ number, title, text }: { number: string; title: string; text: string }) {
   return (
-    <div className="flex w-full flex-col gap-3">
+    <div className="flex w-full flex-col gap-2">
       <p className={`flex gap-2 ${caseStudySubheading}`}>
         <span className="font-semibold text-tertiary">{number}</span>
         <span>{title}</span>
@@ -74,7 +74,7 @@ function ProblemSpace() {
         </p>
       </SectionHeader>
       {/* 01 + quote sit in the right column; DOM order keeps 01 first for screen readers. Phones show DOM order. */}
-      <div className="grid w-full grid-cols-2 gap-4 max-md:grid-cols-1">
+      <div className="grid w-full grid-cols-2 gap-x-10 gap-y-4 max-md:grid-cols-1">
         <div className="order-2 flex flex-col gap-[21px] max-md:order-none max-md:gap-4">
           <ProblemCard
             full
@@ -159,13 +159,13 @@ function CoreFlows() {
       {CORE_FLOWS.map((flow, index) => (
         <div
           key={flow.title}
-          className={`flex w-full items-start gap-12 max-md:flex-col max-md:items-stretch max-md:gap-6 ${
+          className={`flex w-full items-start gap-10 max-md:flex-col max-md:items-stretch max-md:gap-6 ${
             index % 2 === 1 ? "flex-row-reverse" : ""
           }`}
         >
-          <div className="flex min-w-0 flex-1 flex-col gap-4">
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
             <h3 className={caseStudySubheading}>{flow.title}</h3>
-            <div className={`${caseStudyText} flex flex-col gap-4`}>
+            <div className={`${caseStudyText} flex flex-col gap-2`}>
               {flow.body.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -249,7 +249,7 @@ function Reflections() {
         {REFLECTIONS.map((item) => (
           <div
             key={item.title}
-            className={`${caseStudyText} flex min-w-0 flex-col gap-3 rounded-[var(--ds-radius-container)] px-8 py-8 max-lg:px-0 max-md:py-6 lg:first:pl-0 lg:last:pr-0`}
+            className={`${caseStudyText} flex min-w-0 flex-col gap-2 rounded-[var(--ds-radius-container)] px-8 py-8 max-lg:px-0 max-md:py-6 lg:first:pl-0 lg:last:pr-0`}
           >
             <h3 className={caseStudyRowTitle}>{item.title}</h3>
             <p>{item.text}</p>

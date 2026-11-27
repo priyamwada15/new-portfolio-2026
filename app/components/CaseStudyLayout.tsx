@@ -9,6 +9,7 @@ import {
   caseStudyBody,
   caseStudyHeadline,
   caseStudyMetaLabel,
+  caseStudySectionTagCaps,
   CASE_STUDY_COLUMN_CLASS,
   CASE_STUDY_SECTION_STACK_CLASS,
   CASE_STUDY_TOC_GRID_CLASS,
@@ -110,7 +111,7 @@ const MetaGrid = ({
         {sept2026Layout ? (
           <>
             {/* The quiet label, like the section tags */}
-            <p className="font-label text-[14px] font-normal leading-[20px] tracking-[-0.01em] text-tertiary">
+            <p className={caseStudySectionTagCaps}>
               {item.label}
             </p>
             <p className="pt-1 font-label text-[16px] font-normal leading-[24px] tracking-[-0.01em] text-primary">
@@ -405,7 +406,7 @@ export default function CaseStudyLayout({
             className={[CASE_STUDY_SECTION_STACK_CLASS, sectionBodyClassName]
               .filter(Boolean)
               .join(" ")}
-            style={sept2026Layout ? { rowGap: 184 } : undefined}
+            style={sept2026Layout ? { rowGap: 128 } : undefined}
           >
             {children}
           </div>

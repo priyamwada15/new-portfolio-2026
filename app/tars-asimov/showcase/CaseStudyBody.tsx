@@ -372,7 +372,7 @@ const RELEASES: {
 
 export function CaseStudyBody() {
   return (
-    <div className="flex flex-col gap-[184px]">
+    <div className="flex flex-col gap-[128px]">
       <section id="story-problem" className="flex flex-col gap-12">
         <SectionHeader
           eyebrow="The problem"
@@ -406,12 +406,12 @@ export function CaseStudyBody() {
         {RELEASES.map((release) =>
           release.split ? (
             <div key={release.number} className="flex flex-col gap-12">
-            <div className="flex w-full items-start gap-12 max-md:flex-col max-md:items-stretch max-md:gap-6">
-              <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <div className="flex w-full items-start gap-10 max-md:flex-col max-md:items-stretch max-md:gap-6">
+              <div className="flex min-w-0 flex-1 flex-col gap-4">
                 <p className={caseStudySectionTagCaps}>{release.label ?? `Release ${release.number}`}</p>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
                   <h3 className={caseStudySubheading}>{release.title}</h3>
-                  <div className={`${caseStudyText} flex flex-col gap-4`}>{release.body}</div>
+                  <div className={`${caseStudyText} flex flex-col gap-2`}>{release.body}</div>
                 </div>
               </div>
               <div className="min-w-0 flex-1 max-md:flex-none">{release.media}</div>
@@ -470,7 +470,7 @@ export function CaseStudyBody() {
           bodyClassName="gap-12 pt-2"
         >
           {REFLECTIONS.map((item) => (
-            <div key={item.title} className="flex flex-col gap-3">
+            <div key={item.title} className="flex flex-col gap-2">
               <h3 className={caseStudyRowTitle}>{item.title}</h3>
               <p>{item.text}</p>
             </div>

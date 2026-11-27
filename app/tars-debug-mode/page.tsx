@@ -56,9 +56,9 @@ function IterationRow({
   children: React.ReactNode;
 }) {
   const text = (
-    <div className="flex shrink-0 flex-col gap-4 max-md:w-full! md:max-lg:w-[calc(50%-20px)]!" style={{ width: textWidth }}>
+    <div className="flex shrink-0 flex-col gap-2 max-md:w-full! md:max-lg:w-[calc(50%-20px)]!" style={{ width: textWidth }}>
       <h3 className={caseStudyRowTitle}>{title}</h3>
-      <div className={`${caseStudyText} flex flex-col gap-4`}>{children}</div>
+      <div className={`${caseStudyText} flex flex-col gap-2`}>{children}</div>
     </div>
   );
   const panel = <div className="min-w-0 flex-1 max-md:order-first max-md:w-full max-md:flex-none">{media}</div>;
@@ -142,15 +142,15 @@ export default function DebugModePage() {
           bodyClassName="gap-12 pt-2"
         >
           {CORE_FEATURES.map((item) => (
-            <div key={item.title} className="flex flex-col gap-3">
+            <div key={item.title} className="flex flex-col gap-2">
               <h3 className={caseStudyRowTitle}>{item.title}</h3>
               <p>{item.text}</p>
             </div>
           ))}
         </SectionHeader>
 
-        <div className="flex flex-col gap-12 md:flex-row">
-          <div className="flex min-w-0 flex-1 flex-col gap-4">
+        <div className="flex flex-col gap-10 md:flex-row">
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
             <h3 className={caseStudySubheading}>Three controls that anyone can run</h3>
             <p className={caseStudyText}>
               Play/pause, stop and restart. I kept the set small enough that a client with no dev

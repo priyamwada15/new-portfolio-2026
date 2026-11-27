@@ -11,6 +11,8 @@ import {
   caseStudyHeading,
   caseStudyRowTitle,
   caseStudyStatNumber,
+  caseStudySummaryLabel,
+  caseStudySummaryText,
   caseStudySubheading,
   caseStudyText,
 } from "@/design-system";
@@ -42,9 +44,9 @@ export function SectionHeader({
 }) {
   const Heading = level === 3 ? "h3" : "h2";
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className="flex w-full flex-col gap-4">
       {eyebrow && <p className={caseStudySectionTagCaps}>{eyebrow}</p>}
-      <div className="flex w-full items-start gap-12 max-md:flex-col max-md:items-stretch max-md:gap-4">
+      <div className="flex w-full items-start gap-10 max-md:flex-col max-md:items-stretch max-md:gap-4">
         <div className="relative min-w-0 flex-1">
           <Heading className={subheading ? caseStudySubheading : caseStudyHeading}>{title}</Heading>
           {titleAdornment}
@@ -71,8 +73,8 @@ export function CaseStudySummary({ rows }: { rows: { label: string; text: React.
     <dl className="grid w-full grid-cols-3 items-stretch gap-4 max-lg:grid-cols-1">
       {rows.map((row) => (
         <div key={row.label} className="flex min-w-0 flex-col gap-4 rounded-[var(--ds-radius-container)] px-8 py-8 max-lg:px-0 max-md:py-6 lg:first:pl-0 lg:last:pr-0">
-          <dt className={caseStudySubheading}>{row.label}</dt>
-          <dd className={`${caseStudyText} text-pretty`}>
+          <dt className={caseStudySummaryLabel}>{row.label}</dt>
+          <dd className={`${caseStudySummaryText} text-pretty`}>
             {row.text}
           </dd>
         </div>
@@ -228,9 +230,9 @@ export function MediaRow({
 }) {
   const frame = media.frame ?? { width: 668, height: 346 };
   const text = (
-    <div className="flex w-[300px] shrink-0 flex-col gap-4 max-md:w-full">
+    <div className="flex w-[300px] shrink-0 flex-col gap-2 max-md:w-full">
       <h3 className={caseStudyRowTitle}>{title}</h3>
-      <div className={`${caseStudyText} flex flex-col gap-4`}>{children}</div>
+      <div className={`${caseStudyText} flex flex-col gap-2`}>{children}</div>
     </div>
   );
   const tile = (
@@ -260,7 +262,7 @@ export function Testimonials({
 }) {
   return (
     <section id="testimonials" className="flex w-full flex-col gap-12">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         <p className={caseStudySectionTagCaps}>Testimonials</p>
         <h2 className={caseStudyHeading}>{title}</h2>
       </div>

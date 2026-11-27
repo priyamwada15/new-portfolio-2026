@@ -15,6 +15,8 @@ export {
   caseStudySectionTagCaps,
   caseStudyText,
   caseStudyRowTitle,
+  caseStudySummaryLabel,
+  caseStudySummaryText,
   caseStudyCardLabel,
   caseStudyCardText,
   caseStudyStatNumber,

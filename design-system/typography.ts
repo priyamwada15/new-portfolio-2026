@@ -28,42 +28,46 @@ export const caseStudyHeadline =
  * Accent-coloured roles read `--accent-dark`, which CaseStudyLayout sets per page;
  * every case study passes the shared rose (--ds-case-study-accent).
  *
- * Tuned in Nov 2026 (see /design-lab): Figtree at weight 500 for anything that
- * leads, tight tracking that grows with the size (-0.025em at 24px and up,
- * -0.02em at 18px, -0.01em below), near-black headings over a lighter body grey,
- * and one quiet 16px label in place of the old 12px uppercase tags.
+ * Figtree at weight 500 for anything that leads, near-black headings over a
+ * lighter body grey, 12px tracked caps for labels, and line heights in
+ * multiples of 4. The Goal / My role / Impact row keeps its own two styles.
  */
 
 /** Case study H1 — 32px Medium (28px on phones). */
 export const caseStudyTitle =
   "font-label text-[32px] font-medium leading-[1.4] tracking-[-0.025em] text-primary max-md:text-[28px]" as const;
 
-/** Section heading — 24px Medium (20px on phones). */
+/** Section heading — 24/32 Medium (20/28 on phones). */
 export const caseStudyHeading =
-  "font-label text-[24px] font-medium leading-[1.35] tracking-[-0.025em] text-primary max-md:text-[20px]" as const;
+  "font-label text-[24px] font-medium leading-[32px] tracking-[-0.02em] text-primary max-md:text-[20px] max-md:leading-[28px]" as const;
 
-/** Sub-heading inside a section — 18px Medium (16px on phones). */
+/** Sub-heading inside a section — 16/24 Medium. */
 export const caseStudySubheading =
+  "font-label text-[16px] font-medium leading-[24px] tracking-[-0.01em] text-primary" as const;
+
+/** Eyebrow above a section heading (e.g. "Problem space"): 12px tracked caps in the meta grey. */
+export const caseStudyEyebrow =
+  "font-label text-[12px] font-medium uppercase leading-[16px] tracking-[0.08em] text-tertiary" as const;
+
+/** Section tag above a section or release heading. Same style as the eyebrow; the meta row labels use it too. */
+export const caseStudySectionTagCaps =
+  "font-label text-[12px] font-medium uppercase leading-[16px] tracking-[0.08em] text-tertiary" as const;
+
+/** Section body copy — 16/28. */
+export const caseStudyText =
+  "font-label text-[16px] font-normal leading-[28px] tracking-[-0.01em] text-secondary" as const;
+
+/** Title above a text + screenshot row — 16/24 Medium. */
+export const caseStudyRowTitle =
+  "font-label text-[16px] font-medium leading-[24px] tracking-[-0.01em] text-primary" as const;
+
+/** Label in the Goal / My role / Impact row — 18px Medium (16px on phones). */
+export const caseStudySummaryLabel =
   "font-label text-[18px] font-medium leading-[1.45] tracking-[-0.02em] text-primary max-md:text-[16px]" as const;
 
-/** Eyebrow above a section heading (e.g. "Problem space"): a quiet 16px label in the meta grey. */
-export const caseStudyEyebrow =
-  "font-label text-[16px] font-normal leading-[24px] tracking-[-0.01em] text-tertiary" as const;
-
-/**
- * Section tag above a section or release heading (e.g. "Problem space"): the same quiet 16px label as the
- * eyebrow, in sentence case. The meta row labels match it. The name is kept from when these were 12px caps.
- */
-export const caseStudySectionTagCaps =
-  "font-label text-[16px] font-normal leading-[24px] tracking-[-0.01em] text-tertiary" as const;
-
-/** Section body copy — 16px. */
-export const caseStudyText =
+/** Text in the Goal / My role / Impact row — 16px. */
+export const caseStudySummaryText =
   "font-label text-[16px] font-normal leading-[1.6] tracking-[-0.01em] text-secondary" as const;
-
-/** Title above a text + screenshot row — 18px Medium (16px on phones). */
-export const caseStudyRowTitle =
-  "font-label text-[18px] font-medium leading-[1.6] tracking-[-0.02em] text-primary max-md:text-[16px]" as const;
 
 /** Small label on a card (e.g. "01", "PRINCIPLE 01"). Colour set by card variant. */
 export const caseStudyCardLabel =

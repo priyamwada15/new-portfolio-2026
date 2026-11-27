@@ -50,7 +50,7 @@ function Showcase({
 }) {
   return (
     <section id={id} className="flex flex-col gap-12">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         <p className={caseStudySectionTagCaps}>{tag}</p>
         <h2 className={`${caseStudyHeading} max-w-[720px]`}>{headline}</h2>
       </div>
@@ -61,7 +61,7 @@ function Showcase({
 
 /** Two half-width tiles; their titles and tiles line up even when the text wraps differently. */
 function Pair({ children }: { children: ReactNode }) {
-  return <div className="grid grid-cols-2 items-start gap-x-6 gap-y-4 max-md:grid-cols-1">{children}</div>;
+  return <div className="grid grid-cols-2 items-start gap-x-10 gap-y-4 max-md:grid-cols-1">{children}</div>;
 }
 
 export default function AsimovPage() {
@@ -125,7 +125,7 @@ export default function AsimovPage() {
 
         <StoryTabs
           showcase={
-            <div className="flex flex-col gap-[184px]">
+            <div className="flex flex-col gap-[128px]">
               <Showcase
                 id="knowledge-management"
                 tag="Knowledge management"

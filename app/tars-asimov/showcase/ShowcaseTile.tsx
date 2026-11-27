@@ -61,9 +61,9 @@ export function ShowcaseTile({
     <figure
       className={`m-0 min-w-0 ${subgrid ? "row-span-2 grid grid-rows-subgrid gap-y-4" : "flex flex-col gap-4"}`}
     >
-      <figcaption className="flex flex-col gap-1">
+      <figcaption className="flex flex-col gap-2">
         <h3 className={caseStudyRowTitle}>{title}</h3>
-        <p className={caseStudyText}>{text}</p>
+        <p className={`${caseStudyText} max-w-[640px]`}>{text}</p>
       </figcaption>
       <MediaWash style={{ aspectRatio: `${width} / ${height}` }}>
         {src && !dialog && (
